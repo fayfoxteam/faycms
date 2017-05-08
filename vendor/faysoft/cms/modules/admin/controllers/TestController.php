@@ -467,7 +467,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
     }
     
     public function img(){
-        $image = new ImageService(10000);
+        $image = new ImageService(10363);
         $image
             //->resize(100, 200)
             //->flipHorizontal()
@@ -478,14 +478,15 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
             //->addBorder(array('r'=>100, 'g'=>100, 'b'=>100), 10)
             //->fillByImage(10371)
             //->scalesc(2)
+            ->circle(200)
             ->output('image/png')
         ;
     }
     
     public function imgText(){
-        $image = new ImageTextService(10055);
+        $image = new ImageTextService(10000);
         $image
-            ->resize(50, 40)
+            //->resize(50, 40)
             ->write(
                 //'我爱北京天安门，天安门前国旗升，伟大领袖毛主席，带领我们向前进',
                 '我爱北京天安门',

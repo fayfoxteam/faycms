@@ -49,6 +49,11 @@ class ImageService{
     protected $compression = 9;
 
     /**
+     * @var bool 强制透明，若为false，则根据原图类型判断，若原图为png，则生成图片会自动透明处理
+     */
+    protected $transparency = false;
+
+    /**
      * 初始化图片信息
      *  - 若是数字，视为本地files表文件id
      *  - 若是数组，视为本地files表行记录（可以少搜一次数据库）
@@ -84,7 +89,7 @@ class ImageService{
         $width_ratio = $this->width / $width;
         $height_ratio = $this->height / $height;
 
-        $dst_img = $this->createCanvas($width, $height, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($width, $height, $this->transparency || $this->metadata['mime'] == 'image/png');
 
         if($width_ratio < $height_ratio){
             //取比例小的作为缩放比
@@ -127,7 +132,7 @@ class ImageService{
      * @return $this
      */
     public function flipHorizontal(){
-        $dst_img = $this->createCanvas($this->width, $this->height, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
         
         for($i = 0; $i < $this->width; $i++){
             imagecopy($dst_img, $this->image, $this->width - $i, 0, $i, 0, 1, $this->height);
@@ -143,7 +148,7 @@ class ImageService{
      * @return $this
      */
     public function flipVertical(){
-        $dst_img = $this->createCanvas($this->width, $this->height, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
         
         for($i = 0; $i < $this->height; $i++){
             imagecopy(
@@ -188,7 +193,7 @@ class ImageService{
         $dst_img_width = ceil($this->width * $percent);
         $dst_img_height = ceil($this->height * $percent);
         
-        $dst_img = $this->createCanvas($dst_img_width, $dst_img_height, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($dst_img_width, $dst_img_height, $this->transparency || $this->metadata['mime'] == 'image/png');
         imagecopyresampled($dst_img, $this->image, 0, 0, 0, 0, $dst_img_width, $dst_img_height, $this->width, $this->height);
 
         $this->setImage($dst_img);
@@ -219,7 +224,7 @@ class ImageService{
             $height = $this->height - $y;
         }
         
-        $dst_img = $this->createCanvas($width, $height, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($width, $height, $this->transparency || $this->metadata['mime'] == 'image/png');
 
         imagecopyresampled($dst_img, $this->image, 0, 0, $x, $y, $width, $height, $width, $height);
         
@@ -240,7 +245,7 @@ class ImageService{
             return $this;
         }
         
-        $dst_img = $this->createCanvas($width, $this->height, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
         imagecopy($dst_img, $this->image, 0, 0, 0, 0, $width, $this->height);
 
         $this->setImage($dst_img);
@@ -260,7 +265,7 @@ class ImageService{
             return $this;
         }
         
-        $dst_img = $this->createCanvas($this->width, $height, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width, $height, $this->transparency || $this->metadata['mime'] == 'image/png');
         imagecopy($dst_img, $this->image, 0, 0, 0, 0, $this->width, $height);
 
         $this->setImage($dst_img);
@@ -293,7 +298,7 @@ class ImageService{
      * @return $this
      */
     public function addBorder($color, $width = 1){
-        $dst_img = $this->createCanvas($this->width + 2 * $width, $this->height + 2 * $width, $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width + 2 * $width, $this->height + 2 * $width, $this->transparency || $this->metadata['mime'] == 'image/png');
 
         $line_color = $this->color($color);
         
@@ -318,6 +323,40 @@ class ImageService{
         imagecopy($dst_img, $this->image, $width, $width, 0, 0, $this->width, $this->height);
         
         $this->setImage($dst_img);
+        
+        return $this;
+    }
+
+    /**
+     * 将图片输出为一个圆
+     * @param int $diameter 直径
+     * @return $this
+     */
+    public function circle($diameter){
+        //后面的图片操作强制透明
+        $this->transparency = true;
+        
+        $diameter *= 2;//先放大2倍处理，直接画圆的话锯齿很严重
+        $this->resize($diameter, $diameter);
+        
+        $dst_img = $this->createCanvas($diameter, $diameter, true);
+        $radius = ceil($diameter / 2);
+        
+        for($i = 0; $i <= $radius; $i++){
+            //根据勾股定理，计算需要复制的图片长度
+            if($i){
+                $width = round(sqrt($radius * $radius - ($radius - $i) * ($radius - $i)));
+            }else{
+                $width = $diameter * 0.04;
+            }
+            imagecopy($dst_img, $this->image, $radius - $width, $i, $radius - $width, $i, $width * 2, 1);
+            imagecopy($dst_img, $this->image, $radius - $width, $diameter - $i - 1, $radius - $width, $diameter - $i, $width * 2, 1);
+        }
+        
+        $this->image = $dst_img;
+        
+        $diameter /= 2;
+        $this->resize($diameter, $diameter);
         
         return $this;
     }

@@ -467,7 +467,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
     }
     
     public function img(){
-        $image = new ImageService(10363);
+        $image = new ImageService(10371);
         $image
             //->resize(100, 200)
             //->flipHorizontal()
@@ -478,7 +478,8 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
             //->addBorder(array('r'=>100, 'g'=>100, 'b'=>100), 10)
             //->fillByImage(10371)
             //->scalesc(2)
-            ->circle(200)
+            //->circle(200)
+            ->merge(10371, '0, 0, 0, 0', array('center', 'center'), 60)
             ->output('image/png')
         ;
     }
@@ -493,7 +494,8 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 BASEPATH . 'assets/fonts/msyh.ttc',
                 15,
                 array('r'=>255, 'g'=>0, 'b'=>0),
-                array('center', 'top')
+                array('center', 'top'),
+                array('top'=>1)
             )
             ->write(
                 '天安门前国旗升',

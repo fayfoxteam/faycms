@@ -178,6 +178,9 @@ class ImageService{
             $degrees,
             imagecolorallocatealpha($this->image, 0, 0, 0, 127)
         );
+        
+        //后期处理强制透明
+        $this->transparency = true;
 
         $this->updateSize();
         
@@ -362,6 +365,71 @@ class ImageService{
     }
 
     /**
+     * 往图片上粘贴另一张图片（比如加水印）
+     * @param mixed $file
+     * @param mixed $margin
+     * @param array $align 对齐方式
+     *  - 第一个值是水平位置，取值（left, center, right）
+     *  - 第二个值是垂直位置，取值（top, center, bottom）
+     * @param int $alpha 透明度，取值为0-100，数值越小，透明度越高，0则完全透明，100则不透明
+     * @return $this
+     */
+    public function merge($file, $margin = '', $align = array('center', 'center'), $alpha = 100){
+        $img = new ImageService($file);
+        
+        //格式化定位信息
+        $margin = $this->formatMargin($margin);
+
+        //可书写区域
+        $inner_box = array(
+            'x'=>$margin['left'],
+            'y'=>$margin['top'],
+            'width'=>$this->width - $margin['left'] - $margin['right'],
+            'height'=>$this->height - $margin['top'] - $margin['bottom'],
+        );
+
+        //确定起始x坐标
+        if($align[0] === 'center'){
+            //居中
+            $start_x = $inner_box['x'] + ($inner_box['width'] - $img->getWidth()) / 2;
+        }else if($align[0] === 'right'){
+            //右对齐
+            $start_x = $inner_box['x'] + $inner_box['width'] - $img->getWidth();
+        }else{
+            //左对齐
+            $start_x = $inner_box['x'];
+        }
+
+        //确定起始y坐标
+        if($align[1] === 'center'){
+            //垂直居中
+            $start_y = $inner_box['y'] + ($inner_box['height'] - $img->getHeight()) / 2;
+        }else if($align[1] === 'bottom'){
+            //从下往上
+            $start_y = $inner_box['y'] + $inner_box['height'] - $img->getHeight();
+        }else{
+            //从上往下
+            $start_y = $inner_box['y'];
+        }
+
+        if($alpha == 100){
+            //不需要透明度的话，直接用imagecopy就好了，不需要那么麻烦
+            //而且当水印图和底图都透明的时候，透明度还是有bug的
+            imagecopy($this->image, $img->getImage(), $start_x, $start_y, 0, 0, $img->getWidth(), $img->getHeight());
+        }else{
+            //默认情况下，imagecopymerge并不支持水印图自带的透明度，若水印图透明，则会变成黑色背景。
+            //而imagecopy支持水印图自身透明度，但是不支持叠加透明度，所以要迂回的实现
+            $cut = imagecreatetruecolor($img->getWidth(), $img->getHeight());
+            imagecopy($cut, $this->image, 0, 0, $start_x, $start_y, $img->getWidth(), $img->getHeight());
+    
+            imagecopy($cut, $img->getImage(), 0, 0, 0, 0, $img->getWidth(), $img->getHeight());
+            imagecopymerge($this->image, $cut, $start_x, $start_y, 0, 0, $img->getWidth(), $img->getHeight(), $alpha);
+        }
+        
+        return $this;
+    }
+
+    /**
      * 输出图片
      * @param string $mime_type 若为空，则默认为原图类型
      */
@@ -478,6 +546,46 @@ class ImageService{
         }
 
         throw new FileErrorException('无法识别的颜色参数: ' . json_encode($color));
+    }
+
+    /**
+     * 格式化margin参数，支持
+     *  - css规则，1-4项margin值，可以是数组，也可以是逗号分割的字符串，未指定项根据css规则确定数值
+     *  - 索引数组，直接指明top, right, bottom, left值，未指定项默认为0
+     * @param mixed $margin
+     * @return array
+     * @throws FileErrorException
+     */
+    protected function formatMargin($margin){
+        if(is_string($margin)){
+            $margin = explode(',', str_replace(' ', '', $margin));
+        }
+        
+        if(!is_array($margin)){
+            throw new FileErrorException('无法识别的Margin参数: ' . json_encode($margin));
+        }
+        
+        if(isset($margin[0])){
+            //视为索引数组处理
+            isset($margin[1]) || $margin[1] = $margin[0];
+            isset($margin[2]) || $margin[2] = $margin[0];
+            isset($margin[3]) || $margin[3] = $margin[1];
+            
+            return array(
+                'top'=>intval($margin[0]),
+                'right'=>intval($margin[1]),
+                'bottom'=>intval($margin[2]),
+                'left'=>intval($margin[3]),
+            );
+        }else{
+            //视为关联数组处理
+            return array(
+                'top'=>isset($margin['top']) ? intval($margin['top']) : 0,
+                'right'=>isset($margin['right']) ? intval($margin['right']) : 0,
+                'bottom'=>isset($margin['bottom']) ? intval($margin['bottom']) : 0,
+                'left'=>isset($margin['left']) ? intval($margin['left']) : 0,
+            );
+        }
     }
 
     /**

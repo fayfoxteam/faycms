@@ -1,6 +1,5 @@
 <?php
 namespace cms\services\file;
-use fay\helpers\NumberHelper;
 
 /**
  * 对ImageService的一个扩展，用于往图片上写文字
@@ -47,13 +46,8 @@ class ImageTextService extends ImageService{
         $y_offset = $size * 0.3;
 
         //格式化定位信息
-        foreach(array('top', 'right', 'bottom', 'left') as $key){
-            if(isset($margin[$key]) && !NumberHelper::isInt($margin[$key])){
-                throw new FileErrorException("\$margin['{$key}']值[{$margin[$key]}]异常，必须为数字");
-            }else if(!isset($margin[$key])){
-                $margin[$key] = 0;
-            }
-        }
+        $margin = $this->formatMargin($margin);
+        
         //可书写区域
         $inner_box = array(
             'x'=>$margin['left'],

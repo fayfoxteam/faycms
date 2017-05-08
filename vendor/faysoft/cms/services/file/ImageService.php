@@ -71,8 +71,10 @@ class ImageService{
             $this->loadLocalFile($file);
         }else if(is_array($image)){
             $this->loadLocalFile($image);
-        }else{
+        }else if(is_string($image)){
             $this->loadRemoteFile($image);
+        }else{
+            throw new FileErrorException('$image参数类型异常['.json_encode($image).']');
         }
         
         //初始化图片质量
@@ -371,11 +373,22 @@ class ImageService{
      * @param array $align 对齐方式
      *  - 第一个值是水平位置，取值（left, center, right）
      *  - 第二个值是垂直位置，取值（top, center, bottom）
-     * @param int $alpha 透明度，取值为0-100，数值越小，透明度越高，0则完全透明，100则不透明
+     * @param int $opacity 透明度，取值为0-100，数值越小，透明度越高，0则完全透明，100则不透明
      * @return $this
      */
-    public function merge($file, $margin = '', $align = array('center', 'center'), $alpha = 100){
-        $img = new ImageService($file);
+    public function merge($file, $margin = '', $align = array('center', 'center'), $opacity = 100){
+        if(is_resource($file) && get_resource_type($file) == 'gd'){
+            //直接传入gd资源
+            $img_width = imagesx($file);
+            $img_height = imagesy($file);
+            $img_resource = $file;
+        }else{
+            //通过ImageService初始化图片信息
+            $img = new ImageService($file);
+            $img_width = $img->getWidth();
+            $img_height = $img->getHeight();
+            $img_resource = $img->getImage();
+        }
         
         //格式化定位信息
         $margin = $this->formatMargin($margin);
@@ -391,10 +404,10 @@ class ImageService{
         //确定起始x坐标
         if($align[0] === 'center'){
             //居中
-            $start_x = $inner_box['x'] + ($inner_box['width'] - $img->getWidth()) / 2;
+            $start_x = $inner_box['x'] + ($inner_box['width'] - $img_width) / 2;
         }else if($align[0] === 'right'){
             //右对齐
-            $start_x = $inner_box['x'] + $inner_box['width'] - $img->getWidth();
+            $start_x = $inner_box['x'] + $inner_box['width'] - $img_width;
         }else{
             //左对齐
             $start_x = $inner_box['x'];
@@ -403,27 +416,27 @@ class ImageService{
         //确定起始y坐标
         if($align[1] === 'center'){
             //垂直居中
-            $start_y = $inner_box['y'] + ($inner_box['height'] - $img->getHeight()) / 2;
+            $start_y = $inner_box['y'] + ($inner_box['height'] - $img_height) / 2;
         }else if($align[1] === 'bottom'){
             //从下往上
-            $start_y = $inner_box['y'] + $inner_box['height'] - $img->getHeight();
+            $start_y = $inner_box['y'] + $inner_box['height'] - $img_height;
         }else{
             //从上往下
             $start_y = $inner_box['y'];
         }
 
-        if($alpha == 100){
+        if($opacity == 100){
             //不需要透明度的话，直接用imagecopy就好了，不需要那么麻烦
             //而且当水印图和底图都透明的时候，透明度还是有bug的
-            imagecopy($this->image, $img->getImage(), $start_x, $start_y, 0, 0, $img->getWidth(), $img->getHeight());
+            imagecopy($this->image, $img_resource, $start_x, $start_y, 0, 0, $img_width, $img_height);
         }else{
             //默认情况下，imagecopymerge并不支持水印图自带的透明度，若水印图透明，则会变成黑色背景。
             //而imagecopy支持水印图自身透明度，但是不支持叠加透明度，所以要迂回的实现
-            $cut = imagecreatetruecolor($img->getWidth(), $img->getHeight());
-            imagecopy($cut, $this->image, 0, 0, $start_x, $start_y, $img->getWidth(), $img->getHeight());
+            $cut = imagecreatetruecolor($img_width, $img_height);
+            imagecopy($cut, $this->image, 0, 0, $start_x, $start_y, $img_width, $img_height);
     
-            imagecopy($cut, $img->getImage(), 0, 0, 0, 0, $img->getWidth(), $img->getHeight());
-            imagecopymerge($this->image, $cut, $start_x, $start_y, 0, 0, $img->getWidth(), $img->getHeight(), $alpha);
+            imagecopy($cut, $img_resource, 0, 0, 0, 0, $img_width, $img_height);
+            imagecopymerge($this->image, $cut, $start_x, $start_y, 0, 0, $img_width, $img_height, $opacity);
         }
         
         return $this;
@@ -660,17 +673,17 @@ class ImageService{
         //获取图片资源
         switch ($this->metadata['mime']){
             case 'image/gif':
-                $this->image = \imagecreatefromgif($this->file_path);
+                $this->image = \imagecreatefromgif($file_path);
                 break;
             case 'image/jpeg':
             case 'image/jpg':
-                $this->image = \imagecreatefromjpeg($this->file_path);
+                $this->image = \imagecreatefromjpeg($file_path);
                 break;
             case 'image/png':
-                $this->image = \imagecreatefrompng($this->file_path);
+                $this->image = \imagecreatefrompng($file_path);
                 break;
             default:
-                throw new ErrorException('未知图片类型:' . $this->metadata['mime']);
+                throw new ErrorException('未知图片类型: ' . json_encode($this->metadata));
                 break;
         }
     }
@@ -722,4 +735,28 @@ class ImageService{
         $this->width  = imagesx($this->image);
         $this->height = imagesy($this->image);
     }
+    
+    public function __destruct(){
+        $this->destroy();
+    }
+
+    /**
+     * 销毁对象
+     * @return $this
+     */
+    public function destroy(){
+        if(!empty($this->image)
+            && is_resource($this->image)
+            && get_resource_type($this->image) == 'gd'
+        ){
+            imagedestroy($this->image);
+        }
+        
+        $this->metadata = [];
+        $this->file_path = $this->width = $this->height = null;
+        $this->transparency = false;
+        
+        return $this;
+    }
+
 }

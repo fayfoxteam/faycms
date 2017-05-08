@@ -5,6 +5,8 @@ use cms\library\AdminController;
 use cms\models\forms\SettingForm;
 use cms\models\tables\FilesTable;
 use cms\services\file\FileService;
+use cms\services\file\ImageService;
+use cms\services\file\ImageTextService;
 use cms\services\file\WeixinFileService;
 use cms\services\SettingService;
 use fay\core\Sql;
@@ -676,5 +678,62 @@ class FileController extends AdminController{
             $img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
             imagejpeg($img);
         }
+    }
+
+    /**
+     * 水印图预览
+     */
+    public function watermarkPreview(){
+        $this->form()->setScene('final')
+            ->setRules(array(
+                array(array('type'), 'range', array('range'=>array('text', 'image'))),
+                array(array('watermark', 'size'), 'int', array('min'=>1)),
+                array(array('margin'), 'int'),
+                array(array('opacity'), 'int', array('min'=>0, 'max'=>100)),
+            ))->setFilters(array(
+                'type'=>'trim',
+                'watermark'=>'intval',
+                'margin'=>'trim',
+                'size'=>'intval',
+            ))->setLabels(array(
+                'type'=>'水印类型',
+                'watermark'=>'水印图ID',
+                'margin'=>'边距',
+                'size'=>'字号',
+                'opacity'=>'透明度'
+            ))->check();
+        
+        $margin = $this->form()->getData('margin', '0,10,10,0');
+        $align = array(
+            $this->form()->getData('align', 'right'),
+            $this->form()->getData('valign', 'bottom'),
+        );
+        if($this->form()->getData('type') == 'text'){
+            //文本水印
+            $image = new ImageTextService(BASEPATH . 'assets/images/demo-image.jpg');
+            $text = $this->form()->getData('text', 'faycms.com');
+            $image->write(
+                $text,
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                $this->form()->getData('size', 20),
+                $this->form()->getData('color', '#FFFFFF'),
+                $align,
+                $margin,
+                1.5,
+                0,
+                0,
+                30
+            );
+        }else{
+            //图片水印
+            $image = new ImageService(BASEPATH . 'assets/images/demo-image.jpg');
+            $image->merge(
+                $this->form()->getData('watermark', BASEPATH . 'assets/images/watermark.png'),
+                $margin,
+                $align,
+                $this->form()->getData('opacity', 30)
+            );
+        }
+        $image->output();
     }
 }

@@ -687,23 +687,24 @@ class FileController extends AdminController{
         $this->form()->setScene('final')
             ->setRules(array(
                 array(array('type'), 'range', array('range'=>array('text', 'image'))),
-                array(array('watermark', 'size'), 'int', array('min'=>1)),
-                array(array('margin'), 'int'),
+                array(array('size'), 'int', array('min'=>1)),
+                array(array('image', 'margin'), 'int'),
                 array(array('opacity'), 'int', array('min'=>0, 'max'=>100)),
             ))->setFilters(array(
                 'type'=>'trim',
-                'watermark'=>'intval',
+                'image'=>'intval',
                 'margin'=>'trim',
                 'size'=>'intval',
+                'color'=>'trim',
             ))->setLabels(array(
                 'type'=>'水印类型',
-                'watermark'=>'水印图ID',
+                'image'=>'水印图ID',
                 'margin'=>'边距',
                 'size'=>'字号',
                 'opacity'=>'透明度'
             ))->check();
         
-        $margin = $this->form()->getData('margin', '0,10,10,0');
+        $margin = $this->form()->getData('margin', '10');
         $align = array(
             $this->form()->getData('align', 'right'),
             $this->form()->getData('valign', 'bottom'),
@@ -722,16 +723,16 @@ class FileController extends AdminController{
                 1.5,
                 0,
                 0,
-                30
+                $this->form()->getData('opacity', 60)
             );
         }else{
             //图片水印
             $image = new ImageService(BASEPATH . 'assets/images/demo-image.jpg');
             $image->merge(
-                $this->form()->getData('watermark', BASEPATH . 'assets/images/watermark.png'),
+                $this->form()->getData('image') ? $this->form()->getData('image') : BASEPATH . 'assets/images/watermark.png',
                 $margin,
                 $align,
-                $this->form()->getData('opacity', 30)
+                $this->form()->getData('opacity', 60)
             );
         }
         $image->output();

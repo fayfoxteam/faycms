@@ -174,7 +174,7 @@ class ImageTextService extends ImageService{
             //有透明度，需要先将文本写到一张透明图片里，再将透明图以半透明的方式粘到主图上
             //注意：由于imagettftext无法精确定位文字，所以这个方法终究是存在误差的
             $img = $this->createCanvas($text_size['width'], $text_size['height']);
-            imagettftext($img, $size, 0, 0, $text_size['height'] * 0.75, $color, $font_file, $text);
+            imagettftext($img, $size, 0, 0, $text_size['height'] * 0.78, $color, $font_file, $text);
             $this->merge(
                 $img,
                 array(

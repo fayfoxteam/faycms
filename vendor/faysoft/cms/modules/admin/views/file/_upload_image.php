@@ -13,9 +13,9 @@ empty($field_value) && $field_value = F::form()->getData($field, 0);//图片ID
 empty($cat) && $cat = 'other';//图片分类
 isset($preview_image_width) || $preview_image_width = 254;//预览图默认缩放为254宽（用于右侧sidebar）。若为0，则显示原图，若为thumbnail，则显示缩略图
 
-//可以单独制定，一般由$label拼接出来就够用了
-empty($select_text) && $select_text = "上传{$label}";
-empty($remove_text) && $remove_text = "移除{$label}";
+//可以单独制定，一般由$label拼接出来就够用了，若设定为空，则不会显示对应链接
+isset($select_text) || $select_text = "上传{$label}";
+isset($remove_text) || $remove_text = "移除{$label}";
 
 $scene = uniqid();//随机字符串，以确保id不会重复
 $clean_field = str_replace(array('[', ']', ':'), '', $field);//字段名称可能包含方括号
@@ -25,14 +25,22 @@ $clean_field = str_replace(array('[', ']', ':'), '', $field);//字段名称可�
 </div>
 <div id="upload-<?php echo $clean_field?>-preview-container<?php echo $scene?>" class="upload-preview-container"><?php
     echo HtmlHelper::inputHidden($field, $field_value ? $field_value : 0);
-    if(!empty($field_value)){
+    
+    if($field_value){
+        //若字段有值，根据字段值显示缩略图
+        $preview_img = $field_value;
+    }else if(!empty($default_preview_image)){
+        //若字段没值，但设置了默认预览图，显示默认预览图
+        $preview_img = $default_preview_image;
+    }
+    if(!empty($preview_img)){
         echo HtmlHelper::link(HtmlHelper::img(
-            $field_value,
+            $preview_img,
             ($preview_image_width == 'thumbnail' && $preview_image_width !== 0) ? FileService::PIC_THUMBNAIL :
                 ($preview_image_width == 0 ? FileService::PIC_ORIGINAL : FileService::PIC_RESIZE),
             array(
             'dw'=>$preview_image_width,
-        )), FileService::getUrl($field_value), array(
+        )), NumberHelper::isInt($preview_img) ? FileService::getUrl($preview_img) : $preview_img, array(
             'encode'=>false,
             'class'=>'mask ib',
             'title'=>'点击查看原图',

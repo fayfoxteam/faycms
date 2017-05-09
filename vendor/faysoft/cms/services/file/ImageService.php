@@ -59,26 +59,59 @@ class ImageService{
      *  - 若是数组，视为本地files表行记录（可以少搜一次数据库）
      *  - 若非数字，视为文件路径（可以是本地路径，也可以是url）
      * @param mixed $image
+     * @param bool $auto_orientate 是否自动调整图片角度
      * @throws FileErrorException
      */
-    public function __construct($image){
-        if(NumberHelper::isInt($image)){
-            $file = FilesTable::model()->find($image);
-            if(!$file){
-                throw new FileErrorException('指定文件ID不存在');
+    public function __construct($image = null, $auto_orientate = true){
+        if($image){
+            if(NumberHelper::isInt($image)){
+                $file = FilesTable::model()->find($image);
+                if(!$file){
+                    throw new FileErrorException('指定文件ID不存在');
+                }
+                
+                $this->loadLocalFile($file);
+            }else if(is_array($image)){
+                $this->loadLocalFile($image);
+            }else if(is_string($image)){
+                $this->loadRemoteFile($image);
+            }else{
+                throw new FileErrorException('$image参数类型异常['.json_encode($image).']');
             }
             
-            $this->loadLocalFile($file);
-        }else if(is_array($image)){
-            $this->loadLocalFile($image);
-        }else if(is_string($image)){
-            $this->loadRemoteFile($image);
-        }else{
-            throw new FileErrorException('$image参数类型异常['.json_encode($image).']');
+            if($auto_orientate){
+                $this->autoOrientate();
+            }
         }
         
         //初始化图片质量
         $this->quality = OptionService::get('system:image_quality', $this->quality);
+    }
+    
+    /**
+     * 从base64字符串中创建图像
+     * @param $string
+     * @return $this
+     */
+    public function loadFromBase64String($string){
+        return $this->loadFromString(base64_decode($string));
+    }
+
+    /**
+     * 从字符串中的图像流创建图像
+     * @param $string
+     * @return $this
+     * @throws FileErrorException
+     */
+    public function loadFromString($string){
+        $this->image = imagecreatefromstring($string);
+        $this->updateSize();
+        if(function_exists('finfo_buffer') && !isset($this->metadata['mime'])){
+            $finfo = finfo_open();
+            $this->metadata['mime'] = finfo_buffer($finfo, $string, FILEINFO_MIME_TYPE);
+            finfo_close($finfo);
+        }
+        return $this;
     }
 
     /**
@@ -137,6 +170,7 @@ class ImageService{
     /**
      * 图片翻转
      * @param string $type 取值: horizontal, vertical, both
+     * @return $this
      * @throws FileErrorException
      */
     public function flip($type){
@@ -165,6 +199,8 @@ class ImageService{
             default:
                 throw new FileErrorException(__CLASS__ . '::' . __METHOD__ . "()\$type参数取值异常[{$type}]");
         }
+        
+        return $this;
     }
 
     /**
@@ -477,6 +513,7 @@ class ImageService{
     }
 
     /**
+     * 获取图片宽度
      * @return int
      */
     public function getWidth(){
@@ -484,6 +521,7 @@ class ImageService{
     }
 
     /**
+     * 获取图片高度
      * @return int
      */
     public function getHeight(){
@@ -491,10 +529,19 @@ class ImageService{
     }
 
     /**
+     * 获取图片资源
      * @return resource
      */
     public function getImage(){
         return $this->image;
+    }
+
+    /**
+     * 获取图片Mime Type
+     * @return string
+     */
+    public function getMimeType(){
+        return isset($this->metadata['mime']) ? $this->metadata['mime'] : '';
     }
 
     /**
@@ -737,6 +784,36 @@ class ImageService{
             default:
                 throw new ErrorException('未知图片类型: ' . json_encode($this->metadata));
                 break;
+        }
+    }
+
+    /**
+     * 调整图片方向
+     * @return $this
+     */
+    public function autoOrientate(){
+        if(empty($this->metadata['exif']['Orientation'])){
+            return $this;
+        }
+        switch((int)$this->metadata['exif']['Orientation']){
+            case 2:
+                return $this->flip('horizontal');
+            case 3:
+                return $this->flip('both');
+            case 4:
+                return $this->flip('vertical');
+            case 5:
+                $this->flip('horizontal');
+                return $this->rotate(-90);
+            case 6:
+                return $this->rotate(-90);
+            case 7:
+                $this->flip('horizontal');
+                return $this->rotate(90);
+            case 8:
+                return $this->rotate(90);
+            default:
+                return $this;
         }
     }
 

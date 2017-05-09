@@ -4,8 +4,6 @@ namespace cms\services\file;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Service;
-use fay\helpers\LocalFileHelper;
-use fay\helpers\ImageHelper;
 use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use cms\services\OptionService;
@@ -71,66 +69,25 @@ class WeixinFileService extends Service{
             return 0;
         }
         
-        if($file['cat_id']){
-            $cat = CategoryService::service()->get($file['cat_id'], 'id,alias', '_system_file');
-            //文件入库之后，分类被删除（其实不太可能出现这种情况）
-            $cat || $cat = array(
-                'id'=>0,
-                'alias'=>'',
-            );
-        }else{
-            $cat = array(
-                'id'=>0,
-                'alias'=>'',
-            ); 
-        }
-        
         $url = self::getUrl($file['weixin_server_id']);
         
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        
-        $server_file = @imagecreatefromstring($response);
-        if(!$server_file){
-            throw new HttpException('获取远程文件失败', 500);
-        }
-        
-        $target = $cat['alias'] ? $cat['alias'] . '/' : '';
-        $upload_path = './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
-        //若指定目录不存在，则创建目录
-        LocalFileHelper::createFolder($upload_path);
-        $filename = FileService::getFileName($upload_path, '.jpg');
-        if(defined('NO_REWRITE')){
-            $destination = './public/'.$upload_path . $filename;
-        }else{
-            $destination = $upload_path . $filename;
-        }
-        
-        //存储原图
-        imagejpeg($server_file, $destination);
-        
-        //更新数据库数据
-        $data = array(
-            'raw_name'=>substr($filename, 0, -4),
-            'file_ext'=>'.jpg',
-            'file_type'=>'image/jpeg',
-            'file_size'=>filesize($destination),
-            'file_path'=>$upload_path,
+        //将远程文件保存到本地
+        $remote_file = new RemoteFileService($url);
+        $data = $remote_file->save($file['cat_id'], true, false);
+
+        //更新数据库
+        FilesTable::model()->update(array(
+            'raw_name'=>$data['raw_name'],
+            'file_ext'=>$data['file_ext'],
+            'file_type'=>$data['file_type'],
+            'file_size'=>$data['file_size'],
+            'file_path'=>$data['file_path'],
             'is_image'=>1,
-            'image_width'=>imagesx($server_file),
-            'image_height'=>imagesy($server_file),
-            'cat_id'=>$cat['id'],
+            'image_width'=>$data['image_width'],
+            'image_height'=>$data['image_height'],
+            'cat_id'=>$data['cat_id'],
             'weixin_server_id'=>'',
-        );
-        FilesTable::model()->update($data, $file['id']);
-        
-        //存储缩略图
-        $img = ImageHelper::resize($server_file, 100, 100);
-        imagejpeg($img, (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100.jpg');
+        ), $file['id']);
         
         return $file['id'];
     }

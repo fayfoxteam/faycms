@@ -4,7 +4,6 @@ namespace cms\services\file;
 use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use fay\helpers\LocalFileHelper;
-use fay\helpers\ImageHelper;
 use fay\helpers\UrlHelper;
 
 /**
@@ -51,21 +50,26 @@ class RemoteFileService{
      * @var bool 是否已下载
      */
     private $is_download = false;
+
+    /**
+     * @var string 客户端名称，文件从客户端上传的时候有这个字段，有时候会作为图片alt属性显示，留空则默认为$this->url
+     */
+    private $client_name = '';
     
     public function __construct($url){
         $this->url = $url;
     }
-    
+
     /**
      * 保存为本地文件
      * @param int $cat 文件分类
      * @param bool $only_image 若为true，则不保存无法识别为图片的文件（可能有些确实是图，只是无法识别）
-     * @param string $client_name 客户端名称，文件从客户端上传的时候有这个字段，有时候会作为图片alt属性显示，留空则默认为url
+     * @param bool $insert_to_database 是否将记录插入到数据库，若为false，则仅保存为本地文件，并返回相关信息，由后续逻辑操作数据库
      * @return array
      * @throws FileErrorException
      * @throws FileException
      */
-    public function save($cat = 0, $only_image = true, $client_name = ''){
+    public function save($cat = 0, $only_image = true, $insert_to_database = true){
         if($cat){
             if(!is_array($cat)){
                 $cat = CategoryService::service()->get($cat, 'id,alias', '_system_file');
@@ -113,7 +117,7 @@ class RemoteFileService{
             'file_type'=>$this->getHeader('content-type'),
             'file_size'=>filesize($destination),
             'file_path'=>$upload_path,
-            'client_name'=>$client_name ? $client_name : $this->url,
+            'client_name'=>$this->client_name ? $this->client_name : $this->url,
             'is_image'=>empty($file) ? 0 : 1,
             'image_width'=>empty($file) ? 0 : imagesx($file),
             'image_height'=>empty($file) ? 0 : imagesy($file),
@@ -121,14 +125,14 @@ class RemoteFileService{
             'user_id'=>\F::app()->current_user,
             'cat_id'=>$cat['id'],
         );
-        $data['id'] = FilesTable::model()->insert($data);
-        if(!empty($file)){
-            ImageHelper::output(
-                ImageHelper::resize($file, 100, 100),
-                $data['file_type'],
-                (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']
-            );
+        if($insert_to_database){
+            $data['id'] = FilesTable::model()->insert($data);
         }
+        
+        //保存缩略图
+        $image = new ImageService($destination);
+        $image->resize(100, 100)
+            ->save((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']);
         
         //公共文件直接给出真实路径
         $data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];

@@ -135,43 +135,36 @@ class ImageService{
     }
 
     /**
-     * 水平翻转图片
-     * @return $this
+     * 图片翻转
+     * @param string $type 取值: horizontal, vertical, both
+     * @throws FileErrorException
      */
-    public function flipHorizontal(){
-        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
-        
-        for($i = 0; $i < $this->width; $i++){
-            imagecopy($dst_img, $this->image, $this->width - $i, 0, $i, 0, 1, $this->height);
+    public function flip($type){
+        switch($type){
+            case 'horizontal':
+                if(function_exists('imageflip')){
+                    imageflip($this->image, IMG_FLIP_HORIZONTAL);
+                }else{
+                    $this->flipHorizontal();
+                }
+                break;
+            case 'vertical':
+                if(function_exists('imageflip')){
+                    imageflip($this->image, IMG_FLIP_VERTICAL);
+                }else{
+                    $this->flipVertical();
+                }
+                break;
+            case 'both':
+                if(function_exists('imageflip')){
+                    imageflip($this->image, IMG_FLIP_BOTH);
+                }else{
+                    $this->flipBoth();
+                }
+                break;
+            default:
+                throw new FileErrorException(__CLASS__ . '::' . __METHOD__ . "()\$type参数取值异常[{$type}]");
         }
-
-        $this->setImage($dst_img);
-
-        return $this;
-    }
-
-    /**
-     * 垂直翻转图片
-     * @return $this
-     */
-    public function flipVertical(){
-        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
-        
-        for($i = 0; $i < $this->height; $i++){
-            imagecopy(
-                $dst_img,
-                $this->image,
-                0,
-                $this->height - $i,
-                0,
-                $i,
-                $this->width,
-                1
-            );
-        }
-        $this->setImage($dst_img);
-        
-        return $this;
     }
 
     /**
@@ -502,6 +495,60 @@ class ImageService{
      */
     public function getImage(){
         return $this->image;
+    }
+
+    /**
+     * 水平翻转图片
+     * @return $this
+     */
+    protected function flipHorizontal(){
+        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
+
+        imagecopyresampled(
+            $dst_img, $this->image,
+            0, 0, ($this->width - 1), 0,
+            $this->width, $this->height, 0 - $this->width, $this->height
+        );
+
+        $this->image = $dst_img;
+
+        return $this;
+    }
+
+    /**
+     * 垂直翻转图片
+     * @return $this
+     */
+    protected function flipVertical(){
+        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
+
+        imagecopyresampled(
+            $dst_img, $this->image,
+            0, 0, 0, ($this->height - 1),
+            $this->width, $this->height, $this->width, 0 - $this->height
+        );
+
+        $this->image = $dst_img;
+
+        return $this;
+    }
+
+    /**
+     * 对角反转（水平+垂直）
+     * @return $this
+     */
+    protected function flipBoth(){
+        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
+
+        imagecopyresampled(
+            $dst_img, $this->image,
+            0, 0, ($this->width - 1), ($this->height - 1),
+            $this->width, $this->height, 0 - $this->width, 0 - $this->height
+        );
+
+        $this->image = $dst_img;
+
+        return $this;
     }
 
     /**

@@ -41,7 +41,9 @@ class WidgetController extends AdminController{
                 //目前来说就一个admin是个后台用的widget，感觉没什么必要再给其他widget分层级了，现在这样特殊判断一下好了
                 continue;
             }
-            $widget_instances[] = \F::widget()->get('cms/'.$w['name'], 'Admin');
+            if($instance = \F::widget()->get('cms/'.$w['name'], 'Admin')){
+                $widget_instances[] = $instance;
+            }
         }
         
         $this->view->widgets = $widget_instances;

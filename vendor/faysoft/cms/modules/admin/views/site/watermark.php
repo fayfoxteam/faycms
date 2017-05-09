@@ -142,7 +142,7 @@ use fay\helpers\HtmlHelper;
         <div class="col-6">
             <div class="form-field">
                 <label class="title bold">水印效果预览</label>
-                <img src="" id="watermark-preview">
+                <img src="" id="watermark-preview" class="mwp100">
             </div>
         </div>
     </div>

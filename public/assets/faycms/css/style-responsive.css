@@ -655,6 +655,7 @@ pre li.L1,pre li.L3,pre li.L5,pre li.L7,pre li.L9 {background:none}
 .mw400{max-width:400px !important}
 .mw500{max-width:500px !important}
 .mw600{max-width:600px !important}
+.mwp100{max-width:100% !important}
 .wp10{width:10% !important}
 .wp15{width:15% !important}
 .wp25{width:25% !important}

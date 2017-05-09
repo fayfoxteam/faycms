@@ -504,7 +504,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>255, 'g'=>0, 'b'=>0),
                 array('left', 'center'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 2
             )
@@ -515,7 +515,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>255, 'g'=>0, 'b'=>0),
                 array('left', 'center'),
                 array('left'=>10),
-                1.5,
+                1.3,
                 0,
                 2
             )
@@ -526,7 +526,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>255, 'g'=>0, 'b'=>0),
                 array('left', 'center'),
                 array('left'=>30),
-                1.5,
+                1.3,
                 0,
                 2
             )
@@ -537,7 +537,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>255, 'g'=>0, 'b'=>0),
                 array('left', 'center'),
                 array('left'=>50),
-                1.5,
+                1.3,
                 0,
                 2
             )
@@ -548,7 +548,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>255, 'g'=>0, 'b'=>0),
                 array('left', 'center'),
                 array('left'=>70),
-                1.5,
+                1.3,
                 0,
                 2
             )
@@ -559,7 +559,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>255, 'g'=>0, 'b'=>0),
                 array('left', 'center'),
                 array('left'=>90),
-                1.5,
+                1.3,
                 0,
                 2
             )
@@ -570,7 +570,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>255, 'g'=>0, 'b'=>0),
                 array('right', 'center'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 2
             )
@@ -590,7 +590,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>255, 'b'=>0),
                 array('center', 'top'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )
@@ -601,7 +601,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>255, 'b'=>0),
                 array('left', 'center'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )
@@ -612,7 +612,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>255, 'b'=>0),
                 array('right', 'center'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )
@@ -623,7 +623,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>255, 'b'=>0),
                 array('center', 'bottom'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )
@@ -635,7 +635,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>0, 'b'=>0),
                 array('center', 'center'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 40
             )
@@ -648,7 +648,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>0, 'b'=>255),
                 array('left', 'top'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )
@@ -659,7 +659,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>0, 'b'=>255),
                 array('right', 'top'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )
@@ -670,7 +670,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>0, 'b'=>255),
                 array('right', 'bottom'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )
@@ -681,7 +681,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 array('r'=>0, 'g'=>0, 'b'=>255),
                 array('left', 'bottom'),
                 array(),
-                1.5,
+                1.3,
                 0,
                 65
             )

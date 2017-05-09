@@ -689,6 +689,8 @@ class FileController extends AdminController{
                 array(array('type'), 'range', array('range'=>array('text', 'image'))),
                 array(array('size'), 'int', array('min'=>1)),
                 array(array('image', 'margin'), 'int'),
+                array(array('max_width'), 'int', array('min'=>0)),
+                array(array('line_height'), 'float', array('min'=>0)),
                 array(array('opacity'), 'int', array('min'=>0, 'max'=>100)),
             ))->setFilters(array(
                 'type'=>'trim',
@@ -720,9 +722,9 @@ class FileController extends AdminController{
                 $this->form()->getData('color', '#FFFFFF'),
                 $align,
                 $margin,
-                1.5,
+                $this->form()->getData('line_height', 1.3),
                 0,
-                0,
+                $this->form()->getData('max_width', 0),
                 $this->form()->getData('opacity', 60)
             );
         }else{

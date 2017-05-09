@@ -35,7 +35,7 @@ class ImageTextService extends ImageService{
             'bottom'=>0,
             'left'=>0,
         ),
-        $line_height = 1.5,
+        $line_height = 1.3,
         $lines = 0,
         $max_width = 0,
         $opacity = 100
@@ -95,7 +95,7 @@ class ImageTextService extends ImageService{
             $this->writeOneLine($text, $font_file, $size, $color, $text_size, $start_x, $start_y, $opacity);
         }else{//文本太长，需要换行处理
             //真实行高（文本高度+行间距）
-            $real_line_height = $text_size['height'] * $line_height;
+            $real_line_height = $text_size['height'] * ($line_height ? $line_height : 1.3);
 
             //可书写文本行数
             if($lines){

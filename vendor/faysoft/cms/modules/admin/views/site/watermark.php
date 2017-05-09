@@ -6,7 +6,7 @@ use fay\helpers\HtmlHelper;
  * @var $this \fay\core\View
  */
 ?>
-<form id="watermark-form" class="site-watermark-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
+<form id="watermark-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">
         <div class="col-6">
             <div class="form-field">
@@ -62,13 +62,39 @@ use fay\helpers\HtmlHelper;
                     <label class="title bold">水印文字大小</label>
                     <?php echo HtmlHelper::inputText('watermark:size', OptionService::get('watermark:size', '20'), array(
                         'class'=>'form-control mw200',
+                        'data-rule'=>'int',
+                        'data-params'=>'{min:0}',
+                        'data-label'=>'水印文字大小'
                     ))?>
+                </div>
+                <div class="form-field">
+                    <label class="title bold">水印文字宽度</label>
+                    <?php echo HtmlHelper::inputText('watermark:max_width', OptionService::get('watermark:max_width', '0'), array(
+                        'class'=>'form-control mw200',
+                        'data-rule'=>'int',
+                        'data-params'=>'{min:0}',
+                        'data-label'=>'水印文字宽度'
+                    ))?>
+                    <p class="fc-grey">可以配合宽度实现水印文字换行效果</p>
+                </div>
+                <div class="form-field">
+                    <label class="title bold">水印文字行高</label>
+                    <?php echo HtmlHelper::inputText('watermark:line_height', OptionService::get('watermark:line_height', '1.3'), array(
+                        'class'=>'form-control mw200',
+                        'data-rule'=>'float',
+                        'data-params'=>'{min:0}',
+                        'data-label'=>'水印文字宽度'
+                    ))?>
+                    <p class="fc-grey">当水印文字出现换行时，可设置行高</p>
                 </div>
             </div>
             <div class="form-field">
                 <label class="title bold">水印透明度</label>
                 <?php echo HtmlHelper::inputText('watermark:opacity', OptionService::get('watermark:opacity', '100'), array(
                     'class'=>'form-control mw200',
+                    'data-rule'=>'int',
+                    'data-label'=>'水印透明度',
+                    'data-params'=>'{max:100,min:0}',
                 ))?>
                 <p class="fc-grey">取值：0-100，数值越小，透明度越高，0表示完全透明，100表示不透明。</p>
             </div>
@@ -136,7 +162,29 @@ use fay\helpers\HtmlHelper;
                 <label class="title bold">边距</label>
                 <?php echo HtmlHelper::inputText('watermark:margin', OptionService::get('watermark:margin', 10), array(
                     'class'=>'form-control mw200',
+                    'data-rule'=>'int',
+                    'data-label'=>'边距',
+                    'data-params'=>'{max:100,min:0}',
                 ))?>
+            </div>
+            <div class="form-field">
+                <label class="title bold">水印添加条件</label>
+                <?php
+                    echo HtmlHelper::inputText('watermark:min_width', OptionService::get('watermark:min_width', 200), array(
+                        'class'=>'form-control ib mw100',
+                        'data-rule'=>'int',
+                        'data-label'=>'宽度',
+                        'data-params'=>'{min:0}',
+                    )),
+                    ' x ',
+                    HtmlHelper::inputText('watermark:min_height', OptionService::get('watermark:min_height', 30), array(
+                        'class'=>'form-control ib mw100',
+                        'data-rule'=>'int',
+                        'data-label'=>'高度',
+                        'data-params'=>'{min:0}',
+                    ));
+                ?>
+                <p class="fc-grey">小于此尺寸的图片附件将不添加水印</p>
             </div>
         </div>
         <div class="col-6">
@@ -184,6 +232,8 @@ $(function(){
                 'text': $watermarkForm.find('[name="watermark:text"]').val(),
                 'size': $watermarkForm.find('[name="watermark:size"]').val(),
                 'color': $watermarkForm.find('[name="watermark:color"]').val(),
+                'max_width': $watermarkForm.find('[name="watermark:max_width"]').val(),
+                'line_height': $watermarkForm.find('[name="watermark:line_height"]').val(),
                 'image': $watermarkForm.find('[name="watermark:image"]').val() ? $watermarkForm.find('[name="watermark:image"]').val() : 0
             })
         });
@@ -202,3 +252,4 @@ $(function(){
     })
 });
 </script>
+<?php $this->renderPartial('_form_js')?>

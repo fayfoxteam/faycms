@@ -509,6 +509,61 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 2
             )
             ->write(
+                '啊',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('left', 'center'),
+                array('left'=>10),
+                1.5,
+                0,
+                2
+            )
+            ->write(
+                '啊啊',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('left', 'center'),
+                array('left'=>30),
+                1.5,
+                0,
+                2
+            )
+            ->write(
+                '啊啊啊',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('left', 'center'),
+                array('left'=>50),
+                1.5,
+                0,
+                2
+            )
+            ->write(
+                '啊啊啊啊',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('left', 'center'),
+                array('left'=>70),
+                1.5,
+                0,
+                2
+            )
+            ->write(
+                '啊啊啊啊啊',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                array('r'=>255, 'g'=>0, 'b'=>0),
+                array('left', 'center'),
+                array('left'=>90),
+                1.5,
+                0,
+                2
+            )
+            ->write(
                 '伟大领袖毛主席',
                 BASEPATH . 'assets/fonts/msyh.ttc',
                 15,
@@ -576,13 +631,13 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
             ->write(
                 '爱我中华',
                 BASEPATH . 'assets/fonts/msyh.ttc',
-                65,
+                15,
                 array('r'=>0, 'g'=>0, 'b'=>0),
                 array('center', 'center'),
                 array(),
                 1.5,
                 0,
-                400
+                40
             )
 
             ->write(

@@ -95,13 +95,13 @@ class ImageTextService extends ImageService{
             $this->writeOneLine($text, $font_file, $size, $color, $text_size, $start_x, $start_y, $opacity);
         }else{//文本太长，需要换行处理
             //真实行高（文本高度+行间距）
-            $absolute_line_height = $text_size['height'] * $line_height;
+            $real_line_height = $text_size['height'] * $line_height;
 
             //可书写文本行数
             if($lines){
-                $lines = min($lines, floor($inner_box['height']) / ($absolute_line_height));
+                $lines = min($lines, floor($inner_box['height'] / $real_line_height));
             }else{
-                $lines = floor($inner_box['height']) / ($absolute_line_height);
+                $lines = floor($inner_box['height'] / $real_line_height);
             }
 
             //将文本拆成多行
@@ -110,10 +110,10 @@ class ImageTextService extends ImageService{
             //根据书写行数，重新计算$start_y
             if($text_align[1] == 'bottom'){
                 //从下往上书写，$start_y向上偏移
-                $start_y = $start_y - (count($text_arr) - 1) * $absolute_line_height;
+                $start_y = $start_y - (count($text_arr) - 1) * $real_line_height;
             }else if($text_align[1] == 'center'){
-                //垂直居中，$start向上便宜
-                $start_y = $start_y - (count($text_arr) - 1) * $absolute_line_height / 2;
+                //垂直居中，$start向上偏移
+                $start_y = $start_y - (count($text_arr) - 1) * $real_line_height / 2;
             }
             foreach($text_arr as $sub_text){
                 $sub_text_size = self::getTextSize($sub_text, $size, $font_file);
@@ -130,7 +130,7 @@ class ImageTextService extends ImageService{
                 }
 
                 imagettftext($this->image, $size, 0, $start_x, $start_y, $color, $font_file, $sub_text);
-                $start_y += $absolute_line_height;
+                $start_y += $real_line_height;
             }
         }
 
@@ -204,15 +204,22 @@ class ImageTextService extends ImageService{
             $sub_str .= mb_substr($text, $i, 1, 'utf-8');
             $box = imagettfbbox($size, 0, $font_file, $sub_str);
             if($box[2] - $box[0] > $width){
-                //若字符串超出指定长度，截掉最后一个字，并放入待返回数组
-                $return[] = mb_substr($sub_str, 0, -1, 'utf-8');
+                //若字符串超出指定长度，放入待返回数组
+                if(mb_strlen($sub_str, 'utf-8') > 1){
+                    //若文本长度大于1，截掉最后一个字，放到下一个循环中
+                    $return[] = mb_substr($sub_str, 0, -1, 'utf-8');
+                    $sub_str = mb_substr($text, $i, 1, 'utf-8');
+                }else{
+                    //若文本长度只有1，至少要放一个字进去
+                    $return[] = $sub_str;
+                    $sub_str = '';
+                }
+                
                 if($lines && count($return) >= $lines){
                     //已达到指定行数，跳出循环
                     $sub_str = '';
                     break;
                 }
-
-                $sub_str = mb_substr($text, $i, 1, 'utf-8');
             }
         }
 

@@ -70,6 +70,8 @@ var uploader = {
                     '<br>',
                     '<a href="javascript:;" class="remove-', clean_field, '-link', settings.scene, '">', settings.remove_text, '</a>'
                 ].join(''));
+
+                $container.find('input').change();//触发一下change事件，有的地方需要监听图片变化
             });
             
             uploader.bind('Error', function(up, error) {

@@ -11,17 +11,17 @@ class ImageTextService extends ImageService{
      * @param string $font_file 字体文件路径
      * @param int $size 字体大小
      * @param array|string $color 颜色
-     * @param array $margin 定位
      * @param array $text_align 文本对齐方式
      *  - 第一个值是水平位置，取值（left, center, right）
      *  - 第二个值是垂直位置，取值（top, center, bottom）
+     * @param array $margin 定位
      * @param float $line_height 行高，例如：1.5代表1.5倍行高
      * @param int $lines 最大显示行数。为0则不限制行数
      * @param int $max_width 文本最大宽度（默认为0）
      *  - 若为0，则根据图片总宽度减left减right作为最大宽度
      *  - 若指定最大宽度，则在$max_width与left, right计算所得宽度中，取较小的一个作为最大宽度
+     * @param int $opacity 透明度，取值为0-100，数值越小，透明度越高，0则完全透明，100则不透明
      * @return $this ;
-     * @throws FileErrorException
      */
     public function write(
         $text,
@@ -37,7 +37,8 @@ class ImageTextService extends ImageService{
         ),
         $line_height = 1.5,
         $lines = 0,
-        $max_width = 0
+        $max_width = 0,
+        $opacity = 100
     ){
         //颜色
         $color = $this->color($color);
@@ -91,7 +92,7 @@ class ImageTextService extends ImageService{
                 $start_x = $inner_box['x'];
             }
             
-            imagettftext($this->image, $size, 0, $start_x, $start_y, $color, $font_file, $text);
+            $this->writeOneLine($text, $font_file, $size, $color, $text_size, $start_x, $start_y, $opacity);
         }else{//文本太长，需要换行处理
             //真实行高（文本高度+行间距）
             $absolute_line_height = $text_size['height'] * $line_height;
@@ -150,6 +151,40 @@ class ImageTextService extends ImageService{
             'width'=>$box[2] - $box[0],
             'height'=>$box[1] - $box[7],
         );
+    }
+
+    /**
+     * 往图片中写一行文本，支持透明度
+     * （若设置了透明度，实际上是先把文本写到一张透明图里，再将透明图粘到目标图上）
+     * @param string $text
+     * @param string $font_file
+     * @param int $size
+     * @param int $color
+     * @param array $text_size 文本尺寸（若不传，会根据指定文本计算）
+     * @param int $x
+     * @param int $y
+     * @param int $opacity
+     */
+    protected function writeOneLine($text, $font_file, $size, $color, $text_size = array(), $x = 0, $y = 0, $opacity = 100){
+        $text_size || $text_size = $this->getTextSize($text, $size, $font_file);
+        if($opacity == 100){
+            //不透明，直接写就好了
+            imagettftext($this->image, $size, 0, $x, $y, $color, $font_file, $text);
+        }else{
+            //有透明度，需要先将文本写到一张透明图片里，再将透明图以半透明的方式粘到主图上
+            //注意：由于imagettftext无法精确定位文字，所以这个方法终究是存在误差的
+            $img = $this->createCanvas($text_size['width'], $text_size['height']);
+            imagettftext($img, $size, 0, 0, $text_size['height'] * 0.78, $color, $font_file, $text);
+            $this->merge(
+                $img,
+                array(
+                    'left'=>$x,
+                    'top'=>$y - $text_size['height'] * 0.75,
+                ),
+                array('left', 'top'),
+                $opacity
+            );
+        }
     }
 
     /**

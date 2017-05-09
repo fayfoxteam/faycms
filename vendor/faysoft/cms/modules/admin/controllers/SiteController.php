@@ -43,4 +43,13 @@ class SiteController extends AdminController{
         
         $this->view->render();
     }
+
+    /**
+     * 水印图设置
+     */
+    public function watermark(){
+        $this->layout->subtitle = '图片水印';
+        
+        $this->view->render();
+    }
 }

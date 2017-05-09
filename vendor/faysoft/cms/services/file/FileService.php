@@ -313,16 +313,17 @@ class FileService extends Service{
             return $file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext'];
         }
     }
-    
+
     /**
      * 执行上传
      * @param int|string|array $cat 分类ID
-     * @param bool $private
-     * @param null|array $allowed_types
+     * @param bool $private 是否上传为私密文件，私密文件夹在public文件夹以外，无法直接访问
+     * @param null|array $allowed_types 允许的文件类型，若为null，则根据config文件配置
+     * @param null|bool $auto_orientate 是否自动判断并旋转jpg图片角度，若为null，则根据config文件配置
      * @return array
      * @throws ErrorException
      */
-    public function upload($cat = 0, $private = false, $allowed_types = null){
+    public function upload($cat = 0, $private = false, $allowed_types = null, $auto_orientate = null){
         if($cat){
             if(!is_array($cat)){
                 $cat = CategoryService::service()->get($cat, 'id,alias', '_system_file');
@@ -351,6 +352,9 @@ class FileService extends Service{
         //是否指定上传文件类型
         if($allowed_types !== null){
             $upload_config['allowed_types'] = $allowed_types;
+        }
+        if($auto_orientate !== null){
+            $upload_config['auto_orientate'] = $auto_orientate;
         }
         LocalFileHelper::createFolder($upload_config['upload_path']);
         $upload = new Upload($upload_config);

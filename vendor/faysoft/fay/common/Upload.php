@@ -9,7 +9,7 @@ class Upload{
     private $upload_path;
     private $allowed_types = array();
     private $max_size;
-    private $auto_orientate = true;//是否在上传时自动识别并旋转jpg图片角度
+    private $auto_orientate = true;//是否在上传时尝试自动识别并旋转jpg图片角度
     
     private $error_msg = array();
     
@@ -26,11 +26,11 @@ class Upload{
      * @param array $config 未设置的选项默认读取配置文件中的设置
      */
     public function __construct($config = array()){
-        $default_config = \F::app()->config->get('upload');
-        isset($config['upload_path']) ? $this->upload_path = $config['upload_path'] : $this->upload_path = $default_config['upload_path'];
+        $default_config = \F::config()->get('upload');
         isset($config['allowed_types']) ? $this->setAllowedTypes($config['allowed_types']) : $this->setAllowedTypes($default_config['allowed_types']);
-        isset($config['max_size']) ? $this->max_size = $config['max_size'] : $this->max_size = $default_config['max_size'];
-        
+        $this->upload_path = isset($config['upload_path']) ? $config['upload_path'] : $default_config['upload_path'];
+        $this->max_size = isset($config['max_size']) ? $config['max_size'] : $default_config['max_size'];
+        $this->auto_orientate = isset($config['auto_orientate']) ? $config['auto_orientate'] : $default_config['auto_orientate'];
     }
     
     /**

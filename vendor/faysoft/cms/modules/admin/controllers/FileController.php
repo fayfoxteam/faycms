@@ -12,7 +12,6 @@ use cms\services\SettingService;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\helpers\LocalFileHelper;
-use fay\helpers\ImageHelper;
 use cms\services\file\QiniuService;
 use fay\core\HttpException;
 use fay\core\Validator;
@@ -496,7 +495,7 @@ class FileController extends AdminController{
                 $file = FilesTable::model()->find($f);
             }
         }else{
-            $file = FilesTable::model()->fetchRow(array('raw = ?'=>$f));
+            $file = FilesTable::model()->fetchRow(array('raw_name = ?'=>$f));
         }
 
         if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && $file['raw_name'] == $_SERVER['HTTP_IF_NONE_MATCH']){
@@ -589,38 +588,31 @@ class FileController extends AdminController{
         $x = $this->input->get('x', 'intval', 0);
         //y坐标
         $y = $this->input->get('y', 'intval', 0);
-        //输出宽度
-        $dw = $this->input->get('dw', 'intval', 0);
-        //输出高度
-        $dh = $this->input->get('dh', 'intval', 0);
         //选中部分的宽度
         $w = $this->input->get('w', 'intval');
-        if(!$w)throw new HttpException('不完整的请求', 500);
         //选中部分的高度
         $h = $this->input->get('h', 'intval');
-        if(!$h)throw new HttpException('不完整的请求', 500);
+        if(!$w || !$h){
+            throw new HttpException('不完整的请求', 500);
+        }
+        
+        //输出宽度
+        $dw = $this->input->get('dw', 'intval', $w);
+        //输出高度
+        $dh = $this->input->get('dh', 'intval', $h);
         
         if($file !== false){
-            $img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-        
-            if($dw == 0){
-                $dw = $w;
-            }
-            if($dh == 0){
-                $dh = $h;
-            }
-            $img = ImageHelper::crop($img, $x, $y, $w, $h);
-            $img = ImageHelper::resize($img, $dw, $dh);
-
-            ImageHelper::output($img, $file['file_type']);
+            $image = new ImageService($file);
+            $image->crop($x, $y, $w, $h)
+                ->resize($dw, $dh)
+                ->output();
         }else{
             //图片不存在，显示一张默认图片吧
             $spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
             $spare || $spare = $this->config->get('default', 'noimage');
-            $img = ImageHelper::getImage($spare);
-            header('Content-type: image/jpeg');
-            $img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
-            imagejpeg($img);
+            $image = new ImageService($spare);
+            $image->resize($dw, $dh)
+                ->output();
         }
     }
     
@@ -630,28 +622,30 @@ class FileController extends AdminController{
         //输出高度
         $dh = $this->input->get('dh', 'intval');
         
-        if($dw && !$dh){
-            $dh = $dw * ($file['image_height'] / $file['image_width']);
-        }else if($dh && !$dw){
-            $dw = $dh * ($file['image_width'] / $file['image_height']);
-        }else if(!$dw && !$dh){
-            $dw = $file['image_width'];
-            $dh = $file['image_height'];
-        }
-        
         if($file !== false){
-            $img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-            
-            $img = ImageHelper::resize($img, $dw, $dh);
+            if($dw && !$dh){
+                $dh = $dw * ($file['image_height'] / $file['image_width']);
+            }else if($dh && !$dw){
+                $dw = $dh * ($file['image_width'] / $file['image_height']);
+            }else if(!$dw && !$dh){
+                $dw = $file['image_width'];
+                $dh = $file['image_height'];
+            }
 
-            ImageHelper::output($img, $file['file_type']);
+            $image = new ImageService($file);
+            $image->resize($dw, $dh)
+                ->output();
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
             $spare || $spare = $this->config->get('default', 'noimage');
-            $img = ImageHelper::getImage($spare);
-            header('Content-type: image/jpeg');
-            $img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
-            imagejpeg($img);
+            if($dw && $dh){
+                $image = new ImageService($spare);
+                $image->resize($dw, $dh)
+                    ->output();
+            }else{
+                header('Content-type: image/jpeg');
+                readfile($spare);
+            }
         }
     }
     
@@ -664,19 +658,21 @@ class FileController extends AdminController{
         if($file !== false){
             $dw || $dw = $file['image_width'];
             $dh || $dh = $file['image_height'];
-            
-            $img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-            
-            $img = ImageHelper::resize($img, $dw, $dh);
 
-            ImageHelper::output($img, $file['file_type']);
+            $image = new ImageService($file);
+            $image->resize($dw, $dh)
+                ->output();
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
             $spare || $spare = $this->config->get('default', 'noimage');
-            $img = ImageHelper::getImage($spare);
-            header('Content-type: image/jpeg');
-            $img = ImageHelper::resize($img, $dw ? $dw : 325, $dh ? $dh : 235);
-            imagejpeg($img);
+            if($dw && $dh){
+                $image = new ImageService($spare);
+                $image->resize($dw, $dh)
+                    ->output();
+            }else{
+                header('Content-type: image/jpeg');
+                readfile($spare);
+            }
         }
     }
 

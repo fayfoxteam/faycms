@@ -8,7 +8,6 @@ use fay\helpers\LocalFileHelper;
 use fay\helpers\UrlHelper;
 use cms\models\tables\FilesTable;
 use fay\common\Upload;
-use fay\helpers\ImageHelper;
 use fay\helpers\StringHelper;
 use fay\core\ErrorException;
 use cms\services\CategoryService;
@@ -373,12 +372,10 @@ class FileService extends Service{
                     'cat_id'=>$cat['id'],
                 );
                 $data['id'] = FilesTable::model()->insert($data);
-                $src_img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].$data['file_ext']);
-                ImageHelper::output(
-                    ImageHelper::resize($src_img, 100, 100),
-                    $data['file_type'],
-                    (defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']
-                );
+                
+                $image = new ImageService($data['id']);
+                $image->resize(100, 100)
+                    ->save((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']);
                 
                 $data['error'] = 0;
                 if($private){
@@ -470,22 +467,19 @@ class FileService extends Service{
                     $params['dh'] = $file['image_height'];
                 }
                 
-                $img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+                $image = new ImageService($file);
+                $image->resize($params['dw'], $params['dh'])//缩放
+                    ->save((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext'])//保存文件
+                ;
                 
-                $img = ImageHelper::resize($img, $params['dw'], $params['dh']);
+                $image->resize(100, 100)//缩放为缩略图
+                    ->save((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100'.$file['file_ext'])//保存缩略图
+                ;
                 
-                //处理过的图片统一以jpg方式保存
-                ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-                
-                //重新生成缩略图
-                $img = ImageHelper::resize($img, 100, 100);
-                ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100'.$file['file_ext']);
-                
-                $new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
+                $new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
                 
                 //更新数据库字段
                 FilesTable::model()->update(array(
-                    'file_ext'=>'.jpg',
                     'image_width'=>$params['dw'],
                     'image_height'=>$params['dh'],
                     'file_size'=>$new_file_size,
@@ -496,59 +490,41 @@ class FileService extends Service{
                 $file['image_height'] = $params['dh'];
                 $file['file_size'] = $new_file_size;
                 
-                if($file['file_ext'] != '.jpg'){
-                    //若原图不是jpg，物理删除原图
-                    @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-                }
                 break;
             case 'crop':
                 if(!$params['x'] || !$params['y'] || !$params['w'] || !$params['h']){
                     throw new ErrorException('cms\services\file\FileService::edit方法crop处理缺少必要参数');
                 }
-                
-                if($params['w'] && $params['h']){
-                    //若参数不完整，则不处理
-                    $img = ImageHelper::getImage((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-                    
-                    if($params['dw'] == 0){
-                        $params['dw'] = $params['w'];
-                    }
-                    if($params['dh'] == 0){
-                        $params['dh'] = $params['h'];
-                    }
-                    $img = ImageHelper::crop($img, $params['x'], $params['y'], $params['w'], $params['h']);
-                    if($params['dw'] != $params['w'] || $params['dh'] != $params['h']){
-                        //如果完全一致，则不需要缩放，但依旧会进行清晰度处理
-                        $img = ImageHelper::resize($img, $params['dw'], $params['dh']);
-                    }
-                    
-                    //处理过的图片统一以jpg方式保存
-                    ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-                    
-                    //重新生成缩略图
-                    $img = ImageHelper::resize($img, 100, 100);
-                    ImageHelper::output($img, $file['file_type'], (defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100'.$file['file_ext']);
-                    
-                    $new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'.jpg');
-                    
-                    //更新数据库字段
-                    FilesTable::model()->update(array(
-                        'file_ext'=>'.jpg',
-                        'image_width'=>$params['dw'],
-                        'image_height'=>$params['dh'],
-                        'file_size'=>$new_file_size,
-                    ), $file['id']);
-                    
-                    if($file['file_ext'] != '.jpg'){
-                        //若原图不是jpg，物理删除原图
-                        @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
-                    }
-                    
-                    //更新返回值字段
-                    $file['image_width'] = $params['dw'];
-                    $file['image_height'] = $params['dh'];
-                    $file['file_size'] = $new_file_size;
+
+                if($params['dw'] == 0){
+                    $params['dw'] = $params['w'];
                 }
+                if($params['dh'] == 0){
+                    $params['dh'] = $params['h'];
+                }
+
+                $image = new ImageService($file);
+                $image->crop($params['x'], $params['y'], $params['w'], $params['h'])//裁剪
+                    ->resize($params['dw'], $params['dh'])//缩放
+                    ->save((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);//保存文件
+
+                $image->resize(100, 100)//缩放为缩略图
+                    ->save((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100'.$file['file_ext'])//保存缩略图
+                ;
+
+                $new_file_size = filesize((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+                
+                //更新数据库字段
+                FilesTable::model()->update(array(
+                    'image_width'=>$params['dw'],
+                    'image_height'=>$params['dh'],
+                    'file_size'=>$new_file_size,
+                ), $file['id']);
+                
+                //更新返回值字段
+                $file['image_width'] = $params['dw'];
+                $file['image_height'] = $params['dh'];
+                $file['file_size'] = $new_file_size;
                 break;
         }
         return $file;

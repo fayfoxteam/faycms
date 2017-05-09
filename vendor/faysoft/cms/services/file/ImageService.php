@@ -90,6 +90,11 @@ class ImageService{
     public function resize($width, $height){
         $width_ratio = $this->width / $width;
         $height_ratio = $this->height / $height;
+        
+        if($this->width == $width && $this->height == $height){
+            //若图片大小没有变化，就不折腾了，直接返回
+            return $this;
+        }
 
         $dst_img = $this->createCanvas($width, $height, $this->transparency || $this->metadata['mime'] == 'image/png');
 

@@ -576,13 +576,13 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
             ->write(
                 '爱我中华',
                 BASEPATH . 'assets/fonts/msyh.ttc',
-                15,
+                65,
                 array('r'=>0, 'g'=>0, 'b'=>0),
                 array('center', 'center'),
                 array(),
                 1.5,
                 0,
-                40
+                400
             )
 
             ->write(

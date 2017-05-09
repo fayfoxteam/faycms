@@ -69,7 +69,7 @@ class ImageTextService extends ImageService{
         //确定起始y坐标（假定只有一行文本）
         if($text_align[1] === 'center'){
             //垂直居中
-            $start_y = $inner_box['y'] + ($inner_box['height'] - $text_size['height']) / 2 - $y_offset;
+            $start_y = $inner_box['y'] + ($inner_box['height'] + $text_size['height']) / 2 - $y_offset;
         }else if($text_align[1] === 'bottom'){
             //从下往上书写
             $start_y = $inner_box['y'] + $inner_box['height'] - $y_offset;

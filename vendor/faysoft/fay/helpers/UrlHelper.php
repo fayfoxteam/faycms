@@ -26,8 +26,8 @@ class UrlHelper{
                 }
             }
             
-            if($params){
-                return $base_url . $router . $ext . '?' . http_build_query($params);
+            if($params && $query_string = http_build_query($params)){
+                return $base_url . $router . $ext . '?' . $query_string;
             }else{
                 return $base_url . $router . $ext;
             }

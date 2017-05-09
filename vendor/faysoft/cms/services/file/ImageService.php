@@ -506,7 +506,7 @@ class ImageService{
             'mime' => $info['mime'],
             'exif' => null,
         );
-        if (function_exists('exif_read_data') && $metadata['mime'] == 'image/jpeg') {
+        if(function_exists('exif_read_data') && $metadata['mime'] == 'image/jpeg'){
             $metadata['exif'] = @exif_read_data($filename);
         }
         return $metadata;

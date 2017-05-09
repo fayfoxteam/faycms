@@ -2,12 +2,14 @@
 namespace fay\common;
 
 use cms\services\file\FileService;
+use cms\services\file\ImageService;
 use fay\helpers\LocalFileHelper;
 
 class Upload{
     private $upload_path;
     private $allowed_types = array();
     private $max_size;
+    private $auto_orientate = true;//是否在上传时自动识别并旋转jpg图片角度
     
     private $error_msg = array();
     
@@ -16,10 +18,6 @@ class Upload{
     private $file_type;//上传文件类型
     private $file_ext;//扩展名
     private $file_name;//随机文件名
-    private $is_image = false;//上传文件是否为图片
-    private $image_width = 0;//上传图片宽度
-    private $image_height = 0;//上传图片高度
-    private $image_mime_type;//上传图片mime type
     private $client_name;//上传图片客户端文件名
     
     /**
@@ -119,7 +117,7 @@ class Upload{
         }else{
             $destination = $this->upload_path.$this->file_name;
         }
-        if( move_uploaded_file($file['tmp_name'], $destination)){
+        if(move_uploaded_file($file['tmp_name'], $destination)){
             $data = array(
                 'file_name'=>$this->file_name,
                 'raw_name'=>substr($this->file_name, 0, 0 - strlen($this->file_ext)),
@@ -221,17 +219,27 @@ class Upload{
      */
     private function setImgProperties($path){
         $x = explode('.', $path);
-        if(in_array(strtolower(array_pop($x)), array('jpg', 'png', 'jpeg', 'gif')) && false !== ($D = @getimagesize($path))){
-            $this->is_image = true;
-            $this->image_width = $D[0];
-            $this->image_height = $D[1];
-            $this->image_mime_type = $D['mime'];
-            return array(
+        if(in_array(strtolower(array_pop($x)), array('jpg', 'png', 'jpeg', 'gif')) && false !== ($metadata = @getimagesize($path))){
+            $return = array(
                 'is_image'=>true,
-                'image_width'=>$D[0],
-                'image_height'=>$D[1],
-                'image_mime_type'=>$D['mime'],
+                'image_width'=>$metadata[0],
+                'image_height'=>$metadata[1],
+                'image_mime_type'=>$metadata['mime'],
             );
+            //尝试判断图片是否需要旋转
+            if($this->auto_orientate && function_exists('exif_read_data') && $metadata['mime'] == 'image/jpeg') {
+                $exif = @exif_read_data($path);
+                
+                if(!empty($exif['Orientation']) && (int)$exif['Orientation'] != 1){
+                    //图片需要旋转
+                    $image = new ImageService($path, true);
+                    $image->save($path);
+                    
+                    $return['file_size'] = filesize($path);
+                }
+            }
+            
+            return $return;
         }else{
             return array(
                 'is_image'=>false,

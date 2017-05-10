@@ -492,12 +492,11 @@ CREATE TABLE `{{$prefix}}posts_tags` (
 DROP TABLE IF EXISTS `{{$prefix}}prop_values`;
 CREATE TABLE `{{$prefix}}prop_values` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `refer` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Refer',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
-  `default` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Default',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '属性名称',
+  `default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '默认选中',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
@@ -517,6 +516,7 @@ CREATE TABLE `{{$prefix}}props` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
+
 DROP TABLE IF EXISTS `{{$prefix}}props_refers`;
 CREATE TABLE `{{$prefix}}props_refers` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -526,7 +526,7 @@ CREATE TABLE `{{$prefix}}props_refers` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`id`),
   KEY `refer` (`refer`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='属性引用关系';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='属性引用关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
 CREATE TABLE `{{$prefix}}regions` (

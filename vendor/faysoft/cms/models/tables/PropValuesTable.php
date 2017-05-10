@@ -3,6 +3,16 @@ namespace cms\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Prop values table model
+ *
+ * @property int $id Id
+ * @property int $prop_id 属性ID
+ * @property string $title 属性名称
+ * @property int $default 默认选中
+ * @property int $delete_time 删除时间
+ * @property int $sort 排序值
+ */
 class PropValuesTable extends Table{
     protected $_name = 'prop_values';
     
@@ -17,7 +27,7 @@ class PropValuesTable extends Table{
     public function rules(){
         return array(
             array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('refer', 'prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('default'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title'), 'string', array('max'=>255)),
@@ -27,18 +37,16 @@ class PropValuesTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
-            'refer'=>'Refer',
-            'prop_id'=>'Prop Id',
-            'title'=>'Title',
-            'default'=>'Default',
+            'prop_id'=>'属性ID',
+            'title'=>'属性名称',
+            'default'=>'默认选中',
             'delete_time'=>'删除时间',
-            'sort'=>'Sort',
+            'sort'=>'排序值',
         );
     }
 
     public function filters(){
         return array(
-            'refer'=>'intval',
             'prop_id'=>'intval',
             'title'=>'trim',
             'default'=>'intval',

@@ -135,7 +135,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
         <div class="page-title">
             <div class="title-env">
                 <h1 class="title"><?php
-                    echo isset($subtitle) ? $subtitle : '无标题';
+                    echo isset($subtitle) ? HtmlHelper::encode($subtitle) : '无标题';
                     if(isset($sublink)){
                         $html_options = isset($sublink['html_options']) ? $sublink['html_options'] : array();
                         $html_options['prepend'] = '<i class="fa fa-link"></i>';

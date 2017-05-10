@@ -69,6 +69,22 @@ class PropsTable extends Table{
     
     protected $_name = 'props';
 
+    public static $type_map = array(
+        self::TYPE_POST_CAT => '文章分类属性',
+        self::TYPE_ROLE => '角色附加属性',
+    );
+    
+    public static $element_map = array(
+        self::ELEMENT_TEXT => '文本框',
+        self::ELEMENT_RADIO => '单选框',
+        self::ELEMENT_SELECT => '下拉框',
+        self::ELEMENT_CHECKBOX => '多选框',
+        self::ELEMENT_TEXTAREA => '文本域',
+        self::ELEMENT_NUMBER => '数字输入框',
+        self::ELEMENT_IMAGE => '图片',
+        self::ELEMENT_FILE => '文件',
+    );
+
     /**
      * @param string $class_name
      * @return PropsTable

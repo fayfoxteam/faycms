@@ -41,7 +41,7 @@ class GoodsCatPropValuesTable extends Table{
             'prop_id'=>'属性ID',
             'title'=>'标题',
             'delete_time'=>'删除时间',
-            'sort'=>'排序值i',
+            'sort'=>'排序值',
         );
     }
 

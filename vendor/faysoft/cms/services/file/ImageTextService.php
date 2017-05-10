@@ -10,11 +10,11 @@ class ImageTextService extends ImageService{
      * @param string $text 文本
      * @param int $size 字体大小（默认为：20）
      * @param array|string $color 颜色（默认为：黑色）
+     * @param array|int $margin 定位
      * @param string $font_file 字体文件路径（默认为：项目中自带的微软雅黑）
      * @param array $text_align 文本对齐方式
      *  - 第一个值是水平位置，取值（left, center, right）
      *  - 第二个值是垂直位置，取值（top, center, bottom）
-     * @param array $margin 定位
      * @param float $line_height 行高，例如：1.5代表1.5倍行高
      * @param int $lines 最大显示行数。为0则不限制行数
      * @param int $max_width 文本最大宽度（默认为0）
@@ -28,7 +28,7 @@ class ImageTextService extends ImageService{
         $size = 20,
         $color = '#000000',
         $margin = 10,
-        $font_file = BASEPATH . 'assets/fonts/msyh.ttc',
+        $font_file = 'assets/fonts/msyh.ttc',
         $text_align = array('left', 'left'),
         $line_height = 1.3,
         $lines = 0,

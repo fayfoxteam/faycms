@@ -57,7 +57,16 @@ class Config{
             $config = require APPLICATION_PATH . 'configs/' . $filename . '.php';
         }
         
-        if(file_exists(CMS_PATH . 'configs/' . $filename . '.php')){
+        if($filename != 'main'){
+            //main.php不支持addressing_path，因为addressing_path这个配置项就在main.php里
+            $addressing_path = $this->get('addressing_path');
+            foreach($addressing_path as $address){
+                if(file_exists(FAYSOFT_PATH . $address . '/configs/' . $filename . '.php')){
+                    $config = ArrayHelper::merge(require FAYSOFT_PATH . $address . '/configs/' . $filename . '.php', $config);
+                }
+            }
+        }else{
+            //获取main.php时，与cms下的main.php合并
             $config = ArrayHelper::merge(require CMS_PATH . 'configs/' . $filename . '.php', $config);
         }
         

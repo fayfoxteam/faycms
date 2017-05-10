@@ -468,8 +468,8 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
     
     public function img(){
         $image = new ImageTextService();
-        $image->loadFromSize(300, 500)
-            ->fill()
+        $image->loadFromSize(300, 500, true)
+            //->fill()
             ->write(
                 '我爱北京天安门天安门前国旗升伟大领袖毛主席带领我们向前进',
                 BASEPATH . 'assets/fonts/msyh.ttc',
@@ -481,8 +481,8 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
                 0,
                 150
             )
-            ->merge(10371, '0, 0, 100, 0', array('center', 'bottom'), 60)
-            ->output();
+            ->merge(10371, '0, 0, 100, 0', array('center', 'bottom'), 100)
+            ->output('image/png');
         
         
         

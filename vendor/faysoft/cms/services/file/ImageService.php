@@ -123,6 +123,11 @@ class ImageService{
      */
     public function loadFromSize($width, $height, $transparency = false){
         $this->image = $this->createCanvas($width, $height, $transparency);
+        if($transparency){
+            //若创建时设置了透明度，则将$this->transparency设为true，因为这样创建的图片没有mime，无法通过mime自动判断是否需要透明
+            $this->transparency = true;
+        }
+        
         $this->updateSize();
         
         return $this;
@@ -432,7 +437,7 @@ class ImageService{
      * @param array $align 对齐方式
      *  - 第一个值是水平位置，取值（left, center, right）
      *  - 第二个值是垂直位置，取值（top, center, bottom）
-     * @param int $opacity 透明度，取值为0-100，数值越小，透明度越高，0则完全透明，100则不透明
+     * @param int $opacity 透明度，取值为0-100，数值越小，透明度越高，0则完全透明，100则不透明（当前后两张图都是透明图时，不可以设置透明度）
      * @return $this
      */
     public function merge($file, $margin = '', $align = array('center', 'center'), $opacity = 100){
@@ -571,6 +576,24 @@ class ImageService{
      */
     public function getMimeType(){
         return isset($this->metadata['mime']) ? $this->metadata['mime'] : '';
+    }
+
+    /**
+     * 手工设置是否强制透明
+     * @param $transparency
+     * @return $this
+     */
+    public function setTransparency($transparency){
+        $this->transparency = $transparency;
+        
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTransparency(){
+        return $this->transparency;
     }
 
     /**

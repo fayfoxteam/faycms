@@ -106,13 +106,38 @@ class ImageService{
     public function loadFromString($string){
         $this->image = imagecreatefromstring($string);
         $this->updateSize();
-        if(function_exists('finfo_buffer') && !isset($this->metadata['mime'])){
+        if(function_exists('finfo_buffer') && !$this->getMimeType()){
             $finfo = finfo_open();
             $this->metadata['mime'] = finfo_buffer($finfo, $string, FILEINFO_MIME_TYPE);
             finfo_close($finfo);
         }
         return $this;
     }
+
+    /**
+     * 根据指定宽高，自己生一个
+     * @param int $width
+     * @param int $height
+     * @param bool $transparency 是否透明，默认为false
+     * @return $this
+     */
+    public function loadFromSize($width, $height, $transparency = false){
+        $this->image = $this->createCanvas($width, $height, $transparency);
+        $this->updateSize();
+        
+        return $this;
+    }
+
+    /**
+     * 根据指定颜色填充底色
+     * @param string $color
+     * @return $this
+     */
+    public function fill($color = '#ffffff'){
+        imagefill($this->image, 0, 0, $this->color($color));
+        return $this;
+    }
+
 
     /**
      * 缩放到指定大小，若宽高未指定，则会根据原图比例计算宽高
@@ -129,7 +154,7 @@ class ImageService{
             return $this;
         }
 
-        $dst_img = $this->createCanvas($width, $height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($width, $height, null);
 
         if($width_ratio < $height_ratio){
             //取比例小的作为缩放比
@@ -232,7 +257,7 @@ class ImageService{
         $dst_img_width = ceil($this->width * $percent);
         $dst_img_height = ceil($this->height * $percent);
         
-        $dst_img = $this->createCanvas($dst_img_width, $dst_img_height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($dst_img_width, $dst_img_height, null);
         imagecopyresampled($dst_img, $this->image, 0, 0, 0, 0, $dst_img_width, $dst_img_height, $this->width, $this->height);
 
         $this->setImage($dst_img);
@@ -263,7 +288,7 @@ class ImageService{
             $height = $this->height - $y;
         }
         
-        $dst_img = $this->createCanvas($width, $height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($width, $height, null);
 
         imagecopyresampled($dst_img, $this->image, 0, 0, $x, $y, $width, $height, $width, $height);
         
@@ -284,7 +309,7 @@ class ImageService{
             return $this;
         }
         
-        $dst_img = $this->createCanvas($width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($width, $this->height, null);
         imagecopy($dst_img, $this->image, 0, 0, 0, 0, $width, $this->height);
 
         $this->setImage($dst_img);
@@ -304,7 +329,7 @@ class ImageService{
             return $this;
         }
         
-        $dst_img = $this->createCanvas($this->width, $height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width, $height, null);
         imagecopy($dst_img, $this->image, 0, 0, 0, 0, $this->width, $height);
 
         $this->setImage($dst_img);
@@ -337,7 +362,7 @@ class ImageService{
      * @return $this
      */
     public function addBorder($color, $width = 1){
-        $dst_img = $this->createCanvas($this->width + 2 * $width, $this->height + 2 * $width, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width + 2 * $width, $this->height + 2 * $width, null);
 
         $line_color = $this->color($color);
         
@@ -416,6 +441,10 @@ class ImageService{
             $img_width = imagesx($file);
             $img_height = imagesy($file);
             $img_resource = $file;
+        }else if($file instanceof ImageService){
+            $img_width = $file->getWidth();
+            $img_height = $file->getHeight();
+            $img_resource = $file->getImage();
         }else{
             //通过ImageService初始化图片信息
             $img = new ImageService($file);
@@ -549,7 +578,7 @@ class ImageService{
      * @return $this
      */
     protected function flipHorizontal(){
-        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width, $this->height, null);
 
         imagecopyresampled(
             $dst_img, $this->image,
@@ -567,7 +596,7 @@ class ImageService{
      * @return $this
      */
     protected function flipVertical(){
-        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width, $this->height, null);
 
         imagecopyresampled(
             $dst_img, $this->image,
@@ -585,7 +614,7 @@ class ImageService{
      * @return $this
      */
     protected function flipBoth(){
-        $dst_img = $this->createCanvas($this->width, $this->height, $this->transparency || $this->metadata['mime'] == 'image/png');
+        $dst_img = $this->createCanvas($this->width, $this->height, null);
 
         imagecopyresampled(
             $dst_img, $this->image,
@@ -721,7 +750,7 @@ class ImageService{
      * @param string $mime_type
      */
     protected function generate($mime_type = '', $filename = null){
-        $mime_type || $mime_type = $this->metadata['mime'];
+        $mime_type || $mime_type = $this->getMimeType();
         switch ($mime_type) {
             case 'image/gif':
                 if(!$filename){
@@ -770,7 +799,7 @@ class ImageService{
         $this->setMetadata();
 
         //获取图片资源
-        switch ($this->metadata['mime']){
+        switch ($this->getMimeType()){
             case 'image/gif':
                 $this->image = \imagecreatefromgif($file_path);
                 break;
@@ -831,10 +860,17 @@ class ImageService{
      * 创建一块画布
      * @param int $width
      * @param int $height
-     * @param bool $transparency 是否透明处理
+     * @param bool|null $transparency 是否透明处理，若为null，则会根据当前环境猜测是否需要透明
      * @return resource
      */
     protected function createCanvas($width, $height, $transparency = true){
+        if($transparency === null){
+            if($this->transparency == true || $this->getMimeType() == 'image/png'){
+                $transparency = true;
+            }else{
+                $transparency = false;
+            }
+        }
         $image = imagecreatetruecolor($width, $height);
 
         if($transparency){
@@ -881,7 +917,7 @@ class ImageService{
             imagedestroy($this->image);
         }
         
-        $this->metadata = [];
+        $this->metadata = array();
         $this->file_path = $this->width = $this->height = null;
         $this->transparency = false;
         

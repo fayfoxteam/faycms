@@ -467,21 +467,40 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
     }
     
     public function img(){
-        $image = new ImageService(10371);
-        $image
-            //->resize(100, 200)
-            //->flipHorizontal()
-            //->rotate(30)
-            //->crop(100, 100, 200, 1500)
-            //->cutHorizontal(2000)
-            //->cutVertical(200)
-            //->addBorder(array('r'=>100, 'g'=>100, 'b'=>100), 10)
-            //->fillByImage(10371)
-            //->scalesc(2)
-            //->circle(200)
-            ->merge(10371, '0, 0, 0, 0', array('center', 'center'), 60)
-            ->output('image/png')
-        ;
+        $image = new ImageTextService();
+        $image->loadFromSize(300, 500)
+            ->fill()
+            ->write(
+                '我爱北京天安门天安门前国旗升伟大领袖毛主席带领我们向前进',
+                BASEPATH . 'assets/fonts/msyh.ttc',
+                15,
+                '#FF0000',
+                array('center', 'top'),
+                array('top'=>100),
+                1.3,
+                0,
+                150
+            )
+            ->merge(10371, '0, 0, 100, 0', array('center', 'bottom'), 60)
+            ->output();
+        
+        
+        
+//        $image = new ImageService(10371);
+//        $image
+//            //->resize(100, 200)
+//            //->flipHorizontal()
+//            //->rotate(30)
+//            //->crop(100, 100, 200, 1500)
+//            //->cutHorizontal(2000)
+//            //->cutVertical(200)
+//            //->addBorder(array('r'=>100, 'g'=>100, 'b'=>100), 10)
+//            //->fillByImage(10371)
+//            //->scalesc(2)
+//            //->circle(200)
+//            ->merge(10371, '0, 0, 0, 0', array('center', 'center'), 60)
+//            ->output('image/png')
+//        ;
     }
     
     public function imgText(){

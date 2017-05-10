@@ -8,21 +8,21 @@ CREATE TABLE `{{$prefix}}exam_answers` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`),
   KEY `question` (`question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exam_question_answer_text`;
 CREATE TABLE `{{$prefix}}exam_exam_question_answer_text` (
   `exam_question_id` int(11) NOT NULL COMMENT 'Exam Question Id',
   `user_answer` text COMMENT 'User Answer',
   PRIMARY KEY (`exam_question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exam_question_answers_int`;
 CREATE TABLE `{{$prefix}}exam_exam_question_answers_int` (
   `exam_question_id` int(10) unsigned NOT NULL COMMENT 'Exam Question Id',
   `user_answer_id` mediumint(8) unsigned NOT NULL COMMENT 'User Answer Id',
   PRIMARY KEY (`exam_question_id`,`user_answer_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exams`;
 CREATE TABLE `{{$prefix}}exam_exams` (
@@ -35,7 +35,7 @@ CREATE TABLE `{{$prefix}}exam_exams` (
   `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Total Score',
   `rand` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Rand',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_exams_questions`;
 CREATE TABLE `{{$prefix}}exam_exams_questions` (
@@ -45,7 +45,7 @@ CREATE TABLE `{{$prefix}}exam_exams_questions` (
   `total_score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Total Score',
   `score` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Score',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_paper_questions`;
 CREATE TABLE `{{$prefix}}exam_paper_questions` (
@@ -55,7 +55,7 @@ CREATE TABLE `{{$prefix}}exam_paper_questions` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`paper_id`,`question_id`),
   KEY `question` (`question_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_papers`;
 CREATE TABLE `{{$prefix}}exam_papers` (
@@ -73,7 +73,7 @@ CREATE TABLE `{{$prefix}}exam_papers` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}exam_questions`;
 CREATE TABLE `{{$prefix}}exam_questions` (
@@ -88,4 +88,4 @@ CREATE TABLE `{{$prefix}}exam_questions` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};

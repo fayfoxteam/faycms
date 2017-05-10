@@ -29,7 +29,7 @@ CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值i',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_cat_props`;
 CREATE TABLE `{{$prefix}}goods_cat_props` (
@@ -44,7 +44,7 @@ CREATE TABLE `{{$prefix}}goods_cat_props` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '50' COMMENT '排序值',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_counter`;
 CREATE TABLE `{{$prefix}}goods_counter` (
@@ -58,7 +58,7 @@ CREATE TABLE `{{$prefix}}goods_counter` (
   `favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数',
   `real_favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实收藏数',
   PRIMARY KEY (`goods_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_extra`;
 CREATE TABLE `{{$prefix}}goods_extra` (
@@ -72,7 +72,7 @@ CREATE TABLE `{{$prefix}}goods_extra` (
   `sn` varchar(50) NOT NULL DEFAULT '' COMMENT '货号',
   `rich_text` text COMMENT '富文本描述',
   PRIMARY KEY (`goods_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_files`;
 CREATE TABLE `{{$prefix}}goods_files` (
@@ -82,7 +82,7 @@ CREATE TABLE `{{$prefix}}goods_files` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`goods_id`,`file_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_prop_values`;
 CREATE TABLE `{{$prefix}}goods_prop_values` (
@@ -91,7 +91,7 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
   `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值Id',
   `prop_value_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '属性别名',
   PRIMARY KEY (`goods_id`,`prop_id`,`prop_value_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
 CREATE TABLE `{{$prefix}}goods_skus` (

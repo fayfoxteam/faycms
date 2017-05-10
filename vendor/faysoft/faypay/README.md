@@ -186,7 +186,7 @@ CREATE TABLE `{{$prefix}}payments` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Deleted',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='付款方式';
 ```
 
 ### 交易记录表

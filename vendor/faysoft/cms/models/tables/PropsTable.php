@@ -3,6 +3,21 @@ namespace cms\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * Props table model
+ *
+ * @property int $id Id
+ * @property int $refer Refer
+ * @property int $type 关联类型
+ * @property string $title 属性名称
+ * @property int $element 表单元素
+ * @property int $required 必选标记
+ * @property string $alias 别名
+ * @property int $delete_time 删除时间
+ * @property int $sort 排序值
+ * @property int $create_time 创建时间
+ * @property int $is_show 是否默认显示
+ */
 class PropsTable extends Table{
     /**
      * 录入方式-文本框
@@ -82,15 +97,15 @@ class PropsTable extends Table{
         return array(
             'id'=>'Id',
             'refer'=>'Refer',
-            'type'=>'Type',
+            'type'=>'关联类型',
             'title'=>'属性名称',
-            'element'=>'Element',
+            'element'=>'表单元素',
             'required'=>'必选标记',
             'alias'=>'别名',
             'delete_time'=>'删除时间',
             'sort'=>'排序值',
             'create_time'=>'创建时间',
-            'is_show'=>'Is Show',
+            'is_show'=>'是否默认显示',
         );
     }
 

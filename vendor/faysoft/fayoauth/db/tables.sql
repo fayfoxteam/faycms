@@ -13,7 +13,7 @@ CREATE TABLE `{{$prefix}}oauth_apps` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_id` (`app_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录方式';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='第三方登录方式';
 
 DROP TABLE IF EXISTS `{{$prefix}}oauth_user_connects`;
 CREATE TABLE `{{$prefix}}user_connects` (
@@ -29,4 +29,4 @@ CREATE TABLE `{{$prefix}}user_connects` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `open_id` (`open_id`) USING BTREE,
   UNIQUE KEY `user_id-oauth_app_id` (`user_id`,`oauth_app_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='第三方登录信息';

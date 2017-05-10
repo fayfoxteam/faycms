@@ -15,7 +15,7 @@ CREATE TABLE `{{$prefix}}feeds` (
   `delete_time` tinyint(4) NOT NULL DEFAULT '0' COMMENT '删除时间',
   `address` varchar(500) NOT NULL DEFAULT '' COMMENT '地址',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态表';
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='动态表';
 
 DROP TABLE IF EXISTS `{{$prefix}}feeds_files`;
 CREATE TABLE `{{$prefix}}feeds_files` (
@@ -24,11 +24,11 @@ CREATE TABLE `{{$prefix}}feeds_files` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`feed_id`,`file_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态图片';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='动态图片';
 
 DROP TABLE IF EXISTS `{{$prefix}}feeds_tags`;
 CREATE TABLE `{{$prefix}}feeds_tags` (
   `feed_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
   PRIMARY KEY (`feed_id`,`tag_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='动态标签关联关系';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='动态标签关联关系';

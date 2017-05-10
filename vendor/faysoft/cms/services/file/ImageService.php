@@ -2,7 +2,6 @@
 namespace cms\services\file;
 
 use cms\models\tables\FilesTable;
-use cms\services\OptionService;
 use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
 
@@ -83,9 +82,6 @@ class ImageService{
                 $this->autoOrientate();
             }
         }
-        
-        //初始化图片质量
-        $this->quality = OptionService::get('system:image_quality', $this->quality);
     }
     
     /**
@@ -594,6 +590,19 @@ class ImageService{
      */
     public function getTransparency(){
         return $this->transparency;
+    }
+
+    /**
+     * @param int $quality
+     * @return $this
+     * @throws FileErrorException
+     */
+    public function setQuality($quality){
+        if(!is_int($quality) || $quality > 100 || $quality < 0){
+            throw new FileErrorException("[{$quality}]取值非法，quality必须是大于0且小于100的整数");
+        }
+        $this->quality = $quality;
+        return $this;
     }
 
     /**

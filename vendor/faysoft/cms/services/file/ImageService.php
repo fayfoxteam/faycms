@@ -524,6 +524,34 @@ class ImageService{
     }
 
     /**
+     * 弹出下载
+     * @param string $filename 下载文件名
+     * @param string $mime_type
+     */
+    public function download($filename, $mime_type = ''){
+        ob_start();
+        $this->generate($mime_type);
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header("Content-Transfer-Encoding: binary");
+            header('Pragma: public');
+            header("Content-Length: ".strlen($content));
+        }else{
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+            header("Content-Transfer-Encoding: binary");
+            header('Expires: 0');
+            header('Pragma: no-cache');
+            header("Content-Length: ".strlen($content));
+        }
+        die($content);
+    }
+
+    /**
      * 获取指定文件的meta信息
      * @param $filename
      * @return array

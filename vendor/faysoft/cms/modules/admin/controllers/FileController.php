@@ -713,9 +713,9 @@ class FileController extends AdminController{
             $text = $this->form()->getData('text', 'faycms.com');
             $image->write(
                 $text,
-                BASEPATH . 'assets/fonts/msyh.ttc',
                 $this->form()->getData('size', 20),
                 $this->form()->getData('color', '#FFFFFF'),
+                BASEPATH . 'assets/fonts/msyh.ttc',
                 $align,
                 $margin,
                 $this->form()->getData('line_height', 1.3),

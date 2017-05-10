@@ -472,9 +472,9 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
             //->fill()
             ->write(
                 '我爱北京天安门天安门前国旗升伟大领袖毛主席带领我们向前进',
-                BASEPATH . 'assets/fonts/msyh.ttc',
                 15,
                 '#FF0000',
+                BASEPATH . 'assets/fonts/msyh.ttc',
                 array('center', 'top'),
                 array('top'=>100),
                 1.3,

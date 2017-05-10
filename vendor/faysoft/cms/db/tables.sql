@@ -519,11 +519,13 @@ CREATE TABLE `{{$prefix}}props` (
 
 DROP TABLE IF EXISTS `{{$prefix}}props_refers`;
 CREATE TABLE `{{$prefix}}props_refers` (
-  `id` int(11) NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `refer` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `is_final` tinyint(1) NOT NULL DEFAULT '1' COMMENT '当引用存在父子关系时，子节点是否继承此属性',
-  PRIMARY KEY (`id`)
+  `is_share` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否与关联引用共享属性',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
+  PRIMARY KEY (`id`),
+  KEY `refer` (`refer`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='属性引用关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;

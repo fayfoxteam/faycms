@@ -71,7 +71,10 @@ class PostPropService extends PropModel{
      * @return array
      */
     public function getPropsByCat($cat){
-        return $this->getByRefer(CategoryService::service()->getParentIds($cat, '_system_post'));
+        $cat = CategoryService::service()->get($cat, 'id,left_value,right_value');
+        $parents = CategoryService::service()->getParentIds($cat, '_system_post', false);
+        
+        return $this->getByRefer($cat['id'], $parents);
     }
     
     /**

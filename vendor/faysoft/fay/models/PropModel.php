@@ -1,9 +1,9 @@
 <?php
 namespace fay\models;
 
+use cms\models\tables\PropsRefersTable;
 use fay\core\ErrorException;
 use fay\core\Model;
-use fay\helpers\FieldHelper;
 use cms\models\tables\PropsTable;
 use cms\models\tables\PropValuesTable;
 use fay\core\Sql;
@@ -164,77 +164,100 @@ abstract class PropModel extends Model{
         
         return $prop;
     }
-    
+
     /**
      * 根据引用（例如：文章分类ID，用户角色ID）获取多个属性
-     * @param int|array $refer 引用ID或引用ID构成的一维数组
+     * @param int|array $refer 引用ID或引用ID构成的一维数组（若$refer为空而$parent_refers非空，不会进行搜索，直接返回空数组）
+     * @param array $parent_refers 非直接引用，仅搜索is_share为1的属性
      * @param bool $with_values 若为true，则附加属性可选值。默认为true
      * @return array
      */
-    public function getByRefer($refer, $with_values = true){
+    public function getByRefer($refer, array $parent_refers = array(), $with_values = true){
         if(StringHelper::isInt($refer)){
-            //获取单个属性
-            $props = PropsTable::model()->fetchAll(array(
+            $conditions = array(
                 'refer = ?'=>$refer,
-                'type = ' . $this->type,
-                'delete_time = 0',
-            ), 'id,title,type,required,element,alias', 'sort, id');
-        }else if(!empty($refer)){
-            //一次获取多个属性
-            $props = PropsTable::model()->fetchAll(array(
-                'refer IN (?)'=>$refer,
-                'type = ' . $this->type,
-                'delete_time = 0',
-            ), 'id,title,type,required,element,alias', 'sort, id');
+            );
+        }else if($refer){
+            $conditions = array(
+                'refer IN (?)'=>$refer
+            );
         }else{
             return array();
         }
         
-        //附加属性可选值
-        if($with_values && $props){
-            $props = $this->addValues($props);
+        if($parent_refers){
+            $conditions = array(
+                'or'=>array(
+                    'and'=>$conditions,
+                    'And'=>array(
+                        'refer IN (?)'=>$parent_refers,
+                        'is_share = 1',
+                    )
+                )
+            );
         }
         
-        return $props;
+        //这个搜索没有限定type，所以实际上会搜出其他type id重复的记录，但是后面的mget限定了type，所以最终结果并不会错
+        //如果在这一步就要判断type的话，就需要连表了，感觉还是现在这样处理更高效一些
+        $prop_ids = PropsRefersTable::model()->fetchCol('prop_id', $conditions, 'sort,id');
+        
+        return $this->mget($prop_ids, $with_values, true);
     }
-    
+
     /**
      * 获取一个或多个别名对应的属性
-     * @param array|string $fields 属性别名或ID构成的一维数组或逗号分割字符串
+     * @param array|string $values 属性别名或ID构成的一维数组或逗号分割字符串
      *  以第一项为判断依据
      *   - 若第一项是数字，视为id
      *   - 若第一项不是数字，视为别名
      * @param bool $with_values 若为true，则附加属性可选值。默认为true
+     * @param bool $sort 是否根据$values顺序返回结果
      * @return array
      */
-    public function mget($fields, $with_values = true){
-        $fields = FieldHelper::parse($fields);
+    public function mget($values, $with_values = true, $sort = false){
+        if(!$values){
+            return array();
+        }
+        if(!is_array($values)){
+            $values = explode(',', $values);
+        }
         
-        if(StringHelper::isInt($fields['fields'][0])){
+        if(StringHelper::isInt($values[0])){
             $field = 'id';
         }else{
             $field = 'alias';
         }
         
-        if(isset($fields['fields'][1])){
+        if(isset($values[1])){
             //如果有多项，搜索条件用IN
             $props = PropsTable::model()->fetchAll(array(
-                "{$field} IN (?)"=>$fields['fields'],
+                "{$field} IN (?)"=>$values,
                 'type = ' . $this->type,
                 'delete_time = 0',
-            ), 'id,title,type,required,element,alias', 'sort,id');
+            ), 'id,title,type,required,element,alias');
         }else{
             //如果只有一项，搜索条件直接用等于
             $props = PropsTable::model()->fetchAll(array(
-                "{$field} = ?"=>$fields['fields'][0],
+                "{$field} = ?"=>$values[0],
                 'type = ' . $this->type,
                 'delete_time = 0',
-            ), 'id,title,type,required,element,alias', 'sort,id');
+            ), 'id,title,type,required,element,alias');
         }
         
         if($with_values && $props){
             //附加属性可选值
-            $props = $this->addValues($props);
+            $this->assembleValues($props);
+        }
+        
+        //根据$values传入顺序排序
+        if($sort){
+            $prop_map = ArrayHelper::column($props, null, $field);
+            $props = array();
+            foreach($values as $value){
+                if(isset($prop_map[$value])){
+                    $props[] = $prop_map[$value];
+                }
+            }
         }
         
         return $props;
@@ -245,7 +268,7 @@ abstract class PropModel extends Model{
      * @param array $props
      * @return array
      */
-    private function addValues($props){
+    private function assembleValues(&$props){
         //获取属性对应的可选属性值
         $prop_ids = ArrayHelper::column($props, 'id');
         if(isset($prop_ids[1])){

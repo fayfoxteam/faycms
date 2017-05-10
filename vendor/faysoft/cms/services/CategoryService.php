@@ -410,7 +410,7 @@ class CategoryService extends TreeModel{
         
         return parent::getParentIds($cat, $root);
     }
-    
+
     /**
      * 获取指定节点的祖先节点的ID，以一位数组方式返回（包含指定节点ID）
      * 若root为null，则会一直追溯到根节点，否则追溯到root为止
@@ -420,9 +420,10 @@ class CategoryService extends TreeModel{
      *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
      * @param int|string|array $cat
      * @param int|string|array $root
+     * @param bool $with_own 是否包含当前节点返回
      * @return array
      */
-    public function getParentIds($cat, $root = null){
+    public function getParentIds($cat, $root = null, $with_own = true){
         if(!is_array($cat)){
             $cat = $this->get($cat, 'left_value,right_value');
         }
@@ -431,7 +432,7 @@ class CategoryService extends TreeModel{
             $root = $this->get($root, 'left_value,right_value');
         }
         
-        return parent::getParentIds($cat, $root);
+        return parent::getParentIds($cat, $root, $with_own);
     }
     
     /**

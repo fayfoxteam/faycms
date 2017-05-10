@@ -204,18 +204,17 @@ class Uri{
     /**
      * Cli方式运行
      * 命令格式如下：
-     * php /var/www/html/fayfox.com/test/public/index.php tools/function/log text=console;
-     * php 文件路径 router 参数
+     * php /var/www/html/faycms.com/www/public/index.php cms/tools/input/get key=value ajax=1;
+     * php 文件路径 router 参数（多个参数空格隔开）
+     * 注意：cli方式运行，router必须是4级
      */
     private function _parseCliArgs(){
         //第一个参数是路由信息
         $router = explode('/', $_SERVER['argv'][1]);
-        $modules = array_merge(array('admin', 'tools', 'install', 'api'), \F::config()->get('modules'));
-        if(in_array($router[0], $modules)){
-            $this->_setRouter($router[0], isset($router[1]) ? $router[1] : null, isset($router[2]) ? $router[2] : null);
-        }else{
-            $this->_setRouter(null, $router[0], isset($router[1]) ? $router[1] : null);
+        if(count($router) != 4){
+            die('Cli路由参数错误');
         }
+        $this->_setRouter($router[1], $router[2], $router[3], $router[0]);
         
         $args = array_slice($_SERVER['argv'], 2);
         $params_uri = implode('&', $args);

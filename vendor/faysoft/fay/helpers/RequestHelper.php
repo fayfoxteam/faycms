@@ -275,7 +275,14 @@ class RequestHelper{
      * @return bool
      */
     public static function isIE($user_agent = null){
-        $user_agent === null && $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if($user_agent === null){
+            if(empty($_SERVER['HTTP_USER_AGENT'])){
+                return false;
+            }else{
+                $user_agent = $_SERVER['HTTP_USER_AGENT'];
+            }
+        }
+        
         return !!(preg_match('/MSIE ([\d\.]+)/i', $user_agent) || preg_match('/rv:([\d\.]+)\) like gecko/i', $user_agent));
     }
 }

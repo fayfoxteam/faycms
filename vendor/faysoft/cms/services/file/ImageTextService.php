@@ -8,9 +8,9 @@ class ImageTextService extends ImageService{
     /**
      * 在图片上写文本
      * @param string $text 文本
-     * @param string $font_file 字体文件路径
-     * @param int $size 字体大小
-     * @param array|string $color 颜色
+     * @param int $size 字体大小（默认为：20）
+     * @param array|string $color 颜色（默认为：黑色）
+     * @param string $font_file 字体文件路径（默认为：项目中自带的微软雅黑）
      * @param array $text_align 文本对齐方式
      *  - 第一个值是水平位置，取值（left, center, right）
      *  - 第二个值是垂直位置，取值（top, center, bottom）
@@ -25,16 +25,11 @@ class ImageTextService extends ImageService{
      */
     public function write(
         $text,
-        $font_file,
-        $size,
-        $color,
+        $size = 20,
+        $color = '#000000',
+        $font_file = BASEPATH . 'assets/fonts/msyh.ttc',
         $text_align = array('left', 'left'),
-        $margin = array(
-            'top'=>0,
-            'right'=>0,
-            'bottom'=>0,
-            'left'=>0,
-        ),
+        $margin = 10,
         $line_height = 1.3,
         $lines = 0,
         $max_width = 0,

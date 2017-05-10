@@ -723,6 +723,13 @@ class ImageService{
     protected function formatMargin($margin){
         if(is_string($margin)){
             $margin = explode(',', str_replace(' ', '', $margin));
+        }else if(is_int($margin)){
+            return array(
+                'top'=>$margin,
+                'right'=>$margin,
+                'bottom'=>$margin,
+                'left'=>$margin,
+            );
         }
         
         if(!is_array($margin)){

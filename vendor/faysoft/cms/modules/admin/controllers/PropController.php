@@ -25,7 +25,7 @@ class PropController extends AdminController{
     }
     
     public function index(){
-        $this->layout->subtitle = '添加属性';
+        $this->layout->subtitle = '添加自定义属性';
 
         $this->_setListview();
         $this->view->render();
@@ -56,7 +56,7 @@ class PropController extends AdminController{
         unset($gets['id']);
         $this->layout->sublink = array(
             'uri'=>array('cms/admin/props/index', $gets),
-            'text'=>'添加属性',
+            'text'=>'添加自定义属性',
         );
 
         $prop_id = $this->input->get('id', 'intval');
@@ -75,10 +75,10 @@ class PropController extends AdminController{
         }
 
         $prop = PropService::service()->get($prop_id);
-        $this->layout->subtitle = '编辑属性 - ' . $prop['title'];
+        $this->layout->subtitle = '编辑自定义属性 - ' . $prop['title'];
 
         if(!$prop){
-            throw new HttpException('所选文章分类属性不存在');
+            throw new HttpException('所选自定义属性不存在');
         }
         $this->form()->setData($prop);
         $this->view->prop = $prop;
@@ -93,7 +93,7 @@ class PropController extends AdminController{
         PropService::service()->delete($id);
 
         //不能直接回到上一页，因为可能处在编辑状态
-        Response::notify('success', '一个文章分类属性被删除', array('cms/admin/prop/index'));
+        Response::notify('success', '一个自定义属性被删除', array('cms/admin/prop/index'));
     }
     
     public function undelete(){

@@ -70,8 +70,8 @@ class PropsTable extends Table{
     protected $_name = 'props';
 
     public static $type_map = array(
-        self::TYPE_POST_CAT => '文章分类属性',
-        self::TYPE_ROLE => '角色附加属性',
+        self::TYPE_POST_CAT => '文章',
+        self::TYPE_ROLE => '角色',
     );
     
     public static $element_map = array(

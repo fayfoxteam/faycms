@@ -29,7 +29,13 @@ use fay\helpers\HtmlHelper;
     ), 100)?>
 </div>
 <div class="form-field">
-    <label class="title bold">类型</label>
+    <label class="title bold">用途</label>
+    <?php echo F::form()->select('type', array(
+        'class'=>'form-control mw150',
+    ), 100)?>
+</div>
+<div class="form-field">
+    <label class="title bold">表单元素</label>
     <?php
     echo F::form()->inputRadio('element', PropsTable::ELEMENT_TEXT, array(
         'label'=>'输入框',

@@ -131,4 +131,19 @@ class PropsTable extends Table{
             'is_show'=>'intval',
         );
     }
+
+    public function getNotWritableFields($scene){
+        switch($scene){
+            case 'insert':
+                return array('id');
+                break;
+            case 'update':
+                return array(
+                    'id', 'create_time', 'delete_time', 'type'//用途不允许修改，改掉的话老数据就很难处理了
+                );
+                break;
+            default:
+                return array();
+        }
+    }
 }

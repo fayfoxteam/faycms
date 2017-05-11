@@ -23,16 +23,17 @@ use fay\helpers\HtmlHelper;
     ))?>
 </div>
 <div class="form-field">
-    <label class="title bold">排序值</label>
-    <?php echo F::form()->inputText('sort', array(
-        'class'=>'form-control mw150',
-    ), 100)?>
-</div>
-<div class="form-field">
     <label class="title bold">用途</label>
-    <?php echo F::form()->select('type', PropsTable::$type_map, array(
-        'class'=>'form-control mw150',
-    ))?>
+    <?php
+    if(F::form()->getData('type')){
+        echo PropsTable::$type_map[F::form()->getData('type')];
+    }else{
+        echo F::form()->select('type', PropsTable::$type_map, array(
+            'class'=>'form-control mw200 ib',
+        ));
+    }
+    ?>
+    <span>（创建完成后不可修改）</span>
 </div>
 <div class="form-field">
     <label class="title bold">表单元素</label>

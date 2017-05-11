@@ -8,6 +8,7 @@ use fay\core\HttpException;
 use fay\core\Response;
 use cms\models\tables\PropsTable;
 use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 
 /**
  * 通用分类属性
@@ -26,6 +27,9 @@ class PropController extends AdminController{
     
     public function index(){
         $this->layout->subtitle = '添加自定义属性';
+
+        //表单验证
+        $this->form()->setModel(PropsTable::model());
 
         $this->_setListview();
         $this->view->render();
@@ -87,17 +91,33 @@ class PropController extends AdminController{
         $this->_setListview();
         $this->view->render();
     }
-    
+
+    /**
+     * 删除属性
+     * @parameter int $id
+     */
     public function delete(){
         $id = $this->input->get('id', 'intval');
         PropService::service()->delete($id);
 
         //不能直接回到上一页，因为可能处在编辑状态
-        Response::notify('success', '一个自定义属性被删除', array('cms/admin/prop/index'));
+        Response::notify(
+            'success',
+            '一个自定义属性被删除' . HtmlHelper::link('还原', array('cms/admin/prop/undelete', array(
+                'id'=>$id,
+            )), array('class'=>'ml5'), true),
+            array('cms/admin/prop/index'));
     }
-    
+
+    /**
+     * 还原属性
+     * @parameter int $id
+     */
     public function undelete(){
-        
+        $id = $this->input->get('id', 'intval');
+        PropService::service()->undelete($id);
+
+        Response::notify('success', '一个自定义属性被还原');
     }
 
     /**
@@ -106,6 +126,7 @@ class PropController extends AdminController{
     private function _setListview(){
         $sql = new Sql();
         $sql->from(array('p'=>'props'))
+            ->where('delete_time = 0')
             ->order('p.id DESC');
         
         $this->view->listview = new ListView($sql, array(

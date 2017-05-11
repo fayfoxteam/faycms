@@ -4,6 +4,7 @@ namespace cms\services;
 use cms\models\tables\PropsTable;
 use cms\models\tables\PropValuesTable;
 use fay\core\ErrorException;
+use fay\core\HttpException;
 use fay\core\Service;
 
 class PropService extends Service{
@@ -106,8 +107,14 @@ class PropService extends Service{
     /**
      * 删除自定义属性
      * @param int $id
+     * @throws HttpException
      */
     public function delete($id){
+        $prop = PropsTable::model()->find($id, 'delete_time');
+        if(!$prop || $prop['delete_time']){
+            throw new HttpException("指定属性ID[{$id}]不存在或已删除", 404, 'prop_id-is-not-exist');
+        }
+        
         PropsTable::model()->update(array(
             'delete_time'=>\F::app()->current_time,
         ), $id);
@@ -116,8 +123,14 @@ class PropService extends Service{
     /**
      * 还原自定义属性
      * @param int $id
+     * @throws HttpException
      */
     public function undelete($id){
+        $prop = PropsTable::model()->find($id, 'delete_time');
+        if(!$prop || !$prop['delete_time']){
+            throw new HttpException("指定属性ID[{$id}]不存在或未删除", 404, 'prop_id-is-not-exist');
+        }
+        
         PropsTable::model()->update(array(
             'delete_time'=>0,
         ), $id);

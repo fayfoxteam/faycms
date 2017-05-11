@@ -55,7 +55,7 @@ class PropController extends AdminController{
         $gets = $this->input->get();
         unset($gets['id']);
         $this->layout->sublink = array(
-            'uri'=>array('cms/admin/props/index', $gets),
+            'uri'=>array('cms/admin/prop/index', $gets),
             'text'=>'添加自定义属性',
         );
 

@@ -8,7 +8,7 @@
         <?php echo F::form()->open()?>
             <?php $this->renderPartial('_edit_panel');?>
             <div class="form-field">
-                <?php echo F::form()->submitLink('修改权限', array(
+                <?php echo F::form()->submitLink('提交修改', array(
                     'class'=>'btn',
                 ))?>
             </div>

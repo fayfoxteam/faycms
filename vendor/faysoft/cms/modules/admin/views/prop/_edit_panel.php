@@ -30,9 +30,9 @@ use fay\helpers\HtmlHelper;
 </div>
 <div class="form-field">
     <label class="title bold">用途</label>
-    <?php echo F::form()->select('type', array(
+    <?php echo F::form()->select('type', PropsTable::$type_map, array(
         'class'=>'form-control mw150',
-    ), 100)?>
+    ))?>
 </div>
 <div class="form-field">
     <label class="title bold">表单元素</label>

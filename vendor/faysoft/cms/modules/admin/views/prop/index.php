@@ -5,10 +5,10 @@
 ?>
 <div class="row">
     <div class="col-5">
-        <?php echo F::form()->open(array('cms/admin/action/create'))?>
+        <?php echo F::form()->open(array('cms/admin/prop/create'))?>
             <?php $this->renderPartial('_edit_panel');?>
             <div class="form-field">
-                <?php echo F::form()->submitLink('添加权限', array(
+                <?php echo F::form()->submitLink('创建自定义属性', array(
                     'class'=>'btn',
                 ))?>
             </div>

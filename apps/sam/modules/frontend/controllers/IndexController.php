@@ -36,9 +36,9 @@ class IndexController extends Controller{
         $image
             //访客数
             ->write($visits, $font_size, $color, '413,0,0,391')
-            ->write(intval($visits * 0.6732), $font_size, $color, '466,0,0,391')
-            ->write(intval($visits * 0.1981), $font_size, $color, '519,0,0,391')
-            ->write(intval($visits * 0.1287), $font_size, $color, '572,0,0,391')
+            ->write(round($visits * 0.6732), $font_size, $color, '466,0,0,391')
+            ->write(round($visits * 0.1981), $font_size, $color, '519,0,0,391')
+            ->write(round($visits * 0.1287), $font_size, $color, '572,0,0,391')
             //访客数增长率
             ->write(number_format($visit_percent, 2, '.', '') . '%', $font_size, $color, '413,0,0,492')
             ->write(number_format($visit_percent * 2.36, 2, '.', '') . '%', $font_size, $color, '466,0,0,492')
@@ -86,7 +86,7 @@ class IndexController extends Controller{
             ->merge($watermark, '235,0,0,400', array('left', 'top'))
             ->merge($watermark, '158,0,0,690', array('left', 'top'))
             //店名
-            ->write($store_name, 12, '#ffffff', '32,28,0,1076', 'assets/fonts/msyh.ttc', array('left', 'top'), 1, 1)
+            ->write($store_name, 12, '#ffffff', '30,28,0,1076', 'assets/fonts/msyh.ttc', array('left', 'top'), 1, 1)
         ;
         if($this->input->get('download')){
             $image->download(StringHelper::random('uuid').'.png');

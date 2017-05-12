@@ -40,8 +40,12 @@ use fay\helpers\HtmlHelper;
                         <td><input type="text" name="visit_percent">%</td>
                     </tr>
                     <tr>
+                        <th>下单买家增长比</th>
+                        <td><input type="text" name="buyer_percent">%</td>
+                    </tr>
+                    <tr>
                         <th>下单转化率</th>
-                        <td><input type="text" name="pay_percent">%</td>
+                        <td><input type="text" name="conversion">%</td>
                     </tr>
                     <tr>
                         <th>转化率增长比</th>
@@ -54,6 +58,10 @@ use fay\helpers\HtmlHelper;
                     <tr>
                         <th>结束时间</th>
                         <td><input type="text" name="end_time" onfocus="WdatePicker()"></td>
+                    </tr>
+                    <tr>
+                        <th>店铺名称</th>
+                        <td><input type="text" name="store_name"></td>
                     </tr>
                     <tr>
                         <th colspan="2">

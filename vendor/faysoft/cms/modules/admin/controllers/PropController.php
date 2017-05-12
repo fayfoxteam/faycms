@@ -71,9 +71,8 @@ class PropController extends AdminController{
             isset($prop['required']) || $prop['required'] = 0;
 
             $prop_values = $this->input->post('prop_values', array());
-            $ids = $this->input->post('ids', 'intval', array('-1'));
 
-            PropService::service()->update($prop_id, $prop, $prop_values, $ids);
+            PropService::service()->update($prop_id, $prop, $prop_values);
 
             Response::notify('success', '文章分类属性编辑成功', false);
         }

@@ -1,6 +1,5 @@
 <?php
 use cms\models\tables\PropsTable;
-use fay\helpers\HtmlHelper;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <div class="form-field">
@@ -77,11 +76,10 @@ use fay\helpers\HtmlHelper;
         <?php if(isset($prop['values']) && is_array($prop['values'])){?>
             <?php foreach($prop['values'] as $pv){?>
                 <div class="dragsort-item">
-                    <?php echo HtmlHelper::inputHidden('ids[]', $pv['id'])?>
                     <a class="dragsort-rm" href="javascript:"></a>
                     <a class="dragsort-item-selector"></a>
                     <div class="dragsort-item-container">
-                        <?php echo F::form()->inputText("prop_values[]", array(
+                        <?php echo F::form()->inputText("prop_values[{$pv['id']}]", array(
                             'data-rule'=>'string',
                             'data-params'=>'{max:255}',
                             'data-label'=>'属性值',
@@ -105,11 +103,10 @@ $(function(){
             return false;
         }
         $propList.append(['<div class="dragsort-item hide">',
-            '<input type="hidden" name="ids[]" value="" />',
             '<a class="dragsort-rm" href="javascript:"></a>',
             '<a class="dragsort-item-selector"></a>',
             '<div class="dragsort-item-container">',
-                '<input type="text" name="prop_values[]" value="'+system.encode($propTitle.val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" class="form-control" />',
+                '<input type="text" name="prop_values[new', $propList.find('.dragsort-item').length + 1, ']" value="'+system.encode($propTitle.val())+'" data-label="属性值" data-rule="string" data-params="{max:255}" class="form-control" />',
             '</div>',
         '</div>'].join(''));
         $propList.find('.dragsort-item:last').fadeIn();

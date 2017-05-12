@@ -6,6 +6,7 @@ use cms\models\tables\PropValuesTable;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Service;
+use fay\helpers\NumberHelper;
 
 class PropService extends Service{
     /**
@@ -62,11 +63,8 @@ class PropService extends Service{
      * @param int $prop_id 属性ID
      * @param array $prop 属性参数
      * @param array $values 属性值
-     * @param array $ids 原属性ID数组，键值为空表示新增值
      */
-    public function update($prop_id, $prop, $values = array(), $ids = array()){
-        $old_ids = array_filter($ids);
-        $old_ids || $old_ids = array('-1');
+    public function update($prop_id, $prop, $values = array()){
 
         PropsTable::model()->update($prop, $prop_id, true);
 
@@ -75,7 +73,7 @@ class PropService extends Service{
             'delete_time'=>\F::app()->current_time,
         ),array(
             'prop_id = ?'=>$prop_id,
-            'id NOT IN ('.implode(',', $old_ids).')',
+            'id NOT IN (?)'=>array_keys($values),
         ));
         //设置属性值
         if(in_array($prop['element'], array(
@@ -86,14 +84,16 @@ class PropService extends Service{
             $i = 0;
             foreach($values as $k => $v){
                 $i++;
-                if(!empty($ids[$k])){
+                if(NumberHelper::isInt($k) && PropValuesTable::model()->find($k, 'id')){
+                    //若键是数字，且对应id存在，则更新
                     PropValuesTable::model()->update(array(
                         'title'=>$v,
                         'sort'=>$i,
                     ), array(
-                        'id = ?'=>$ids[$k],
+                        'id = ?'=>$k,
                     ));
                 }else{
+                    //插入
                     PropValuesTable::model()->insert(array(
                         'prop_id'=>$prop_id,
                         'title'=>$v,

@@ -28,7 +28,7 @@ class ImageTextService extends ImageService{
         $size = 20,
         $color = '#000000',
         $margin = 10,
-        $font_file = 'assets/fonts/msyh.ttc',
+        $font_file = 'assets/fonts/msyh.ttf',
         $text_align = array('left', 'left'),
         $line_height = 1.3,
         $lines = 0,

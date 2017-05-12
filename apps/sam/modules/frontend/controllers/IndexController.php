@@ -86,7 +86,7 @@ class IndexController extends Controller{
             ->merge($watermark, '235,0,0,400', array('left', 'top'))
             ->merge($watermark, '158,0,0,690', array('left', 'top'))
             //店名
-            ->write($store_name, 12, '#ffffff', '30,28,0,1076', 'assets/fonts/msyh.ttc', array('left', 'top'), 1, 1)
+            ->write($store_name, 12, '#ffffff', '30,28,0,1076', 'assets/fonts/msyh.ttf', array('left', 'top'), 1, 1)
         ;
         if($this->input->get('download')){
             $image->download(StringHelper::random('uuid').'.png');

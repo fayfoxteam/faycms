@@ -2,7 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\services\PropService;
+use cms\services\prop\PropService;
 use fay\common\ListView;
 use fay\core\HttpException;
 use fay\core\Response;
@@ -11,7 +11,7 @@ use fay\core\Sql;
 use fay\helpers\HtmlHelper;
 
 /**
- * 通用分类属性
+ * 自定义属性
  */
 class PropController extends AdminController{
     public function isAliasNotExist(){

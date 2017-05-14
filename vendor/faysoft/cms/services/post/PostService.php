@@ -1,6 +1,8 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\PropsTable;
+use cms\services\prop\PropService;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -219,7 +221,7 @@ class PostService extends Service{
         
         //设置属性
         if(isset($extra['props'])){
-            $this->createPropertySet($post_id, $extra['props']);
+            PostPropService::service()->createPropSet($post_id, $extra['props']);
         }
         
         if($post_status == PostsTable::STATUS_PUBLISHED){
@@ -370,7 +372,7 @@ class PostService extends Service{
         
         //附加属性
         if(isset($extra['props'])){
-            $this->updatePropertySet($post_id, $extra['props']);
+            PostPropService::service()->updatePropSet($post_id, $extra['props']);
         }
         
         //触发事件
@@ -385,32 +387,6 @@ class PostService extends Service{
         }
         
         return true;
-    }
-    
-    /**
-     * 新增一个文章属性集
-     * @param int $post_id 文章ID
-     * @param array $data 以属性ID为键的属性键值数组
-     * @param null|array $props 属性。若为null，则根据文章ID获取属性
-     */
-    public function createPropertySet($post_id, $data, $props = null){
-        if($props === null){
-            $props = PostPropService::service()->getProps($post_id);
-        }
-        PostPropService::service()->createPropertySet($post_id, $props, $data);
-    }
-    
-    /**
-     * 更新一个文章属性集
-     * @param int $post_id 文章ID
-     * @param array $data 以属性ID为键的属性键值数组
-     * @param null|array $props 属性。若为null，则根据文章ID获取属性
-     */
-    public function updatePropertySet($post_id, $data, $props = null){
-        if($props === null){
-            $props = PostPropService::service()->getProps($post_id);
-        }
-        PostPropService::service()->updatePropertySet($post_id, $props, $data);
     }
     
     /**
@@ -713,9 +689,9 @@ class PostService extends Service{
             if(in_array('*', $fields['props']['fields'])){
                 $props = null;
             }else{
-                $props = PostPropService::service()->mget($fields['props']);
+                $props = PropService::service()->mget($fields['props']['fields'], PropsTable::USAGE_POST_CAT);
             }
-            $return['props'] = PostPropService::service()->getPropertySet($id, $props);
+            $return['props'] = PostPropService::service()->getPropSet($id, $props);
         }
         
         //附加分类
@@ -870,7 +846,7 @@ class PostService extends Service{
      */
     public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $fields = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
         if(!StringHelper::isInt($prop)){
-            $prop = PostPropService::service()->getIdByAlias($prop);
+            $prop = PropService::service()->getIdByAlias($prop);
         }
         $sql = new Sql();
         $sql->from(array('p'=>'posts'), $fields)

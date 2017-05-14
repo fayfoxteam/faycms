@@ -112,4 +112,75 @@ class PostPropService extends Service implements PropUsageInterface{
             $posts[$k] = $p;
         }
     }
+
+    /**
+     * 根据分类id，获取所有相关属性
+     * @param int $cat_id
+     * @return array
+     */
+    public function getPropsByCatId($cat_id){
+        $parents = CategoryService::service()->getParentIds($cat_id, '_system_post', false);
+        
+        return PropService::service()->getPropsByUsage($cat_id, PropsTable::USAGE_POST_CAT, $parents);
+    }
+
+    /**
+     * 根据文章id，获取所有相关属性
+     * @param int $post_id
+     * @return array
+     * @throws ErrorException
+     */
+    public function getPropsByPostId($post_id){
+        $post = PostsTable::model()->find($post_id, 'cat_id');
+        if(!$post){
+            throw new ErrorException("指定文章ID[{$post_id}]不存在");
+        }
+        
+        return $this->getPropsByCatId($post['cat_id']);
+    }
+
+    /**
+     * 获取指定文章的属性集
+     * @param int $post_id
+     * @param null|array $props
+     * @return array
+     */
+    public function getPropSet($post_id, $props = null){
+        return $this->getItemProp($post_id)->getPropSet($props);
+    }
+
+    /**
+     * 创建属性集
+     * @param int $post_id
+     * @param array $data
+     * @param null|array $props 若指定$props则只创建指定的属性，否则根据文章id，创建全部属性
+     */
+    public function createPropSet($post_id, $data, $props = null){
+        if($props === null){
+            $props = $this->getPropsByPostId($post_id);
+        }
+        $this->getItemProp($post_id)->createPropSet($props, $data);
+    }
+
+    /**
+     * 更新属性集
+     * @param int $post_id
+     * @param array $data
+     * @param null|array $props 若指定$props则只更新指定的属性，否则根据文章id，更新全部属性
+     */
+    public function updatePropSet($post_id, $data, $props = null){
+        if($props === null){
+            $props = PostPropService::service()->getPropsByPostId($post_id);
+        }
+        $this->getItemProp($post_id)->updatePropSet($props, $data);
+    }
+
+    /**
+     * 获取文章属性类实例
+     * @param int $post_id
+     * @return ItemPropService
+     */
+    protected function getItemProp($post_id){
+        return new ItemPropService($post_id, $this);
+    }
 }

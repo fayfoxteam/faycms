@@ -159,7 +159,7 @@ class PostController extends AdminController{
         }
         
         //设置附加属性
-        $this->view->prop_set = PostPropService::service()->getPropsByCat($cat_id);
+        $this->view->prop_set = PostPropService::service()->getPropsByCatId($cat_id);
         
         $this->form()->setData(array(
             'cat_id'=>$cat_id,
@@ -545,7 +545,7 @@ class PostController extends AdminController{
         $this->view->post = $post;
         
         //附加属性
-        $this->view->prop_set = PostPropService::service()->getPropertySet($post['id']);
+        $this->view->prop_set = PostPropService::service()->getPropSet($post['id']);
         
         $cat = CategoryService::service()->get($post['cat_id'], 'title');
         $this->layout->subtitle = '编辑文章- 所属分类：'.$cat['title'];
@@ -651,9 +651,9 @@ class PostController extends AdminController{
         $post_id = $this->input->get('post_id', 'intval');
         
         //文章对应附加属性值
-        $props = PostPropService::service()->getPropsByCat($cat_id);
+        $props = PostPropService::service()->getPropsByCatId($cat_id);
         if(!empty($props) && $post_id){
-            $prop_set = PostPropService::service()->getPropertySet($post_id, $props);
+            $prop_set = PostPropService::service()->getPropSet($post_id, $props);
         }else{
             $prop_set = $props;
         }

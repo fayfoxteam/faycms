@@ -52,7 +52,7 @@ class ItemPropService{
      * @param array $props 属性集合
      * @param array $data 属性值，以属性集合的id为键的数组
      */
-    public function createPropertySet($props, $data){
+    public function createPropSet($props, $data){
         foreach($props as $prop){
             $this->getElement($prop['element'])->create(
                 $this->relation_id,

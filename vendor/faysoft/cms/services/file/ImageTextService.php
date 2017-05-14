@@ -14,7 +14,7 @@ class ImageTextService extends ImageService{
      * @param array $text_align 文本对齐方式
      *  - 第一个值是水平位置，取值（left, center, right）
      *  - 第二个值是垂直位置，取值（top, center, bottom）
-     * @param array $margin 定位
+     * @param array|int $margin 定位
      * @param float $line_height 行高，例如：1.5代表1.5倍行高
      * @param int $lines 最大显示行数。为0则不限制行数
      * @param int $max_width 文本最大宽度（默认为0）

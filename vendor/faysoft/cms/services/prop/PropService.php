@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\prop;
 
-use cms\models\tables\PropsRefersTable;
+use cms\models\tables\PropsUsagesTable;
 use cms\models\tables\PropsTable;
-use cms\models\tables\PropValuesTable;
+use cms\models\tables\PropOptionsTable;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Service;
@@ -52,7 +52,7 @@ class PropService extends Service{
             $i = 0;
             foreach($values as $pv){
                 $i++;
-                PropValuesTable::model()->insert(array(
+                PropOptionsTable::model()->insert(array(
                     'prop_id'=>$prop_id,
                     'title'=>$pv,
                     'sort'=>$i,
@@ -73,7 +73,7 @@ class PropService extends Service{
         PropsTable::model()->update($prop, $prop_id, true);
 
         //删除原有但现在没了的属性值
-        PropValuesTable::model()->update(array(
+        PropOptionsTable::model()->update(array(
             'delete_time'=>\F::app()->current_time,
         ),array(
             'prop_id = ?'=>$prop_id,
@@ -84,9 +84,9 @@ class PropService extends Service{
             $i = 0;
             foreach($values as $k => $v){
                 $i++;
-                if(NumberHelper::isInt($k) && PropValuesTable::model()->find($k, 'id')){
+                if(NumberHelper::isInt($k) && PropOptionsTable::model()->find($k, 'id')){
                     //若键是数字，且对应id存在，则更新
-                    PropValuesTable::model()->update(array(
+                    PropOptionsTable::model()->update(array(
                         'title'=>$v,
                         'sort'=>$i,
                     ), array(
@@ -94,7 +94,7 @@ class PropService extends Service{
                     ));
                 }else{
                     //插入
-                    PropValuesTable::model()->insert(array(
+                    PropOptionsTable::model()->insert(array(
                         'prop_id'=>$prop_id,
                         'title'=>$v,
                         'sort'=>$i,
@@ -138,30 +138,55 @@ class PropService extends Service{
 
     /**
      * 获取一个属性，若其为可选属性，则同时获取所有可选项
-     * @param int $id
-     * @return array
-     * @throws ErrorException
+     * @param int|string $key 属性ID或别名
+     * @return array|false
      */
-    public function get($id){
-        $prop = PropsTable::model()->fetchRow(array(
-            'id = ?'=>$id,
-            'delete_time = 0',
-        ));
-
+    public function get($key){
+        if(NumberHelper::isInt($key)){
+            $prop = $this->getById($key);
+        }else{
+            $prop = $this->getByAlias($key);
+        }
+        
         if(!$prop){
-            throw new ErrorException("指定属性ID[{$id}]不存在");
-        };
+            return false;
+        }
 
+        //附加可选项
         if(in_array($prop['element'], self::$selectable_element)){
-            $prop['values'] = PropValuesTable::model()->fetchAll(array(
+            $prop['options'] = PropOptionsTable::model()->fetchAll(array(
                 'prop_id = ?'=>$prop['id'],
                 'delete_time = 0',
             ), '*', 'sort');
         }else{
-            $prop['values'] = array();
+            $prop['options'] = array();
         }
 
         return $prop;
+    }
+
+    /**
+     * 根据属性ID获取属性
+     * @param $id
+     * @return array|bool
+     */
+    protected function getById($id){
+        return PropsTable::model()->fetchRow(array(
+            'id = ?'=>$id,
+            'delete_time = 0',
+        ));
+    }
+
+    /**
+     * 根据属性别名获取属性
+     * @param $alias
+     * @return array|bool
+     */
+    protected function getByAlias($alias){
+        return PropsTable::model()->fetchRow(array(
+            'alias = ?'=>$alias,
+            'delete_time = 0',
+        ));
     }
 
     /**
@@ -175,7 +200,7 @@ class PropService extends Service{
             'delete_time = 0',
         ), 'id');
         if($prop){
-            return PropValuesTable::model()->fetchAll(array(
+            return PropOptionsTable::model()->fetchAll(array(
                 'prop_id = '.$prop['id'],
                 'delete_time = 0',
             ), 'id,title,default', 'sort');
@@ -204,31 +229,31 @@ class PropService extends Service{
 
     /**
      * 根据引用（例如：文章分类ID，用户角色ID）获取多个属性
-     * @param int|array $refer 引用ID或引用ID构成的一维数组（若$refer为空而$parent_refers非空，不会进行搜索，直接返回空数组）
+     * @param int|array $usage_ids 引用ID或引用ID构成的一维数组（若$usage_ids为空而$relation_usage_ids非空，不会进行搜索，直接返回空数组）
      * @param int $usage 属性用途
-     * @param array $parent_refers 非直接引用，仅搜索is_share为1的属性
+     * @param array $relation_usage_ids 非直接引用，仅搜索is_share为1的属性
      * @param bool $with_values 若为true，则附加属性可选值。默认为true
      * @return array
      */
-    public function getByRefer($refer, $usage, array $parent_refers = array(), $with_values = true){
-        if(StringHelper::isInt($refer)){
+    public function getPropsByUsage($usage_ids, $usage, array $relation_usage_ids = array(), $with_values = true){
+        if(StringHelper::isInt($usage_ids)){
             $conditions = array(
-                'refer = ?'=>$refer,
+                'usage_id = ?'=>$usage_ids,
             );
-        }else if($refer){
+        }else if($usage_ids){
             $conditions = array(
-                'refer IN (?)'=>$refer
+                'usage_id IN (?)'=>$usage_ids
             );
         }else{
             return array();
         }
         
-        if($parent_refers){
+        if($relation_usage_ids){
             $conditions = array(
                 'or'=>array(
                     'and'=>$conditions,
                     'And'=>array(
-                        'refer IN (?)'=>$parent_refers,
+                        'usage_id IN (?)'=>$relation_usage_ids,
                         'is_share = 1',
                     )
                 )
@@ -237,7 +262,7 @@ class PropService extends Service{
         
         //这个搜索没有限定type，所以实际上会搜出其他type id重复的记录，但是后面的mget限定了type，所以最终结果并不会错
         //如果在这一步就要判断type的话，就需要连表了，感觉还是现在这样处理更高效一些
-        $prop_ids = PropsRefersTable::model()->fetchCol('prop_id', $conditions, 'sort,id');
+        $prop_ids = PropsUsagesTable::model()->fetchCol('prop_id', $conditions, 'sort,id');
         
         return $this->mget($prop_ids, $usage, $with_values, true);
     }
@@ -311,12 +336,12 @@ class PropService extends Service{
         //获取属性对应的可选属性值
         $prop_ids = ArrayHelper::column($props, 'id');
         if(isset($prop_ids[1])){
-            $prop_values = PropValuesTable::model()->fetchAll(array(
+            $prop_values = PropOptionsTable::model()->fetchAll(array(
                 'prop_id IN (?)'=>$prop_ids,
                 'delete_time = 0',
             ), 'id,title,prop_id', 'prop_id,sort');
         }else{
-            $prop_values = PropValuesTable::model()->fetchAll(array(
+            $prop_values = PropOptionsTable::model()->fetchAll(array(
                 'prop_id = ?'=>$prop_ids,
                 'delete_time = 0',
             ), 'id,title,prop_id', 'prop_id,sort');

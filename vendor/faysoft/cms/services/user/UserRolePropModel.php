@@ -4,11 +4,11 @@ namespace cms\services\post;
 use cms\models\tables\UserPropIntTable;
 use cms\models\tables\UserPropTextTable;
 use cms\models\tables\UserPropVarcharTable;
-use cms\services\prop\PropTypeInterface;
+use cms\services\prop\PropUsageInterface;
 use fay\core\db\Table;
 use fay\core\ErrorException;
 
-class UserRolePropModel implements PropTypeInterface{
+class UserRolePropModel implements PropUsageInterface{
     /**
      * 获取显示名
      * @return string

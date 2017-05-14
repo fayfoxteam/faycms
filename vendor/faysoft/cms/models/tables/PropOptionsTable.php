@@ -4,39 +4,43 @@ namespace cms\models\tables;
 use fay\core\db\Table;
 
 /**
- * 属性引用关系
- *
+ * 自定义属性选项列表
+ * 
  * @property int $id Id
- * @property int $refer 关联ID
  * @property int $prop_id 属性ID
- * @property int $is_share 是否与关联引用共享属性
+ * @property string $title 选项标题
+ * @property int $default 默认选中
+ * @property int $delete_time 删除时间
  * @property int $sort 排序值
  */
-class PropsRefersTable extends Table{
-    protected $_name = 'props_refers';
-
+class PropOptionsTable extends Table{
+    protected $_name = 'prop_options';
+    
     /**
      * @param string $class_name
-     * @return PropsRefersTable
+     * @return PropOptionsTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
     }
-
+    
     public function rules(){
         return array(
-            array(array('id', 'refer', 'prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('default'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
-            array(array('is_share'), 'range', array('range'=>array(0, 1))),
+            array(array('title'), 'string', array('max'=>255)),
         );
     }
 
     public function labels(){
         return array(
             'id'=>'Id',
-            'refer'=>'关联ID',
             'prop_id'=>'属性ID',
-            'is_share'=>'是否与关联引用共享属性',
+            'title'=>'选项标题',
+            'default'=>'默认选中',
+            'delete_time'=>'删除时间',
             'sort'=>'排序值',
         );
     }
@@ -44,9 +48,9 @@ class PropsRefersTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
-            'refer'=>'intval',
             'prop_id'=>'intval',
-            'is_share'=>'intval',
+            'title'=>'trim',
+            'default'=>'intval',
             'sort'=>'intval',
         );
     }

@@ -296,16 +296,16 @@ class PropService extends Service{
             //如果有多项，搜索条件用IN
             $props = PropsTable::model()->fetchAll(array(
                 "{$field} IN (?)"=>$values,
-                'type = ?'=>$usage,
+                'usage_type = ?'=>$usage,
                 'delete_time = 0',
-            ), 'id,title,type,required,element,alias');
+            ), 'id,title,required,element,alias');
         }else{
             //如果只有一项，搜索条件直接用等于
             $props = PropsTable::model()->fetchAll(array(
                 "{$field} = ?"=>$values[0],
-                'type = ?'=>$usage,
+                'usage_type = ?'=>$usage,
                 'delete_time = 0',
-            ), 'id,title,type,required,element,alias');
+            ), 'id,title,required,element,alias');
         }
         
         if($with_values && $props){

@@ -9,6 +9,13 @@ use fay\helpers\NumberHelper;
  */
 class PropElementCheckbox extends ElementAbstract{
     /**
+     * @see ElementAbstract::getModel()
+     */
+    protected function getModel(){
+        return $this->usage_model->getModel('int');
+    }
+    
+    /**
      * 多选框处理与其他表单元素处理不一样，重写set方法
      * @param int $relation_id
      * @param int $prop_id
@@ -24,7 +31,7 @@ class PropElementCheckbox extends ElementAbstract{
             if(empty($value)){
                 //若无提交值，且原先有值，则删除以前的值
                 if($old_values){
-                    $this->usage_model->getModel('int')->delete(array(
+                    $this->getModel()->delete(array(
                         'relation_id = ?'=>$relation_id,
                         'prop_id = ?'=>$prop_id,
                     ));
@@ -35,7 +42,7 @@ class PropElementCheckbox extends ElementAbstract{
                 //删除已经不存在的项
                 $delete_options = array_diff($old_values, $value);
                 if($delete_options){
-                    $this->usage_model->getModel('int')->delete(array(
+                    $this->getModel()->delete(array(
                         'relation_id = ?'=>$relation_id,
                         'prop_id = ?'=>$prop_id,
                         'content IN (?)'=>$delete_options,
@@ -46,7 +53,7 @@ class PropElementCheckbox extends ElementAbstract{
                 $new_options = array_diff($value, $old_values);
                 if($new_options){
                     foreach($new_options as $p_value){
-                        $this->usage_model->getModel('int')->insert(array(
+                        $this->getModel()->insert(array(
                             'relation_id'=>$relation_id,
                             'prop_id'=>$prop_id,
                             'content'=>intval($p_value),
@@ -67,7 +74,7 @@ class PropElementCheckbox extends ElementAbstract{
      * @return string|null
      */
     public function get($relation_id, $prop_id){
-        $values = $this->usage_model->getModel('int')->fetchCol('content', array(
+        $values = $this->getModel()->fetchCol('content', array(
             'relation_id = ?'=>$relation_id,
             'prop_id = ?'=>$prop_id,
         ));
@@ -93,7 +100,7 @@ class PropElementCheckbox extends ElementAbstract{
 
         $return = array();
         foreach($value as $v){
-            $return[] = $this->usage_model->getModel('int')->insert(array(
+            $return[] = $this->getModel()->insert(array(
                 'relation_id'=>$relation_id,
                 'prop_id'=>$prop_id,
                 'content'=>intval($v),

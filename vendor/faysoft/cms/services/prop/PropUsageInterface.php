@@ -29,7 +29,7 @@ interface PropUsageInterface{
 
     /**
      * 根据主用途ID，获取共享属性的关联ID
-     * 例如：根据文章分类ID，获取其所有父节点ID，可能共享属性的其他相关ID
+     * 例如：根据文章分类ID，获取其所有父节点ID，即可能共享属性的其他相关ID
      * @param int $usage_id 用途ID。例如：文章分类ID
      * @return array
      */

@@ -2,6 +2,7 @@
 namespace cms\services\prop\elements;
 
 use cms\services\prop\PropUsageInterface;
+use fay\core\db\Table;
 
 abstract class ElementAbstract{
     /**
@@ -15,6 +16,12 @@ abstract class ElementAbstract{
     public function __construct($usage_model){
         $this->usage_model = $usage_model;
     }
+
+    /**
+     * 获取数据存储表模型
+     * @return Table
+     */
+    abstract protected function getModel();
     
     /**
      * 设置单个属性值
@@ -25,11 +32,19 @@ abstract class ElementAbstract{
      */
     public function set($relation_id, $prop_id, $value){
         //根据条件先尝试获取属性值
-        $old_value = $this->get($relation_id, $prop_id);
-        if($old_value !== null){
+        $old_value = $this->getModel()->fetchRow(array(
+            'relation_id = ?'=>$relation_id,
+            'prop_id = ?'=>$prop_id,
+        ), 'content');
+        if($old_value){
             //若存在，且值有变化，则更新
-            if($old_value != $value){
-                $this->update($relation_id, $prop_id, $value);
+            if($old_value['content'] != $value){
+                $this->getModel()->update(array(
+                    'content'=>$value,
+                ), array(
+                    'relation_id = ?'=>$relation_id,
+                    'prop_id = ?'=>$prop_id,
+                ));
             }
         }else{
             //若不存在，则新增
@@ -38,12 +53,22 @@ abstract class ElementAbstract{
     }
 
     /**
-     * 获取一个属性值。若未设置，返回null
+     * 获取一个属性值
      * @param int $relation_id
      * @param int $prop_id
      * @return string|null
      */
-    abstract public function get($relation_id, $prop_id);
+    public function get($relation_id, $prop_id){
+        $value = $this->getModel()->fetchRow(array(
+            'relation_id = ?'=>$relation_id,
+            'prop_id = ?'=>$prop_id,
+        ), 'content');
+        if($value){
+            return $value['content'];
+        }else{
+            return '';
+        }
+    }
 
     /**
      * 新增一个属性值。
@@ -51,16 +76,14 @@ abstract class ElementAbstract{
      * 若不确定原先是否存在此属性，可以调用set方法进行设置。
      * @param int $relation_id
      * @param int $prop_id
-     * @param mixed $value
+     * @param string $value
+     * @return int
      */
-    abstract public function create($relation_id, $prop_id, $value);
-
-    /**
-     * 修改一个属性值。
-     * 此方法不会判断原先是否有值，由set()方法调用，直接进行update操作
-     * @param int $relation_id
-     * @param int $prop_id
-     * @param mixed $value
-     */
-    abstract protected function update($relation_id, $prop_id, $value);
+    public function create($relation_id, $prop_id, $value){
+        return $this->getModel()->insert(array(
+            'relation_id'=>$relation_id,
+            'prop_id'=>$prop_id,
+            'content'=>$value,
+        ));
+    }
 }

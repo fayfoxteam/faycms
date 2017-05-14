@@ -507,7 +507,7 @@ CREATE TABLE `{{$prefix}}prop_options` (
 DROP TABLE IF EXISTS `{{$prefix}}props`;
 CREATE TABLE `{{$prefix}}props` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `usage_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用途',
+  `usage_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用途类型',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '属性名称',
   `element` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '表单元素',
   `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',

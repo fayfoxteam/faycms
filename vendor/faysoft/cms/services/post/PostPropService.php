@@ -1,82 +1,90 @@
 <?php
 namespace cms\services\post;
 
-use fay\core\Loader;
-use fay\models\PropModel;
-use cms\services\CategoryService;
+use cms\models\tables\PostPropIntTable;
+use cms\models\tables\PostPropTextTable;
+use cms\models\tables\PostPropVarcharTable;
 use cms\models\tables\PostsTable;
 use cms\models\tables\PropsTable;
+use cms\services\CategoryService;
+use cms\services\prop\ItemPropService;
+use cms\services\prop\PropService;
+use cms\services\prop\PropUsageInterface;
+use fay\core\db\Table;
+use fay\core\ErrorException;
+use fay\core\Loader;
+use fay\core\Service;
 
-class PostPropService extends PropModel{
+class PostPropService extends Service implements PropUsageInterface{
     /**
      * @param string $class_name
-     * @return PostPropService
+     * @return $this
      */
     public static function service($class_name = __CLASS__){
         return Loader::singleton($class_name);
     }
-    
+
     /**
-     * @see \fay\models\PropModel::$models
-     * @var array
+     * 获取用途显示名
+     * @return string
      */
-    protected $models = array(
-        'varchar'=>'cms\models\tables\PostPropVarcharTable',
-        'int'=>'cms\models\tables\PostPropIntTable',
-        'text'=>'cms\models\tables\PostPropTextTable',
-    );
-    
-    /**
-     * @see Prop::$foreign_key
-     * @var string
-     */
-    protected $foreign_key = 'post_id';
-    
-    /**
-     * @see Prop::$type
-     * @var string
-     */
-    protected $type = PropsTable::TYPE_POST_CAT;
-    
-    /**
-     * @see \fay\models\PropModel::getPropertySet()
-     * @param int $post_id 文章ID
-     * @param null|array $props 属性列表
-     * @return array
-     */
-    public function getPropertySet($post_id, $props = null){
-        if($props === null){
-            $props = $this->getProps($post_id);
-        }
-        
-        return parent::getPropertySet($post_id, $props);
+    public function getUsageName(){
+        return '文章分类属性';
     }
-    
+
     /**
-     * 根据文章ID，获取文章对应属性（不带属性值）
+     * 获取用途编号
+     * @return int
+     */
+    public function getUsageType(){
+        return PropsTable::USAGE_POST_CAT;
+    }
+
+    /**
+     * 根据文章ID，获取属性用途（实际上就是主分类）
      * @param int $post_id
-     * @return array
+     * @return array|int
+     * @throws ErrorException
      */
-    public function getProps($post_id){
+    public function getUsages($post_id){
         $post = PostsTable::model()->find($post_id, 'cat_id');
-        return $this->getPropsByCat($post['cat_id']);
+        if(!$post){
+            throw new ErrorException("指定文章ID[{$post_id}]不存在");
+        }
+
+        return $post['cat_id'];
     }
-    
+
     /**
-     * 根据分类ID，获取相关属性（不带属性值）
-     * @param int $cat
-     *  - 数字:代表分类ID;
-     *  - 字符串:分类别名;
-     *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
+     * 根据主用途，获取关联用途（实际上就是根据主分类，获取其父节点）
+     * @param int $cat_id
      * @return array
      */
-    public function getPropsByCat($cat){
-        $cat = CategoryService::service()->get($cat, 'id,left_value,right_value');
-        $parents = CategoryService::service()->getParentIds($cat, '_system_post', false);
-        
-        return $this->getByRefer($cat['id'], $parents);
+    public function getSharedUsages($cat_id){
+        return CategoryService::service()->getParentIds($cat_id, '_system_post', false);
     }
-    
+
+    /**
+     * 根据数据类型，获取相关表model
+     * @param string $data_type
+     * @return Table
+     * @throws ErrorException
+     */
+    public function getModel($data_type){
+        switch($data_type){
+            case 'int':
+                return PostPropIntTable::model();
+                break;
+            case 'varchar':
+                return PostPropVarcharTable::model();
+                break;
+            case 'text':
+                return PostPropTextTable::model();
+            default:
+                throw new ErrorException("不支持的数据类型[{$data_type}]");
+        }
+    }
+
     /**
      * 将props信息装配到$posts中
      * @param array $posts 包含文章信息的三维数组
@@ -88,18 +96,19 @@ class PostPropService extends PropModel{
         if(in_array('*', $fields['fields'])){
             $props = null;
         }else{
-            $props = $this->mget($fields);
+            $props = PropService::service()->mget($fields, PropsTable::USAGE_POST_CAT);
         }
-        
+
         foreach($posts as $k => $p){
             if(isset($p['post']['id'])){
                 $post_id = $p['post']['id'];
             }else{
                 $post_id = $k;
             }
-            
-            $p['props'] = $this->getPropertySet($post_id, $props);
-            
+
+            $item_prop = new ItemPropService($post_id, $this);
+            $p['props'] = $item_prop->getPropSet($props);
+
             $posts[$k] = $p;
         }
     }

@@ -42,7 +42,7 @@ class ItemPropService{
      * @param int $relation_id （例如：文章ID，用户ID等）
      * @param PropUsageInterface $usage_model
      */
-    public function __construct($relation_id, $usage_model){
+    public function __construct($relation_id, PropUsageInterface $usage_model){
         $this->relation_id = $relation_id;
         $this->usage_model = $usage_model;
     }

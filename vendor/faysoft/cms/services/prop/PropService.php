@@ -6,16 +6,27 @@ use cms\models\tables\PropsTable;
 use cms\models\tables\PropOptionsTable;
 use fay\core\ErrorException;
 use fay\core\HttpException;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\NumberHelper;
 use fay\helpers\StringHelper;
 
 class PropService extends Service{
+    /**
+     * @var array 带选项的表单元素
+     */
     public static $selectable_element = array(
         PropsTable::ELEMENT_RADIO,
         PropsTable::ELEMENT_SELECT,
         PropsTable::ELEMENT_CHECKBOX,
+    );
+
+    /**
+     * @var array 用途类对应关系
+     */
+    public static $usage_type_map = array(
+        PropsTable::USAGE_POST_CAT => 'cms\services\post\PostPropService',
     );
     
     /**
@@ -24,6 +35,26 @@ class PropService extends Service{
      */
     public static function service($class_name = __CLASS__){
         return parent::service($class_name);
+    }
+
+    /**
+     * 单例获取一个用途类实例
+     * @param $usage_type
+     * @return PropUsageInterface
+     * @throws ErrorException
+     */
+    public function getUsageModel($usage_type){
+        if(isset(self::$usage_type_map[$usage_type])){
+            if(is_string(self::$usage_type_map[$usage_type])){
+                return Loader::singleton(self::$usage_type_map[$usage_type]);
+            }else if(self::$usage_type_map[$usage_type] instanceof PropUsageInterface){
+                return self::$usage_type_map[$usage_type];
+            }else{
+                throw new ErrorException('无法识别的用途实例值[' . self::$usage_type_map[$usage_type] . ']');
+            }
+        }else{
+            throw new ErrorException("未注册的用途类型[{$usage_type}]");
+        }
     }
 
     /**

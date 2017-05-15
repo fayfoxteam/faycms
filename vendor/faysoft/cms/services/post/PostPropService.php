@@ -40,6 +40,21 @@ class PostPropService extends Service implements PropUsageInterface{
     }
 
     /**
+     * 获取用途具体记录的标题。
+     * 例如：用途是文章分类属性，则根据分类Id，获取分类标题
+     * @param int $id
+     * @return string
+     * @throws ErrorException
+     */
+    public function getUsageItemTitle($id){
+        $cat = CategoryService::service()->get($id, 'title');
+        if(!$cat){
+            throw new ErrorException("指定分类ID[{$id}]不存在");
+        }
+        return $cat['title'];
+    }
+
+    /**
      * 根据文章ID，获取属性用途（实际上就是主分类）
      * @param int $post_id
      * @return array|int

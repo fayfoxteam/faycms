@@ -11,8 +11,6 @@ use fay\core\Sql;
  */
 class PropUsageController extends AdminController{
     public function index(){
-        $this->layout->subtitle = '自定义属性用途';
-        
         $usage_type = $this->input->get('usage_type', 'intval');
         $usage_id = $this->input->get('usage_id', 'intval');
 
@@ -22,19 +20,37 @@ class PropUsageController extends AdminController{
         if(!$usage_id){
             throw new HttpException('usage_id参数不能为空');
         }
+
+        $usage_model = PropService::service()->getUsageModel($usage_type);
+        $this->layout->subtitle = '自定义属性 - ' .
+            $usage_model->getUsageName() . ' - ' .
+            $usage_model->getUsageItemTitle($usage_id)
+        ;
         
-        $props = PropService::service()->getPropsByUsage($usage_id, $usage_type, array(), false);
-        $relation_props = PropService::service()->getPropsByUsage(
-            array(),
-            $usage_type,
-            PropService::service()->getUsageModel($usage_type)->getSharedUsages($usage_id),
-            false
-        );
-        dd($props, $relation_props);
+        $sql = new Sql();
+        $props = $sql->from(array('pu'=>'props_usages'), array('is_share', 'sort'))
+            ->joinLeft(array('p'=>'props'), 'pu.prop_id = p.id', '*')
+            ->where('pu.usage_id = ?', $usage_id)
+            ->where('p.usage_type = ?', $usage_type)
+            ->fetchAll();
+        
+        $shared_usages = $usage_model->getSharedUsages($usage_id);
+        if($shared_usages){
+            $relation_props = $sql->from(array('pu'=>'props_usages'), array('is_share', 'sort', 'usage_id'))
+                ->joinLeft(array('p'=>'props'), 'pu.prop_id = p.id', '*')
+                ->where('pu.usage_id IN (?)', $shared_usages)
+                ->where('pu.is_share = 1')
+                ->where('p.usage_type = ?', $usage_type)
+                ->fetchAll();
+        }else{
+            $relation_props = array();
+        }
         
         $this->view->assign(array(
             'props'=>$props,
             'relation_props'=>$relation_props,
+            'usage_model'=>$usage_model,
+            'usage_type'=>$usage_type,
         ))->render();
     }
 }

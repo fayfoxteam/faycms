@@ -26,7 +26,7 @@ class PropsUsagesTable extends Table{
     public function rules(){
         return array(
             array(array('id', 'usage_id', 'prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
-            array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
+            array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('is_share'), 'range', array('range'=>array(0, 1))),
         );
     }

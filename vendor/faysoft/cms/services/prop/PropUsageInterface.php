@@ -8,16 +8,24 @@ use fay\core\db\Table;
  */
 interface PropUsageInterface{
     /**
-     * 获取显示名
+     * 获取用途显示名
      * @return string
      */
     public function getUsageName();
 
     /**
-     * 获取用途编号
+     * 获取用途类型编号
      * @return int
      */
     public function getUsageType();
+
+    /**
+     * 获取用途具体记录的标题。
+     * 例如：用途是文章分类属性，则根据分类Id，获取分类标题
+     * @param int $id
+     * @return string
+     */
+    public function getUsageItemTitle($id);
 
     /**
      * 根据外键id，获取主用途ID

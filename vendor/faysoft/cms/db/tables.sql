@@ -526,9 +526,9 @@ CREATE TABLE `{{$prefix}}props_usages` (
   `usage_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `is_share` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否与关联引用共享属性',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '10000' COMMENT '排序值',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='属性用途关系';
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='属性用途关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
 CREATE TABLE `{{$prefix}}regions` (

@@ -260,13 +260,13 @@ class PropService extends Service{
 
     /**
      * 根据引用（例如：文章分类ID，用户角色ID）获取多个属性
-     * @param int|array $usage_ids 引用ID或引用ID构成的一维数组（若$usage_ids为空而$relation_usage_ids非空，不会进行搜索，直接返回空数组）
-     * @param int $usage 属性用途
+     * @param int|array $usage_ids 引用ID或引用ID构成的一维数组
+     * @param int $usage_type 属性用途
      * @param array $relation_usage_ids 非直接引用，仅搜索is_share为1的属性
      * @param bool $with_values 若为true，则附加属性可选值。默认为true
      * @return array
      */
-    public function getPropsByUsage($usage_ids, $usage, array $relation_usage_ids = array(), $with_values = true){
+    public function getPropsByUsage($usage_ids, $usage_type, array $relation_usage_ids = array(), $with_values = true){
         if(StringHelper::isInt($usage_ids)){
             $conditions = array(
                 'usage_id = ?'=>$usage_ids,
@@ -276,26 +276,37 @@ class PropService extends Service{
                 'usage_id IN (?)'=>$usage_ids
             );
         }else{
-            return array();
+            $conditions = array();
         }
         
         if($relation_usage_ids){
-            $conditions = array(
-                'or'=>array(
-                    'and'=>$conditions,
-                    'And'=>array(
-                        'usage_id IN (?)'=>$relation_usage_ids,
-                        'is_share = 1',
+            if($conditions){
+                $conditions = array(
+                    'or'=>array(
+                        'and'=>$conditions,
+                        'And'=>array(
+                            'usage_id IN (?)'=>$relation_usage_ids,
+                            'is_share = 1',
+                        )
                     )
-                )
-            );
+                );
+            }else{
+                $conditions = array(
+                    'usage_id IN (?)'=>$relation_usage_ids,
+                    'is_share = 1',
+                );
+            }
+        }
+        
+        if(!$conditions){
+            return array();
         }
         
         //这个搜索没有限定type，所以实际上会搜出其他type id重复的记录，但是后面的mget限定了type，所以最终结果并不会错
         //如果在这一步就要判断type的话，就需要连表了，感觉还是现在这样处理更高效一些
         $prop_ids = PropsUsagesTable::model()->fetchCol('prop_id', $conditions, 'sort,id');
         
-        return $this->mget($prop_ids, $usage, $with_values, true);
+        return $this->mget($prop_ids, $usage_type, $with_values, true);
     }
 
     /**

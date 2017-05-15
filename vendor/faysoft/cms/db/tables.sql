@@ -392,7 +392,8 @@ CREATE TABLE `{{$prefix}}post_prop_int` (
   `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Content',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-int';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_text`;
@@ -401,7 +402,8 @@ CREATE TABLE `{{$prefix}}post_prop_text` (
   `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` text COMMENT 'Content',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-text';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_varchar`;
@@ -411,7 +413,7 @@ CREATE TABLE `{{$prefix}}post_prop_varchar` (
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT 'Content',
   PRIMARY KEY (`id`),
-  KEY `post_id-prop_id` (`post_id`,`prop_id`)
+  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-varchar';
 
 DROP TABLE IF EXISTS `{{$prefix}}posts`;
@@ -525,8 +527,7 @@ CREATE TABLE `{{$prefix}}props_usages` (
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `is_share` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否与关联引用共享属性',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
-  PRIMARY KEY (`id`),
-  KEY `refer` (`refer`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='属性用途关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;

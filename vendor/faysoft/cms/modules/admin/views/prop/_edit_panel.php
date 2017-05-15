@@ -1,5 +1,7 @@
 <?php
 use cms\models\tables\PropsTable;
+use cms\services\prop\PropService;
+
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <div class="form-field">
@@ -25,9 +27,13 @@ use cms\models\tables\PropsTable;
     <label class="title bold">用途</label>
     <?php
     if(F::form()->getData('type')){
-        echo PropsTable::$type_map[F::form()->getData('type')];
+        echo PropService::service()->getUsageModel($data['type'])->getUsageName();
     }else{
-        echo F::form()->select('type', PropsTable::$type_map, array(
+        $usages = array();
+        foreach(PropService::$usage_type_map as $usage_type => $usage_type_class){
+            $usages[$usage_type] = PropService::service()->getUsageModel($usage_type)->getUsageName();
+        }
+        echo F::form()->select('type', $usages, array(
             'class'=>'form-control mw200 ib',
         ));
     }

@@ -19,6 +19,6 @@ use fay\helpers\HtmlHelper;
         ?></div>
     </td>
     <td><?php echo \cms\models\tables\PropsTable::$element_map[$data['element']]?></td>
-    <td><?php echo \cms\models\tables\PropsTable::$type_map[$data['type']]?></td>
+    <td><?php echo \cms\services\prop\PropService::service()->getUsageModel($data['type'])->getUsageName()?></td>
     <td><?php echo $data['required'] ? '<span class="fc-green">是</span>' : '否';?></td>
 </tr>

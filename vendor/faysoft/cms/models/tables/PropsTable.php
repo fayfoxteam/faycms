@@ -67,11 +67,6 @@ class PropsTable extends Table{
     const USAGE_ROLE = 2;
     
     protected $_name = 'props';
-
-    public static $usage_type_map = array(
-        self::USAGE_POST_CAT => '文章',
-        self::USAGE_ROLE => '角色',
-    );
     
     public static $element_map = array(
         self::ELEMENT_TEXT => '文本框',

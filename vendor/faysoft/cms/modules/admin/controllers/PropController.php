@@ -2,6 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use cms\services\prop\ItemPropService;
 use cms\services\prop\PropService;
 use fay\common\ListView;
 use fay\core\HttpException;
@@ -117,6 +118,39 @@ class PropController extends AdminController{
         PropService::service()->undelete($id);
 
         Response::notify('success', '一个自定义属性被还原');
+    }
+
+    /**
+     * json返回
+     */
+    public function listAction(){
+        //搜索条件验证，异常数据直接返回404
+        $this->form()->setScene('final')->setRules(array(
+            array('usage_type', 'required'),
+            array('page_size', 'int', array('min'=>1)),
+        ))->setFilters(array(
+            'usage_type'=>'intval',
+        ))->check();
+        
+        $sql = new Sql();
+        $sql->from(array('p'=>'props'))
+            ->where('usage_type = ?', $this->form()->getData('usage_type'))
+            ->where('delete_time = 0')
+        ;
+
+        $listview = new ListView($sql, array(
+            'page_size'=>$this->form()->getData('page_size', 10),
+        ));
+        
+        $data = $listview->getData();
+        foreach($data as $key => $prop){
+            $data[$key]['element_name'] = ItemPropService::$elementMap[$prop['element']]::getName();
+        }
+
+        Response::json(array(
+            'posts'=>$data,
+            'pager'=>$listview->getPager(),
+        ));
     }
 
     /**

@@ -6,6 +6,14 @@ namespace cms\services\prop\elements;
  */
 class PropElementRadio extends ElementAbstract{
     /**
+     * 获取表单元素名称
+     * @return string
+     */
+    public static function getName(){
+        return '单选框';
+    }
+
+    /**
      * @see ElementAbstract::getModel()
      */
     protected function getModel(){

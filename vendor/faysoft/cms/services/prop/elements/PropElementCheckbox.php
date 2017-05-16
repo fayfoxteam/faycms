@@ -9,6 +9,14 @@ use fay\helpers\NumberHelper;
  */
 class PropElementCheckbox extends ElementAbstract{
     /**
+     * 获取表单元素名称
+     * @return string
+     */
+    public static function getName(){
+        return '多选框';
+    }
+    
+    /**
      * @see ElementAbstract::getModel()
      */
     protected function getModel(){

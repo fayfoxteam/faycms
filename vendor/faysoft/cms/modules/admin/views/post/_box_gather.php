@@ -22,7 +22,7 @@ use fay\helpers\HtmlHelper;
                         'class'=>'form-control',
                         'id'=>'gather-url',
                     ))?>
-                    <p class="description">例如：http://www.fayfox.com/about.html —— 不要忘了 http://</p>
+                    <p class="description">例如：http://www.fayfox.com/about.html —— 不要忘了 http(s)://</p>
                 </div>
                 <div class="form-field">
                     <label class="title bold">JQuery选择器</label>

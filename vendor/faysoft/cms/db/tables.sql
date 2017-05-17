@@ -466,7 +466,7 @@ CREATE TABLE `{{$prefix}}post_extra` (
   `post_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章ID',
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
-  `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Descriotion',
+  `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Description',
   `markdown` text COMMENT 'Markdown文本',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   PRIMARY KEY (`post_id`)

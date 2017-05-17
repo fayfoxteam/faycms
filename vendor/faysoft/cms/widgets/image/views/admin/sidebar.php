@@ -11,7 +11,7 @@ use fay\helpers\HtmlHelper;
         ))?>
         <div class="fc-grey">
             <p>若不为空，则图片外会套上&lt;a&gt;标签</p>
-            <p>不要忘了http://</p>
+            <p>不要忘了http(s)://</p>
         </div>
         <p><?php echo F::form()->select('target', array(
             '_blank'=>'_blank — 新窗口或新标签。',

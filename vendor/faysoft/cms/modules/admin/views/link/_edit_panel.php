@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
     <?php echo F::form()->inputText('url', array(
         'class'=>'form-control mw400',
     ))?>
-    <p class="description">例子：http://www.faycms.com/ —— 不要忘了 http://</p>
+    <p class="description">例子：http://www.faycms.com/ —— 不要忘了 http(s)://</p>
 </div>
 <div class="form-field">
     <label class="title bold">描述</label>

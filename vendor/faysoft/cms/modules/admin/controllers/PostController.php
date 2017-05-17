@@ -48,6 +48,7 @@ class PostController extends AdminController{
         array('name'=>'files', 'title'=>'附件'),
         array('name'=>'props', 'title'=>'附加属性'),
         array('name'=>'gather', 'title'=>'采集器'),
+        array('name'=>'source', 'title'=>'来源')
     );
     
     /**
@@ -93,6 +94,7 @@ class PostController extends AdminController{
         $enabled_boxes = $this->getEnabledBoxes($_setting_key);
         
         $this->form()->setModel(PostsTable::model())
+            ->setModel(PostExtraTable::model())
             ->setModel(PostsFilesTable::model())
             ->setModel(PostMetaTable::model());
         if($this->input->post() && $this->form()->check()){
@@ -126,7 +128,11 @@ class PostController extends AdminController{
             
             //扩展信息
             if($post_extra = PostExtraTable::model()->fillData($this->input->post())){
-                $extra['extra'] = array_merge($post_extra, $extra['extra']);
+                if(isset($extra['extra'])){
+                    $extra['extra'] = array_merge($post_extra, $extra['extra']);
+                }else{
+                    $extra['extra'] = $post_extra;
+                }
             }
             
             //附加分类
@@ -425,6 +431,7 @@ class PostController extends AdminController{
         }
         
         $this->form()->setModel(PostsTable::model())
+            ->setModel(PostExtraTable::model())
             ->setModel(PostMetaTable::model())
             ->setModel(PostsFilesTable::model());
         

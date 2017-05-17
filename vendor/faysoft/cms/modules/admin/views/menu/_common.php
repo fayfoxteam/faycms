@@ -34,7 +34,7 @@ F::form('edit')->setModel(MenusTable::model());
                                 'class'=>'form-control wp100',
                             ))?>
                             <p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
-                            <p class="fc-grey">若是外站地址，不要忘了http://</p>
+                            <p class="fc-grey">若是外站地址，不要忘了http(s)://</p>
                         </td>
                     </tr>
                     <tr>
@@ -146,7 +146,7 @@ F::form('edit')->setModel(MenusTable::model());
                                 'class'=>'form-control wp100',
                             ))?>
                             <p class="fc-grey">若是本站地址，域名部分用<span class="fc-red">{$base_url}</span>代替</p>
-                            <p class="fc-grey">若是外站地址，不要忘了http://</p>
+                            <p class="fc-grey">若是外站地址，不要忘了http(s)://</p>
                         </td>
                     </tr>
                     <tr>

@@ -64,6 +64,10 @@ use fay\helpers\HtmlHelper;
                         <td><input type="text" name="store_name"></td>
                     </tr>
                     <tr>
+                        <th>是否添加水印</th>
+                        <td><label><input type="checkbox" name="watermark" value="1" checked="checked">是</label></td>
+                    </tr>
+                    <tr>
                         <th colspan="2">
                             <input type="submit" value="预览">
                             <input type="button" value="下载" id="download-btn">

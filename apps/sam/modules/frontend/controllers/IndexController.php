@@ -82,15 +82,19 @@ class IndexController extends Controller{
             ->merge($arrow_down, '570,0,0,923', array('left', 'top'))
             //时间
             ->write(date('Y-m-d', strtotime($start_time)) . ' ~ ' . date('Y-m-d', strtotime($end_time)), 10, $color, '244,0,0,861')
-            //水印
-            ->merge($watermark, '348,0,0,130', array('left', 'top'))
-            ->merge($watermark, '235,0,0,400', array('left', 'top'))
-            ->merge($watermark, '158,0,0,690', array('left', 'top'))
             //店名
             ->write($store_name, 12, '#ffffff', '30,28,0,1076', 'assets/fonts/msyh.ttf', array('left', 'top'), 1, 1)
 
             ->merge($a, '411,0,0,223', array('left', 'top'))
         ;
+        
+        if($this->input->get('watermark')){
+            //水印
+            $image->merge($watermark, '348,0,0,130', array('left', 'top'))
+                ->merge($watermark, '235,0,0,400', array('left', 'top'))
+                ->merge($watermark, '158,0,0,690', array('left', 'top'));
+        }
+        
         if($this->input->get('download')){
             $image->download(StringHelper::random('uuid').'.png');
         }else{

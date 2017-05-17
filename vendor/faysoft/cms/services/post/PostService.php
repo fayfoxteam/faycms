@@ -84,7 +84,7 @@ class PostService extends Service{
             'comments', 'views', 'likes', 'favorites',
         ),
         'extra'=>array(
-            'markdown', 'seo_title', 'seo_keywords', 'seo_description',
+            'markdown', 'seo_title', 'seo_keywords', 'seo_description', 'source', 'source_link',
         ),
     );
     

@@ -29,6 +29,7 @@ class IndexController extends Controller{
         $arrow_up = new ImageService(BASEPATH . 'apps/sam/images/arrow-up.png');
         $arrow_down = new ImageService(BASEPATH . 'apps/sam/images/arrow-down.png');
         $watermark = new ImageService(BASEPATH . 'apps/sam/images/watermark.png');
+        $a = new ImageService(BASEPATH . 'apps/sam/images/a.png');
         
         $font_size = 9;
         $color = '#555555';
@@ -87,6 +88,8 @@ class IndexController extends Controller{
             ->merge($watermark, '158,0,0,690', array('left', 'top'))
             //店名
             ->write($store_name, 12, '#ffffff', '30,28,0,1076', 'assets/fonts/msyh.ttf', array('left', 'top'), 1, 1)
+
+            ->merge($a, '411,0,0,223', array('left', 'top'))
         ;
         if($this->input->get('download')){
             $image->download(StringHelper::random('uuid').'.png');

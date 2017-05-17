@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use cms\services\prop\PropService;
 use fay\core\HttpException;
 use fay\core\Sql;
+use fay\helpers\ArrayHelper;
 
 /**
  * 自定义属性关联管理
@@ -41,6 +42,7 @@ class PropUsageController extends AdminController{
                 ->where('pu.usage_id IN (?)', $shared_usages)
                 ->where('pu.is_share = 1')
                 ->where('p.usage_type = ?', $usage_type)
+                ->where('p.id NOT IN (?)', ArrayHelper::column($props, 'id'))
                 ->fetchAll();
         }else{
             $relation_props = array();

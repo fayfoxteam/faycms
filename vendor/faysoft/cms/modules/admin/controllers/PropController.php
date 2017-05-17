@@ -121,7 +121,7 @@ class PropController extends AdminController{
     }
 
     /**
-     * json返回
+     * json返回可用属性列表
      */
     public function listAction(){
         //搜索条件验证，异常数据直接返回404
@@ -148,8 +148,35 @@ class PropController extends AdminController{
         }
 
         Response::json(array(
-            'posts'=>$data,
+            'props'=>$data,
             'pager'=>$listview->getPager(),
+        ));
+    }
+
+    /**
+     * 获取单个属性信息
+     */
+    public function item(){
+        //搜索条件验证，异常数据直接返回404
+        $this->form()->setScene('final')->setRules(array(
+            array('id', 'required'),
+            array('id', 'int', array('min'=>1)),
+        ))->setFilters(array(
+            'id'=>'intval',
+        ))->check();
+
+        $prop = PropsTable::model()->fetchRow(array(
+            'id = ?'=>$this->form()->getData('id'),
+            'delete_time = 0',
+        ), '!delete_time');
+        if(!$prop){
+            throw new HttpException("指定属性ID[{$this->form()->getData('id')}]不存在或已删除");
+        }
+        
+        $prop['element_name'] = ItemPropService::$elementMap[$prop['element']]::getName();
+        
+        Response::json(array(
+            'prop'=>$prop,
         ));
     }
 

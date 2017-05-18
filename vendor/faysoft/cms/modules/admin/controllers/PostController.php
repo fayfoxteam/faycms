@@ -56,7 +56,7 @@ class PostController extends AdminController{
      */
     public $default_box_sort = array(
         'side'=>array(
-            'publish_time', 'thumbnail', 'main_category', 'views', 'likes', 'alias', 'props', 'gather', 'history',
+            'publish_time', 'thumbnail', 'main_category', 'views', 'likes', 'alias', 'props', 'gather', 'history', 'source'
         ),
         'normal'=>array(
             'abstract', 'tags', 'files', 'seo'

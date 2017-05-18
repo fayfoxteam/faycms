@@ -475,6 +475,8 @@ CREATE TABLE `{{$prefix}}post_extra` (
   `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Description',
   `markdown` text COMMENT 'Markdown文本',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `source` varchar(50) NOT NULL DEFAULT '' COMMENT '来源',
+  `source_link` varchar(255) NOT NULL DEFAULT '' COMMENT '来源链接',
   PRIMARY KEY (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 

@@ -286,6 +286,7 @@ class PropService extends Service{
                         'and'=>$conditions,
                         'And'=>array(
                             'usage_id IN (?)'=>$relation_usage_ids,
+                            'usage_id NOT IN (?)'=>$usage_ids,
                             'is_share = 1',
                         )
                     )

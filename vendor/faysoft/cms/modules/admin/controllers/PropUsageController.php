@@ -21,6 +21,12 @@ class PropUsageController extends AdminController{
         if(!$usage_id){
             throw new HttpException('usage_id参数不能为空');
         }
+        
+        $this->form()->setRules(array(
+            array('sort', 'int', array('min'=>0, 'max'=>65535))
+        ))->setLabels(array(
+            'sort'=>'排序值',
+        ));
 
         $usage_model = PropService::service()->getUsageModel($usage_type);
         $this->layout->subtitle = '自定义属性 - ' .
@@ -54,5 +60,22 @@ class PropUsageController extends AdminController{
             'usage_model'=>$usage_model,
             'usage_type'=>$usage_type,
         ))->render();
+    }
+    
+    public function edit(){
+        $this->form()->setRules(array(
+            array('sort', 'int', array('min'=>0, 'max'=>65535)),
+            array(array('usage_id'), 'int'),
+        ))->setLabels(array(
+            'sort'=>'排序值',
+        ))->setFilters(array(
+            'usage_id'=>'intval',
+            'sort'=>'intval',
+        ))->check();
+
+        $usage_id = $this->form()->getData('usage_id');
+        $sort = $this->form()->getData('sort');
+        
+        
     }
 }

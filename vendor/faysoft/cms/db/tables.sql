@@ -527,7 +527,8 @@ CREATE TABLE `{{$prefix}}props_usages` (
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `is_share` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否与关联引用共享属性',
   `sort` smallint(5) unsigned NOT NULL DEFAULT '10000' COMMENT '排序值',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usage_id-prop_id` (`usage_id`,`prop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='属性用途关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;

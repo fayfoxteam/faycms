@@ -10,8 +10,7 @@ use fay\helpers\HtmlHelper;
  * @var $usage_id int
  */
 ?>
-<?php echo F::form()->open()?>
-<?php echo F::form()->inputHidden('usage_type')?>
+<?php echo F::form()->open('cms/admin/prop-usage/edit')?>
 <?php echo F::form()->inputHidden('usage_id')?>
 <div class="poststuff">
     <div class="post-body">

@@ -617,7 +617,7 @@ pre li.L1,pre li.L3,pre li.L5,pre li.L7,pre li.L9 {background:none}
 .fl{float:left}
 .fr{float:right}
 .ib{display:inline-block !important}
-.title-sup{padding:0 3px}
+.title-sup{padding:0 3px;font-weight:normal}
 .block{display:block}
 .ellipsis{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pointer{cursor:pointer}

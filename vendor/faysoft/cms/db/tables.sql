@@ -388,27 +388,33 @@ CREATE TABLE `{{$prefix}}pages_categories` (
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_int`;
 CREATE TABLE `{{$prefix}}post_prop_int` (
-  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值',
-  PRIMARY KEY (`post_id`,`prop_id`,`content`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
+  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
+  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Content',
+  PRIMARY KEY (`id`),
+  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-int';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_text`;
 CREATE TABLE `{{$prefix}}post_prop_text` (
-  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `content` text NOT NULL COMMENT '属性值',
-  PRIMARY KEY (`post_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
+  `content` text COMMENT 'Content',
+  PRIMARY KEY (`id`),
+  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-text';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_varchar`;
 CREATE TABLE `{{$prefix}}post_prop_varchar` (
-  `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
-  PRIMARY KEY (`post_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT 'Content',
+  PRIMARY KEY (`id`),
+  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-varchar';
 
 DROP TABLE IF EXISTS `{{$prefix}}posts`;
 CREATE TABLE `{{$prefix}}posts` (
@@ -489,42 +495,41 @@ CREATE TABLE `{{$prefix}}posts_tags` (
   PRIMARY KEY (`post_id`,`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}prop_values`;
-CREATE TABLE `{{$prefix}}prop_values` (
+DROP TABLE IF EXISTS `{{$prefix}}prop_options`;
+CREATE TABLE `{{$prefix}}prop_options` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `refer` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Refer',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
-  `default` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Default',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '选项标题',
+  `default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '默认选中',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='自定义属性选项列表';
 
 DROP TABLE IF EXISTS `{{$prefix}}props`;
 CREATE TABLE `{{$prefix}}props` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `refer` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Refer',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '关联类型',
+  `usage_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用途类型',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '属性名称',
   `element` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '表单元素',
   `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否默认显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='自定义属性表';
 
-DROP TABLE IF EXISTS `{{$prefix}}props_refers`;
-CREATE TABLE `{{$prefix}}props_refers` (
-  `id` int(11) NOT NULL,
-  `refer` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
+DROP TABLE IF EXISTS `{{$prefix}}props_usages`;
+CREATE TABLE `{{$prefix}}props_usages` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `usage_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关联ID',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `is_final` tinyint(1) NOT NULL DEFAULT '1' COMMENT '当引用存在父子关系时，子节点是否继承此属性',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='属性引用关系';
+  `is_share` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否与关联引用共享属性',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '10000' COMMENT '排序值',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usage_id-prop_id` (`usage_id`,`prop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='属性用途关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
 CREATE TABLE `{{$prefix}}regions` (

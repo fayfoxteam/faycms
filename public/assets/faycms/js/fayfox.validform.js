@@ -347,7 +347,7 @@
             '_renderMsg':function(msg, params){
                 if(typeof(params) == 'object'){
                     for(var k in params){
-                        if(typeof(params[k]) != 'undefined' && params[k] !== null){
+                        if(typeof(params[k]) == 'number' || typeof(params[k]) == 'string'){
                             msg = msg.replace(eval('/\\{\\$'+k+'}/g'), params[k]);
                         }
                     }

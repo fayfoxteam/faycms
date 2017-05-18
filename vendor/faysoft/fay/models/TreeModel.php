@@ -685,9 +685,10 @@ abstract class TreeModel{
      *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
      * @param int|array $node
      * @param int|array $root
+     * @param bool $with_own 是否包含当前节点返回
      * @return array
      */
-    public function getParentIds($node, $root = null){
+    public function getParentIds($node, $root = null, $with_own = true){
         if(!is_array($node)){
             $node = \F::table($this->model)->find($node, 'left_value,right_value');
         }
@@ -697,8 +698,8 @@ abstract class TreeModel{
         }
         
         return \F::table($this->model)->fetchCol('id', array(
-            'left_value <= ' . $node['left_value'],
-            'right_value >= ' . $node['right_value'],
+            'left_value <' . ($with_own ? '=' : '') . $node['left_value'],
+            'right_value >' . ($with_own ? '=' : '') . $node['right_value'],
             'left_value >= ?'=>$root ? $root['left_value'] : false,
             'right_value <= ?'=>$root ? $root['right_value'] : false,
         ), 'left_value');

@@ -3,9 +3,16 @@ namespace cms\models\tables;
 
 use fay\core\db\Table;
 
+/**
+ * 文章自定义属性-text
+ * 
+ * @property int $id Id
+ * @property int $relation_id 文章ID
+ * @property int $prop_id 属性ID
+ * @property string $content 属性值
+ */
 class PostPropTextTable extends Table{
     protected $_name = 'post_prop_text';
-    protected $_primary = array('post_id', 'prop_id');
     
     /**
      * @param string $class_name
@@ -17,21 +24,24 @@ class PostPropTextTable extends Table{
     
     public function rules(){
         return array(
-            array(array('post_id', 'prop_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('id', 'relation_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
         );
     }
 
     public function labels(){
         return array(
-            'post_id'=>'Post Id',
-            'prop_id'=>'Prop Id',
-            'content'=>'Content',
+            'id'=>'Id',
+            'relation_id'=>'文章ID',
+            'prop_id'=>'属性ID',
+            'content'=>'属性值',
         );
     }
 
     public function filters(){
         return array(
-            'post_id'=>'intval',
+            'id'=>'intval',
+            'relation_id'=>'intval',
             'prop_id'=>'intval',
             'content'=>'',
         );

@@ -81,7 +81,7 @@ class ArrayHelper{
     public static function merge($array, $array2){
         foreach($array2 as $k => $v){
             if(is_int($k)){
-                //键是数字，且值不存在，追加到数组后面即可（这个情况在本系统中并不常见）
+                //键是数字，且值不存在，追加到数组后面即可
                 if(!in_array($v, $array)){
                     $array[] = $v;
                 }

@@ -5,7 +5,7 @@ use fay\models\PropModel;
 use cms\models\tables\PropsTable;
 use fay\core\Loader;
 
-class UserPropService extends PropModel{
+class  UserPropService extends PropModel{
     /**
      * @param string $class_name
      * @return UserPropService

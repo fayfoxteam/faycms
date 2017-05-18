@@ -77,11 +77,11 @@ foreach($fields as $f){
         
     }else if($f['Field'] == 'cellphone' || $f['Field'] == 'mobile'){
         $mobile[] = $f['Field'];
-    }else if(strpos($f['Field'], 'time') !== false && strpos($f['Field'], 'times') === false && $f['Field'] != 'create_time' && $f['Field'] != 'update_time'){
+    }else if(strpos($f['Field'], 'time') !== false && strpos($f['Field'], 'times') === false && $f['Field'] != 'create_time' && $f['Field'] != 'update_time' && $f['Field'] != 'delete_time'){
         $datetime[] = $f['Field'];
     }else if(strpos($f['Field'], 'is_') === 0 || $f['Field'] == 'deleted'){
         $range_0_1[] = $f['Field'];
-    }else if(strpos($f['Type'], 'int') === 0 && !in_array($f['Field'], array('create_time', 'update_time'))){//int
+    }else if(strpos($f['Type'], 'int') === 0 && !in_array($f['Field'], array('create_time', 'update_time', 'delete_time'))){//int
         if(strpos($f['Type'], 'unsigned') === false){
             $int[] = $f['Field'];
         }else{
@@ -188,7 +188,7 @@ foreach($fields as $f){
                 strpos($f['Type'], 'smallint') === 0 || strpos($f['Type'], 'tinyint') === 0){
             if(strpos($f['Field'], '_time') === false){
                 $filter[] = 'intval';
-            }else if(!in_array($f['Field'], array('create_time', 'update_time'))){//这两个字段肯定是服务器自己生的
+            }else{
                 $filter[] = 'trim';
             }
         }

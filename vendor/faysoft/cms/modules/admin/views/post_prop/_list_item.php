@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\HtmlHelper;
-use cms\helpers\PropHelper;
 ?>
 <tr valign="top">
     <td>
@@ -26,7 +25,7 @@ use cms\helpers\PropHelper;
         </div>
         <?php }?>
     </td>
-    <td><?php PropHelper::getElement($data['element'])?></td>
+    <td><?php echo \cms\models\tables\PropsTable::$element_map[$data['element']]?></td>
     <td><?php echo $data['required'] ? '是' : '否';?></td>
     <td class="w90"><?php echo HtmlHelper::inputText("sort[{$data['id']}]", $data['sort'], array(
         'size'=>3,

@@ -7,10 +7,9 @@ use fay\helpers\HtmlHelper;
 ?>
 <div class="amc-detail">
     <h2><?php echo HtmlHelper::encode($post['post']['title'])?></h2>
-    <?php $props = \fay\helpers\ArrayHelper::column($post['props'], null, 'alias')?>
     <div class="come-and-time">
-        <?php if(!empty($props['source']['value'])){?>
-        来源：<span class="amc-news-come"><?php echo HtmlHelper::encode($props['source']['value'])?></span>
+        <?php if(!empty($post['extra']['source'])){?>
+        来源：<span class="amc-news-come"><?php echo HtmlHelper::encode($post['extra']['source'])?></span>
         <?php }?>
         <span class="amc-news-time"><?php echo date('Y-m-d H:i', $post['post']['publish_time'])?></span>
     </div>

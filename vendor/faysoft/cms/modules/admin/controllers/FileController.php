@@ -44,7 +44,7 @@ class FileController extends AdminController{
         
         $cat = $this->input->request('cat');
         if($cat){
-            $cat = CategoryService::service()->get($cat, 'id,alias');
+            $cat = CategoryService::service()->get('_system_file_' . $cat, 'id,alias');
             if(!$cat){
                 throw new HttpException('指定的文件分类不存在');
             }
@@ -104,7 +104,7 @@ class FileController extends AdminController{
         
         $cat = $this->input->request('cat');
         if($cat){
-            $cat = CategoryService::service()->get($cat, 'id,alias');
+            $cat = CategoryService::service()->get('_system_file_' . $cat, 'id,alias');
             if(!$cat){
                 throw new HttpException('指定的文件分类不存在');
             }
@@ -179,7 +179,7 @@ class FileController extends AdminController{
         
         $cat = $this->input->request('cat');
         if($cat){
-            $cat = CategoryService::service()->get($cat, 'id,alias');
+            $cat = CategoryService::service()->get('_system_file_' . $cat, 'id,alias');
             if(!$cat){
                 throw new HttpException('指定的文件分类不存在');
             }

@@ -152,14 +152,14 @@ use cms\services\user\UserRoleService;
             <div class="form-field">
                 <label class="title bold">分页条模版</label>
                 <p><?php
-                    echo HtmlHelper::inputRadio('pager', 'system', !isset($config['pager']) || $config['pager'] == 'system', array(
+                    echo F::form('widget')->inputRadio('pager', 'system', array(
                         'label'=>'调用全局分页条',
                     ));
-                    echo HtmlHelper::inputRadio('pager', 'custom', isset($config['pager']) && $config['pager'] == 'custom', array(
+                    echo F::form('widget')->inputRadio('pager', 'custom', array(
                         'label'=>'小工具内自定义',
                     ));
                 ?></p>
-                <div id="pager-template-container" class="<?php if(!isset($config['pager']) || $config['pager'] == 'system')echo 'hide';?>">
+                <div id="pager-template-container" class="<?php if(F::form('widget')->getData('pager') == 'system')echo 'hide';?>">
                     <?php echo F::form('widget')->textarea('pager_template', array(
                         'class'=>'form-control h90 autosize',
                     ))?>

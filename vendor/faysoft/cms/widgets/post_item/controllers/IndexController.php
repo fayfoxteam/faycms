@@ -56,7 +56,7 @@ class IndexController extends Widget{
         ),
         'extra'=>array(
             'fields'=>array(
-                'seo_title', 'seo_keywords', 'seo_description',
+                'seo_title', 'seo_keywords', 'seo_description', 'source', 'source_link',
             )
         )
     );

@@ -23,6 +23,7 @@ use fay\helpers\HtmlHelper;
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo $this->appAssets('css/amcommunity.css')?>">
     <link rel="stylesheet" type="text/css" href="<?php echo $this->appAssets('css/22bottom.css')?>">
+    <script src="<?php echo $this->appAssets('js/jquery.min.js')?>"></script>
     <?php echo $this->getCss()?>
 </head>
 <body>
@@ -40,16 +41,9 @@ use fay\helpers\HtmlHelper;
                     'class'=>'amc-logo',
                 ));
             }
+            
+            F::widget()->load('top-category-list');
         ?>
-        <ul class="amc-nav hidden-xs">
-            <li><a href="index.html" class="act">首页</a></li>
-            <li><a href="news.html">域名资讯</a></li>
-            <li><a href="">云计算</a></li>
-            <li><a href="">知识产权</a></li>
-            <li><a href="">互联网创业</a></li>
-            <li><a href="">论坛热帖</a></li>
-            <li><a href="">聚精彩</a></li>
-        </ul>
 
         <!--移动端导航start-->
         <div class="m-amc-nav visible-xs-block">
@@ -156,9 +150,8 @@ use fay\helpers\HtmlHelper;
 
 
 
-<script src="<?php echo $this->appAssets('js/jquery.min.js')?>"></script>
 <script src="<?php echo $this->appAssets('js/bootstrap.min.js')?>"></script>
 <script src="<?php echo $this->appAssets('js/hammer.min.js')?>"></script>
-<script src="<?php echo $this->appAssets('js/amc.js')?>"></script>
+<!--<script src="<?php /*echo $this->appAssets('js/amc.js')*/?>"></script>-->
 </body>
 </html>

@@ -16,7 +16,7 @@
     <!--右边内容start-->
     <div class="amc-aside hidden-xs">
         <!--搜索框start-->
-        <div class="PR"><input type="text" class="amc-search" placeholder="请输入关键字"><a href="search.html"><img src="<?php echo $this->appAssets('images/search.png')?>" alt="" class="amc-searchfor"></a></div>
+        <?php $this->renderPartial('common/search_form')?>
         <!--搜索框over-->
         
         <?php F::widget()->area('index-sidebar')?>
@@ -131,3 +131,9 @@
     <!--论坛热帖over-->
 </div>
 <!--中间部分移动端over-->
+<script src="<?php echo $this->url('assets/faycms/js/jquery.ajaxPager.js')?>"></script>
+<script>
+$(function(){
+    $('.loadmore').ajaxPager('.pagination .next', '.newslist-contain');
+});
+</script>

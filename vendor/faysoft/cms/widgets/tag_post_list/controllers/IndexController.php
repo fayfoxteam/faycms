@@ -23,6 +23,11 @@ class IndexController extends Widget{
                 'id', 'cat_id', 'title', 'publish_time', 'user_id', 'is_top', 'thumbnail', 'abstract'
             )
         ),
+        'extra'=>array(
+            'fields'=>array(
+                'source', 'source_link'
+            )
+        ),
         'user'=>array(
             'fields'=>array(
                 'id', 'username', 'nickname', 'avatar'
@@ -148,7 +153,8 @@ class IndexController extends Widget{
      */
     private function getFields(){
         $fields = array(
-            'post'=>$this->fields['post']
+            'post'=>$this->fields['post'],
+            'extra'=>$this->fields['extra'],
         );
         
         //文章缩略图

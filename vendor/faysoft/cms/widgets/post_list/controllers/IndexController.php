@@ -2,6 +2,7 @@
 namespace cms\widgets\post_list\controllers;
 
 use cms\helpers\LinkHelper;
+use fay\core\Http;
 use fay\helpers\ArrayHelper;
 use cms\services\post\PostService;
 use fay\widget\Widget;
@@ -20,6 +21,11 @@ class IndexController extends Widget{
         'post'=>array(
             'fields'=>array(
                 'id', 'cat_id', 'title', 'publish_time', 'user_id', 'is_top', 'thumbnail', 'abstract'
+            )
+        ),
+        'extra'=>array(
+            'fields'=>array(
+                'source', 'source_link'
             )
         ),
         'user'=>array(
@@ -144,7 +150,8 @@ class IndexController extends Widget{
      */
     private function getFields(){
         $fields = array(
-            'post'=>$this->fields['post']
+            'post'=>$this->fields['post'],
+            'extra'=>$this->fields['extra'],
         );
         
         //文章缩略图
@@ -241,6 +248,7 @@ class IndexController extends Widget{
             'page_size'=>$this->config['page_size'],
             'page_key'=>$this->config['page_key'],
             'empty_text'=>$this->config['empty_text'],
+            'reload'=>Http::getCurrentUrl()
         ));
         
         return $listview;

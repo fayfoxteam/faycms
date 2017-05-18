@@ -112,8 +112,9 @@ ul,li{
 .amc-circle2{
 	width: auto;
 	bottom:0;
-	left:90%;
+	left:auto;
 	margin-left: -10%;
+	right:8px;
 }
 .amc-circle3{
 	width: 70px;
@@ -250,8 +251,8 @@ ul,li{
 .amc-hot{
 	padding:5px 20px 10px 20px;
 	border:1px solid #eee;
-	margin-top: 20px;
 	background: #fff;
+	margin-top:20px;
 }
 .amc-hot-list li a{
 	display: block;
@@ -429,23 +430,52 @@ ul,li{
 	bottom:0;
 	z-index: 99990;
 }
-.amc-hot.fix{
+/*.amc-fix{
+	margin-top: 20px;
+}
+ .amc-fix.fix{
 	position: fixed;
 	top:0;
-	margin-top: 5px;
+	margin-top: 5px;	
+}
+
+.amc-aside{
+	position: relative;
+}
+.amc-fix.fixover{
+	position: absolute;
+}
+.amc-fix.fix .amc-hot,.amc-fix.fixover .amc-hot{
 	width: 340px;
 	padding:0 10px 0 10px;
 }
-.amc-hot.fix .amc-hot-list li a > img{
+.amc-fix.fix .amc-hot-list li a > img,.amc-fix.fixover .amc-hot-list li a > img{
 	width: 120px;
 	height: 74px;
 }
-#carousel-example-generic2.fix{
-	position: fixed;
+.amc-fix.fix #carousel-example-generic2,.amc-fix.fixover #carousel-example-generic2{
+	width: 340px;
+} 
+.amc-fix.fix #carousel-example-generic2 .amc-circle2,.amc-fix.fixover #carousel-example-generic2 .amc-circle2{
+	left: 85%;
+}*/
+.scrollfixed .amc-hot{
+	margin-top: 35px;
+	width: 340px;
+	padding:0 10px 0 10px;
+}
+.scrollfixed .amc-hot-list li a > img{
+	width: 120px;
+	height: 74px;
+}
+.scrollfixed #carousel-example-generic2{
 	width: 340px;
 }
-#carousel-example-generic2.fix .amc-circle2{
+.scrollfixed #carousel-example-generic2 .amc-circle2{
 	left: 85%;
+}
+.scrollfixed .amc-ad {
+    	width: 340px;
 }
 
 

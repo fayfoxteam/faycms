@@ -14,7 +14,7 @@ use fay\helpers\HtmlHelper;
             <?php echo F::form('widget')->inputText('title', array(
                 'class'=>'form-control',
             ))?>
-            <p class="fc-grey">是否用到标题视模版而定，并不一定会显示。</p>
+            <p class="fc-grey mt5">是否用到标题视模版而定，并不一定会显示。</p>
         </div>
     </div>
 </div>

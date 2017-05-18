@@ -3,15 +3,15 @@ $(function(){
             if($("#carousel-example-generic").length>0){
                           //轮播
                           $('#carousel-example-generic').carousel({
-                                       interval: 8000
+                                       interval: 3000
                           })
 
                           $('#carousel-example-generic2').carousel({
-                                       interval: 8000
+                                       interval: 3000
                           })
 
                           $('#carousel-example-generic3').carousel({
-                                       interval: 8000
+                                       interval: 3000
                           })
 
                           //轮播手势滑动
@@ -96,22 +96,6 @@ $(function(){
             })
 
            
-})
-
-$(function(){
-            //侧栏fix
-            $(".amc-forum li:last-child").addClass("hotbt")
-            var H=$(".hotbt").offset().top+60;
-             var h=$(".hot-A").height();
-            $(window).scroll(function(){
-                      if(H<$(this).scrollTop()){
-                              $(".hot-A").addClass("fix")
-                              $("#carousel-example-generic2").addClass("fix").css("top",h-50);
-                      }else{
-                              $(".hot-A").removeClass("fix")
-                              $("#carousel-example-generic2").removeClass("fix");
-                      }
-            })
 })
 
 

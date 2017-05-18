@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $listview \fay\common\ListView
+ */
+
 //根据是否带有问号，构造出url的前面部分，用于构造页码url
 if(strpos($listview->reload, '?') !== false){
     $reload = $listview->reload . '&';

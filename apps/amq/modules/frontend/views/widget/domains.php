@@ -13,7 +13,7 @@
     
     <ul class="amc-ym-list">
         <?php foreach($data as $d){?>
-            <?php $key = explode('|', $d['key'])?>
+        <?php $key = explode('|', $d['key'])?>
         <li class="clearfix">
             <div class="amc-ym"><?php echo HtmlHelper::encode($key[0])?></div>
             <div class="amc-price"><?php
@@ -23,7 +23,7 @@
                     echo '￥', $key[1];
                 }
             ?></div>
-            <a href="<?php echo HtmlHelper::encode($d['value'])?>" class="lookit">查看</a>
+            <a href="<?php echo HtmlHelper::encode($d['value'])?>" class="lookit" target="_blank">查看</a>
         </li>
         <?php }?>
     </ul>

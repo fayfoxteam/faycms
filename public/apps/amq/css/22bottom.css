@@ -4,7 +4,7 @@
     padding-bottom: 10px;
 }
 .main-container {
-    width: 1200px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
     *zoom: 1;
@@ -79,7 +79,7 @@
     *zoom: 1;
     line-height: 24px;
     padding: 6px 0;
-    border-top: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
 }
 .footer .friendlink dl dt {
     width: 100px;
@@ -122,13 +122,13 @@
 }
 .amc-footer-ewm{
 	float: left;
-	width: 600px;
+	width: 50%;
 	text-align: center;
 }
 .footer-ewms{
 	display: inline-block;
 	width: 100px;
-	margin:0 50px;
+	margin:0 30px;
 	font-size: 12px;
 }
 .footer-ewms>img{

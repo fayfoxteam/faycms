@@ -59,6 +59,7 @@ class PropUsageController extends AdminController{
             'relation_props'=>$relation_props,
             'usage_model'=>$usage_model,
             'usage_type'=>$usage_type,
+            'usage_id'=>$usage_id,
         ))->render();
     }
     

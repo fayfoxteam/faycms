@@ -7,10 +7,12 @@ use fay\helpers\HtmlHelper;
  * @var $props array
  * @var $usage_model \cms\services\prop\PropUsageInterface
  * @var $usage_type int
+ * @var $usage_id int
  */
 ?>
 <?php echo F::form()->open()?>
-<?php echo F::form()->inputHidden('cat_id')?>
+<?php echo F::form()->inputHidden('usage_type')?>
+<?php echo F::form()->inputHidden('usage_id')?>
 <div class="poststuff">
     <div class="post-body">
         <div class="post-body-content">
@@ -250,6 +252,7 @@ var propUsage = {
      */
     'onSelect': function(element){
         var prop_id = element.attr('data-id');
+        element.replaceWith('已选取');
         $('#selected-prop-list').prepend([
             '<div class="dragsort-item prop-item" id="prop-item-', prop_id, '" data-id="', prop_id, '">',
                 '<a class="dragsort-rm" href="javascript:"></a>',
@@ -267,11 +270,11 @@ var propUsage = {
                     '<div class="row">',
                         '<div class="col-6">',
                             '<label class="title">排序值：</label>',
-                            '<input name="sort[', prop_id, ']" type="text" value="" class="form-control ib mw200">',
+                            '<input name="sort[', prop_id, ']" type="text" value="10000" class="form-control ib mw200 prop-sort">',
                         '</div>',
                         '<div class="col-6">',
                             '<label class="title">是否共享：</label>',
-                            '<label><input name="is_share[', prop_id, ']" type="radio" value="1">是</label>',
+                            '<label><input name="is_share[', prop_id, ']" type="radio" value="1" checked="checked">是</label>',
                             '<label><input name="is_share[', prop_id, ']" type="radio" value="0">否</label>',
                         '</div>',
                     '</div>',
@@ -295,8 +298,26 @@ var propUsage = {
             }
         });
     },
+    /**
+     * 分页条事件
+     */
+    'pagerEvent': function(){
+        //分页事件
+        $('#select-prop-list-pager').on('click', 'a.page-numbers', function(){
+            var page = $(this).attr('data-page');
+            if(page){
+                propUsage.loadData(page);
+            }
+        }).on('keydown', '.pager-input', function(event){
+            if(event.keyCode == 13 || event.keyCode == 108){
+                propUsage.loadData($('#select-prop-list-pager').find('.pager-input').val());
+                return false;
+            }
+        });
+    },
     'init': function(){
         this.dialog();
+        this.pagerEvent();
     }
 };
 $(function(){

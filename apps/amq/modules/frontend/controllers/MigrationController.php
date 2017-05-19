@@ -10,7 +10,7 @@ use fay\core\db\Exception;
 
 class MigrationController extends FrontController{
     public function doAction(){
-        $offset = $this->input->get('offset', 0);
+        $offset = $this->input->get('offset', 'intval', 0);
         $archives = Db::getInstance()->fetchAll("SELECT * FROM dede_archives ORDER BY id LIMIT {$offset}, 10");
         
         foreach($archives as $archive){
@@ -28,7 +28,8 @@ class MigrationController extends FrontController{
             if($addon){
                 $content = $addon['body'];
             }else{
-                $content = '';
+                //没有内容的文章直接跳过
+                continue;
             }
             preg_match_all('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $content, $matches);
             if(isset($matches[1])){
@@ -52,12 +53,15 @@ class MigrationController extends FrontController{
             //获取对应分类ID
             $cat_map = array(
                 '1'=>10000,
-                '2'=>10001,
-                '3'=>10002,
-                '4'=>10000,
-                '9'=>10001,
-                '65'=>10002,
+                '65'=>10001,
+                '4'=>10002,
+                '2'=>10003,
+                '3'=>10004,
             );
+            if(!isset($cat_map[$archive['typeid']])){
+                //分类都对应不到的直接跳过算了
+                continue;
+            }
             $cat_id = $cat_map[$archive['typeid']];
             
             //确定状态

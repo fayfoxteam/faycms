@@ -96,7 +96,16 @@ class RemoteFileService{
         }
         
         //确定存储目录
-        $target = $cat['alias'] ? $cat['alias'] . '/' : '';
+        if($cat['alias']){
+            if(substr($cat['alias'], 0, 12) == '_system_file'){
+                //去掉前缀
+                $target = substr($cat['alias'], 13) . '/';
+            }else{
+                $target = $cat['alias'] . '/';
+            }
+        }else{
+            $target = '';
+        }
         $upload_path = './uploads/' . APPLICATION . '/' . $target . date('Y/m/');
         //若指定目录不存在，则创建目录
         $ext_name = $this->getExtName();

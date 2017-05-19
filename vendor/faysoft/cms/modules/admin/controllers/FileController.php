@@ -122,11 +122,16 @@ class FileController extends AdminController{
         if(!$file){
             throw new HttpException('上传文件格式错误', 500);
         }
-        
-        $target = $cat['alias'];
-        if($target && substr($target, -1) != '/'){
-            //目标路径末尾不是斜杠的话，加上斜杠
-            $target .= '/';
+
+        if($cat['alias']){
+            if(substr($cat['alias'], 0, 12) == '_system_file'){
+                //去掉前缀
+                $target = substr($cat['alias'], 13) . '/';
+            }else{
+                $target = $cat['alias'] . '/';
+            }
+        }else{
+            $target = '';
         }
         $upload_path = $private ? './../uploads/' . APPLICATION . '/' . $target . date('Y/m/')
             : './uploads/' . APPLICATION . '/' . $target . date('Y/m/');

@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $roles array
+ * @var $user array
  */
 ?>
 <?php echo F::form()->open();?>
@@ -8,7 +9,7 @@
     <div class="col-6">
         <?php $this->renderPartial('_edit_panel', array(
             'roles'=>$roles,
-            'user'=>$user,
+            'user'=>empty($user) ? array() : $user,
         ))?>
     </div>
     <div class="col-6" id="prop-panel"><?php

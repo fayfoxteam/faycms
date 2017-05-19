@@ -196,7 +196,7 @@ class UserController extends AdminController{
             'delete_time = 0',
         ), 'id,title');
         
-        $this->view->prop_set = UserPropService::service()->getPropertySet($user_id);
+        $this->view->prop_set = UserPropService::service()->getPropSet($user_id);
         $this->view->render();
     }
     
@@ -227,13 +227,13 @@ class UserController extends AdminController{
         $user_id = $this->input->get('user_id', 'intval');
         
         if($role_ids){
-            $props = UserPropService::service()->getByRefer($role_ids);
+            $props = UserPropService::service()->getPropsByRoleIds($role_ids);
         }else{
             $props = array();
         }
         
         if(!empty($props) && $user_id){
-            $prop_set = UserPropService::service()->getPropertySet($user_id, $props);
+            $prop_set = UserPropService::service()->getPropSet($user_id, $props);
         }else{
             $prop_set = $props;
         }

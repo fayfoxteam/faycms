@@ -27,6 +27,7 @@ class PropService extends Service{
      */
     public static $usage_type_map = array(
         PropsTable::USAGE_POST_CAT => 'cms\services\post\PostPropService',
+        PropsTable::USAGE_ROLE => 'cms\services\user\UserPropService',
     );
     
     /**
@@ -65,13 +66,13 @@ class PropService extends Service{
      * @throws ErrorException
      */
     public function create($prop, $values = array()){
-        if(empty($prop['title']) || empty($prop['alias']) || empty($prop['type'])){
+        if(empty($prop['title']) || empty($prop['usage_type'])){
             throw new ErrorException(__CLASS__ . '::' . __METHOD__ . '() $prop参数异常: ' . json_encode($prop));
         }
         $prop_id = PropsTable::model()->insert(array(
             'title'=>$prop['title'],
             'alias'=>$prop['alias'],
-            'type'=>$prop['type'],
+            'usage_type'=>$prop['usage_type'],
             'element'=>empty($prop['element']) ? PropsTable::ELEMENT_TEXT : $prop['element'],
             'required'=>empty($prop['required']) ? 0 : 1,
             'is_show'=>isset($prop['is_show']) ? $prop['is_show'] : 1,
@@ -99,8 +100,12 @@ class PropService extends Service{
      * @param int $prop_id 属性ID
      * @param array $prop 属性参数
      * @param array $values 属性值
+     * @throws ErrorException
      */
-    public function update($prop_id, $prop, $values = array()){
+    public function update($prop_id, $prop, array $values = array()){
+        if(empty($prop['title'])){
+            throw new ErrorException(__CLASS__ . '::' . __METHOD__ . '() $prop[title]不能为空');
+        }
         PropsTable::model()->update($prop, $prop_id, true);
 
         //删除原有但现在没了的属性值
@@ -108,7 +113,7 @@ class PropService extends Service{
             'delete_time'=>\F::app()->current_time,
         ),array(
             'prop_id = ?'=>$prop_id,
-            'id NOT IN (?)'=>array_keys($values),
+            'id NOT IN (?)'=>$values ? array_keys($values) : false,
         ));
         //设置属性值
         if(in_array($prop['element'], self::$selectable_element)){//手工录入属性没有属性值
@@ -260,22 +265,25 @@ class PropService extends Service{
 
     /**
      * 根据引用（例如：文章分类ID，用户角色ID）获取多个属性
-     * @param int|array $usage_ids 引用ID或引用ID构成的一维数组
+     * @param array $usage_ids 引用ID或引用ID构成的一维数组
      * @param int $usage_type 属性用途
      * @param array $relation_usage_ids 非直接引用，仅搜索is_share为1的属性
      * @param bool $with_values 若为true，则附加属性可选值。默认为true
      * @return array
      */
-    public function getPropsByUsage($usage_ids, $usage_type, array $relation_usage_ids = array(), $with_values = true){
-        if(StringHelper::isInt($usage_ids)){
-            $conditions = array(
-                'usage_id = ?'=>$usage_ids,
-            );
-        }else if($usage_ids){
+    public function getPropsByUsage(array $usage_ids, $usage_type, array $relation_usage_ids = array(), $with_values = true){
+        if(isset($usage_ids[1])){
+            //$usage_ids有多个值
             $conditions = array(
                 'usage_id IN (?)'=>$usage_ids
             );
+        }else if(isset($usage_ids[0])){
+            //$usage_ids就一个值
+            $conditions = array(
+                'usage_id = ?'=>$usage_ids[0],
+            );
         }else{
+            //$usage_ids为空
             $conditions = array();
         }
         

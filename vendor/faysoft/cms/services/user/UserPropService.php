@@ -1,11 +1,21 @@
 <?php
 namespace cms\services\user;
 
-use fay\models\PropModel;
 use cms\models\tables\PropsTable;
+use cms\models\tables\RolesTable;
+use cms\models\tables\UserPropIntTable;
+use cms\models\tables\UserPropTextTable;
+use cms\models\tables\UserPropVarcharTable;
+use cms\models\tables\UsersRolesTable;
+use cms\services\prop\ItemPropService;
+use cms\services\prop\PropService;
+use cms\services\prop\PropUsageInterface;
+use fay\core\db\Table;
+use fay\core\ErrorException;
+use fay\core\Service;
 use fay\core\Loader;
 
-class  UserPropService extends PropModel{
+class  UserPropService extends Service implements PropUsageInterface{
     /**
      * @param string $class_name
      * @return UserPropService
@@ -13,62 +23,103 @@ class  UserPropService extends PropModel{
     public static function service($class_name = __CLASS__){
         return Loader::singleton($class_name);
     }
-    
+
     /**
-     * @see \fay\models\PropModel::$models
-     * @var array
+     * 获取用途显示名
+     * @return string
      */
-    protected $models = array(
-        'varchar'=>'cms\models\tables\UserPropVarcharTable',
-        'int'=>'cms\models\tables\UserPropIntTable',
-        'text'=>'cms\models\tables\UserPropTextTable',
-    );
-    
+    public function getUsageName(){
+        return '用户角色属性';
+    }
+
     /**
-     * @see Prop::$foreign_key
-     * @var string
+     * 获取用途类型编号
+     * @return int
      */
-    protected $foreign_key = 'user_id';
-    
+    public function getUsageType(){
+        return PropsTable::USAGE_ROLE;
+    }
+
     /**
-     * @see Prop::$type
-     * @var string
+     * 获取用途具体记录的标题。
+     * 例如：用途是文章分类属性，则根据分类Id，获取分类标题
+     * @param int $id
+     * @return string
+     * @throws ErrorException
      */
-    protected $type = PropsTable::TYPE_ROLE;
-    
+    public function getUsageItemTitle($id){
+        $role = RolesTable::model()->find($id, 'title');
+        if(!$role){
+            throw new ErrorException("指定角色ID[{$id}]不存在");
+        }
+        return $role['title'];
+    }
+
     /**
-     * @see \fay\models\PropModel::setValue()
-     * @param string $alias
-     * @param mixed $value
-     * @param null|int $user_id 若为null，则默认为当前登录用户
-     * @return bool
+     * 根据用户ID，获取用户角色
+     * @param int $user_id 用户ID
+     * @return array
      */
-    public function setValue($alias, $value, $user_id = null)
-    {
-        $user_id || $user_id = \F::app()->current_user;
-        return parent::setValue($alias, $value, $user_id);
+    public function getUsages($user_id){
+        return UsersRolesTable::model()->fetchCol('role_id', array(
+            'user_id = ?'=>$user_id,
+        ));
+    }
+
+    /**
+     * 角色是没有关联角色这样的概念的，所以直接返回空数组
+     * @param array $role_id 角色ID
+     * @return array
+     */
+    public function getSharedUsages($role_id){
+        //角色是没有关联角色这样的概念的
+        return array();
+    }
+
+    /**
+     * 根据数据类型，获取相关表model
+     * @param string $data_type 至少需要实现int，varchar，text类型。
+     *  此类表必须包含3个字段：refer, prop_id, content
+     *  其中content字段类型分别为：int(10), varchar(255), text
+     * @return Table
+     * @throws ErrorException
+     */
+    public function getModel($data_type){
+        switch($data_type){
+            case 'int':
+                return UserPropIntTable::model();
+                break;
+            case 'varchar':
+                return UserPropVarcharTable::model();
+                break;
+            case 'text':
+                return UserPropTextTable::model();
+            default:
+                throw new ErrorException("不支持的数据类型[{$data_type}]");
+        }
+    }
+
+    /**
+     * 根据给定角色id，返回相关属性
+     * @param array $role_ids
+     * @return array
+     */
+    public function getPropsByRoleIds(array $role_ids){
+        return PropService::service()->getPropsByUsage($role_ids, PropsTable::USAGE_ROLE);
     }
     
     /**
-     * @see \fay\models\PropModel::getValue()
-     * @param string $alias
-     * @param null|int $user_id 若为null，则默认为当前登录用户
-     * @return mixed
-     */
-    public function getValue($alias, $user_id = null)
-    {
-        $user_id || $user_id = \F::app()->current_user;
-        return parent::getValue($alias, $user_id);
-    }
-    
-    /**
-     * 根据用户ID，获取用户对应属性（不带属性值）
+     * 根据用户ID，获取用户属性
      * @param int $user_id
      * @return array
      */
-    public function getProps($user_id){
+    public function getPropsByUserId($user_id){
         $role_ids = UserRoleService::service()->getIds($user_id);
-        return $this->getByRefer($role_ids);
+        if(!$role_ids){
+            return array();
+        }
+        
+        return $this->getPropsByRoleIds($role_ids);
     }
     
     /**
@@ -77,11 +128,11 @@ class  UserPropService extends PropModel{
      * @param array $data 以属性ID为键的属性键值数组
      * @param null|array $props 属性。若为null，则根据用户ID获取属性
      */
-    public function createPropertySet($user_id, $data, $props = null){
+    public function createPropSet($user_id, $data, $props = null){
         if($props === null){
-            $props = $this->getProps($user_id);
+            $props = $this->getPropsByUserId($user_id);
         }
-        parent::createPropertySet($user_id, $props, $data);
+        $this->getItemProp($user_id)->createPropSet($props, $data);
     }
     
     /**
@@ -90,11 +141,11 @@ class  UserPropService extends PropModel{
      * @param array $data 以属性ID为键的属性键值数组
      * @param null|array $props 属性。若为null，则根据用户ID获取属性
      */
-    public function updatePropertySet($user_id, $data, $props = null){
+    public function updatePropSet($user_id, $data, $props = null){
         if($props === null){
-            $props = $this->getProps($user_id);
+            $props = $this->getPropsByUserId($user_id);
         }
-        parent::updatePropertySet($user_id, $props, $data);
+        $this->getItemProp($user_id)->updatePropSet($props, $data);
     }
     
     /**
@@ -103,11 +154,16 @@ class  UserPropService extends PropModel{
      * @param null|array $props 属性列表
      * @return array
      */
-    public function getPropertySet($user_id, $props = null){
-        if($props === null){
-            $props = $this->getProps($user_id);
-        }
-        
-        return parent::getPropertySet($user_id, $props);
+    public function getPropSet($user_id, $props = null){
+        return $this->getItemProp($user_id)->getPropSet($props);
+    }
+
+    /**
+     * 获取文章属性类实例
+     * @param int $user_id
+     * @return ItemPropService
+     */
+    protected function getItemProp($user_id){
+        return new ItemPropService($user_id, $this);
     }
 }

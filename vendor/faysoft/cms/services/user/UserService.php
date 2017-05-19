@@ -1,6 +1,8 @@
 <?php
 namespace cms\services\user;
 
+use cms\models\tables\PropsTable;
+use cms\services\prop\PropService;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fay\helpers\NumberHelper;
@@ -227,7 +229,7 @@ class UserService extends Service{
         
         //设置属性
         if(isset($extra['props'])){
-            UserPropService::service()->createPropertySet($user_id, $extra['props']);
+            UserPropService::service()->createPropSet($user_id, $extra['props']);
         }
         
         //触发事件
@@ -301,7 +303,7 @@ class UserService extends Service{
         
         //附加属性
         if(isset($extra['props'])){
-            UserPropService::service()->updatePropertySet($user_id, $extra['props']);
+            UserPropService::service()->updatePropSet($user_id, $extra['props']);
         }
     }
     
@@ -373,9 +375,9 @@ class UserService extends Service{
             if(in_array('*', $fields['props']['fields'])){
                 $props = null;
             }else{
-                $props = UserPropService::service()->mget($fields['props']);
+                $props = PropService::service()->mget($fields['props']['fields'], PropsTable::USAGE_ROLE);
             }
-            $return['props'] = UserPropService::service()->getPropertySet($id, $props);
+            $return['props'] = UserPropService::service()->getPropSet($id, $props);
         }
         
         //角色
@@ -499,9 +501,9 @@ class UserService extends Service{
                 if(in_array('*', $fields['props'])){
                     $props = null;
                 }else{
-                    $props = UserPropService::service()->mget($fields['props']);
+                    $props = PropService::service()->mget($fields['props'], PropsTable::USAGE_ROLE);
                 }
-                $user['props'] = UserPropService::service()->getPropertySet($u['id'], $props);
+                $user['props'] = UserPropService::service()->getPropSet($u['id'], $props);
             }
             
             if($remove_id_field){

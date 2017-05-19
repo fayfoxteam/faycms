@@ -57,7 +57,7 @@ class PostPropService extends Service implements PropUsageInterface{
     /**
      * 根据文章ID，获取属性用途（实际上就是主分类）
      * @param int $post_id
-     * @return array|int
+     * @return array
      * @throws ErrorException
      */
     public function getUsages($post_id){
@@ -66,7 +66,7 @@ class PostPropService extends Service implements PropUsageInterface{
             throw new ErrorException("指定文章ID[{$post_id}]不存在");
         }
 
-        return $post['cat_id'];
+        return array($post['cat_id']);
     }
 
     /**
@@ -75,6 +75,14 @@ class PostPropService extends Service implements PropUsageInterface{
      * @return array
      */
     public function getSharedUsages($cat_id){
+        //对于文章来说，必然是根据一个分类获取其父分类作为关联用途
+        //所以这个参数如果是数组，取第一项
+        if(is_array($cat_id)){
+            if(!$cat_id){
+                return array();
+            }
+            $cat_id = $cat_id[0];
+        }
         return CategoryService::service()->getParentIds($cat_id, '_system_post', false);
     }
 
@@ -135,9 +143,9 @@ class PostPropService extends Service implements PropUsageInterface{
     public function getPropsByCatId($cat_id){
         $parents = CategoryService::service()->getParentIds($cat_id, '_system_post', false);
         
-        return PropService::service()->getPropsByUsage($cat_id, PropsTable::USAGE_POST_CAT, $parents);
+        return PropService::service()->getPropsByUsage(array($cat_id), PropsTable::USAGE_POST_CAT, $parents);
     }
-
+    
     /**
      * 根据文章id，获取所有相关属性
      * @param int $post_id

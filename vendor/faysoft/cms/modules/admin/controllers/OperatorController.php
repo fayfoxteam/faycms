@@ -192,7 +192,7 @@ class OperatorController extends AdminController{
             'delete_time = 0',
         ), 'id,title');    
         
-        $this->view->prop_set = UserPropService::service()->getPropertySet($user_id);
+        $this->view->prop_set = UserPropService::service()->getPropSet($user_id);
         $this->view->render();
     }
     

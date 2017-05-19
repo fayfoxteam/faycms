@@ -388,32 +388,32 @@ CREATE TABLE `{{$prefix}}pages_categories` (
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_int`;
 CREATE TABLE `{{$prefix}}post_prop_int` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Content',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值',
   PRIMARY KEY (`id`),
-  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+  UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-int';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_text`;
 CREATE TABLE `{{$prefix}}post_prop_text` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` text COMMENT 'Content',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` text COMMENT '属性值',
   PRIMARY KEY (`id`),
-  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+  UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-text';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_varchar`;
 CREATE TABLE `{{$prefix}}post_prop_varchar` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
-  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
-  `content` varchar(255) NOT NULL DEFAULT '' COMMENT 'Content',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`id`),
-  KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+  UNIQUE KEY `post_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-varchar';
 
 DROP TABLE IF EXISTS `{{$prefix}}posts`;
@@ -674,27 +674,33 @@ CREATE TABLE `{{$prefix}}user_profile` (
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_int`;
 CREATE TABLE `{{$prefix}}user_prop_int` (
-  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值',
-  PRIMARY KEY (`user_id`,`prop_id`,`content`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-int';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_text`;
 CREATE TABLE `{{$prefix}}user_prop_text` (
-  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `content` text NOT NULL COMMENT '属性值',
-  PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `content` text COMMENT '属性值',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id-prop_id` (`user_id`,`prop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-text';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_varchar`;
 CREATE TABLE `{{$prefix}}user_prop_varchar` (
-  `user_id` int(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `prop_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `relation_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
-  PRIMARY KEY (`user_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-varchar';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (

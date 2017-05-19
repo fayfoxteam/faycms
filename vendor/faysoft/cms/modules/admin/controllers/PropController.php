@@ -71,7 +71,7 @@ class PropController extends AdminController{
             $prop = $this->form()->getFilteredData();
             isset($prop['required']) || $prop['required'] = 0;
 
-            $prop_values = $this->input->post('prop_values', array());
+            $prop_values = $this->input->post('prop_values', 'trim', array());
 
             PropService::service()->update($prop_id, $prop, $prop_values);
 

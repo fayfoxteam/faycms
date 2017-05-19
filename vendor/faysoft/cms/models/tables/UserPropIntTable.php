@@ -4,15 +4,15 @@ namespace cms\models\tables;
 use fay\core\db\Table;
 
 /**
- * User Prop Int model
+ * 角色自定义属性-int
  * 
- * @property int $user_id
- * @property int $prop_id
- * @property int $content
+ * @property int $id Id
+ * @property int $relation_id 用户ID
+ * @property int $prop_id 属性ID
+ * @property int $content 属性值
  */
 class UserPropIntTable extends Table{
     protected $_name = 'user_prop_int';
-    protected $_primary = array('user_id', 'prop_id', 'content');
     
     /**
      * @param string $class_name
@@ -24,21 +24,24 @@ class UserPropIntTable extends Table{
     
     public function rules(){
         return array(
-            array(array('user_id', 'prop_id', 'content'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('id', 'relation_id', 'content'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
         );
     }
 
     public function labels(){
         return array(
-            'user_id'=>'用户ID',
-            'prop_id'=>'角色ID',
-            'content'=>'角色值',
+            'id'=>'Id',
+            'relation_id'=>'用户ID',
+            'prop_id'=>'属性ID',
+            'content'=>'属性值',
         );
     }
 
     public function filters(){
         return array(
-            'user_id'=>'intval',
+            'id'=>'intval',
+            'relation_id'=>'intval',
             'prop_id'=>'intval',
             'content'=>'intval',
         );

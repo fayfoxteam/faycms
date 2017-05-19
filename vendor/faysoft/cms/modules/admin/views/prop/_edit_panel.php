@@ -1,7 +1,6 @@
 <?php
 use cms\models\tables\PropsTable;
 use cms\services\prop\PropService;
-
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <div class="form-field">
@@ -26,14 +25,14 @@ use cms\services\prop\PropService;
 <div class="form-field">
     <label class="title bold">用途</label>
     <?php
-    if(F::form()->getData('type')){
-        echo PropService::service()->getUsageModel($data['type'])->getUsageName();
+    if(F::form()->getData('usage_type')){
+        echo PropService::service()->getUsageModel(F::form()->getData('usage_type'))->getUsageName();
     }else{
         $usages = array();
         foreach(PropService::$usage_type_map as $usage_type => $usage_type_class){
             $usages[$usage_type] = PropService::service()->getUsageModel($usage_type)->getUsageName();
         }
-        echo F::form()->select('type', $usages, array(
+        echo F::form()->select('usage_type', $usages, array(
             'class'=>'form-control mw200 ib',
         ));
     }
@@ -79,8 +78,8 @@ use cms\services\prop\PropService;
     <a href="javascript:" class="btn btn-sm btn-grey" id="add-prop-value-link">添加</a>
     <span class="fc-grey">（添加后可拖拽排序）</span>
     <div class="dragsort-list" id="prop-list">
-        <?php if(isset($prop['values']) && is_array($prop['values'])){?>
-            <?php foreach($prop['values'] as $pv){?>
+        <?php if(isset($prop['options']) && is_array($prop['options'])){?>
+            <?php foreach($prop['options'] as $pv){?>
                 <div class="dragsort-item">
                     <a class="dragsort-rm" href="javascript:"></a>
                     <a class="dragsort-item-selector"></a>

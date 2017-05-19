@@ -1,4 +1,5 @@
 <?php
+use cms\models\tables\PropsTable;
 use fay\helpers\HtmlHelper;
 use cms\services\post\PostCategoryService;
 
@@ -37,8 +38,9 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
                             'encode'=>false,
                             'title'=>F::app()->checkPermission('cms/admin/post/cat-edit') ? '点击可改变状态' : false,
                         ));
-                        echo HtmlHelper::link('分类属性', array('cms/admin/post-prop/index', array(
-                            'cat_id'=>$c['id'],
+                        echo HtmlHelper::link('分类属性', array('cms/admin/prop-usage/index', array(
+                            'usage_id'=>$c['id'],
+                            'usage_type'=> PropsTable::USAGE_POST_CAT,
                         )), array(), true);
                         echo HtmlHelper::link('查看该分类', array('cms/admin/post/index', array(
                             'cat_id'=>$c['id'],

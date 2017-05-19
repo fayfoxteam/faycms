@@ -88,7 +88,7 @@ class PropElementCheckbox extends ElementAbstract{
         ));
         if($values){
             //为了返回字段类型一致，以逗号分割返回
-            return implode(',', $values['content']);
+            return implode(',', $values);
         }else{
             return null;
         }

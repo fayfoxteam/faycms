@@ -1,4 +1,5 @@
 <?php
+use cms\models\tables\PropsTable;
 use fay\helpers\HtmlHelper;
 ?>
 <tr valign="top" id="role-<?php echo $data['id']?>">
@@ -12,8 +13,9 @@ use fay\helpers\HtmlHelper;
             echo HtmlHelper::link('编辑', array('cms/admin/role/edit', array(
                 'id'=>$data['id'],
             )), array(), true);
-            echo HtmlHelper::link('附加属性', array('cms/admin/role-prop/index', array(
-                'role_id'=>$data['id'],
+            echo HtmlHelper::link('附加属性', array('cms/admin/prop-usage/index', array(
+                'usage_id'=>$data['id'],
+                'usage_type'=> PropsTable::USAGE_ROLE,
             )), array(), true);
             //普通用户不能删除
             echo HtmlHelper::link('删除', array('cms/admin/role/delete', array(

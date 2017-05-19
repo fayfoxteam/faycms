@@ -4,13 +4,14 @@
  * @var $title string
  * @var $data array
  */
+
+use fay\helpers\HtmlHelper;
 ?>
 <!--域名推荐start-->
 <div class="amc-hot">
-    <h5 class="newslist-title"><span class="orange-underline"><?php use fay\helpers\HtmlHelper;
-        
-            echo HtmlHelper::encode($widget->config['title'])?></span><a href="https://am.22.cn/" class="morelink">全部></a></h5>
-    
+    <h5 class="newslist-title"><span class="orange-underline"><?php
+        echo HtmlHelper::encode($widget->config['title'])
+    ?></span><a href="https://am.22.cn/" class="morelink">全部></a></h5>
     <ul class="amc-ym-list">
         <?php foreach($data as $d){?>
         <?php $key = explode('|', $d['key'])?>

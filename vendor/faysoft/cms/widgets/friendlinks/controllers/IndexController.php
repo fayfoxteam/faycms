@@ -24,9 +24,6 @@ class IndexController extends Widget{
             $config['cat_id'] = 0;
         }
         
-        //设置模版
-        $this->parseTemplateForEdit($config);
-        
         return $this->config = $config;
     }
     

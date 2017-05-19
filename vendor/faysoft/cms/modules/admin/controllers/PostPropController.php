@@ -151,7 +151,7 @@ class PostPropController extends AdminController{
         $sql->from('props')
             ->where(array(
                 'delete_time = 0',
-                'type = '.PropsTable::TYPE_POST_CAT,
+                'usage_type = '.PropsTable::USAGE_POST_CAT,
                 'refer IN ('.implode(',', $cat_parents).')',
             ))
             ->order('sort, id DESC');

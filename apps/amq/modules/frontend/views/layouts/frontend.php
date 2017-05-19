@@ -25,8 +25,33 @@ use fay\helpers\HtmlHelper;
     <link rel="stylesheet" type="text/css" href="<?php echo $this->appAssets('css/22bottom.css')?>">
     <script src="<?php echo $this->appAssets('js/jquery.min.js')?>"></script>
     <?php echo $this->getCss()?>
+    <link rel="stylesheet" type="text/css" href="https://static.22.cn/pubnav/navcontrol.min.css?t=20170327">
+    <script src="https://static.22.cn/pubnav/navcontrol.js?t=20170323"></script>
 </head>
 <body>
+<div class="nav_control" id="J_nav_control">
+    <div class="nav_fixed">
+        <div class="nav_container">
+            <a class="nav_logo" href="https://www.22.cn" target="_blank" title="爱名主站"><span class="nav_icon nav_icon_logo"></span>主站</a>
+            <ul class="nav_ul nav_acts" id="J_nav_acts"></ul>
+            <ul class="nav_ul nav_products" id="J_nav_products"></ul>
+        </div>
+        <!-- 下拉子菜单 start -->
+        <div id="J_sub_nav" class="sub_nav_dropdown" >
+            <div class="nav_container"></div>
+        </div>
+        <!-- 下拉子菜单 end -->
+    </div>
+</div>
+
+<script type="text/javascript">
+    var _service = '';
+    var _backurl = "";
+    var _ssourl = 'https://my.22.cn';
+    var _loginpanel = false;
+    NAVControl.init();
+</script>
+
 <!--头部start-->
 <div class="amc-header">
     <div class="amc-headermain clearfix">
@@ -89,35 +114,10 @@ use fay\helpers\HtmlHelper;
 
 
 <!--PC端底部start-->
-<div class="footer">
+<div class="footer hidden-xs" id="fixFooter">
     <div class="main-container">
 
-        <div class="amc-footer-link clearfix">
-            <div class="amc-footer-links">
-                <p>贰贰网络事业群：</p>
-                <a href="https://www.22.cn/ym/" target="_blank">域名注册</a>
-                <a href="https://am.22.cn/" target="_blank">域名交易</a>
-                <a href="https://www.22.cn/yuding/" target="_blank">预订竞价</a>
-                <a href="http://www.mingyou.com/" target="_blank">名优金融</a>
-                <a href="https://t.22.cn/" target="_blank">商标注册</a>
-                <a href="http://club.22.cn/forum.php" target="_blank">爱名论坛</a>
-                <a href="https://yun.22.cn/" target="_blank">云主机</a>
-                <a href="https://p.22.cn/" target="_blank">微闪拍</a>
-                <a href="http://www.qiangmi.com/" target="_blank">抢米网</a>
-            </div>
-            <div class="amc-footer-ewm">
-                <div class="footer-ewms">
-                    <img src="<?php echo $this->appAssets('images/wx_amq.jpg')?>" alt="">
-                    关注爱名圈微信
-                </div>
-
-                <div class="footer-ewms">
-                    <img src="<?php echo $this->appAssets('images/weixin_sidebar.jpg')?>" alt="">
-                    扫描下载爱名app
-                </div>
-            </div>
-        </div>
-
+        <?php F::widget()->load('footer-friendlinks')?>
         <div class="footer-text-sm clearfix">
             <p class="tip">Copyright&nbsp;&nbsp;©&nbsp;&nbsp;2008-<?php echo date('Y')?>&nbsp;<?php echo OptionService::get('site:copyright')?></p>
 
@@ -142,7 +142,6 @@ use fay\helpers\HtmlHelper;
             </p>
 
         </div>
-        <?php F::widget()->load('footer-friendlinks')?>
         <div class="computer-back visible-xs"><a class="computer">返回电脑版</a></div>
     </div>
 </div>

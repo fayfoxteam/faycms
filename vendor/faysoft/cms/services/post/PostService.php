@@ -905,7 +905,7 @@ class PostService extends Service{
         }
         $user_id || $user_id = \F::app()->current_user;
         
-        if(empty($post['user_id'])){
+        if(!$post){
             throw new PostErrorException('指定文章不存在');
         }
         
@@ -963,7 +963,7 @@ class PostService extends Service{
         }
         $user_id || $user_id = \F::app()->current_user;
         
-        if(empty($post['user_id'])){
+        if(!$post){
             throw new PostErrorException('指定文章不存在');
         }
         
@@ -997,7 +997,7 @@ class PostService extends Service{
         }
         $user_id || $user_id = \F::app()->current_user;
         
-        if(empty($post['user_id'])){
+        if(!$post){
             throw new PostErrorException('指定文章不存在');
         }
         
@@ -1031,7 +1031,7 @@ class PostService extends Service{
         }
         $user_id || $user_id = \F::app()->current_user;
         
-        if(empty($post['user_id'])){
+        if(!$post){
             throw new PostErrorException('指定文章不存在');
         }
         

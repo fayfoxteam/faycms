@@ -130,10 +130,14 @@ class IndexController extends Widget{
     
     public function index(){
         $post = $this->getData();
+
+        //自动设置模版参数（这里设置了也有可能在后面被其他逻辑改掉）
+        \F::app()->layout->keywords = $post['extra']['seo_keywords'];
+        \F::app()->layout->description = $post['extra']['seo_description'];
+        \F::app()->layout->title = $post['extra']['seo_title'];
         
         $this->renderTemplate(array(
             'post'=>$post,
         ));
-        
     }
 }

@@ -308,4 +308,13 @@ class RemoteFileService{
         $this->ext_name = $ext_name;
         return $this;
     }
+
+    /**
+     * @param string $client_name
+     * @return $this
+     */
+    public function setClientName($client_name){
+        $this->client_name = $client_name;
+        return $this;
+    }
 }

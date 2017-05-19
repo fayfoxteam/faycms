@@ -438,7 +438,10 @@ class FileService extends Service{
      */
     public function uploadFromUrl($url, $cat = 0, $only_image = true, $client_name = ''){
         $remoteService = new RemoteFileService($url);
-        return $remoteService->save($cat, $only_image, $client_name);
+        if($client_name){
+            $remoteService->setClientName($client_name);
+        }
+        return $remoteService->save($cat, $only_image, true);
     }
     
     /**

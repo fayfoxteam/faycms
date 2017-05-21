@@ -769,6 +769,23 @@ CREATE TABLE `{{$prefix}}vouchers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
+DROP TABLE IF EXISTS `{{$prefix}}widget_areas`;
+CREATE TABLE `{{$prefix}}widget_areas` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='小工具域';
+
+DROP TABLE IF EXISTS `{{$prefix}}widget_areas_widgets`;
+CREATE TABLE `{{$prefix}}widget_areas_widgets` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `widget_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '小工具ID',
+  `widget_area_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '小工具域ID',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序值',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='小工具域-小工具关联关系';
+
 DROP TABLE IF EXISTS `{{$prefix}}widgets`;
 CREATE TABLE `{{$prefix}}widgets` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',

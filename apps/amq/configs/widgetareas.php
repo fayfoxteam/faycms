@@ -16,6 +16,10 @@
  */
 return array(
     array(
+        'alias'=>'index-sidebar-fixed',
+        'description'=>'首页侧边栏（下拉固定）',
+    ),
+    array(
         'alias'=>'index-sidebar',
         'description'=>'首页侧边栏',
     ),

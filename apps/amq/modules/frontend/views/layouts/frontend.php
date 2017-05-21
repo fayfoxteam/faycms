@@ -151,6 +151,13 @@ use fay\helpers\HtmlHelper;
 
 <script src="<?php echo $this->appAssets('js/bootstrap.min.js')?>"></script>
 <script src="<?php echo $this->appAssets('js/hammer.min.js')?>"></script>
-<!--<script src="<?php /*echo $this->appAssets('js/amc.js')*/?>"></script>-->
+<script src="<?php echo $this->appAssets('js/amc.js')?>"></script>
+<script src="<?php echo $this->appAssets('js/scrollfix.min.js')?>"></script>
+<script type="text/javascript">
+    $(function(){
+        var fix = $(".fix"), fixtop = $(".fix-top"), fixStartTop = $(".fix-startTop"), fixStartBottom = $(".fix-startBottom"), fixbottom = $(".fix-bottom"), fixfooter = $(".fix-footer");
+        fixbottom.scrollFix({startBottom:"#startBottom",endPos:$('#fixFooter')});
+    })
+</script>
 </body>
 </html>

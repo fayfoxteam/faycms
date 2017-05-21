@@ -6,12 +6,14 @@
 <!--新闻start-->
 <div class="amc-newslist hidden-xs">
     <h5 class="newslist-title">
-        <a href="" class="amc-secondnav-title act">域名资讯</a>
-        <a href="" class="amc-secondnav-title">域名数据</a>
-        <a href="" class="amc-secondnav-title">交易投资</a>
-        <a href="" class="amc-secondnav-title">经验交流</a>
-        <a href="" class="amc-secondnav-title">域名知识</a>
-        <a href="" class="amc-secondnav-title">域名爆料</a>
+        <?php
+            $cat = \cms\services\CategoryService::service()->get(F::input()->get('cat'));
+            if($cat){
+                echo \fay\helpers\HtmlHelper::link($cat['title'], 'javascript:', array(
+                    'class'=>'amc-secondnav-title act',
+                ));
+            }
+        ?>
     </h5>
     <ul class="newslist-contain">
         <?php foreach($posts as $post){?>

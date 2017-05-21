@@ -14,11 +14,14 @@
     <!--左边内容over-->
     
     <!--右边内容start-->
-    <div class="amc-aside hidden-xs">
+    <div class="amc-aside hidden-xs" id="startBottom">
         <!--搜索框start-->
         <?php $this->renderPartial('common/search_form')?>
         <!--搜索框over-->
         
+        <div class="amc-fix fix-bottom">
+            <?php F::widget()->area('index-sidebar-fixed')?>
+        </div>
         <?php F::widget()->area('index-sidebar')?>
     </div>
     <!--右边内容over-->

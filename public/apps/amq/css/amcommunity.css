@@ -103,9 +103,10 @@ ul,li{
 }
 
 .amc-circle{
-	width: 70px;
-	left:90%;
-	bottom:5px;
+	width: auto;
+	left: auto;
+	right: 8px;
+	bottom: 5px;
 	margin-left: 0;
 
 }

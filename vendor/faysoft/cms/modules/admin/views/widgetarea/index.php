@@ -55,8 +55,8 @@ var widgetarea = {
                 'dragSelectorExclude': 'strong,span',
                 'dragEnd':function(){
                     var widgetareas = {};
-                    $('#widgetarea-list .box').each(function(){
-                        var widgetarea = $(this).attr('data-alias')
+                    $('#widgetarea-list').find('.box').each(function(){
+                        var widgetarea = $(this).attr('data-alias');
                         widgetareas[widgetarea] = [];
                         $(this).find('.widget-item').each(function(){
                             widgetareas[widgetarea].push($(this).attr('data-widget-id'));
@@ -66,11 +66,7 @@ var widgetarea = {
                         'type': 'POST',
                         'url': system.url('cms/admin/widgetarea/set-widgets'),
                         'data': widgetareas,
-                        'dataType': 'json',
-                        'cache': false,
-                        'success': function(resp){
-                            
-                        }
+                        'cache': false
                     });
                 }
             });

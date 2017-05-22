@@ -3,8 +3,12 @@ use fay\helpers\HtmlHelper;
 
 /**
  * @var $widgets array
- * @var $widgetareas array
+ * @var $widget_areas array
  */
+$widget_area_map = array();
+foreach($widget_areas as $wa){
+    $widget_area_map[$wa['id']] = $wa['description'] . ' - ' . $wa['alias'];
+}
 ?>
 <div class="row">
     <div class="col-12">
@@ -56,7 +60,7 @@ use fay\helpers\HtmlHelper;
                 </div>
                 <div class="form-field">
                     <label class="title bold">所属域</label>
-                    <?php echo HtmlHelper::select('widgetarea', array(''=>'--所属小工具域--') + $widgetareas, '', array(
+                    <?php echo HtmlHelper::select('widget_area', array(''=>'--所属小工具域--') + $widget_area_map, '', array(
                         'class'=>'form-control',
                     ))?>
                     <p class="description">将小工具指定到域，可以通过域来调用一组小工具。</p>

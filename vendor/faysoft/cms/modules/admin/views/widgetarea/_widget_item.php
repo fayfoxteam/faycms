@@ -1,6 +1,11 @@
 <?php
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $widget_area_id int
+ * @var $widget array
+ */
+
 $widget_instance = F::widget()->get($widget['widget_name'], 'Admin');
 ?>
 <div class="widget-item <?php if(!$widget['enabled'])echo 'bl-yellow'?>" data-widget-id="<?php echo $widget['id']?>">
@@ -23,6 +28,7 @@ $widget_instance = F::widget()->get($widget['widget_name'], 'Admin');
             ), true);
             echo HtmlHelper::link('复制', array('cms/admin/widget/copy', array(
                 'id'=>$widget['id'],
+                'widget_area_id'=>$widget_area_id,
             )), array(), true);
         ?></span>
         <p class="fc-grey"><?php echo HtmlHelper::tag('span', array(
@@ -47,6 +53,7 @@ $widget_instance = F::widget()->get($widget['widget_name'], 'Admin');
             ), true);
             echo HtmlHelper::link('复制', array('cms/admin/widget/copy', array(
                 'id'=>$widget['id'],
+                'widget_area_id'=>$widget_area_id,
             )), array(), true);
         ?></span>
     <?php }?>

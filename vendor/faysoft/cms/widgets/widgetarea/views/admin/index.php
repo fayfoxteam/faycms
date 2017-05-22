@@ -3,8 +3,12 @@ use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
 
 /**
- * @var $widgetareas array
+ * @var $widget_areas array
  */
+$widget_area_map = array();
+foreach($widget_areas as $wa){
+    $widget_area_map[$wa['id']] = $wa['description'] . ' - ' . $wa['alias'];
+}
 ?>
 <div class="box">
     <div class="box-title">
@@ -13,7 +17,7 @@ use cms\services\user\UserRoleService;
     <div class="box-content">
         <div class="form-field">
             <label class="title bold">选择小工具域</label>
-            <?php echo F::form('widget')->select('alias', $widgetareas, array(
+            <?php echo F::form('widget')->select('alias', $widget_area_map, array(
                 'class'=>'form-control mw400',
             ))?>
         </div>

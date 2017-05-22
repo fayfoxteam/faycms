@@ -774,14 +774,15 @@ CREATE TABLE `{{$prefix}}widget_areas` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='小工具域';
 
 DROP TABLE IF EXISTS `{{$prefix}}widget_areas_widgets`;
 CREATE TABLE `{{$prefix}}widget_areas_widgets` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `widget_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '小工具ID',
   `widget_area_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '小工具域ID',
+  `widget_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '小工具ID',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序值',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='小工具域-小工具关联关系';
@@ -790,17 +791,15 @@ DROP TABLE IF EXISTS `{{$prefix}}widgets`;
 CREATE TABLE `{{$prefix}}widgets` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
-  `options` text NOT NULL COMMENT '实例参数',
+  `config` text NOT NULL COMMENT '配置参数',
   `widget_name` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '小工具描述',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
-  `widgetarea` varchar(50) NOT NULL DEFAULT '' COMMENT '小工具域',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '255' COMMENT '排序值',
   `ajax` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否ajax引入',
   `cache` int(11) NOT NULL DEFAULT '-1' COMMENT '是否缓存',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_histories`;
 CREATE TABLE `{{$prefix}}post_histories` (

@@ -3,7 +3,6 @@ use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget_admin fay\widget\Widget
- * @var $widgetareas array
  */
 ?>
 <?php echo F::form('widget')->open()?>
@@ -54,13 +53,6 @@ use fay\helpers\HtmlHelper;
                         <p class="fc-grey mt5">
                             唯一的识别一个widget实例
                         </p>
-                    </div>
-                    <div class="form-field">
-                        <label class="title bold">所属域</label>
-                        <?php echo HtmlHelper::select('f_widget_widgetarea', array(''=>'--所属小工具域--')+$widgetareas, $widget['widgetarea'], array(
-                            'class'=>'form-control',
-                        ))?>
-                        <p class="fc-grey mt5">小工具可以属于一个域，通过调用域来显示一组小工具</p>
                     </div>
                     <div class="form-field">
                         <label class="title bold pb0">描述</label>

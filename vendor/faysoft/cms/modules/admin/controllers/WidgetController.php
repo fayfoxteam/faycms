@@ -3,7 +3,9 @@ namespace cms\modules\admin\controllers;
 
 use cms\helpers\WidgetHelper;
 use cms\library\AdminController;
+use cms\models\tables\WidgetAreasWidgetsTable;
 use cms\models\tables\WidgetsTable;
+use cms\services\widget\WidgetAreaService;
 use fay\helpers\LocalFileHelper;
 use fay\helpers\StringHelper;
 use cms\models\tables\ActionlogsTable;
@@ -11,6 +13,7 @@ use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
 use fay\core\HttpException;
+use Michelf\Markdown;
 
 class WidgetController extends AdminController{
     public function __construct(){
@@ -49,12 +52,7 @@ class WidgetController extends AdminController{
         $this->view->widgets = $widget_instances;
 
         //小工具域列表
-        $widgetareas = $this->config->getFile('widgetareas');
-        $widgetareas_arr = array();
-        foreach($widgetareas as $wa){
-            $widgetareas_arr[$wa['alias']] = $wa['description'] . ' - ' . $wa['alias'];
-        }
-        $this->view->widgetareas = $widgetareas_arr;
+        $this->view->widget_areas = WidgetAreaService::service()->getAll();
         
         $this->view->render();
     }
@@ -77,7 +75,7 @@ class WidgetController extends AdminController{
         $widget_obj = \F::widget()->get($widget['widget_name'], 'Admin');
         
         if(file_exists($widget_obj->path . 'README.md')){
-            $this->layout->_help_content = '<div class="text">' . \Michelf\Markdown::defaultTransform(file_get_contents($widget_obj->path . 'README.md')) . '</div>';
+            $this->layout->_help_content = '<div class="text">' . Markdown::defaultTransform(file_get_contents($widget_obj->path . 'README.md')) . '</div>';
         }
         
         $this->form('widget')->setRules(array(
@@ -106,7 +104,6 @@ class WidgetController extends AdminController{
                 'enabled'=>$this->input->post('f_widget_enabled') ? 1 : 0,
                 'ajax'=>$this->input->post('f_widget_ajax') ? 1 : 0,
                 'cache'=>$f_widget_cache && $f_widget_cache_expire >= 0 ? $f_widget_cache_expire : -1,
-                'widgetarea'=>$this->input->post('f_widget_widgetarea', 'trim'),
             ), $id);
             
             $widget_obj->alias = $alias;
@@ -118,25 +115,17 @@ class WidgetController extends AdminController{
         }
         
         $this->view->widget = $widget;
-        if($widget['options']){
-            $this->view->widget_config = json_decode($widget['options'], true);
+        if($widget['config']){
+            $this->view->widget_config = json_decode($widget['config'], true);
         }else{
             $this->view->widget_config = array();
         }
         
-        $widget_admin->initConfig(json_decode($widget['options'], true));
+        $widget_admin->initConfig(json_decode($widget['config'], true));
         $this->form('widget')->setData($widget_admin->config, true);
         $this->view->widget_admin = $widget_admin;
         $this->layout->subtitle = '编辑小工具  - '.$this->view->widget_admin->title;
 
-        //小工具域列表
-        $widgetareas = $this->config->getFile('widgetareas');
-        $widgetareas_arr = array();
-        foreach($widgetareas as $wa){
-            $widgetareas_arr[$wa['alias']] = $wa['description'] . ' - ' . $wa['alias'];
-        }
-        $this->view->widgetareas = $widgetareas_arr;
-        
         $this->view->render();
     }
     
@@ -164,17 +153,25 @@ class WidgetController extends AdminController{
     
     public function createInstance(){
         if($this->input->post()){
-            $widget_instance_id = WidgetsTable::model()->insert(array(
-                'widget_name'=>$this->input->post('widget_name'),
+            $widget_id = WidgetsTable::model()->insert(array(
+                'widget_name'=>$this->input->post('widget_name', ''),
                 'alias'=>$this->input->post('alias') ? $this->input->post('alias') : 'w' . uniqid(),
-                'description'=>$this->input->post('description'),
-                'widgetarea'=>$this->input->post('widgetarea', 'trim'),
-                'options'=>'',
+                'description'=>$this->input->post('description', ''),
+                'config'=>'',
             ));
-            $this->actionlog(ActionlogsTable::TYPE_WIDGET, '创建了一个小工具实例', $widget_instance_id);
+            
+            if($this->input->post('widget_area')){
+                //与小工具域关联
+                WidgetAreasWidgetsTable::model()->insert(array(
+                    'widget_area_id'=>$this->input->post('widget_area', 'intval'),
+                    'widget_id'=>$widget_id,
+                    'sort'=>255,
+                ));
+            }
+            $this->actionlog(ActionlogsTable::TYPE_WIDGET, '创建了一个小工具实例', $widget_id);
             
             Response::notify('success', '小工具实例创建成功', array('cms/admin/widget/edit', array(
-                'id'=>$widget_instance_id,
+                'id'=>$widget_id,
             )));
         }else{
             throw new HttpException('不完整的请求');
@@ -209,6 +206,9 @@ class WidgetController extends AdminController{
     public function removeInstance(){
         $id = $this->input->get('id', 'intval');
         WidgetsTable::model()->delete($id);
+        WidgetAreasWidgetsTable::model()->delete(array(
+            'widget_id = ?'=>$id,
+        ));
         $this->actionlog(ActionlogsTable::TYPE_WIDGET, '删除了一个小工具实例', $id);
 
         Response::notify('success', array(
@@ -243,15 +243,22 @@ class WidgetController extends AdminController{
         
         $widget_id = WidgetsTable::model()->insert(array(
             'alias'=>'w' . uniqid(),
-            'options'=>$widget['options'],
+            'config'=>$widget['config'],
             'widget_name'=>$widget['widget_name'],
             'description'=>$widget['description'],
             'enabled'=>$widget['enabled'],
-            'widgetarea'=>$widget['widgetarea'],
-            'sort'=>$widget['sort'],
             'ajax'=>$widget['ajax'],
             'cache'=>$widget['cache'],
         ));
+        
+        if($this->input->get('widget_area_id')){
+            //若是从小工具域中点击的复制，默认将复制结果关联到对应小工具域
+            WidgetAreasWidgetsTable::model()->insert(array(
+                'widget_area_id'=>$this->input->get('widget_area_id', 'intval'),
+                'widget_id'=>$widget_id,
+                'sort'=>0,
+            ));
+        }
         
         $this->actionlog(ActionlogsTable::TYPE_WIDGET, '复制了小工具实例' . $id, $widget_id);
         

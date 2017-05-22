@@ -1,6 +1,7 @@
 <?php
 namespace cms\widgets\widgetarea\controllers;
 
+use cms\services\widget\WidgetAreaService;
 use fay\helpers\ArrayHelper;
 use fay\widget\Widget;
 use cms\services\FlashService;
@@ -14,8 +15,10 @@ class AdminController extends Widget{
     }
     
     public function index(){
+        $widget_areas = WidgetAreaService::service()->getAll();
+        
         $this->view->assign(array(
-            'widgetareas'=>ArrayHelper::column(\F::config()->getFile('widgetareas'), 'description', 'alias'),
+            'widget_areas'=>$widget_areas,
         ))->render();
     }
     

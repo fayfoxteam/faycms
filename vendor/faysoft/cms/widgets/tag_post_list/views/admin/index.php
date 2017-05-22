@@ -152,7 +152,7 @@ use cms\services\user\UserRoleService;
                 <p><?php
                     echo F::form('widget')->inputRadio('pager', 'system', array(
                         'label'=>'调用全局分页条',
-                    ));
+                    ), true);
                     echo F::form('widget')->inputRadio('pager', 'custom', array(
                         'label'=>'小工具内自定义',
                     ));

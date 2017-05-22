@@ -44,4 +44,19 @@ class WidgetAreasTable extends Table{
             'description'=>'trim',
         );
     }
+
+    public function getNotWritableFields($scene){
+        switch($scene){
+            case 'insert':
+                return array('id');
+                break;
+            case 'update':
+                return array(
+                    'id'
+                );
+                break;
+            default:
+                return array();
+        }
+    }
 }

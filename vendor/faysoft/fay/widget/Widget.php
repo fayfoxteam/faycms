@@ -104,30 +104,16 @@ abstract class Widget{
     
     /**
      * 存储该widget实例的参数，参数以数组的方式传入
-     * @param $data
+     * @param $config
      */
-    public function saveConfig($data){
-        $this->formatTemplateBeforeSave($data);
+    public function saveConfig($config){
+        $this->formatTemplateBeforeSave($config);
         
         WidgetsTable::model()->update(array(
-            'options'=>json_encode($data),
-        ), "alias = '{$this->alias}'");
-    }
-    
-    /**
-     * 获取该widget实例的参数，参数以数组方式返回，若未设置参数，返回空数组
-     */
-    public function getConfig(){
-        if($this->config){
-            return $this->config;
-        }
-        
-        $widget = WidgetsTable::model()->fetchRow("alias = '{$this->alias}'", 'options');
-        if(isset($widget['options']) && $widget['options']){
-            return json_decode($widget['options'], true);
-        }else{
-            return array();
-        }
+            'config'=>json_encode($config),
+        ), array(
+            'alias = ?'=>$this->alias
+        ));
     }
     
     /**

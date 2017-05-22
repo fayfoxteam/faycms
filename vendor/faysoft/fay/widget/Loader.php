@@ -1,6 +1,7 @@
 <?php
 namespace fay\widget;
 
+use cms\services\widget\WidgetAreaService;
 use fay\core\Exception;
 use fay\core\HttpException;
 use fay\helpers\RuntimeHelper;
@@ -84,7 +85,7 @@ class Loader{
                 echo $content;
             }else{
                 RuntimeHelper::append(__FILE__, __LINE__, "准备渲染小工具: {$widget['alias']}");
-                $this->render($widget['widget_name'], json_decode($widget['options'], true), $ajax, $widget['cache'], $widget['alias'], $index, $action);
+                $this->render($widget['widget_name'], json_decode($widget['config'], true), $ajax, $widget['cache'], $widget['alias'], $index, $action);
                 RuntimeHelper::append(__FILE__, __LINE__, "小工具: {$widget['alias']}渲染完成");
             }
         }else{
@@ -202,7 +203,7 @@ class Loader{
             //获取widget实例
             $widget_obj = $this->get($widget_config['widget_name']);
             //初始化配置
-            $widget_obj->initConfig(json_decode($widget_config['options'], true));
+            $widget_obj->initConfig(json_decode($widget_config['config'], true));
             if($widget_obj == null){
                 throw new HttpException('Widget不存在或已被删除');
             }
@@ -217,34 +218,13 @@ class Loader{
     }
     
     /**
-     * 返回一个小工具的配置参数
-     * @param string $alias 小工具实例别名
-     * @return array
-     */
-    public function getConfig($alias){
-        $widget = WidgetsTable::model()->fetchRow(array(
-            'alias = ?'=>$alias,
-        ), 'options');
-        if(isset($widget['options']) && $widget['options']){
-            return json_decode($widget['options'], true);
-        }else{
-            return array();
-        }
-    }
-    
-    /**
      * 渲染一个小工具域
      * @param string $alias 小工具域别名
      * @throws Exception
      */
-    public function area($alias){
-        if(empty($alias)){
-            throw new Exception('引用小工具域时，别名不能为空');
-        }
-        $widgets = WidgetsTable::model()->fetchAll(array(
-            'widgetarea = ?'=>$alias,
-            'enabled = 1',
-        ), '*', 'sort, id DESC');
+    public function area($key){
+        $widgets = WidgetAreaService::service()->getWidgets($key);
+        
         foreach($widgets as $k => $w){
             $this->load($w, $k+1);
         }

@@ -6,7 +6,7 @@
                 <div class="box-content">
                     <?php echo F::form()->textarea('code', array(
                         'class'=>'hide',
-                        'id'=>'key',
+                        'id'=>'eval-code',
                     ), "<?php\r\n");?>
                     <pre id="php-code"></pre>
                     <a href="javascript:" id="form-submit" class="btn mt5">Run</a>
@@ -38,24 +38,24 @@ editor.setOptions({
     minLines: 10
 });
 editor.renderer.setScrollMargin(10, 10);
-editor.getSession().on('change', function(e) {
-    $('#key').val(editor.getValue());
+editor.getSession().on('change', function() {
+    $('#eval-code').val(editor.getValue());
 });
 editor.commands.addCommand({
     name: 'run-s',
     bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
-    exec: function(editor) {
+    exec: function() {
         $('#form').submit();
     }
 });
 editor.commands.addCommand({
     name: 'run-r',
     bindKey: {win: 'Ctrl-R',  mac: 'Command-R'},
-    exec: function(editor) {
+    exec: function() {
         $('#form').submit();
     }
 });
-editor.setValue($('#key').val(), 1);
+editor.setValue($('#eval-code').val(), 1);
 
 $('#form').submit(function(){
     $('#eval-result-box').block();

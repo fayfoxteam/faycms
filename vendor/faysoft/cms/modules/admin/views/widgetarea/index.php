@@ -55,7 +55,11 @@ var widgetarea = {
                 'dragSelectorExclude': 'strong,span',
                 'dragEnd':function(){
                     var widgetareas = {};
-                    $('#widgetarea-list').find('.box').each(function(){
+                    //当前可见的小工具域
+                    
+                    
+                    //当前可见的小工具域中关联的小工具
+                    $('#widgetarea-list').find('.box:visible').each(function(){
                         var widgetarea = $(this).attr('data-alias');
                         widgetareas[widgetarea] = [];
                         $(this).find('.widget-item').each(function(){

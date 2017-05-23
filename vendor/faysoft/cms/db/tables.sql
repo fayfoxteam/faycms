@@ -8,7 +8,7 @@ CREATE TABLE `{{$prefix}}actionlogs` (
   `refer` varchar(500) NOT NULL DEFAULT '0' COMMENT '关联ID',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'Ip Int',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}actions`;
 CREATE TABLE `{{$prefix}}actions` (
@@ -20,7 +20,7 @@ CREATE TABLE `{{$prefix}}actions` (
   `parent` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent',
   PRIMARY KEY (`id`),
   UNIQUE KEY `router` (`router`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_caches`;
 CREATE TABLE `{{$prefix}}analyst_caches` (
@@ -34,7 +34,7 @@ CREATE TABLE `{{$prefix}}analyst_caches` (
   `new_visitors` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'New Visitors',
   `bounce_rate` decimal(5,2) unsigned NOT NULL DEFAULT '0.00' COMMENT 'Bounce Rate',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_macs`;
 CREATE TABLE `{{$prefix}}analyst_macs` (
@@ -61,7 +61,7 @@ CREATE TABLE `{{$prefix}}analyst_macs` (
   PRIMARY KEY (`id`),
   KEY `fmac` (`fmac`),
   KEY `date` (`create_date`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_sites`;
 CREATE TABLE `{{$prefix}}analyst_sites` (
@@ -70,7 +70,7 @@ CREATE TABLE `{{$prefix}}analyst_sites` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}analyst_visits`;
 CREATE TABLE `{{$prefix}}analyst_visits` (
@@ -93,7 +93,7 @@ CREATE TABLE `{{$prefix}}analyst_visits` (
   PRIMARY KEY (`id`),
   KEY `pv` (`mac`,`short_url`,`create_time`),
   KEY `date` (`create_date`,`hour`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}categories`;
 CREATE TABLE `{{$prefix}}categories` (
@@ -114,7 +114,7 @@ CREATE TABLE `{{$prefix}}categories` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`),
   KEY `alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}cities`;
 CREATE TABLE `{{$prefix}}cities` (
@@ -125,7 +125,7 @@ CREATE TABLE `{{$prefix}}cities` (
   `abbr` varchar(30) NOT NULL DEFAULT '' COMMENT '缩写',
   `short` varchar(30) NOT NULL DEFAULT '' COMMENT '单个首字母',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}contacts`;
 CREATE TABLE `{{$prefix}}contacts` (
@@ -145,7 +145,7 @@ CREATE TABLE `{{$prefix}}contacts` (
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT '前台显示',
   `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '已读标记',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}files`;
 CREATE TABLE `{{$prefix}}files` (
@@ -167,7 +167,7 @@ CREATE TABLE `{{$prefix}}files` (
   `weixin_server_id` varchar(100) NOT NULL DEFAULT '' COMMENT '微信上传图片后得到的服务器端ID',
   PRIMARY KEY (`id`),
   KEY `raw_name` (`raw_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}follows`;
 CREATE TABLE `{{$prefix}}follows` (
@@ -180,7 +180,7 @@ CREATE TABLE `{{$prefix}}follows` (
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`fans_id`,`user_id`),
   KEY `fans` (`user_id`,`fans_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='关注关系';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='关注关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}item_prop_values`;
 CREATE TABLE `{{$prefix}}item_prop_values` (
@@ -193,7 +193,7 @@ CREATE TABLE `{{$prefix}}item_prop_values` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}item_props`;
 CREATE TABLE `{{$prefix}}item_props` (
@@ -211,7 +211,7 @@ CREATE TABLE `{{$prefix}}item_props` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `multi` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Multi',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}keywords`;
 CREATE TABLE `{{$prefix}}keywords` (
@@ -219,7 +219,7 @@ CREATE TABLE `{{$prefix}}keywords` (
   `keyword` varchar(50) NOT NULL DEFAULT '' COMMENT '关键词',
   `link` varchar(500) NOT NULL DEFAULT '' COMMENT '链接地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_favorites`;
 CREATE TABLE `{{$prefix}}post_favorites` (
@@ -230,7 +230,7 @@ CREATE TABLE `{{$prefix}}post_favorites` (
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`user_id`,`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_likes`;
 CREATE TABLE `{{$prefix}}post_likes` (
@@ -242,7 +242,7 @@ CREATE TABLE `{{$prefix}}post_likes` (
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
   PRIMARY KEY (`post_id`,`user_id`),
   KEY `likes` (`user_id`,`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_meta`;
 CREATE TABLE `{{$prefix}}post_meta` (
@@ -257,7 +257,7 @@ CREATE TABLE `{{$prefix}}post_meta` (
   `favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '收藏数',
   `real_favorites` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实收藏数',
   PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}links`;
 CREATE TABLE `{{$prefix}}links` (
@@ -274,7 +274,7 @@ CREATE TABLE `{{$prefix}}links` (
   `logo` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Logo',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}logs`;
 CREATE TABLE `{{$prefix}}logs` (
@@ -289,7 +289,7 @@ CREATE TABLE `{{$prefix}}logs` (
   `user_agent` varchar(255) NOT NULL COMMENT 'User Agent',
   PRIMARY KEY (`id`),
   KEY `type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}menus`;
 CREATE TABLE `{{$prefix}}menus` (
@@ -307,7 +307,7 @@ CREATE TABLE `{{$prefix}}menus` (
   `target` varchar(30) NOT NULL DEFAULT '' COMMENT '打开方式',
   PRIMARY KEY (`id`),
   KEY `alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}messages`;
 CREATE TABLE `{{$prefix}}messages` (
@@ -328,7 +328,7 @@ CREATE TABLE `{{$prefix}}messages` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   KEY `post` (`to_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}notifications`;
 CREATE TABLE `{{$prefix}}notifications` (
@@ -342,7 +342,7 @@ CREATE TABLE `{{$prefix}}notifications` (
   `publish_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布时间',
   `validity_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '有效期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}options`;
 CREATE TABLE `{{$prefix}}options` (
@@ -355,7 +355,7 @@ CREATE TABLE `{{$prefix}}options` (
   `is_system` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is System',
   PRIMARY KEY (`id`),
   UNIQUE KEY `option_name` (`option_name`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}pages`;
 CREATE TABLE `{{$prefix}}pages` (
@@ -377,14 +377,14 @@ CREATE TABLE `{{$prefix}}pages` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   `abstract` text NOT NULL COMMENT '摘要',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}pages_categories`;
 CREATE TABLE `{{$prefix}}pages_categories` (
   `page_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Page Id',
   `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   PRIMARY KEY (`page_id`,`cat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_int`;
 CREATE TABLE `{{$prefix}}post_prop_int` (
@@ -394,7 +394,7 @@ CREATE TABLE `{{$prefix}}post_prop_int` (
   `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-int';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-int';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_text`;
 CREATE TABLE `{{$prefix}}post_prop_text` (
@@ -404,7 +404,7 @@ CREATE TABLE `{{$prefix}}post_prop_text` (
   `content` text COMMENT '属性值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-text';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-text';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_varchar`;
 CREATE TABLE `{{$prefix}}post_prop_varchar` (
@@ -414,7 +414,7 @@ CREATE TABLE `{{$prefix}}post_prop_varchar` (
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `post_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-varchar';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-varchar';
 
 DROP TABLE IF EXISTS `{{$prefix}}posts`;
 CREATE TABLE `{{$prefix}}posts` (
@@ -438,14 +438,14 @@ CREATE TABLE `{{$prefix}}posts` (
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
   KEY `cat` (`cat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_categories`;
 CREATE TABLE `{{$prefix}}posts_categories` (
   `post_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `cat_id` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
   PRIMARY KEY (`post_id`,`cat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_comments`;
 CREATE TABLE `{{$prefix}}post_comments` (
@@ -465,7 +465,7 @@ CREATE TABLE `{{$prefix}}post_comments` (
   `right_value` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '右值',
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}post_extra`;
 CREATE TABLE `{{$prefix}}post_extra` (
@@ -478,7 +478,7 @@ CREATE TABLE `{{$prefix}}post_extra` (
   `source` varchar(50) NOT NULL DEFAULT '' COMMENT '来源',
   `source_link` varchar(255) NOT NULL DEFAULT '' COMMENT '来源链接',
   PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_files`;
 CREATE TABLE `{{$prefix}}posts_files` (
@@ -488,14 +488,14 @@ CREATE TABLE `{{$prefix}}posts_files` (
   `is_image` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否为图片',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`post_id`,`file_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_tags`;
 CREATE TABLE `{{$prefix}}posts_tags` (
   `post_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Post Id',
   `tag_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Tag Id',
   PRIMARY KEY (`post_id`,`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}prop_options`;
 CREATE TABLE `{{$prefix}}prop_options` (
@@ -506,7 +506,7 @@ CREATE TABLE `{{$prefix}}prop_options` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='自定义属性选项列表';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='自定义属性选项列表';
 
 DROP TABLE IF EXISTS `{{$prefix}}props`;
 CREATE TABLE `{{$prefix}}props` (
@@ -520,7 +520,7 @@ CREATE TABLE `{{$prefix}}props` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `is_show` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否默认显示',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='自定义属性表';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='自定义属性表';
 
 DROP TABLE IF EXISTS `{{$prefix}}props_usages`;
 CREATE TABLE `{{$prefix}}props_usages` (
@@ -531,7 +531,7 @@ CREATE TABLE `{{$prefix}}props_usages` (
   `sort` smallint(5) unsigned NOT NULL DEFAULT '10000' COMMENT '排序值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `usage_id-prop_id` (`usage_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='属性用途关系';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='属性用途关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}regions`;
 CREATE TABLE `{{$prefix}}regions` (
@@ -542,7 +542,7 @@ CREATE TABLE `{{$prefix}}regions` (
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `region_type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}roles`;
 CREATE TABLE `{{$prefix}}roles` (
@@ -552,21 +552,21 @@ CREATE TABLE `{{$prefix}}roles` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `admin` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否管理员角色',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}roles_actions`;
 CREATE TABLE `{{$prefix}}roles_actions` (
   `role_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Role Id',
   `action_id` smallint(5) unsigned NOT NULL COMMENT 'Action Id',
   PRIMARY KEY (`role_id`,`action_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}roles_cats`;
 CREATE TABLE `{{$prefix}}roles_cats` (
   `role_id` mediumint(8) unsigned NOT NULL COMMENT 'Role Id',
   `cat_id` mediumint(8) unsigned NOT NULL COMMENT 'Cat Id',
   PRIMARY KEY (`role_id`,`cat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}spider_logs`;
 CREATE TABLE `{{$prefix}}spider_logs` (
@@ -577,14 +577,14 @@ CREATE TABLE `{{$prefix}}spider_logs` (
   `url` varchar(255) NOT NULL DEFAULT '' COMMENT 'Url',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}tag_counter`;
 CREATE TABLE `{{$prefix}}tag_counter` (
   `tag_id` int(10) unsigned NOT NULL COMMENT '标签ID',
   `posts` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文章数',
   PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='标签计数器';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='标签计数器';
 
 DROP TABLE IF EXISTS `{{$prefix}}tags`;
 CREATE TABLE `{{$prefix}}tags` (
@@ -599,7 +599,7 @@ CREATE TABLE `{{$prefix}}tags` (
   `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'Seo Description',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}templates`;
 CREATE TABLE `{{$prefix}}templates` (
@@ -613,7 +613,7 @@ CREATE TABLE `{{$prefix}}templates` (
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_addresses`;
 CREATE TABLE `{{$prefix}}user_addresses` (
@@ -631,7 +631,7 @@ CREATE TABLE `{{$prefix}}user_addresses` (
   `is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '默认收货地址',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_counter`;
 CREATE TABLE `{{$prefix}}user_counter` (
@@ -642,7 +642,7 @@ CREATE TABLE `{{$prefix}}user_counter` (
   `messages` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '留言数',
   `real_messages` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '真实留言数',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='用户计数器';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户计数器';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_logins`;
 CREATE TABLE `{{$prefix}}user_logins` (
@@ -654,7 +654,7 @@ CREATE TABLE `{{$prefix}}user_logins` (
   `session` char(32) NOT NULL DEFAULT '' COMMENT '登录时session',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='用户登录记录';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户登录记录';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_profile`;
 CREATE TABLE `{{$prefix}}user_profile` (
@@ -670,7 +670,7 @@ CREATE TABLE `{{$prefix}}user_profile` (
   `se` varchar(30) NOT NULL DEFAULT '' COMMENT '搜索引擎',
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT '搜索关键词',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_int`;
 CREATE TABLE `{{$prefix}}user_prop_int` (
@@ -680,7 +680,7 @@ CREATE TABLE `{{$prefix}}user_prop_int` (
   `content` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-int';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-int';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_text`;
 CREATE TABLE `{{$prefix}}user_prop_text` (
@@ -690,7 +690,7 @@ CREATE TABLE `{{$prefix}}user_prop_text` (
   `content` text COMMENT '属性值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id-prop_id` (`user_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-text';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-text';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_varchar`;
 CREATE TABLE `{{$prefix}}user_prop_varchar` (
@@ -700,7 +700,7 @@ CREATE TABLE `{{$prefix}}user_prop_varchar` (
   `content` varchar(255) NOT NULL DEFAULT '' COMMENT '属性值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-varchar';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-varchar';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_settings`;
 CREATE TABLE `{{$prefix}}user_settings` (
@@ -710,7 +710,7 @@ CREATE TABLE `{{$prefix}}user_settings` (
   `setting_value` text NOT NULL COMMENT 'Setting Value',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id-setting_key` (`user_id`,`setting_key`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users`;
 CREATE TABLE `{{$prefix}}users` (
@@ -730,7 +730,7 @@ CREATE TABLE `{{$prefix}}users` (
   `admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为管理员',
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users_notifications`;
 CREATE TABLE `{{$prefix}}users_notifications` (
@@ -743,7 +743,7 @@ CREATE TABLE `{{$prefix}}users_notifications` (
   `option` varchar(255) NOT NULL DEFAULT '' COMMENT '附加参数',
   PRIMARY KEY (`user_id`,`notification_id`),
   KEY `unread` (`user_id`,`read`,`delete_time`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}users_roles`;
 CREATE TABLE `{{$prefix}}users_roles` (
@@ -751,7 +751,7 @@ CREATE TABLE `{{$prefix}}users_roles` (
   `role_id` smallint(5) unsigned NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`,`role_id`),
   KEY `role_id-user_id` (`role_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}vouchers`;
 CREATE TABLE `{{$prefix}}vouchers` (
@@ -767,7 +767,7 @@ CREATE TABLE `{{$prefix}}vouchers` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `counts` smallint(5) NOT NULL DEFAULT '1' COMMENT '剩余次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}widget_areas`;
 CREATE TABLE `{{$prefix}}widget_areas` (
@@ -816,4 +816,4 @@ CREATE TABLE `{{$prefix}}post_histories` (
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   PRIMARY KEY (`id`),
   KEY `post_id` (`post_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='文章历史版本存档';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章历史版本存档';

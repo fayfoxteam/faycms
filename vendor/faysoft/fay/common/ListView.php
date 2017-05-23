@@ -48,7 +48,7 @@ class ListView{
      * @var Db
      */
     private $db;
-    
+
     /**
      * ListView constructor.
      * @param Sql $sql
@@ -90,11 +90,8 @@ class ListView{
     }
     
     public function showData($view_data = array()){
-        if($this->total_records === null){
-            $this->init();
-        }
+        $results = $this->getData();
         
-        $results = $this->sql->limit($this->page_size, $this->offset)->fetchAll();
         if($results){
             $i = 0;
             foreach ($results as $data){
@@ -113,7 +110,7 @@ class ListView{
             $this->init();
         }
         
-        return $this->sql->limit($this->page_size, $this->offset)->fetchAll();
+        return $this->sql->limit($this->page_size, $this->offset)->fetchAll(false);
     }
     
     public function showPager($view_data = array()){

@@ -94,6 +94,14 @@ class FileService extends Service{
     public static function getUrl($file, $type = self::PIC_ORIGINAL, $options = array()){
         if(StringHelper::isInt($file)){
             if($file <= 0){
+                if(isset($options['spare'])){
+                    //若指定了默认图，则取默认图
+                    $spare = \F::config()->get($options['spare'], 'noimage');
+                    if($spare){
+                        //若指定的默认图不存在，返回默认图
+                        return UrlHelper::createUrl($spare);
+                    }
+                }
                 return '';
             }
             $file = FilesTable::model()->find($file);

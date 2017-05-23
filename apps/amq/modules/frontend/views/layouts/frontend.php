@@ -76,8 +76,10 @@ use fay\helpers\HtmlHelper;
             <img src="<?php echo $this->appAssets('images/mnav.png')?>" alt="" class="m-nav">
             <div class="m-search-div">
                 <div class="m-search-divmain">
-                    <input type="text" placeholder="搜索" class="m-searchfor" id="m-searchfor">
-                    <img src="<?php echo $this->appAssets('images/close.png')?>" alt="" class="amc-search-close">
+                    <form method="get" action="<?php echo $this->url('search')?>" id="m-search-form">
+                        <input type="text" name="keywords" placeholder="搜索" class="m-searchfor" id="m-searchfor">
+                        <img src="<?php echo $this->appAssets('images/close.png')?>" alt="" class="amc-search-close">
+                    </form>
                     <?php F::widget()->load('hot-search-keywords')?>
                 </div>
             </div>
@@ -94,8 +96,8 @@ use fay\helpers\HtmlHelper;
 
 <!--移动端底部start-->
 <div class="amc-footer visible-xs-block">
-    <p>Copyright © 2016-2017</p>
-    <p>浙江贰贰网络有限公司 (22net, Inc.) 版权所有</p>
+    <p>Copyright © 2008-<?php echo date('Y')?></p>
+    <p><?php echo OptionService::get('site:copyright')?></p>
 </div>
 <!--移动端底部over-->
 
@@ -134,17 +136,21 @@ use fay\helpers\HtmlHelper;
 </div>
 <!--PC端底部over-->
 
-
-
 <script src="<?php echo $this->appAssets('js/bootstrap.min.js')?>"></script>
 <script src="<?php echo $this->appAssets('js/hammer.min.js')?>"></script>
 <script src="<?php echo $this->appAssets('js/amc.js')?>"></script>
 <script src="<?php echo $this->appAssets('js/scrollfix.min.js')?>"></script>
 <script type="text/javascript">
-    $(function(){
-        var fix = $(".fix"), fixtop = $(".fix-top"), fixStartTop = $(".fix-startTop"), fixStartBottom = $(".fix-startBottom"), fixbottom = $(".fix-bottom"), fixfooter = $(".fix-footer");
-        fixbottom.scrollFix({startBottom:"#startBottom",endPos:$('#fixFooter')});
-    })
+$(function(){
+    var fix = $(".fix"), fixtop = $(".fix-top"), fixStartTop = $(".fix-startTop"), fixStartBottom = $(".fix-startBottom"), fixbottom = $(".fix-bottom"), fixfooter = $(".fix-footer");
+    fixbottom.scrollFix({startBottom:"#startBottom",endPos:$('#fixFooter')});
+});
+</script>
+<script src="<?php echo $this->url('assets/faycms/js/jquery.ajaxPager.js')?>"></script>
+<script>
+$(function(){
+    $('.loadmore').ajaxPager('.pagination .next', '.newslist-contain');
+});
 </script>
 </body>
 </html>

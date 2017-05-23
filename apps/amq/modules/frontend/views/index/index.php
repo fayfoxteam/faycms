@@ -41,9 +41,3 @@
     <?php F::widget()->load('club-hots')?>
 </div>
 <!--中间部分移动端over-->
-<script src="<?php echo $this->url('assets/faycms/js/jquery.ajaxPager.js')?>"></script>
-<script>
-$(function(){
-    $('.loadmore').ajaxPager('.pagination .next', '.newslist-contain');
-});
-</script>

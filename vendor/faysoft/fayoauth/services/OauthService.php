@@ -41,7 +41,7 @@ abstract class OauthService{
     
     /**
      * 获取用户信息
-     * @return array
+     * @return UserAbstract
      * @throws OAuthException
      */
     abstract public function getUser();

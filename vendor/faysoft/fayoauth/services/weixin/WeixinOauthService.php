@@ -28,7 +28,7 @@ class WeixinOauthService extends OauthService{
     
     /**
      * 获取微信用户信息
-     * @return array
+     * @return WeixinUser
      * @throws OAuthException
      */
     public function getUser(){

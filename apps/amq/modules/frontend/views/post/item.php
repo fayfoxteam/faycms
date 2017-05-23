@@ -32,47 +32,5 @@
 <!--中间部分移动端start-->
 <div class="container-fluid m-amc-center visible-xs-block">
     <?php F::widget()->area('mobile-item-sidebar')?>
-    <!--广告start-->
-    <div class="m-amc-ad">
-        <a href=""><img src="images/mad.jpg" alt=""></a>
-    </div>
-    <!--广告over-->
-    
-    <!--新闻列表start-->
-    <div class="m-amc-hotnews">
-        <h5 class="newslist-title"><span class="orange-underline">热门资讯</span></h5>
-        <ul class="m-amc-newslist">
-            <li>
-                <a href="" class="clearfix">
-                    <img src="images/news1.png" alt="" class="newspic">
-                    <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                    <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
-                </a>
-            </li>
-            <li>
-                <a href="" class="clearfix">
-                    <img src="images/news1.png" alt="" class="newspic">
-                    <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                    <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
-                </a>
-            </li>
-            
-            <li class="m-loadmore"><a href="">加载更多...</a></li>
-        </ul>
-    </div>
-    <!--新闻列表over-->
-    
-    <!--论坛热帖start-->
-    <div class="amc-hot">
-        <h5 class="newslist-title"><span class="orange-underline">论坛热帖</span><a href="" class="morelink">更多></a></h5>
-        <ul class="amc-forum">
-            <li><a href=""><div class="forum-news">新手投资课程：啃老族永远不懂中小米</div><div class="forum-time">[03-02]</div></a></li>
-            <li><a href=""><div class="forum-news">新手投资课程：啃老族永远不懂中小米</div><div class="forum-time">[03-02]</div></a></li>
-            <li><a href=""><div class="forum-news">新手投资课程：啃老族永远不懂中小米</div><div class="forum-time">[03-02]</div></a></li>
-            <li><a href=""><div class="forum-news">新手投资课程：啃老族永远不懂中小米</div><div class="forum-time">[03-02]</div></a></li>
-            <li><a href=""><div class="forum-news">新手投资课程：啃老族永远不懂中小米</div><div class="forum-time">[03-02]</div></a></li>
-        </ul>
-    </div>
-    <!--论坛热帖over-->
 </div>
 <!--中间部分移动端over-->

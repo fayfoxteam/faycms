@@ -43,23 +43,7 @@ use fay\helpers\HtmlHelper;
         ))?>
     </div>
 </div>
-<div class="box">
-    <div class="box-title">
-        <h4>渲染模板</h4>
-    </div>
-    <div class="box-content">
-        <?php echo F::form('widget')->textarea('template', array(
-            'class'=>'form-control h90 autosize',
-            'id'=>'code-editor',
-        ))?>
-        <p class="fc-grey mt5">
-            若模版内容符合正则<code>/^[\w_-]+(\/[\w_-]+)+$/</code>，
-            即类似<code>frontend/widget/template</code><br />
-            则会调用当前app下符合该相对路径的view文件。<br />
-            否则视为php代码<code>eval</code>执行。若留空，会调用默认模版。
-        </p>
-    </div>
-</div>
+<?php F::app()->view->renderPartial('admin/widget/_template_box')?>
 <script>
 $(function(){
     $(document).on('click', '#widget-add-value-link', function(){

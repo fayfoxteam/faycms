@@ -78,13 +78,7 @@ use fay\helpers\HtmlHelper;
                 <div class="m-search-divmain">
                     <input type="text" placeholder="搜索" class="m-searchfor" id="m-searchfor">
                     <img src="<?php echo $this->appAssets('images/close.png')?>" alt="" class="amc-search-close">
-                    <h5 class="resouci">热搜词</h5>
-                    <label for="m-searchfor" class="m-amc-hotword">热搜词</label>
-                    <label for="m-searchfor" class="m-amc-hotword">热搜词</label>
-                    <label for="m-searchfor" class="m-amc-hotword">热搜词</label>
-                    <label for="m-searchfor" class="m-amc-hotword">热搜词热搜词</label>
-                    <label for="m-searchfor" class="m-amc-hotword">热搜词热搜词</label>
-
+                    <?php F::widget()->load('hot-search-keywords')?>
                 </div>
             </div>
             <div class="m-nav-div">

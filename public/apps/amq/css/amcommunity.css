@@ -118,8 +118,9 @@ ul,li{
 	right:8px;
 }
 .amc-circle3{
-	width: 70px;
-	left:80%;
+	width: auto;
+	left:auto;
+	right: 8px;
 	bottom:5px;
 	margin-left: -1.8%;
 }

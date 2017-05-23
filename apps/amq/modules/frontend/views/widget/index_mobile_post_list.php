@@ -97,7 +97,7 @@ if($second_slice){?>
             <?php foreach($index_sidebar_slider_ad_data['files'] as $key => $file){?>
                 <?php $file_url = FileService::getUrl($file['file_id'], FileService::PIC_RESIZE, array(
                     'dw'=>414,
-                    'dh'=>155,
+                    'dh'=>205,
                 ))?>
                 <div class="item <?php if(!$key)echo 'active'?>">
                     <a href="<?php echo $file['link']?>"><img src="<?php echo $file_url?>" alt="<?php echo \fay\helpers\HtmlHelper::encode($file['title'])?>"></a>

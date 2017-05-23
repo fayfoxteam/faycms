@@ -56,7 +56,7 @@
     <ul class="m-amc-newslist">
         <?php foreach($posts['data'] as $post){?>
         <li>
-            <a href="" class="clearfix">
+            <a href="<?php echo $post['post']['link']?>" class="clearfix">
                 <img src="<?php echo $post['post']['thumbnail']['thumbnail']?>" alt="" class="newspic">
                 <div class="m-newslist-title"><?php
                     echo \fay\helpers\HtmlHelper::encode($post['post']['title'])

@@ -1,5 +1,6 @@
 <?php
 return array(
-    '/^post\/(\d+)$/'=>'amq/frontend/post/item:id=$1',
+    '/^(\w+)\/(\d+)\.html$/'=>'amq/frontend/post/item:cat=$1&id=$2',
     '/^(\w+)\/$/'=>'amq/frontend/post/index:cat=$1',
+    '/^(\w+)\.html$/'=>'amq/frontend/page/item:page=$1',
 );

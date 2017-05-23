@@ -4,6 +4,7 @@ namespace amq\modules\frontend\controllers;
 use amq\library\FrontController;
 use cms\library\Db;
 use cms\models\tables\PostsTable;
+use cms\services\file\FileException;
 use cms\services\file\FileService;
 use cms\services\post\PostService;
 use fay\core\db\Exception;
@@ -44,7 +45,7 @@ class MigrationController extends FrontController{
                         if($file){
                             $content = str_replace($match, $file['url'], $content);
                         }
-                    }catch(Exception $e){
+                    }catch(FileException $e){
                         //如果获取远程图片失败，就跳过
                     }
                 }
@@ -73,6 +74,7 @@ class MigrationController extends FrontController{
             }
             
             PostService::service()->create(array(
+                'id'=>$archive['id'],
                 'title'=>$archive['title'],
                 'content'=>$content,
                 'publish_time'=>$archive['pubdate'],

@@ -67,7 +67,7 @@ use fay\helpers\HtmlHelper;
                 ));
             }
             
-            F::widget()->load('top-category-list');
+            F::widget()->load('header-category-list');
         ?>
 
         <!--移动端导航start-->
@@ -88,14 +88,7 @@ use fay\helpers\HtmlHelper;
                 </div>
             </div>
             <div class="m-nav-div">
-                <ul>
-                    <li><a href="index.html" class="act">首页</a></li>
-                    <li><a href="news.html">域名资讯</a></li>
-                    <li><a href="">云计算</a></li>
-                    <li><a href="">知识产权</a></li>
-                    <li><a href="">互联网创业</a></li>
-                    <li><a href="">聚精彩</a></li>
-                </ul>
+                <?php F::widget()->load('mobile-header-category-list');?>
             </div>
         </div>
         <!--移动端导航over-->

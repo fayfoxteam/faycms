@@ -8,12 +8,15 @@
     <!--左边内容over-->
     
     <!--右边内容start-->
-    <div class="amc-aside hidden-xs">
+    <div class="amc-aside hidden-xs" id="startBottom">
         <!--搜索框start-->
         <div class="PR"><input type="text" class="amc-search" placeholder="请输入关键字"><a href=""><img src="<?php echo $this->appAssets('images/search.png')?>" alt="" class="amc-searchfor"></a></div>
         <!--搜索框over-->
-    
-        <?php F::widget()->area('item-sidebar')?>
+
+        <div class="amc-fix fix-bottom">
+            <?php F::widget()->area('list-sidebar-fixed')?>
+        </div>
+        <?php F::widget()->area('list-sidebar')?>
     </div>
     <!--右边内容over-->
     
@@ -33,12 +36,12 @@
     <div class="m-amc-gallery" id="gallery">
         <div class="m-amc-holder holder">
             <div class="list">
-                <div class="item"><a class="active" href="">域名资讯</a></div>
-                <div class="item"><a href="">域名数据</a></div>
-                <div class="item"><a href="">交易投资</a></div>
-                <div class="item"><a href="">经验交流</a></div>
-                <div class="item"><a href="">域名知识</a></div>
-                <div class="item"><a href="">域名爆料</a></div>
+            <?php
+                $cat = \cms\services\CategoryService::service()->get(F::input()->get('cat', 'trim'));
+                if($cat){
+                    echo '<div class="item"><a class="active" href="javascript:">' . \fay\helpers\HtmlHelper::encode($cat['title']) . '</a></div>';
+                }
+            ?>
             </div>
         </div>
     </div>
@@ -46,49 +49,31 @@
     <!--滑动二级导航over-->
     
     <!--新闻列表start-->
+    <?php
+        //不想折腾了，直接从pc端的widget获取数据然后格式化输出
+        $posts = F::widget()->getData('category-post-list');
+    ?>
     <ul class="m-amc-newslist">
+        <?php foreach($posts['data'] as $post){?>
         <li>
             <a href="" class="clearfix">
-                <img src="images/news1.png" alt="" class="newspic">
-                <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
+                <img src="<?php echo $post['post']['thumbnail']['thumbnail']?>" alt="" class="newspic">
+                <div class="m-newslist-title"><?php
+                    echo \fay\helpers\HtmlHelper::encode($post['post']['title'])
+                ?></div>
+                <div class="newslist-text-tip clearfix">
+                    <?php if(!empty($post['extra']['source'])){?>
+                        <div class="newslist-text-from">来源：<?php echo \fay\helpers\HtmlHelper::encode($post['extra']['source'])?></div>
+                    <?php }?>
+                    <?php if($post['post']['format_publish_time']){?>
+                        <div class="newslist-text-time"><?php echo $post['post']['format_publish_time']?></div>
+                    <?php }?>
+                </div>
             </a>
         </li>
-        <li>
-            <a href="" class="clearfix">
-                <img src="images/news1.png" alt="" class="newspic">
-                <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
-            </a>
-        </li>
-        <li>
-            <a href="" class="clearfix">
-                <img src="images/news1.png" alt="" class="newspic">
-                <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
-            </a>
-        </li>
-        <li>
-            <a href="" class="clearfix">
-                <img src="images/news1.png" alt="" class="newspic">
-                <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
-            </a>
-        </li>
-        <li>
-            <a href="" class="clearfix">
-                <img src="images/news1.png" alt="" class="newspic">
-                <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
-            </a>
-        </li><li>
-            <a href="" class="clearfix">
-                <img src="images/news1.png" alt="" class="newspic">
-                <div class="m-newslist-title">这里是文章标题这里是文章标题文章标题文章标题文章</div>
-                <div class="newslist-text-tip clearfix"><div class="newslist-text-from">来源：爱名网</div><div class="newslist-text-time">5分钟前</div></div>
-            </a>
-        </li>
+        <?php }?>
     </ul>
     <!--新闻列表over-->
 </div>
 <!--中间部分移动端over-->
+<script src="<?php echo $this->appAssets('js/jquery.touchSlider.min.js')?>"></script>

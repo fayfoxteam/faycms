@@ -428,9 +428,9 @@ class PostService extends Service{
         PostsFilesTable::model()->delete('post_id = '.$post_id);
         
         //删除文章可能存在的自定义属性
-        PostPropIntTable::model()->delete('post_id = '.$post_id);
-        PostPropVarcharTable::model()->delete('post_id = '.$post_id);
-        PostPropTextTable::model()->delete('post_id = '.$post_id);
+        PostPropIntTable::model()->delete('relation_id = '.$post_id);
+        PostPropVarcharTable::model()->delete('relation_id = '.$post_id);
+        PostPropTextTable::model()->delete('relation_id = '.$post_id);
         
         //删除关注，收藏列表
         PostLikesTable::model()->delete('post_id = '.$post_id);

@@ -142,6 +142,7 @@ class RemoteFileService{
         $image = new ImageService($destination);
         $image->resize(100, 100)
             ->save((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']);
+        unset($image);
         
         //公共文件直接给出真实路径
         $data['url'] = UrlHelper::createUrl() . ltrim($data['file_path'], './') . $data['raw_name'] . $data['file_ext'];

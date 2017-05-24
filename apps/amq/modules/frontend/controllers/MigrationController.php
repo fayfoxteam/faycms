@@ -18,7 +18,7 @@ class MigrationController extends FrontController{
             if($archive['litpic']){
                 //采集图片
                 try{
-                    $file = FileService::service()->uploadFromUrl('http://news.22.cn' . $archive['litpic'], 201);
+                    $file = FileService::service()->uploadFromUrl('http://amq.com' . $archive['litpic'], 201);
                     $thumbnail = $file['id'];
                 }catch(FileException $e){
                     //如果获取远程图片失败，就跳过
@@ -41,9 +41,10 @@ class MigrationController extends FrontController{
                 foreach($matches[1] as $match){
                     try{
                         if(substr($match, 0, 4) == 'http'){
+                            $match = str_replace('news.22.cn', 'amq.com', $match);
                             $file = FileService::service()->uploadFromUrl($match, 201);
                         }else{
-                            $file = FileService::service()->uploadFromUrl('http://news.22.cn' . $match, 201);
+                            $file = FileService::service()->uploadFromUrl('http://amq.com' . $match, 201);
                         }
                         
                         if($file){

@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\PostHistoriesTable;
 use cms\models\tables\PropsTable;
 use cms\services\prop\PropService;
 use fay\core\Service;
@@ -441,6 +442,9 @@ class PostService extends Service{
         
         //删除文章扩展信息
         PostExtraTable::model()->delete('post_id = ' . $post_id);
+        
+        //删除文章历史
+        PostHistoriesTable::model()->delete('post_id = ' . $post_id);
         
         return true;
     }

@@ -12,7 +12,7 @@ use fay\core\db\Exception;
 class MigrationController extends FrontController{
     public function doAction(){
         $offset = $this->input->get('offset', 'intval', 0);
-        $archives = Db::getInstance()->fetchAll("SELECT * FROM dede_archives ORDER BY id LIMIT {$offset}, 10");
+        $archives = Db::getInstance()->fetchAll("SELECT * FROM dede_archives WHERE  id > {$offset} ORDER BY id LIMIT 1");
         
         foreach($archives as $archive){
             if($archive['litpic']){
@@ -25,7 +25,7 @@ class MigrationController extends FrontController{
             }
             
             //处理富文本中的图片
-            $addon = Db::getInstance()->fetchRow("SELECT * FROM dede_addonarticle WHERE aid = {$archive['id']} AND typeid = 2");
+            $addon = Db::getInstance()->fetchRow("SELECT * FROM dede_addonarticle WHERE aid = {$archive['id']}");
             if($addon){
                 $content = $addon['body'];
             }else{
@@ -45,6 +45,8 @@ class MigrationController extends FrontController{
                         if($file){
                             $content = str_replace($match, $file['url'], $content);
                         }
+
+                        unset($file);
                     }catch(FileException $e){
                         //如果获取远程图片失败，就跳过
                     }
@@ -88,6 +90,12 @@ class MigrationController extends FrontController{
                     'seo_description'=>$archive['description'],
                 )
             ), 10000);
+        }
+        
+        if(isset($archive['id'])){
+            echo $archive['id'];
+        }else{
+            echo '没有啦';
         }
     }
 

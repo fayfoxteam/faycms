@@ -391,8 +391,6 @@ class FileService extends Service{
                 
                 //水印逻辑
                 $watermark_config = OptionService::getGroup('watermark:upload');
-                empty($watermark_config['min_width']) && $watermark_config['min_width'] = 200;
-                empty($watermark_config['min_height']) && $watermark_config['min_height'] = 100;
 
                 if(!empty($watermark_config['enabled']) &&
                     $data['image_width'] > $watermark_config['min_width'] && $data['image_height'] > $watermark_config['min_height']){

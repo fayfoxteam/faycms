@@ -7,7 +7,6 @@ use cms\models\tables\PostsTable;
 use cms\services\file\FileException;
 use cms\services\file\FileService;
 use cms\services\post\PostService;
-use fay\core\db\Exception;
 
 class MigrationController extends FrontController{
     public function doAction(){
@@ -41,8 +40,7 @@ class MigrationController extends FrontController{
                 foreach($matches[1] as $match){
                     try{
                         if(substr($match, 0, 4) == 'http'){
-                            $match = str_replace('news.22.cn', 'amq.com', $match);
-                            $file = FileService::service()->uploadFromUrl($match, 201);
+                            $file = FileService::service()->uploadFromUrl(str_replace('news.22.cn', 'amq.com', $match), 201);
                         }else{
                             $file = FileService::service()->uploadFromUrl('http://amq.com' . $match, 201);
                         }

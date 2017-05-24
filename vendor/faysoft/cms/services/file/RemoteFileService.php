@@ -195,9 +195,16 @@ class RemoteFileService{
      * 通过header判断远程文件是否为图片
      */
     public function isImageByHeader(){
-        return in_array($this->getHeader('content-type'), array(
+        $content_type = $this->getHeader('content-type');
+        foreach(array(
             'image/pjpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/xpng', 'image/wbmp', 'image/webp'
-        ));
+        ) as $mine){
+            if(strpos($content_type, $mine) === 0){
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     /**

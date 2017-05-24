@@ -721,7 +721,7 @@ class FileController extends AdminController{
                 $this->form()->getData('size', 20),
                 $this->form()->getData('color', '#FFFFFF'),
                 $margin,
-                BASEPATH . 'assets/fonts/msyh.ttc',
+                BASEPATH . 'assets/fonts/msyh.ttf',
                 $align,
                 $this->form()->getData('line_height', 1.3),
                 0,

@@ -98,6 +98,7 @@ class OptionService extends Service{
                 'option_name'=>$name,
                 'option_value'=>$value,
                 'create_time'=>\F::app()->current_time,
+                'update_time'=>\F::app()->current_time,
             ));
         }
     }

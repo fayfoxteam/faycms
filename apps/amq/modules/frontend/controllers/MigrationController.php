@@ -17,9 +17,13 @@ class MigrationController extends FrontController{
         foreach($archives as $archive){
             if($archive['litpic']){
                 //采集图片
-                $file = FileService::service()->uploadFromUrl('http://news.22.cn' . $archive['litpic'], 201);
-                
-                $thumbnail = $file['id'];
+                try{
+                    $file = FileService::service()->uploadFromUrl('http://news.22.cn' . $archive['litpic'], 201);
+                    $thumbnail = $file['id'];
+                }catch(FileException $e){
+                    //如果获取远程图片失败，就跳过
+                    $thumbnail = 0;
+                } 
             }else{
                 $thumbnail = 0;
             }

@@ -2,6 +2,7 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use cms\models\tables\WidgetAreasTable;
 use cms\models\tables\WidgetAreasWidgetsTable;
 use cms\models\tables\WidgetsTable;
 use cms\services\widget\WidgetAreaService;
@@ -59,5 +60,19 @@ class WidgetareaController extends AdminController{
         }
         
         Response::notify('success', '修改成功');
+    }
+
+    /**
+     * 小工具域排序（此功能只是为了方便后台编辑）
+     */
+    public function setSort(){
+        $widget_areas = $this->input->post('widget_areas', 'intval', array());
+        $i = 1;
+        foreach($widget_areas as $widget_area){
+            WidgetAreasTable::model()->update(array(
+                'sort'=>$i,
+            ), $widget_area);
+            $i++;
+        }
     }
 }

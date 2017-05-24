@@ -1,7 +1,6 @@
 <?php
 namespace amq\modules\frontend\controllers;
 
-
 use amq\library\FrontController;
 use fay\common\ListView;
 use fay\core\Sql;

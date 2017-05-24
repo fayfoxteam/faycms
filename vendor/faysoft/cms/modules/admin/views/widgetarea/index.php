@@ -56,12 +56,13 @@ $show_alias = F::form('setting')->getData('show_alias', 0);
 var widgetarea = {
     'dragsort':function(){
         system.getScript(system.assets('js/jquery.dragsort-0.5.2.js'), function(){
+            //小工具拖拽
             $('.widget-list').dragsort({
                 'itemSelector': '.widget-item',
                 'dragSelector': '.widget-item',//若不指定，且第一个框中没可拖动元素，则其他框也不可拖动，这算是插件的bug吧
                 'dragBetween': true,
                 'placeHolderTemplate': '<div class="widget-item holder"></div>',
-                'dragSelectorExclude': 'strong,span',
+                'dragSelectorExclude': 'input,textarea,select,table,span,p,strong',
                 'dragEnd':function(){
                     var widgetAreas = {};
                     //当前可见的小工具域中关联的小工具
@@ -72,10 +73,34 @@ var widgetarea = {
                             widgetAreas[widgetAreaId].push($(this).attr('data-widget-id'));
                         });
                     });
-                    console.log(widgetAreas);
                     $.ajax({
                         'type': 'POST',
                         'url': system.url('cms/admin/widgetarea/set-widgets'),
+                        'data': {
+                            'widget_areas': widgetAreas
+                        },
+                        'cache': false
+                    });
+                }
+            });
+
+            //小工具域拖拽排序
+            $('#widgetarea-list').dragsort({
+                'itemSelector': '.box',
+                'dragSelector': '.box-title',
+                'placeHolderTemplate': '<div class="box holder"></div>',
+                'dragSelectorExclude': 'input,textarea,select,table,span,p,strong',
+                'dragEnd':function(){
+                    var widgetAreas = [];
+                    $('#widgetarea-list').find('.box').each(function(){
+                        var widgetAreaId = $(this).attr('data-id');
+                        if(widgetAreaId){
+                            widgetAreas.push(widgetAreaId);
+                        }
+                    });
+                    $.ajax({
+                        'type': 'POST',
+                        'url': system.url('cms/admin/widgetarea/set-sort'),
                         'data': {
                             'widget_areas': widgetAreas
                         },

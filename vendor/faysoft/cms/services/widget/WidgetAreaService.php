@@ -48,7 +48,7 @@ class WidgetAreaService extends Service{
      * @return array
      */
     public function getAll($fields = '*'){
-        return WidgetAreasTable::model()->fetchAll(array(), $fields, 'id');
+        return WidgetAreasTable::model()->fetchAll(array(), $fields, 'sort, id');
     }
 
     /**

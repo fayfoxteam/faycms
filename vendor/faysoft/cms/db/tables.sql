@@ -774,6 +774,7 @@ CREATE TABLE `{{$prefix}}widget_areas` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '排序值',
   PRIMARY KEY (`id`),
   UNIQUE KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='小工具域';

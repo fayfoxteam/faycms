@@ -119,21 +119,20 @@ class ListView{
         }
         
         if($this->reload === null){
-            $folder = dirname(str_replace($_SERVER['DOCUMENT_ROOT'], '', $_SERVER['SCRIPT_FILENAME']));
+            $document_root = $_SERVER['DOCUMENT_ROOT'];
+            $document_root = rtrim($document_root, '\\/');//由于服务器配置不同，有的DOCUMENT_ROOT末尾带斜杠，有的不带，这里统一去掉末尾斜杠
+            $folder = dirname(str_replace($document_root, '', $_SERVER['SCRIPT_FILENAME']));
             //所有斜杠都以正斜杠为准
             $folder = str_replace('\\', '/', $folder);
             if(substr($folder, -7) == '/public'){
                 $folder = substr($folder, 0, -7);
-            }
-            if($folder && substr($folder, 0, 1) != '/'){
-                //由于配置关系，有的DOCUMENT_ROOT最后有斜杠，有的没有
-                $folder = '/'.$folder;
             }
             if($folder == '/'){
                 //仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
                 $folder = '';
             }
             $request = substr($_SERVER['REQUEST_URI'], strlen($folder) + 1);
+            
             //去掉问号后面的部分
             $pos = strpos($request, '?');
             if($pos !== false){

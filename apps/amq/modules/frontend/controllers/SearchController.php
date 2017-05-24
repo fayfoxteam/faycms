@@ -19,9 +19,6 @@ class SearchController extends FrontController{
             $listview = new ListView($sql, array(
                 'page_size'=>10,
                 'pager_view'=>'widget/next_pager',
-                'reload'=>$this->view->url('search', array(
-                    'keywords'=>$keywords,
-                )),
             ));
             
             $this->view->assign(array(

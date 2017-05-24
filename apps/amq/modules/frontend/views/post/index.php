@@ -10,7 +10,7 @@
     <!--右边内容start-->
     <div class="amc-aside hidden-xs" id="startBottom">
         <!--搜索框start-->
-        <div class="PR"><input type="text" class="amc-search" placeholder="请输入关键字"><a href=""><img src="<?php echo $this->appAssets('images/search.png')?>" alt="" class="amc-searchfor"></a></div>
+        <?php $this->renderPartial('common/search_form')?>
         <!--搜索框over-->
 
         <div class="amc-fix fix-bottom">

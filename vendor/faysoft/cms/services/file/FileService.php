@@ -388,12 +388,69 @@ class FileService extends Service{
                     'user_id'=>\F::app()->current_user,
                     'cat_id'=>$cat['id'],
                 );
-                $data['id'] = FilesTable::model()->insert($data);
                 
+                //水印逻辑
+                $watermark_config = OptionService::getGroup('watermark:upload');
+                empty($watermark_config['min_width']) && $watermark_config['min_width'] = 200;
+                empty($watermark_config['min_height']) && $watermark_config['min_height'] = 100;
+
+                if(!empty($watermark_config['enabled']) &&
+                    $data['image_width'] > $watermark_config['min_width'] && $data['image_height'] > $watermark_config['min_height']){
+                    //数据处理一下
+                    empty($watermark_config['text']) && $watermark_config['text'] = 'faycms.com';
+                    empty($watermark_config['size']) && $watermark_config['size'] = 20;
+                    empty($watermark_config['color']) && $watermark_config['color'] = '#FFFFFF';
+                    empty($watermark_config['line_height']) && $watermark_config['line_height'] = 1.3;
+                    empty($watermark_config['max_width']) && $watermark_config['max_width'] = 0;
+                    empty($watermark_config['margin']) && $watermark_config['margin'] = 10;
+                    empty($watermark_config['align']) && $watermark_config['align'] = 'right';
+                    empty($watermark_config['valign']) && $watermark_config['valign'] = 'bottom';
+                    empty($watermark_config['opacity']) && $watermark_config['opacity'] = 60;
+                    empty($watermark_config['image']) && $watermark_config['image'] = BASEPATH . 'assets/images/watermark.png';
+                    
+                    $file_path = self::getPath($data, true);
+                    if($watermark_config == 'text'){
+                        $watermark_img = new ImageTextService($file_path);
+                        //文本水印
+                        $watermark_img->write(
+                            $watermark_config['text'],
+                            $watermark_config['size'],
+                            $watermark_config['color'],
+                            $watermark_config['margin'],
+                            BASEPATH . 'assets/fonts/msyh.ttf',
+                            array(
+                                $watermark_config['align'],
+                                $watermark_config['valign'],
+                            ),
+                            $watermark_config['line_height'],
+                            0,
+                            $watermark_config['max_width'],
+                            $watermark_config['opacity']
+                        );
+                    }else{
+                        $watermark_img = new ImageService($file_path);
+                        //图片水印
+                        $watermark_img->merge(
+                            $watermark_config['image'],
+                            $watermark_config['margin'],
+                            array(
+                                $watermark_config['align'],
+                                $watermark_config['valign'],
+                            ),
+                            $watermark_config['opacity']
+                        );
+                    }
+
+                    //保存水印图
+                    $watermark_img->save($file_path);
+                    $data['file_size'] = filesize($file_path);
+                }
+                $data['id'] = FilesTable::model()->insert($data);
+
                 $image = new ImageService($data['id']);
                 $image->resize(100, 100)
                     ->save((defined('NO_REWRITE') ? './public/' : '').$data['file_path'].$data['raw_name'].'-100x100'.$data['file_ext']);
-                
+
                 $data['error'] = 0;
                 if($private){
                     //私有文件通过file/pic访问

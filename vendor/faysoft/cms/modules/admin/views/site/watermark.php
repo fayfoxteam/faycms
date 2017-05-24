@@ -43,6 +43,7 @@
             var $currentWatermarkForm = $(this).parentsUntil('.watermark-form');
             $currentWatermarkForm.find('.watermark-preview').attr({
                 'src': system.url('cms/admin/file/watermark-preview', {
+                    'enabled': $currentWatermarkForm.find('[name$="enabled"]:checked').val(),
                     'type': $currentWatermarkForm.find('[name$="type"]:checked').val(),
                     'align': $currentWatermarkForm.find('[name$="align"]:checked').val(),
                     'valign': $currentWatermarkForm.find('[name$="valign"]:checked').val(),

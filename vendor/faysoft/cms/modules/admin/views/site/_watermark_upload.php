@@ -10,6 +10,28 @@ use fay\helpers\HtmlHelper;
     <div class="row">
         <div class="col-6">
             <div class="form-field">
+                <label class="title bold">启用水印</label>
+                <?php
+                $enabled = OptionService::get('watermark:upload:enabled');
+                echo HtmlHelper::inputRadio(
+                    'watermark:upload:enabled',
+                    '1',
+                    $enabled,
+                    array(
+                        'label'=>'启用',
+                    )
+                );
+                echo HtmlHelper::inputRadio(
+                    'watermark:upload:enabled',
+                    '0',
+                    !$enabled,
+                    array(
+                        'label'=>'禁用',
+                    )
+                );
+                ?>
+            </div>
+            <div class="form-field">
                 <label class="title bold">水印类型</label>
                 <?php
                     $type = OptionService::get('watermark:upload:type');
@@ -177,7 +199,7 @@ use fay\helpers\HtmlHelper;
                         'data-params'=>'{min:0}',
                     )),
                     ' x ',
-                    HtmlHelper::inputText('watermark:upload:min_height', OptionService::get('watermark:upload:min_height', 30), array(
+                    HtmlHelper::inputText('watermark:upload:min_height', OptionService::get('watermark:upload:min_height', 100), array(
                         'class'=>'form-control ib mw100',
                         'data-rule'=>'int',
                         'data-label'=>'高度',

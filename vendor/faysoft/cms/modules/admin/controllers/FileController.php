@@ -693,18 +693,21 @@ class FileController extends AdminController{
                 array(array('max_width'), 'int', array('min'=>0)),
                 array(array('line_height'), 'float', array('min'=>0)),
                 array(array('opacity'), 'int', array('min'=>0, 'max'=>100)),
+                array(array('enabled'), 'range', array('range'=>array('0', '1'))),
             ))->setFilters(array(
                 'type'=>'trim',
                 'image'=>'intval',
                 'margin'=>'trim',
                 'size'=>'intval',
                 'color'=>'trim',
+                'enabled'=>'intval'
             ))->setLabels(array(
                 'type'=>'水印类型',
                 'image'=>'水印图ID',
                 'margin'=>'边距',
                 'size'=>'字号',
-                'opacity'=>'透明度'
+                'opacity'=>'透明度',
+                'enable'=>'是否启用',
             ))->check();
         
         $margin = $this->form()->getData('margin', '10');
@@ -712,31 +715,32 @@ class FileController extends AdminController{
             $this->form()->getData('align', 'right'),
             $this->form()->getData('valign', 'bottom'),
         );
-        if($this->form()->getData('type') == 'text'){
-            //文本水印
-            $image = new ImageTextService(BASEPATH . 'assets/images/demo-image.jpg');
-            $text = $this->form()->getData('text', 'faycms.com');
-            $image->write(
-                $text,
-                $this->form()->getData('size', 20),
-                $this->form()->getData('color', '#FFFFFF'),
-                $margin,
-                BASEPATH . 'assets/fonts/msyh.ttf',
-                $align,
-                $this->form()->getData('line_height', 1.3),
-                0,
-                $this->form()->getData('max_width', 0),
-                $this->form()->getData('opacity', 60)
-            );
-        }else{
-            //图片水印
-            $image = new ImageService(BASEPATH . 'assets/images/demo-image.jpg');
-            $image->merge(
-                $this->form()->getData('image') ? $this->form()->getData('image') : BASEPATH . 'assets/images/watermark.png',
-                $margin,
-                $align,
-                $this->form()->getData('opacity', 60)
-            );
+        $image = new ImageTextService(BASEPATH . 'assets/images/demo-image.jpg');
+        if($this->form()->getData('enabled')){
+            if($this->form()->getData('type') == 'text'){
+                //文本水印
+                $text = $this->form()->getData('text', 'faycms.com');
+                $image->write(
+                    $text,
+                    $this->form()->getData('size', 20),
+                    $this->form()->getData('color', '#FFFFFF'),
+                    $margin,
+                    BASEPATH . 'assets/fonts/msyh.ttf',
+                    $align,
+                    $this->form()->getData('line_height', 1.3),
+                    0,
+                    $this->form()->getData('max_width', 0),
+                    $this->form()->getData('opacity', 60)
+                );
+            }else{
+                //图片水印
+                $image->merge(
+                    $this->form()->getData('image') ? $this->form()->getData('image') : BASEPATH . 'assets/images/watermark.png',
+                    $margin,
+                    $align,
+                    $this->form()->getData('opacity', 60)
+                );
+            }
         }
         $image->output();
     }

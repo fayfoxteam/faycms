@@ -58,7 +58,7 @@ class GuanwangController extends FrontController{
         ));
         
         if($post_id){
-            echo '成功';
+            echo iconv('utf-8', 'gbk', '成功');
         }else{
             echo '失败';
         }

@@ -47,7 +47,7 @@ class GuanwangController extends FrontController{
 //        \F::logger()->log($content);
 //        \F::logger()->log($cat_id);
         
-        PostService::service()->create(array(
+        $post_id = PostService::service()->create(array(
             'title'=>$title,
             'content'=>$content,
             'cat_id'=>$cat_id,
@@ -56,5 +56,11 @@ class GuanwangController extends FrontController{
         ), array(
             'source'=>'爱名网',
         ));
+        
+        if($post_id){
+            echo '成功';
+        }else{
+            echo '失败';
+        }
     }
 }

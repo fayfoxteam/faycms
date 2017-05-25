@@ -17,7 +17,7 @@ class ListView{
     public $total_records;
     public $total_pages;
     public $reload = null;//加载地址，对于重写过的url，需要设置此项
-    public $adjacents = 2;//前后显示页数
+    public $adjacent = 2;//前后显示页数
 
     /**
      * @var Sql|string
@@ -66,6 +66,8 @@ class ListView{
         }else{
             $this->db = Db::getInstance();
         }
+        
+        $this->initReload();
     }
     
     public function init(){
@@ -118,35 +120,6 @@ class ListView{
             $this->init();
         }
         
-        if($this->reload === null){
-            $document_root = $_SERVER['DOCUMENT_ROOT'];
-            $document_root = rtrim($document_root, '\\/');//由于服务器配置不同，有的DOCUMENT_ROOT末尾带斜杠，有的不带，这里统一去掉末尾斜杠
-            $folder = dirname(str_replace($document_root, '', $_SERVER['SCRIPT_FILENAME']));
-            //所有斜杠都以正斜杠为准
-            $folder = str_replace('\\', '/', $folder);
-            if(substr($folder, -7) == '/public'){
-                $folder = substr($folder, 0, -7);
-            }
-            if($folder == '/'){
-                //仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
-                $folder = '';
-            }
-            $request = substr($_SERVER['REQUEST_URI'], strlen($folder) + 1);
-            
-            //去掉问号后面的部分
-            $pos = strpos($request, '?');
-            if($pos !== false){
-                $request = substr($request, 0, $pos);
-            }
-            
-            $gets = $_GET;
-            unset($gets[$this->page_key]);
-            if($gets){
-                $this->reload = UrlHelper::createUrl($request) . '?' . http_build_query($gets);
-            }else{
-                $this->reload = UrlHelper::createUrl($request);
-            }
-        }
         $view_data['listview'] = $this;
         \F::app()->view->renderPartial($this->pager_view, $view_data);
     }
@@ -164,9 +137,60 @@ class ListView{
             'end_record'=>$this->end_record,
             'total_records'=>$this->total_records,
             'total_pages'=>$this->total_pages,
-            'adjacents'=>$this->adjacents,
+            'adjacent'=>$this->adjacent,
             'page_key'=>$this->page_key,
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getPagerView(){
+        return $this->pager_view;
+    }
+
+    /**
+     * @param string $pager_view
+     * @return ListView
+     */
+    public function setPagerView(string $pager_view){
+        $this->pager_view = $pager_view;
+        return $this;
+    }
+
+    /**
+     * 若未传入reload信息，则猜测一个
+     */
+    protected function initReload(){
+        if($this->reload === null){
+            $document_root = $_SERVER['DOCUMENT_ROOT'];
+            $document_root = rtrim($document_root, '\\/');//由于服务器配置不同，有的DOCUMENT_ROOT末尾带斜杠，有的不带，这里统一去掉末尾斜杠
+            $folder = dirname(str_replace($document_root, '', $_SERVER['SCRIPT_FILENAME']));
+            //所有斜杠都以正斜杠为准
+            $folder = str_replace('\\', '/', $folder);
+            if(substr($folder, -7) == '/public'){
+                $folder = substr($folder, 0, -7);
+            }
+            if($folder == '/'){
+                //仅剩一根斜杠的时候（把根目录设到public目录下的情况），设为空
+                $folder = '';
+            }
+            $request = substr($_SERVER['REQUEST_URI'], strlen($folder) + 1);
+
+            //去掉问号后面的部分
+            $pos = strpos($request, '?');
+            if($pos !== false){
+                $request = substr($request, 0, $pos);
+            }
+
+            $gets = $_GET;
+            unset($gets[$this->page_key]);
+            if($gets){
+                $this->reload = UrlHelper::createUrl($request) . '?' . http_build_query($gets);
+            }else{
+                $this->reload = UrlHelper::createUrl($request);
+            }
+        }
     }
     
     private function count(){
@@ -188,5 +212,4 @@ class ListView{
         }
         $this->sql = $sql;
     }
-    
 }

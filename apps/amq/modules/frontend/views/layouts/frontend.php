@@ -24,6 +24,10 @@ use fay\helpers\HtmlHelper;
     <link rel="stylesheet" type="text/css" href="<?php echo $this->appAssets('css/amcommunity.css')?>">
     <link rel="stylesheet" type="text/css" href="<?php echo $this->appAssets('css/22bottom.css')?>">
     <script src="<?php echo $this->appAssets('js/jquery.min.js')?>"></script>
+    <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
+    <script>
+        system.base_url = '<?php echo $this->url()?>';
+    </script>
     <?php echo $this->getCss()?>
     <link rel="stylesheet" type="text/css" href="https://static.22.cn/pubnav/navcontrol.min.css?t=20170327">
     <script src="https://static.22.cn/pubnav/navcontrol.js?t=20170323"></script>
@@ -152,5 +156,7 @@ $(function(){
     $('.loadmore').ajaxPager('.pagination .next', '.newslist-contain');
 });
 </script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
+<script>_fa.init();</script>
 </body>
 </html>

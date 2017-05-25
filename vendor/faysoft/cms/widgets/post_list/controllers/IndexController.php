@@ -2,7 +2,6 @@
 namespace cms\widgets\post_list\controllers;
 
 use cms\helpers\LinkHelper;
-use fay\core\Http;
 use fay\helpers\ArrayHelper;
 use cms\services\post\PostService;
 use fay\widget\Widget;
@@ -119,11 +118,8 @@ class IndexController extends Widget{
         }else{
             $pager_data = $listview->getPager();
             if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['pager_template'])){
-                \F::app()->view->renderPartial($this->config['pager_template'], $pager_data + array(
-                    'listview'=>$listview,
-                    'config'=>$this->config,
-                    'alias'=>$this->alias,
-                ));
+                $listview->setPagerView($this->config['pager_template'])
+                    ->showPager();
             }else{
                 \F::app()->view->evalCode($this->config['pager_template'], array(
                     'widget'=>$this
@@ -248,7 +244,6 @@ class IndexController extends Widget{
             'page_size'=>$this->config['page_size'],
             'page_key'=>$this->config['page_key'],
             'empty_text'=>$this->config['empty_text'],
-            'reload'=>Http::getCurrentUrl()
         ));
         
         return $listview;

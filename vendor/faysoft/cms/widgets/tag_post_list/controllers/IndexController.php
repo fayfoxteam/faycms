@@ -122,11 +122,8 @@ class IndexController extends Widget{
         }else{
             $pager_data = $listview->getPager();
             if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['pager_template'])){
-                \F::app()->view->renderPartial($this->config['pager_template'], $pager_data + array(
-                    'listview'=>$listview,
-                    'config'=>$this->config,
-                    'alias'=>$this->alias,
-                ));
+                $listview->setPagerView($this->config['pager_template'])
+                    ->showPager();
             }else{
                 \F::app()->view->evalCode($this->config['pager_template'], array(
                     'widget'=>$this

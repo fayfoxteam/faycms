@@ -82,7 +82,7 @@ class MigrationController extends FrontController{
                 'id'=>$archive['id'],
                 'title'=>$archive['title'],
                 'content'=>$content,
-                'publish_time'=>$archive['pubdate'],
+                'publish_time'=>$archive['pubdate'] ? $archive['pubdate'] : $archive['senddate'],
                 'thumbnail'=>$thumbnail,
                 'cat_id'=>$cat_id,
                 'status'=>$status,

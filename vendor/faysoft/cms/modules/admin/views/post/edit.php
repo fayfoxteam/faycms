@@ -1,4 +1,5 @@
 <?php
+use cms\helpers\LinkHelper;
 use cms\services\OptionService;
 use cms\helpers\PostHelper;
 use cms\models\tables\PostsTable;
@@ -7,6 +8,9 @@ use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
 use cms\services\post\PostCategoryService;
 
+/**
+ * @var $post array
+ */
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
 ?>
@@ -30,9 +34,18 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                 </div>
                 <div class="box-content">
                     <div>
-                        <?php echo F::form()->submitLink('更新', array(
-                            'class'=>'btn',
-                        ))?>
+                        <?php
+                            echo F::form()->submitLink('更新', array(
+                                'class'=>'btn',
+                            ));
+                            if($post['status'] == PostsTable::STATUS_PUBLISHED){
+                                //已发布的文章，展示一个查看链接
+                                echo HtmlHelper::link('查看', LinkHelper::getPostLink($post), array(
+                                    'class'=>'btn btn-grey ml5',
+                                    'target'=>'_blank',
+                                ));
+                            }    
+                        ?>
                     </div>
                     <div class="misc-pub-section mt6">
                         <strong>当前状态：</strong>

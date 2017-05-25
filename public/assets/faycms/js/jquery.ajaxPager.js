@@ -26,6 +26,7 @@
                 }else{
                     element.text('没有啦');
                 }
+                $(window).resize();
             },
             //当没数据的时候
             'onNoData': function(element){

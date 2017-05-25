@@ -51,7 +51,7 @@ class PropUsageController extends AdminController{
                 ->where('pu.usage_id IN (?)', $shared_usages)
                 ->where('pu.is_share = 1')
                 ->where('p.usage_type = ?', $usage_type)
-                ->where('p.id NOT IN (?)', ArrayHelper::column($props, 'id'))
+                ->where('p.id NOT IN (?)', $props ? ArrayHelper::column($props, 'id') : false)
                 ->order('pu.sort')
                 ->fetchAll();
         }else{

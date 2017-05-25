@@ -35,7 +35,7 @@ class Bootstrap{
             $cache_routers = \F::config()->get('*', 'pagecache');
             $cache_routers_keys = array_keys($cache_routers);
             if(!Input::getInstance()->post() && in_array($uri->router, $cache_routers_keys)){
-                $filename = md5(json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
+                $filename = md5(\F::config()->get('base_url') . json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
                 $cache_key = 'pages/' . $uri->router . '/' . $filename;
                 $content = \F::cache()->get($cache_key);
                 if($content){

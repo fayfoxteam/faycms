@@ -3,6 +3,7 @@ namespace amq\modules\frontend\controllers;
 
 use amq\library\FrontController;
 use cms\models\tables\PostsTable;
+use cms\services\file\RemoteFileService;
 use cms\services\post\PostService;
 use fay\core\HttpException;
 
@@ -29,18 +30,29 @@ class GuanwangController extends FrontController{
         
         $cat_id = isset($this->type_cat_map[$typeid]) ? $this->type_cat_map[$typeid] : 0;
 
+        //提取缩略图
+        preg_match('/<[img|IMG].*?src=[\'|\"](.*?)[\'|\"].*?[\/]?>/', $content, $match);
+        if(isset($match[1])){
+            $thumbnail = $match[1];
+            if(substr($thumbnail, 0, 2) == '//'){
+                $thumbnail = 'http:' . $thumbnail;
+            }
+            $remote_file = new RemoteFileService($thumbnail);
+            $local_thumbnail = $remote_file->save();
+        }
         
-        
-        \F::logger()->log(serialize($_POST));
-        \F::logger()->log($title);
-        \F::logger()->log($content);
-        \F::logger()->log($cat_id);
+//        
+//        \F::logger()->log(serialize($_POST));
+//        \F::logger()->log($title);
+//        \F::logger()->log($content);
+//        \F::logger()->log($cat_id);
         
         PostService::service()->create(array(
             'title'=>$title,
             'content'=>$content,
             'cat_id'=>$cat_id,
             'status'=>PostsTable::STATUS_DRAFT,
+            'thumbnail'=>empty($local_thumbnail['id']) ? 0 : $local_thumbnail['id']
         ), array(
             'source'=>'爱名网',
         ));

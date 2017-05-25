@@ -130,7 +130,7 @@ class PostService extends Service{
                 $local_thumbnail = $remote_file->save();
                 return $local_thumbnail;
             }catch(\Exception $e){
-                //如果无法下载，啥也不做
+                return array();
             }
         }
         

@@ -91,6 +91,7 @@ class MigrationController extends FrontController{
                 'extra'=>array(
                     'seo_keywords'=>$archive['keywords'],
                     'seo_description'=>$archive['description'],
+                    'source'=>$archive['source'],
                 )
             ), 10000);
         }

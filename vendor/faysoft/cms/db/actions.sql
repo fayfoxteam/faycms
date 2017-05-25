@@ -68,6 +68,7 @@ INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1105', '小工具域', 'cms/admin/widgetarea/index', '111', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1106', '复制小工具', 'cms/admin/widget/copy', '111', '0', '1102');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1107', '第三方登录', 'cms/admin/site/oauth', '111', '0', '0');
+INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1108', '图片水印', 'cms/admin/site/watermark', '111', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1201', '列表', 'cms/admin/role/index', '112', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1202', '添加', 'cms/admin/role/create', '112', '0', '0');
 INSERT INTO `{{$prefix}}actions` (`id`, `title`, `router`, `cat_id`, `is_public`, `parent`) VALUES ('1203', '删除', 'cms/admin/role/delete', '112', '0', '1201');

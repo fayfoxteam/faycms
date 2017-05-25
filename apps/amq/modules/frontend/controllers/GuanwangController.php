@@ -41,11 +41,11 @@ class GuanwangController extends FrontController{
             $local_thumbnail = $remote_file->save();
         }
         
-//        
-        \F::logger()->log(serialize($_POST));
-        \F::logger()->log($title);
-        \F::logger()->log($content);
-        \F::logger()->log($cat_id);
+        
+//        \F::logger()->log(serialize($_POST));
+//        \F::logger()->log($title);
+//        \F::logger()->log($content);
+//        \F::logger()->log($cat_id);
         
         $post_id = PostService::service()->create(array(
             'title'=>$title,
@@ -58,7 +58,7 @@ class GuanwangController extends FrontController{
         ));
         
         if($post_id){
-            echo iconv('utf-8', 'gbk', '发布成功啦');
+            echo '发布成功啦';
         }else{
             echo '失败';
         }

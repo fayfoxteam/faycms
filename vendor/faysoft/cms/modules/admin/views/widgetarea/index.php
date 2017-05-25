@@ -59,7 +59,7 @@ var widgetarea = {
             //小工具拖拽
             $('.widget-list').dragsort({
                 'itemSelector': '.widget-item',
-                'dragSelector': '.widget-item',//若不指定，且第一个框中没可拖动元素，则其他框也不可拖动，这算是插件的bug吧
+                'dragSelector': '.widget-item-selector',//若不指定，且第一个框中没可拖动元素，则其他框也不可拖动，这算是插件的bug吧
                 'dragBetween': true,
                 'placeHolderTemplate': '<div class="widget-item holder"></div>',
                 'dragSelectorExclude': 'input,textarea,select,table,span,p,strong',
@@ -110,8 +110,26 @@ var widgetarea = {
             });
         });
     },
+    /**
+     * 标记相同的widget（同一个widget可以关联到多个域）
+     */
+    'markSameWidget': function(){
+        var $widgetareaList = $('#widgetarea-list');
+        $widgetareaList.on('mouseover', '.widget-item', function(){
+            $widgetareaList.find('.widget-item').removeClass('selected');
+            var widgetId = $(this).attr('data-widget-id');
+            if(widgetId){
+                $widgetareaList.find('.widget-item[data-widget-id="'+widgetId+'"]').addClass('selected');
+            }
+        });
+
+        $(document).on('click', function(){
+            $widgetareaList.find('.widget-item.selected').removeClass('selected');
+        });
+    },
     'init':function(){
         this.dragsort();
+        this.markSameWidget();
     }
 };
 $(function(){

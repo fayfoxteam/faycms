@@ -414,6 +414,7 @@ select option[disabled]{text-decoration:line-through}
 .widget-list .widget-item .widget-item-selector:before{content:"\f047";font-family:FontAwesome}
 .widget-list .widget-item.holder[data-placeholder="true"]{background-color:#fff;border:2px dashed #DFDFDF !important}
 .widget-list .widget-item.holder[data-droptarget="true"]{height:2px !important;border:0 none;padding:0;margin:0;box-shadow:none}
+.widget-list .widget-item.selected{border-color:#66afe9 !important;box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6) !important}
 .widget-list .widget-item .operations a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 6px 0 5px}
 .widget-list .widget-item .operations a:last-child{background:0 none}
 .widget-list .widget-item-container{margin:0 22px 0 31px}

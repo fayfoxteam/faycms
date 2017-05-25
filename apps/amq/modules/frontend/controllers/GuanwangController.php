@@ -24,8 +24,8 @@ class GuanwangController extends FrontController{
             throw new HttpException('您请求的页面不存在');
         }
         
-        $title = iconv('gbk', 'utf-8', $this->input->request('title'));
-        $content = iconv('gbk', 'utf-8', $this->input->request('body'));
+        $title = $this->input->request('title');
+        $content = $this->input->request('body');
         $typeid = $this->input->request('typeid');
         
         $cat_id = isset($this->type_cat_map[$typeid]) ? $this->type_cat_map[$typeid] : 0;
@@ -42,10 +42,10 @@ class GuanwangController extends FrontController{
         }
         
 //        
-//        \F::logger()->log(serialize($_POST));
-//        \F::logger()->log($title);
-//        \F::logger()->log($content);
-//        \F::logger()->log($cat_id);
+        \F::logger()->log(serialize($_POST));
+        \F::logger()->log($title);
+        \F::logger()->log($content);
+        \F::logger()->log($cat_id);
         
         $post_id = PostService::service()->create(array(
             'title'=>$title,
@@ -58,7 +58,7 @@ class GuanwangController extends FrontController{
         ));
         
         if($post_id){
-            echo iconv('utf-8', 'gbk', '成功');
+            echo iconv('utf-8', 'gbk', '发布成功啦');
         }else{
             echo '失败';
         }

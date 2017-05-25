@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `{{$prefix}}goods`;
-CREATE TABLE `{{$prefix}}goods` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods`;
+CREATE TABLE `{{$prefix}}shop_goods` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
@@ -18,8 +18,8 @@ CREATE TABLE `{{$prefix}}goods` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}goods_cat_prop_values`;
-CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods_cat_prop_values`;
+CREATE TABLE `{{$prefix}}shop_goods_cat_prop_values` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
@@ -29,8 +29,8 @@ CREATE TABLE `{{$prefix}}goods_cat_prop_values` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}goods_cat_props`;
-CREATE TABLE `{{$prefix}}goods_cat_props` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods_cat_props`;
+CREATE TABLE `{{$prefix}}shop_goods_cat_props` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
   `type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '编辑框类型',
@@ -44,8 +44,8 @@ CREATE TABLE `{{$prefix}}goods_cat_props` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}goods_counter`;
-CREATE TABLE `{{$prefix}}goods_counter` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods_counter`;
+CREATE TABLE `{{$prefix}}shop_goods_counter` (
   `goods_id` int(11) unsigned NOT NULL COMMENT '商品ID',
   `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '浏览量',
   `real_views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实浏览量',
@@ -58,8 +58,8 @@ CREATE TABLE `{{$prefix}}goods_counter` (
   PRIMARY KEY (`goods_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}goods_extra`;
-CREATE TABLE `{{$prefix}}goods_extra` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods_extra`;
+CREATE TABLE `{{$prefix}}shop_goods_extra` (
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
@@ -72,8 +72,8 @@ CREATE TABLE `{{$prefix}}goods_extra` (
   PRIMARY KEY (`goods_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}goods_files`;
-CREATE TABLE `{{$prefix}}goods_files` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods_files`;
+CREATE TABLE `{{$prefix}}shop_goods_files` (
   `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品Id',
   `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '文件Id',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
@@ -82,8 +82,8 @@ CREATE TABLE `{{$prefix}}goods_files` (
   PRIMARY KEY (`goods_id`,`file_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}goods_prop_values`;
-CREATE TABLE `{{$prefix}}goods_prop_values` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods_prop_values`;
+CREATE TABLE `{{$prefix}}shop_goods_prop_values` (
   `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品Id',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性Id',
   `prop_value_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '属性值Id',
@@ -91,8 +91,8 @@ CREATE TABLE `{{$prefix}}goods_prop_values` (
   PRIMARY KEY (`goods_id`,`prop_id`,`prop_value_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}goods_skus`;
-CREATE TABLE `{{$prefix}}goods_skus` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_goods_skus`;
+CREATE TABLE `{{$prefix}}shop_goods_skus` (
   `goods_id` int(10) unsigned NOT NULL COMMENT '商品ID',
   `sku_key` varchar(100) NOT NULL DEFAULT '' COMMENT 'SKU Key',
   `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '价格',
@@ -101,8 +101,65 @@ CREATE TABLE `{{$prefix}}goods_skus` (
   PRIMARY KEY (`goods_id`,`sku_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
-DROP TABLE IF EXISTS `{{$prefix}}orders`;
-CREATE TABLE `{{$prefix}}orders` (
+DROP TABLE IF EXISTS `{{$prefix}}shop_item_prop_values`;
+CREATE TABLE `{{$prefix}}shop_item_prop_values` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Prop Id',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
+  `title_alias` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title Alias',
+  `is_terminal` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Is Terminal',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT 'Sort',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}shop_item_props`;
+CREATE TABLE `{{$prefix}}shop_item_props` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `is_input_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Input Prop',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT 'Type',
+  `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Cat Id',
+  `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Required',
+  `parent_pid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent Pid',
+  `parent_vid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Parent Vid',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT 'Title',
+  `is_sale_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Sale Prop',
+  `is_color_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Color Prop',
+  `is_enum_prop` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Is Enum Prop',
+  `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `multi` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Multi',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+
+DROP TABLE IF EXISTS `{{$prefix}}shop_order_address`;
+CREATE TABLE `{{$prefix}}shop_order_address` (
+  `order_id` mediumint(8) unsigned NOT NULL,
+  `state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '省',
+  `city` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '市',
+  `district` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '县',
+  `address` varchar(255) NOT NULL DEFAULT '' COMMENT '详细地址',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
+  `mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '手机号码',
+  `address_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '下单时选择的地址id',
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单收件人信息';
+
+DROP TABLE IF EXISTS `{{$prefix}}shop_order_goods`;
+CREATE TABLE `{{$prefix}}shop_order_goods` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
+  `order_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '订单ID',
+  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '商品标题',
+  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品价格',
+  `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '购买数量',
+  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
+  `sku_properties_name` varchar(500) NOT NULL DEFAULT '' COMMENT 'SKU的值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单商品表';
+
+DROP TABLE IF EXISTS `{{$prefix}}shop_orders`;
+CREATE TABLE `{{$prefix}}shop_orders` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单ID',
   `buyer_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '买家ID',
   `buyer_note` varchar(255) NOT NULL DEFAULT '' COMMENT '买家留言',
@@ -123,29 +180,3 @@ CREATE TABLE `{{$prefix}}orders` (
   `close_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '交易关闭原因',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单表';
-
-DROP TABLE IF EXISTS `{{$prefix}}order_address`;
-CREATE TABLE `{{$prefix}}order_address` (
-  `order_id` mediumint(8) unsigned NOT NULL,
-  `state` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '省',
-  `city` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '市',
-  `district` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '县',
-  `address` varchar(255) NOT NULL DEFAULT '' COMMENT '详细地址',
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '姓名',
-  `mobile` varchar(30) NOT NULL DEFAULT '' COMMENT '手机号码',
-  `address_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '下单时选择的地址id',
-  PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单收件人信息';
-
-DROP TABLE IF EXISTS `{{$prefix}}order_goods`;
-CREATE TABLE `{{$prefix}}order_goods` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
-  `order_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '订单ID',
-  `goods_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '商品ID',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '商品标题',
-  `price` decimal(8,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '商品价格',
-  `num` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '购买数量',
-  `sku_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'SKU Key',
-  `sku_properties_name` varchar(500) NOT NULL DEFAULT '' COMMENT 'SKU的值',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='订单商品表';

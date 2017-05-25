@@ -1,11 +1,11 @@
 <?php
-namespace cms\models\tables;
+namespace fayshop\models\tables;
 
 use fay\core\db\Table;
 
 /**
- * Goods table model
- *
+ * Shop goods table model
+ * 
  * @property int $id Id
  * @property int $cat_id 分类ID
  * @property string $title 标题
@@ -22,7 +22,7 @@ use fay\core\db\Table;
  * @property int $update_time 更新时间
  * @property int $publish_time 发布时间
  */
-class GoodsTable extends Table{
+class ShopGoodsTable extends Table{
     /**
      * 状态 - 销售中
      */
@@ -42,17 +42,17 @@ class GoodsTable extends Table{
      * 付款减库存
      */
     const SUB_STOCK_PAY = 2;
-    
-    protected $_name = 'goods';
 
+    protected $_name = 'shop_goods';
+    
     /**
      * @param string $class_name
-     * @return GoodsTable
+     * @return ShopGoodsTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
     }
-
+    
     public function rules(){
         return array(
             array(array('id', 'user_id', 'thumbnail', 'sort'), 'int', array('min'=>0, 'max'=>4294967295)),
@@ -100,19 +100,5 @@ class GoodsTable extends Table{
             'sort'=>'intval',
             'publish_time'=>'trim',
         );
-    }
-
-    public function getNotWritableFields($scene){
-        switch($scene){
-            case 'update':
-                return array(
-                    'id', 'create_time',
-                );
-            case 'insert':
-            default:
-                return array(
-                    'id',
-                );
-        }
     }
 }

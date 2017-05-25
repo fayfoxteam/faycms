@@ -4,7 +4,7 @@ namespace fayshop\models\tables;
 use fay\core\db\Table;
 
 /**
- * Goods Extra model
+ * Shop goods extra table model
  * 
  * @property int $goods_id 商品ID
  * @property string $seo_title SEO Title
@@ -16,13 +16,13 @@ use fay\core\db\Table;
  * @property string $sn 货号
  * @property string $rich_text 富文本描述
  */
-class GoodsExtraTable extends Table{
-    protected $_name = 'goods_extra';
+class ShopGoodsExtraTable extends Table{
+    protected $_name = 'shop_goods_extra';
     protected $_primary = 'goods_id';
     
     /**
      * @param string $class_name
-     * @return GoodsExtraTable
+     * @return ShopGoodsExtraTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -64,17 +64,5 @@ class GoodsExtraTable extends Table{
             'sn'=>'trim',
             'rich_text'=>'',
         );
-    }
-    
-    public function getNotWritableFields($scene){
-        switch($scene){
-            case 'update':
-                return array(
-                    'goods_id', 'ip_int',
-                );
-            case 'insert':
-            default:
-                return array();
-        }
     }
 }

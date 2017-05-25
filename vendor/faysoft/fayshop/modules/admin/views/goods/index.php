@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
-use fayshop\models\tables\GoodsTable;
+use fayshop\models\tables\ShopGoodsTable;
+
+/**
+ * @var $listview \fay\common\ListView
+ */
 
 $cols = F::form('setting')->getData('cols', array());
 ?>
@@ -28,8 +32,8 @@ $cols = F::form('setting')->getData('cols', array());
                 |
                 <?php echo F::form('search')->select('status', array(
                     ''=>'--状态--',
-                    GoodsTable::STATUS_INSTOCK=>'在库',
-                    GoodsTable::STATUS_ONSALE=>'销售中',
+                    ShopGoodsTable::STATUS_INSTOCK=>'在库',
+                    ShopGoodsTable::STATUS_ONSALE=>'销售中',
                 ), array(
                     'class'=>'form-control',
                 ))?>
@@ -61,14 +65,14 @@ $cols = F::form('setting')->getData('cols', array());
         <table class="list-table goods-list">
             <thead>
                 <tr>
-                    <th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
+                    <th class="w20"><label><input type="checkbox" class="batch-ids-all" /></label></th>
                     <?php
                     if(in_array('id', $cols)){
                         echo HtmlHelper::tag('th', array(), '商品ID');
                     }
                     if(in_array('thumbnail', $cols)){
                         echo HtmlHelper::tag('th', array(
-                            'class'=>'w50',
+                            'width'=>62,
                         ), '商品图');
                     }
                     echo HtmlHelper::tag('th', array(), '商品名称');
@@ -85,16 +89,6 @@ $cols = F::form('setting')->getData('cols', array());
                     }
                     if(in_array('price', $cols)){
                         echo HtmlHelper::tag('th', array(), '价格');
-                    }
-                    if(in_array('is_new', $cols)){
-                        echo HtmlHelper::tag('th', array(
-                            'class'=>'w35',
-                        ), '新品');
-                    }
-                    if(in_array('is_hot', $cols)){
-                        echo HtmlHelper::tag('th', array(
-                            'class'=>'w35',
-                        ), '热销');
                     }
                     if(in_array('views', $cols)){
                         echo HtmlHelper::tag('th', array(
@@ -135,7 +129,7 @@ $cols = F::form('setting')->getData('cols', array());
             </thead>
             <tfoot>
                 <tr>
-                    <th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
+                    <th class="w20"><label><input type="checkbox" class="batch-ids-all" /></label></th>
                     <?php
                     if(in_array('id', $cols)){
                         echo HtmlHelper::tag('th', array(), '商品ID');
@@ -155,12 +149,6 @@ $cols = F::form('setting')->getData('cols', array());
                     }
                     if(in_array('price', $cols)){
                         echo HtmlHelper::tag('th', array(), '价格');
-                    }
-                    if(in_array('is_new', $cols)){
-                        echo HtmlHelper::tag('th', array(), '新品');
-                    }
-                    if(in_array('is_hot', $cols)){
-                        echo HtmlHelper::tag('th', array(), '热销');
                     }
                     if(in_array('views', $cols)){
                         echo HtmlHelper::tag('th', array(), '浏览量');
@@ -189,11 +177,9 @@ $cols = F::form('setting')->getData('cols', array());
                     ?>
                 </tr>
             </tfoot>
-            <tbody><?php
-                $listview->showData(array(
-                    'cols'=>$cols,
-                ));
-            ?></tbody>
+            <tbody><?php $listview->showData(array(
+                'cols'=>$cols,
+            ));?></tbody>
         </table>
         <?php $listview->showPager();?>
     </div>
@@ -201,25 +187,50 @@ $cols = F::form('setting')->getData('cols', array());
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
 $(function(){
-    $(".goods-list").delegate(".is-new-link", "click", function(){
+    var $goodsList = $('.goods-list');
+    $goodsList.on('click', '.is-new-link', function(){
         var o = this;
         $(this).hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
         $.ajax({
-            type: "GET",
-            url: system.url("fayshop/admin/goods/set-is-new"),
+            type: 'GET',
+            url: system.url('fayshop/admin/goods/set-is-new'),
             data: {
-                "id":$(this).attr("data-id"),
-                "is_new":$(this).hasClass("tick-circle") ? 0 : 1
+                'id': $(this).attr('data-id'),
+                'is_new': $(this).hasClass('tick-circle') ? 0 : 1
             },
-            dataType: "json",
+            dataType: 'json',
             cache: false,
             success: function(resp){
                 if(resp.status){
-                    $(o).removeClass("tick-circle")
-                        .removeClass("cross-circle")
-                        .addClass(resp.data.is_new == 1 ? "tick-circle" : "cross-circle")
+                    $(o).removeClass('tick-circle')
+                        .removeClass('cross-circle')
+                        .addClass(resp.data.is_new == 1 ? 'tick-circle' : 'cross-circle')
                         .show()
-                        .next("img").remove();
+                        .next('img').remove();
+                }else{
+                    common.alert(resp.message);
+                }
+            }
+        });
+    }).on('click', '.is-hot-link', function(){
+        var o = this;
+        $(this).hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
+        $.ajax({
+            type: 'GET',
+            url: system.url('fayshop/admin/goods/set-is-hot'),
+            data: {
+                'id':$(this).attr('data-id'),
+                'is_hot':$(this).hasClass('tick-circle') ? 0 : 1
+            },
+            dataType: 'json',
+            cache: false,
+            success: function(resp){
+                if(resp.status){
+                    $(o).removeClass('tick-circle')
+                        .removeClass('cross-circle')
+                        .addClass(resp.data.is_hot == 1 ? 'tick-circle' : 'cross-circle')
+                        .show()
+                        .next('img').remove();
                 }else{
                     common.alert(resp.message);
                 }
@@ -227,34 +238,8 @@ $(function(){
         });
     });
 
-    $(".goods-list").delegate(".is-hot-link", "click", function(){
-        var o = this;
-        $(this).hide().after('<img src="'+system.assets('images/throbber.gif')+'" />');
-        $.ajax({
-            type: "GET",
-            url: system.url("fayshop/admin/goods/set-is-hot"),
-            data: {
-                "id":$(this).attr("data-id"),
-                "is_hot":$(this).hasClass("tick-circle") ? 0 : 1
-            },
-            dataType: "json",
-            cache: false,
-            success: function(resp){
-                if(resp.status){
-                    $(o).removeClass("tick-circle")
-                        .removeClass("cross-circle")
-                        .addClass(resp.data.is_hot == 1 ? "tick-circle" : "cross-circle")
-                        .show()
-                        .next("img").remove();
-                }else{
-                    common.alert(resp.message);
-                }
-            }
-        });
-    });
-
-    $(".edit-sort").feditsort({
-        'url':system.url("fayshop/admin/goods/set-sort")
+    $('.edit-sort').feditsort({
+        'url':system.url('fayshop/admin/goods/set-sort')
     });
 });
 </script>

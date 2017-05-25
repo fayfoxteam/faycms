@@ -27,7 +27,7 @@ use fay\helpers\HtmlHelper;
             <table class="list-table posts">
                 <thead>
                     <tr>
-                        <th class="w20 pl11"><input type="checkbox" class="batch-ids-all" /></th>
+                        <th class="w20 pl11"><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <th>消息</th>
                         <th>分类</th>
                         <th>来自</th>
@@ -35,7 +35,7 @@ use fay\helpers\HtmlHelper;
                 </thead>
                 <tfoot>
                     <tr>
-                        <th class="pl11"><input type="checkbox" class="batch-ids-all" /></th>
+                        <th class="pl11"><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <th>消息</th>
                         <th>分类</th>
                         <th>来自</th>

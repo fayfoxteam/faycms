@@ -4,20 +4,20 @@ namespace fayshop\models\tables;
 use fay\core\db\Table;
 
 /**
- * Goods Cat Props model
+ * Shop goods cat props table model
  * 
- * @property int $id
- * @property string $alias
- * @property int $type
- * @property int $cat_id
- * @property int $required
- * @property string $title
- * @property int $is_sale_prop
- * @property int $is_input_prop
+ * @property int $id Id
+ * @property string $alias 别名
+ * @property int $type 编辑框类型
+ * @property int $cat_id 分类ID
+ * @property int $required 必选标记
+ * @property string $title 标题
+ * @property int $is_sale_prop 是否销售属性
+ * @property int $is_input_prop 是否可自定义属性
  * @property int $delete_time 删除时间
- * @property int $sort
+ * @property int $sort 排序值
  */
-class GoodsCatPropsTable extends Table{
+class ShopGoodsCatPropsTable extends Table{
     /**
      * 属性类型 - 多选
      */
@@ -32,12 +32,12 @@ class GoodsCatPropsTable extends Table{
      * 属性类型 - 手工录入
      */
     const TYPE_INPUT = 3;
-
-    protected $_name = 'goods_cat_props';
+    
+    protected $_name = 'shop_goods_cat_props';
     
     /**
      * @param string $class_name
-     * @return GoodsCatPropsTable
+     * @return ShopGoodsCatPropsTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -49,10 +49,9 @@ class GoodsCatPropsTable extends Table{
             array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('required'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('type', 'sort'), 'int', array('min'=>0, 'max'=>255)),
+            array(array('alias'), 'string', array('max'=>50)),
             array(array('title'), 'string', array('max'=>255)),
-            array(array('is_sale_prop', 'is_input_prop', 'delete_time'), 'range', array('range'=>array(0, 1))),
-            
-            array('alias', 'unique', array('table'=>'props', 'field'=>'alias', 'except'=>'id', 'ajax'=>array('fayshop/admin/goods-cat-prop/is-alias-not-exist'))),
+            array(array('is_sale_prop', 'is_input_prop'), 'range', array('range'=>array(0, 1))),
         );
     }
 
@@ -81,7 +80,6 @@ class GoodsCatPropsTable extends Table{
             'title'=>'trim',
             'is_sale_prop'=>'intval',
             'is_input_prop'=>'intval',
-            'delete_time'=>'intval',
             'sort'=>'intval',
         );
     }

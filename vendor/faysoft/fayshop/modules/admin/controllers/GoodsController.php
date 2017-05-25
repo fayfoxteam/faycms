@@ -2,14 +2,14 @@
 namespace fayshop\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fayshop\models\tables\GoodsTable;
-use fayshop\models\tables\GoodsFilesTable;
-use fayshop\models\tables\GoodsCatPropValuesTable;
-use fayshop\models\tables\GoodsPropValuesTable;
-use fayshop\models\tables\GoodsSkusTable;
+use fayshop\models\tables\ShopGoodsTable;
+use fayshop\models\tables\ShopGoodsFilesTable;
+use fayshop\models\tables\ShopGoodsCatPropValuesTable;
+use fayshop\models\tables\ShopGoodsPropValuesTable;
+use fayshop\models\tables\ShopGoodsSkusTable;
 use cms\models\tables\ActionlogsTable;
 use cms\models\tables\CategoriesTable;
-use fayshop\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\ShopGoodsCatPropsTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use cms\services\CategoryService;
@@ -96,18 +96,18 @@ class GoodsController extends AdminController{
             'text'=>'商品分类',
         );
         
-        $this->form()->setModel(GoodsTable::model());
+        $this->form()->setModel(ShopGoodsTable::model());
         if($this->input->post()){
             //插入goods表
-            $data = GoodsTable::model()->fillData($this->input->post());
+            $data = ShopGoodsTable::model()->fillData($this->input->post());
             $data['create_time'] = $this->current_time;
             $data['update_time'] = $this->current_time;
             $data['user_id'] = $this->current_user;
             $data['cat_id'] = $cat['id'];
-            empty($data['sub_stock']) && $data['sub_stock'] = GoodsTable::SUB_STOCK_PAY;
+            empty($data['sub_stock']) && $data['sub_stock'] = ShopGoodsTable::SUB_STOCK_PAY;
             empty($data['publish_time']) ? $data['publish_time'] = $this->current_time : $data['publish_time'] = strtotime($data['publish_time']);
             
-            $goods_id = GoodsTable::model()->insert($data);
+            $goods_id = ShopGoodsTable::model()->insert($data);
             
             //设置gallery
             $description = $this->input->post('description');
@@ -115,7 +115,7 @@ class GoodsController extends AdminController{
             $i = 0;
             foreach($files as $f){
                 $i++;
-                GoodsFilesTable::model()->insert(array(
+                ShopGoodsFilesTable::model()->insert(array(
                     'goods_id'=>$goods_id,
                     'file_id'=>$f,
                     'description'=>$description[$f],
@@ -137,12 +137,12 @@ class GoodsController extends AdminController{
                             $prop_value_alias = $cp_alias[$k][$v2];
                         }else{
                             //若没有属性值传过来，则以默认值作为属性值
-                            $cat_prop_value = GoodsCatPropValuesTable::model()->fetchRow(array(
+                            $cat_prop_value = ShopGoodsCatPropValuesTable::model()->fetchRow(array(
                                 'id = ?'=>$v2,
                             ));
                             $prop_value_alias = $cat_prop_value['title'];
                         }
-                        GoodsPropValuesTable::model()->insert(array(
+                        ShopGoodsPropValuesTable::model()->insert(array(
                             'goods_id'=>$goods_id,
                             'prop_id'=>$k,
                             'prop_value_id'=>$v2,
@@ -157,12 +157,12 @@ class GoodsController extends AdminController{
                             $prop_value_alias = $cp_alias[$k][$v];
                         }else{
                             //若没有属性值传过来，则以默认值作为属性值
-                            $cat_prop_value = GoodsCatPropValuesTable::model()->fetchRow(array(
+                            $cat_prop_value = ShopGoodsCatPropValuesTable::model()->fetchRow(array(
                                 'id = ?'=>$v,
                             ));
                             $prop_value_alias = $cat_prop_value['title'];
                         }
-                        GoodsPropValuesTable::model()->insert(array(
+                        ShopGoodsPropValuesTable::model()->insert(array(
                             'goods_id'=>$goods_id,
                             'prop_id'=>$k,
                             'prop_value_id'=>$v,
@@ -173,7 +173,7 @@ class GoodsController extends AdminController{
                             //若有属性值传过来，则设置属性值
                             //若没有，则跳过此属性
                             $prop_value_alias = $cp_alias[$k][$v];
-                            GoodsPropValuesTable::model()->insert(array(
+                            ShopGoodsPropValuesTable::model()->insert(array(
                                 'goods_id'=>$goods_id,
                                 'prop_id'=>$k,
                                 'prop_value_id'=>$v,
@@ -189,7 +189,7 @@ class GoodsController extends AdminController{
                 //销售属性必是多选属性，且必然设置了alias
                 foreach($v as $v2){
                     $v2 = intval($v2);
-                    GoodsPropValuesTable::model()->insert(array(
+                    ShopGoodsPropValuesTable::model()->insert(array(
                         'goods_id'=>$goods_id,
                         'prop_id'=>$k,
                         'prop_value_id'=>$v2,
@@ -203,7 +203,7 @@ class GoodsController extends AdminController{
             $quantities = $this->input->post('quantities', 'intval', array());
             $tsces = $this->input->post('tsces', array());
             foreach($prices as $k => $p){
-                GoodsSkusTable::model()->insert(array(
+                ShopGoodsSkusTable::model()->insert(array(
                     'goods_id'=>$goods_id,
                     'sku_key'=>$k,
                     'price'=>$p,
@@ -218,13 +218,13 @@ class GoodsController extends AdminController{
         
         $parentIds = CategoryService::service()->getParentIds($cat['id']);
         //props
-        $props = GoodsCatPropsTable::model()->fetchAll(array(
+        $props = ShopGoodsCatPropsTable::model()->fetchAll(array(
             'cat_id IN ('.implode(',', $parentIds).')',
             'delete_time = 0',
         ), '!deleted', 'sort, id');
         
         //prop_values
-        $prop_values = GoodsCatPropValuesTable::model()->fetchAll(array(
+        $prop_values = ShopGoodsCatPropValuesTable::model()->fetchAll(array(
             'cat_id IN ('.implode(',', $parentIds).')',
             'delete_time = 0',
         ), '!deleted', 'prop_id, sort');
@@ -265,7 +265,7 @@ class GoodsController extends AdminController{
         
         //页面设置
         $_settings = $this->settingForm('admin_goods_index', '_setting_index', array(
-            'cols'=>array('thumbnail', 'category', 'price', 'is_new', 'is_hot', 'sales', 'status', 'create_time', 'sort'),
+            'cols'=>array('thumbnail', 'category', 'price', 'sales', 'status', 'create_time', 'sort'),
             'display_name'=>'username',
             'display_time'=>'short',
             'page_size'=>10,
@@ -274,9 +274,9 @@ class GoodsController extends AdminController{
         $this->form()->setData($this->input->get());
         
         $sql = new Sql();
-        $sql->from(array('g'=>'goods'))
+        $sql->from(array('g'=>'shop_goods'))
             ->joinLeft(array('c'=>'categories'), 'g.cat_id = c.id', 'title AS cat_title')
-            ->joinLeft(array('gc'=>'goods_counter'), 'g.id = gc.goods_id', '*')
+            ->joinLeft(array('gc'=>'shop_goods_counter'), 'g.id = gc.goods_id', '*')
         ;
         $sql->where('g.delete_time = 0');
         if($this->input->get('start_time')){
@@ -301,6 +301,7 @@ class GoodsController extends AdminController{
         
         $this->view->listview = new ListView($sql, array(
             'page_size'=>$this->form('setting')->getData('page_size', 20),
+            'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
         ));
 
         $this->view->cats = CategoryService::service()->getTree('_system_goods');
@@ -319,7 +320,7 @@ class GoodsController extends AdminController{
         
         if($this->input->post()){
             //更新goods表
-            $data = GoodsTable::model()->fillData($this->input->post());
+            $data = ShopGoodsTable::model()->fillData($this->input->post());
             $data['update_time'] = $this->current_time;
             
             if(in_array('publish_time', $enabled_boxes)){
@@ -333,31 +334,31 @@ class GoodsController extends AdminController{
                 }
             }
             
-            GoodsTable::model()->update($data, $goods_id);
+            ShopGoodsTable::model()->update($data, $goods_id);
             
             //设置gallery
             $description = $this->input->post('description');
             $files = $this->input->post('files', 'intval', array());
             //删除已被删除的图片
             if($files){
-                GoodsFilesTable::model()->delete(array(
+                ShopGoodsFilesTable::model()->delete(array(
                     'goods_id = ?'=>$goods_id,
                     'file_id NOT IN ('.implode(',', $files).')',
                 ));
             }else{
-                GoodsFilesTable::model()->delete(array(
+                ShopGoodsFilesTable::model()->delete(array(
                     'goods_id = ?'=>$goods_id,
                 ));
             }
             //获取已存在的图片
-            $old_files_ids = GoodsFilesTable::model()->fetchCol('file_id', array(
+            $old_files_ids = ShopGoodsFilesTable::model()->fetchCol('file_id', array(
                 'goods_id = ?'=>$goods_id,
             ));
             $i = 0;
             foreach($files as $f){
                 $i++;
                 if(in_array($f, $old_files_ids)){
-                    GoodsFilesTable::model()->update(array(
+                    ShopGoodsFilesTable::model()->update(array(
                         'description'=>$description[$f],
                         'sort'=>$i,
                     ), array(
@@ -365,7 +366,7 @@ class GoodsController extends AdminController{
                         'file_id = ?'=>$f,
                     ));
                 }else{
-                    GoodsFilesTable::model()->insert(array(
+                    ShopGoodsFilesTable::model()->insert(array(
                         'file_id'=>$f,
                         'goods_id'=>$goods_id,
                         'description'=>$description[$f],
@@ -379,7 +380,7 @@ class GoodsController extends AdminController{
             $cp_alias = $this->input->post('cp_alias');
             
             $new_prop_values = array();//记录所有属性（普通属性+销售属性）
-            $old_prop_values = GoodsPropValuesTable::model()->fetchCol('prop_value_id', array(
+            $old_prop_values = ShopGoodsPropValuesTable::model()->fetchCol('prop_value_id', array(
                 'goods_id = ?'=>$goods_id,
             ));//所有原属性（普通属性+销售属性）
             //普通属性
@@ -394,20 +395,20 @@ class GoodsController extends AdminController{
                             $prop_value_alias = $cp_alias[$k][$v2];
                         }else{
                             //若没有属性值传过来，则以默认值作为属性值
-                            $cat_prop_value = GoodsCatPropValuesTable::model()->fetchRow(array(
+                            $cat_prop_value = ShopGoodsCatPropValuesTable::model()->fetchRow(array(
                                 'id = ?'=>$v2,
                             ));
                             $prop_value_alias = $cat_prop_value['title'];
                         }
                         if(in_array($v2, $old_prop_values)){
-                            GoodsPropValuesTable::model()->update(array(
+                            ShopGoodsPropValuesTable::model()->update(array(
                                 'prop_value_alias'=>$prop_value_alias,
                             ), array(
                                 'goods_id = ?'=>$goods_id,
                                 'prop_value_id = ?'=>$v2,
                             ));
                         }else{
-                            GoodsPropValuesTable::model()->insert(array(
+                            ShopGoodsPropValuesTable::model()->insert(array(
                                 'goods_id'=>$goods_id,
                                 'prop_id'=>$k,
                                 'prop_value_id'=>$v2,
@@ -424,25 +425,25 @@ class GoodsController extends AdminController{
                             $prop_value_alias = $cp_alias[$k][$v];
                         }else{
                             //若没有属性值传过来，则以默认值作为属性值
-                            $cat_prop_value = GoodsCatPropValuesTable::model()->fetchRow(array(
+                            $cat_prop_value = ShopGoodsCatPropValuesTable::model()->fetchRow(array(
                                 'id = ?'=>$v,
                             ));
                             $prop_value_alias = $cat_prop_value['title'];
                         }
                         if(in_array($v, $old_prop_values)){
                             //只改了别名
-                            GoodsPropValuesTable::model()->update(array(
+                            ShopGoodsPropValuesTable::model()->update(array(
                                 'prop_value_alias'=>$prop_value_alias,
                             ), array(
                                 'goods_id = ?'=>$goods_id,
                                 'prop_value_id = ?'=>$v,
                             ));
                         }else{
-                            if(GoodsPropValuesTable::model()->fetchRow(array(
+                            if(ShopGoodsPropValuesTable::model()->fetchRow(array(
                                 'goods_id = ?'=>$goods_id,
                                 'prop_id = ?'=>$k,
                             ))){//单值属性若已存在，直接更新，不重新插入
-                                GoodsPropValuesTable::model()->update(array(
+                                ShopGoodsPropValuesTable::model()->update(array(
                                     'prop_value_alias'=>$prop_value_alias,
                                     'prop_value_id'=>$v,
                                 ), array(
@@ -450,7 +451,7 @@ class GoodsController extends AdminController{
                                     'prop_id = ?'=>$k,
                                 ));
                             }else{
-                                GoodsPropValuesTable::model()->insert(array(
+                                ShopGoodsPropValuesTable::model()->insert(array(
                                     'goods_id'=>$goods_id,
                                     'prop_id'=>$k,
                                     'prop_value_id'=>$v,
@@ -464,18 +465,18 @@ class GoodsController extends AdminController{
                             //若没有，则跳过此属性
                             $prop_value_alias = $cp_alias[$k][$v];
                             if(in_array($v, $old_prop_values)){
-                                GoodsPropValuesTable::model()->update(array(
+                                ShopGoodsPropValuesTable::model()->update(array(
                                     'prop_value_alias'=>$prop_value_alias,
                                 ), array(
                                     'goods_id = ?'=>$goods_id,
                                     'prop_value_id = ?'=>$v,
                                 ));
                             }else{
-                                if(GoodsPropValuesTable::model()->fetchRow(array(
+                                if(ShopGoodsPropValuesTable::model()->fetchRow(array(
                                     'goods_id = ?'=>$goods_id,
                                     'prop_id = ?'=>$k,
                                 ))){//单值属性若已存在，直接更新，不重新插入
-                                    GoodsPropValuesTable::model()->update(array(
+                                    ShopGoodsPropValuesTable::model()->update(array(
                                         'prop_value_alias'=>$prop_value_alias,
                                         'prop_value_id'=>$v,
                                     ), array(
@@ -483,7 +484,7 @@ class GoodsController extends AdminController{
                                         'prop_id = ?'=>$k,
                                     ));
                                 }else{
-                                    GoodsPropValuesTable::model()->insert(array(
+                                    ShopGoodsPropValuesTable::model()->insert(array(
                                         'goods_id'=>$goods_id,
                                         'prop_id'=>$k,
                                         'prop_value_id'=>$v,
@@ -503,14 +504,14 @@ class GoodsController extends AdminController{
                     $v2 = intval($v2);
                     $new_prop_values[] = $v2;
                     if(in_array($v2, $old_prop_values)){
-                        GoodsPropValuesTable::model()->update(array(
+                        ShopGoodsPropValuesTable::model()->update(array(
                             'prop_value_alias'=>$cp_alias[$k][$v2],
                         ), array(
                             'goods_id = ?'=>$goods_id,
                             'prop_value_id = ?'=>$v2,
                         ));
                     }else{
-                        GoodsPropValuesTable::model()->insert(array(
+                        ShopGoodsPropValuesTable::model()->insert(array(
                             'goods_id'=>$goods_id,
                             'prop_id'=>$k,
                             'prop_value_id'=>$v2,
@@ -520,7 +521,7 @@ class GoodsController extends AdminController{
                 }
             }
             //删除已被删除的所有属性（普通属性+销售属性）
-            GoodsPropValuesTable::model()->delete(array(
+            ShopGoodsPropValuesTable::model()->delete(array(
                 'goods_id = ?'=>$goods_id,
                 'prop_value_id NOT IN ('.implode(',', $new_prop_values).')',
             ));
@@ -529,18 +530,18 @@ class GoodsController extends AdminController{
             $prices = $this->input->post('prices', 'floatval', array());
             $quantities = $this->input->post('quantities', 'intval', array());
             $tsces = $this->input->post('tsces', array());
-            $old_skus = GoodsSkusTable::model()->fetchCol('sku_key', array(
+            $old_skus = ShopGoodsSkusTable::model()->fetchCol('sku_key', array(
                 'goods_id = ?'=>$goods_id,
             ));
             //删除已被删除的sku
             $new_sku_keys = array_keys($prices);
-            GoodsSkusTable::model()->delete(array(
+            ShopGoodsSkusTable::model()->delete(array(
                 'goods_id = ?'=>$goods_id,
                 "sku_key NOT IN ('".implode("','", $new_sku_keys)."')"
             ));
             foreach($prices as $k => $p){
                 if(in_array($k, $old_skus)){
-                    GoodsSkusTable::model()->update(array(
+                    ShopGoodsSkusTable::model()->update(array(
                         'price'=>$p,
                         'quantity'=>$quantities[$k],
                         'tsces'=>$tsces[$k],
@@ -549,7 +550,7 @@ class GoodsController extends AdminController{
                         'sku_key = ?'=>$k,
                     ));
                 }else{
-                    GoodsSkusTable::model()->insert(array(
+                    ShopGoodsSkusTable::model()->insert(array(
                         'goods_id'=>$goods_id,
                         'sku_key'=>$k,
                         'price'=>$p,
@@ -572,13 +573,13 @@ class GoodsController extends AdminController{
         
         $parentIds = CategoryService::service()->getParentIds($cat['id']);
         //props
-        $props = GoodsCatPropsTable::model()->fetchAll(array(
+        $props = ShopGoodsCatPropsTable::model()->fetchAll(array(
             'cat_id IN ('.implode(',', $parentIds).')',
             'delete_time = 0',
         ), '!deleted', 'sort, id');
         
         //prop_values
-        $prop_values = GoodsCatPropValuesTable::model()->fetchAll(array(
+        $prop_values = ShopGoodsCatPropValuesTable::model()->fetchAll(array(
             'cat_id IN ('.implode(',', $parentIds).')',
             'delete_time = 0',
         ), '!deleted', 'prop_id, sort');
@@ -614,7 +615,7 @@ class GoodsController extends AdminController{
     
     public function delete(){
         $goods_id = $this->input->get('id', 'intval');
-        GoodsTable::model()->update(array(
+        ShopGoodsTable::model()->update(array(
             'delete_time'=>$this->current_time,
         ), $goods_id);
         $this->actionlog(ActionlogsTable::TYPE_GOODS, '软删除一个商品', $goods_id);
@@ -629,7 +630,7 @@ class GoodsController extends AdminController{
     
     public function undelete(){
         $goods_id = $this->input->get('id', 'intval');
-        GoodsTable::model()->update(array(
+        ShopGoodsTable::model()->update(array(
             'delete_time'=>0
         ), array('id = ?'=>$goods_id));
         $this->actionlog(ActionlogsTable::TYPE_GOODS, '将商品移出回收站', $goods_id);
@@ -645,11 +646,11 @@ class GoodsController extends AdminController{
     }
     
     public function setIsNew(){
-        GoodsTable::model()->update(array(
+        ShopGoodsTable::model()->update(array(
             'is_new'=>$this->input->get('is_new', 'intval'),
         ), $this->input->get('id', 'intval'));
         
-        $goods = GoodsTable::model()->find($this->input->get('id', 'intval'), 'is_new');
+        $goods = ShopGoodsTable::model()->find($this->input->get('id', 'intval'), 'is_new');
         Response::notify('success', array(
             'message'=>'',
             'data'=>array(
@@ -659,11 +660,11 @@ class GoodsController extends AdminController{
     }
     
     public function setIsHot(){
-        GoodsTable::model()->update(array(
+        ShopGoodsTable::model()->update(array(
             'is_hot'=>$this->input->get('is_hot', 'intval'),
         ), $this->input->get('id', 'intval'));
         
-        $goods = GoodsTable::model()->find($this->input->get('id', 'intval'), 'is_hot');
+        $goods = ShopGoodsTable::model()->find($this->input->get('id', 'intval'), 'is_hot');
         Response::notify('success', array(
             'message'=>'',
             'data'=>array(
@@ -673,10 +674,10 @@ class GoodsController extends AdminController{
     }
     
     public function setSort(){
-        GoodsTable::model()->update(array(
+        ShopGoodsTable::model()->update(array(
             'sort'=>$this->input->get('sort', 'intval'),
         ), $this->input->get('id', 'intval'));
-        $goods = GoodsTable::model()->find($this->input->get('id', 'intval'), 'sort');
+        $goods = ShopGoodsTable::model()->find($this->input->get('id', 'intval'), 'sort');
         
         Response::notify('success', array(
             'message'=>'一个商品的排序值被编辑',

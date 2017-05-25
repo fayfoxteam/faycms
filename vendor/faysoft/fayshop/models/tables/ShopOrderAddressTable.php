@@ -15,13 +15,13 @@ use fay\core\db\Table;
  * @property string $mobile 手机号码
  * @property int $address_id 下单时选择的地址id
  */
-class OrderAddressTable extends Table{
-    protected $_name = 'order_address';
+class ShopOrderAddressTable extends Table{
+    protected $_name = 'shop_order_address';
     protected $_primary = 'order_id';
     
     /**
      * @param string $class_name
-     * @return OrderAddressTable
+     * @return ShopOrderAddressTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -61,19 +61,5 @@ class OrderAddressTable extends Table{
             'mobile'=>'trim',
             'address_id'=>'intval',
         );
-    }
-
-    public function getNotWritableFields($scene){
-        switch($scene){
-            case 'update':
-                return array(
-                    'order_id',
-                );
-            case 'insert':
-            default:
-                return array(
-                    'order_id',
-                );
-        }
     }
 }

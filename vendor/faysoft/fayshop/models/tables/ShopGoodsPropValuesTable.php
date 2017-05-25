@@ -4,20 +4,20 @@ namespace fayshop\models\tables;
 use fay\core\db\Table;
 
 /**
- * Goods Prop Values model
+ * Shop goods prop values table model
  * 
- * @property int $goods_id
- * @property int $prop_id
- * @property int $prop_value_id
- * @property string $prop_value_alias
+ * @property int $goods_id 商品Id
+ * @property int $prop_id 属性Id
+ * @property int $prop_value_id 属性值Id
+ * @property string $prop_value_alias 属性别名
  */
-class GoodsPropValuesTable extends Table{
-    protected $_name = 'goods_prop_values';
+class ShopGoodsPropValuesTable extends Table{
+    protected $_name = 'shop_goods_prop_values';
     protected $_primary = array('goods_id', 'prop_id', 'prop_value_id');
     
     /**
      * @param string $class_name
-     * @return GoodsPropValuesTable
+     * @return ShopGoodsPropValuesTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);

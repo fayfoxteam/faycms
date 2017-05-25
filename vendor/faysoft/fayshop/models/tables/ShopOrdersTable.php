@@ -5,7 +5,7 @@ use fay\core\db\Table;
 
 /**
  * 订单表
- *
+ * 
  * @property int $id 订单ID
  * @property int $buyer_id 买家ID
  * @property string $buyer_note 买家留言
@@ -25,33 +25,12 @@ use fay\core\db\Table;
  * @property int $confirm_time 确认收货时间
  * @property string $close_reason 交易关闭原因
  */
-class OrdersTable extends Table{
-    /**
-     * 订单状态-等待买家付款
-     */
-    const STATUS_WAIT_BUYER_PAY = 1;
-    /**
-     * 订单状态-等待卖家发货,即:买家已付款
-     */
-    const STATUS_WAIT_SELLER_SEND_GOODS = 2;
-    /**
-     * 订单状态-等待买家确认收货,即:卖家已发货
-     */
-    const STATUS_WAIT_BUYER_CONFIRM_GOODS = 3;
-    /**
-     * 订单状态-交易完成
-     */
-    const STATUS_FINISHED = 4;
-    /**
-     * 订单状态-交易关闭
-     */
-    const STATUS_CLOSED = -1;
-    
-    protected $_name = 'orders';
+class ShopOrdersTable extends Table{
+    protected $_name = 'shop_orders';
     
     /**
      * @param string $class_name
-     * @return OrdersTable
+     * @return ShopOrdersTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -112,19 +91,5 @@ class OrdersTable extends Table{
             'confirm_time'=>'trim',
             'close_reason'=>'trim',
         );
-    }
-
-    public function getNotWritableFields($scene){
-        switch($scene){
-            case 'update':
-                return array(
-                    'id', 'create_time', 'buyer_id', 'seller_id'
-                );
-            case 'insert':
-            default:
-                return array(
-                    'id',
-                );
-        }
     }
 }

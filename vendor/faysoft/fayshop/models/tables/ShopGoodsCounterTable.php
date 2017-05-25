@@ -4,7 +4,7 @@ namespace fayshop\models\tables;
 use fay\core\db\Table;
 
 /**
- * Goods Counter model
+ * Shop goods counter table model
  * 
  * @property int $goods_id 商品ID
  * @property int $views 浏览量
@@ -16,13 +16,13 @@ use fay\core\db\Table;
  * @property int $favorites 收藏数
  * @property int $real_favorites 真实收藏数
  */
-class GoodsCounterTable extends Table{
-    protected $_name = 'goods_counter';
+class ShopGoodsCounterTable extends Table{
+    protected $_name = 'shop_goods_counter';
     protected $_primary = 'goods_id';
     
     /**
      * @param string $class_name
-     * @return GoodsCounterTable
+     * @return ShopGoodsCounterTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -61,29 +61,5 @@ class GoodsCounterTable extends Table{
             'favorites'=>'intval',
             'real_favorites'=>'intval',
         );
-    }
-    
-    public function getNotWritableFields($scene){
-        /*
-         * 这些计数虽然可以伪造，但也不是直接手工输入的，必须有马甲帐号做对应。
-         * 所以这些字段不允许手工修改
-         */
-        switch($scene){
-            case 'insert':
-                return array(
-                    'real_views',
-                    'sales', 'real_sales',
-                    'reviews', 'real_reviews',
-                    'favorites', 'real_favorites',
-                );
-            case 'update':
-            default:
-                return array(
-                    'goods_id', 'real_views',
-                    'sales', 'real_sales',
-                    'reviews', 'real_reviews',
-                    'favorites', 'real_favorites',
-                );
-        }
     }
 }

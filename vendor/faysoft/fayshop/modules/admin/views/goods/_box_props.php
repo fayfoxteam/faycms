@@ -1,5 +1,5 @@
 <?php
-use fayshop\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\ShopGoodsCatPropsTable;
 use fay\helpers\HtmlHelper;
 ?>
 <div class="box" id="box-props" data-name="props">
@@ -18,7 +18,7 @@ use fay\helpers\HtmlHelper;
                             <em class="fc-red">(必选)</em>
                         <?php }?>
                     </label>
-                    <?php if($p['type'] == GoodsCatPropsTable::TYPE_CHECK){//多选?>
+                    <?php if($p['type'] == ShopGoodsCatPropsTable::TYPE_CHECK){//多选?>
                     <div class="goods-prop-box">
                         <?php foreach($p['prop_values'] as $pv){?>
                             <p class="ib w240">
@@ -41,12 +41,12 @@ use fay\helpers\HtmlHelper;
                         <?php }?>
                     </div>
                     <?php 
-                    }else if($p['type'] == GoodsCatPropsTable::TYPE_OPTIONAL){//单选
+                    }else if($p['type'] == ShopGoodsCatPropsTable::TYPE_OPTIONAL){//单选
                         $selected = isset($goods['props'][$p['id']]) ? array_keys($goods['props'][$p['id']]['values']) : array();
                         echo HtmlHelper::select("cp[{$p['id']}]", HtmlHelper::getSelectOptions($p['prop_values']), $selected, array(
                             'class'=>'form-control wa',
                         ));
-                    }else if($p['type'] == GoodsCatPropsTable::TYPE_INPUT){//手工录入
+                    }else if($p['type'] == ShopGoodsCatPropsTable::TYPE_INPUT){//手工录入
                         $value = isset($goods['props'][$p['id']]['values'][0]) ? $goods['props'][$p['id']]['values'][0] : '';
                         echo HtmlHelper::inputText("cp_alias[{$p['id']}][0]", $value, array(
                             'class'=>'form-control mw500',
@@ -60,7 +60,7 @@ use fay\helpers\HtmlHelper;
                 </div>
             <?php }?>
         <?php }else{?>
-            该商品无可选属性
+            该分类无可选属性
         <?php }?>
     </div>
 </div>

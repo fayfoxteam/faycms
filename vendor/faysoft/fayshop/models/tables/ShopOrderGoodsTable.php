@@ -4,23 +4,23 @@ namespace fayshop\models\tables;
 use fay\core\db\Table;
 
 /**
- * Order Goods model
+ * 订单商品表
  * 
- * @property int $id
- * @property int $order_id
- * @property int $goods_id
- * @property string $title
- * @property float $price
- * @property int $num
- * @property string $sku_key
- * @property string $sku_properties_name
+ * @property int $id Id
+ * @property int $order_id 订单ID
+ * @property int $goods_id 商品ID
+ * @property string $title 商品标题
+ * @property float $price 商品价格
+ * @property int $num 购买数量
+ * @property string $sku_key SKU Key
+ * @property string $sku_properties_name SKU的值
  */
-class OrderGoodsTable extends Table{
-    protected $_name = 'order_goods';
+class ShopOrderGoodsTable extends Table{
+    protected $_name = 'shop_order_goods';
     
     /**
      * @param string $class_name
-     * @return OrderGoodsTable
+     * @return ShopOrderGoodsTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);

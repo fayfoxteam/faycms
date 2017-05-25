@@ -6,8 +6,8 @@ use cms\models\tables\CategoriesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
 use fay\common\ListView;
-use fayshop\models\tables\GoodsCatPropsTable;
-use fayshop\models\tables\GoodsCatPropValuesTable;
+use fayshop\models\tables\ShopGoodsCatPropsTable;
+use fayshop\models\tables\ShopGoodsCatPropValuesTable;
 use cms\models\tables\ActionlogsTable;
 use fay\core\Response;
 use cms\services\CategoryService;
@@ -34,7 +34,7 @@ class GoodsCatPropController extends AdminController{
             throw new HttpException('指定商品分类不存在');
         }
         
-        $this->form()->setModel(GoodsCatPropsTable::model());
+        $this->form()->setModel(ShopGoodsCatPropsTable::model());
         
         $this->layout->subtitle = HtmlHelper::encode($cat['title']) . ' - 分类属性';
         
@@ -50,7 +50,7 @@ class GoodsCatPropController extends AdminController{
             }else{
                 $required = $this->input->post('required', 'intval', 0);
             }
-            $prop_id = GoodsCatPropsTable::model()->insert(array(
+            $prop_id = ShopGoodsCatPropsTable::model()->insert(array(
                 'alias'=>$this->input->post('alias', 'trim'),
                 'cat_id'=>$this->input->post('cat_id', 'intval'),
                 'type'=>$this->input->post('type', 'intval'),
@@ -62,12 +62,12 @@ class GoodsCatPropController extends AdminController{
             ));
             
             //设置属性值
-            if($this->input->post('type', 'intval') != GoodsCatPropsTable::TYPE_INPUT){//手工录入属性没有属性值
+            if($this->input->post('type', 'intval') != ShopGoodsCatPropsTable::TYPE_INPUT){//手工录入属性没有属性值
                 $prop_values = $this->input->post('prop_values', array());
                 $i = 0;
                 foreach($prop_values as $pv){
                     $i++;
-                    GoodsCatPropValuesTable::model()->insert(array(
+                    ShopGoodsCatPropValuesTable::model()->insert(array(
                         'prop_id'=>$prop_id,
                         'title'=>$pv,
                         'sort'=>$i,
@@ -86,7 +86,7 @@ class GoodsCatPropController extends AdminController{
     public function delete(){
         $prop_id = $this->input->get('id', 'intval');
         //仅将属性的删除字段置为1，而不改动属性值表，否则无法还原
-        GoodsCatPropsTable::model()->update(array(
+        ShopGoodsCatPropsTable::model()->update(array(
             'delete_time'=>\F::app()->current_time,
         ), $prop_id);
 
@@ -99,7 +99,7 @@ class GoodsCatPropController extends AdminController{
     
     public function undelete(){
         $prop_id = $this->input->get('id', 'intval');
-        GoodsCatPropsTable::model()->update(array(
+        ShopGoodsCatPropsTable::model()->update(array(
             'delete_time'=>0,
         ), $prop_id);
         
@@ -110,8 +110,8 @@ class GoodsCatPropController extends AdminController{
     
     public function remove(){
         $prop_id = $this->input->get('id', 'intval');
-        GoodsCatPropsTable::model()->delete($prop_id);
-        GoodsCatPropValuesTable::model()->delete(array(
+        ShopGoodsCatPropsTable::model()->delete($prop_id);
+        ShopGoodsCatPropValuesTable::model()->delete(array(
             'prop_id = ?'=>$prop_id,
         ));
 
@@ -129,7 +129,7 @@ class GoodsCatPropController extends AdminController{
             }else{
                 $required = $this->input->post('required', 'intval', 0);
             }
-            GoodsCatPropsTable::model()->update(array(
+            ShopGoodsCatPropsTable::model()->update(array(
                 'alias'=>$this->input->post('alias', 'trim'),
                 'type'=>$this->input->post('type', 'intval'),
                 'required'=>$required,
@@ -141,27 +141,27 @@ class GoodsCatPropController extends AdminController{
 
             //删除原有属性值
             $old_prop_value_ids = $this->input->post('old_prop_value_ids', 'intval', array('-1'));
-            GoodsCatPropValuesTable::model()->update(array(
+            ShopGoodsCatPropValuesTable::model()->update(array(
                 'delete_time'=>\F::app()->current_time,
             ),array(
                 'prop_id = ?'=>$prop_id,
                 'id NOT IN ('.implode(',', $old_prop_value_ids).')',
             ));
             //设置属性值
-            if($this->input->post('type', 'intval') != GoodsCatPropsTable::TYPE_INPUT){//手工录入属性没有属性值
+            if($this->input->post('type', 'intval') != ShopGoodsCatPropsTable::TYPE_INPUT){//手工录入属性没有属性值
                 $prop_values = $this->input->post('prop_values', 'trim', array());
                 $i = 0;
                 foreach($prop_values as $key => $pv){
                     $i++;
                     if(in_array($key, $old_prop_value_ids)){
-                        GoodsCatPropValuesTable::model()->update(array(
+                        ShopGoodsCatPropValuesTable::model()->update(array(
                             'title'=>$pv,
                             'sort'=>$i,
                         ), array(
                             'id = ?'=>$key,
                         ));
                     }else{
-                        GoodsCatPropValuesTable::model()->insert(array(
+                        ShopGoodsCatPropValuesTable::model()->insert(array(
                             'prop_id'=>$prop_id,
                             'title'=>$pv,
                             'sort'=>$i,
@@ -172,7 +172,7 @@ class GoodsCatPropController extends AdminController{
             }
             $this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '编辑一个商品属性', $prop_id);
         }
-        $prop = GoodsCatPropsTable::model()->find($prop_id);
+        $prop = ShopGoodsCatPropsTable::model()->find($prop_id);
         $this->view->prop = $prop;
         $cat = CategoriesTable::model()->find($prop['cat_id'], 'id,title');
         $this->layout->sublink = array(
@@ -182,7 +182,7 @@ class GoodsCatPropController extends AdminController{
             'text'=>'返回属性列表',
         );
         $this->layout->subtitle = HtmlHelper::encode($cat['title']) . ' - 分类属性 - ' . $prop['title'];
-        $this->view->prop_values = GoodsCatPropValuesTable::model()->fetchAll(array(
+        $this->view->prop_values = ShopGoodsCatPropValuesTable::model()->fetchAll(array(
             'prop_id = ?'=>$prop['id'],
             'delete_time = 0',
         ), '*', 'sort');
@@ -196,14 +196,14 @@ class GoodsCatPropController extends AdminController{
     
     public function sort(){
         $id = $this->input->get('id', 'intval');
-        GoodsCatPropsTable::model()->update(array(
+        ShopGoodsCatPropsTable::model()->update(array(
             'sort'=>$this->input->get('sort', 'intval'),
         ), array(
             'id = ?'=>$id,
         ));
         $this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '改变了商品属性排序', $id);
         
-        $data = GoodsCatPropsTable::model()->find($id, 'sort');
+        $data = ShopGoodsCatPropsTable::model()->find($id, 'sort');
         Response::notify('success', array(
             'message'=>'一个商品属性的排序值被编辑',
             'data'=>array(
@@ -213,13 +213,13 @@ class GoodsCatPropController extends AdminController{
     }
     
     public function isAliasNotExist(){
-        if(GoodsCatPropsTable::model()->fetchRow(array(
+        if(ShopGoodsCatPropsTable::model()->fetchRow(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            echo Response::json('', 0, '别名已存在');
+            Response::json('', 0, '别名已存在');
         }else{
-            echo Response::json('', 1, '别名不存在');
+            Response::json('', 1, '别名不存在');
         }
     }
     /**

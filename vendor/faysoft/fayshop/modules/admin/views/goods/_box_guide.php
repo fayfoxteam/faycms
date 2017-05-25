@@ -11,14 +11,5 @@
             ), 10000)?>
             <span class="fc-grey">数字越小越靠前</span>
         </div>
-        <div class="misc-pub-section">
-            <strong>推荐</strong>
-            <?php echo F::form()->inputCheckbox('is_new', 1, array(
-                'label'=>'新品',
-            ))?>
-            <?php echo F::form()->inputCheckbox('is_hot', 1, array(
-                'label'=>'热销',
-            ))?>
-        </div>
     </div>
 </div>

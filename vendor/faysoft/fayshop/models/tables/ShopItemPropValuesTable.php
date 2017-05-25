@@ -1,14 +1,26 @@
 <?php
-namespace cms\models\tables;
+namespace fayshop\models\tables;
 
 use fay\core\db\Table;
 
-class ItemPropValuesTable extends Table{
-    protected $_name = 'item_prop_values';
+/**
+ * Shop item prop values table model
+ * 
+ * @property int $id Id
+ * @property int $cat_id Cat Id
+ * @property int $prop_id Prop Id
+ * @property string $title Title
+ * @property string $title_alias Title Alias
+ * @property int $is_terminal Is Terminal
+ * @property int $delete_time 删除时间
+ * @property int $sort Sort
+ */
+class ShopItemPropValuesTable extends Table{
+    protected $_name = 'shop_item_prop_values';
     
     /**
      * @param string $class_name
-     * @return ItemPropValuesTable
+     * @return ShopItemPropValuesTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -39,6 +51,7 @@ class ItemPropValuesTable extends Table{
 
     public function filters(){
         return array(
+            'id'=>'intval',
             'cat_id'=>'intval',
             'prop_id'=>'intval',
             'title'=>'trim',

@@ -63,7 +63,7 @@ use fay\helpers\HtmlHelper;
             <table class="list-table">
                 <thead>
                     <tr>
-                        <th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
+                        <th class="w20"><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <th>试题</th>
                         <th>分类</th>
                         <th class="w70">分值</th>
@@ -74,7 +74,7 @@ use fay\helpers\HtmlHelper;
                 </thead>
                 <tfoot>
                     <tr>
-                        <th><input type="checkbox" class="batch-ids-all" /></th>
+                        <th><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <th>试题</th>
                         <th>分类</th>
                         <th>分值</th>

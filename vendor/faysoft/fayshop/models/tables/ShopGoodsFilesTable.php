@@ -4,21 +4,21 @@ namespace fayshop\models\tables;
 use fay\core\db\Table;
 
 /**
- * Goods Files model
+ * Shop goods files table model
  * 
- * @property int $goods_id
- * @property int $file_id
- * @property string $description
- * @property int $sort
- * @property int $create_time
+ * @property int $goods_id 商品Id
+ * @property int $file_id 文件Id
+ * @property string $description 描述
+ * @property int $sort 排序值
+ * @property int $create_time 创建时间
  */
-class GoodsFilesTable extends Table{
-    protected $_name = 'goods_files';
+class ShopGoodsFilesTable extends Table{
+    protected $_name = 'shop_goods_files';
     protected $_primary = array('goods_id', 'file_id');
     
     /**
      * @param string $class_name
-     * @return GoodsFilesTable
+     * @return ShopGoodsFilesTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -37,7 +37,7 @@ class GoodsFilesTable extends Table{
             'goods_id'=>'商品Id',
             'file_id'=>'文件Id',
             'description'=>'描述',
-            'sort'=>'排序',
+            'sort'=>'排序值',
             'create_time'=>'创建时间',
         );
     }

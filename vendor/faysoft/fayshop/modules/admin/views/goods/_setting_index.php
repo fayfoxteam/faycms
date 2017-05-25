@@ -21,12 +21,6 @@
         echo F::form('setting')->inputCheckbox('cols[]', 'price', array(
             'label'=>'价格',
         ));
-        echo F::form('setting')->inputCheckbox('cols[]', 'is_new', array(
-            'label'=>'新品',
-        ));
-        echo F::form('setting')->inputCheckbox('cols[]', 'is_hot', array(
-            'label'=>'热销',
-        ));
         echo F::form('setting')->inputCheckbox('cols[]', 'views', array(
             'label'=>'浏览量',
         ));

@@ -1,14 +1,31 @@
 <?php
-namespace cms\models\tables;
+namespace fayshop\models\tables;
 
 use fay\core\db\Table;
 
-class ItemPropsTable extends Table{
-    protected $_name = 'item_props';
+/**
+ * Shop item props table model
+ * 
+ * @property int $id Id
+ * @property int $is_input_prop Is Input Prop
+ * @property int $type Type
+ * @property int $cat_id Cat Id
+ * @property int $required Required
+ * @property int $parent_pid Parent Pid
+ * @property int $parent_vid Parent Vid
+ * @property string $title Title
+ * @property int $is_sale_prop Is Sale Prop
+ * @property int $is_color_prop Is Color Prop
+ * @property int $is_enum_prop Is Enum Prop
+ * @property int $delete_time 删除时间
+ * @property int $multi Multi
+ */
+class ShopItemPropsTable extends Table{
+    protected $_name = 'shop_item_props';
     
     /**
      * @param string $class_name
-     * @return ItemPropsTable
+     * @return ShopItemPropsTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -45,6 +62,7 @@ class ItemPropsTable extends Table{
 
     public function filters(){
         return array(
+            'id'=>'intval',
             'is_input_prop'=>'intval',
             'type'=>'intval',
             'cat_id'=>'intval',

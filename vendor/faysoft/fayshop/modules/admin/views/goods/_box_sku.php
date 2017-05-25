@@ -34,7 +34,7 @@ use fay\helpers\HtmlHelper;
                 </div>
             <?php }?>
         <?php }else{?>
-            该商品无销售属性
+            该分类无销售属性
         <?php }?>
         <div id="sku-table-container"></div>
     </div>

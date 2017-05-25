@@ -4,21 +4,21 @@ namespace fayshop\models\tables;
 use fay\core\db\Table;
 
 /**
- * Goods Cat Prop Values model
+ * Shop goods cat prop values table model
  * 
- * @property int $id
- * @property int $cat_id
- * @property int $prop_id
- * @property string $title
+ * @property int $id Id
+ * @property int $cat_id 分类ID
+ * @property int $prop_id 属性ID
+ * @property string $title 标题
  * @property int $delete_time 删除时间
- * @property int $sort
+ * @property int $sort 排序值i
  */
-class GoodsCatPropValuesTable extends Table{
-    protected $_name = 'goods_cat_prop_values';
+class ShopGoodsCatPropValuesTable extends Table{
+    protected $_name = 'shop_goods_cat_prop_values';
     
     /**
      * @param string $class_name
-     * @return GoodsCatPropValuesTable
+     * @return ShopGoodsCatPropValuesTable
      */
     public static function model($class_name = __CLASS__){
         return parent::model($class_name);
@@ -30,7 +30,6 @@ class GoodsCatPropValuesTable extends Table{
             array(array('cat_id', 'prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title'), 'string', array('max'=>255)),
-            array(array('delete_time'), 'range', array('range'=>array(0, 1))),
         );
     }
 
@@ -41,7 +40,7 @@ class GoodsCatPropValuesTable extends Table{
             'prop_id'=>'属性ID',
             'title'=>'标题',
             'delete_time'=>'删除时间',
-            'sort'=>'排序值',
+            'sort'=>'排序值i',
         );
     }
 
@@ -51,7 +50,6 @@ class GoodsCatPropValuesTable extends Table{
             'cat_id'=>'intval',
             'prop_id'=>'intval',
             'title'=>'trim',
-            'delete_time'=>'intval',
             'sort'=>'intval',
         );
     }

@@ -131,7 +131,7 @@ $cols = F::form('setting')->getData('cols', array());
             <table class="list-table">
                 <thead>
                     <tr>
-                        <th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
+                        <th class="w20"><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <?php if(in_array('id', $cols)){?>
                         <th class="w70">评论ID</th>
                         <?php }?>
@@ -152,7 +152,7 @@ $cols = F::form('setting')->getData('cols', array());
                 </thead>
                 <tfoot>
                     <tr>
-                        <th><input type="checkbox" class="batch-ids-all" /></th>
+                        <th><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <?php if(in_array('id', $cols)){?>
                         <th>评论ID</th>
                         <?php }?>

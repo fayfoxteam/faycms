@@ -1,6 +1,10 @@
 <?php
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $listview \fay\common\ListView
+ */
+
 $cols = F::form('setting')->getData('cols');
 ?>
 <div class="row mb5">
@@ -74,7 +78,7 @@ $cols = F::form('setting')->getData('cols');
             <table class="list-table">
                 <thead>
                     <tr>
-                        <th class="w20"><input type="checkbox" class="batch-ids-all" /></th>
+                        <th class="w20"><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <th width="62"></th>
                         <th>文件</th>
                         <?php if(in_array('qiniu', $cols)){?>
@@ -105,7 +109,7 @@ $cols = F::form('setting')->getData('cols');
                 </thead>
                 <tfoot>
                     <tr>
-                        <th><input type="checkbox" class="batch-ids-all" /></th>
+                        <th><label><input type="checkbox" class="batch-ids-all" /></label></th>
                         <th></th>
                         <th>文件</th>
                         <?php if(in_array('qiniu', $cols)){?>
@@ -261,7 +265,7 @@ var file = {
             if(action == 'upload-to-qiniu'){
                 $('body').unblock('immediately');
                 $('.batch-ids:checked').each(function(){
-                    id = $(this).val();
+                    var id = $(this).val();
                     if($('#file-'+id).attr('data-qiniu') == '0'){
                         file.qiniu.put(id);
                     }
@@ -270,17 +274,17 @@ var file = {
             }else if(action == 'remove-from-qiniu'){
                 $('body').unblock('immediately');
                 $('.batch-ids:checked').each(function(){
-                    id = $(this).val();
+                    var id = $(this).val();
                     if($('#file-'+id).attr('data-qiniu') == '1'){
                         file.qiniu.remove(id);
                     }
                 });
                 return false;
             }else if(action == 'exchange'){
-                if($('#batch-form [name="_submit"]').val() == 'batch-form-submit'){
-                    $('#batch-form').append('<input type="hidden" name="cat_id" value="'+$('#cat-id-1').val()+'">')
+                if($(this).find('[name="_submit"]').val() == 'batch-form-submit'){
+                    $(this).append('<input type="hidden" name="cat_id" value="'+$('#cat-id-1').val()+'">')
                 }else{
-                    $('#batch-form').append('<input type="hidden" name="cat_id" value="'+$('#cat-id-2').val()+'">')
+                    $(this).append('<input type="hidden" name="cat_id" value="'+$('#cat-id-2').val()+'">')
                 }
             }
             return true;

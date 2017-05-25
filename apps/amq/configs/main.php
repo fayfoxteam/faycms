@@ -18,4 +18,10 @@ return array(
     ),
     
     'debug'=>false,
+
+    'session'=>array(
+        'ini_set'=>array(
+            'cookie_lifetime'=>2592000,//session保存30天，反正不存在前台登录
+        ),
+    ),
 );

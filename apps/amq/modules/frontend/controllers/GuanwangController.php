@@ -20,12 +20,15 @@ class GuanwangController extends FrontController{
             throw new HttpException('您请求的页面不存在');
         }
         
-        $title = $this->input->request('title');
-        $content = $this->input->request('body');
+        $title = iconv('gbk', 'utf-8', $this->input->request('title'));
+        $content = iconv('gbk', 'utf-8', $this->input->request('body'));
         $typeid = $this->input->request('typeid');
         
         $cat_id = $this->type_cat_map[$typeid];
 
+        
+        
+        \F::logger()->log(json_encode($_POST));
         \F::logger()->log($title);
         \F::logger()->log($content);
         \F::logger()->log($cat_id);

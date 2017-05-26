@@ -23,10 +23,6 @@ class AmAccessToken extends AccessTokenAbstract{
      * @throws OAuthException
      */
     public function getUser(){
-        if(!$this->check()) {
-            $this->refresh();
-        }
-        
         $response = HttpHelper::getJson(self::USER_INFO_URL, array(
             'access_token'=>$this->params['access_token'],
         ));

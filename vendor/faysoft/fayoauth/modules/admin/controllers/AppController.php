@@ -43,6 +43,10 @@ class AppController extends AdminController{
             );
     
             Response::notify('success', 'App添加成功');
+        }else{
+            Response::notify('error', '无数据提交', array(
+                'fayoauth/admin/app/index'
+            ));
         }
     }
     
@@ -120,6 +124,8 @@ class AppController extends AdminController{
             ->where('delete_time = 0')
             ->order('a.id DESC');
         
-        $this->view->listview = new ListView($sql);
+        $this->view->listview = new ListView($sql, array(
+            'empty_text'=>'<tr><td colspan="4" align="center">无相关记录！</td></tr>'
+        ));
     }
 }

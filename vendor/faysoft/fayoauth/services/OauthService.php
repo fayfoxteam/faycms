@@ -4,6 +4,7 @@ namespace fayoauth\services;
 abstract class OauthService{
     private static $map = array(
         'weixin'=>'fayoauth\services\weixin\WeixinOauthService',
+        'am'=>'fayoauth\services\am\AmOauthService',
     );
     
     /**

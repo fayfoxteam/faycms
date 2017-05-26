@@ -7,7 +7,7 @@ use fayoauth\services\OauthService;
 
 class WeixinOauthService extends OauthService{
     /**
-     * 获取微信Access Token
+     * 获取Access Token
      * @param string $scope
      *  - snsapi_base 只能获取openId，不需要用户授权，用户无感知
      *  - snsapi_userinfo 可以获取到用户昵称，头像等信息，需要用户授权
@@ -19,7 +19,7 @@ class WeixinOauthService extends OauthService{
         if(!$code = \F::input()->get('code')){
             $client->setScope($scope);
         
-            //跳转到微信拉取授权
+            //跳转到拉取授权页面
             Response::redirect($client->getAuthorizeUrl());
         }
     
@@ -27,7 +27,7 @@ class WeixinOauthService extends OauthService{
     }
     
     /**
-     * 获取微信用户信息
+     * 获取用户信息
      * @return WeixinUser
      * @throws OAuthException
      */

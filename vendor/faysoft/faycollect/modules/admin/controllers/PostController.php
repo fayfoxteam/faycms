@@ -4,11 +4,7 @@ namespace faycollect\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\PostsTable;
 use cms\services\CategoryService;
-use cms\services\file\RemoteFileService;
-use cms\services\post\PostService;
-use fay\helpers\RequestHelper;
-use fay\helpers\StringHelper;
-use fay\validators\UrlValidator;
+use faycollect\services\PostService;
 
 class PostController extends AdminController{
     /**
@@ -47,17 +43,29 @@ class PostController extends AdminController{
             'status'=>'intval',
             'auto_thumbnail'=>'intval',
             'remote'=>'intval',
-            'tags'=>'trim'
+            'tags'=>'trim',
+            'abstract'=>'trim',
+            'seo_title'=>'trim',
+            'seo_keywords'=>'trim',
+            'seo_description'=>'trim',
         ))->check(true)){//这里特殊，先过滤后验证
-            $post_id = \faycollect\services\PostService::service()->create(
+            $post_id = PostService::service()->create(
                 array(
                     'title'=>$this->form()->getData('title'),
                     'content'=>$this->form()->getData('content'),
                     'publish_time'=>$this->form()->getData('publish_time'),
                     'cat_id'=>$this->form()->getData('cat_id'),
-                    'status'=>$this->form()->getData('status', PostsTable::STATUS_PUBLISHED),
+                    'status'=>$this->form()->getData('status', PostsTable::STATUS_DRAFT),
                     'thumbnail'=>$this->form()->getData('thumbnail'),
+                    'abstract'=>$this->form()->getData('abstract', ''),
+                ),
+                array(
                     'tags'=>$this->form()->getData('tags', ''),
+                    'extra'=>array(
+                        'seo_title'=>$this->form()->getData('seo_title', ''),
+                        'seo_keywords'=>$this->form()->getData('seo_keywords', ''),
+                        'seo_description'=>$this->form()->getData('seo_description', ''),
+                    )
                 ),
                 !!$this->form()->getData('auto_thumbnail', 1),
                 !!$this->form()->getData('remote', 1)

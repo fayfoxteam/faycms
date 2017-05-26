@@ -17,15 +17,16 @@ class PostService extends Service{
     public static function service($class_name = __CLASS__){
         return parent::service($class_name);
     }
-    
+
     /**
      * 创建文章
      * @param array $post 包含文章信息的数组
+     * @param array $extra 扩展信息
      * @param bool $auto_thumbnail
      * @param bool $download_remote_image
      * @return int
      */
-    public function create(array $post, $auto_thumbnail = true, $download_remote_image = true){
+    public function create(array $post, array $extra, $auto_thumbnail = true, $download_remote_image = true){
         //若标题长度大于500，直接截取
         $post['title'] = StringHelper::niceShort($post['title'], 500);
         
@@ -40,7 +41,13 @@ class PostService extends Service{
             $post['content'] = $this->downloadRemoteImages($post['content'], $thumbnail, $local_thumbnail);
         }
         
-        $tags = $this->formatTags($post['tags']);
+        //标签
+        $tags = $this->formatTags($extra['tags']);
+        
+        //自动生成摘要
+        if(empty($post['abstract'])){
+            $post['abstract'] = mb_substr(trim(str_replace('　', '', strip_tags($post['content']))), 0, 200, 'UTF-8');
+        }
         
         return \cms\services\post\PostService::service()->create(array(
             'title' => $post['title'],
@@ -49,8 +56,14 @@ class PostService extends Service{
             'thumbnail' => empty($local_thumbnail['id']) ? 0 : $local_thumbnail['id'],
             'status' => $post['status'],
             'publish_time' => $post['publish_time'],
+            'abstract'=>$post['abstract'],
         ), array(
             'tags'=>$tags,
+            'extra'=>array(
+                'seo_title'=>empty($extra['extra']['seo_title']) ? $post['title'] : $extra['extra']['seo_title'],
+                'seo_keywords'=>empty($extra['extra']['seo_keywords']) ? '' : $extra['extra']['seo_keywords'],
+                'seo_description'=>empty($extra['extra']['seo_description']) ? $post['abstract'] : $extra['extra']['seo_description'],
+            )
         ));
     }
     

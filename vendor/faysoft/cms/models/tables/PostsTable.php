@@ -130,7 +130,7 @@ class PostsTable extends Table{
     public function getNotWritableFields($scene){
         switch($scene){
             case 'insert':
-                return array();//@todo 为了数据迁移，移除id不可编辑的限制，后面得加回去
+                return array('id');
                 break;
             case 'update':
                 return array(

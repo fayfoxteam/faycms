@@ -64,7 +64,7 @@ class HttpHelper{
         
         $response_json = json_decode($response, true);
         if(!$response_json){
-            throw new ErrorException('请求JSON数据格式异常', "{$url}: [{$response}]");
+            throw new ErrorException('请求JSON数据格式异常', self::combineURL($url, $values) . ": [{$response}]");
         }
         
         return $response_json;

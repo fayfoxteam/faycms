@@ -19,7 +19,8 @@ return array(
     
     'debug'=>false,
     
-    'environment'=>strpos($_SERVER['HTTP_HOST'], 'amq.com') !== false || strpos($_SERVER['HTTP_HOST'], '22.cn') !== false ? 'production' : 'development',
+    //'environment'=>strpos($_SERVER['HTTP_HOST'], 'amq.com') !== false || strpos($_SERVER['HTTP_HOST'], '22.cn') !== false ? 'production' : 'development',
+    'environment'=>'development',
 
     'session'=>array(
         'ini_set'=>array(

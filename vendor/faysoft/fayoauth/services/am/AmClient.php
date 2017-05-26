@@ -56,6 +56,7 @@ class AmClient extends ClientAbstract{
             'client_secret'=>$this->app_secret,
             'code'=>$code,
             'grant_type'=>'authorization_code',
+            'redirect_uri'=>$this->redirect_uri ?: Http::getCurrentUrl(),
         ));
         
         if(!isset($response['access_token'])){

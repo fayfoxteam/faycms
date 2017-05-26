@@ -13,6 +13,12 @@ class AmOauthService extends OauthService{
      */
     public function getAccessToken(){
         $client = new AmClient($this->getAppId(), $this->getAppSecret());
+        
+        if($this->redirect_uri){
+            //若指定回调地址，则设置回调地址，默认跳转到当前页
+            $client->setRedirectUri($this->redirect_uri);
+        }
+        
         if(!$code = \F::input()->get('code')){
             //跳转到拉取授权页面
             Response::redirect($client->getAuthorizeUrl());

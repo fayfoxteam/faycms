@@ -52,7 +52,7 @@ use fay\helpers\HtmlHelper;
     var _service = '';
     var _backurl = "";
     var _ssourl = 'https://my.22.cn';
-    var _loginpanel = false;
+    var _loginpanel = true;
     NAVControl.init();
 </script>
 

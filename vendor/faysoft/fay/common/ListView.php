@@ -153,7 +153,7 @@ class ListView{
      * @param string $pager_view
      * @return ListView
      */
-    public function setPagerView(string $pager_view){
+    public function setPagerView($pager_view){
         $this->pager_view = $pager_view;
         return $this;
     }

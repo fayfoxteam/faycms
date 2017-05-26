@@ -12,7 +12,15 @@ class AmUser extends UserAbstract{
     public function getNickName(){
         return $this->getParam('Name');
     }
-    
+
+    /**
+     * 爱名用户Name字段经常是空的，需要生成一个昵称
+     * @param string $nickname
+     */
+    public function setNickName($nickname){
+        $this->params['Name'] = $nickname;
+    }
+
     /**
      * 获取openId。
      * 若第三方字段名特殊，可在子类中重写此方法。

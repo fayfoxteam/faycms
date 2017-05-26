@@ -16,7 +16,7 @@ CREATE TABLE `{{$prefix}}oauth_apps` (
 ) ENGINE=InnoDB DEFAULT CHARSET={{$charset}} COMMENT='第三方登录方式';
 
 DROP TABLE IF EXISTS `{{$prefix}}oauth_user_connects`;
-CREATE TABLE `{{$prefix}}user_connects` (
+CREATE TABLE `{{$prefix}}oauth_user_connects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `oauth_app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'oauth_apps表ID',

@@ -15,6 +15,9 @@ class OauthController extends ApiController{
         if($user_id = UserOauthService::service()->isLocalUser($oauth_user->getAccessToken()->getAppId(), $oauth_user->getOpenId())){
             //若open id已存在，则不需要重复创建用户
         }else{
+            if(!$oauth_user->getNickName()){
+                $oauth_user->setNickName('am_' . $oauth_user->getOpenId());
+            }
             $user_id = UserOauthService::service()
                 ->createUser($oauth_user);
         }
@@ -22,11 +25,5 @@ class OauthController extends ApiController{
         UserService::service()->login($user_id);
 
         Response::redirect($this->input->get('redirect', 'trim'));
-    }
-    
-    public function test(){
-        $oauth = OauthAppService::service()->getOauthService('amq');
-
-        dd($oauth->getUser()->getParams());
     }
 }

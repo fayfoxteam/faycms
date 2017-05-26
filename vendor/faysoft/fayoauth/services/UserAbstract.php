@@ -8,7 +8,7 @@ class UserAbstract implements \ArrayAccess{
     /**
      * @var array
      */
-    private $params = array();
+    protected $params = array();
     
     /**
      * @var AccessTokenAbstract
@@ -61,6 +61,14 @@ class UserAbstract implements \ArrayAccess{
      */
     public function getAvatar(){
         return $this->getParam('headimgurl');
+    }
+
+    /**
+     * 当系统注册用户昵称不能为空时，可以通过此方法为无法获取第三方昵称的用户随机生成一个昵称
+     * @param $nickname
+     */
+    public function setNickName($nickname){
+        $this->params['nickname'] = $nickname;
     }
     
     /**

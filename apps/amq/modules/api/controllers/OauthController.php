@@ -2,6 +2,9 @@
 namespace amq\modules\api\controllers;
 
 use cms\library\ApiController;
+use cms\services\user\UserOauthService;
+use cms\services\user\UserService;
+use fay\core\Response;
 use fayoauth\services\OauthAppService;
 
 class OauthController extends ApiController{
@@ -9,7 +12,16 @@ class OauthController extends ApiController{
         $oauth = OauthAppService::service()->getOauthService('amq');
 
         $oauth_user = $oauth->getUser();
-        dd($oauth_user);
+        if($user_id = UserOauthService::service()->isLocalUser($oauth_user->getAccessToken()->getAppId(), $oauth_user->getOpenId())){
+            //若open id已存在，则不需要重复创建用户
+        }else{
+            $user_id = UserOauthService::service()
+                ->createUser($oauth_user);
+        }
+
+        UserService::service()->login($user_id);
+
+        Response::redirect($this->input->get('redirect', 'trim'));
     }
     
     public function test(){

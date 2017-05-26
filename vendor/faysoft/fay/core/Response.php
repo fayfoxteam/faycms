@@ -113,9 +113,8 @@ class Response{
      * 页面跳转
      * @param string $uri
      * @param array $params
-     * @param bool $url_rewrite
      */
-    public static function redirect($uri = null, $params = array(), $url_rewrite = true){
+    public static function redirect($uri = null, $params = array()){
         if($uri === null){
             //跳转到首页
             header('location:'.UrlHelper::createUrl(null));
@@ -123,7 +122,7 @@ class Response{
             //指定了一个完整的url，跳转到指定url
             header('location:'.$uri);
         }else{
-            header('location:'.UrlHelper::createUrl($uri, $params, $url_rewrite));
+            header('location:'.UrlHelper::createUrl($uri, $params));
         }
         die;
     }

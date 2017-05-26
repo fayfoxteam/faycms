@@ -27,6 +27,7 @@ use fay\helpers\HtmlHelper;
     <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
     <script>
         system.base_url = '<?php echo $this->url()?>';
+        system.user_id = '<?php echo \F::app()->current_user?>';
     </script>
     <?php echo $this->getCss()?>
     <link rel="stylesheet" type="text/css" href="https://static.22.cn/pubnav/navcontrol.min.css?t=20170327">

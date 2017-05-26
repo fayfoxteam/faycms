@@ -19,7 +19,7 @@ class SearchController extends FrontController{
                 'p.publish_time < '.$this->current_time,
                 'p.title LIKE ?'=>'%'.$keywords.'%',
             ))
-            ->order('p.is_top DESC, p.sort, p.publish_time DESC');
+            ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC');
         
         $this->view->assign(array(
             'listview'=>new ListView($sql, array(

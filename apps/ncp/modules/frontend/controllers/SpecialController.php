@@ -42,7 +42,7 @@ class SpecialController extends FrontController{
                     'p.delete_time = 0',
                     'p.publish_time < '.$this->current_time,
                 ))
-                ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+                ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
             ;
             
             if($keywords = $this->form()->getData('keywords')){

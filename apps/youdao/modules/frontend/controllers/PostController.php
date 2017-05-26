@@ -101,7 +101,7 @@ class PostController extends FrontController{
         $sql = new Sql();
         $sql->from(array('p'=>'posts'))
             ->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')
-            ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+            ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
             ->where(array(
                 'c.left_value > '.$cat_post['left_value'],
                 'c.right_value < '.$cat_post['right_value'],

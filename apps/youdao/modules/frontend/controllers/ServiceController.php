@@ -23,7 +23,7 @@ class ServiceController extends FrontController{
         
         $sql = new Sql();
         $services = $sql->from(array('p'=>'posts'), 'id,title')
-            ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+            ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
             ->where(array(
                 'p.cat_id = '.$cat_service['id'],
             ))

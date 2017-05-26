@@ -32,7 +32,7 @@ class IndexController extends FrontController{
                 'p.status = '.PostsTable::STATUS_PUBLISHED,
                 'p.publish_time < '.$this->current_time,
             ))
-            ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+            ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
             ->limit(5)
             ->fetchAll();
             

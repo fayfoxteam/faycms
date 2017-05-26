@@ -67,7 +67,7 @@ class ProductController extends FrontController{
                     'pia.post_id = p.id',
                 ))
                 ->joinLeft(array('pva'=>'prop_values'), 'pia.content = pva.id', 'title AS area')
-                ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+                ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
                 ->group('p.id')
             ;
             

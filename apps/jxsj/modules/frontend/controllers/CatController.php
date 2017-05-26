@@ -25,7 +25,7 @@ class CatController extends FrontController{
         $sql = new Sql();
         $sql->from(array('p'=>'posts'), 'id,title,publish_time,thumbnail,content')
             ->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')
-            ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+            ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
             ->where(array(
                 'c.left_value >= '.$cat['left_value'],
                 'c.right_value <= '.$cat['right_value'],

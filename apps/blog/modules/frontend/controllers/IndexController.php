@@ -25,7 +25,7 @@ class IndexController extends FrontController{
         $sql->from(array('p'=>'posts'))
             ->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title')
             ->where(PostsTable::getPublishedConditions('p'))
-            ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+            ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
         ;
         
         $reload = $this->view->url();

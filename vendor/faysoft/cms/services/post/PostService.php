@@ -752,7 +752,7 @@ class PostService extends Service{
             ->where(array(
                 'p.cat_id = '.$post['cat_id'],
                 "p.publish_time >= {$post['publish_time']}",
-                "p.sort <= {$post['sort']}",
+                "p.sort >= {$post['sort']}",
                 "p.id != {$post['id']}",
             ))
             ->where(PostsTable::getPublishedConditions('p'))
@@ -807,7 +807,7 @@ class PostService extends Service{
             ->where(array(
                 'p.cat_id = '.$post['cat_id'],
                 "p.publish_time <= {$post['publish_time']}",
-                "p.sort >= {$post['sort']}",
+                "p.sort <= {$post['sort']}",
                 "p.id != {$post['id']}",
             ))
             ->where(PostsTable::getPublishedConditions('p'))
@@ -848,7 +848,7 @@ class PostService extends Service{
      * @param string $order 排序字段
      * @return array
      */
-    public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $fields = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort, p.publish_time DESC'){
+    public function getByProp($prop, $prop_value, $limit = 10, $cat_id = 0, $fields = 'id,title,thumbnail,abstract', $order = 'p.is_top DESC, p.sort DESC, p.publish_time DESC'){
         if(!StringHelper::isInt($prop)){
             $prop = PropService::service()->getIdByAlias($prop);
         }

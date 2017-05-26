@@ -27,7 +27,7 @@ class PostController extends FrontController{
                 'c.right_value <= '.$cat['right_value'],
             ))
             ->where(PostsTable::getPublishedConditions('p'))
-            ->order('p.is_top DESC, p.sort, p.publish_time DESC')
+            ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC')
         ;
             
         $this->view->listview = new ListView($sql, array(

@@ -35,6 +35,7 @@ class AmOauthService extends OauthService{
      * @return string
      */
     public function getOpenId(){
-        return $this->getAccessToken()->getOpenId();
+        //爱名在获取AccessToken的时候没有返回Open Id，需要获取用户详情的时候才会返回UserId作为Open Id
+        return $this->getAccessToken()->getUser()->getOpenId();
     }
 }

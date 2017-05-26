@@ -18,7 +18,6 @@ class AmAccessToken extends AccessTokenAbstract{
     
     /**
      * @see \fayoauth\services\AccessTokenAbstract::getUser()
-     * @param string $lang 语言，默认为中文
      * @return AmUser
      * @throws OAuthException
      */

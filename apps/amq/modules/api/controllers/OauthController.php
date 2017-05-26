@@ -8,7 +8,7 @@ class OauthController extends ApiController{
     public function am(){
         $oauth = OauthAppService::service()->getOauthService('amq');
 
-        dd($oauth->getUser()->getParams());
+        dd($oauth->getOpenId());
     }
     
     public function test(){

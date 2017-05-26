@@ -51,7 +51,7 @@ class AmClient extends ClientAbstract{
             throw new OAuthException('爱名OAuthState参数异常');
         }
         
-        $response = HttpHelper::getJson(self::ACCESS_TOKEN_URL, array(
+        $response = HttpHelper::postJson(self::ACCESS_TOKEN_URL, array(
             'client_id'=>$this->app_id,
             'client_secret'=>$this->app_secret,
             'code'=>$code,
@@ -59,7 +59,10 @@ class AmClient extends ClientAbstract{
         ));
         
         if(!isset($response['access_token'])){
-            throw new OAuthException('爱名OAuth授权失败', json_encode($response));
+            throw new OAuthException(
+                isset($response['error']) ? $response['error'] : '爱名OAuth授权失败',
+                isset($response['errorcode']) ? $response['errorcode'] : json_encode($response)
+            );
         }
         return new AmAccessToken($this->app_id, $response);
     }

@@ -120,4 +120,27 @@ class HttpHelper{
         curl_close($ch);
         return $response;
     }
+
+    /**
+     * post方式请求json，解析成数组后返回（若服务端返回非json类型，会抛出一个异常）
+     * @param $url
+     * @param $values
+     * @return mixed|null
+     * @throws ErrorException
+     */
+    public static function postJson($url, $values){
+        $response = trim(self::post($url, $values));
+
+        if($response == 'null'){
+            //若返回的json就是null，返回null
+            return null;
+        }
+
+        $response_json = json_decode($response, true);
+        if(!$response_json){
+            throw new ErrorException('请求JSON数据格式异常', "[url={$url}[" . json_encode($values) . ']' . $response);
+        }
+
+        return $response_json;
+    }
 }

@@ -23,7 +23,8 @@ class OauthAppsTable extends Table{
      * @var array 登录方式编码
      */
     public static $codes = array(
-        'weixin'=>'微信登录'
+        'weixin'=>'微信登录',
+        'am'=>'爱名登录',
     );
     
     protected $_name = 'oauth_apps';

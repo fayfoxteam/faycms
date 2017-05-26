@@ -148,4 +148,20 @@ class OauthAppService extends Service{
             'delete_time'=>0,
         ), $row['id']);
     }
+
+    /**
+     * 根据指定的apps表记录，返回一个OAuthService实例
+     * @param int|string $app_key id或别名
+     * @return OauthService
+     * @throws OAuthException
+     */
+    public function getOauthService($app_key){
+        $app = $this->get($app_key);
+        
+        if(!$app){
+            throw new OAuthException('指定OAuth登录信息不存在', $app_key);
+        }
+        
+        return OauthService::getInstance($app['code'], $app['app_id'], $app['app_secret']);
+    }
 }

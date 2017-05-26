@@ -27,7 +27,7 @@
 <div class="form-field">
     <label class="title bold">别名</label>
     <?php echo F::form()->inputText('alias', array(
-        'class'=>'form-control',
+        'class'=>'form-control mw150',
     ))?>
     <p class="fc-grey">别名必须唯一，可根据别名获取app信息</p>
 </div>

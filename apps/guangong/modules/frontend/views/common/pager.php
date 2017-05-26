@@ -19,18 +19,18 @@ if($listview->total_pages > 1){
     }
     
     //首页
-    if($listview->current_page > ($listview->adjacents + 1)) {
+    if($listview->current_page > ($listview->adjacent + 1)) {
         echo HtmlHelper::link(1, $listview->reload);
     }
     
     //点点点
-    if($listview->current_page > ($listview->adjacents + 2)) {
+    if($listview->current_page > ($listview->adjacent + 2)) {
         echo '<span>&hellip;</span>';
     }
     
     //页码
-    $pmin = $listview->current_page > $listview->adjacents ? $listview->current_page - $listview->adjacents : 1;
-    $pmax = $listview->current_page < $listview->total_pages - $listview->adjacents ? $listview->current_page + $listview->adjacents : $listview->total_pages;
+    $pmin = $listview->current_page > $listview->adjacent ? $listview->current_page - $listview->adjacent : 1;
+    $pmax = $listview->current_page < $listview->total_pages - $listview->adjacent ? $listview->current_page + $listview->adjacent : $listview->total_pages;
     for($i=$pmin; $i<=$pmax; $i++){
         if($i == $listview->current_page){
             echo '<span class="current">', $i, '</span>';
@@ -43,12 +43,12 @@ if($listview->total_pages > 1){
     
     //点点点
     // interval
-    if($listview->current_page < ($listview->total_pages - $listview->adjacents - 1)) {
+    if($listview->current_page < ($listview->total_pages - $listview->adjacent - 1)) {
         echo '<span>&hellip;</span>';
     }
     
     //末页
-    if($listview->current_page < $listview->total_pages - $listview->adjacents) {
+    if($listview->current_page < $listview->total_pages - $listview->adjacent) {
         echo HtmlHelper::link($listview->total_pages, $listview->reload . '?page=' . $listview->total_pages);
     }
     

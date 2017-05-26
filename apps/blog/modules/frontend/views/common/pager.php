@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var $listview \fay\common\ListView
+ */
 //当前页
 $current_page = $listview->current_page;
 //总页数
@@ -6,7 +9,7 @@ $total_pages = $listview->total_pages;
 //加载地址
 $reload = $listview->reload;
 //前后显示页数
-$adjacents = $listview->adjacents;
+$adjacent = $listview->adjacent;
 
 $prevlabel = "«";
 $nextlabel = "»";
@@ -27,18 +30,18 @@ elseif($current_page==2) {
 }
 
 // first
-if($current_page>($adjacents+1)) {
+if($current_page>($adjacent+1)) {
     $out.= "<li><a href=\"" . $reload . "\">1</a></li>\n";
 }
 
 // interval
-if($current_page>($adjacents+2)) {
+if($current_page>($adjacent+2)) {
     $out.= "<li>...</li>\n";
 }
 
 // pages
-$pmin = ($current_page>$adjacents) ? ($current_page-$adjacents) : 1;
-$pmax = ($current_page<($total_pages-$adjacents)) ? ($current_page+$adjacents) : $total_pages;
+$pmin = ($current_page>$adjacent) ? ($current_page-$adjacent) : 1;
+$pmax = ($current_page<($total_pages-$adjacent)) ? ($current_page+$adjacent) : $total_pages;
 for($i=$pmin; $i<=$pmax; $i++) {
     if($i==$current_page) {
         $out.= "<li><a class='action' href=''> ". $i . "</a></li>\n";
@@ -52,12 +55,12 @@ for($i=$pmin; $i<=$pmax; $i++) {
 }
 
 // interval
-if($current_page<($total_pages-$adjacents-1)) {
+if($current_page<($total_pages-$adjacent-1)) {
     $out.= "<li>...</li>\n";
 }
 
 // last
-if($current_page<($total_pages-$adjacents)) {
+if($current_page<($total_pages-$adjacent)) {
     $out.= "<li><a href=\"" . $reload . "?page=" . $total_pages . "\">" . $total_pages . "</a></li>\n";
 }
 

@@ -34,7 +34,7 @@ isset($params) || $params = array();
     }
     
     //首页
-    if($listview->current_page > ($listview->adjacents + 1)) {
+    if($listview->current_page > ($listview->adjacent + 1)) {
         echo HtmlHelper::link(1, FriendlyLink::getLink($type, array(
             'page'=>1
         ) + $params), array(
@@ -43,13 +43,13 @@ isset($params) || $params = array();
     }
     
     //点点点
-    if($listview->current_page > ($listview->adjacents + 2)) {
+    if($listview->current_page > ($listview->adjacent + 2)) {
         echo '<span class="num dots">&hellip;</span>';
     }
     
     //页码
-    $pmin = $listview->current_page > $listview->adjacents ? $listview->current_page - $listview->adjacents : 1;
-    $pmax = $listview->current_page < $listview->total_pages - $listview->adjacents ? $listview->current_page + $listview->adjacents : $listview->total_pages;
+    $pmin = $listview->current_page > $listview->adjacent ? $listview->current_page - $listview->adjacent : 1;
+    $pmax = $listview->current_page < $listview->total_pages - $listview->adjacent ? $listview->current_page + $listview->adjacent : $listview->total_pages;
     for($i=$pmin; $i<=$pmax; $i++){
         if($i == $listview->current_page){
             echo '<span class="num1">', $i, '</span>';
@@ -70,12 +70,12 @@ isset($params) || $params = array();
     
     //点点点
     // interval
-    if($listview->current_page < ($listview->total_pages - $listview->adjacents - 1)) {
+    if($listview->current_page < ($listview->total_pages - $listview->adjacent - 1)) {
         echo '<span class="num dots">&hellip;</span>';
     }
     
     //尾页
-    if($listview->current_page < $listview->total_pages - $listview->adjacents) {
+    if($listview->current_page < $listview->total_pages - $listview->adjacent) {
         echo HtmlHelper::link($listview->total_pages, FriendlyLink::getLink($type, array(
             'page'=>$listview->total_pages
         ) + $params), array(

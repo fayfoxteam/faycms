@@ -200,19 +200,19 @@ $cols = F::form('setting')->getData('cols', array());
                         <th class="w100"><?php echo ListTableHelper::getSortLink('real_likes', '真实点赞')?></th>
                         <?php }?>
                         <?php if(in_array('publish_time', $cols)){?>
-                        <th class="w150"><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
+                        <th class="w135"><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
                         <?php }?>
                         <?php if(in_array('last_view_time', $cols)){?>
-                        <th class="w150"><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>
+                        <th class="w135"><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>
                         <?php }?>
                         <?php if(in_array('update_time', $cols)){?>
-                        <th class="w150"><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
+                        <th class="w135"><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
                         <?php }?>
                         <?php if(in_array('create_time', $cols)){?>
-                        <th class="w150"><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
+                        <th class="w135"><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
                         <?php }?>
                         <?php if(in_array('sort', $cols)){?>
-                        <th class="w90"><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
+                        <th class="w135"><?php echo ListTableHelper::getSortLink('sort', '时间轴')?></th>
                         <?php }?>
                     </tr>
                 </thead>
@@ -272,7 +272,7 @@ $cols = F::form('setting')->getData('cols', array());
                         <th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
                         <?php }?>
                         <?php if(in_array('sort', $cols)){?>
-                        <th><?php echo ListTableHelper::getSortLink('sort', '排序')?></th>
+                        <th><?php echo ListTableHelper::getSortLink('sort', '时间轴')?></th>
                         <?php }?>
                     </tr>
                 </tfoot>
@@ -336,10 +336,6 @@ $(function(){
                 $('#reviewed-post-count').text(resp.data.reviewed);
             }
         }
-    });
-    
-    $(".post-sort").feditsort({
-        'url':system.url("cms/admin/post/sort")
     });
 });
 </script>

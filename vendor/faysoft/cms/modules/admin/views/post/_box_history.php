@@ -15,31 +15,15 @@ if(\F::form()->getData('id')){
         <h4>历史版本</h4>
     </div>
     <div class="box-content">
-        <div>
-            <p><span>创建于：</span><?php
-                echo HtmlHelper::tag('abbr', array(
-                    'title'=>DateHelper::format(F::form()->getData('create_time')),
-                ), DateHelper::niceShort(F::form()->getData('create_time')));
-            ?></p>
-            <p><span>最近更新：</span><?php
-                echo HtmlHelper::tag('abbr', array(
-                    'title'=>DateHelper::format(F::form()->getData('update_time')),
-                ), DateHelper::niceShort(F::form()->getData('update_time')));
-            ?></p>
-        </div>
-        <div class="misc-pub-section mt6 pl0">
-            <p>
-                共<span><?php echo $history_count?></span>个
-                <?php
-                    if($history_count){
-                        echo HtmlHelper::link('历史版本', 'javascript:', array(
-                            'data-src'=>'#history-dialog',
-                            'class'=>'ml5 show-post-history-link',
-                        ));
-                    }
-                ?>
-            </p>
-        </div>
+        共<span><?php echo $history_count?></span>个
+        <?php
+            if($history_count){
+                echo HtmlHelper::link('历史版本', 'javascript:', array(
+                    'data-src'=>'#history-dialog',
+                    'class'=>'ml5 show-post-history-link',
+                ));
+            }
+        ?>
     </div>
 </div>
 <div class="hide">

@@ -194,15 +194,6 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
     </td>
     <?php }?>
     <?php if(in_array('sort', $cols)){?>
-    <td><?php if($editable){
-        echo HtmlHelper::inputText("sort[{$data['id']}]", $data['sort'], array(
-            'size'=>3,
-            'maxlength'=>3,
-            'data-id'=>$data['id'],
-            'class'=>'form-control w50 post-sort',
-        ));
-    }else{
-        echo $data['sort'];
-    }?></td>
+    <td><?php echo DateHelper::format($data['sort'])?></td>
     <?php }?>
 </tr>

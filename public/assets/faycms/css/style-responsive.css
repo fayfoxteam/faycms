@@ -13,7 +13,7 @@ html,body{height:100%}
 a{color:#21759b;text-decoration:none;transition:all 0.2s linear 0s}
 a:hover{color:#d54e21;text-decoration:none}
 select{font-family:sans-serif}
-abbr[title],.abbr{border-bottom:1px dotted}
+.abbr{border-bottom:1px dotted}
 mark{background:#ff0;color:#000}
 pre{overflow:auto}
 code,pre{font-family:Courier New,monospace,monospace;font-size:1em}

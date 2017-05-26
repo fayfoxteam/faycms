@@ -434,7 +434,7 @@ CREATE TABLE `{{$prefix}}posts` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
   `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
-  `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序',
+  `sort` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '时间轴',
   PRIMARY KEY (`id`),
   KEY `user` (`user_id`),
   KEY `cat` (`cat_id`)

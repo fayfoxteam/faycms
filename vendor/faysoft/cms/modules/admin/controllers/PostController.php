@@ -39,6 +39,7 @@ class PostController extends AdminController{
         array('name'=>'views', 'title'=>'阅读数'),
         array('name'=>'likes', 'title'=>'点赞数'),
         array('name'=>'publish_time', 'title'=>'发布时间'),
+        array('name'=>'timeline', 'title'=>'时间轴'),
         array('name'=>'main_category', 'title'=>'主分类'),
         array('name'=>'category', 'title'=>'附加分类'),
         array('name'=>'thumbnail', 'title'=>'缩略图'),
@@ -48,7 +49,7 @@ class PostController extends AdminController{
         array('name'=>'files', 'title'=>'附件'),
         array('name'=>'props', 'title'=>'附加属性'),
         array('name'=>'gather', 'title'=>'采集器'),
-        array('name'=>'source', 'title'=>'来源')
+        array('name'=>'source', 'title'=>'来源'),
     );
     
     /**
@@ -458,6 +459,14 @@ class PostController extends AdminController{
                     $data['publish_date'] = date('Y-m-d', $data['publish_time']);
                 }
             }
+            //时间轴特殊处理
+            if(in_array('timeline', $enabled_boxes)){
+                if(empty($data['sort'])){
+                    $data['sort'] = $this->current_time;
+                }else{
+                    $data['sort'] = strtotime($data['sort']);
+                }
+            }
             
             $extra = array();
             
@@ -527,7 +536,6 @@ class PostController extends AdminController{
         ));
         
         $post['post_category'] = PostsCategoriesTable::model()->fetchCol('cat_id', array('post_id = ?'=>$post_id));
-        $post['publish_time'] = date('Y-m-d H:i:s', $post['publish_time']);
         
         //文章对应标签
         $tags = $sql->from(array('pt'=>'posts_tags'), '')
@@ -548,7 +556,10 @@ class PostController extends AdminController{
             'post_id = ?'=>$post_id,
         ), 'file_id,description,is_image', 'sort');
 
-        $this->form()->setData($post, true);
+        $this->form()->setData(array(
+            'publish_time'=>date('Y-m-d H:i:s', $post['publish_time']),
+            'sort'=>date('Y-m-d H:i:s', $post['sort']),
+        ) + $post, true);
         $this->view->post = $post;
         
         //附加属性
@@ -626,27 +637,6 @@ class PostController extends AdminController{
         Response::notify('success', array(
             'message'=>'一篇文章被永久删除',
             'id'=>$post_id,
-        ));
-    }
-    
-    /**
-     * 文章排序
-     */
-    public function sort(){
-        $post_id = $this->input->get('id', 'intval');
-        PostsTable::model()->update(array(
-            'sort'=>$this->input->get('sort', 'intval'),
-        ), array(
-            'id = ?'=>$post_id,
-        ));
-        $this->actionlog(ActionlogsTable::TYPE_POST, '改变了文章排序', $post_id);
-        
-        $post = PostsTable::model()->find($post_id, 'sort');
-        Response::notify('success', array(
-            'message'=>'一篇文章的排序值被编辑',
-            'data'=>array(
-                'sort'=>$post['sort'],
-            ),
         ));
     }
     

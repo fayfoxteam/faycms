@@ -1,8 +1,8 @@
 <?php
 use cms\helpers\LinkHelper;
 use cms\services\OptionService;
-use cms\helpers\PostHelper;
 use cms\models\tables\PostsTable;
+use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
@@ -65,7 +65,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                                 $options[PostsTable::STATUS_PUBLISHED] = '已发布';
                             }
                             echo HtmlHelper::select('status', $options, F::form()->getData('status'), array(
-                                'class'=>'form-control mw100 mt5 ib',
+                                'class'=>'form-control mw100 ib',
                                 'id'=>'edit-status-selector'
                             ));
                         ?>
@@ -74,6 +74,20 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                         <strong>是否置顶？</strong>
                         <?php echo F::form()->inputRadio('is_top', 1, array('label'=>'是'))?>
                         <?php echo F::form()->inputRadio('is_top', 0, array('label'=>'否'), true)?>
+                    </div>
+                    <div class="misc-pub-section">
+                        <strong>创建时间：</strong>
+                        <?php echo HtmlHelper::tag('abbr', array(
+                            'class'=>'time',
+                            'title'=>DateHelper::format($post['create_time']),
+                        ), DateHelper::niceShort($post['create_time']))?>
+                    </div>
+                    <div class="misc-pub-section">
+                        <strong>更新时间：</strong>
+                        <?php echo HtmlHelper::tag('abbr', array(
+                            'class'=>'time',
+                            'title'=>DateHelper::format($post['update_time']),
+                        ), DateHelper::niceShort($post['update_time']))?>
                     </div>
                 </div>
             </div>

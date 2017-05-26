@@ -74,11 +74,10 @@ class PostsTable extends Table{
         return array(
             array(array('id', 'user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
-            array(array('sort'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title', 'abstract'), 'string', array('max'=>500)),
             array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
             array(array('is_top'), 'range', array('range'=>array(0, 1))),
-            array(array('publish_time'), 'datetime'),
+            array(array('publish_time', 'sort'), 'datetime'),
 
             array(array('status'), 'range', array('range'=>array(self::STATUS_PUBLISHED, self::STATUS_DRAFT, self::STATUS_PENDING, self::STATUS_REVIEWED))),
             array(array('content_type'), 'range', array('range'=>array(self::CONTENT_TYPE_MARKDOWN, self::CONTENT_TYPE_TEXTAREA, self::CONTENT_TYPE_VISUAL_EDITOR))),
@@ -104,7 +103,7 @@ class PostsTable extends Table{
             'delete_time'=>'删除时间',
             'thumbnail'=>'缩略图',
             'abstract'=>'摘要',
-            'sort'=>'排序',
+            'sort'=>'时间轴',
         );
     }
 
@@ -123,7 +122,7 @@ class PostsTable extends Table{
             'status'=>'intval',
             'thumbnail'=>'intval',
             'abstract'=>'trim',
-            'sort'=>'intval',
+            'sort'=>'trim',
         );
     }
     

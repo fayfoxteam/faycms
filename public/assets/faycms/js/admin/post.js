@@ -50,20 +50,6 @@ var post = {
             }
         });
     },
-    'events': function(){
-        $('#box-operation').on('click', '#edit-status-link', function(){
-            $('#edit-status-container').show();
-        }).on('click', '#set-status-editing', function(){
-            var $editStatusSelector = $('#edit-status-selector');
-            var status = $editStatusSelector.val();
-            var status_text = $editStatusSelector.find('[value="'+status+'"]').text();
-            $('input[name="status"]').val(status);
-            $('#crt-status').text(status_text);
-            $('#edit-status-container').hide();
-        }).on('click', '#cancel-status-editing', function(){
-            $('#edit-status-container').hide();
-        });
-    },
     'autosize': function(){
         if(!$('textarea.autosize').length && system.inArray('files', post.boxes)){
             //页面没有autosize输入框，且附件box存在，则引入autosize输入框插件
@@ -250,7 +236,6 @@ var post = {
         if(this.roleCats !== null){
             this.setRoleCats();
         }
-        this.events();
         this.autosize();
         this.history();
     }

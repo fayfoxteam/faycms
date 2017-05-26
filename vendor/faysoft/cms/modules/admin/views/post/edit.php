@@ -48,37 +48,27 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                         ?>
                     </div>
                     <div class="misc-pub-section mt6">
-                        <strong>当前状态：</strong>
-                        <span id="crt-status"><?php echo PostHelper::getStatus(F::form()->getData('status'), 0, false)?></span>
-                        <a href="javascript:" id="edit-status-link" class="ml5">编辑</a>
-                        <?php echo F::form()->inputHidden('status')?>
-                        <div class="hide" id="edit-status-container"><?php
+                        <strong>状态：</strong>
+                        <?php
                             $options = array(PostsTable::STATUS_DRAFT=>'草稿');
+                            $current_status = F::form()->getData('status');
                             if(F::app()->post_review){
                                 //开启审核，显示待审核选项
                                 $options[PostsTable::STATUS_PENDING] = '待审核';
-                                if(F::app()->checkPermission('cms/admin/post/review')){
-                                    //若有审核权限，显示“通过审核”选项
+                                if($current_status == PostsTable::STATUS_REVIEWED || F::app()->checkPermission('cms/admin/post/review')){
+                                    //若当前文章状态为“通过审核”或者有审核权限，显示“通过审核”选项
                                     $options[PostsTable::STATUS_REVIEWED] = '通过审核';
                                 }
                             }
-                            if(!F::app()->post_review || F::app()->checkPermission('cms/admin/post/publish')){
-                                //未开启审核，或者有发布权限，显示“已发布”选项
+                            if(!F::app()->post_review || $current_status == PostsTable::STATUS_PUBLISHED || F::app()->checkPermission('cms/admin/post/publish')){
+                                //未开启审核，或当前文章状态为“已发布”，或者有发布权限，显示“已发布”选项
                                 $options[PostsTable::STATUS_PUBLISHED] = '已发布';
                             }
-                            echo HtmlHelper::select('', $options, F::form()->getData('status'), array(
+                            echo HtmlHelper::select('status', $options, F::form()->getData('status'), array(
                                 'class'=>'form-control mw100 mt5 ib',
                                 'id'=>'edit-status-selector'
                             ));
-                            echo HtmlHelper::link('确定', 'javascript:;', array(
-                                'class'=>'btn btn-grey btn-sm ml5',
-                                'id'=>'set-status-editing',
-                            ));
-                            echo HtmlHelper::link('取消', 'javascript:;', array(
-                                'class'=>'ml5',
-                                'id'=>'cancel-status-editing',
-                            ));
-                        ?><p class="fc-grey mt5">点击“确定”并提交修改后生效</p></div>
+                        ?>
                     </div>
                     <div class="misc-pub-section">
                         <strong>是否置顶？</strong>

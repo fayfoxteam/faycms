@@ -364,7 +364,7 @@ class PostTagService extends Service{
      * @return array
      * @throws \fay\core\ErrorException
      */
-    public function getPosts($tag_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $order = 'is_top DESC, sort, publish_time DESC', $conditions = false){
+    public function getPosts($tag_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = false){
         $sql = new Sql();
         $sql->from(array('pt'=>'posts_tags'), '')
             ->joinLeft(array('p'=>'posts'), 'pt.post_id = p.id', 'id')

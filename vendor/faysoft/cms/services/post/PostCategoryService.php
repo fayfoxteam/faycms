@@ -492,7 +492,7 @@ class PostCategoryService extends Service{
      * @param mixed $conditions 附加条件
      * @return array
      */
-    public function getPosts($cat, $limit = 10, $field = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+    public function getPosts($cat, $limit = 10, $field = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = null){
         if(is_array($cat)){
             //分类数组
             return $this->getPostsByCatArray($cat, $limit, $field, $children, $order, $conditions);
@@ -523,7 +523,7 @@ class PostCategoryService extends Service{
      * @param mixed $conditions 附加条件
      * @return array
      */
-    private function getPostsByCatAlias($alias, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+    private function getPostsByCatAlias($alias, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = null){
         $cat = CategoriesTable::model()->fetchRow(array(
             'alias = ?'=>$alias
         ), 'id,left_value,right_value');
@@ -554,7 +554,7 @@ class PostCategoryService extends Service{
      * @param mixed $conditions 附加条件
      * @return array
      */
-    private function getPostsByCatId($cat_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+    private function getPostsByCatId($cat_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = null){
         $cat = CategoriesTable::model()->find($cat_id, 'id,left_value,right_value');
         if(!$cat){
             //指定分类不存在，直接返回空数组
@@ -583,7 +583,7 @@ class PostCategoryService extends Service{
      * @param mixed $conditions 附加条件
      * @return array
      */
-    private function getPostsByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort, publish_time DESC', $conditions = null){
+    private function getPostsByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = null){
         //解析$fields
         $fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
         if(empty($fields['post'])){

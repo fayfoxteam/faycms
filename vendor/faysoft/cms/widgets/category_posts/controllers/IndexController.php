@@ -53,7 +53,7 @@ class IndexController extends Widget{
      * 排序方式
      */
     private $order_map = array(
-        'hand'=>'is_top DESC, sort, publish_time DESC',
+        'hand'=>'is_top DESC, sort DESC, publish_time DESC',
         'publish_time'=>'publish_time DESC',
         'views'=>'views DESC, publish_time DESC',
     );

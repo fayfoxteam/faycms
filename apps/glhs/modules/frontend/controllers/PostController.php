@@ -36,7 +36,7 @@ class PostController extends FrontController{
                 'p.status = '.PostsTable::STATUS_PUBLISHED,
                 'p.publish_time < '.$this->current_time,
             ))
-            ->order('is_top DESC, sort, publish_time DESC');
+            ->order('is_top DESC, sort DESC, publish_time DESC');
         $this->view->assign(array(
             'cat'=>$cat,
             'listview'=>new ListView($sql, array(
@@ -55,7 +55,6 @@ class PostController extends FrontController{
             throw new HttpException('异常的请求', 404);
         }
         
-        $id = $this->input->get('id', 'intval');
         $cat = CategoryService::service()->get($this->input->get('cat'));
         
         $post = PostService::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title', $cat);

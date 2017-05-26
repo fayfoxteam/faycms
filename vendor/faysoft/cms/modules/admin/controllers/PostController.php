@@ -113,6 +113,14 @@ class PostController extends AdminController{
                     $data['publish_date'] = date('Y-m-d', $data['publish_time']);
                 }
             }
+            //时间轴特殊处理
+            if(in_array('timeline', $enabled_boxes)){
+                if(empty($data['sort'])){
+                    $data['sort'] = $this->current_time;
+                }else{
+                    $data['sort'] = strtotime($data['sort']);
+                }
+            }
             
             $extra = array();
             

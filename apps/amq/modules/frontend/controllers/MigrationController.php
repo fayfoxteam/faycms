@@ -3,6 +3,7 @@ namespace amq\modules\frontend\controllers;
 
 use amq\library\FrontController;
 use cms\library\Db;
+use cms\models\tables\PostMetaTable;
 use cms\models\tables\PostsTable;
 use cms\services\file\FileException;
 use cms\services\file\FileService;
@@ -103,4 +104,25 @@ class MigrationController extends FrontController{
         }
     }
 
+    /**
+     * 随机初始化阅读数
+     */
+    public function initViews(){
+        set_time_limit(0);
+        $last_id = $this->input->get('last_id', 'intval', 3000);
+        
+        $posts = PostMetaTable::model()->fetchAll(array(
+            'post_id < ?'=>$last_id,
+        ), 'post_id', 'post_id DESC', 10);
+        
+        foreach($posts as $post){
+            PostMetaTable::model()->update(array(
+                'views'=>mt_rand(100, 1000),
+            ), array(
+                'post_id = ?'=>$post['post_id'],
+            ));
+        }
+        
+        echo isset($post['post_id']) ? $post['post_id'] : '没了';
+    }
 }

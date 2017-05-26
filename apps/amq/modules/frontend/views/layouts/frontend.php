@@ -51,7 +51,9 @@ use fay\helpers\HtmlHelper;
 <script type="text/javascript">
     var _service = '';
     var _backurl = "";
-    var _ssourl = 'https://my.22.cn';
+    var _ssourl = '<?php echo $this->url('api/oauth/am', array(
+        'redirect'=>\fay\core\Http::getCurrentUrl(),
+    ))?>';
     var _loginpanel = true;
     NAVControl.init();
 </script>

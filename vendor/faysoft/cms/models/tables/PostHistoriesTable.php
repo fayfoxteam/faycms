@@ -31,8 +31,7 @@ class PostHistoriesTable extends Table{
     
     public function rules(){
         return array(
-            array(array('thumbnail', 'ip_int'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-            array(array('id', 'post_id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('id', 'post_id', 'thumbnail', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('content_type'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('title', 'abstract'), 'string', array('max'=>500)),

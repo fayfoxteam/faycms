@@ -813,7 +813,7 @@ CREATE TABLE `{{$prefix}}post_histories` (
   `content` text COMMENT '正文',
   `content_type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '正文类型（普通文本，符文本，markdown）',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
-  `thumbnail` int(11) NOT NULL DEFAULT '0' COMMENT '缩略图',
+  `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
   `abstract` varchar(500) NOT NULL DEFAULT '' COMMENT '摘要',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',

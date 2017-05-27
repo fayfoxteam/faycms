@@ -223,26 +223,29 @@ CREATE TABLE `{{$prefix}}keywords` (
 
 DROP TABLE IF EXISTS `{{$prefix}}post_favorites`;
 CREATE TABLE `{{$prefix}}post_favorites` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
   `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '收藏时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
-  PRIMARY KEY (`user_id`,`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id-post_id` (`user_id`,`post_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章收藏表';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_likes`;
 CREATE TABLE `{{$prefix}}post_likes` (
-  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点赞时间',
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   `sockpuppet` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '马甲信息',
   `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
-  PRIMARY KEY (`post_id`,`user_id`),
-  KEY `likes` (`user_id`,`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id-post_id` (`user_id`,`post_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章点赞表';
 
 DROP TABLE IF EXISTS `{{$prefix}}post_meta`;
 CREATE TABLE `{{$prefix}}post_meta` (

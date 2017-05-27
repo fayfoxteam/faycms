@@ -135,4 +135,25 @@ class UserOauthService extends Service{
         
         return $connect ? $connect['open_id'] : '';
     }
+
+    /**
+     * 根据用户id，获取对应的Open Id
+     * @param int|string $key app id或别名
+     * @param int $user_id
+     * @return string
+     * @throws OAuthException
+     */
+    public function getOpenIdByUserId($key, $user_id){
+        $app = OauthAppService::service()->get($key, 'id');
+        if(!$app){
+            throw new OAuthException("指定App[{$key}]不存在");
+        }
+
+        $row = OauthUserConnectsTable::model()->fetchRow(array(
+            'user_id = ?'=>$user_id,
+            'oauth_app_id = ' . $app['id']
+        ), 'open_id');
+
+        return $row ? $row['open_id'] : '';
+    }
 }

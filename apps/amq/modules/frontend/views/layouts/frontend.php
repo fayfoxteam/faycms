@@ -50,13 +50,29 @@ use fay\helpers\HtmlHelper;
 </div>
 
 <script type="text/javascript">
-    var _service = '';
+    var _service = 'p';
     var _backurl = "";
     var _ssourl = '<?php echo $this->url('api/oauth/am', array(
         'redirect'=>\fay\core\Http::getCurrentUrl(),
     ))?>';
     var _loginpanel = true;
-    NAVControl.init();
+
+    <?php if(\F::app()->current_user){?>
+        var _selfLogoutUrl = '<?php echo $this->url('api/login/logout')?>';
+        var user = {
+            userName: '',
+            id: '<?php echo \cms\services\user\UserOauthService::service()->getOpenIdByUserId('amq', \F::app()->current_user)?>',
+            grade: '',
+            yufu: null,
+            use: null,
+            congeal: null,
+            coin: null,
+            msgCount: 0,
+            auth: null,
+            isHiddenLoginModal: true
+        };
+    <?php }?>
+    NAVControl.init(typeof user == 'object' ? user : null);
 </script>
 
 <!--头部start-->

@@ -24,7 +24,9 @@ return array(
 
     'session'=>array(
         'ini_set'=>array(
-            'cookie_lifetime'=>2592000,//session保存30天，反正不存在前台登录
+            //session保存30天，反正不存在前台登录
+            'gc_maxlifetime'=>2592000,
+            'cookie_lifetime'=>2592000,
         ),
     ),
 );

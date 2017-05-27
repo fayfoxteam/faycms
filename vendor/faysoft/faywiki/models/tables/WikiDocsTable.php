@@ -64,4 +64,15 @@ class WikiDocsTable extends Table{
             'write_lock'=>'intval',
         );
     }
+
+    /**
+     * 获取已发布条件
+     * @param string $alias 表别名
+     * @return array
+     */
+    public static function getPublishedConditions($alias = ''){
+        return array(
+            ($alias ? "{$alias}." : '') . 'delete_time = 0',
+        );
+    }
 }

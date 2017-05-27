@@ -46,8 +46,7 @@ class <?php echo $class_name?>Table extends Table{
 <?php }?>
     
     /**
-     * @param string $class_name
-     * @return <?php echo $class_name?>Table
+     * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);

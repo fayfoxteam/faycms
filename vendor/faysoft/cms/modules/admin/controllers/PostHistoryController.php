@@ -37,7 +37,7 @@ class PostHistoryController extends AdminController{
                 'last_id'=>'起始ID',
             ))->check();
         
-        $histories = PostHistoryService::service()->getPostHistory(
+        $histories = PostHistoryService::service()->getPostHistories(
             $this->form()->getData('post_id'),
             $this->form()->getData('fields', 'id,user_id,create_time'),
             $this->form()->getData('page_size', 10),

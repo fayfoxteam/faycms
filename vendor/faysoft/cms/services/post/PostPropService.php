@@ -17,7 +17,6 @@ use fay\core\Service;
 
 class PostPropService extends Service implements PropUsageInterface{
     /**
-     * @param string $class_name
      * @return $this
      */
     public static function service(){

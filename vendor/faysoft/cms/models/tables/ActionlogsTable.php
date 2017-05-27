@@ -154,9 +154,7 @@ class ActionlogsTable extends Table{
     protected $_name = 'actionlogs';
     
     /**
-     * @param string $class_name
-     * @param string $class_name
-     * @return ActionlogsTable
+     * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);

@@ -93,7 +93,7 @@ class PostHistoryService extends Service{
      * @param int $last_id 用于分页
      * @return array
      */
-    public function getPostHistory($post_id, $fields = '*', $limit = 10, $last_id = 0){
+    public function getPostHistories($post_id, $fields = '*', $limit = 10, $last_id = 0){
         return PostHistoriesTable::model()->fetchAll(array(
             'post_id = ?'=>$post_id,
             'id < ?'=>$last_id ? $last_id : false,

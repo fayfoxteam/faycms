@@ -31,7 +31,6 @@ class PropService extends Service{
     );
     
     /**
-     * @param string $class_name
      * @return $this
      */
     public static function service(){

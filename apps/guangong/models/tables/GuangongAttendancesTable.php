@@ -2,6 +2,7 @@
 namespace guangong\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 出勤记录表
@@ -16,11 +17,10 @@ class GuangongAttendancesTable extends Table{
     protected $_name = 'guangong_attendances';
     
     /**
-     * @param string $class_name
-     * @return GuangongAttendancesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

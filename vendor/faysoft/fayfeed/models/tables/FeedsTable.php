@@ -2,6 +2,7 @@
 namespace fayfeed\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Feeds table model
@@ -42,11 +43,10 @@ class FeedsTable extends Table{
     protected $_name = 'feeds';
     
     /**
-     * @param string $class_name
-     * @return FeedsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -2,6 +2,7 @@
 namespace guangong\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 用户扩展信息
@@ -24,11 +25,10 @@ class GuangongUserExtraTable extends Table{
     protected $_primary = 'user_id';
     
     /**
-     * @param string $class_name
-     * @return GuangongUserExtraTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

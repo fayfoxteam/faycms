@@ -2,16 +2,16 @@
 namespace valentine\services;
 
 use fay\core\ErrorException;
+use fay\core\Loader;
 use fay\core\Service;
 use cms\services\user\UserService;
 
 class MatchService extends Service{
     /**
-     * @param string $class_name
-     * @return MatchService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

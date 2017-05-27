@@ -2,16 +2,16 @@
 namespace fayexam\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class ExamExamsTable extends Table{
     protected $_name = 'exam_exams';
     
     /**
-     * @param string $class_name
-     * @return ExamExamsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

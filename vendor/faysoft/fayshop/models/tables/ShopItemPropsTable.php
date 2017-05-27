@@ -2,6 +2,7 @@
 namespace fayshop\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Shop item props table model
@@ -24,11 +25,10 @@ class ShopItemPropsTable extends Table{
     protected $_name = 'shop_item_props';
     
     /**
-     * @param string $class_name
-     * @return ShopItemPropsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

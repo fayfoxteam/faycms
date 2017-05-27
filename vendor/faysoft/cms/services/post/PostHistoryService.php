@@ -5,6 +5,7 @@ use cms\models\tables\PostExtraTable;
 use cms\models\tables\PostHistoriesTable;
 use cms\models\tables\PostsTable;
 use cms\services\user\UserService;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\RequestHelper;
 
@@ -13,11 +14,10 @@ use fay\helpers\RequestHelper;
  */
 class PostHistoryService extends Service{
     /**
-     * @param string $class_name
-     * @return PostHistoryService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
 
     /**

@@ -17,10 +17,9 @@ use fay\core\Loader;
 
 class  UserPropService extends Service implements PropUsageInterface{
     /**
-     * @param string $class_name
-     * @return UserPropService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
+    public static function service(){
         return Loader::singleton($class_name);
     }
 

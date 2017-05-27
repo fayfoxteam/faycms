@@ -2,17 +2,17 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class RolesCatsTable extends Table{
     protected $_name = 'roles_cats';
     protected $_primary = array('role_id', 'cat_id');
     
     /**
-     * @param string $class_name
-     * @return RolesCatsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

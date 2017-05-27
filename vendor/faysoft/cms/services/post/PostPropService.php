@@ -12,6 +12,7 @@ use cms\services\prop\PropService;
 use cms\services\prop\PropUsageInterface;
 use fay\core\db\Table;
 use fay\core\ErrorException;
+use fay\core\Loader;
 use fay\core\Service;
 
 class PostPropService extends Service implements PropUsageInterface{
@@ -19,8 +20,8 @@ class PostPropService extends Service implements PropUsageInterface{
      * @param string $class_name
      * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
 
     /**

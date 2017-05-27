@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\post;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use cms\services\file\FileService;
@@ -12,11 +13,10 @@ class PostFileService extends Service{
     public static $default_fields = array('id', 'description', 'is_image', 'url');
     
     /**
-     * @param string $class_name
-     * @return PostFileService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

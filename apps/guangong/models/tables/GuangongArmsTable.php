@@ -2,6 +2,7 @@
 namespace guangong\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 兵种表
@@ -17,11 +18,10 @@ class GuangongArmsTable extends Table{
     protected $_name = 'guangong_arms';
     
     /**
-     * @param string $class_name
-     * @return GuangongArmsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

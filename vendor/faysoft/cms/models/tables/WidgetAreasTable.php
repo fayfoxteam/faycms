@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 小工具域
@@ -15,11 +16,10 @@ class WidgetAreasTable extends Table{
     protected $_name = 'widget_areas';
 
     /**
-     * @param string $class_name
-     * @return WidgetAreasTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
 
     public function rules(){

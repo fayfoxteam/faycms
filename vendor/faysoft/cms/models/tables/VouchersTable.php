@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class VouchersTable extends Table{
     /**
@@ -17,11 +18,10 @@ class VouchersTable extends Table{
     protected $_name = 'vouchers';
 
     /**
-     * @param string $class_name
-     * @return VouchersTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

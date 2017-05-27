@@ -2,6 +2,7 @@
 namespace apidoc\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Apidoc outputs table model
@@ -22,11 +23,10 @@ class OutputsTable extends Table{
     protected $_name = 'apidoc_outputs';
     
     /**
-     * @param string $class_name
-     * @return OutputsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

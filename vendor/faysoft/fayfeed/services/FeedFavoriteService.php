@@ -1,6 +1,7 @@
 <?php
 namespace fayfeed\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
@@ -21,11 +22,10 @@ class FeedFavoriteService extends Service{
     const EVENT_CANCEL_FAVORITE = 'after_feed_cancel_favorite';
     
     /**
-     * @param string $class_name
-     * @return FeedFavoriteService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

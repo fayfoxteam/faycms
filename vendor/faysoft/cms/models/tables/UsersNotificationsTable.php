@@ -2,17 +2,17 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class UsersNotificationsTable extends Table{
     protected $_name = 'users_notifications';
     protected $_primary = array('user_id', 'notification_id');
     
     /**
-     * @param string $class_name
-     * @return UsersNotificationsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

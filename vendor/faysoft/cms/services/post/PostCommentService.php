@@ -59,10 +59,9 @@ class PostCommentService extends MultiTreeModel{
     protected $field_key = 'comment';
     
     /**
-     * @param string $class_name
-     * @return PostCommentService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
+    public static function service(){
         return Loader::singleton($class_name);
     }
     

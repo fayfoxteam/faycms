@@ -13,10 +13,9 @@ class MenuService extends TreeModel{
     protected $model = 'cms\models\tables\MenusTable';
     
     /**
-     * @param string $class_name
-     * @return MenuService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
+    public static function service(){
         return Loader::singleton($class_name);
     }
     

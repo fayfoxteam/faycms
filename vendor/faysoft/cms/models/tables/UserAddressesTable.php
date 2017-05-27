@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * User Addresses model
@@ -23,11 +24,10 @@ class UserAddressesTable extends Table{
     protected $_name = 'user_addresses';
     
     /**
-     * @param string $class_name
-     * @return UserAddressesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -3,6 +3,7 @@ namespace cms\services\user;
 
 use fay\core\ErrorException;
 use fay\core\HttpException;
+use fay\core\Loader;
 use fay\core\Service;
 use fayoauth\models\tables\OauthUserConnectsTable;
 use cms\models\tables\UsersTable;
@@ -13,11 +14,10 @@ use fayoauth\services\UserAbstract;
 
 class UserOauthService extends Service{
     /**
-     * @param string $class_name
-     * @return UserOauthService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

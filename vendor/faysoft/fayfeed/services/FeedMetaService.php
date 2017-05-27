@@ -1,6 +1,7 @@
 <?php
 namespace fayfeed\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fayfeed\models\tables\FeedMetaTable;
 
@@ -11,11 +12,10 @@ class FeedMetaService extends Service{
     public static $default_fields = array('comments', 'views', 'likes');
     
     /**
-     * @param string $class_name
-     * @return FeedMetaService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

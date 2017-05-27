@@ -2,6 +2,7 @@
 namespace valentine\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 星座配对系数表
@@ -15,11 +16,10 @@ class ValentineConstellationMatchingsTable extends Table{
     protected $_name = 'valentine_constellation_matchings';
     
     /**
-     * @param string $class_name
-     * @return ValentineConstellationMatchingsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

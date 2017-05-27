@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\post;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
@@ -9,11 +10,10 @@ use cms\models\tables\UserCounterTable;
 
 class PostUserCounterService extends Service{
     /**
-     * @param string $class_name
-     * @return PostUserCounterService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

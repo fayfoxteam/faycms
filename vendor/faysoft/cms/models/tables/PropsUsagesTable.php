@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 属性引用关系
@@ -16,11 +17,10 @@ class PropsUsagesTable extends Table{
     protected $_name = 'props_usages';
 
     /**
-     * @param string $class_name
-     * @return PropsUsagesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
 
     public function rules(){

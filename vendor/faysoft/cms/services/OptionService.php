@@ -1,6 +1,7 @@
 <?php
 namespace cms\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\OptionsTable;
 use fay\helpers\ArrayHelper;
@@ -12,11 +13,10 @@ class OptionService extends Service{
     private static $options = array();
     
     /**
-     * @param string $class_name
-     * @return OptionService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

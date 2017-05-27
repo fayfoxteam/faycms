@@ -2,6 +2,7 @@
 namespace guangong\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Guangong speaks table model
@@ -17,11 +18,10 @@ class GuangongSpeaksTable extends Table{
     protected $_name = 'guangong_speaks';
     
     /**
-     * @param string $class_name
-     * @return GuangongSpeaksTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

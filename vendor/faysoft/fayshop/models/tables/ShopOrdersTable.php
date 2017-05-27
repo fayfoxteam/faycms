@@ -2,6 +2,7 @@
 namespace fayshop\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 订单表
@@ -29,11 +30,10 @@ class ShopOrdersTable extends Table{
     protected $_name = 'shop_orders';
     
     /**
-     * @param string $class_name
-     * @return ShopOrdersTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

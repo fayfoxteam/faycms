@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\shop;
 
+use fay\core\Loader;
 use fay\core\Service;
 
 class ShopOrderService extends Service{
@@ -12,8 +13,8 @@ class ShopOrderService extends Service{
     /**
      * @return ShopOrderService
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

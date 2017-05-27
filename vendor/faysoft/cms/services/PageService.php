@@ -2,6 +2,7 @@
 namespace cms\services;
 
 use cms\services\file\FileService;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use cms\models\tables\PagesCategoriesTable;
@@ -12,11 +13,10 @@ use fay\helpers\StringHelper;
 class PageService extends Service{
     
     /**
-     * @param string $class_name
-     * @return PageService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function getPageCats($id, $fields = '*'){

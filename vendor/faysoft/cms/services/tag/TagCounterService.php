@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\tag;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use cms\models\tables\TagCounterTable;
@@ -14,11 +15,10 @@ class TagCounterService extends Service{
     );
     
     /**
-     * @param string $class_name
-     * @return TagCounterService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

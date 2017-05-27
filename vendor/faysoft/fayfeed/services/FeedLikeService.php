@@ -1,6 +1,7 @@
 <?php
 namespace fayfeed\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
@@ -20,11 +21,10 @@ class FeedLikeService extends Service{
     const EVENT_UNLIKE = 'after_feed_unlike';
     
     /**
-     * @param string $class_name
-     * @return FeedLikeService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

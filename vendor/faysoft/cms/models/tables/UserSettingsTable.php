@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * User Settings model
@@ -15,11 +16,10 @@ class UserSettingsTable extends Table{
     protected $_primary = array('user_id', 'setting_key');
     
     /**
-     * @param string $class_name
-     * @return UserSettingsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

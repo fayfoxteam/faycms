@@ -3,6 +3,7 @@ namespace cms\services\file;
 
 use fay\core\ErrorException;
 use fay\core\HttpException;
+use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
@@ -16,11 +17,10 @@ class WeixinFileService extends Service{
     const GET_MEDIA_URL = 'http://file.api.weixin.qq.com/cgi-bin/media/get';
     
     /**
-     * @param string $class_name
-     * @return WeixinFileService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

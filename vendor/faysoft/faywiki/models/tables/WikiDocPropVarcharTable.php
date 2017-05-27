@@ -2,6 +2,7 @@
 namespace faywiki\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 文档自定义属性-varchar
@@ -15,11 +16,10 @@ class WikiDocPropVarcharTable extends Table{
     protected $_name = 'wiki_doc_prop_varchar';
     
     /**
-     * @param string $class_name
-     * @return WikiDocPropVarcharTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

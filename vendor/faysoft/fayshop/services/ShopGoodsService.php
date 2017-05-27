@@ -10,11 +10,10 @@ use fayshop\models\tables\GoodsCatPropsTable;
 
 class ShopGoodsService extends Service{
     /**
-     * @param string $class_name
-     * @return ShopGoodsService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function get($id, $fields = 'files,props,sku'){

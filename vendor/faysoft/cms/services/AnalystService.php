@@ -1,6 +1,7 @@
 <?php
 namespace cms\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
@@ -15,11 +16,10 @@ class AnalystService extends Service{
     public $today;
     
     /**
-     * @param string $class_name
-     * @return AnalystService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function __construct(){

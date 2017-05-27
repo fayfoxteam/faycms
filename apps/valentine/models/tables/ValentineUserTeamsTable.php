@@ -2,6 +2,7 @@
 namespace valentine\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 用户配对表
@@ -33,11 +34,10 @@ class ValentineUserTeamsTable extends Table{
     protected $_name = 'valentine_user_teams';
     
     /**
-     * @param string $class_name
-     * @return ValentineUserTeamsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

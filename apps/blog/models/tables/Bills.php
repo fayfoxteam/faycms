@@ -2,6 +2,7 @@
 namespace blog\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class Bills extends Table{
     const TYPE_OUT = 1;//支出
@@ -12,8 +13,8 @@ class Bills extends Table{
     /**
      * @return Bills
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -2,6 +2,7 @@
 namespace fayshop\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Shop goods cat prop values table model
@@ -17,11 +18,10 @@ class ShopGoodsCatPropValuesTable extends Table{
     protected $_name = 'shop_goods_cat_prop_values';
     
     /**
-     * @param string $class_name
-     * @return ShopGoodsCatPropValuesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

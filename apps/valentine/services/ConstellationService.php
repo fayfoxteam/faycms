@@ -2,6 +2,7 @@
 namespace valentine\services;
 
 use fay\core\ErrorException;
+use fay\core\Loader;
 use fay\core\Service;
 use valentine\models\tables\ValentineConstellationsTable;
 
@@ -10,11 +11,10 @@ use valentine\models\tables\ValentineConstellationsTable;
  */
 class ConstellationService extends Service{
     /**
-     * @param string $class_name
-     * @return ConstellationService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

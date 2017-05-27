@@ -2,6 +2,7 @@
 namespace faywiki\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 百科收藏表
@@ -18,11 +19,10 @@ class WikiDocFavoritesTable extends Table{
     protected $_name = 'wiki_doc_favorites';
     
     /**
-     * @param string $class_name
-     * @return WikiDocFavoritesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

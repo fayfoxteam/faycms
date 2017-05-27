@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Menus table model
@@ -33,11 +34,10 @@ class MenusTable extends Table{
     protected $_name = 'menus';
     
     /**
-     * @param string $class_name
-     * @return MenusTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -2,6 +2,7 @@
 namespace fayfeed\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Feed Comments model
@@ -38,11 +39,10 @@ class FeedCommentsTable extends Table{
     protected $_name = 'feed_comments';
     
     /**
-     * @param string $class_name
-     * @return FeedCommentsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

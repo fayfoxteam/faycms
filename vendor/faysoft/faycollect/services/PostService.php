@@ -2,6 +2,7 @@
 namespace faycollect\services;
 
 use cms\services\file\RemoteFileService;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\StringHelper;
 use fay\validators\UrlValidator;
@@ -11,11 +12,10 @@ use fay\validators\UrlValidator;
  */
 class PostService extends Service{
     /**
-     * @param string $class_name
-     * @return PostService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
 
     /**

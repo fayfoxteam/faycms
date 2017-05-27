@@ -3,17 +3,17 @@ namespace guangong\services;
 
 use fay\core\ErrorException;
 use fay\core\Exception;
+use fay\core\Loader;
 use fay\core\Service;
 use cms\services\user\UserService;
 use guangong\models\tables\GuangongAttendancesTable;
 
 class AttendanceService extends Service{
     /**
-     * @param string $class_name
-     * @return AttendanceService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

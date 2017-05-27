@@ -2,6 +2,7 @@
 namespace faywiki\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 文档自定义属性-text
@@ -15,11 +16,10 @@ class WikiDocPropTextTable extends Table{
     protected $_name = 'wiki_doc_prop_text';
     
     /**
-     * @param string $class_name
-     * @return WikiDocPropTextTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

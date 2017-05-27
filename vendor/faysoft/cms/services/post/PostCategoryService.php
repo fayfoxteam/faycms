@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\post;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -27,11 +28,10 @@ class PostCategoryService extends Service{
     private $_user_allowed_cats = array();
     
     /**
-     * @param string $class_name
-     * @return PostCategoryService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

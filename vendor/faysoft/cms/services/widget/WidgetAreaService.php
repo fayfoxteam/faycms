@@ -4,17 +4,17 @@ namespace cms\services\widget;
 use cms\models\tables\WidgetAreasTable;
 use cms\models\tables\WidgetAreasWidgetsTable;
 use fay\core\ErrorException;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\NumberHelper;
 
 class WidgetAreaService extends Service{
     /**
-     * @param string $class_name
-     * @return WidgetAreaService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
 
     /**

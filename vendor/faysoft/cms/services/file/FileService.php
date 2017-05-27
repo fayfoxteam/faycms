@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\file;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
@@ -43,11 +44,10 @@ class FileService extends Service{
     const PIC_CUT = 5;
     
     /**
-     * @param string $class_name
-     * @return FileService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

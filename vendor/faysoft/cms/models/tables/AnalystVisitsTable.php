@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Analyst Visits table model
@@ -27,11 +28,10 @@ class AnalystVisitsTable extends Table{
     protected $_name = 'analyst_visits';
     
     /**
-     * @param string $class_name
-     * @return AnalystVisitsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

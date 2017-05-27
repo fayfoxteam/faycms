@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 角色自定义属性-varchar
@@ -15,11 +16,10 @@ class UserPropVarcharTable extends Table{
     protected $_name = 'user_prop_varchar';
     
     /**
-     * @param string $class_name
-     * @return UserPropVarcharTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

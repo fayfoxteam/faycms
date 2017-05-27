@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\post;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use cms\models\tables\PostExtraTable;
@@ -12,11 +13,10 @@ class PostExtraService extends Service{
     public static $default_fields = array('seo_title', 'seo_keywords', 'seo_description');
     
     /**
-     * @param string $class_name
-     * @return PostExtraService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

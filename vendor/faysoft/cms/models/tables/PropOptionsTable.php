@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 自定义属性选项列表
@@ -17,11 +18,10 @@ class PropOptionsTable extends Table{
     protected $_name = 'prop_options';
     
     /**
-     * @param string $class_name
-     * @return PropOptionsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

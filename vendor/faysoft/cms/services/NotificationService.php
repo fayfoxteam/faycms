@@ -1,6 +1,7 @@
 <?php
 namespace cms\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\UsersTable;
 use cms\models\tables\NotificationsTable;
@@ -8,11 +9,10 @@ use cms\models\tables\UsersNotificationsTable;
 
 class NotificationService extends Service{
     /**
-     * @param string $class_name
-     * @return NotificationService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

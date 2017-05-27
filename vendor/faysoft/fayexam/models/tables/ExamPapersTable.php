@@ -2,6 +2,7 @@
 namespace fayexam\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class ExamPapersTable extends Table{
     /**
@@ -17,11 +18,10 @@ class ExamPapersTable extends Table{
     protected $_name = 'exam_papers';
     
     /**
-     * @param string $class_name
-     * @return ExamPapersTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

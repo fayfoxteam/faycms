@@ -2,6 +2,7 @@
 namespace guangong\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 时辰表
@@ -17,11 +18,10 @@ class GuangongHoursTable extends Table{
     protected $_name = 'guangong_hours';
     
     /**
-     * @param string $class_name
-     * @return GuangongHoursTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

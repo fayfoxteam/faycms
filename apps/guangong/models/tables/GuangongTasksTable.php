@@ -2,6 +2,7 @@
 namespace guangong\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 任务
@@ -14,11 +15,10 @@ class GuangongTasksTable extends Table{
     protected $_name = 'guangong_tasks';
     
     /**
-     * @param string $class_name
-     * @return GuangongTasksTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

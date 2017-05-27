@@ -3,6 +3,7 @@ namespace cms\services\post;
 
 use fay\common\ListView;
 use fay\core\Exception;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -24,11 +25,10 @@ class PostFavoriteService extends Service{
     const EVENT_CANCEL_FAVORITED = 'after_post_cancel_favorite';
     
     /**
-     * @param string $class_name
-     * @return PostFavoriteService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

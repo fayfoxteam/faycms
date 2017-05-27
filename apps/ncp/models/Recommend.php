@@ -1,6 +1,7 @@
 <?php
 namespace ncp\models;
 
+use fay\core\Loader;
 use fay\core\Model;
 use fay\core\Sql;
 use cms\services\CategoryService;
@@ -10,8 +11,8 @@ class Recommend extends Model{
     /**
      * @return Recommend
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

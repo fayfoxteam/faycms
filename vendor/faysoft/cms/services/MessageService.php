@@ -62,10 +62,9 @@ class MessageService extends MultiTreeModel{
     protected $field_key = 'message';
     
     /**
-     * @param string $class_name
-     * @return MessageService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
+    public static function service(){
         return Loader::singleton($class_name);
     }
     

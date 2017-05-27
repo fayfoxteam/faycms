@@ -1,6 +1,7 @@
 <?php
 namespace fayoauth\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\NumberHelper;
 use fayoauth\models\tables\OauthAppsTable;
@@ -10,11 +11,10 @@ use fayoauth\models\tables\OauthAppsTable;
  */
 class OauthAppService extends Service{
     /**
-     * @param string $class_name
-     * @return OauthAppService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

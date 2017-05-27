@@ -1,16 +1,16 @@
 <?php
 namespace cms\services\shop;
 
+use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\UserAddressesTable;
 
 class ShopAddressService extends Service{
     /**
-     * @param string $class_name
-     * @return ShopAddressService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

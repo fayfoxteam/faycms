@@ -4,6 +4,7 @@ namespace cms\services\post;
 use cms\models\tables\PostHistoriesTable;
 use cms\models\tables\PropsTable;
 use cms\services\prop\PropService;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -113,11 +114,10 @@ class PostService extends Service{
     );
 
     /**
-     * @param string $class_name
-     * @return PostService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

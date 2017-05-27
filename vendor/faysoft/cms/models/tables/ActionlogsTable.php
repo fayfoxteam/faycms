@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Actionlogs table model
@@ -157,8 +158,8 @@ class ActionlogsTable extends Table{
      * @param string $class_name
      * @return ActionlogsTable
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -1,6 +1,7 @@
 <?php
 namespace cms\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\RequestHelper;
 use cms\models\tables\ContactsTable;
@@ -12,11 +13,10 @@ class ContactService extends Service{
     const EVENT_CREATED = 'after_contact_created';
     
     /**
-     * @param string $class_name
-     * @return ContactService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

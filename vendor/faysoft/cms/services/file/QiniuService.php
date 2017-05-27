@@ -2,6 +2,7 @@
 namespace cms\services\file;
 
 use fay\core\ErrorException;
+use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\FilesTable;
 use fay\helpers\StringHelper;
@@ -12,11 +13,10 @@ use Qiniu\Storage\UploadManager;
 
 class QiniuService extends Service{
     /**
-     * @param string $class_name
-     * @return QiniuService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

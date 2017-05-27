@@ -1,6 +1,7 @@
 <?php
 namespace faypay\services\trade;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\NumberHelper;
 use fay\helpers\RequestHelper;
@@ -14,11 +15,10 @@ class TradeService extends Service{
     const EVENT_AFTER_PAY_SUCCESS = 'after_pay_success';
     
     /**
-     * @param string $class_name
-     * @return TradeService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

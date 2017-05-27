@@ -2,17 +2,17 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class PagesCategoriesTable extends Table{
     protected $_name = 'pages_categories';
     protected $_primary = array('page_id', 'cat_id');
     
     /**
-     * @param string $class_name
-     * @return PagesCategoriesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

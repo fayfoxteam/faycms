@@ -1,15 +1,15 @@
 <?php
 namespace cms\models\forms;
 
+use fay\core\Loader;
 use fay\core\Model;
 
 class SettingForm extends Model{
     /**
-     * @param string $class_name
-     * @return SettingForm
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

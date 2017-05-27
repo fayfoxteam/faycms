@@ -2,6 +2,7 @@
 namespace fayshop\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Shop item prop values table model
@@ -19,11 +20,10 @@ class ShopItemPropValuesTable extends Table{
     protected $_name = 'shop_item_prop_values';
     
     /**
-     * @param string $class_name
-     * @return ShopItemPropValuesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

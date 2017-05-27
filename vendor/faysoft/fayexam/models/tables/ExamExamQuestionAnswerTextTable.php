@@ -2,17 +2,17 @@
 namespace fayexam\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 class ExamExamQuestionAnswerTextTable extends Table{
     protected $_name = 'exam_exam_question_answer_text';
     protected $_primary = 'exam_question_id';
     
     /**
-     * @param string $class_name
-     * @return ExamExamQuestionAnswerTextTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

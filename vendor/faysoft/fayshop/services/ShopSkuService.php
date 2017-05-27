@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\shop;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fayshop\models\tables\GoodsCatPropsTable;
 use fayshop\models\tables\GoodsPropValuesTable;
@@ -8,11 +9,10 @@ use fay\helpers\ArrayHelper;
 
 class ShopSkuService extends Service{
     /**
-     * @param string $class_name
-     * @return ShopSkuService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

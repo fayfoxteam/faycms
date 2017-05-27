@@ -3,6 +3,7 @@ namespace cms\services\user;
 
 use cms\models\tables\PropsTable;
 use cms\services\prop\PropService;
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fay\helpers\NumberHelper;
@@ -76,11 +77,10 @@ class UserService extends Service{
     private $_denied_routers = array();
     
     /**
-     * @param string $class_name
-     * @return UserService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

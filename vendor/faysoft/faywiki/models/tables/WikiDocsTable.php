@@ -2,6 +2,7 @@
 namespace faywiki\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 百科文档
@@ -21,11 +22,10 @@ class WikiDocsTable extends Table{
     protected $_name = 'wiki_docs';
 
     /**
-     * @param string $class_name
-     * @return WikiDocsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
 
     public function rules(){

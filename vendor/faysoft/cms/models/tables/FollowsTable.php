@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Follows table model
@@ -29,11 +30,10 @@ class FollowsTable extends Table{
     protected $_primary = array('fans_id', 'user_id');
     
     /**
-     * @param string $class_name
-     * @return FollowsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -2,6 +2,7 @@
 namespace faypay\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Trades table model
@@ -41,11 +42,10 @@ class TradesTable extends Table{
     protected $_name = 'trades';
     
     /**
-     * @param string $class_name
-     * @return TradesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

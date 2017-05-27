@@ -1,6 +1,7 @@
 <?php
 namespace siwi\models;
 
+use fay\core\Loader;
 use fay\core\Model;
 use cms\services\CategoryService;
 
@@ -10,8 +11,8 @@ class Post extends Model{
     /**
      * @return Post
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function getType($cat_id){

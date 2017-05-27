@@ -2,6 +2,7 @@
 namespace fayshop\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Shop goods files table model
@@ -17,11 +18,10 @@ class ShopGoodsFilesTable extends Table{
     protected $_primary = array('goods_id', 'file_id');
     
     /**
-     * @param string $class_name
-     * @return ShopGoodsFilesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -2,6 +2,7 @@
 namespace cms\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Categories table model
@@ -26,11 +27,10 @@ class CategoriesTable extends Table{
     protected $_name = 'categories';
     
     /**
-     * @param string $class_name
-     * @return CategoriesTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -2,6 +2,7 @@
 namespace faywiki\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 文档计数信息
@@ -22,11 +23,10 @@ class WikiDocMetaTable extends Table{
     protected $_primary = 'doc_id';
 
     /**
-     * @param string $class_name
-     * @return WikiDocMetaTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
 
     public function rules(){

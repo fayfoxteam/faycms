@@ -1,6 +1,7 @@
 <?php
 namespace fayfeed\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\FieldHelper;
 use fayfeed\models\tables\FeedsFilesTable;
@@ -13,11 +14,10 @@ class FeedFileService extends Service{
     public static $default_fields = array('file_id', 'description');
     
     /**
-     * @param string $class_name
-     * @return FeedFileService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

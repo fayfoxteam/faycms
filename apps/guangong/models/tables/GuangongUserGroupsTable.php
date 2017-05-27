@@ -2,6 +2,7 @@
 namespace guangong\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 结盟
@@ -17,11 +18,10 @@ class GuangongUserGroupsTable extends Table{
     protected $_name = 'guangong_user_groups';
     
     /**
-     * @param string $class_name
-     * @return GuangongUserGroupsTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

@@ -1,6 +1,7 @@
 <?php
 namespace cms\services;
 
+use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Exception;
 use cms\models\tables\FollowsTable;
@@ -27,11 +28,10 @@ class FollowService extends Service{
     const EVENT_UNFOLLOW = 'after_unfollow';
     
     /**
-     * @param string $class_name
-     * @return FollowService
+     * @return $this
      */
-    public static function service($class_name = __CLASS__){
-        return parent::service($class_name);
+    public static function service(){
+        return Loader::singleton(__CLASS__);
     }
     
     /**

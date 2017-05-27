@@ -2,6 +2,7 @@
 namespace fayshop\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * Shop goods skus table model
@@ -17,11 +18,10 @@ class ShopGoodsSkusTable extends Table{
     protected $_primary = array('goods_id', 'sku_key');
     
     /**
-     * @param string $class_name
-     * @return ShopGoodsSkusTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

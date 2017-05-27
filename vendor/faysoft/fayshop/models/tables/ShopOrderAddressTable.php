@@ -2,6 +2,7 @@
 namespace fayshop\models\tables;
 
 use fay\core\db\Table;
+use fay\core\Loader;
 
 /**
  * 订单收件人信息
@@ -20,11 +21,10 @@ class ShopOrderAddressTable extends Table{
     protected $_primary = 'order_id';
     
     /**
-     * @param string $class_name
-     * @return ShopOrderAddressTable
+     * @return $this
      */
-    public static function model($class_name = __CLASS__){
-        return parent::model($class_name);
+    public static function model(){
+        return Loader::singleton(__CLASS__);
     }
     
     public function rules(){

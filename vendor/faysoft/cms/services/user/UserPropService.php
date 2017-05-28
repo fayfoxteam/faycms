@@ -20,7 +20,7 @@ class  UserPropService extends Service implements PropUsageInterface{
      * @return $this
      */
     public static function service(){
-        return Loader::singleton($class_name);
+        return Loader::singleton(__CLASS__);
     }
 
     /**

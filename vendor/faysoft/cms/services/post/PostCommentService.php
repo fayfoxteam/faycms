@@ -62,7 +62,7 @@ class PostCommentService extends MultiTreeModel{
      * @return $this
      */
     public static function service(){
-        return Loader::singleton($class_name);
+        return Loader::singleton(__CLASS__);
     }
     
     /**

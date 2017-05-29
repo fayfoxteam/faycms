@@ -53,10 +53,9 @@
     </div>
 </div>
 <?php $this->renderPartial('_js')?>
-<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
-<script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script>
 <?php if(isset($user_extra['military']) && $user_extra['military'] >= \cms\services\OptionService::get('guangong:junfei', 1100)){?>
+common.loadFancybox(function(){
     $('#jiangjunmiling-link').fancybox({
         'type': 'inline',
         'centerOnScroll': true,
@@ -64,6 +63,7 @@
         'showCloseButton': false,
         'width': '80%'
     });
+});
 <?php }else{?>
     $('#jiangjunmiling-link').on('click', function(){
         common.toast('您还未完成注册，请加入关羽军团后领受将军密令', 'error');

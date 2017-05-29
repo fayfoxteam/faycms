@@ -6,13 +6,13 @@
 <div class="hide">
     <div id="hour-dialog" class="dialog">
         <div class="dialog-content">
-            <div class="form-group">
+            <div class="form-group mw225">
                 <div class="content">
                     <label class="label-title">古历时间</label>
                     <span id="hour-name"><?php echo $hour ? $hour['name']: ''?></span>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mw225">
                 <div class="content">
                     <label class="label-title">北京时间</label>
                     <span id="hour-time"><?php
@@ -25,7 +25,7 @@
                     ?></span>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mw225">
                 <div class="content">
                     <label class="label-title">时辰详情</label>
                     <span id="hour-description"><?php if($hour){
@@ -33,7 +33,7 @@
                     }?></span>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mw225">
                 <div class="content" id="hour-standard">
                     <label class="label-title">值勤规定</label>
                     值勤时间一经确定将计入档案，需按规则每天报到，方可有效晋升军职。具体值勤报到时间自行掌握。

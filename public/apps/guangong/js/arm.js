@@ -222,32 +222,41 @@ var arm = {
         if(this.ajaxing){
             return false;
         }
-        this.ajaxing = true;
-        this.shakeMusic();
-        $.ajax({
-            'type': 'GET',
-            'url': system.url('api/defence-area/set'),
-            'dataType': 'json',
-            'cache': false,
-            'success': function(resp){
-                arm.ajaxing = false;
-                if(resp.status){
-                    var $arm4 = $('#arm-4');
-                    $arm4.find('.shake').hide();
-                    common.toast(resp.message, 'success');
-                    //插入分享按钮和确定按钮
-                    $arm4.append(['<div class="layer operations">',
-                        '<a href="javascript:" class="btn-1 confirm-to-next-link">防区确定</a> ',
-                        '<a href="javascript:" class="btn-1 reset-defence-link">重摇一次</a> ',
-                        '</div>'].join(''));
-                    
-                    //移除class。摇一摇就失效了
-                    $('.set-defence-slide').removeClass('set-defence-slide');
-                }else{
-                    common.toast(resp.message, 'error');
+
+        var $arm4 = $('#arm-4');
+        if($arm4.find('.shake').hasClass('go-to-sign')){
+            $.fancybox.open('<div id="go-to-sign-dialog">身份未识别<br>请至<a href="'+system.url('recruit#9')+'" style="color:#df0011">天下招募令</a>注册</div>');
+        }else{
+            this.ajaxing = true;
+            this.shakeMusic();
+            $.ajax({
+                'type': 'GET',
+                'url': system.url('api/defence-area/set'),
+                'dataType': 'json',
+                'cache': false,
+                'success': function(resp){
+                    arm.ajaxing = false;
+                    if(resp.status){
+                        $arm4.find('.shake').hide();
+                        $arm4.find('.defence-text').hide();
+                        $arm4.find('.description').hide();
+                        $arm4.find('.map').html('<a data-fancybox href="#defence-dialog"><img src="' + resp.data.picture.url + '"></a>');
+                        $('#defence-dialog').find('img').attr('src', resp.data.text_picture.url);
+                        common.toast(resp.message, 'success');
+                        //插入分享按钮和确定按钮
+                        $arm4.append(['<div class="layer operations">',
+                            '<a href="javascript:" class="btn-1 confirm-to-next-link">防区确定</a> ',
+                            '<a href="javascript:" class="btn-1 reset-defence-link">再选一次</a> ',
+                            '</div>'].join(''));
+                        
+                        //移除class。摇一摇就失效了
+                        $('.set-defence-slide').removeClass('set-defence-slide');
+                    }else{
+                        common.toast(resp.message, 'error');
+                    }
                 }
-            }
-        });
+            });
+        }
     },
     /**
      * 显示军籍
@@ -310,6 +319,9 @@ var arm = {
         $(document).on('click', '.reset-defence-link', function(){
             var $arm4 = $('#arm-4');
             $arm4.find('.shake').show();
+            $arm4.find('.defence-text').show();
+            $arm4.find('.description').show();
+            $arm4.find('.map').html('<img src="' + system.url('apps/guangong/images/arm/map.png') + '">');
             $arm4.find('.operations').remove();
             $arm4.addClass('set-defence-slide');
         }).on('click', '.reset-hour-link', function(){

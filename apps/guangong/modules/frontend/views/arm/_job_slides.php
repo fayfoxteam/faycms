@@ -147,14 +147,8 @@ $(function(){
     var audio = new Audio("<?php echo $this->appAssets('music/gusheng2.mp3')?>");
     audio.addEventListener('timeupdate', function(){
         if(audio.currentTime == audio.duration){
-            system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function() {
-                system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function () {
-                    $.fancybox($('#attendance-dialog').parent().html(), {
-                        'padding': 0,
-                        'centerOnScroll': true,
-                        'width': '90%'
-                    });
-                });
+            common.loadFancybox(function(){
+                $.fancybox($('#attendance-dialog').parent().html());
             });
         }
     });
@@ -177,39 +171,33 @@ $(function(){
         });
     });
 
-    system.getCss(system.assets('css/jquery.fancybox-1.3.4.css'), function(){
-        system.getScript(system.assets('js/jquery.fancybox-1.3.4.pack.js'), function(){
-            $('#post-dialog-link').fancybox({
-                'padding': 0,
-                'type': 'inline',
-                'width': 300,
-                'height': 500,
-                'onStart': function(o){
-                    if($(o).attr('data-id') == '0'){
-                        common.toast('恭喜您已经完成所有资料阅读');
-                        return false;
-                    }else{
-                        $('body').block();
-                        $.ajax({
-                            'type': 'GET',
-                            'url': system.url('api/post/item'),
-                            'data': {'id': $(o).attr('data-id')},
-                            'dataType': 'json',
-                            'cache': false,
-                            'success': function(resp){
-                                $('body').unblock();
-                                if(resp.status){
-                                    var $postDialog = $('#post-dialog');
-                                    $postDialog.find('.post-title').text(resp.data.post.title);
-                                    $postDialog.find('.post-content').html(resp.data.post.content);
-                                }else{
-                                    common.toast('恭喜您已经完成所有资料阅读');
-                                }
+    common.loadFancybox(function(){
+        $('#post-dialog-link').fancybox({
+            'beforeLoad': function(o){
+                if($(o).attr('data-id') == '0'){
+                    common.toast('恭喜您已经完成所有资料阅读');
+                    return false;
+                }else{
+                    $('body').block();
+                    $.ajax({
+                        'type': 'GET',
+                        'url': system.url('api/post/item'),
+                        'data': {'id': $(o).attr('data-id')},
+                        'dataType': 'json',
+                        'cache': false,
+                        'success': function(resp){
+                            $('body').unblock();
+                            if(resp.status){
+                                var $postDialog = $('#post-dialog');
+                                $postDialog.find('.post-title').text(resp.data.post.title);
+                                $postDialog.find('.post-content').html(resp.data.post.content);
+                            }else{
+                                common.toast('恭喜您已经完成所有资料阅读');
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            });
+            }
         });
     });
 });

@@ -70,10 +70,12 @@ $this->appendCss($this->appAssets('css/arm.css'));
         'hour'=>$hour
     ));
     $this->renderPartial('_rank_dialog');
+    $this->renderPartial('_defence_dialog');
     $this->renderPartial('_attendance_dialog', array(
         'user'=>$user,
         'attendances'=>$attendances,
         'sign_up_days'=>$sign_up_days,
     ));
     $this->renderPartial('_post_dialog');
+    $this->renderPartial('_unregister_dialog');
 ?>

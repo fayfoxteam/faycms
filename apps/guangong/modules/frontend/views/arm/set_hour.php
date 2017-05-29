@@ -76,15 +76,15 @@ $this->appendCss($this->appAssets('css/arm.css'));
         </div>
     </div>
 </div>
-<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/jquery.fancybox-1.3.4.css')?>">
-<script type="text/javascript" src="<?php echo $this->assets('js/jquery.fancybox-1.3.4.pack.js')?>"></script>
 <script>
-    $('#arm-8 .result').fancybox({
+common.loadFancybox(function() {
+    $('#arm-8').find('.result').fancybox({
         'type': 'inline',
         'centerOnScroll': true,
         'padding': 0,
         'showCloseButton': false,
         'width': '80%'
     });
+});
 </script>
 <?php }?>

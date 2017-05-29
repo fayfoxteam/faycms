@@ -56,7 +56,10 @@ class DefenceAreaController extends ApiController{
 //        }
         
         //随机一个防区
-        $area = GuangongDefenceAreasTable::model()->fetchRow('enabled = 1', 'id', 'RAND()');
+        $area = GuangongDefenceAreasTable::model()->fetchRow('enabled = 1', '*', 'RAND()');
+
+        $area['picture'] = FileService::service()->get($area['picture']);
+        $area['text_picture'] = FileService::service()->get($area['text_picture']);
         
         GuangongUserExtraTable::model()->update(array(
             'defence_area_id'=>$area['id'],
@@ -64,6 +67,9 @@ class DefenceAreaController extends ApiController{
             'user_id = ?'=>$this->current_user
         ));
         
-        Response::notify('success', '防区设置成功');
+        Response::notify('success', array(
+            'message'=>'防区设置成功',
+            'data'=>$area,
+        ));
     }
 }

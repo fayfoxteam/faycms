@@ -8,8 +8,10 @@
 .description p{text-align:left;font-size:12px;line-height:1.5}
 .description p.center{text-align:center}
 .dialog-content{padding:45px 30px}
-@media screen and (max-width:370px){
+@media screen and (max-width:350px){
     .dialog-content{font-size:14px}
+    .dadao{height:347px}
+    .title{margin-top:-55px}
 }
 
 .form-group{margin:0 13px}
@@ -18,21 +20,40 @@
 .btn-1{color:#280E04;font-size:18px;background-image:url(../images/arm/btn-bg.png);background-size:100% 100%;padding:15px 30px;display:inline-block}
 
 .operations{bottom:120px;left:50%;margin-left:-137px}
+@media screen and (max-width:350px){
+    .operations{margin-left:-109px;bottom:129px}
+    .btn-1{padding:10px 16px}
+}
 
 #arm-1{background:url(../images/arm/index-bg.jpg) no-repeat center center transparent;background-size:cover}
 #arm-1 .index-title{width:230px;left:50%;top:50%;margin-left:-115px;margin-top:-120px}
-#arm-1 .index-description{width:270px;left:50%;top:50%;margin-left:-135px;margin-top:55px}
+#arm-1 .index-description{width:250px;left:50%;top:50%;margin-left:-125px;margin-top:55px}
+@media screen and (max-width:350px){
+    #arm-1 .index-title{width:200px;margin-left:-100px;margin-top:-100px}
+    #arm-1 .index-description{margin-top:46px;width:200px;margin-left:-100px}
+}
 
 #arm-2 .text{width:230px;left:50%;top:50%;margin-left:-115px;margin-top:-186px}
-#arm-2 .steps{height:240px;width:300px;left:50%;top:50%;margin-left:-150px;margin-top:-120px}
+#arm-2 .steps{width:300px;left:50%;top:50%;margin-left:-150px;margin-top:-120px}
 #arm-2 .steps img{width:43px}
+@media screen and (max-width:350px){
+    #arm-2 .steps{width:266px}
+    #arm-2 .steps img{width:36px}
+}
 
 #arm-4 .defence-text{width:214px;left:50%;top:10px;margin-left:-107px;}
 #arm-4 .map{width:256px;left:50%;top:90px;margin-left:-128px}
 #arm-4 .shake{width:80px;left:50%;bottom:105px;margin-left:-40px;}
 #arm-4 .next-link{bottom:130px;left:50%;margin-left:-57px}
-#arm-4 .go-to-sign{width:230px;left:50%;bottom:120px;margin-left:-110px;line-height:1.5;text-align:center}
+#arm-4 .go-to-sign{width:80px;left:50%;bottom:120px;margin-left:-40px}
 #arm-4 .go-to-sign a{color:#E5302D}
+#go-to-sign-dialog{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%;width:260px;height:200px;font-size:22px;text-align:center;line-height:1.6;padding-top:56px}
+#go-to-sign-dialog .fancybox-close-small{top:17px;right:17px}
+@media screen and (max-width:350px){
+    #arm-4 .map{width:222px}
+}
+#defence-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
+#defence-dialog img{width:200px}
 
 #arm-6 .mountain{top:0;width:100%;height:308px;left:0}
 #arm-6 .arms{width:100%;top:100px;left:0}
@@ -50,14 +71,22 @@
 #arm-dialog .arm-description img{width:100%}
 
 #arm-8 .qiantong{top:50%;width:180px;left:50%;margin-left:-90px;margin-top:-167px}
-#arm-8 .result{width:72px;height:400px;top:50%;left:50%;margin-left:-36px;margin-top:-250px;box-sizing:content-box;background-image:url(../images/arm/paizi.png);color:#000}
+#arm-8 .result{width:72px;height:400px;top:50%;left:50%;margin-left:-36px;margin-top:-250px;box-sizing:content-box;background-image:url(../images/arm/paizi.png);color:#000;background-size:100%;background-repeat:no-repeat}
 #arm-8 .result .hour{display:inline-block;width:18px;line-height:1.5;top:120px;left:27px;position:absolute}
 #arm-8 .next-link{bottom:100px;left:50%;margin-left:-57px}
 #hour-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
 #hour-dialog .bottom-description{margin-top:30px;text-align:center}
+@media screen and (max-width:350px){
+    #arm-8 .result{width:62px;margin-top:-221px}
+    #arm-8 .result .hour{left:24px}
+}
 
 #arm-10 .juanzhou-he{width:122px;top:50%;left:50%;margin-top:-215px;margin-left:-61px}
 #arm-10 .shake{width:80px;top:50%;left:50%;margin-top:140px;margin-left:-40px}
+@media screen and (max-width:350px){
+    #arm-10 .juanzhou-he{width:110px}
+    #arm-10 .shake{margin-top:96px}
+}
 
 #arm-10 .juanzhou-kai{display:none;font-size:14px;padding:70px 20px 0;text-align:left;width:275px;height:400px;top:50px;left:50%;margin-left:-148px;background-image:url(../images/arm/juanzhou-kai.png);background-size:100% 100%}
 #arm-10 .juanzhou-kai a{color:#000}
@@ -72,11 +101,17 @@
 
 #arm-13 .job-title{top:40px;left:50%;width:244px;margin-left:-140px}
 #arm-13 .jobs{left:50%;margin-left:-131px;top:105px}
-#arm-13 .jobs ul li{width:225px;height:96px;margin-bottom:10px;background-image:url(../images/arm/junzhi-bg.png)}
-#arm-13 .jobs img{width:181px;height:59px;margin-top:18px}
+#arm-13 .jobs ul li{width:225px;height:96px;margin-bottom:10px;background-image:url(../images/arm/junzhi-bg.png);background-size:100% 100%}
+#arm-13 .jobs img{width:80%;height:auto;margin-top:18px}
 #arm-13 .description{width:90%;margin-left:-45%}
 #arm-13 .description p{text-indent:2em;color:#3E3938;font-size:12px}
 #arm-13 .description p a{color:#E50012}
+@media screen and (max-width:350px){
+    #arm-13 .job-title{top:26px;width:212px;margin-left:-131px}
+    #arm-13 .jobs{top:84px}
+    #arm-13 .jobs ul li{width:200px;height:71px}
+    #arm-13 .jobs img{margin-top:9px}
+}
 
 #yunchangjian-dialog{background-color:#eee;overflow:auto}
 #yunchangjian-dialog h4{font-size:18px;color:#231915;text-align:center;margin-bottom:10px;font-family:"宋体"}

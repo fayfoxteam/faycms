@@ -20,7 +20,7 @@
 <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/frontend.css')?>" >
 <link type="text/css" rel="stylesheet" href="<?php echo $this->appAssets('css/style.css')?>" >
 <?php echo $this->getCss()?>
-<script type="text/javascript" src="<?php echo $this->assets('js/jquery-1.8.3.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-3.2.1.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('js/swiper/js/swiper.jquery.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>

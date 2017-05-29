@@ -25,6 +25,7 @@ CREATE TABLE `{{$prefix}}guangong_defence_areas` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '防区ID',
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT '防区名称',
   `picture` int(10) unsigned NOT NULL COMMENT '图片',
+  `text_picture` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '描述',
   `sort` tinyint(3) unsigned NOT NULL DEFAULT '100' COMMENT '排序值',
   `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
   PRIMARY KEY (`id`)
@@ -200,6 +201,13 @@ INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file
 INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('17', '8LuNP', '.png', '48019', 'image/png', './apps/guangong/images/arm/', 'xiaowei.png', '1', '319', '260', '{{$time}}', '10000');
 INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('18', '8d8nA', '.png', '63907', 'image/png', './apps/guangong/images/arm/', 'jiangjun.png', '1', '299', '332', '{{$time}}', '10000');
 
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('20', 'yDDSa', '.png', '129692', 'image/png', './uploads/guangong/2017/05/', 'linglinjun.png', '1', '558', '671', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('21', 'p991r', '.png', '108192', 'image/png', './uploads/guangong/2017/05/', 'linglinjun-text.png', '1', '341', '464', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('22', 'PIcGN', '.png', '129107', 'image/png', './uploads/guangong/2017/05/', 'nanjun.png', '1', '558', '671', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('23', 'P0Lmg', '.png', '131233', 'image/png', './uploads/guangong/2017/05/', 'nanjun-text.png', '1', '384', '490', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('24', '4WUe6', '.png', '130539', 'image/png', './uploads/guangong/2017/05/', 'wulinjun.png', '1', '558', '671', '{{$time}}', '10000');
+INSERT INTO `{{$prefix}}files` (`id`, `raw_name`, `file_ext`, `file_size`, `file_type`, `file_path`, `client_name`, `is_image`, `image_width`, `image_height`, `upload_time`, `user_id`) VALUES ('25', 'IwWJZ', '.png', '89835', 'image/png', './uploads/guangong/2017/05/', 'wulinjun-text.png', '1', '321', '437', '{{$time}}', '10000');
+
 -- 军衔制度
 INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`, `description_picture`) VALUES ('1', '五人为伍', '伍长', '5', '0', '0', '7', '1', '11');
 INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`, `description_picture`) VALUES ('2', '两伍为一什', '什长', '10', '0', '0', '30', '2', '12');
@@ -211,9 +219,9 @@ INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `m
 INSERT INTO `{{$prefix}}guangong_ranks` (`id`, `name`, `captain`, `soldiers`, `months`, `times`, `continuous`, `sort`, `description_picture`) VALUES ('8', '五部为一营', '将军', '2000', '12', '255', '0', '8', '18');
 
 -- 防区
-INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `sort`, `enabled`) VALUES ('1', '南郡', '0', '100', '1');
-INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `sort`, `enabled`) VALUES ('2', '武陵郡', '10000', '99', '1');
-INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `sort`, `enabled`) VALUES ('3', '零陵郡', '0', '100', '1');
+INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `text_picture`, `enabled`) VALUES ('1', '南郡', '22', '23', '1');
+INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `text_picture`, `enabled`) VALUES ('2', '武陵郡', '24', '25', '1');
+INSERT INTO `{{$prefix}}guangong_defence_areas` (`id`, `name`, `picture`, `text_picture`, `enabled`) VALUES ('3', '零陵郡', '20', '21', '1');
 
 -- 兵种
 INSERT INTO `{{$prefix}}guangong_arms` (`id`, `name`, `picture`, `sort`, `enabled`, `description_picture`) VALUES ('1', '车兵', '2', '100', '1', '7');

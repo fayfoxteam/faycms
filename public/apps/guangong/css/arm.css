@@ -21,7 +21,7 @@
 
 .operations{bottom:120px;left:50%;margin-left:-137px}
 @media screen and (max-width:350px){
-    .operations{margin-left:-109px;bottom:129px}
+    .operations{margin-left:-109px;bottom:56px}
     .btn-1{padding:10px 16px}
 }
 
@@ -66,9 +66,13 @@
 #arm-6 .nubing-text{top:134px;left:50%;margin-left:12%}
 #arm-6 .qibing-text{top:165px;left:50%;margin-left:22%}
 #arm-6 .next-link{bottom:120px;left:50%;margin-left:-57px}
+#arm-6 .langan{width:80%;top:50%;left:50%;margin-left:-40%;margin-top:-10px}
 #arm-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
 #arm-dialog h1{font-size:16px;margin-bottom:26px;text-align:center}
 #arm-dialog .arm-description img{width:100%}
+@media screen and (max-width:350px){
+    #arm-6 .shake{width:90px;margin-left:-45px;margin-top:80px}
+}
 
 #arm-8 .qiantong{top:50%;width:180px;left:50%;margin-left:-90px;margin-top:-167px}
 #arm-8 .result{width:72px;height:400px;top:50%;left:50%;margin-left:-36px;margin-top:-250px;box-sizing:content-box;background-image:url(../images/arm/paizi.png);color:#000;background-size:100%;background-repeat:no-repeat}
@@ -77,6 +81,7 @@
 #hour-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
 #hour-dialog .bottom-description{margin-top:30px;text-align:center}
 @media screen and (max-width:350px){
+    #arm-8 .qiantong{width:140px;margin-left:-70px;margin-top:-147px}
     #arm-8 .result{width:62px;margin-top:-221px}
     #arm-8 .result .hour{left:24px}
 }

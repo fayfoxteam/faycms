@@ -148,7 +148,7 @@ var arm = {
                 arm.ajaxing = false;
                 if(resp.status){
                     var $setArmSlide = $('#arm-6');
-                    $setArmSlide.find('.arms,.shake,.arm-names').hide();
+                    $setArmSlide.find('.arms,.shake,.arm-names,.langan,.description').hide();
                     $setArmSlide.append('<a class="layer result fancybox-inline" href="#arm-dialog"><img src="'+resp.data.picture.url+'"></a>');
                     
                     //弹窗
@@ -189,7 +189,7 @@ var arm = {
                 arm.ajaxing = false;
                 if(resp.status){
                     var $arm8 = $('#arm-8');
-                    $arm8.find('.qiantong').hide();
+                    $arm8.find('.qiantong,.description').hide();
                     $arm8.append('<a class="layer result fancybox-inline" href="#hour-dialog"><span class="hour">'+resp.data.name+'</span></a>');
 
                     //弹窗
@@ -240,9 +240,13 @@ var arm = {
                         $arm4.find('.shake').hide();
                         $arm4.find('.defence-text').hide();
                         $arm4.find('.description').hide();
-                        $arm4.find('.map').html('<a data-fancybox href="#defence-dialog"><img src="' + resp.data.picture.url + '"></a>');
+                        $arm4.find('.map').html('<a class="result" data-fancybox href="#defence-dialog"><img src="' + resp.data.picture.url + '"></a>');
                         $('#defence-dialog').find('img').attr('src', resp.data.text_picture.url);
                         common.toast(resp.message, 'success');
+                        setTimeout(function(){
+                            $('#arm-4').find('a.result').click();
+                        }, 800);
+                        
                         //插入分享按钮和确定按钮
                         $arm4.append(['<div class="layer operations">',
                             '<a href="javascript:" class="btn-1 confirm-to-next-link">防区确定</a> ',
@@ -275,6 +279,7 @@ var arm = {
             'cache': false,
             'success': function(resp){
                 if(resp.status){
+                    $arm10.find('.description').hide();
                     $('#info-avatar img').attr('src', resp.data.user.avatar.thumbnail);
                     $('#info-mobile').text(resp.data.user.mobile);
                     $('#info-birthday').text(resp.data.extra.birthday);
@@ -326,13 +331,13 @@ var arm = {
             $arm4.addClass('set-defence-slide');
         }).on('click', '.reset-hour-link', function(){
             var $arm8 = $('#arm-8');
-            $arm8.find('.qiantong').show();
+            $arm8.find('.qiantong,.description').show();
             $arm8.find('.result').remove();
             $arm8.find('.operations').remove();
             $arm8.addClass('set-hour-slide');
         }).on('click', '.reset-arm-link', function(){
             $setArmSlide = $('#arm-6');
-            $setArmSlide.find('.arms,.shake,.arm-names').show();
+            $setArmSlide.find('.arms,.shake,.arm-names,.langan,.description').show();
             $setArmSlide.find('.result').remove();
             $setArmSlide.find('.operations').remove();
             $setArmSlide.addClass('set-arm-slide');

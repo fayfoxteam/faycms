@@ -6,13 +6,18 @@
 .description{bottom:23px;left:50%;margin-left:-40%;width:80%}
 .description p{text-align:left;font-size:12px;line-height:1.5}
 .btn-1{color:#280E04;font-size:20px;background-image:url(../images/recruit/btn-bg.jpg);background-size:100% 100%;padding:8px 25px;display:inline-block}
+@media screen and (max-width:350px){
+    .dialog-content{font-size:14px}
+    .dadao{height:347px}
+    .title{margin-top:-55px}
+}
 
-fieldset{margin-bottom:12px;}
+fieldset{margin-bottom:6px;}
 fieldset .field-container{width:70%;display:inline-block;text-align:left;}
 fieldset .field-container .captcha{width:auto;height:30px;display:inline-block;vertical-align:bottom;margin-left:7%}
 fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;color:#717070}
 fieldset .form-control.short{width:50%}
-fieldset label{color:#231915;font-size:14px;display:inline-block;width:57px;min-width:48px;padding-top:7px;text-align:right;}
+fieldset label{color:#231915;font-size:12px;display:inline-block;width:57px;min-width:48px;padding-top:7px;text-align:right;}
 fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%;margin-left:29%;text-align:left}
 fieldset .form-control.ib{display:inline-block;width:auto}
 
@@ -30,10 +35,14 @@ fieldset .form-control.ib{display:inline-block;width:auto}
     #recruit-5 .zhaomuling-text{margin-left:-150px}
 }
 
-#recruit-6 .yi{left:50%;top:25px;margin-left:-44px}
-#recruit-6 .yi-text{width:86%;left:50%;bottom:25px;margin-left:-43%;max-width:300px}
+#recruit-6 .yi{left:50%;top:40px;width:200px;margin-left:-100px}
+#recruit-6 .yi-text{width:86%;left:50%;bottom:77px;margin-left:-43%;max-width:300px}
 @media screen and (min-width:348px){
     #recruit-6 .yi-text{margin-left:-160px}
+}
+@media screen and (max-width:350px){
+    #recruit-6 .yi{width:160px;top:24px}
+    #recruit-6 .yi-text{bottom:25px}
 }
 
 #recruit-8 .guangong{width:70%;left:50%;top:50%;transform:translate(-50%, -67%);max-width:420px}
@@ -52,6 +61,10 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-32 .avatar-container img{border-radius:50%;width:100px;height:100px;}
 .submit-container{bottom:60px;text-align:center;left:50%;margin-left:-52px}
 .submit-link{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
+@media screen and (max-width:350px){
+    #recruit-32 .register-form{margin-left:-49%}
+    .submit-link{padding:10px 20px}
+}
 
 #recruit-42 .guangongdianbing{width:168px;top:75px;left:50%;margin-left:-84px}
 #recruit-42 .button{bottom:60px;left:50%;margin-left:-65px}

@@ -21,6 +21,7 @@
     <?php }else{?>
         <div class="layer arms"><img src="<?php echo $this->appAssets('images/arm/arms.png')?>"></div>
         <div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
+        <div class="layer langan"><img src="<?php echo $this->appAssets('images/arm/langan.png')?>"></div>
         <div class="arm-names">
             <div class="layer bubing-text"><img src="<?php echo $this->appAssets('images/arm/bubing-text.png')?>"></div>
             <div class="layer shuijun-text"><img src="<?php echo $this->appAssets('images/arm/shuijun-text.png')?>"></div>

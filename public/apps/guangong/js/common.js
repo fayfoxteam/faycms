@@ -204,34 +204,28 @@ var common = {
     },
     'rankDialog': function(){
         if($('.rank-dialog-link').length){
-            system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-                system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-                    $('.rank-dialog-link').fancybox({
-                        'padding': 0,
-                        'centerOnScroll': true,
-                        'type': 'inline',
-                        'width': '90%',
-                        'onStart': function(o){
-                            var rank_id = $(o).attr('data-id');
-                            if(rank_id == '0'){
-                                return false;
-                            }
-                            $.ajax({
-                                'type': 'GET',
-                                'url': system.url('api/rank/get'),
-                                'data': {'rank_id': rank_id},
-                                'dataType': 'json',
-                                'cache': false,
-                                'success': function(resp){
-                                    if(resp.status){
-                                        $('#rank-dialog').find('.rank-description img').attr('src', resp.data.description_picture.url)
-                                    }else{
-                                        common.toast(resp.message, 'error');
-                                    }
-                                }
-                            });
+            this.loadFancybox(function(){
+                $('.rank-dialog-link').fancybox({
+                    'afterLoad': function(instance, slide){
+                        var rank_id = slide.opts.$orig.attr('data-id');
+                        if(rank_id == '0'){
+                            return false;
                         }
-                    });
+                        $.ajax({
+                            'type': 'GET',
+                            'url': system.url('api/rank/get'),
+                            'data': {'rank_id': rank_id},
+                            'dataType': 'json',
+                            'cache': false,
+                            'success': function(resp){
+                                if(resp.status){
+                                    $('#rank-dialog').find('.rank-description img').attr('src', resp.data.description_picture.url)
+                                }else{
+                                    common.toast(resp.message, 'error');
+                                }
+                            }
+                        });
+                    }
                 });
             });
         }

@@ -84,7 +84,7 @@ class DocFavoriteService extends Service{
             throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        $favorite = WikiDocFavoritesTable::model()->find(array(
+        $favorite = WikiDocFavoritesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
             'doc_id = ?'=>$doc_id,
         ), 'sockpuppet');
@@ -101,7 +101,7 @@ class DocFavoriteService extends Service{
                 WikiDocMetaTable::model()->incr($doc_id, array('favorites'), -1);
             }else{
                 //真实用户行为
-                WikiDocMetaTable::model()->incr($doc_id, array('favorites', 'favorites'), -1);
+                WikiDocMetaTable::model()->incr($doc_id, array('favorites', 'real_favorites'), -1);
             }
                 
             //触发事件

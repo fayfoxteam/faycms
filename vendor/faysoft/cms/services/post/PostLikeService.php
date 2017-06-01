@@ -10,6 +10,7 @@ use cms\models\tables\PostLikesTable;
 use cms\models\tables\PostsTable;
 use cms\services\user\UserService;
 use cms\models\tables\PostMetaTable;
+use fay\helpers\RequestHelper;
 
 class PostLikeService extends Service{
     /**
@@ -52,9 +53,10 @@ class PostLikeService extends Service{
         PostLikesTable::model()->insert(array(
             'post_id'=>$post_id,
             'user_id'=>$user_id,
-            'create_time'=>\F::app()->current_time,
             'trackid'=>$trackid,
             'sockpuppet'=>$sockpuppet,
+            'create_time'=>\F::app()->current_time,
+            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
         ));
         
         //文章点赞数+1
@@ -83,7 +85,7 @@ class PostLikeService extends Service{
             throw new PostErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        $like = PostLikesTable::model()->find(array(
+        $like = PostLikesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
             'post_id = ?'=>$post_id,
         ), 'sockpuppet');
@@ -125,7 +127,7 @@ class PostLikeService extends Service{
             throw new PostErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        return !!PostLikesTable::model()->find(array(
+        return !!PostLikesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
             'post_id = ?'=>$post_id,
         ), 'id');

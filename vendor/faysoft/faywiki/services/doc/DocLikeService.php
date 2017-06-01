@@ -6,6 +6,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
+use fay\helpers\RequestHelper;
 use faywiki\models\tables\WikiDocLikesTable;
 use faywiki\models\tables\WikiDocsTable;
 use cms\services\user\UserService;
@@ -52,9 +53,10 @@ class DocLikeService extends Service{
         WikiDocLikesTable::model()->insert(array(
             'doc_id'=>$doc_id,
             'user_id'=>$user_id,
-            'create_time'=>\F::app()->current_time,
             'trackid'=>$trackid,
             'sockpuppet'=>$sockpuppet,
+            'create_time'=>\F::app()->current_time,
+            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
         ));
         
         //文档点赞数+1
@@ -83,7 +85,10 @@ class DocLikeService extends Service{
             throw new DocErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        $like = WikiDocLikesTable::model()->find(array($doc_id, $user_id), 'sockpuppet');
+        $like = WikiDocLikesTable::model()->fetchRow(array(
+            'user_id = ?'=>$user_id,
+            'doc_id = ?'=>$doc_id,
+        ), 'sockpuppet');
         if($like){
             //删除点赞关系
             WikiDocLikesTable::model()->delete(array(

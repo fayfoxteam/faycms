@@ -104,6 +104,19 @@ CREATE TABLE `{{$prefix}}wiki_doc_prop_varchar` (
   UNIQUE KEY `post_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档自定义属性-varchar';
 
+DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_shares`;
+CREATE TABLE `{{$prefix}}wiki_doc_shares` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `doc_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `type` varchar(30) NOT NULL DEFAULT '' COMMENT '分享方式',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档分享记录';
+
 DROP TABLE IF EXISTS `{{$prefix}}wiki_docs`;
 CREATE TABLE `{{$prefix}}wiki_docs` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,

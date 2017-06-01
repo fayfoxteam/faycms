@@ -84,7 +84,7 @@ class PostFavoriteService extends Service{
             throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        $favorite = PostFavoritesTable::model()->find(array(
+        $favorite = PostFavoritesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
             'post_id = ?'=>$post_id,
         ), 'sockpuppet');
@@ -101,7 +101,7 @@ class PostFavoriteService extends Service{
                 PostMetaTable::model()->incr($post_id, array('favorites'), -1);
             }else{
                 //真实用户行为
-                PostMetaTable::model()->incr($post_id, array('favorites', 'favorites'), -1);
+                PostMetaTable::model()->incr($post_id, array('favorites', 'real_favorites'), -1);
             }
                 
             //触发事件
@@ -127,7 +127,7 @@ class PostFavoriteService extends Service{
             throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        return !!PostFavoritesTable::model()->find(array(
+        return !!PostFavoritesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
             'post_id = ?'=>$post_id,
         ), 'id');

@@ -36,6 +36,7 @@
 #arm-2 .text{width:230px;left:50%;top:50%;margin-left:-115px;margin-top:-186px}
 #arm-2 .steps{width:300px;left:50%;top:50%;margin-left:-150px;margin-top:-120px}
 #arm-2 .steps img{width:43px}
+#arm-2.swiper-slide{background-image:url(../images/arm/bg-tiyanguize.jpg)}
 @media screen and (max-width:350px){
     #arm-2 .steps{width:266px}
     #arm-2 .steps img{width:36px}

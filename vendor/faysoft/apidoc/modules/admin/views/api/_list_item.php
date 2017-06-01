@@ -7,10 +7,10 @@ use apidoc\helpers\ApiHelper;
     <td>
         <strong><?php echo HtmlHelper::encode($data['title'])?></strong>
         <div class="row-actions"><?php
-            echo HtmlHelper::link('编辑', array('admin/api/edit', array(
+            echo HtmlHelper::link('编辑', array('apidoc/admin/api/edit', array(
                 'id'=>$data['id'],
             )), array(), true),
-            HtmlHelper::link('永久删除', array('admin/api/remove', array(
+            HtmlHelper::link('永久删除', array('apidoc/admin/api/remove', array(
                 'id'=>$data['id'],
             )), array(
                 'class'=>'fc-red remove-link',
@@ -35,7 +35,7 @@ use apidoc\helpers\ApiHelper;
     <?php if(in_array('user', $cols)){?>
     <td><?php
         echo HtmlHelper::link($data[F::form('setting')->getData('display_name', 'nickname')], array(
-            'admin/api/index', array(
+            'apidoc/admin/api/index', array(
                 'keywords_field'=>'user_id',
                 'keywords'=>$data['user_id'],
             ),

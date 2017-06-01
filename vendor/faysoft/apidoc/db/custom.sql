@@ -123,3 +123,6 @@ INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) V
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('13', 'Price', '\"112.38\"', '价格。字符串类型数字，带2位小数');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('14', 'Url', '\"http://www.faycms.com\"', '网址');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('15', 'Map', '{\"1\":\"已关注\",\"2\":\"未关注\"}', '键值JSON');
+
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('apidoc:api_uri', 'apidoc/frontend/api/item?api_id={$id}', '{{$time}}', '{{$time}}', '1');
+INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('apidoc:model_uri', 'apidoc/frontend/model/item?model_id={$id}', '{{$time}}', '{{$time}}', '1');

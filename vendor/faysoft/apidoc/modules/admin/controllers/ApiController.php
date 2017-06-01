@@ -211,7 +211,7 @@ class ApiController extends AdminController{
         $this->form('output')->setModel(OutputsTable::model())
             ->setRule(array('model_name', 'required'))
             ->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-            ->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+            ->setRule(array('model_name', 'ajax', array('url'=>array('apidoc/admin/model/is-name-exist'))))
             ->setLabels(array(
                 'model_name'=>'模型名称',
             ));
@@ -347,7 +347,7 @@ class ApiController extends AdminController{
         $this->form('output')->setModel(OutputsTable::model())
             ->setRule(array('model_name', 'required'))
             ->setRule(array('model_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-            ->setRule(array('model_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+            ->setRule(array('model_name', 'ajax', array('url'=>array('apidoc/admin/model/is-name-exist'))))
             ->setLabels(array(
                 'model_name'=>'模型名称',
             ));

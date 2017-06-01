@@ -115,7 +115,7 @@ class ModelController extends AdminController{
                 ModelPropsTable::model()->insert($prop);
             }
             
-            Response::notify('success', '数据模型添加成功', array('admin/model/edit', array(
+            Response::notify('success', '数据模型添加成功', array('apidoc/admin/model/edit', array(
                 'id'=>$model_id,
             )));
         }
@@ -143,7 +143,7 @@ class ModelController extends AdminController{
         $this->form('prop')->setModel(ModelPropsTable::model())
             ->setRule(array('type_name', 'required'))
             ->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-            ->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+            ->setRule(array('type_name', 'ajax', array('url'=>array('apidoc/admin/model/is-name-exist'))))
             ->setLabels(array(
                 'model'=>'类型',
             ));
@@ -217,7 +217,7 @@ class ModelController extends AdminController{
                 }
             }
             
-            Response::notify('success', '数据模型编辑成功', array('admin/model/edit', array(
+            Response::notify('success', '数据模型编辑成功', array('apidoc/admin/model/edit', array(
                 'id'=>$model_id,
             )));
         }
@@ -248,7 +248,7 @@ class ModelController extends AdminController{
         $this->form('prop')->setModel(ModelPropsTable::model())
             ->setRule(array('type_name', 'required'))
             ->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
-            ->setRule(array('type_name', 'ajax', array('url'=>array('admin/model/is-name-exist'))))
+            ->setRule(array('type_name', 'ajax', array('url'=>array('apidoc/admin/model/is-name-exist'))))
             ->setLabels(array(
                 'type_name'=>'类型',
             ));
@@ -295,9 +295,9 @@ class ModelController extends AdminController{
         if(ModelsTable::model()->fetchRow(array(
             'name = ?'=>$this->input->request('name', 'trim'),
         ))){
-            echo Response::json();
+            Response::json();
         }else{
-            echo Response::json('', 0, '模型不存在');
+            Response::json('', 0, '模型不存在');
         }
     }
 }

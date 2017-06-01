@@ -29,12 +29,13 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                         <?php echo F::form()->submitLink('提交', array(
                             'class'=>'btn',
                         ))?>
-                        <?php echo HtmlHelper::link('查看', array(
-                            'model/'.F::form()->getData('id')
-                        ), array(
-                            'class'=>'btn btn-grey',
-                            'target'=>'_blank'
-                        ))?>
+                        <?php echo HtmlHelper::link(
+                            '查看',
+                            \apidoc\helpers\LinkHelper::getModelLink(F::form()->getData('id')),
+                            array(
+                                'class'=>'btn btn-grey',
+                                'target'=>'_blank'
+                            ))?>
                     </div>
                 </div>
             </div>

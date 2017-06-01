@@ -472,7 +472,7 @@ CREATE TABLE `{{$prefix}}post_comments` (
 
 DROP TABLE IF EXISTS `{{$prefix}}post_extra`;
 CREATE TABLE `{{$prefix}}post_extra` (
-  `post_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '文章ID',
+  `post_id` int(10) unsigned NOT NULL COMMENT '文章ID',
   `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
   `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
   `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Description',
@@ -481,7 +481,7 @@ CREATE TABLE `{{$prefix}}post_extra` (
   `source` varchar(50) NOT NULL DEFAULT '' COMMENT '来源',
   `source_link` varchar(255) NOT NULL DEFAULT '' COMMENT '来源链接',
   PRIMARY KEY (`post_id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}};
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章扩展表';
 
 DROP TABLE IF EXISTS `{{$prefix}}posts_files`;
 CREATE TABLE `{{$prefix}}posts_files` (

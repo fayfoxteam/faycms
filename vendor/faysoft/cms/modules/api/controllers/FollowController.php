@@ -14,7 +14,7 @@ class FollowController extends ApiController{
     /**
      * 默认返回字段
      */
-    private $default_fields = array(
+    protected $default_fields = array(
         'user'=>array(
             'fields'=>array(
                 'id', 'nickname', 'avatar',

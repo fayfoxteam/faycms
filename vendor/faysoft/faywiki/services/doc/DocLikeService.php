@@ -39,14 +39,10 @@ class DocLikeService extends Service{
      * @throws DocException
      */
     public static function add($doc_id, $trackid = '', $user_id = null, $sockpuppet = 0){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new DocErrorException("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
-        }
+        $user_id = UserService::getUserId($user_id);
         
         if(!DocService::isDocIdExist($doc_id)){
-            throw new DocErrorException('指定的文档ID不存在', 'the-given-doc-id-is-not-exist');
+            throw new DocErrorException("指定文档ID[{$doc_id}]不存在", 'the-given-doc-id-is-not-exist');
         }
         
         if(self::isLiked($doc_id, $user_id)){
@@ -126,11 +122,10 @@ class DocLikeService extends Service{
             throw new DocErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        if(WikiDocLikesTable::model()->find(array($doc_id, $user_id), 'create_time')){
-            return true;
-        }else{
-            return false;
-        }
+        return !!WikiDocLikesTable::model()->fetchRow(array(
+            'user_id = ?'=>$user_id,
+            'doc_id = ?'=>$doc_id,
+        ), 'id');
     }
     
     /**

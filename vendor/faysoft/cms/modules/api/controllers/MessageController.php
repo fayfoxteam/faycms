@@ -16,7 +16,7 @@ class MessageController extends ApiController{
     /**
      * 默认返回字段
      */
-    private $default_fields = array(
+    protected $default_fields = array(
         'message'=>array(
             'fields'=>array(
                 'id', 'content', 'parent', 'create_time',

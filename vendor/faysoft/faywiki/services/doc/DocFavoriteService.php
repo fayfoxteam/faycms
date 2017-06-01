@@ -40,14 +40,10 @@ class DocFavoriteService extends Service{
      * @throws Exception
      */
     public static function add($doc_id, $trackid = '', $user_id = null, $sockpuppet = 0){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new Exception("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
-        }
+        $user_id = UserService::getUserId($user_id);
         
         if(!DocService::isDocIdExist($doc_id)){
-            throw new Exception('指定的文档ID不存在', 'the-given-doc-id-is-not-exist');
+            throw new Exception("指定文档ID[{$doc_id}]不存在", 'the-given-doc-id-is-not-exist');
         }
         
         if(self::isFavorited($doc_id, $user_id)){
@@ -88,7 +84,10 @@ class DocFavoriteService extends Service{
             throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        $favorite = WikiDocFavoritesTable::model()->find(array($user_id, $doc_id), 'sockpuppet');
+        $favorite = WikiDocFavoritesTable::model()->find(array(
+            'user_id = ?'=>$user_id,
+            'doc_id = ?'=>$doc_id,
+        ), 'sockpuppet');
         if($favorite){
             //删除收藏关系
             WikiDocFavoritesTable::model()->delete(array(
@@ -128,11 +127,10 @@ class DocFavoriteService extends Service{
             throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        if(WikiDocFavoritesTable::model()->find(array($user_id, $doc_id), 'create_time')){
-            return true;
-        }else{
-            return false;
-        }
+        return !!WikiDocFavoritesTable::model()->fetchRow(array(
+            'user_id = ?'=>$user_id,
+            'doc_id = ?'=>$doc_id,
+        ), 'id');
     }
     
     /**

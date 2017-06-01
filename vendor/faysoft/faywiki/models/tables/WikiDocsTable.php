@@ -19,6 +19,11 @@ use fay\core\Loader;
  * @property int $write_lock 编辑锁
  */
 class WikiDocsTable extends Table{
+    /**
+     * 已发布
+     */
+    const STATUS_PUBLISHED = 1;
+    
     protected $_name = 'wiki_docs';
 
     /**
@@ -31,8 +36,7 @@ class WikiDocsTable extends Table{
     public function rules(){
         return array(
             array(array('user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('id'), 'int', array('min'=>-8388608, 'max'=>8388607)),
-            array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('write_lock'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('title'), 'string', array('max'=>100)),
         );

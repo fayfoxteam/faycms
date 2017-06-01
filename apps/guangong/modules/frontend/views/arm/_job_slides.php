@@ -1,16 +1,8 @@
 <div class="swiper-slide" id="arm-12">
-    <div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
     <div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
     <div class="layer title"><img src="<?php echo $this->appAssets('images/arm/t5.png')?>"></div>
-    <div class="layer description">
-        <p class="center">有价值有深度的关公文化网络体验之旅</p>
-        <p class="center">为实战体验做战争准备</p>
-    </div>
 </div>
 <div class="swiper-slide jobs-slide" id="arm-13">
-    <div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
-    <div class="layer subtitle">履军职</div>
-    <div class="layer job-title"><img src="<?php echo $this->appAssets('images/arm/junzhi-title.png')?>"></div>
     <div class="layer jobs">
         <ul>
             <li class="job-1">
@@ -135,13 +127,6 @@ wx.ready(function(){
 });
 
 $('#post-dialog').css({'width': document.documentElement.clientWidth * 0.7});
-$('#yunchangjian-dialog').css({
-    'width': document.documentElement.clientWidth * 0.75,
-    'height': document.documentElement.clientHeight * 0.8
-});
-$('#jiangjunxian-dialog').css({
-    'width': document.documentElement.clientWidth * 0.75
-});
 
 $(function(){
     var audio = new Audio("<?php echo $this->appAssets('music/gusheng2.mp3')?>");

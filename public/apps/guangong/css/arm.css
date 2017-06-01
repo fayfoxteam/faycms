@@ -42,12 +42,15 @@
     #arm-2 .steps img{width:36px}
 }
 
+#arm-3.swiper-slide,#arm-5.swiper-slide,#arm-7.swiper-slide,#arm-9.swiper-slide,#arm-12.swiper-slide{background-image:url(../images/arm/bg-qinghuai.jpg)}
+
 #arm-4 .defence-text{width:214px;left:50%;top:10px;margin-left:-107px;}
 #arm-4 .map{width:256px;left:50%;top:90px;margin-left:-128px}
 #arm-4 .shake{width:80px;left:50%;bottom:105px;margin-left:-40px;}
 #arm-4 .next-link{bottom:130px;left:50%;margin-left:-57px}
-#arm-4 .go-to-sign{width:80px;left:50%;bottom:120px;margin-left:-40px}
+#arm-4 .go-to-sign{width:80px;left:50%;bottom:70px;margin-left:-40px}
 #arm-4 .go-to-sign a{color:#E5302D}
+#arm-4.swiper-slide{background-image:url(../images/arm/bg-guizeshuoming-fangqu.jpg)}
 #go-to-sign-dialog{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%;width:260px;height:200px;font-size:22px;text-align:center;line-height:1.6;padding-top:56px}
 #go-to-sign-dialog .fancybox-close-small{top:17px;right:17px}
 @media screen and (max-width:350px){
@@ -68,6 +71,7 @@
 #arm-6 .qibing-text{top:165px;left:50%;margin-left:22%}
 #arm-6 .next-link{bottom:120px;left:50%;margin-left:-57px}
 #arm-6 .langan{width:80%;top:50%;left:50%;margin-left:-40%;margin-top:-10px}
+#arm-6.swiper-slide{background-image:url(../images/arm/bg-bingzhong.jpg)}
 #arm-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
 #arm-dialog h1{font-size:16px;margin-bottom:26px;text-align:center}
 #arm-dialog .arm-description img{width:100%}
@@ -79,6 +83,7 @@
 #arm-8 .result{width:72px;height:400px;top:50%;left:50%;margin-left:-36px;margin-top:-250px;box-sizing:content-box;background-image:url(../images/arm/paizi.png);color:#000;background-size:100%;background-repeat:no-repeat}
 #arm-8 .result .hour{display:inline-block;width:18px;line-height:1.5;top:120px;left:27px;position:absolute}
 #arm-8 .next-link{bottom:100px;left:50%;margin-left:-57px}
+#arm-8.swiper-slide{background-image:url(../images/arm/bg-guizeshuoming-qinwu.jpg)}
 #hour-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%}
 #hour-dialog .bottom-description{margin-top:30px;text-align:center}
 @media screen and (max-width:350px){
@@ -102,6 +107,7 @@
 #arm-10 .juanzhou-kai #info-avatar{text-align:center;margin-bottom:20px}
 #arm-10 .juanzhou-kai #info-avatar img{width:70px;height:70px}
 #arm-10 .juanzhou-kai a.all-rank-link{color:blue}
+#arm-10.swiper-slide{background-image:url(../images/arm/bg-guizeshuoming-junji.jpg)}
 
 #arm-11 .desc{left:50%;margin-left:-121px;font-size:12px;bottom:54px}
 
@@ -112,6 +118,7 @@
 #arm-13 .description{width:90%;margin-left:-45%}
 #arm-13 .description p{text-indent:2em;color:#3E3938;font-size:12px}
 #arm-13 .description p a{color:#E50012}
+#arm-13.swiper-slide{background-image:url(../images/arm/bg-lvjunzhi.jpg)}
 @media screen and (max-width:350px){
     #arm-13 .job-title{top:26px;width:212px;margin-left:-131px}
     #arm-13 .jobs{top:84px}

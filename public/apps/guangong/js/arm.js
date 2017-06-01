@@ -22,13 +22,6 @@ var arm = {
             $('.job-title').hide().removeClass('rubberBand animated');
         }
 
-        //兵种说明顶部文字
-        if($swiper.find('.arm-text').length){
-            $swiper.find('.arm-text').show().addClass('fadeInDown animated');
-        }else{
-            $('.arm-text').hide().removeClass('fadeInDown animated');
-        }
-
         //防区说明顶部文字
         if($swiper.find('.defence-text').length){
             $swiper.find('.defence-text').show().addClass('fadeInDown animated');

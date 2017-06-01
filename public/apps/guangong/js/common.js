@@ -164,19 +164,11 @@ var common = {
         
         //一些结果页
         if($swiper.find('.result').length){
-            $swiper.find('.result').show().addClass('flip animated');
+            $swiper.find('.result').show().addClass('fadeInRight animated');
         }else{
-            $('.result').hide().removeClass('flip animated');
+            $('.result').hide().removeClass('fadeInRight animated');
         }
         
-        //底部描述
-        if($swiper.find('.description,.explain').length){
-            $swiper.find('.description,.explain').removeClass('lightSpeedIn animated');
-            setTimeout(function(){
-                $swiper.find('.description,.explain').addClass('lightSpeedIn animated');
-            }, 10);
-        }
-
         //右上角小标题
         if($swiper.find('.brand').length){
             $swiper.find('.brand').removeClass('fadeInRight animated');

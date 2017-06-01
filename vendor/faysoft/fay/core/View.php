@@ -106,33 +106,23 @@ class View{
         $uri = Uri::getInstance();
         $content = $this->renderPartial($view, $this->getViewData(), -1, true);
         RuntimeHelper::append(__FILE__, __LINE__, '视图渲染完成');
-        
-        $module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
-        if($layout !== false){
-            if($layout !== null){
-                //加载模板文件
-                $layout_relative_path = "modules/{$module}/views/layouts/{$layout}.php";
-            }else if(!empty(\F::app()->layout_template)){
-                $layout_relative_path = "modules/{$module}/views/layouts/".\F::app()->layout_template.'.php';
-            }
-            if(isset($layout_relative_path)){
-                if(file_exists(APPLICATION_PATH.$layout_relative_path)){
-                    $layout_path = APPLICATION_PATH.$layout_relative_path;
-                }else if(file_exists(CMS_PATH.$layout_relative_path)){
-                    $layout_path = CMS_PATH.$layout_relative_path;
-                }else{
-                    throw new Exception("Layout file \"{$layout_relative_path}\" not found");
-                }
-            }
+
+        if($layout === null){
+            //默认为controller中公共layout
+            $layout = \F::app()->layout_template;
         }
-        if(isset($layout_path)){
-            RuntimeHelper::append(__FILE__, __LINE__, '准备渲染模版');
-            $content = $this->obOutput($layout_path, array_merge(
+        
+        if($layout && strpos($layout, '/') === false){
+            //没有斜杠的情况下，默认为当前layouts下的文件
+            $layout = "layouts/{$layout}";
+        }
+        
+        if(!empty($layout)){
+            $content = $this->renderPartial($layout, array_merge(
                 $this->getViewData(),
                 \F::app()->layout->getLayoutData(),
                 array('content'=>$content)
-            ));
-            RuntimeHelper::append(__FILE__, __LINE__, '模版渲染完成');
+            ), -1, true);
         }
         
         if($return){

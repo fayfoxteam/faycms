@@ -13,12 +13,28 @@ use fay\core\Loader;
  * @property string $title 标题
  * @property string $abstract 摘要
  * @property int $thumbnail 缩略图
+ * @property int $status 状态
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
  * @property int $delete_time 删除时间
  * @property int $write_lock 编辑锁
  */
 class WikiDocsTable extends Table{
+    /**
+     * 状态 - 已发布
+     */
+    const STATUS_PUBLISHED = 1;
+
+    /**
+     * 状态 - 待审核
+     */
+    const STATUS_PENDING = 2;
+
+    /**
+     * 状态 - 草稿
+     */
+    const STATUS_DRAFT = -1;
+    
     protected $_name = 'wiki_docs';
 
     /**
@@ -31,10 +47,13 @@ class WikiDocsTable extends Table{
     public function rules(){
         return array(
             array(array('user_id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('id'), 'int', array('min'=>-8388608, 'max'=>8388607)),
-            array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('write_lock'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('title'), 'string', array('max'=>100)),
+            
+            array('status', 'range', array('range'=>array(
+                self::STATUS_PUBLISHED, self::STATUS_PENDING, self::STATUS_DRAFT
+            )))
         );
     }
 
@@ -46,6 +65,7 @@ class WikiDocsTable extends Table{
             'title'=>'标题',
             'abstract'=>'摘要',
             'thumbnail'=>'缩略图',
+            'status'=>'状态',
             'create_time'=>'创建时间',
             'update_time'=>'更新时间',
             'delete_time'=>'删除时间',
@@ -61,6 +81,7 @@ class WikiDocsTable extends Table{
             'title'=>'trim',
             'abstract'=>'',
             'thumbnail'=>'intval',
+            'status'=>'intval',
             'write_lock'=>'intval',
         );
     }

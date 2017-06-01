@@ -1,3 +1,13 @@
+DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_extra`;
+CREATE TABLE `{{$prefix}}wiki_doc_extra` (
+  `doc_id` mediumint(8) unsigned NOT NULL COMMENT '文档ID',
+  `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
+  `seo_description` varchar(500) NOT NULL DEFAULT '' COMMENT 'SEO Description',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  PRIMARY KEY (`doc_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档扩展表';
+
 DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_favorites`;
 CREATE TABLE `{{$prefix}}wiki_doc_favorites` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -94,9 +104,22 @@ CREATE TABLE `{{$prefix}}wiki_doc_prop_varchar` (
   UNIQUE KEY `post_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档自定义属性-varchar';
 
+DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_shares`;
+CREATE TABLE `{{$prefix}}wiki_doc_shares` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `doc_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `type` varchar(30) NOT NULL DEFAULT '' COMMENT '分享方式',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
+  `sockpuppet` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '马甲信息',
+  `trackid` varchar(50) NOT NULL DEFAULT '' COMMENT '追踪ID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档分享记录';
+
 DROP TABLE IF EXISTS `{{$prefix}}wiki_docs`;
 CREATE TABLE `{{$prefix}}wiki_docs` (
-  `id` mediumint(9) NOT NULL,
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `cat_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '分类ID',
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
@@ -107,4 +130,4 @@ CREATE TABLE `{{$prefix}}wiki_docs` (
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `write_lock` tinyint(1) NOT NULL DEFAULT '0' COMMENT '编辑锁',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='百科文档';
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='百科文档';

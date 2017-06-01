@@ -14,7 +14,7 @@ class PostController extends ApiController{
     /**
      * 默认返回字段
      */
-    private $default_fields = array(
+    protected $default_fields = array(
         'post'=>array(
             'fields'=>array(
                 'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',

@@ -134,11 +134,7 @@ class PostService extends Service{
      */
     public function create($post, $extra = array(), $user_id = null){
         //确定作者
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new PostErrorException("指定用户ID[{$user_id}]不存在", 'user-id-is-not-exist');
-        }
+        $user_id = UserService::getUserId($user_id);
         
         //验证分类
         if(!empty($post['cat_id']) && !CategoryService::service()->isIdExist($post['cat_id'], '_system_post')){
@@ -153,6 +149,7 @@ class PostService extends Service{
         
         //过滤掉多余的数据，并插入文章表
         $post_id = PostsTable::model()->insert($post, true);
+        
         //获取文章状态，后面有用
         if(isset($post['status'])){
             $post_status = $post['status'];
@@ -160,6 +157,7 @@ class PostService extends Service{
             $db_post = PostsTable::model()->find($post_id, 'status');
             $post_status = $db_post['status'];
         }
+        
         //更新文章主分类文章数
         if(!empty($post['cat_id'])){
             PostCategoryService::service()->updatePrimaryCatCount(null, $post['cat_id'], null, $post_status);
@@ -172,7 +170,6 @@ class PostService extends Service{
         if(isset($extra['meta'])){
             $post_meta = $post_meta + $extra['meta'];
         }
-        
         PostMetaTable::model()->insert($post_meta);
         
         //扩展信息
@@ -183,11 +180,6 @@ class PostService extends Service{
         if(isset($extra['extra'])){
             $post_extra = $post_extra + $extra['extra'];
         }
-        //特殊处理下text字段
-        if(empty($post_extra['markdown'])){
-            $post_extra['markdown'] = '';
-        }
-        
         PostExtraTable::model()->insert($post_extra);
         
         //文章分类

@@ -667,4 +667,30 @@ class UserService extends Service{
             'error_code'=>'',
         );
     }
+
+    /**
+     * 获取一个用户ID
+     * @param null|int $user_id
+     *  - 若为null，则返回当前登录ID（若未登录返回或报未登录错误）
+     *  - 若大于0，则判断用户ID是否存在
+     * @param bool $check_login
+     *  - 若为true，检查登录（若为0则抛出异常）
+     *  - 若为false，不检查登录（可以返回0）
+     * @return int
+     * @throws UserErrorException
+     * @throws UserException
+     */
+    public static function getUserId($user_id, $check_login = true){
+        if($user_id === null){
+            $user_id = \F::app()->current_user;
+        }else if($user_id && (NumberHelper::isInt($user_id) || !UserService::isUserIdExist($user_id))){
+            throw new UserErrorException("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
+        }
+        
+        if($check_login && !$user_id){
+            throw new UserException('请先登录', 'login-request');
+        }
+        
+        return $user_id;
+    }
 }

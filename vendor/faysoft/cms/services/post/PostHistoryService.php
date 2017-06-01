@@ -28,11 +28,7 @@ class PostHistoryService extends Service{
      * @throws PostErrorException
      */
     public function create($post_id, $user_id = null){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new PostErrorException("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
-        }
+        $user_id = UserService::getUserId($user_id);
 
         $post = PostsTable::model()->find($post_id, 'id,title,content,content_type,cat_id,thumbnail,abstract');
         if(!$post){

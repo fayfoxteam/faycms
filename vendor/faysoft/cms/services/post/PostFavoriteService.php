@@ -40,11 +40,7 @@ class PostFavoriteService extends Service{
      * @throws Exception
      */
     public static function add($post_id, $trackid = '', $user_id = null, $sockpuppet = 0){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new Exception("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
-        }
+        $user_id = UserService::getUserId($user_id);
         
         if(!PostService::isPostIdExist($post_id)){
             throw new Exception('指定的文章ID不存在', 'the-given-post-id-is-not-exist');
@@ -88,7 +84,10 @@ class PostFavoriteService extends Service{
             throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        $favorite = PostFavoritesTable::model()->find(array($user_id, $post_id), 'sockpuppet');
+        $favorite = PostFavoritesTable::model()->fetchRow(array(
+            'user_id = ?'=>$user_id,
+            'post_id = ?'=>$post_id,
+        ), 'sockpuppet');
         if($favorite){
             //删除收藏关系
             PostFavoritesTable::model()->delete(array(
@@ -102,7 +101,7 @@ class PostFavoriteService extends Service{
                 PostMetaTable::model()->incr($post_id, array('favorites'), -1);
             }else{
                 //真实用户行为
-                PostMetaTable::model()->incr($post_id, array('favorites', 'favorites'), -1);
+                PostMetaTable::model()->incr($post_id, array('favorites', 'real_favorites'), -1);
             }
                 
             //触发事件
@@ -128,11 +127,10 @@ class PostFavoriteService extends Service{
             throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
         }
         
-        if(PostFavoritesTable::model()->find(array($user_id, $post_id), 'create_time')){
-            return true;
-        }else{
-            return false;
-        }
+        return !!PostFavoritesTable::model()->fetchRow(array(
+            'user_id = ?'=>$user_id,
+            'post_id = ?'=>$post_id,
+        ), 'id');
     }
     
     /**

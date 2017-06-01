@@ -103,7 +103,6 @@ class View{
         //触发事件
         \F::event()->trigger('before_render');
         
-        $uri = Uri::getInstance();
         $content = $this->renderPartial($view, $this->getViewData(), -1, true);
         RuntimeHelper::append(__FILE__, __LINE__, '视图渲染完成');
 

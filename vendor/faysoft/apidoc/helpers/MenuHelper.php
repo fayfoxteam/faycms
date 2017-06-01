@@ -15,9 +15,9 @@ class MenuHelper{
     public static function render($menus, $current_directory, $dep = 0){
         $text = array();
         foreach($menus as $m){
-            //以link属性是否为javascript:;来判断是否为叶子
+            //以link属性是否为javascript:来判断是否为叶子
             //非叶子，但却没有叶子被启用，不显示该节点
-            if($m['link'] == 'javascript:;' && empty($m['children'])){
+            if($m['link'] == 'javascript:' && empty($m['children'])){
                 continue;
             }
             
@@ -27,9 +27,9 @@ class MenuHelper{
                 'text'=>array(
                     array(
                         'tag'=>'a',
-                        'href'=>$m['link'] == 'javascript:;' ? 'javascript:;'
+                        'href'=>$m['link'] == 'javascript:' ? 'javascript:'
                             //后台菜单配置比较特殊，系统自带的只有router部分，用户自定义部分可能会有完整url
-                            : (strpos($m['link'], 'http://') === 0 ? $m['link'] : UrlHelper::createUrl($m['link'], array(
+                            : (strpos($m['link'], 'http') === 0 ? $m['link'] : UrlHelper::createUrl($m['link'], array(
                                 'trackid'=>TrackHelper::getTrackId(),
                             ))),
                         'text'=>array(
@@ -53,7 +53,7 @@ class MenuHelper{
             );
             
             //由于权限关系，非叶子节点却没有下级菜单可以被显示，则该菜单也不显示
-            if($m['link'] != 'javascript:;' || ($m['link'] == 'javascript:;' && !empty($item['text'][1]))){
+            if($m['link'] != 'javascript:' || ($m['link'] == 'javascript:' && !empty($item['text'][1]))){
                 if(!empty($m['children'])){
                     $item['class'][] = 'has-sub';
                 }

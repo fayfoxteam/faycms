@@ -33,11 +33,10 @@ use apidoc\helpers\TrackHelper;
                     <td><?php
                         if($p['type'] >= 1000 && !in_array($p['type'], $track_models)){
                             //对象类型特殊处理
-                            echo HtmlHelper::link($p['model_name'], array(
-                                'model/' . $p['type'], array(
-                                    'trackid'=>TrackHelper::getTrackId(),
-                                ), false
-                            ));
+                            echo HtmlHelper::link(
+                                $p['model_name'],
+                                TrackHelper::assembleTrackId(\apidoc\helpers\LinkHelper::getModelLink($p['type']))
+                            );
                         }else{
                             echo HtmlHelper::encode($p['model_name']);
                         }

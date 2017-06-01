@@ -22,6 +22,17 @@ class TrackHelper{
                 return 'm' . \F::input()->get('model_id', 'intval', 0);
             }
         }
+        
+        return '';
+    }
+
+    /**
+     * 在指定url后面加上trackid参数
+     * @param string $url
+     * @return string
+     */
+    public static function assembleTrackId($url){
+        return $url . (strpos($url, '?') === false ? '?' : '&') . 'trackid=' . self::getTrackId();
     }
     
     /**

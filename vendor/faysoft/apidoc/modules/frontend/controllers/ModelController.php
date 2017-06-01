@@ -1,6 +1,7 @@
 <?php
 namespace apidoc\modules\frontend\controllers;
 
+use apidoc\helpers\LinkHelper;
 use apidoc\library\FrontController;
 use apidoc\models\tables\ApisTable;
 use cms\services\CategoryService;
@@ -48,7 +49,7 @@ class ModelController extends FrontController{
         $this->layout->assign(array(
             'subtitle'=>$model['name'],
             'title'=>$model['description'],
-            'canonical'=>$this->view->url('model/'.$model['id']),
+            'canonical'=>LinkHelper::getModelLink($model['id']),
         ));
         
         $sql = new Sql();

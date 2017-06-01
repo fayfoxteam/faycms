@@ -8,9 +8,9 @@ use fay\helpers\DateHelper;
 ?>
 <tr valign="top">
     <td>
-        <strong><?php echo HtmlHelper::link($data['name'], array('model/'.$data['id']), array(
-                'target'=>'_blank'
-            ))?></strong>
+        <strong><?php echo HtmlHelper::link($data['name'], \apidoc\helpers\LinkHelper::getModelLink($data['id']), array(
+            'target'=>'_blank'
+        ))?></strong>
         <div class="row-actions">
             <?php 
                 echo HtmlHelper::link('编辑', array('apidoc/admin/model/edit', array(

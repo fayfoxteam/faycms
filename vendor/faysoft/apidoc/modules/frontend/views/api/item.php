@@ -93,12 +93,10 @@ use Michelf\MarkdownExtra;
                     <td><?php
                         if($output['model_id'] >= 1000){
                             //对象类型特殊处理
-                            echo HtmlHelper::link($output['model_name'], array(
-                                'model/' . $output['model_id'],
-                                array(
-                                    'trackid'=>TrackHelper::getTrackId(),
-                                ),
-                            ));
+                            echo HtmlHelper::link(
+                                $output['model_name'],
+                                TrackHelper::assembleTrackId(\apidoc\helpers\LinkHelper::getModelLink($output['model_id']))
+                            );
                         }else{
                             echo HtmlHelper::encode($output['model_name']);
                         }

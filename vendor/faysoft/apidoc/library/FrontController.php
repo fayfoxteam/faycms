@@ -1,6 +1,7 @@
 <?php
 namespace apidoc\library;
 
+use apidoc\helpers\LinkHelper;
 use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
@@ -38,7 +39,7 @@ class FrontController extends Controller{
                 'alias'=>$c['alias'],
                 'title'=>$c['title'],
                 'css_class'=>$c['description'],
-                'link'=>'javascript:;',
+                'link'=>'javascript:',
                 'target'=>'',
                 'children'=>array(),
             );
@@ -52,7 +53,7 @@ class FrontController extends Controller{
                         'alias'=>'',
                         'title'=>"<span class='router' title='{$a['router']}'>{$a['router']}</span>" . HtmlHelper::encode($a['title']),
                         'css_class'=>'',
-                        'link'=>'api/' . $a['id'],
+                        'link'=>LinkHelper::getApiLink($a['id']),
                         'target'=>'',
                         'children'=>array(),
                     );

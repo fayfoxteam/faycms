@@ -149,6 +149,7 @@ class PostService extends Service{
         
         //过滤掉多余的数据，并插入文章表
         $post_id = PostsTable::model()->insert($post, true);
+        
         //获取文章状态，后面有用
         if(isset($post['status'])){
             $post_status = $post['status'];
@@ -156,6 +157,7 @@ class PostService extends Service{
             $db_post = PostsTable::model()->find($post_id, 'status');
             $post_status = $db_post['status'];
         }
+        
         //更新文章主分类文章数
         if(!empty($post['cat_id'])){
             PostCategoryService::service()->updatePrimaryCatCount(null, $post['cat_id'], null, $post_status);
@@ -168,7 +170,6 @@ class PostService extends Service{
         if(isset($extra['meta'])){
             $post_meta = $post_meta + $extra['meta'];
         }
-        
         PostMetaTable::model()->insert($post_meta);
         
         //扩展信息
@@ -179,11 +180,6 @@ class PostService extends Service{
         if(isset($extra['extra'])){
             $post_extra = $post_extra + $extra['extra'];
         }
-        //特殊处理下text字段
-        if(empty($post_extra['markdown'])){
-            $post_extra['markdown'] = '';
-        }
-        
         PostExtraTable::model()->insert($post_extra);
         
         //文章分类

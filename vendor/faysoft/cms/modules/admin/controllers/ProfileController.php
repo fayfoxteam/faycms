@@ -25,7 +25,10 @@ class ProfileController extends AdminController{
             $data = UsersTable::model()->fillData($this->input->post());
             
             $extra = array(
-                'props'=>$this->input->post('props', '', array()),
+                'props'=>array(
+                    'data'=>$this->input->post('props', '', array()),
+                    'labels'=>$this->input->post('labels', 'trim', array()),
+                ),
             );
             
             UserService::service()->update($user_id, $data, $extra);

@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $roles array
+ * @var $prop_set array
  */
 ?>
 <?php echo F::form()->open()?>

@@ -103,7 +103,11 @@ echo F::form()->open();
 </div>
 <?php echo F::form()->close()?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/prop.js')?>"></script>
 <script>
-user.user_id = <?php echo \F::form()->getData('id')?>;
-user.init();
+$(function(){
+    prop.init();
+    user.user_id = <?php echo \F::form()->getData('id')?>;
+    user.init();
+});
 </script>

@@ -130,3 +130,7 @@ use cms\services\OptionService;
     ?></div>
 </div>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/user.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/prop.js')?>"></script>
+<script>
+    prop.init();
+</script>

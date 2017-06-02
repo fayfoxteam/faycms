@@ -138,7 +138,10 @@ class UserController extends AdminController{
                     'trackid'=>'admin_create:'.\F::session()->get('user.id'),
                 ),
                 'roles'=>$this->input->post('roles', 'intval', array()),
-                'props'=>$this->input->post('props', '', array()),
+                'props'=>array(
+                    'data'=>$this->input->post('props', '', array()),
+                    'labels'=>$this->input->post('labels', 'trim', array()),
+                ),
             );
             
             $user_id = UserService::service()->create($data, $extra);
@@ -173,7 +176,10 @@ class UserController extends AdminController{
             
             $extra = array(
                 'roles'=>$this->input->post('roles', 'intval', array()),
-                'props'=>$this->input->post('props', '', array()),
+                'props'=>array(
+                    'data'=>$this->input->post('props', '', array()),
+                    'labels'=>$this->input->post('labels', 'trim', array()),
+                ),
             );
             
             UserService::service()->update($user_id, $data, $extra);

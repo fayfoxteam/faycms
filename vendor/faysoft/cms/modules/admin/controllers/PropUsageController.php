@@ -31,10 +31,18 @@ class PropUsageController extends AdminController{
         ));
 
         $usage_model = PropService::service()->getUsageModel($usage_type);
+        
         $this->layout->subtitle = '自定义属性 - ' .
             $usage_model->getUsageName() . ' - ' .
             $usage_model->getUsageItemTitle($usage_id)
         ;
+        //权限检查
+        if($this->checkPermission('cms/admin/prop/create')){
+            $this->layout->sublink = array(
+                'uri'=>array('cms/admin/prop/index'),
+                'text'=>'新增属性',
+            );
+        }
         
         $sql = new Sql();
         $props = $sql->from(array('pu'=>'props_usages'), array('is_share', 'sort'))

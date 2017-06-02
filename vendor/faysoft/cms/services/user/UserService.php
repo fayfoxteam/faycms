@@ -229,7 +229,11 @@ class UserService extends Service{
         
         //设置属性
         if(isset($extra['props'])){
-            UserPropService::service()->createPropSet($user_id, $extra['props']);
+            UserPropService::service()->createPropSet(
+                $user_id,
+                $extra['props']['data'],
+                isset($extra['props']['labels']) ? $extra['props']['labels'] : array()
+            );
         }
         
         //触发事件
@@ -303,7 +307,11 @@ class UserService extends Service{
         
         //附加属性
         if(isset($extra['props'])){
-            UserPropService::service()->updatePropSet($user_id, $extra['props']);
+            UserPropService::service()->updatePropSet(
+                $user_id,
+                $extra['props']['data'],
+                isset($extra['props']['labels']) ? $extra['props']['labels'] : array()
+            );
         }
     }
     

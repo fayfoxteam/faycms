@@ -20,7 +20,7 @@ use fay\helpers\HtmlHelper;
                     <h4>属性列表</h4>
                 </div>
                 <div class="box-content">
-                    <?php echo HtmlHelper::link('添加属性', 'javascript:', array(
+                    <?php echo HtmlHelper::link('选取属性', 'javascript:', array(
                         'class'=>'btn',
                         'id'=>'select-prop-link',
                         'data-src'=>'#select-prop-dialog',

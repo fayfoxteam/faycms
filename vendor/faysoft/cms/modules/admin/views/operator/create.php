@@ -1,6 +1,7 @@
 <?php
 /**
  * @var $roles array
+ * @var $prop_set array
  */
 ?>
 <?php echo F::form()->open()?>
@@ -12,7 +13,10 @@
         ))?>
     </div>
     <div class="col-6" id="prop-panel"><?php
-        //预留给角色属性的div
+        //添加的时候也可能默认有角色
+        $this->renderPartial('prop/_edit', array(
+            'prop_set'=>$prop_set,
+        ))
     ?></div>
 </div>
 <div class="form-field">

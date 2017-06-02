@@ -125,7 +125,10 @@ class OperatorController extends AdminController{
                     'trackid'=>'admin_create:'.\F::session()->get('user.id'),
                 ),
                 'roles'=>$this->input->post('roles', 'intval', array()),
-                'props'=>$this->input->post('props', '', array()),
+                'props'=>array(
+                    'data'=>$this->input->post('props', '', array()),
+                    'labels'=>$this->input->post('labels', 'trim', array()),
+                ),
             );
             
             $user_id = UserService::service()->create($data, $extra, 1);
@@ -146,7 +149,7 @@ class OperatorController extends AdminController{
         //有可能默认了某些角色
         $role_ids = $this->input->get('roles', 'intval');
         if($role_ids){
-            $this->view->prop_set = UserPropService::service()->getByRefer($role_ids);
+            $this->view->prop_set = UserPropService::service()->getPropsByRoleIds($role_ids);
         }else{
             $this->view->prop_set = array();
         }
@@ -169,7 +172,10 @@ class OperatorController extends AdminController{
             
             $extra = array(
                 'roles'=>$this->input->post('roles', 'intval', array()),
-                'props'=>$this->input->post('props', '', array()),
+                'props'=>array(
+                    'data'=>$this->input->post('props', '', array()),
+                    'labels'=>$this->input->post('labels', 'trim', array()),
+                ),
             );
             
             UserService::service()->update($user_id, $data, $extra);

@@ -134,26 +134,28 @@ class  UserPropService extends Service implements PropUsageInterface{
      * 新增一个用户属性集
      * @param int $user_id 用户ID
      * @param array $data 以属性ID为键的属性键值数组
+     * @param array $labels
      * @param null|array $props 属性。若为null，则根据用户ID获取属性
      */
-    public function createPropSet($user_id, $data, $props = null){
+    public function createPropSet($user_id, $data, $labels = array(), $props = null){
         if($props === null){
             $props = $this->getPropsByUserId($user_id);
         }
-        $this->getItemProp($user_id)->createPropSet($props, $data);
+        $this->getItemProp($user_id)->createPropSet($props, $data, $labels);
     }
-    
+
     /**
      * 更新一个用户属性集
      * @param int $user_id 用户ID
      * @param array $data 以属性ID为键的属性键值数组
+     * @param array $labels
      * @param null|array $props 属性。若为null，则根据用户ID获取属性
      */
-    public function updatePropSet($user_id, $data, $props = null){
+    public function updatePropSet($user_id, $data, $labels = array(), $props = null){
         if($props === null){
             $props = $this->getPropsByUserId($user_id);
         }
-        $this->getItemProp($user_id)->updatePropSet($props, $data);
+        $this->getItemProp($user_id)->updatePropSet($props, $data, $labels);
     }
     
     /**

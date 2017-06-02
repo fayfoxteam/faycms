@@ -78,7 +78,7 @@ use fay\helpers\HtmlHelper;
 <!--头部start-->
 <div class="amc-header">
     <div class="amc-headermain clearfix">
-        <?php
+        <a href="<?php echo $this->url()?>"><?php
             $custom_logo = OptionService::get('site:logo');
             if($custom_logo){
                 echo HtmlHelper::img($custom_logo, FileService::PIC_ORIGINAL, array(
@@ -89,9 +89,8 @@ use fay\helpers\HtmlHelper;
                     'class'=>'amc-logo',
                 ));
             }
-            
-            F::widget()->load('header-category-list');
-        ?>
+        ?></a>
+        <?php F::widget()->load('header-category-list');?>
 
         <!--移动端导航start-->
         <div class="m-amc-nav visible-xs-block">

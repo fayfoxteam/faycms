@@ -84,6 +84,16 @@ CREATE TABLE `{{$prefix}}wiki_doc_prop_int` (
   UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档自定义属性-int';
 
+DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_prop_labels`;
+CREATE TABLE `{{$prefix}}wiki_doc_prop_labels` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `relation_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '文档ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称别名',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档属性名称别名';
+
 DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_prop_text`;
 CREATE TABLE `{{$prefix}}wiki_doc_prop_text` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',

@@ -10,12 +10,16 @@ use fay\helpers\ArrayHelper;
 <?php if(!empty($prop_set)){?>
 <?php foreach($prop_set as $prop){?>
     <div class="form-field">
-        <label class="title bold">
-            <?php echo HtmlHelper::encode($prop['title']);?>
+        <label class="title bold prop-title">
+            <span><?php echo HtmlHelper::encode(isset($prop['title_alias']) ? $prop['title_alias'] : $prop['title']);?></span>
             <?php if($prop['required']){?>
                 <em class="fc-red">(必选)</em>
             <?php }?>
         </label>
+        <?php echo HtmlHelper::inputText("labels[{$prop['id']}]", isset($prop['title_alias']) ? $prop['title_alias'] : $prop['title'], array(
+            'class'=>'form-control w240 mb5 hide prop-title-editor',
+            'data-title'=>HtmlHelper::encode($prop['title']),
+        ))?>
         <?php 
         switch($prop['element']){
             case PropsTable::ELEMENT_TEXT:

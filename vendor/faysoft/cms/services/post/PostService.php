@@ -214,7 +214,11 @@ class PostService extends Service{
         
         //设置属性
         if(isset($extra['props'])){
-            PostPropService::service()->createPropSet($post_id, $extra['props']);
+            PostPropService::service()->createPropSet(
+                $post_id,
+                $extra['props']['data'],
+                isset($extra['props']['labels']) ? $extra['props']['labels'] : array()
+            );
         }
         
         if($post_status == PostsTable::STATUS_PUBLISHED){
@@ -365,7 +369,11 @@ class PostService extends Service{
         
         //附加属性
         if(isset($extra['props'])){
-            PostPropService::service()->updatePropSet($post_id, $extra['props']);
+            PostPropService::service()->updatePropSet(
+                $post_id,
+                $extra['props']['data'],
+                isset($extra['props']['labels']) ? $extra['props']['labels'] : array()
+            );
         }
         
         //触发事件

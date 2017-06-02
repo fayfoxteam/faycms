@@ -4,6 +4,7 @@ namespace cms\services\user;
 use cms\models\tables\PropsTable;
 use cms\models\tables\RolesTable;
 use cms\models\tables\UserPropIntTable;
+use cms\models\tables\UserPropLabelsTable;
 use cms\models\tables\UserPropTextTable;
 use cms\models\tables\UserPropVarcharTable;
 use cms\models\tables\UsersRolesTable;
@@ -96,6 +97,14 @@ class  UserPropService extends Service implements PropUsageInterface{
             default:
                 throw new ErrorException("不支持的数据类型[{$data_type}]");
         }
+    }
+
+    /**
+     * 获取属性名称别名表model
+     * @return UserPropLabelsTable
+     */
+    public function getLabelModel(){
+        return UserPropLabelsTable::model();
     }
 
     /**

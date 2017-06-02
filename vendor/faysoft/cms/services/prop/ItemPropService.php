@@ -4,6 +4,7 @@ namespace cms\services\prop;
 use cms\models\tables\PropsTable;
 use cms\services\prop\elements\ElementAbstract;
 use fay\core\ErrorException;
+use fay\helpers\ArrayHelper;
 
 /**
  * 单体自定义属性服务
@@ -46,19 +47,36 @@ class ItemPropService{
         $this->relation_id = $relation_id;
         $this->usage_model = $usage_model;
     }
-    
+
     /**
      * 创建一个属性集
      * @param array $props 属性集合
      * @param array $data 属性值，以属性集合的id为键的数组
+     * @param array $labels 自定义属性名称
      */
-    public function createPropSet($props, $data){
+    public function createPropSet($props, array $data, $labels = array()){
         foreach($props as $prop){
             $this->getElement($prop['element'])->create(
                 $this->relation_id,
                 $prop['id'],
                 isset($data[$prop['id']]) ? $data[$prop['id']] : ''
             );
+            
+            //属性名称别名设置
+            if(!empty($labels[$prop['id']])){
+                if(!isset($prop['title'])){
+                    //若指定$props中未包含title，则去数据库搜索title
+                    $prop = PropService::service()->get($prop['id']);
+                }
+                if($prop['title'] != $labels[$prop['id']]){
+                    //若指定title与系统title不一致，则插入别名
+                    $this->usage_model->getLabelModel()->insert(array(
+                        'relation_id'=>$this->relation_id,
+                        'prop_id'=>$prop['id'],
+                        'title'=>$labels[$prop['id']],
+                    ));
+                }
+            }
         }
     }
     
@@ -79,9 +97,15 @@ class ItemPropService{
             );
         }
         
+        //获取自定义labels
+        $label_map = ArrayHelper::column($this->usage_model->getLabelModel()->fetchAll(array(
+            'relation_id = ?'=>$this->relation_id
+        )), 'title', 'prop_id');
+        
         $prop_set = array();
         foreach($props as $prop){
             $prop['value'] = $this->getElement($prop['element'])->get($this->relation_id, $prop['id']);
+            $prop['title_alias'] = isset($label_map[$prop['id']]) ? $label_map[$prop['id']] : $prop['title'];
             $prop_set[] = $prop;
         }
         return $prop_set;
@@ -92,9 +116,10 @@ class ItemPropService{
      * @param array $props 属性集合，没项必须包含id和element字段
      * （不能直接根据$data的键来判断，因为值被置空的时候，可能键不存在）
      * @param array $data 属性值
+     * @param array $labels 自定义属性名称
      * @throws ErrorException
      */
-    public function updatePropSet(array $props, array $data){
+    public function updatePropSet(array $props, array $data, $labels = array()){
         foreach($props as $prop){
             if(!isset($prop['id']) || !isset($prop['element'])){
                 throw new ErrorException('数据格式异常');
@@ -104,6 +129,40 @@ class ItemPropService{
                 $prop['id'],
                 isset($data[$prop['id']]) ? $data[$prop['id']] : ''
             );
+
+            //属性名称别名设置
+            $old_label = $this->usage_model->getLabelModel()->fetchRow(array(
+                'relation_id = ?'=>$this->relation_id,
+                'prop_id = ?'=>$prop['id'],
+            ));
+            if(!empty($labels[$prop['id']])){
+                if(!isset($prop['title'])){
+                    //若指定$props中未包含title，则去数据库搜索title
+                    $prop = PropService::service()->get($prop['id']);
+                }
+                
+                if($old_label){
+                    if($prop['title'] == $labels[$prop['id']]){
+                        //原先有设置label，但现在改为与系统标题一直，则删除原来的label记录
+                        $this->usage_model->getLabelModel()->delete($old_label['id']);
+                    }else if($old_label['title'] != $labels[$prop['id']]){
+                        //原先有设置label，但是现在变了
+                        $this->usage_model->getLabelModel()->update(array(
+                            'title'=>$labels[$prop['id']],
+                        ), $old_label['id']);
+                    }
+                }else if($prop['title'] != $labels[$prop['id']]){
+                    //原先没有设置label，现在有了
+                    $this->usage_model->getLabelModel()->insert(array(
+                        'relation_id'=>$this->relation_id,
+                        'prop_id'=>$prop['id'],
+                        'title'=>$labels[$prop['id']],
+                    ));
+                }
+            }else if($old_label){
+                //原先有设置label，现在没了
+                $this->usage_model->getLabelModel()->delete($old_label['id']);
+            }
         }
     }
 

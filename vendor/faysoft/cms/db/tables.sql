@@ -399,6 +399,16 @@ CREATE TABLE `{{$prefix}}post_prop_int` (
   UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-int';
 
+DROP TABLE IF EXISTS `{{$prefix}}post_prop_labels`;
+CREATE TABLE `{{$prefix}}post_prop_labels` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `relation_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称别名',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章属性名称别名';
+
 DROP TABLE IF EXISTS `{{$prefix}}post_prop_text`;
 CREATE TABLE `{{$prefix}}post_prop_text` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
@@ -515,7 +525,7 @@ DROP TABLE IF EXISTS `{{$prefix}}props`;
 CREATE TABLE `{{$prefix}}props` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id',
   `usage_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用途类型',
-  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '属性名称',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称',
   `element` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '表单元素',
   `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '必选标记',
   `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
@@ -684,6 +694,16 @@ CREATE TABLE `{{$prefix}}user_prop_int` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-int';
+
+DROP TABLE IF EXISTS `{{$prefix}}user_prop_labels`;
+CREATE TABLE `{{$prefix}}user_prop_labels` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `relation_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
+  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称别名',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户属性名称别名';
 
 DROP TABLE IF EXISTS `{{$prefix}}user_prop_text`;
 CREATE TABLE `{{$prefix}}user_prop_text` (

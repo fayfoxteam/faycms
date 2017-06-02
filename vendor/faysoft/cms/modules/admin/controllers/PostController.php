@@ -163,7 +163,10 @@ class PostController extends AdminController{
             }
             
             //附加属性
-            $extra['props'] = $this->input->post('props', '', array());
+            $extra['props'] = array(
+                'data'=>$this->input->post('props', '', array()),
+                'labels'=>$this->input->post('labels', 'trim', array()),
+            );
             
             $post_id = PostService::service()->create($data, $extra, $this->current_user);
             
@@ -520,7 +523,10 @@ class PostController extends AdminController{
             
             //附加属性
             if(in_array('props', $enabled_boxes)){
-                $extra['props'] = $this->input->post('props');
+                $extra['props'] = array(
+                    'data'=>$this->input->post('props', '', array()),
+                    'labels'=>$this->input->post('labels', 'trim', array()),
+                );
             }
             
             PostService::service()->update($post_id, $data, $extra);

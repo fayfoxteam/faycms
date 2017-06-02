@@ -51,4 +51,10 @@ interface PropUsageInterface{
      * @return Table
      */
     public function getModel($data_type);
+
+    /**
+     * 获取属性名称别名表model
+     * @return Table
+     */
+    public function getLabelModel();
 }

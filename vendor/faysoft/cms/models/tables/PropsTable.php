@@ -91,8 +91,7 @@ class PropsTable extends Table{
         return array(
             array(array('id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('usage_type', 'element'), 'int', array('min'=>0, 'max'=>255)),
-            array(array('title'), 'string', array('max'=>255)),
-            array(array('alias'), 'string', array('max'=>50)),
+            array(array('title', 'alias'), 'string', array('max'=>50)),
             array(array('is_show', 'required'), 'range', array('range'=>array(0, 1))),
             
             array('title', 'required'),

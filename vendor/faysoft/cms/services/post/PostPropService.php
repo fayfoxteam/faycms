@@ -2,6 +2,7 @@
 namespace cms\services\post;
 
 use cms\models\tables\PostPropIntTable;
+use cms\models\tables\PostPropLabelsTable;
 use cms\models\tables\PostPropTextTable;
 use cms\models\tables\PostPropVarcharTable;
 use cms\models\tables\PostsTable;
@@ -175,26 +176,28 @@ class PostPropService extends Service implements PropUsageInterface{
      * 创建属性集
      * @param int $post_id
      * @param array $data
+     * @param array $labels
      * @param null|array $props 若指定$props则只创建指定的属性，否则根据文章id，创建全部属性
      */
-    public function createPropSet($post_id, $data, $props = null){
+    public function createPropSet($post_id, $data, $labels = array(), $props = null){
         if($props === null){
             $props = $this->getPropsByPostId($post_id);
         }
-        $this->getItemProp($post_id)->createPropSet($props, $data);
+        $this->getItemProp($post_id)->createPropSet($props, $data, $labels);
     }
 
     /**
      * 更新属性集
      * @param int $post_id
      * @param array $data
+     * @param array $labels
      * @param null|array $props 若指定$props则只更新指定的属性，否则根据文章id，更新全部属性
      */
-    public function updatePropSet($post_id, $data, $props = null){
+    public function updatePropSet($post_id, $data, $labels = array(), $props = null){
         if($props === null){
             $props = PostPropService::service()->getPropsByPostId($post_id);
         }
-        $this->getItemProp($post_id)->updatePropSet($props, $data);
+        $this->getItemProp($post_id)->updatePropSet($props, $data, $labels);
     }
 
     /**
@@ -204,5 +207,13 @@ class PostPropService extends Service implements PropUsageInterface{
      */
     protected function getItemProp($post_id){
         return new ItemPropService($post_id, $this);
+    }
+
+    /**
+     * 获取属性名称别名表model
+     * @return PostPropLabelsTable
+     */
+    public function getLabelModel(){
+        return PostPropLabelsTable::model();
     }
 }

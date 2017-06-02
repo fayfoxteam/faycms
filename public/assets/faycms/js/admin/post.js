@@ -233,6 +233,11 @@ var post = {
         if(system.inArray('main_category', post.boxes)){
             this.changeCategory();
         }
+        if(system.inArray('props', post.boxes)){
+            system.getScript(system.assets('faycms/js/admin/prop.js'), function(){
+                prop.init();
+            });
+        }
         if(this.roleCats !== null){
             this.setRoleCats();
         }

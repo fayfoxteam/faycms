@@ -70,7 +70,7 @@ class OptionService extends Service{
             $options = OptionsTable::model()->fetchAll(array('option_name IN (?)'=>$names), 'option_name,option_value');
             $return2 = ArrayHelper::column($options, 'option_value', 'option_name');
             foreach($names as $n){
-                if($n && !isset($return[$n])){
+                if($n && !isset($return2[$n])){
                     $return2[$n] = null;
                 }
                 self::$options[$n] = $return2[$n];

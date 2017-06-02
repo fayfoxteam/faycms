@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var $listview \fay\common\ListView
+ * @var $iplocation IpLocation
+ */
+?>
 <div class="row">
     <div class="col-12">
         <?php echo F::form('search')->open(null, 'get', array(
@@ -65,7 +71,9 @@
                 </tr>
             </tfoot>
             <tbody>
-            <?php $listview->showData();?>
+            <?php $listview->showData(array(
+                'iplocation'=>$iplocation
+            ));?>
             </tbody>
         </table>
         <?php $listview->showPager();?>

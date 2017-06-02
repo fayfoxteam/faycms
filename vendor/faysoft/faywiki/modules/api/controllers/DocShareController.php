@@ -17,9 +17,6 @@ class DocShareController extends ApiController{
      * @parameter string $trackid 追踪ID
      */
     public function add(){
-        //登录检查
-        $this->checkLogin();
-
         //表单验证
         $this->form()->setModel(WikiDocSharesTable::model())->check();
 

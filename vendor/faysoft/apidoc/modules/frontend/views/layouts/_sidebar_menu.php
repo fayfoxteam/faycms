@@ -8,7 +8,7 @@ use fay\helpers\HtmlHelper;
         <header class="logo-env">
             <div class="logo">
                 <?php
-                    echo HtmlHelper::link(\cms\services\OptionService::get('site:sitename'), array(), array(
+                    echo HtmlHelper::link(\cms\services\OptionService::get('site:sitename'), array('apidoc/frontend/index/index'), array(
                         'class'=>'logo-expanded',
                     ));
                 ?>

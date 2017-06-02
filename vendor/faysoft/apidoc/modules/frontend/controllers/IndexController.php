@@ -21,12 +21,12 @@ class IndexController extends FrontController{
     
     public function index(){
         $this->layout->assign(array(
-            'title'=>OptionService::get('site:sitename'),
+            'title'=>'概述',
             'canonical'=>$this->view->url(),
         ));
         
         $this->view->assign(array(
             'models'=>ModelsTable::model()->fetchAll('id < 1000', 'name,description,sample', 'id')
-        ))->render();
+        ))->render('apidoc/frontend/index/index');
     }
 }

@@ -39,6 +39,6 @@ class ApiController extends FrontController{
         ));
         
         $this->view->api = $api;
-        $this->view->render();
+        $this->view->render('apidoc/frontend/api/item');
     }
 }

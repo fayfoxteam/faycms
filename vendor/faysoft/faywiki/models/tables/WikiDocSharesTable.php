@@ -33,6 +33,8 @@ class WikiDocSharesTable extends Table{
             array(array('doc_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('type'), 'string', array('max'=>30)),
             array(array('trackid'), 'string', array('max'=>50)),
+            
+            array(array('doc_id'), 'required'),
         );
     }
 

@@ -221,12 +221,6 @@ class ApiController extends AdminController{
     
     public function edit(){
         $this->layout->subtitle = '编辑API';
-        if($this->checkPermission('apidoc/admin/api/create')){
-            $this->layout->sublink = array(
-                'uri'=>array('apidoc/admin/api/create'),
-                'text'=>'添加API',
-            );
-        }
         
         $api_id = $this->input->get('id', 'intval');
         $this->form()->setModel(ApisTable::model());
@@ -322,6 +316,15 @@ class ApiController extends AdminController{
         
         $api = ApisTable::model()->find($api_id);
         $this->form()->setData($api);
+
+        if($this->checkPermission('apidoc/admin/api/create')){
+            $this->layout->sublink = array(
+                'uri'=>array('apidoc/admin/api/create', array(
+                    'cat_id'=>$api['cat_id'],
+                )),
+                'text'=>'添加API',
+            );
+        }
         
         //原输入参数
         $this->view->inputs = InputsTable::model()->fetchAll('api_id = '.$api_id, '*', 'required DESC, name ASC');

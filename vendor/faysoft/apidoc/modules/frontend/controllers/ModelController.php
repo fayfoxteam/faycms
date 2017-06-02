@@ -60,6 +60,6 @@ class ModelController extends FrontController{
                 ->joinLeft(array('m'=>'apidoc_models'), 'mp.type = m.id', array('name AS model_name'))
                 ->where('mp.model_id = ' . $model['id'])
                 ->fetchAll(),
-        ))->render();
+        ))->render('apidoc/frontend/model/item');
     }
 }

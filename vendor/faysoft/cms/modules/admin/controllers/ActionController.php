@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use cms\services\CategoryService;
 use cms\models\tables\ActionsTable;
 use cms\models\tables\ActionlogsTable;
+use fay\core\HttpException;
 use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
@@ -96,6 +97,9 @@ class ActionController extends AdminController{
         }
 
         $action = ActionsTable::model()->find($action_id);
+        if(!$action){
+            throw new HttpException("指定权限ID[{$action_id}]不存在");
+        }
         if($action['parent']){
             $parent_action = ActionsTable::model()->find($action['parent'], 'router');
             $action['parent_router'] = $parent_action['router'];
@@ -158,9 +162,12 @@ class ActionController extends AdminController{
             ));
         }
         
-        if($this->input->get('router')){
-            $sql->where(array(
-                'a.router LIKE ?'=>$this->input->get('router').'%',
+        if($this->input->get('search_router')){
+            $keywords = '%' . $this->input->get('search_router', 'trim') . '%';
+            $sql->orWhere(array(
+                'a.router LIKE ?'=>$keywords,
+                'a.title LIKE ?'=>$keywords,
+                'c.title LIKE ?'=>$keywords,
             ));
         }
         $this->view->listview = new ListView($sql);

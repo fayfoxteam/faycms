@@ -144,7 +144,8 @@ class PropController extends AdminController{
         
         $data = $listview->getData();
         foreach($data as $key => $prop){
-            $data[$key]['element_name'] = ItemPropService::$elementMap[$prop['element']]::getName();
+            $element = ItemPropService::$elementMap[$prop['element']];
+            $data[$key]['element_name'] = $element::getName();
         }
 
         Response::json(array(
@@ -172,8 +173,9 @@ class PropController extends AdminController{
         if(!$prop){
             throw new HttpException("指定属性ID[{$this->form()->getData('id')}]不存在或已删除");
         }
-        
-        $prop['element_name'] = ItemPropService::$elementMap[$prop['element']]::getName();
+
+        $element = ItemPropService::$elementMap[$prop['element']];
+        $prop['element_name'] = $element::getName();
         
         Response::json(array(
             'prop'=>$prop,
@@ -188,6 +190,10 @@ class PropController extends AdminController{
         $sql->from(array('p'=>'props'))
             ->where('delete_time = 0')
             ->order('p.id DESC');
+        
+        if($this->input->get('search_usage_type')){
+            $sql->where('p.usage_type = ?', $this->input->get('search_usage_type', 'intval'));
+        }
         
         $this->view->listview = new ListView($sql, array(
             'page_size'=>15,

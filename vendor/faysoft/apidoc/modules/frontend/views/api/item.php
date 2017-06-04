@@ -17,7 +17,9 @@ use Michelf\MarkdownExtra;
 </div>
 <?php }?>
 <div class="panel">
-    <div class="panel-header"><h2>请求说明</h2></div>
+    <div class="panel-header">
+        <h2><i class="fa fa-caret-down"></i>请求说明</h2>
+    </div>
     <div class="panel-body">
         <div class="form-group">
             <label class="col-2 title">HTTP请求方式</label>
@@ -43,7 +45,9 @@ use Michelf\MarkdownExtra;
     </div>
 </div>
 <div class="panel">
-    <div class="panel-header"><h2>请求参数</h2></div>
+    <div class="panel-header">
+        <h2><i class="fa fa-caret-down"></i>请求参数</h2>
+    </div>
     <div class="panel-body">
     <?php if($api['inputs']){?>
         <table>
@@ -74,7 +78,9 @@ use Michelf\MarkdownExtra;
     </div>
 </div>
 <div class="panel">
-    <div class="panel-header"><h2>响应参数</h2></div>
+    <div class="panel-header">
+        <h2><i class="fa fa-caret-down"></i>响应参数</h2>
+    </div>
     <div class="panel-body">
     <?php if($api['outputs']){?>
         <table>
@@ -116,7 +122,9 @@ use Michelf\MarkdownExtra;
     </div>
 </div>
 <div class="panel">
-    <div class="panel-header"><h2>错误码</h2></div>
+    <div class="panel-header">
+        <h2><i class="fa fa-caret-down"></i>错误码</h2>
+    </div>
     <div class="panel-body">
     <?php if($api['error_codes']){?>
         <table>
@@ -143,7 +151,9 @@ use Michelf\MarkdownExtra;
     </div>
 </div>
 <div class="panel">
-    <div class="panel-header"><h2>响应示例</h2></div>
+    <div class="panel-header">
+        <h2><i class="fa fa-caret-down"></i>响应示例</h2>
+    </div>
     <div class="panel-body">
         <?php if($api['api']['sample_response']){?>
             <pre id="sample_response" class="jsonview"><?php

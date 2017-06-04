@@ -3,46 +3,20 @@ jQuery.fn.extend({
         options = options || {};
         var settings = {
             'maxHeight': 200,
-            'startSuggestLength': 3,
+            'startSuggestLength': 0,
             'zindex': null,
             'onSelect': function(obj, data){}//选中某项后执行
         };
         settings = $.extend(settings, options);
         
-        var offset = $(this).offset();
-        var width = $(this).width();
-        var height = $(this).height();
-        var padding_top = $(this).css('padding-top');
-        var padding_bottom = $(this).css('padding-bottom');
-        var padding_left = $(this).css('padding-left');
-        var padding_right = $(this).css('padding-right');
-        var border_top = $(this).css('border-top-width');
-        var border_bottom = $(this).css('border-bottom-width');
-        
         var app = {
-            'obj':$(this),
-            'lastText':null,
-            'container':null,
-            'cache':{},//ajax缓存
-            'width':(parseInt(width) + parseInt(padding_left) + parseInt(padding_right)) + 'px',
-            'top':(parseInt(offset.top) + parseInt(height) + parseInt(padding_top) + parseInt(padding_bottom) + parseInt(border_top) + parseInt(border_bottom) + 2) + 'px',
-            'left':offset.left + 'px',
-            'lazyAjax':null,//用户连续键盘输入时，不发送ajax
-            'encode' : function(str){
-                var s = "";
-                if (str == undefined || str.length == 0) return "";
-                s = str.replace(/&/g, "&amp;");
-                s = s.replace(/</g, "&lt;");
-                s = s.replace(/>/g, "&gt;");
-                s = s.replace(/ /g,"&nbsp;");
-                s = s.replace(/\'/g, "&#39;");
-                s = s.replace(/\"/g, "&quot;");
-                return s;
-            },
-            'getSuggests':function(key){
-                if(typeof(key) == 'undefined'){
-                    key = '';
-                }
+            'obj': $(this),
+            'lastText': null,
+            'container': null,
+            'cache': {},//ajax缓存
+            'lazyAjax': 0,//用户连续键盘输入时，不发送ajax
+            'getSuggests': function(){
+                var key = app.obj.val();
                 app.lastText = key;
                 if(typeof(app.cache[key]) != 'undefined'){
                     app.showSuggests(app.cache[key]);
@@ -71,7 +45,7 @@ jQuery.fn.extend({
                     }, 300);
                 }
             },
-            'showSuggests':function(data){
+            'showSuggests': function(data){
                 //重新定位，因为元素可能被因为开始的时候是隐藏的，或者页面上其他元素被隐藏而发生定位变化
                 var offset = $(app.obj).offset();
                 var width = $(app.obj).width();
@@ -91,12 +65,13 @@ jQuery.fn.extend({
                 if(typeof(data) != 'undefined'){
                     app.container.find('ul').html('');
                     $.each(data, function(i, n){
+                        var text = '';
                         if(app.lastText){
-                            var text = app.encode(n.title).replace(eval('/'+app.lastText.replace(/\//g, '\\/')+'/ig'), function(str){
+                            text = system.encode(n.title).replace(eval('/'+app.lastText.replace(/\//g, '\\/')+'/ig'), function(str){
                                 return '<span class="highlight">'+str+'</span>'
                             });
                         }else{
-                            var text = app.encode(n.title);
+                            text = system.encode(n.title);
                         }
                         app.container.find('ul').append('<li>'+text+'</li>');
                         app.container.find('ul li:last').data('autocomplete-data', n);//把所有返回的数据存起来，因为除了可见的文字，还可能包含id等字段
@@ -106,19 +81,19 @@ jQuery.fn.extend({
                     app.container.show();
                     if(parseInt(app.container.find('ul').height()) > parseInt(settings.maxHeight)){
                         app.container.css({
-                            "height":settings.maxHeight + 1,
-                            "overflow":"auto"
+                            'height': settings.maxHeight + 1,
+                            'overflow': 'auto'
                         });
                     }else{
                         app.container.css({
-                            "height":"auto"
+                            'height': 'auto'
                         });
                     }
                 }else{
                     app.container.hide();
                 }
             },
-            'scrollTo':function(active){//上下键操作时，防止列表滚到外面去
+            'scrollTo': function(active){//上下键操作时，防止列表滚到外面去
                 if(app.container.find('li').length > 2){
                     var itemHeight = parseInt(app.container.find('li:visible:eq(1)').offset().top - app.container.find('li:visible:eq(0)').offset().top);
                     var active_offset_top = parseInt(active.offset().top);
@@ -131,7 +106,7 @@ jQuery.fn.extend({
                     }
                 }
             },
-            'goDown':function(){
+            'goDown': function(){
                 var current = app.container.find('li.active');
                 app.showSuggests();
                 var active = {};
@@ -147,7 +122,7 @@ jQuery.fn.extend({
                     app.scrollTo(active);
                 }
             },
-            'goUp':function(current){
+            'goUp': function(){
                 var current = app.container.find('li.active');
                 var active = {};
                 if(current.length > 0){
@@ -166,12 +141,12 @@ jQuery.fn.extend({
                     app.container.hide();
                 }
             },
-            'events':function(){
+            'events': function(){
                 //输入框得到焦点
                 app.obj.on('focus', function(){
                     if($(this).val() !== app.lastText && $(this).val().length > settings.startSuggestLength){
                         app.lastText = $(this).val();
-                        app.getSuggests(app.lastText);
+                        app.getSuggests();
                     }else{
                         app.showSuggests();
                     }
@@ -209,11 +184,10 @@ jQuery.fn.extend({
                             $(this).val(current.text()).data('autocomplete-data', current.data('autocomplete-data'));
                             settings.onSelect(app.obj, app.obj.data('autocomplete-data'));
                         }
-                        app.container.fadeOut("fast");
-                        return;
+                        app.container.fadeOut('fast');
                     }else{
                         if($(this).val().length >= settings.startSuggestLength){
-                            app.getSuggests($(this).val());
+                            app.getSuggests();
                         }else{
                             app.container.find('ul').html('');
                             app.container.hide();
@@ -226,11 +200,11 @@ jQuery.fn.extend({
                     settings.onSelect(app.obj, app.obj.data('autocomplete-data'));
                 });
             },
-            'init':function(){
-                app.obj.attr("autocomplete", "off");
-                var style = 'width:'+app.width+';top:'+app.top+';left:'+app.left+';';
+            'init': function(){
+                app.obj.attr('autocomplete', 'off');
+                var style = '';
                 if(settings.zindex){
-                    style += 'z-index:'+settings.zindex+';';
+                    style = 'z-index:'+settings.zindex+';';
                 }
                 $('body').append([
                     '<div class="fac-container" style="'+style+'">',
@@ -240,8 +214,8 @@ jQuery.fn.extend({
                 app.container = $('body .fac-container:last');
                 this.events();
             }
-        }
+        };
         
         app.init();
     }
-})
+});

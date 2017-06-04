@@ -3,9 +3,9 @@ namespace cms\services\shop;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fayshop\models\tables\GoodsCatPropsTable;
-use fayshop\models\tables\GoodsPropValuesTable;
 use fay\helpers\ArrayHelper;
+use fayshop\models\tables\ShopGoodsCatPropsTable;
+use fayshop\models\tables\ShopGoodsPropValuesTable;
 
 class ShopSkuService extends Service{
     /**
@@ -32,12 +32,12 @@ class ShopSkuService extends Service{
         $props_ids = array_keys($sku_map);
         $props_value_ids = array_values($sku_map);
         
-        $props = GoodsCatPropsTable::model()->fetchAll(array(
+        $props = ShopGoodsCatPropsTable::model()->fetchAll(array(
             'id IN (?)'=>$props_ids,
         ), 'id,title');
         $prop_map = ArrayHelper::column($props, 'title', 'id');
         
-        $values = GoodsPropValuesTable::model()->fetchAll(array(
+        $values = ShopGoodsPropValuesTable::model()->fetchAll(array(
             'goods_id = ?'=>$goods_id,
             'prop_id IN (?)'=>$props_ids,
             'prop_value_id IN (?)'=>$props_value_ids,

@@ -26,10 +26,11 @@ CREATE TABLE `{{$prefix}}apidoc_inputs` (
   `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '参数类型',
   `sample` text NOT NULL COMMENT '示例值',
   `description` text NOT NULL COMMENT '描述',
+  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `api_id` (`api_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口输入参数';
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_model_props`;
@@ -75,24 +76,32 @@ CREATE TABLE `{{$prefix}}apidoc_outputs` (
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `api_id` (`api_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口响应参数';
 
-DROP TABLE IF EXISTS `{{$prefix}}apidoc_apis_errorcodes`;
-CREATE TABLE `{{$prefix}}apidoc_apis_errorcodes` (
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_api_error_codes`;
+CREATE TABLE `{{$prefix}}apidoc_api_error_codes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `api_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Api ID',
-  `errorcode_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '错误码ID',
+  `code` varchar(50) NOT NULL DEFAULT '' COMMENT '错误码',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '错误描述',
+  `solution` varchar(500) NOT NULL DEFAULT '' COMMENT '解决方案',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='api错误码';
 
-DROP TABLE IF EXISTS `{{$prefix}}apidoc_errorcodes`;
-CREATE TABLE `{{$prefix}}apidoc_errorcodes` (
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_error_codes`;
+CREATE TABLE `{{$prefix}}apidoc_error_codes` (
   `id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(100) NOT NULL DEFAULT '' COMMENT '错误码',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '错误描述',
+  `code` varchar(50) NOT NULL DEFAULT '' COMMENT '错误码',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '错误描述',
   `solution` varchar(500) NOT NULL DEFAULT '' COMMENT '解决方案',
-  PRIMARY KEY (`id`)
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='错误码';
 
 
@@ -106,6 +115,7 @@ INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5003', '5000', '', 'API分类', '', 'apidoc/admin/api/cat');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5004', '5000', '', '数据模型列表', '', 'apidoc/admin/model/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5005', '5000', '', '新增数据模型', '', 'apidoc/admin/model/create');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5006', '5000', '', '错误码管理', '', 'apidoc/admin/error-code/index');
 
 -- 预定义特殊对象
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('1', 'String', '\"Hello World\"', '字符串');

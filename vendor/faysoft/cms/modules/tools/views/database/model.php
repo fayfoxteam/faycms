@@ -1,5 +1,9 @@
 <?php
 use fay\helpers\HtmlHelper;
+
+/**
+ * @var $tables array
+ */
 ?>
 <div class="row">
     <div class="col-8">
@@ -15,11 +19,6 @@ use fay\helpers\HtmlHelper;
         <ul class="table-list">
         <?php foreach($tables as $t){
             $t_name = preg_replace("/^{$prefix}(.*)/", '$1', array_shift($t), 1);
-            if(strpos($t_name, '_') &&
-                in_array(substr($t_name, 0, strpos($t_name, '_')), $apps) &&
-                substr($t_name, 0, strpos($t_name, '_')) != APPLICATION){
-                continue;
-            }
         ?>
             <li class="">
                 <span class="fr">

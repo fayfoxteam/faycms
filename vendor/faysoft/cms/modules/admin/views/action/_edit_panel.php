@@ -48,7 +48,7 @@ $(function(){
     system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
         $("#parent-router").autocomplete({
             "url" : system.url('cms/admin/action/search'),
-            'startSuggestLength':7,
+            'startSuggestLength':3,
             'onSelect':function(obj){
                 common.validformParams.forms.default.obj.check(obj);
             }

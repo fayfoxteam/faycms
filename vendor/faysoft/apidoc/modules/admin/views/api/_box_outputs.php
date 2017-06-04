@@ -13,10 +13,10 @@ use fay\helpers\HtmlHelper;
                 'id'=>'add-output-link',
             ))?>
         </div>
-        <div class="dragsort-list" id="model-list">
+        <div class="dragsort-list" id="output-list">
         <?php if(isset($outputs)){?>
             <?php foreach($outputs as $p){?>
-            <div class="dragsort-item" id="model-<?php echo $p['id']?>">
+            <div class="dragsort-item" id="output-<?php echo $p['id']?>">
                 <?php
                     echo HtmlHelper::inputHidden("outputs[{$p['id']}][name]", $p['name'], array(
                         'class'=>'input-name',

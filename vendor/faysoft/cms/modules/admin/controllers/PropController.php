@@ -75,7 +75,7 @@ class PropController extends AdminController{
 
             PropService::service()->update($prop_id, $prop, $prop_values);
 
-            Response::notify('success', '文章分类属性编辑成功', false);
+            Response::notify('success', '自定义属性编辑成功', false);
         }
 
         $prop = PropService::service()->get($prop_id);

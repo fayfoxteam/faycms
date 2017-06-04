@@ -1,6 +1,7 @@
 <?php
 namespace apidoc\modules\admin\controllers;
 
+use apidoc\models\tables\ApidocApiErrorCodesTable;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -26,6 +27,7 @@ class ApiController extends AdminController{
         array('name'=>'since', 'title'=>'自从'),
         array('name'=>'inputs', 'title'=>'请求参数'),
         array('name'=>'outputs', 'title'=>'响应参数'),
+        array('name'=>'error_code', 'title'=>'错误码'),
         array('name'=>'sample_response', 'title'=>'响应示例'),
     );
     
@@ -143,28 +145,29 @@ class ApiController extends AdminController{
                 'text'=>'API列表',
             );
         }
-        
+
         $this->form()->setModel(ApisTable::model());
-        
+
         //启用的编辑框
         $_setting_key = 'admin_api_boxes';
-        
+
         if($this->input->post() && $this->form()->check()){
             $data = ApisTable::model()->fillData($this->input->post(), true, 'insert');
             $data['create_time'] = $this->current_time;
             $data['update_time'] = $this->current_time;
             $data['user_id'] = $this->current_user;
             $api_id = ApisTable::model()->insert($data);
-            
+
+            //输入参数处理
             $inputs = $this->input->post('inputs');
             foreach($inputs as $i){
                 $input = InputsTable::model()->fillData($i, true, 'insert');
                 $input['api_id'] = $api_id;
-                $input['create_time'] = $this->current_time;
-                $input['update_time'] = $this->current_time;
+                $input['create_time'] = $input['update_time'] = $this->current_time;
                 InputsTable::model()->insert($input);
             }
-            
+
+            //输出参数处理
             $outputs = $this->input->post('outputs');
             $j = 0;
             foreach($outputs as $o){
@@ -175,16 +178,23 @@ class ApiController extends AdminController{
                 if(!$model){
                     throw new ErrorException('指定数据模型不存在', $o['model_name']);
                 }
-                
+
                 $output = InputsTable::model()->fillData($o, true, 'insert');
                 $output['api_id'] = $api_id;
                 $output['sort'] = $j;
                 $output['model_id'] = $model['id'];
-                $output['create_time'] = $this->current_time;
-                $output['update_time'] = $this->current_time;
+                $output['create_time'] = $output['update_time'] = $this->current_time;
                 OutputsTable::model()->insert($output);
             }
-            
+
+            //输入错误码
+            $error_codes = $this->input->post('error_codes');
+            foreach($error_codes as $error_code){
+                $error_code = ApidocApiErrorCodesTable::model()->fillData($error_code, true, 'insert');
+                $error_code['api_id'] = $api_id;
+                $error_code['create_time'] = $error_code['update_time'] = $this->current_time;
+                ApidocApiErrorCodesTable::model()->insert($error_code);
+            }
             Response::notify('success', 'API添加成功', array('apidoc/admin/api/edit', array(
                 'id'=>$api_id,
             )));
@@ -233,87 +243,127 @@ class ApiController extends AdminController{
             $data = ApisTable::model()->fillData($this->input->post(), true, 'update');
             $data['update_time'] = $this->current_time;
             ApisTable::model()->update($data, $api_id);
-            
-            //输入参数处理
-            $inputs = $this->input->post('inputs');
-            //删除已被删除的输入参数
-            if($inputs){
-                InputsTable::model()->delete(array(
-                    'api_id = ?'=>$api_id,
-                    'id NOT IN (?)'=>array_keys($inputs),
-                ));
-            }else if(in_array('inputs', $enabled_boxes)){
-                InputsTable::model()->delete(array(
-                    'api_id = ?'=>$api_id,
-                ));
-            }
-            //获取已存在的输入参数
-            $old_input_parameter_ids = InputsTable::model()->fetchCol('id', array(
-                'api_id = ?'=>$api_id,
-            ));
-            foreach($inputs as $input_parameter_id => $input){
-                if(in_array($input_parameter_id, $old_input_parameter_ids)){
-                    $input = InputsTable::model()->fillData($input, true, 'update');
-                    $input['update_time'] = $this->current_time;
-                    InputsTable::model()->update($input, $input_parameter_id);
-                }else{
-                    $input = InputsTable::model()->fillData($input, true, 'insert');
-                    $input['api_id'] = $api_id;
-                    $input['create_time'] = $this->current_time;
-                    $input['update_time'] = $this->current_time;
-                    InputsTable::model()->insert($input);
+
+            if(in_array('inputs', $enabled_boxes)){
+                //输入参数处理
+                $inputs = $this->input->post('inputs');
+                //获取已存在的输入参数
+                $old_input_parameters = ArrayHelper::column(InputsTable::model()->fetchAll(array(
+                    'api_id = ?' => $api_id,
+                )), null, 'id');
+                //删除已被删除的输入参数
+                $deleted_inputs = array_diff(
+                    ArrayHelper::column($old_input_parameters, 'id'),
+                    array_keys($inputs)
+                );
+                if($deleted_inputs){
+                    InputsTable::model()->delete(array(
+                        'id IN (?)'=>$deleted_inputs,
+                    ));
+                }
+                foreach($inputs as $input_parameter_id => $input){
+                    if(isset($old_input_parameters[$input_parameter_id])){
+                        $input = InputsTable::model()->fillData($input, true, 'update');
+                        if(!ArrayHelper::equal($input, $old_input_parameters[$input_parameter_id])){
+                            $input['update_time'] = $this->current_time;
+                            InputsTable::model()->update($input, $input_parameter_id);
+                        }
+                    }else{
+                        $input = InputsTable::model()->fillData($input, true, 'insert');
+                        $input['api_id'] = $api_id;
+                        $input['create_time'] = $input['update_time'] = $this->current_time;
+                        InputsTable::model()->insert($input);
+                    }
                 }
             }
-            
-            //输出参数处理
-            $outputs = $this->input->post('outputs');
-            //删除已被删除的输出参数
-            if($outputs){
-                OutputsTable::model()->delete(array(
+
+            if(in_array('outputs', $enabled_boxes)){
+                //输出参数处理
+                $outputs = $this->input->post('outputs');
+                //获取已存在的输出参数
+                $old_output_parameters = ArrayHelper::column(OutputsTable::model()->fetchAll(array(
                     'api_id = ?'=>$api_id,
-                    'id NOT IN (?)'=>array_keys($outputs),
-                ));
-            }else if(in_array('outputs', $enabled_boxes)){
-                OutputsTable::model()->delete(array(
+                )), null, 'id');
+                //删除已被删除的输出参数
+                $deleted_outputs = array_diff(
+                    ArrayHelper::column($old_output_parameters, 'id'),
+                    array_keys($outputs)
+                );
+                if($deleted_outputs){
+                    OutputsTable::model()->delete(array(
+                        'id IN (?)'=>$deleted_outputs,
+                    ));
+                }
+                $i = 0;
+                foreach($outputs as $output_parameter_id => $o){
+                    $i++;
+                    $model = ModelsTable::model()->fetchRow(array(
+                        'name = ?'=>$o['model_name'],
+                    ), 'id');
+                    if(!$model){
+                        throw new ErrorException('指定数据模型不存在', $o['model_name']);
+                    }
+    
+                    if(isset($old_output_parameters[$output_parameter_id])){
+                        $output = OutputsTable::model()->fillData($o, true, 'update');
+                        $output['model_id'] = $model['id'];
+                        $output['sort'] = $i;
+                        if(!ArrayHelper::equal($output, $old_output_parameters[$output_parameter_id])){
+                            $output['update_time'] = $this->current_time;
+                            OutputsTable::model()->update($output, $output_parameter_id);
+                        }
+                    }else{
+                        $output = OutputsTable::model()->fillData($o, true, 'insert');
+                        $output['api_id'] = $api_id;
+                        $output['model_id'] = $model['id'];
+                        $output['sort'] = $i;
+                        $output['create_time'] = $output['update_time'] = $this->current_time;
+                        OutputsTable::model()->insert($output);
+                    }
+                }
+            }
+
+            //处理错误码
+            if(in_array('error_code', $enabled_boxes)){
+                $error_codes = $this->input->post('error_codes');
+                //获取已存在的错误码
+                $old_error_codes = ArrayHelper::column(ApidocApiErrorCodesTable::model()->fetchAll(array(
                     'api_id = ?'=>$api_id,
-                ));
-            }
-            //获取已存在的输入参数
-            $old_input_parameter_ids = OutputsTable::model()->fetchCol('id', array(
-                'api_id = ?'=>$api_id,
-            ));
-            $i = 0;
-            foreach($outputs as $output_parameter_id => $o){
-                $i++;
-                $model = ModelsTable::model()->fetchRow(array(
-                    'name = ?'=>$o['model_name'],
-                ), 'id');
-                if(!$model){
-                    throw new ErrorException('指定数据模型不存在', $o['model_name']);
+                )), null, 'id');
+                //删除已被删除的错误码
+                $deleted_error_codes = array_diff(
+                    ArrayHelper::column($old_error_codes, 'code'),
+                    ArrayHelper::column($error_codes, 'code')
+                );
+                if($deleted_error_codes){
+                    ApidocApiErrorCodesTable::model()->delete(array(
+                        'api_id = ?'=>$api_id,
+                        'code IN (?)'=>$deleted_error_codes,
+                    ));
                 }
-                
-                if(in_array($output_parameter_id, $old_input_parameter_ids)){
-                    $output = OutputsTable::model()->fillData($o, true, 'update');
-                    $output['model_id'] = $model['id'];
-                    $output['sort'] = $i;
-                    $output['update_time'] = $this->current_time;
-                    OutputsTable::model()->update($output, $output_parameter_id);
-                }else{
-                    $output = OutputsTable::model()->fillData($o, true, 'insert');
-                    $output['api_id'] = $api_id;
-                    $output['model_id'] = $model['id'];
-                    $output['sort'] = $i;
-                    $output['create_time'] = $this->current_time;
-                    $output['update_time'] = $this->current_time;
-                    OutputsTable::model()->insert($output);
+                foreach($error_codes as $error_code_id => $error_code){
+                    if(empty($error_code['code'])){
+                        //code为空的跳过
+                        continue;
+                    }
+                    if(isset($old_error_codes[$error_code_id])){
+                        $error_code = ApidocApiErrorCodesTable::model()->fillData($error_code, true, 'update');
+                        if(!ArrayHelper::equal($error_code, $old_error_codes[$error_code_id])){
+                            $error_code['update_time'] = $this->current_time;
+                            ApidocApiErrorCodesTable::model()->update($error_code, $error_code_id);
+                        }
+                    }else{
+                        $error_code = ApidocApiErrorCodesTable::model()->fillData($error_code, true, 'insert');
+                        $error_code['api_id'] = $api_id;
+                        $error_code['create_time'] = $error_code['update_time'] = $this->current_time;
+                        ApidocApiErrorCodesTable::model()->insert($error_code);
+                    }
                 }
             }
-            
-            Response::notify('success', 'API编辑成功', array('apidoc/admin/api/edit', array(
-                'id'=>$api_id,
-            )));
+
+            Response::notify('success', 'API编辑成功', false);
         }
-        
+
         $api = ApisTable::model()->find($api_id);
         $this->form()->setData($api);
 
@@ -325,27 +375,27 @@ class ApiController extends AdminController{
                 'text'=>'添加API',
             );
         }
-        
+
         //原输入参数
         $this->view->inputs = InputsTable::model()->fetchAll('api_id = '.$api_id, '*', 'required DESC, name ASC');
-        
+
         //分类树
         $this->view->cats = CategoryService::service()->getTree('_system_api');
-        
+
         //可配置信息
         $_box_sort_settings = SettingService::service()->get('admin_api_box_sort');
         $_box_sort_settings || $_box_sort_settings = $this->default_box_sort;
         $this->view->_box_sort_settings = $_box_sort_settings;
-        
+
         //页面设置
         $enabled_boxes = $this->getEnabledBoxes($_setting_key);
         $this->settingForm($_setting_key, '_setting_edit', array(), array(
             'enabled_boxes'=>$enabled_boxes,
         ));
-        
+
         //输入参数表单规则
         $this->form('input-parameter')->setModel(InputsTable::model());
-        
+
         //输出参数表单规则
         $this->form('output')->setModel(OutputsTable::model())
             ->setRule(array('model_name', 'required'))
@@ -354,7 +404,7 @@ class ApiController extends AdminController{
             ->setLabels(array(
                 'model_name'=>'模型名称',
             ));
-            
+
         //原属性
         $sql = new Sql();
         $this->view->outputs = $sql->from(array('o'=>OutputsTable::model()->getTableName()))
@@ -362,7 +412,11 @@ class ApiController extends AdminController{
             ->where('o.api_id = ?', $api_id)
             ->order('o.sort')
             ->fetchAll();
-        
+
+        //错误码
+        $this->view->error_codes = ApidocApiErrorCodesTable::model()->fetchAll(array(
+            'api_id = ?'=>$api_id,
+        ));
         $this->view->render();
     }
     

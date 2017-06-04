@@ -14,9 +14,9 @@ use fay\core\Loader;
  * @property int $type 参数类型
  * @property string $sample 示例值
  * @property string $description 描述
+ * @property string $since 自从
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
- * @property string $since 自从
  */
 class InputsTable extends Table{
 /**
@@ -77,9 +77,9 @@ class InputsTable extends Table{
             'type'=>'参数类型',
             'sample'=>'示例值',
             'description'=>'描述',
+            'since'=>'自从',
             'create_time'=>'创建时间',
             'update_time'=>'更新时间',
-            'since'=>'自从',
         );
     }
 

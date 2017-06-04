@@ -141,7 +141,10 @@ var api = {
             if(confirm('确定要删除此请求参数吗？')){
                 $(this).parent().parent().parent().fadeOut(function(){
                     $(this).remove();
-                })
+                    var $inputParameterTable = $('#input-parameter-table');
+                    $inputParameterTable.find('tbody tr').removeClass('alternate');
+                    $inputParameterTable.find('tbody tr:even').addClass('alternate');
+                });
             }
         })
     },
@@ -190,24 +193,34 @@ var api = {
      */
     'autocomplete': function(){
         system.getScript(system.assets('faycms/js/fayfox.autocomplete.js'), function(){
-            $("#add-output-model-name").autocomplete({
-                "url" : system.url('apidoc/admin/model/search'),
-                'startSuggestLength': 0,
+            $('#add-output-model-name').autocomplete({
+                'url' : system.url('apidoc/admin/model/search'),
                 'onSelect': function(obj, data){
                     obj.val(data.name);
                     api.outputForm.check(obj);
                 },
                 'zindex': '111150'
             });
-            $("#edit-output-model-name").autocomplete({
-                "url" : system.url('apidoc/admin/model/search'),
-                'startSuggestLength': 0,
+            $('#edit-output-model-name').autocomplete({
+                'url' : system.url('apidoc/admin/model/search'),
                 'onSelect': function(obj, data){
                     obj.val(data.name);
                     api.outputForm.check(obj);
                 },
                 'zindex': '111150'
             });
+            $('#error-code-table').find('.error-code').each(function(){
+                $(this).autocomplete({
+                    'url' : system.url('apidoc/admin/error-code/search'),
+                    'onSelect': function(obj, data){
+                        obj.val(data.code);
+                        var $row = obj.parent().parent();
+                        $row.find('.error-description').val(data.description);
+                        $row.find('.error-solution').val(data.solution);
+                    },
+                    'zindex': '1000'
+                });
+            })
         });
     },
     /**
@@ -261,7 +274,7 @@ var api = {
                         var timestamp = new Date().getTime();
                         
                         //插入行
-                        $('#model-list').append(['<div class="dragsort-item" id="model-', timestamp, '">',
+                        $('#output-list').append(['<div class="dragsort-item" id="model-', timestamp, '">',
                             '<input type="hidden" name="outputs[', timestamp, '][name]" value="', name, '" class="input-name" />',
                             '<input type="hidden" name="outputs[', timestamp, '][model_name]" value="', model_name, '" class="input-model-name" />',
                             '<input type="hidden" name="outputs[', timestamp, '][is_array]" value="', is_array, '" class="input-is-array" />',
@@ -308,6 +321,9 @@ var api = {
             }, rules, labels);
         });
     },
+    /**
+     * 自动格式化响应示例json
+     */
     'autoFormatSampleResponse': function(){
         var $sampleResponse = $('#sample-response');
         $sampleResponse.on('blur', function(){
@@ -323,6 +339,53 @@ var api = {
             }
         });
     },
+    /**
+     * 添加错误码
+     */
+    'addErrorCode': function(){
+        $('#add-error-code-link').on('click', function(){
+            var timestamp = new Date().getTime();
+            var $errorCodeTable = $('#error-code-table');
+            $errorCodeTable.find('tbody').append([
+                '<tr valign="top" id="error-code-', timestamp, '">',
+                    '<td>',
+                        '<input name="error_codes[', timestamp, '][code]" type="text" class="form-control error-code">',
+                        '<div class="row-actions">',
+                            '<a class="fc-red remove-error-code-link" href="javascript:" title="删除">删除</a>',
+                        '</div>',
+                    '</td>',
+                    '<td><textarea name="error_codes[', timestamp, '][description]" class="form-control autosize error-description"></textarea></td>',
+                    '<td><textarea name="error_codes[', timestamp, '][solution]" class="form-control autosize error-solution"></textarea></td>',
+                '</tr>'
+            ].join(''));
+
+            $errorCodeTable.find('tbody tr:last .error-code').autocomplete({
+                'url' : system.url('apidoc/admin/error-code/search'),
+                'onSelect': function(obj, data){
+                    obj.val(data.code);
+                },
+                'zindex': '1000'
+            });
+            
+            $errorCodeTable.find('tbody tr').removeClass('alternate');
+            $errorCodeTable.find('tbody tr:even').addClass('alternate');
+        });
+    },
+    /**
+     * 移除请求参数
+     */
+    'removeErrorCode': function(){
+        $('#error-code-table').on('click', '.remove-error-code-link', function(){
+            if(confirm('确定要删除此错误码吗？')){
+                $(this).parent().parent().parent().fadeOut(function(){
+                    $(this).remove();
+                    var $errorCodeTable = $('#error-code-table');
+                    $errorCodeTable.find('tbody tr').removeClass('alternate');
+                    $errorCodeTable.find('tbody tr:even').addClass('alternate');
+                });
+            }
+        })
+    },
     'init': function(){
         this.addInputParameter();
         this.editInputParameter();
@@ -331,5 +394,7 @@ var api = {
         this.editOutput();
         this.autocomplete();
         this.autoFormatSampleResponse();
+        this.addErrorCode();
+        this.removeErrorCode();
     }
 };

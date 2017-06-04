@@ -60,7 +60,7 @@ class ArrayHelper{
                 }
             }
         }
-        
+
         return $array;
     }
 
@@ -97,10 +97,10 @@ class ArrayHelper{
                 $array[$k] = $v;
             }
         }
-        
+
         return $array;
     }
-    
+
     /**
      * 与array_count_values不同，会以出现次数为键，一维数组为值，合并所有出现次数相同的值
      * @param array $input 只允许一维数组（与array_count_values相同）
@@ -111,12 +111,33 @@ class ArrayHelper{
      */
     public static function countValues($input){
         $array_count_values = array_count_values($input);
-        
+
         $return = array();
         foreach($array_count_values as $k => $v){
             $return[$v][] = $k;
         }
-        
+
         return $return;
+    }
+
+    /**
+     * 比较两个数组是否相等（弱类型比较）
+     *  > $arr2可以包含一些$arr中不存在的项
+     * @param array $arr
+     * @param array $arr2
+     * @return bool
+     */
+    public static function equal($arr, $arr2){
+        if(!is_array($arr) || !is_array($arr2)){
+            return false;
+        }
+
+        foreach($arr as $key => $value){
+            if(!isset($arr2[$key]) || $arr2[$key] != $value){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

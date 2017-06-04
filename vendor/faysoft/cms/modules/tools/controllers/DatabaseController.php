@@ -161,8 +161,8 @@ class DatabaseController extends ToolsController{
                 //是某个app的定制表
                 if(substr($t_name, 0, strpos($t_name, '_')) == APPLICATION){
                     $custom_tables[] = $t_name;
+                    continue;
                 }
-                continue;
             }
             
             //加载model，从model中获取label作为备注

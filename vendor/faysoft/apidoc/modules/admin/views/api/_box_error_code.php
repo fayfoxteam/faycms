@@ -18,8 +18,8 @@ use fay\helpers\HtmlHelper;
             <thead>
                 <tr>
                     <th>错误码</th>
-                    <th>错误描述</th>
-                    <th>解决方案</th>
+                    <th>错误描述（支持MarkDown）</th>
+                    <th>解决方案（支持MarkDown）</th>
                 </tr>
             </thead>
             <tbody><?php if(!empty($error_codes)){?>

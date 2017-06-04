@@ -1,6 +1,7 @@
 <?php
 namespace apidoc\services;
 
+use apidoc\models\tables\ApidocApiErrorCodesTable;
 use apidoc\models\tables\ApisTable;
 use fay\core\Loader;
 use fay\core\Service;
@@ -26,12 +27,13 @@ class ApiService extends Service{
         $return = array(
             'api'=>$api,
             'category'=>CategoryService::service()->get($api['cat_id'], 'alias'),
-            'inputs'=>InputsTable::model()->fetchAll('api_id = '.$id, '*', 'required DESC, name ASC'),
+            'inputs'=>InputsTable::model()->fetchAll('api_id = '.$api['id'], '*', 'required DESC, name ASC'),
             'outputs'=>$sql->from(array('o'=>'apidoc_outputs'), array('name', 'sample', 'description', 'model_id', 'is_array'))
                 ->joinLeft(array('ob'=>'apidoc_models'), 'o.model_id = ob.id', array('name AS model_name'))
-                ->where('o.api_id = ' . $id)
+                ->where('o.api_id = ' . $api['id'])
                 ->order('o.sort, o.name')
                 ->fetchAll(),
+            'error_codes'=>ApidocApiErrorCodesTable::model()->fetchAll('api_id = '. $api['id'], '*', 'code'),
         );
         return $return;
     }

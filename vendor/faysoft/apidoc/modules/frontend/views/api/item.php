@@ -116,14 +116,41 @@ use Michelf\MarkdownExtra;
     </div>
 </div>
 <div class="panel">
-    <div class="panel-header"><h2>响应示例</h2></div>
+    <div class="panel-header"><h2>错误码</h2></div>
     <div class="panel-body">
-    <?php if($api['api']['sample_response']){?>
-        <pre id="sample_response" class="jsonview"><?php
-            echo SampleHelper::render($api['api']['sample_response']);
-        ?></pre>
+    <?php if($api['error_codes']){?>
+        <table>
+            <thead>
+            <tr>
+                <th width="30%">错误码</th>
+                <th width="30%">错误描述</th>
+                <th width="40%">解决方案</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($api['error_codes'] as $error_code){?>
+                <tr>
+                    <td><?php echo HtmlHelper::encode($error_code['code'])?></td>
+                    <td><?php echo MarkdownExtra::defaultTransform($error_code['description'])?></td>
+                    <td><?php echo MarkdownExtra::defaultTransform($error_code['solution'])?></td>
+                </tr>
+            <?php }?>
+            </tbody>
+        </table>
     <?php }else{?>
         <span>无</span>
     <?php }?>
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-header"><h2>响应示例</h2></div>
+    <div class="panel-body">
+        <?php if($api['api']['sample_response']){?>
+            <pre id="sample_response" class="jsonview"><?php
+                echo SampleHelper::render($api['api']['sample_response']);
+                ?></pre>
+        <?php }else{?>
+            <span>无</span>
+        <?php }?>
     </div>
 </div>

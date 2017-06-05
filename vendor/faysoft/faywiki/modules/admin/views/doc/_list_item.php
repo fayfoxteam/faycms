@@ -1,22 +1,15 @@
 <?php
 use fay\helpers\HtmlHelper;
-use cms\services\post\PostService;
 use fay\helpers\DateHelper;
 use cms\helpers\PostHelper;
 use cms\services\file\FileService;
-use cms\services\post\PostTagService;
-use cms\services\post\PostCategoryService;
-
 /**
  * @var $data array
  */
-//分类权限判断
-$editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
 ?>
 <tr valign="top" id="post-<?php echo $data['id']?>">
     <td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(
         'class'=>'batch-ids',
-        'disabled'=>$editable ? false : 'disabled',
     ));?></td>
     <?php if(in_array('id', $cols)){?>
     <td><?php echo $data['id']?></td>
@@ -34,7 +27,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
                 'title'=>HtmlHelper::encode($data['title']),
                 'data-fancybox'=>'images',
                 'data-caption'=>HtmlHelper::encode(HtmlHelper::encode($data['title'])) .
-                    HtmlHelper::encode(HtmlHelper::link('<i class="fa fa-edit ml5"></i>编辑', array('cms/admin/post/edit', array(
+                    HtmlHelper::encode(HtmlHelper::link('<i class="fa fa-edit ml5"></i>编辑', array('faywiki/admin/doc/edit', array(
                         'id'=>$data['id'],
                     )), array(
                         'encode'=>false,
@@ -53,8 +46,8 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
     <?php }?>
     <td>
         <strong><?php
-            if($editable && !$data['delete_time']){
-                echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', array('cms/admin/post/edit', array(
+            if(!$data['delete_time']){
+                echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', array('faywiki/admin/doc/edit', array(
                     'id'=>$data['id'],
                 )));
             }else{
@@ -62,61 +55,35 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
             }
         ?></strong>
         <div class="row-actions">
-        <?php if($editable){
+        <?php
             if($data['delete_time'] == 0){
-                echo HtmlHelper::link('编辑', array('cms/admin/post/edit', array(
+                echo HtmlHelper::link('编辑', array('faywiki/admin/doc/edit', array(
                     'id'=>$data['id'],
                 )), array(), true);
-                echo HtmlHelper::link('移入回收站', array('cms/admin/post/delete', array(
+                echo HtmlHelper::link('移入回收站', array('faywiki/admin/doc/delete', array(
                     'id'=>$data['id'],
                 )), array(
                     'class'=>'fc-red',
                 ), true);
             }else{
-                echo HtmlHelper::link('还原', array('cms/admin/post/undelete', array(
+                echo HtmlHelper::link('还原', array('faywiki/admin/doc/undelete', array(
                     'id'=>$data['id'],
                 )), array(
                     'class'=>'undelete-post',
                 ), true);
-                echo HtmlHelper::link('永久删除', array('cms/admin/post/remove', array(
+                echo HtmlHelper::link('永久删除', array('faywiki/admin/doc/remove', array(
                     'id'=>$data['id'],
                 )), array(
                     'class'=>'delete-post fc-red remove-link',
                 ), true);
             }
-        }?>
+        ?>
         </div>
     </td>
-    <?php if(in_array('main_category', $cols)){?>
-    <td><?php echo HtmlHelper::link($data['cat_title'], array('cms/admin/post/index', array(
+    <?php if(in_array('category', $cols)){?>
+    <td><?php echo HtmlHelper::link($data['cat_title'], array('faywiki/admin/doc/index', array(
         'cat_id'=>$data['cat_id'],
     )));?></td>
-    <?php }?>
-    <?php if(in_array('category', $cols)){?>
-    <td><?php
-        $cats = PostService::service()->getCats($data['id']);
-        foreach($cats as $key => $cat){
-            if($key){
-                echo ', ';
-            }
-            echo HtmlHelper::link($cat['title'], array('cms/admin/post/index', array(
-                'cat_id'=>$cat['id'],
-            )));
-        }
-    ?></td>
-    <?php }?>
-    <?php if(in_array('tags', $cols)){?>
-    <td><?php
-        $tags = PostTagService::service()->get($data['id']);
-        foreach($tags as $key => $tag){
-            if($key){
-                echo ', ';
-            }
-            echo HtmlHelper::link($tag['tag']['title'], array('cms/admin/post/index', array(
-                'tag_id'=>$tag['tag']['id'],
-            )));
-        }
-    ?></td>
     <?php }?>
     <?php if(in_array('status', $cols)){?>
     <td><?php echo PostHelper::getStatus($data['status'], $data['delete_time']);?></td>
@@ -124,7 +91,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
     <?php if(in_array('user', $cols)){?>
     <td><?php
         echo HtmlHelper::link($data[F::form('setting')->getData('display_name', 'username')], array(
-            'cms/admin/post/index', array(
+            'faywiki/admin/doc/index', array(
                 'keywords_field'=>'p.user_id',
                 'keywords'=>$data['user_id'],
             ),
@@ -136,12 +103,6 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
     <?php }?>
     <?php if(in_array('real_views', $cols)){?>
     <td><?php echo $data['real_views']?></td>
-    <?php }?>
-    <?php if(in_array('comments', $cols)){?>
-    <td><?php echo $data['comments']?></td>
-    <?php }?>
-    <?php if(in_array('real_comments', $cols)){?>
-    <td><?php echo $data['real_comments']?></td>
     <?php }?>
     <?php if(in_array('likes', $cols)){?>
     <td><?php echo $data['likes']?></td>
@@ -192,8 +153,5 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
             }?>
         </abbr>
     </td>
-    <?php }?>
-    <?php if(in_array('sort', $cols)){?>
-    <td><?php echo DateHelper::format($data['sort'])?></td>
     <?php }?>
 </tr>

@@ -109,6 +109,14 @@ class PostPropService extends Service implements PropUsageInterface{
     }
 
     /**
+     * 获取属性名称别名表model
+     * @return PostPropTitleAliasTable
+     */
+    public function getTitleAliasModel(){
+        return PostPropTitleAliasTable::model();
+    }
+
+    /**
      * 将props信息装配到$posts中
      * @param array $posts 包含文章信息的三维数组
      *   若包含$posts.post.id字段，则以此字段作为文章ID
@@ -195,7 +203,7 @@ class PostPropService extends Service implements PropUsageInterface{
      */
     public function updatePropSet($post_id, $data, $labels = array(), $props = null){
         if($props === null){
-            $props = PostPropService::service()->getPropsByPostId($post_id);
+            $props = $this->getPropsByPostId($post_id);
         }
         $this->getItemProp($post_id)->updatePropSet($props, $data, $labels);
     }
@@ -207,13 +215,5 @@ class PostPropService extends Service implements PropUsageInterface{
      */
     protected function getItemProp($post_id){
         return new ItemPropService($post_id, $this);
-    }
-
-    /**
-     * 获取属性名称别名表model
-     * @return PostPropTitleAliasTable
-     */
-    public function getTitleAliasModel(){
-        return PostPropTitleAliasTable::model();
     }
 }

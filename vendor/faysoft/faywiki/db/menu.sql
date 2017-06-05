@@ -1,0 +1,4 @@
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('6000', '100', 'wiki_doc', '百科文档', 'fa fa-book', 'javascript:');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('6001', '6000', '', '文档列表', '', 'faywiki/admin/doc/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('6002', '6000', '', '添加文档', '', 'faywiki/admin/doc/create');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('6003', '6000', '', '文档分类', '', 'faywiki/admin/doc/cat');

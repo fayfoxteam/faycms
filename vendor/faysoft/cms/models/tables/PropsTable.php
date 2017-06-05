@@ -58,12 +58,12 @@ class PropsTable extends Table{
      */
     const ELEMENT_FILE = 8;
     /**
-     * 类型-文章分类属性
+     * 用途 - 文章分类属性
      */
     const USAGE_POST_CAT = 1;
 
     /**
-     * 类型-角色附加属性
+     * 用途 - 角色附加属性
      */
     const USAGE_ROLE = 2;
     

@@ -295,8 +295,8 @@ class PostController extends AdminController{
                 $cats = CategoryService::service()->getChildIds($cat_id);
                 if($this->input->get('with_slave')){
                     $orWhere = array(
-                        "p.cat_id = {$cat_id}",
-                        "pc.cat_id = {$cat_id}",
+                        'p.cat_id = ?'=>$cat_id,
+                        'pc.cat_id = ?'=>$cat_id,
                     );
                     foreach($cats as $c){
                         $orWhere[] = "p.cat_id = {$c}";
@@ -373,6 +373,7 @@ class PostController extends AdminController{
             $count_sql->where(array("p.{$this->input->get('time_field')} < ?"=>$this->input->get('end_time', 'strtotime')));
         }
         
+        //标签
         if($tag_id = $this->input->get('tag_id', 'intval')){
             $sql->joinLeft(array('pt'=>'posts_tags'), 'p.id = pt.post_id')
                 ->where(array(

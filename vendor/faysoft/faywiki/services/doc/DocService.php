@@ -137,7 +137,8 @@ class DocService extends Service{
         }
         WikiDocMetaTable::model()->insert($doc_meta);
         
-        //@todo 自定义属性
+        //自定义属性
+        
 
         //触发事件
         \F::event()->trigger(self::EVENT_CREATED, $doc_id);
@@ -150,6 +151,10 @@ class DocService extends Service{
     }
     
     public function delete(){
+        
+    }
+    
+    public function remove($doc_id){
         
     }
     

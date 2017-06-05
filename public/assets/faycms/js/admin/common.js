@@ -21,7 +21,7 @@ var common = {
                 },
                 'beforeCheck': function(){
                     $('body').block({
-                        'zindex': 1300
+                        'zindex': 130000
                     });
                 },
                 'onError': function(obj, msg){

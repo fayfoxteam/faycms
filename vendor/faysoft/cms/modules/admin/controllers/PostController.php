@@ -324,8 +324,19 @@ class PostController extends AdminController{
             }else{
                 if($this->input->get('with_slave')){
                     //包含文章从分类搜索
-                    $sql->where(array('p.cat_id = ?'=>$cat_id));
-                    $count_sql->where(array('p.cat_id = ?'=>$cat_id));
+                    $sql->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
+                        ->orWhere(array(
+                            'pc.cat_id = ?'=>$cat_id,
+                            'p.cat_id = ?'=>$cat_id,
+                        ))
+                        ->distinct(true);
+                    $count_sql->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')
+                        ->orWhere(array(
+                            'pc.cat_id = ?'=>$cat_id,
+                            'p.cat_id = ?'=>$cat_id,
+                        ))
+                        ->countBy('DISTINCT p.id')
+                    ;
                 }else{
                     //仅根据文章主分类搜索
                     $sql->where(array('p.cat_id = ?'=>$cat_id));

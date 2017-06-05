@@ -12,6 +12,7 @@ class ErrorCodeController extends AdminController{
     public function __construct(){
         parent::__construct();
         $this->layout->current_directory = 'api';
+        $this->layout->_help_panel = '_help';
     }
     
     public function index(){

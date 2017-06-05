@@ -2,7 +2,7 @@
 namespace cms\services\post;
 
 use cms\models\tables\PostPropIntTable;
-use cms\models\tables\PostPropLabelsTable;
+use cms\models\tables\PostPropTitleAliasTable;
 use cms\models\tables\PostPropTextTable;
 use cms\models\tables\PostPropVarcharTable;
 use cms\models\tables\PostsTable;
@@ -211,9 +211,9 @@ class PostPropService extends Service implements PropUsageInterface{
 
     /**
      * 获取属性名称别名表model
-     * @return PostPropLabelsTable
+     * @return PostPropTitleAliasTable
      */
-    public function getLabelModel(){
-        return PostPropLabelsTable::model();
+    public function getTitleAliasModel(){
+        return PostPropTitleAliasTable::model();
     }
 }

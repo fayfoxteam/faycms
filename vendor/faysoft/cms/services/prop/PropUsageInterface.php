@@ -56,5 +56,5 @@ interface PropUsageInterface{
      * 获取属性名称别名表model
      * @return Table
      */
-    public function getLabelModel();
+    public function getTitleAliasModel();
 }

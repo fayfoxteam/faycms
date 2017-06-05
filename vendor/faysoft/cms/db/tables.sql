@@ -399,12 +399,12 @@ CREATE TABLE `{{$prefix}}post_prop_int` (
   UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章自定义属性-int';
 
-DROP TABLE IF EXISTS `{{$prefix}}post_prop_labels`;
-CREATE TABLE `{{$prefix}}post_prop_labels` (
+DROP TABLE IF EXISTS `{{$prefix}}post_prop_title_alias`;
+CREATE TABLE `{{$prefix}}post_prop_title_alias` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `relation_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称别名',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称别名',
   PRIMARY KEY (`id`),
   UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章属性名称别名';
@@ -695,12 +695,12 @@ CREATE TABLE `{{$prefix}}user_prop_int` (
   UNIQUE KEY `relation_id-prop_id-content` (`relation_id`,`prop_id`,`content`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='角色自定义属性-int';
 
-DROP TABLE IF EXISTS `{{$prefix}}user_prop_labels`;
-CREATE TABLE `{{$prefix}}user_prop_labels` (
+DROP TABLE IF EXISTS `{{$prefix}}user_prop_title_alias`;
+CREATE TABLE `{{$prefix}}user_prop_title_alias` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `relation_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `prop_id` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '属性ID',
-  `title` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称别名',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '属性名称别名',
   PRIMARY KEY (`id`),
   UNIQUE KEY `relation_id-prop_id` (`relation_id`,`prop_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户属性名称别名';

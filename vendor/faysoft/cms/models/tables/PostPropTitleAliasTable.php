@@ -10,10 +10,10 @@ use fay\core\Loader;
  * @property int $id Id
  * @property int $relation_id 文章ID
  * @property int $prop_id 属性ID
- * @property string $title 属性名称别名
+ * @property string $alias 属性名称别名
  */
-class PostPropLabelsTable extends Table{
-    protected $_name = 'post_prop_labels';
+class PostPropTitleAliasTable extends Table{
+    protected $_name = 'post_prop_title_alias';
     
     /**
      * @return $this
@@ -26,7 +26,7 @@ class PostPropLabelsTable extends Table{
         return array(
             array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('relation_id', 'prop_id'), 'int', array('min'=>0, 'max'=>16777215)),
-            array(array('title'), 'string', array('max'=>50)),
+            array(array('alias'), 'string', array('max'=>50)),
         );
     }
 
@@ -35,7 +35,7 @@ class PostPropLabelsTable extends Table{
             'id'=>'Id',
             'relation_id'=>'文章ID',
             'prop_id'=>'属性ID',
-            'title'=>'属性名称别名',
+            'alias'=>'属性名称别名',
         );
     }
 
@@ -44,7 +44,7 @@ class PostPropLabelsTable extends Table{
             'id'=>'intval',
             'relation_id'=>'intval',
             'prop_id'=>'intval',
-            'title'=>'trim',
+            'alias'=>'trim',
         );
     }
 }

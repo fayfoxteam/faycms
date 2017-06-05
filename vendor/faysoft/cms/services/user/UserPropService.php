@@ -4,8 +4,8 @@ namespace cms\services\user;
 use cms\models\tables\PropsTable;
 use cms\models\tables\RolesTable;
 use cms\models\tables\UserPropIntTable;
-use cms\models\tables\UserPropLabelsTable;
 use cms\models\tables\UserPropTextTable;
+use cms\models\tables\UserPropTitleAliasTable;
 use cms\models\tables\UserPropVarcharTable;
 use cms\models\tables\UsersRolesTable;
 use cms\services\prop\ItemPropService;
@@ -101,10 +101,10 @@ class  UserPropService extends Service implements PropUsageInterface{
 
     /**
      * 获取属性名称别名表model
-     * @return UserPropLabelsTable
+     * @return UserPropTitleAliasTable
      */
-    public function getLabelModel(){
-        return UserPropLabelsTable::model();
+    public function getTitleAliasModel(){
+        return UserPropTitleAliasTable::model();
     }
 
     /**

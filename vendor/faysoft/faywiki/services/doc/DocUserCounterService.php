@@ -1,5 +1,5 @@
 <?php
-namespace cms\services\post;
+namespace faywiki\services\doc;
 
 use fay\core\Loader;
 use fay\core\Service;
@@ -7,8 +7,9 @@ use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use cms\services\user\UserCounterService;
 use cms\models\tables\UserCounterTable;
+use faywiki\models\tables\WikiDocsTable;
 
-class PostUserCounterService extends Service{
+class DocUserCounterService extends Service{
     /**
      * @return $this
      */
@@ -22,7 +23,7 @@ class PostUserCounterService extends Service{
      * @param int $value 增量，默认为1，正数表示递减
      */
     public function incr($user_ids, $value = 1){
-        UserCounterService::service()->incr($user_ids, 'posts', $value);
+        UserCounterService::service()->incr($user_ids, 'wiki_docs', $value);
     }
     
     /**
@@ -36,7 +37,7 @@ class PostUserCounterService extends Service{
     }
     
     /**
-     * 通过计算获取指定用户的文章数
+     * 通过计算获取指定用户的文档数
      * @param int $user_id 用户ID
      * @return int
      */
@@ -50,24 +51,24 @@ class PostUserCounterService extends Service{
     }
     
     /**
-     * 重置用户文章数
+     * 重置用户文档数
      * （目前都是小网站，且只有出错的时候才需要重置，所以不做分批处理）
      */
     public function resetCount(){
         $sql = new Sql();
-        $results = $result = $sql->from(array('p'=>'posts'), array('user_id', 'COUNT(*) AS count'))
-            ->where(PostsTable::getPublishedConditions('p'))
+        $results = $result = $sql->from(array('d'=>WikiDocsTable::model()->getTableName()), array('user_id', 'COUNT(*) AS count'))
+            ->where(WikiDocsTable::getPublishedConditions('d'))
             ->group('p.user_id')
             ->fetchAll();
         
         //先清零
         UserCounterTable::model()->update(array(
-            'posts'=>0
+            'wiki_docs'=>0
         ), false);
         
         foreach($results as $r){
             UserCounterTable::model()->update(array(
-                'posts'=>$r['count']
+                'wiki_docs'=>$r['count']
             ), $r['user_id']);
         }
     }

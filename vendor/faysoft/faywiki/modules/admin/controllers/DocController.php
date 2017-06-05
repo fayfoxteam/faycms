@@ -3,8 +3,6 @@ namespace faywiki\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\services\CategoryService;
-use cms\models\tables\PostsCategoriesTable;
-use cms\models\tables\PostsFilesTable;
 use cms\models\tables\ActionlogsTable;
 use cms\services\SettingService;
 use fay\core\Sql;
@@ -77,13 +75,13 @@ class DocController extends AdminController{
             $extra = array();
             
             //Meta信息
-            if($post_meta = WikiDocMetaTable::model()->fillData($this->input->post())){
-                $extra['meta'] = $post_meta;
+            if($doc_meta = WikiDocMetaTable::model()->fillData($this->input->post())){
+                $extra['meta'] = $doc_meta;
             }
             
             //扩展信息
-            if($post_extra = WikiDocExtraTable::model()->fillData($this->input->post())){
-                $extra['extra'] = $post_extra;
+            if($doc_extra = WikiDocExtraTable::model()->fillData($this->input->post())){
+                $extra['extra'] = $doc_extra;
             }
             
             //附加属性
@@ -292,17 +290,12 @@ class DocController extends AdminController{
         }
         
         //原文档部分信息
-        $post = WikiDocsTable::model()->find($doc_id, 'cat_id,status');
-        if(!$post){
+        $doc = WikiDocsTable::model()->find($doc_id, 'cat_id,status');
+        if(!$doc){
             throw new HttpException('无效的文档ID');
         }
         
-        //编辑权限检查
-        if(!PostService::checkEditPermission($doc_id, $this->input->post('status', 'intval'), $this->input->post('cat_id'))){
-            throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
-        }
-        
-        $cat = CategoryService::service()->get($post['cat_id'], 'title');
+        $cat = CategoryService::service()->get($doc['cat_id'], 'title');
         
         //若分类已被删除，将文档归为根分类
         if(!$cat){
@@ -319,69 +312,19 @@ class DocController extends AdminController{
         ;
         
         if($this->input->post() && $this->form()->check()){
-            $status = $this->form()->getData('status');
-            
-            //未开启审核，文档却被设置为审核状态，强制修改为草稿（一般是之前开启了审核，后来关掉了）
-            if(!$this->post_review && ($status == WikiDocsTable::STATUS_REVIEWED || $status == WikiDocsTable::STATUS_PENDING)){
-                $this->form()->setData(array(
-                    'status'=>WikiDocsTable::STATUS_DRAFT,
-                ), true);
-                FlashService::set('文档状态异常，被强制修改为“草稿”', 'info');
-            }
-            
             //筛选出文档相关字段
             $data = WikiDocsTable::model()->fillData($this->input->post());
             //发布时间特殊处理
-            if(in_array('publish_time', $enabled_boxes)){
-                if(empty($data['publish_time'])){
-                    $data['publish_time'] = $this->current_time;
-                    $data['publish_date'] = date('Y-m-d', $data['publish_time']);
-                }else{
-                    $data['publish_time'] = strtotime($data['publish_time']);
-                    $data['publish_date'] = date('Y-m-d', $data['publish_time']);
-                }
-            }
-            
             $extra = array();
             
-            //Markdown语法特殊处理
-            if($data['content_type'] == WikiDocsTable::CONTENT_TYPE_MARKDOWN){
-                $extra['extra']['markdown'] = $data['content'];
-                $data['content'] = $this->input->post('markdown-container-html-code');
-            }
-            
             //计数表
-            if($post_meta = WikiDocMetaTable::model()->fillData($this->input->post())){
-                $extra['meta'] = $post_meta;
+            if($doc_meta = WikiDocMetaTable::model()->fillData($this->input->post())){
+                $extra['meta'] = $doc_meta;
             }
             
             //扩展信息
-            if($post_extra = WikiDocExtraTable::model()->fillData($this->input->post())){
-                if(!empty($extra['extra'])){
-                    $extra['extra'] = array_merge($post_extra, $extra['extra']);
-                }else{
-                    $extra['extra'] = $post_extra;
-                }
-            }
-            
-            //附件分类
-            if(in_array('category', $enabled_boxes)){
-                $extra['categories'] = $this->form()->getData('post_category', array(), 'intval');
-            }
-            
-            //标签
-            if(in_array('tags', $enabled_boxes)){
-                $extra['tags'] = $this->input->post('tags', 'trim', array());
-            }
-            
-            //附件
-            if(in_array('files', $enabled_boxes)){
-                $description = $this->input->post('description');
-                $files = $this->input->post('files', 'intval', array());
-                $extra['files'] = array();
-                foreach($files as $f){
-                    $extra['files'][$f] = isset($description[$f]) ? $description[$f] : '';
-                }
+            if($doc_extra = WikiDocExtraTable::model()->fillData($this->input->post())){
+                $extra['extra'] = $doc_extra;
             }
             
             //附加属性
@@ -392,62 +335,41 @@ class DocController extends AdminController{
                 );
             }
             
-            PostService::service()->update($doc_id, $data, $extra);
+            DocService::service()->update($doc_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_POST, '编辑文档', $doc_id);
             Response::notify('success', '一篇文档被编辑', false);
         }
         
         $sql = new Sql();
-        $post = $sql->from(array('p'=>'posts'), WikiDocsTable::model()->getFields())
-            ->joinLeft(array('pm'=>'post_meta'), 'd.id = dm.doc_id', WikiDocMetaTable::model()->formatFields('!doc_id'))
-            ->joinLeft(array('pe'=>'post_extra'), 'd.id = pe.doc_id', WikiDocExtraTable::model()->formatFields('!doc_id'))
+        $doc = $sql->from(array('d'=>WikiDocsTable::model()->getTableName()))
+            ->joinLeft(array('dm'=>WikiDocMetaTable::model()->getTableName()), 'd.id = dm.doc_id', WikiDocMetaTable::model()->formatFields('!doc_id'))
+            ->joinLeft(array('de'=>WikiDocExtraTable::model()->getTableName()), 'd.id = de.doc_id', WikiDocExtraTable::model()->formatFields('!doc_id'))
             ->where('d.id = ?', $doc_id)
             ->fetchRow()
         ;
         
         //触发事件（可以定制一些box以扩展文档功能）
         \F::event()->trigger('admin_before_doc_update', array(
-            'cat_id'=>$post['cat_id'],
+            'cat_id'=>$doc['cat_id'],
             'doc_id'=>$doc_id,
         ));
         
-        $post['post_category'] = PostsCategoriesTable::model()->fetchCol('cat_id', array('doc_id = ?'=>$doc_id));
-        
-        //文档对应标签
-        $tags = $sql->from(array('pt'=>'posts_tags'), '')
-            ->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', 'title')
-            ->where('pt.doc_id = '.$doc_id)
-            ->fetchAll();
-        $tags_arr = array();
-        foreach($tags as $t){
-            $tags_arr[] = $t['title'];
-        }
-        $this->form()->setData(array('tags'=>implode(',', $tags_arr)));
-        
         //分类树
         $this->view->cats = CategoryService::service()->getTree('_system_wiki_doc');
-        
-        //post files
-        $this->view->files = PostsFilesTable::model()->fetchAll(array(
-            'doc_id = ?'=>$doc_id,
-        ), 'file_id,description,is_image', 'sort');
 
-        $this->form()->setData(array(
-            'publish_time'=>date('Y-m-d H:i:s', $post['publish_time']),
-            'sort'=>date('Y-m-d H:i:s', $post['sort']),
-        ) + $post, true);
-        $this->view->post = $post;
+        $this->form()->setData($doc, true);
+        $this->view->doc = $doc;
         
         //附加属性
-        $this->view->prop_set = DocPropService::service()->getPropSet($post['id']);
+        $this->view->prop_set = DocPropService::service()->getPropSet($doc['id']);
         
-        $cat = CategoryService::service()->get($post['cat_id'], 'title');
+        $cat = CategoryService::service()->get($doc['cat_id'], 'title');
         $this->layout->subtitle = '编辑文档- 所属分类：'.$cat['title'];
         if($this->checkPermission('faywiki/admin/doc/create')){
             $this->layout->sublink = array(
                 'uri'=>array('faywiki/admin/doc/create', array(
-                    'cat_id'=>$post['cat_id'],
+                    'cat_id'=>$doc['cat_id'],
                 )),
                 'text'=>'在此分类下发布文档',
             );
@@ -473,7 +395,7 @@ class DocController extends AdminController{
     public function delete(){
         $doc_id = $this->input->get('id', 'intval');
         
-        PostService::service()->delete($doc_id);
+        DocService::service()->delete($doc_id);
         
         $this->actionlog(ActionlogsTable::TYPE_POST, '将文档移入回收站', $doc_id);
         
@@ -491,10 +413,7 @@ class DocController extends AdminController{
     public function undelete(){
         $doc_id = $this->input->get('id', 'intval');
         
-        if(!PostService::checkUndeletePermission($doc_id)){
-            throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
-        }
-        PostService::service()->undelete($doc_id);
+        DocService::service()->undelete($doc_id);
         
         $this->actionlog(ActionlogsTable::TYPE_POST, '将文档移出回收站', $doc_id);
         
@@ -539,7 +458,7 @@ class DocController extends AdminController{
      * 分类管理
      */
     public function cat(){
-        $this->layout->current_directory = 'post';
+        $this->layout->current_directory = 'wiki';
         $this->layout->_setting_panel = '_setting_cat';
         
         //页面设置
@@ -675,16 +594,12 @@ class DocController extends AdminController{
      */
     public function getCounts(){
         $data = array(
-            'all'=>PostService::service()->getCount(),
-            'published'=>PostService::service()->getCount(WikiDocsTable::STATUS_PUBLISHED),
-            'draft'=>PostService::service()->getCount(WikiDocsTable::STATUS_DRAFT),
-            'deleted'=>PostService::service()->getDeletedCount(),
+            'all'=>DocService::service()->getCount(),
+            'published'=>DocService::service()->getCount(WikiDocsTable::STATUS_PUBLISHED),
+            'draft'=>DocService::service()->getCount(WikiDocsTable::STATUS_DRAFT),
+            'pending'=>DocService::service()->getCount(WikiDocsTable::STATUS_PENDING),
+            'deleted'=>DocService::service()->getDeletedCount(),
         );
-        
-        if($this->post_review){
-            $data['pending'] = PostService::service()->getCount(WikiDocsTable::STATUS_PENDING);
-            $data['reviewed'] = PostService::service()->getCount(WikiDocsTable::STATUS_REVIEWED);
-        }
         
         Response::json($data);
     }
@@ -728,7 +643,7 @@ class DocController extends AdminController{
                 'id'=>'文档ID',
             ))->check();
         
-        $post = PostService::service()->get(
+        $doc = PostService::service()->get(
             $this->form()->getData('id'),
             array(
                 'post'=>array(
@@ -753,12 +668,12 @@ class DocController extends AdminController{
             null,
             false
         );
-        if(!$post){
+        if(!$doc){
             throw new HttpException("指定文档ID[{$this->form()->getData('id')}]不存在");
         }
         
         $this->view->renderPartial(null, array(
-            'post'=>$post
+            'post'=>$doc
         ));
     }
 }

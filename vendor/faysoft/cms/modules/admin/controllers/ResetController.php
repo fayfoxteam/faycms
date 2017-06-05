@@ -82,7 +82,7 @@ class ResetController extends AdminController{
         $this->layout->current_directory = 'post-count';
         
         if(Http::isPost()){
-            PostUserCounterService::service()->resetPostCount();
+            PostUserCounterService::service()->resetCount();
             Response::json('', 1, '执行成功');
         }
         

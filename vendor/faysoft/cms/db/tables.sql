@@ -653,7 +653,7 @@ CREATE TABLE `{{$prefix}}user_counter` (
   `follows` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '关注数',
   `fans` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '粉丝数',
   `messages` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '留言数',
-  `real_messages` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '真实留言数',
+  `real_messages` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实留言数',
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='用户计数器';
 

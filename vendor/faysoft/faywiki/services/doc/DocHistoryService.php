@@ -12,7 +12,7 @@ class DocHistoryService extends Service{
         return Loader::singleton(__CLASS__);
     }
     
-    public function create(){
+    public function create($doc_id){
         
     }
     

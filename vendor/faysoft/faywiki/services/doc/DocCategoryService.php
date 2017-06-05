@@ -1,9 +1,11 @@
 <?php
 namespace faywiki\services\doc;
 
+use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
 use fay\core\Loader;
 use fay\core\Service;
+use fay\helpers\ArrayHelper;
 use faywiki\models\tables\WikiDocsTable;
 
 class DocCategoryService extends Service{
@@ -42,5 +44,53 @@ class DocCategoryService extends Service{
             CategoryService::service()->decr($old_cat_id);
             CategoryService::service()->incr($new_cat_id);
         }
+    }
+
+    /**
+     * 文档相关分类文档数递增
+     * @param int|array|string $doc_ids 文档ID，或文档ID构成的一维数组或逗号分割的字符串
+     * @return bool
+     */
+    public function incr($doc_ids){
+        if(!$doc_ids){
+            return false;
+        }
+
+        $cat_ids = WikiDocsTable::model()->fetchCol('cat_id', array(
+            'doc_id IN (?)'=>$doc_ids,
+        ));
+
+        $count_map = ArrayHelper::countValues($cat_ids);
+        foreach($count_map as $num => $sub_cat_ids){
+            CategoriesTable::model()->incr(array(
+                'id IN (?)'=>$sub_cat_ids
+            ), 'count', $num);
+        }
+
+        return true;
+    }
+
+    /**
+     * 文档相关分类文档数递减
+     * @param int|array|string $doc_ids 文档ID，或文档ID构成的一维数组或逗号分割的字符串
+     * @return bool
+     */
+    public function decr($doc_ids){
+        if(!$doc_ids){
+            return false;
+        }
+
+        $cat_ids = WikiDocsTable::model()->fetchCol('cat_id', array(
+            'doc_id IN (?)'=>$doc_ids,
+        ));
+
+        $count_map = ArrayHelper::countValues($cat_ids);
+        foreach($count_map as $num => $sub_cat_ids){
+            CategoriesTable::model()->incr(array(
+                'id IN (?)'=>$sub_cat_ids
+            ), 'count', -$num);
+        }
+
+        return true;
     }
 }

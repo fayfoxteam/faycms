@@ -7,6 +7,7 @@ use cms\models\tables\PostsTable;
 use cms\services\user\UserService;
 use fay\core\Loader;
 use fay\core\Service;
+use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 
 /**
@@ -104,17 +105,8 @@ class PostHistoryService extends Service{
      */
     public function equalLastRecord($post){
         $last_history = $this->getLastHistory($post['post_id'], '!id,user_id,create_time,ip_int');
-        if(!$last_history){
-            //若没有老的历史记录，直接返回false
-            return false;
-        }
-        foreach($last_history as $key => $val){
-            if(!isset($post[$key]) || $post[$key] != $val){
-                return false;
-            }
-        }
-
-        return true;
+        
+        return ArrayHelper::equal($last_history, $post);
     }
 
     /**

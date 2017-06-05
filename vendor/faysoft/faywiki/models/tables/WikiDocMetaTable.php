@@ -7,7 +7,7 @@ use fay\core\Loader;
 /**
  * 文档计数信息
  *
- * @property int $doc_id 文章ID
+ * @property int $doc_id 文档ID
  * @property int $last_view_time 最后访问时间
  * @property int $views 阅读数
  * @property int $real_views 真实阅读数
@@ -39,7 +39,7 @@ class WikiDocMetaTable extends Table{
 
     public function labels(){
         return array(
-            'doc_id'=>'文章ID',
+            'doc_id'=>'文档ID',
             'last_view_time'=>'最后访问时间',
             'views'=>'阅读数',
             'real_views'=>'真实阅读数',

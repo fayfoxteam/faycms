@@ -33,7 +33,7 @@ CREATE TABLE `{{$prefix}}wiki_doc_histories` (
   `ip_int` int(11) NOT NULL DEFAULT '0' COMMENT 'IP',
   PRIMARY KEY (`id`),
   KEY `doc_id` (`doc_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文章历史版本存档';
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='文档历史版本存档';
 
 DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_likes`;
 CREATE TABLE `{{$prefix}}wiki_doc_likes` (
@@ -50,7 +50,7 @@ CREATE TABLE `{{$prefix}}wiki_doc_likes` (
 
 DROP TABLE IF EXISTS `{{$prefix}}wiki_doc_meta`;
 CREATE TABLE `{{$prefix}}wiki_doc_meta` (
-  `doc_id` int(10) unsigned NOT NULL COMMENT '文章ID',
+  `doc_id` int(10) unsigned NOT NULL COMMENT '文档ID',
   `last_view_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后访问时间',
   `views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '阅读数',
   `real_views` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '真实阅读数',
@@ -135,9 +135,13 @@ CREATE TABLE `{{$prefix}}wiki_docs` (
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
   `abstract` text COMMENT '摘要',
   `thumbnail` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '缩略图',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `delete_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
   `write_lock` tinyint(1) NOT NULL DEFAULT '0' COMMENT '编辑锁',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET={{$charset}} COMMENT='百科文档';
+
+ALTER TABLE `faycms_user_counter`
+ADD COLUMN `wiki_docs`  smallint UNSIGNED NOT NULL DEFAULT 0 COMMENT '百科文档数' AFTER `real_messages`;

@@ -9,7 +9,7 @@ use cms\services\user\UserRoleService;
 use cms\services\post\PostCategoryService;
 
 /**
- * @var $post array
+ * @var $doc array
  */
 $enabled_boxes = F::form('setting')->getData('enabled_boxes');
 $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被unset
@@ -35,9 +35,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                             echo F::form()->submitLink('更新', array(
                                 'class'=>'btn',
                             ));
-                            if($post['status'] == PostsTable::STATUS_PUBLISHED){
+                            if($doc['status'] == PostsTable::STATUS_PUBLISHED){
                                 //已发布的文档，展示一个查看链接
-                                echo HtmlHelper::link('查看', LinkHelper::getPostLink($post), array(
+                                echo HtmlHelper::link('查看', LinkHelper::getPostLink($doc), array(
                                     'class'=>'btn btn-grey ml5',
                                     'target'=>'_blank',
                                 ));
@@ -76,15 +76,15 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                         <strong>创建时间：</strong>
                         <?php echo HtmlHelper::tag('abbr', array(
                             'class'=>'time',
-                            'title'=>DateHelper::format($post['create_time']),
-                        ), DateHelper::niceShort($post['create_time']))?>
+                            'title'=>DateHelper::format($doc['create_time']),
+                        ), DateHelper::niceShort($doc['create_time']))?>
                     </div>
                     <div class="misc-pub-section">
                         <strong>更新时间：</strong>
                         <?php echo HtmlHelper::tag('abbr', array(
                             'class'=>'time',
-                            'title'=>DateHelper::format($post['update_time']),
-                        ), DateHelper::niceShort($post['update_time']))?>
+                            'title'=>DateHelper::format($doc['update_time']),
+                        ), DateHelper::niceShort($doc['update_time']))?>
                     </div>
                 </div>
             </div>
@@ -138,7 +138,7 @@ $(function(){
     common.filebrowserImageUploadUrl = system.url('cms/admin/file/img-upload', {'cat':'post'});
     common.filebrowserFlashUploadUrl = system.url('cms/admin/file/upload', {'cat':'post'});
     post.boxes = <?php echo json_encode($enabled_boxes)?>;
-    post.postId = <?php echo $post['id']?>;
+    post.postId = <?php echo $doc['id']?>;
     <?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN) && OptionService::get('system:post_role_cats')){?>
         post.roleCats = <?php echo json_encode(PostCategoryService::service()->getAllowedCatIds())?>;
     <?php }?>

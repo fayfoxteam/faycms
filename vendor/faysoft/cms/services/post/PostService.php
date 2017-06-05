@@ -124,10 +124,12 @@ class PostService extends Service{
      * 创建一篇文章
      * @param array $post posts表相关字段
      * @param array $extra 其它字段
-     *   - categories 附加分类ID，逗号分隔或一维数组
-     *   - tags 标签文本，逗号分割或一维数组
-     *   - files 由文件ID为键，文件描述为值构成的关联数组
-     *   - props 以属性ID为键，属性值为值构成的关联数组
+     *  - meta 计数信息，对应post_meta表字段。
+     *  - extra 扩展信息，对应post_extra表字段。
+     *  - categories 附加分类ID，逗号分隔或一维数组
+     *  - tags 标签文本，逗号分割或一维数组
+     *  - files 由文件ID为键，文件描述为值构成的关联数组
+     *  - props 以属性ID为键，属性值为值构成的关联数组
      * @param int $user_id 作者ID
      * @return int 文章ID
      * @throws PostErrorException
@@ -242,10 +244,12 @@ class PostService extends Service{
      * @param int $post_id 文章ID
      * @param array $data posts表相关字段
      * @param array $extra 其它字段
-     *   - categories 附加分类ID，逗号分隔或一维数组。若不传，则不会更新，若传了空数组，则清空附加分类。
-     *   - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
-     *   - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
-     *   - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
+     *  - meta 计数信息，对应post_meta表字段。若不传，则不会更新
+     *  - extra 扩展信息，对应post_extra表字段。若不传，则不会更新
+     *  - categories 附加分类ID，逗号分隔或一维数组。若不传，则不会更新，若传了空数组，则清空附加分类。
+     *  - tags 标签文本，逗号分割或一维数组。若不传，则不会更新，若传了空数组，则清空标签。
+     *  - files 由文件ID为键，文件描述为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空附件。
+     *  - props 以属性ID为键，属性值为值构成的关联数组。若不传，则不会更新，若传了空数组，则清空属性。
      * @param bool $update_update_time 是否更新“最后更新时间”。默认为true
      * @return bool
      * @throws PostErrorException
@@ -391,7 +395,7 @@ class PostService extends Service{
     }
     
     /**
-     * 彻底删除一篇文章
+     * 物理删除一篇文章
      * @param $post_id
      * @return bool
      */

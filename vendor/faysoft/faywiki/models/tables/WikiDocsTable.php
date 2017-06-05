@@ -86,6 +86,21 @@ class WikiDocsTable extends Table{
         );
     }
 
+    public function getNotWritableFields($scene){
+        switch($scene){
+            case 'insert':
+                return array('id');
+                break;
+            case 'update':
+                return array(
+                    'id', 'create_time', 'delete_time'
+                );
+                break;
+            default:
+                return array();
+        }
+    }
+
     /**
      * 获取已发布条件
      * @param string $alias 表别名

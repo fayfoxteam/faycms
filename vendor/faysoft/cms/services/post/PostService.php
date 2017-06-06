@@ -146,8 +146,9 @@ class PostService extends Service{
         $post['create_time'] = \F::app()->current_time;
         $post['update_time'] = \F::app()->current_time;
         $post['user_id'] = $user_id;
-        empty($post['publish_time']) && $post['publish_time'] = \F::app()->current_time;
+        empty($post['publish_time']) && $post['publish_time'] = \F::app()->current_time;//若未设置发布时间，则立即发布
         $post['publish_date'] = date('Y-m-d', $post['publish_time']);
+        empty($post['sort']) && $post['publish_time'];//若未设置时间轴，则默认为发布时间
         
         //过滤掉多余的数据，并插入文章表
         $post_id = PostsTable::model()->insert($post, true);

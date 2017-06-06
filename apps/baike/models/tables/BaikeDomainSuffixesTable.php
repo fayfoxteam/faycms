@@ -10,6 +10,7 @@ use fay\core\Loader;
  * @property int $id Id
  * @property string $suffix 域名后缀（带点号）
  * @property string $description 描述
+ * @property int $sort 排序
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
  */
@@ -25,7 +26,7 @@ class BaikeDomainSuffixesTable extends Table{
     
     public function rules(){
         return array(
-            array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
+            array(array('id', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('suffix'), 'string', array('max'=>30)),
             array(array('description'), 'string', array('max'=>500)),
             
@@ -37,8 +38,9 @@ class BaikeDomainSuffixesTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
-            'suffix'=>'域名后缀（带点号）',
+            'suffix'=>'域名后缀',
             'description'=>'描述',
+            'sort'=>'排序',
             'create_time'=>'创建时间',
             'update_time'=>'更新时间',
         );
@@ -49,6 +51,7 @@ class BaikeDomainSuffixesTable extends Table{
             'id'=>'intval',
             'suffix'=>'trim',
             'description'=>'trim',
+            'sort'=>'intval',
         );
     }
 }

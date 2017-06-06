@@ -19,7 +19,7 @@ class DomainSuffixController extends AdminController{
         $this->form('edit')->setModel(BaikeDomainSuffixesTable::model());
         
         $this->view->assign(array(
-            'domain_suffixes'=>BaikeDomainSuffixesTable::model()->fetchAll()
+            'domain_suffixes'=>BaikeDomainSuffixesTable::model()->fetchAll(array(), '*', 'sort')
         ))->render();
     }
     
@@ -45,7 +45,7 @@ class DomainSuffixController extends AdminController{
     }
     
     public function edit(){
-        $domain_suffix_id = $this->input->get('id', 'intval');
+        $domain_suffix_id = $this->input->request('id', 'intval');
 
         if(!$domain_suffix_id){
             Response::notify('error', '未指定域名后缀ID');
@@ -60,12 +60,16 @@ class DomainSuffixController extends AdminController{
         if($this->input->post() && $this->form()->check()){
             $data = $this->form()->getFilteredData();
             if(ArrayHelper::equal($data, $domain_suffix)){
-                Response::notify('success', '没有字段被修改', false);
+                Response::notify('success', '没有字段被修改');
             }
             $data['update_time'] = $this->current_time;
             BaikeDomainSuffixesTable::model()->update($data, $domain_suffix_id);
 
-            Response::notify('success', '一个域名后缀被编辑', false);
+            Response::notify('success', '一个域名后缀被编辑');
+        }else{
+            Response::notify('error', array(
+                'message'=>'不完整的请求',
+            ));
         }
     }
     
@@ -88,6 +92,23 @@ class DomainSuffixController extends AdminController{
         ), array('cms/admin/option/index', $this->input->get()));
     }
     
+    public function get(){
+        $domain_suffix_id = $this->input->get('id', 'intval');
+
+        if(!$domain_suffix_id){
+            Response::notify('error', '未指定域名后缀ID');
+        }
+
+        $domain_suffix = BaikeDomainSuffixesTable::model()->find($domain_suffix_id);
+        if(!$domain_suffix){
+            Response::notify('error', "指定域名后缀ID[{$domain_suffix_id}]不存在");
+        }
+
+        Response::json(array(
+            'domain_suffix'=>$domain_suffix
+        ));
+    }
+    
     public function isSuffixNotExist(){
         $suffix = $this->input->request('suffix', 'trim');
         if(!$suffix){
@@ -107,5 +128,25 @@ class DomainSuffixController extends AdminController{
         }else{
             Response::json();
         }
+    }
+
+    /**
+     * 保存排序信息
+     */
+    public function sort(){
+        $this->form()->setRule(array(
+            array('sort', 'int', array('min'=>1))
+        ));
+        $sort = $this->input->post('sort', 'intval');
+        
+        $i = 0;
+        foreach($sort as $s){
+            $i++;
+            BaikeDomainSuffixesTable::model()->update(array(
+                'sort'=>$i,
+            ), $s);
+        }
+
+        Response::notify('success', '排序保存成功');
     }
 }

@@ -8,13 +8,13 @@ use fay\helpers\HtmlHelper;
 <a href="javascript:" class="btn create-domain-suffix-link" data-src="#create-domain-suffix-dialog">新增域名后缀</a>
 <div class="dragsort-list2" id="domain-suffix-list">
     <?php foreach($domain_suffixes as $domain_suffix){?>
-        <div class="dragsort-item">
+        <div class="dragsort-item" data-id="<?php echo $domain_suffix['id']?>">
             <a class="dragsort-rm" data-id="<?php echo $domain_suffix['id']?>" href="javascript:"></a>
             <a class="dragsort-item-selector"></a>
             <div class="dragsort-item-container">
                 <div class="cf">
                     <div class="col-4">
-                        <strong>域名后缀：</strong><?php echo HtmlHelper::encode($domain_suffix['suffix'])?>
+                        <strong class="mr10">域名后缀</strong><?php echo HtmlHelper::encode($domain_suffix['suffix'])?>
                         <div class="mt5">
                             <a href="javascript:" class="edit-domain-suffix-link" data-src="#edit-domain-suffix-dialog" data-id="<?php echo $domain_suffix['id']?>">编辑</a>
                             |
@@ -22,7 +22,7 @@ use fay\helpers\HtmlHelper;
                         </div>
                     </div>
                     <div class="col-8">
-                        <strong>描述：</strong><?php echo HtmlHelper::encode($domain_suffix['description'])?>
+                        <strong class="mr10">描述</strong><?php echo $domain_suffix['description'] ? HtmlHelper::encode($domain_suffix['description']) : '无'?>
                     </div>
                 </div>
             </div>
@@ -113,7 +113,25 @@ var domainSuffix = {
                 'placeHolderTemplate': '<div class="dragsort-item holder"></div>',
                 'dragEnd': function(){
                     //保存排序
-                    
+                    var sort = [];
+                    $domainSuffixList.find('.dragsort-item').each(function(){
+                        sort.push($(this).attr('data-id'));
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        url: system.url('baike/admin/domain-suffix/sort'),
+                        data: {'sort[]': sort},
+                        dataType: 'json',
+                        cache: false,
+                        success: function(resp){
+                            if(resp.status){
+                                common.notify(resp.message, 'success')
+                            }else{
+                                common.alert(resp.message);
+                            }
+                        }
+                    });
                     
                     //拖拽后poshytip需要重新定位
                     $domainSuffixList.find('input,select,textarea').each(function(){
@@ -129,9 +147,7 @@ var domainSuffix = {
     },
     'createDomainSuffix': function(){
         common.loadFancybox(function(){
-            $('.create-domain-suffix-link').fancybox({
-                
-            });
+            $('.create-domain-suffix-link').fancybox();
         });
     },
     'editDomainSuffix': function(){
@@ -151,7 +167,10 @@ var domainSuffix = {
                         success: function(resp){
                             $editDomainSuffixDialog.unblock();
                             if(resp.status){
-                                
+                                var domainSuffix = resp.data.domain_suffix;
+                                $editDomainSuffixDialog.find('#edit-domain-suffix-id').val(domainSuffix.id);
+                                $editDomainSuffixDialog.find('#edit-domain-suffix-suffix').val(domainSuffix.suffix);
+                                $editDomainSuffixDialog.find('#edit-domain-suffix-description').val(domainSuffix.description);
                             }else{
                                 common.alert(resp.message);
                             }

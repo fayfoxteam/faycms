@@ -12,8 +12,8 @@ class AdminController extends Widget{
         isset($config['pauseTime']) || $config['pauseTime'] = 5000;
         isset($config['effect']) || $config['effect'] = 'random';
         isset($config['directionNav']) || $config['directionNav'] = 1;
-        isset($config['width']) || $config['width'] = 0;
-        isset($config['height']) || $config['height'] = 0;
+        isset($config['width']) || $config['width'] = '';
+        isset($config['height']) || $config['height'] = '';
         
         //设置模版
         $this->parseTemplateForEdit($config);

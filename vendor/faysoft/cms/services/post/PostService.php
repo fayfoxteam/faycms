@@ -911,21 +911,21 @@ class PostService extends Service{
         if(!is_array($post)){
             $post = PostsTable::model()->find($post, 'user_id,cat_id,status');
         }
-        $user_id || $user_id = \F::app()->current_user;
+        $user_id = UserService::getUserId($user_id);
         
         if(!$post){
             throw new PostErrorException('指定文章不存在');
         }
         
         if($post['user_id'] == $user_id){
-            //自己的文章总是有权限还原的
+            //自己的文章总是有权限编辑的
             return true;
         }
         
         if(UserService::service()->isAdmin($user_id) &&
             UserService::service()->checkPermission('cms/admin/post/edit', $user_id) &&
             PostCategoryService::service()->isAllowedCat($post['cat_id'], $user_id)){
-            //是管理员，有还原权限，且有当前文章的分类权限
+            //是管理员，有编辑权限，且有当前文章的分类权限
             
             if($new_cat_id && !PostCategoryService::service()->isAllowedCat($new_cat_id, $user_id)){
                 //若指定了新分类，判断用户是否对新分类有编辑权限

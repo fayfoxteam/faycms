@@ -55,7 +55,7 @@ class GuanwangController extends FrontController{
             'thumbnail'=>empty($local_thumbnail['id']) ? 0 : $local_thumbnail['id']
         ), array(
             'source'=>'爱名网',
-        ));
+        ), 10000);
         
         if($post_id){
             echo '发布成功啦';

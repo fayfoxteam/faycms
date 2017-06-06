@@ -97,10 +97,12 @@ class ItemPropService{
             );
         }
         
-        //获取自定义labels
-        $title_alias_map = ArrayHelper::column($this->usage_model->getTitleAliasModel()->fetchAll(array(
-            'relation_id = ?'=>$this->relation_id
-        )), 'alias', 'prop_id');
+        //获取自定义labels（若没有属性就不获取了）
+        if($props){
+            $title_alias_map = ArrayHelper::column($this->usage_model->getTitleAliasModel()->fetchAll(array(
+                'relation_id = ?'=>$this->relation_id
+            )), 'alias', 'prop_id');
+        }
         
         $prop_set = array();
         foreach($props as $prop){

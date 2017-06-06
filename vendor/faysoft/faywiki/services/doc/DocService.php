@@ -506,12 +506,8 @@ class DocService extends Service{
      * @param string|array $fields 返回字段
      *  - doc.*系列可指定docs表返回字段，若有一项为'doc.*'，则返回所有字段
      *  - meta.*系列可指定doc_meta表返回字段，若有一项为'meta.*'，则返回所有字段
-     *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
-     *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定docs表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
-     *  - files.*系列可指定docs_files表返回字段，若有一项为'docs_files.*'，则返回所有字段
      *  - props.*系列可指定返回哪些文档分类属性，若有一项为'props.*'，则返回所有文档分类属性
      *  - user.*系列可指定作者信息，格式参照\cms\services\user\UserService::get()
-     *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
      *  - category.*系列可指定分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
      * @param bool $only_published 若为true，则只在已发布的文档里搜索。默认为false
      * @param bool $index_key 是否用文档ID作为键返回，默认为false

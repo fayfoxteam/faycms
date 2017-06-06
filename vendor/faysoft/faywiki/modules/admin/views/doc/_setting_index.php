@@ -30,9 +30,6 @@
         echo F::form('setting')->inputCheckbox('cols[]', 'real_likes', array(
             'label'=>'真实点赞数',
         ));
-        echo F::form('setting')->inputCheckbox('cols[]', 'publish_time', array(
-            'label'=>'发布时间',
-        ));
         echo F::form('setting')->inputCheckbox('cols[]', 'last_view_time', array(
             'label'=>'最后访问时间',
         ));

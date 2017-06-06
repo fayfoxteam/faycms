@@ -110,17 +110,6 @@ use cms\services\file\FileService;
     <?php if(in_array('real_likes', $cols)){?>
     <td><?php echo $data['real_likes']?></td>
     <?php }?>
-    <?php if(in_array('publish_time', $cols)){?>
-    <td>
-        <abbr class="time" title="<?php echo DateHelper::format($data['publish_time'])?>">
-            <?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
-                echo DateHelper::niceShort($data['publish_time']);
-            }else{
-                echo DateHelper::format($data['publish_time']);
-            }?>
-        </abbr>
-    </td>
-    <?php }?>
     <?php if(in_array('last_view_time', $cols)){?>
     <td>
         <abbr class="time" title="<?php echo DateHelper::format($data['last_view_time'])?>">

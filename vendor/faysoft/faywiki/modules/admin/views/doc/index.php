@@ -180,9 +180,6 @@ $cols = F::form('setting')->getData('cols', array());
                         <?php if(in_array('real_likes', $cols)){?>
                         <th class="w100"><?php echo ListTableHelper::getSortLink('real_likes', '真实点赞')?></th>
                         <?php }?>
-                        <?php if(in_array('publish_time', $cols)){?>
-                        <th class="w135"><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
-                        <?php }?>
                         <?php if(in_array('last_view_time', $cols)){?>
                         <th class="w135"><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>
                         <?php }?>
@@ -224,9 +221,6 @@ $cols = F::form('setting')->getData('cols', array());
                         <?php }?>
                         <?php if(in_array('real_likes', $cols)){?>
                         <th><?php echo ListTableHelper::getSortLink('real_likes', '真实点赞')?></th>
-                        <?php }?>
-                        <?php if(in_array('publish_time', $cols)){?>
-                        <th><?php echo ListTableHelper::getSortLink('publish_time', '发布时间')?></th>
                         <?php }?>
                         <?php if(in_array('last_view_time', $cols)){?>
                         <th><?php echo ListTableHelper::getSortLink('last_view_time', '最后访问时间')?></th>

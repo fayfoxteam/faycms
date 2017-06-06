@@ -4,7 +4,6 @@ namespace faywiki\services\doc;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use cms\models\tables\PostsTable;
 use cms\services\user\UserCounterService;
 use cms\models\tables\UserCounterTable;
 use faywiki\models\tables\WikiDocsTable;
@@ -43,9 +42,9 @@ class DocUserCounterService extends Service{
      */
     public function getCount($user_id){
         $sql = new Sql();
-        $result = $sql->from(array('p'=>'posts'), 'COUNT(*)')
-            ->where('p.user_id = ?', $user_id)
-            ->where(PostsTable::getPublishedConditions('p'))
+        $result = $sql->from(array('d'=>WikiDocsTable::model()->getTableName()), 'COUNT(*)')
+            ->where('d.user_id = ?', $user_id)
+            ->where(WikiDocsTable::getPublishedConditions('d'))
             ->fetchRow();
         return $result['COUNT(*)'];
     }

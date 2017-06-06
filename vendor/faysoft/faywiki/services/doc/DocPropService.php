@@ -55,7 +55,7 @@ class DocPropService extends Service implements PropUsageInterface{
     }
 
     /**
-     * 根据文档ID，获取属性用途（实际上就是主分类）
+     * 根据文档ID，获取属性用途（实际上就是文档分类）
      * @param int $doc_id
      * @return array
      * @throws DocErrorException
@@ -70,7 +70,7 @@ class DocPropService extends Service implements PropUsageInterface{
     }
 
     /**
-     * 根据主用途，获取关联用途（实际上就是根据主分类，获取其父节点）
+     * 根据主用途，获取关联用途（实际上就是根据文档分类，获取其父节点）
      * @param int $cat_id
      * @return array
      */

@@ -1095,7 +1095,7 @@ class PostService extends Service{
      * @throws PostErrorException
      * @throws \fay\core\ErrorException
      */
-    public function mget($post_ids, $fields, $only_published = false, $index_key = false){
+    public function mget($post_ids, $fields, $only_published = true, $index_key = false){
         if(!$post_ids){
             return array();
         }

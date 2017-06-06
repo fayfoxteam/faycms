@@ -9,6 +9,7 @@ use cms\services\user\UserService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
+use fay\helpers\ArrayHelper;
 use fay\helpers\FieldHelper;
 use fay\helpers\RequestHelper;
 use faywiki\models\tables\PropsTable;
@@ -45,7 +46,7 @@ class DocService extends Service{
     const EVENT_UNDELETE = 'after_doc_undelete';
 
     /**
-     * 文章被物理删除事件
+     * 文档被物理删除事件
      */
     const EVENT_REMOVING = 'before_doc_removed';
     
@@ -211,7 +212,7 @@ class DocService extends Service{
         //过滤掉多余的字段后更新
         WikiDocsTable::model()->update($data, $doc_id, true);
 
-        //更新主分类文档数
+        //更新分类文档数
         DocCategoryService::service()->updateCatCount(
             $old_doc['cat_id'],
             isset($data['cat_id']) ? $data['cat_id'] : null,
@@ -278,12 +279,12 @@ class DocService extends Service{
             'delete_time'=>\F::app()->current_time,
         ), $doc_id);
 
-        //若被删除文章是“已发布”状态
+        //若被删除文档是“已发布”状态
         if($doc['status'] == WikiDocsTable::STATUS_PUBLISHED){
-            //用户文章数减一
+            //用户文档数减一
             DocUserCounterService::service()->decr($doc['user_id']);
 
-            //相关分类文章数减一
+            //相关分类文档数减一
             DocCategoryService::service()->decr($doc_id);
         }
 
@@ -304,12 +305,12 @@ class DocService extends Service{
             'delete_time'=>0
         ), $doc_id);
 
-        //若被还原文章是“已发布”状态
+        //若被还原文档是“已发布”状态
         if($doc['status'] == WikiDocsTable::STATUS_PUBLISHED){
-            //用户文章数加一
+            //用户文档数加一
             DocUserCounterService::service()->incr($doc['user_id']);
 
-            //相关分类文章数加一
+            //相关分类文档数加一
             DocCategoryService::service()->incr($doc_id);
         }
 
@@ -376,7 +377,7 @@ class DocService extends Service{
      *  - meta.*系列可指定doc_meta表返回字段，若有一项为'meta.*'，则返回所有字段
      *  - props.*系列可指定返回哪些文档分类属性，若有一项为'props.*'，则返回所有文档分类属性
      *  - user.*系列可指定作者信息，格式参照\cms\services\user\UserService::get()
-     *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+     *  - category.*系列可指定分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
      * @param bool $only_published 若为true，则只在已发布的文档里搜索。默认为true
      * @return array|bool
      */
@@ -484,7 +485,7 @@ class DocService extends Service{
             $return['props'] = DocPropService::service()->getPropSet($doc_id, $props);
         }
 
-        //主分类
+        //分类
         if(!empty($fields['category'])){
             $return['category'] = CategoryService::service()->get($doc['cat_id'], $fields['category']);
         }
@@ -498,9 +499,126 @@ class DocService extends Service{
 
         return $return;
     }
-    
-    public function mget($doc_ids, $fields = '*'){
-        
+
+    /**
+     * 批量获取文档信息
+     * @param array $doc_ids 文档ID构成的一维数组
+     * @param string|array $fields 返回字段
+     *  - doc.*系列可指定docs表返回字段，若有一项为'doc.*'，则返回所有字段
+     *  - meta.*系列可指定doc_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+     *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
+     *  - nav.*系列用于指定上一篇，下一篇返回的字段，可指定docs表返回字段，若有一项为'nav.*'，则返回除content字段外的所有字段
+     *  - files.*系列可指定docs_files表返回字段，若有一项为'docs_files.*'，则返回所有字段
+     *  - props.*系列可指定返回哪些文档分类属性，若有一项为'props.*'，则返回所有文档分类属性
+     *  - user.*系列可指定作者信息，格式参照\cms\services\user\UserService::get()
+     *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+     *  - category.*系列可指定分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+     * @param bool $only_published 若为true，则只在已发布的文档里搜索。默认为false
+     * @param bool $index_key 是否用文档ID作为键返回，默认为false
+     * @return array
+     * @throws DocErrorException
+     * @throws \fay\core\ErrorException
+     */
+    public function mget($doc_ids, $fields = '*', $only_published = true, $index_key = false){
+        if(!$doc_ids){
+            return array();
+        }
+        //解析$fields
+        $fields = FieldHelper::parse($fields, 'doc', self::$public_fields);
+        if(empty($fields['doc'])){
+            //若未指定返回字段，返回所有允许的字段
+            $fields['doc'] = self::$default_fields['doc'];
+        }
+
+        $doc_fields = $fields['doc']['fields'];
+        if(!empty($fields['user']) && !in_array('user_id', $doc_fields)){
+            //如果要获取作者信息，则必须搜出user_id
+            $doc_fields[] = 'user_id';
+        }
+        if(!empty($fields['category']) && !in_array('cat_id', $doc_fields)){
+            //如果要获取分类信息，则必须搜出cat_id
+            $doc_fields[] = 'cat_id';
+        }
+        if(!in_array('id', $fields['doc'])){
+            //id字段无论如何都要返回，因为后面要用到
+            $doc_fields[] = 'id';
+        }
+
+        $sql = new Sql();
+        $sql->from(array('d'=>WikiDocsTable::model()->getTableName()), $doc_fields)
+            ->where('d.id IN (?)', $doc_ids);
+
+        //仅搜索已发布的文档
+        if($only_published){
+            $sql->where(WikiDocsTable::getPublishedConditions('d'));
+        }
+
+        $docs = $sql->fetchAll();
+
+        if(!$docs){
+            return array();
+        }
+
+        $docs = ArrayHelper::column($docs, null, 'id');
+
+        $return = array();
+        //以传入文档ID顺序返回文档结构
+        foreach($doc_ids as $doc_id){
+            if(isset($docs[$doc_id])){
+                if(isset($docs[$doc_id]['thumbnail'])){
+                    //如果有缩略图，将缩略图图片ID转为图片对象
+                    $docs[$doc_id]['thumbnail'] = $this->formatThumbnail(
+                        $docs[$doc_id]['thumbnail'],
+                        isset($fields['doc']['extra']['thumbnail']) ? $fields['doc']['extra']['thumbnail'] : ''
+                    );
+                }
+                $return[$doc_id] = array(
+                    'doc'=>$docs[$doc_id]
+                );
+            }
+        }
+
+        //meta
+        if(!empty($fields['meta'])){
+            DocMetaService::service()->assemble($return, $fields['meta']);
+        }
+
+        //扩展信息
+        if(!empty($fields['extra'])){
+            DocExtraService::service()->assemble($return, $fields['extra']);
+        }
+
+        //分类
+        if(!empty($fields['category'])){
+            DocCategoryService::service()->assemble($return, $fields['category']);
+        }
+
+        //附加属性
+        if(!empty($fields['props'])){
+            DocPropService::service()->assemble($return, $fields['props']);
+        }
+
+        //作者信息
+        if(!empty($fields['user'])){
+            DocUserService::service()->assemble($return, $fields['user']);
+        }
+
+        foreach($return as $k => $doc){
+            //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+            foreach(array('id', 'user_id', 'cat_id') as $f){
+                if(!in_array($f, $fields['doc']['fields']) && in_array($f, $doc_fields)){
+                    unset($doc['doc'][$f]);
+                }
+            }
+
+            $return[$k] = $doc;
+        }
+
+        if($index_key){
+            return $return;
+        }else{
+            return array_values($return);
+        }
     }
     
     public static function isDocIdExist($doc_id){

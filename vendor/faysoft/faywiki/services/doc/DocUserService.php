@@ -1,11 +1,11 @@
 <?php
-namespace cms\services\post;
+namespace faywiki\services\doc;
 
 use fay\core\Loader;
 use fay\core\Service;
 use cms\services\user\UserService;
 
-class PostUserService extends Service{
+class DocUserService extends Service{
     /**
      * 默认返回用户字段
      */
@@ -25,12 +25,12 @@ class PostUserService extends Service{
     }
     
     /**
-     * 将user信息装配到$posts中
-     * @param array $posts 包含文章信息的三维数组，必须包含$posts.post.user_id字段
+     * 将user信息装配到$docs中
+     * @param array $docs 包含文档信息的三维数组，必须包含$docs.doc.user_id字段
      * @param null|string $fields
-     * @throws PostErrorException
+     * @throws DocErrorException
      */
-    public function assemble(&$posts, $fields = null){
+    public function assemble(&$docs, $fields = null){
         if(empty($fields)){
             //若传入$fields为空，则返回默认字段
             $fields = self::$default_fields;
@@ -38,20 +38,20 @@ class PostUserService extends Service{
         
         //获取所有用户ID
         $user_ids = array();
-        foreach($posts as $p){
-            if(isset($p['post']['user_id'])){
-                $user_ids[] = $p['post']['user_id'];
+        foreach($docs as $doc){
+            if(isset($doc['doc']['user_id'])){
+                $user_ids[] = $doc['doc']['user_id'];
             }else{
-                throw new PostErrorException(__CLASS__.'::'.__METHOD__.'()方法$posts参数中，必须包含user_id项');
+                throw new DocErrorException(__CLASS__.'::'.__METHOD__.'()方法$docs参数中，必须包含user_id项');
             }
         }
         
         $user_map = UserService::service()->mget($user_ids, $fields);
         
-        foreach($posts as $k => $p){
-            $p['user'] = $user_map[$p['post']['user_id']];
+        foreach($docs as $k => $doc){
+            $doc['user'] = $user_map[$doc['doc']['user_id']];
             
-            $posts[$k] = $p;
+            $docs[$k] = $doc;
         }
     }
 }

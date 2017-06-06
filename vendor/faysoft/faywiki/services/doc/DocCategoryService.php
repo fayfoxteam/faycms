@@ -79,4 +79,30 @@ class DocCategoryService extends Service{
     public function decr($doc_ids){
         return $this->incr($doc_ids, true);
     }
+
+    /**
+     * 将category信息装配到$docs中
+     * @param array $docs 包含文档信息的三维数组，且第三维必须包含cat_id字段
+     * @param null|string $fields 字段（categories表字段）
+     * @throws DocErrorException
+     */
+    public function assemble(&$docs, $fields = null){
+        //获取所有分类ID
+        $cat_ids = array();
+        foreach($docs as $p){
+            if(isset($p['doc']['cat_id'])){
+                $cat_ids[] = $p['doc']['cat_id'];
+            }else{
+                throw new DocErrorException(__CLASS__.'::'.__METHOD__.'()方法$docs参数中，必须包含cat_id项');
+            }
+        }
+
+        $category_map = CategoryService::service()->mget($cat_ids, $fields);
+
+        foreach($docs as $k => $p){
+            $p['category'] = isset($category_map[$p['doc']['cat_id']]) ? $category_map[$p['doc']['cat_id']] : array();
+
+            $docs[$k] = $p;
+        }
+    }
 }

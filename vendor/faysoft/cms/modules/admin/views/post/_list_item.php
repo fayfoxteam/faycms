@@ -125,7 +125,7 @@ $editable = PostCategoryService::service()->isAllowedCat($data['cat_id']);
     <td><?php
         echo HtmlHelper::link($data[F::form('setting')->getData('display_name', 'username')], array(
             'cms/admin/post/index', array(
-                'keywords_field'=>'p.user_id',
+                'keywords_field'=>'user_id',
                 'keywords'=>$data['user_id'],
             ),
         ));

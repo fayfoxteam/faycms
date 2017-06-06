@@ -505,7 +505,7 @@ class PostService extends Service{
         
         //若被还原文章是“已发布”状态
         if($post['status'] == PostsTable::STATUS_PUBLISHED){
-            //用户文章数减一
+            //用户文章数加一
             PostUserCounterService::service()->incr($post['user_id']);
             
             //相关标签文章数加一
@@ -674,7 +674,7 @@ class PostService extends Service{
             ), ',', $post['title']);
         }
         if(isset($fields['extra']) && in_array('seo_description', $fields['extra']['fields']) && empty($return['extra']['seo_description'])){
-            $return['extra']['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150));
+            $return['extra']['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150, 'utf-8'));
         }
         
         //作者信息

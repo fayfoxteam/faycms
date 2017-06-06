@@ -109,6 +109,7 @@ class WikiDocsTable extends Table{
     public static function getPublishedConditions($alias = ''){
         return array(
             ($alias ? "{$alias}." : '') . 'delete_time = 0',
+            ($alias ? "{$alias}." : '') . 'status = ' . self::STATUS_PUBLISHED,
         );
     }
 }

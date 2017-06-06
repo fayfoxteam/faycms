@@ -49,22 +49,23 @@ class DocCategoryService extends Service{
     /**
      * 文档相关分类文档数递增
      * @param int|array|string $doc_ids 文档ID，或文档ID构成的一维数组或逗号分割的字符串
+     * @param bool $invert 增量取反（若为true，则递减）
      * @return bool
      */
-    public function incr($doc_ids){
+    public function incr($doc_ids, $invert = false){
         if(!$doc_ids){
             return false;
         }
 
         $cat_ids = WikiDocsTable::model()->fetchCol('cat_id', array(
-            'doc_id IN (?)'=>$doc_ids,
+            'id IN (?)'=>$doc_ids,
         ));
 
         $count_map = ArrayHelper::countValues($cat_ids);
         foreach($count_map as $num => $sub_cat_ids){
             CategoriesTable::model()->incr(array(
                 'id IN (?)'=>$sub_cat_ids
-            ), 'count', $num);
+            ), 'count', $invert ? - $num : $num);
         }
 
         return true;
@@ -76,21 +77,6 @@ class DocCategoryService extends Service{
      * @return bool
      */
     public function decr($doc_ids){
-        if(!$doc_ids){
-            return false;
-        }
-
-        $cat_ids = WikiDocsTable::model()->fetchCol('cat_id', array(
-            'doc_id IN (?)'=>$doc_ids,
-        ));
-
-        $count_map = ArrayHelper::countValues($cat_ids);
-        foreach($count_map as $num => $sub_cat_ids){
-            CategoriesTable::model()->incr(array(
-                'id IN (?)'=>$sub_cat_ids
-            ), 'count', -$num);
-        }
-
-        return true;
+        return $this->incr($doc_ids, true);
     }
 }

@@ -200,9 +200,10 @@ class PostCategoryService extends Service{
     /**
      * 文章相关分类文章数递增（包含主分类和附加分类）
      * @param int|array|string $post_ids 文章ID，或文章ID构成的一维数组或逗号分割的字符串
+     * @param bool $invert 增量取反（若为true，则递减）
      * @return bool
      */
-    public function incr($post_ids){
+    public function incr($post_ids, $invert = false){
         if(!$post_ids){
             return false;
         }
@@ -213,7 +214,7 @@ class PostCategoryService extends Service{
         foreach($count_map as $num => $sub_cat_ids){
             CategoriesTable::model()->incr(array(
                 'id IN (?)'=>$sub_cat_ids
-            ), 'count', $num);
+            ), 'count', $invert ? - $num : $num);
         }
         
         return true;
@@ -225,20 +226,7 @@ class PostCategoryService extends Service{
      * @return bool
      */
     public function decr($post_ids){
-        if(!$post_ids){
-            return false;
-        }
-        
-        $cat_ids = $this->getAllCatIds($post_ids);
-        
-        $count_map = ArrayHelper::countValues($cat_ids);
-        foreach($count_map as $num => $sub_cat_ids){
-            CategoriesTable::model()->incr(array(
-                'id IN (?)'=>$sub_cat_ids
-            ), 'count', -$num);
-        }
-        
-        return true;
+        return $this->incr($post_ids, true);
     }
     
     /**

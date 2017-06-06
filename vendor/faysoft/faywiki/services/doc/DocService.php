@@ -2,10 +2,16 @@
 namespace faywiki\services\doc;
 
 use cms\services\CategoryService;
+use cms\services\doc\DocExtraService;
+use cms\services\file\FileService;
+use cms\services\prop\PropService;
 use cms\services\user\UserService;
 use fay\core\Loader;
 use fay\core\Service;
+use fay\core\Sql;
+use fay\helpers\FieldHelper;
 use fay\helpers\RequestHelper;
+use faywiki\models\tables\PropsTable;
 use faywiki\models\tables\WikiDocExtraTable;
 use faywiki\models\tables\WikiDocFavoritesTable;
 use faywiki\models\tables\WikiDocHistoriesTable;
@@ -55,12 +61,6 @@ class DocService extends Service{
         ),
         'user'=>array(
             'id', 'nickname', 'avatar',
-        ),
-        'nav'=>array(
-            'id', 'title',
-        ),
-        'tags'=>array(
-            'id', 'title',
         ),
         'props'=>array(
             '*',//这里指定的是属性别名，取值视后台设定而定
@@ -306,7 +306,7 @@ class DocService extends Service{
 
         //若被还原文章是“已发布”状态
         if($doc['status'] == WikiDocsTable::STATUS_PUBLISHED){
-            //用户文章数减一
+            //用户文章数加一
             DocUserCounterService::service()->incr($doc['user_id']);
 
             //相关分类文章数加一
@@ -367,9 +367,136 @@ class DocService extends Service{
 
         return true;
     }
-    
-    public function get($doc_id, $fields = '*'){
-        
+
+    /**
+     * 返回一篇文档信息
+     * @param int $doc_id 文档ID
+     * @param string|array $fields 可指定返回字段
+     *  - doc.*系列可指定docs表返回字段，若有一项为'doc.*'，则返回所有字段
+     *  - meta.*系列可指定doc_meta表返回字段，若有一项为'meta.*'，则返回所有字段
+     *  - props.*系列可指定返回哪些文档分类属性，若有一项为'props.*'，则返回所有文档分类属性
+     *  - user.*系列可指定作者信息，格式参照\cms\services\user\UserService::get()
+     *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+     * @param bool $only_published 若为true，则只在已发布的文档里搜索。默认为true
+     * @return array|bool
+     */
+    public function get($doc_id, $fields = '*', $only_published = true){
+        //解析$fields
+        $fields = FieldHelper::parse($fields, 'doc', self::$public_fields);
+        if(empty($fields['doc'])){
+            //若未指定返回字段，返回所有允许的字段
+            $fields['doc'] = self::$default_fields['doc'];
+        }
+
+        $doc_fields = $fields['doc']['fields'];
+        if(!empty($fields['user']) && !in_array('user_id', $doc_fields)){
+            //如果要获取作者信息，则必须搜出user_id
+            $doc_fields[] = 'user_id';
+        }
+        if(!empty($fields['category']) && !in_array('cat_id', $doc_fields)){
+            //如果要获取分类信息，则必须搜出cat_id
+            $doc_fields[] = 'cat_id';
+        }
+
+        if(!empty($fields['props']) && !in_array('cat_id', $doc_fields)){
+            //如果要获取附加属性，必须搜出cat_id
+            $doc_fields[] = 'cat_id';
+        }
+
+        if(isset($fields['extra']) && in_array('seo_title', $fields['extra']) && !in_array('title', $doc_fields)){
+            //如果要获取seo_title，必须搜出title
+            $doc_fields[] = 'title';
+        }
+        if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']) && !in_array('title', $doc_fields)){
+            //如果要获取seo_title，必须搜出title
+            $doc_fields[] = 'title';
+        }
+        if(isset($fields['extra']) && in_array('seo_description', $fields['extra'])){
+            //如果要获取seo_title，必须搜出title, content
+            if(!in_array('abstract', $doc_fields)){
+                $doc_fields[] = 'abstract';
+            }
+        }
+
+        $sql = new Sql();
+        $sql->from(array('d'=>WikiDocsTable::model()->getTableName()), $doc_fields)
+            ->where(array(
+                'd.id = ?'=>$doc_id,
+            ));
+
+        //仅搜索已发布的文档
+        if($only_published){
+            $sql->where(WikiDocsTable::getPublishedConditions('d'));
+        }
+
+        $doc = $sql->fetchRow();
+        if(!$doc){
+            return false;
+        }
+
+        if(isset($doc['thumbnail'])){
+            //如果有缩略图，将缩略图图片ID转为图片对象
+            $doc['thumbnail'] = $this->formatThumbnail(
+                $doc['thumbnail'],
+                isset($fields['doc']['extra']['thumbnail']) ? $fields['doc']['extra']['thumbnail'] : ''
+            );
+        }
+
+        $return = array(
+            'doc'=>$doc,
+        );
+
+        //meta
+        if(!empty($fields['meta'])){
+            $return['meta'] = DocMetaService::service()->get($doc_id, $fields['meta']);
+        }
+
+        //扩展信息
+        if(!empty($fields['extra'])){
+            $return['extra'] = DocExtraService::service()->get($doc_id, $fields['extra']);
+        }
+
+        //设置一下SEO信息
+        if(isset($fields['extra']) && in_array('seo_title', $fields['extra']['fields']) && empty($return['extra']['seo_title'])){
+            $return['extra']['seo_title'] = $doc['title'];
+        }
+        if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']['fields']) && empty($return['extra']['seo_keywords'])){
+            $return['extra']['seo_keywords'] = str_replace(array(
+                ' ', '|', '，'
+            ), ',', $doc['title']);
+        }
+        if(isset($fields['extra']) && in_array('seo_description', $fields['extra']['fields']) && empty($return['extra']['seo_description'])){
+            $return['extra']['seo_description'] = mb_substr(trim($doc['abstract']), 0, 150, 'utf-8');
+        }
+
+        //作者信息
+        if(!empty($fields['user'])){
+            $return['user'] = UserService::service()->get($doc['user_id'], $fields['user']);
+        }
+
+        //附加属性
+        if(!empty($fields['props'])){
+            if(in_array('*', $fields['props']['fields'])){
+                $props = null;
+            }else{
+                $props = PropService::service()->mget($fields['props']['fields'], PropsTable::USAGE_WIKI_DOC);
+            }
+            $return['props'] = DocPropService::service()->getPropSet($doc_id, $props);
+        }
+
+        //主分类
+        if(!empty($fields['category'])){
+            $return['category'] = CategoryService::service()->get($doc['cat_id'], $fields['category']);
+        }
+
+        //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
+        foreach(array('user_id', 'cat_id', 'title', 'abstract') as $f){
+            if(!in_array($f, $fields['doc']['fields']) && in_array($f, $doc_fields)){
+                unset($return['doc'][$f]);
+            }
+        }
+
+        return $return;
     }
     
     public function mget($doc_ids, $fields = '*'){
@@ -406,5 +533,20 @@ class DocService extends Service{
     public function getDeletedCount(){
         $result = WikiDocsTable::model()->fetchRow('delete_time > 0', 'COUNT(*)');
         return $result['COUNT(*)'];
+    }
+
+    private function formatThumbnail($thumbnail, $extra = ''){
+        //如果有缩略图，将缩略图图片ID转为图片对象
+        if(preg_match('/^(\d+)x(\d+)$/', $extra, $avatar_params)){
+            return FileService::get($thumbnail, array(
+                'spare'=>'doc',
+                'dw'=>$avatar_params[1],
+                'dh'=>$avatar_params[2],
+            ));
+        }else{
+            return FileService::get($thumbnail, array(
+                'spare'=>'doc',
+            ));
+        }
     }
 }

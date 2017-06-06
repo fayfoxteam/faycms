@@ -149,8 +149,8 @@ class PostsTable extends Table{
     public static function getPublishedConditions($alias = ''){
         return array(
             ($alias ? "{$alias}." : '') . 'delete_time = 0',
-            ($alias ? "{$alias}." : '') . 'publish_time < '.\F::app()->current_time,
-            ($alias ? "{$alias}." : '') . 'status = '.PostsTable::STATUS_PUBLISHED,
+            ($alias ? "{$alias}." : '') . 'publish_time < ' . \F::app()->current_time,
+            ($alias ? "{$alias}." : '') . 'status = ' . self::STATUS_PUBLISHED,
         );
     }
 }

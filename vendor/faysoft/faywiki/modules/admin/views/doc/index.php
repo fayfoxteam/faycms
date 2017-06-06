@@ -32,12 +32,6 @@ $cols = F::form('setting')->getData('cols', array());
                 ) + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
                     'class'=>'form-control',
                 ));
-                if(in_array('category', $enabled_boxes)){
-                    echo F::form('search')->inputCheckbox('with_slave', 1, array(
-                        'label'=>'附加分类',
-                        'title'=>'同时搜索文档主分类和附加分类',
-                    ));
-                }
                 echo F::form('search')->inputCheckbox('with_child', 1, array(
                     'label'=>'子分类',
                     'title'=>'符合所选分类子分类的文档也将被搜出',
@@ -45,7 +39,6 @@ $cols = F::form('setting')->getData('cols', array());
             ?></div>
             <div><?php
                 echo F::form('search')->select('time_field', array(
-                    'publish_time'=>'发布时间',
                     'create_time'=>'创建时间',
                     'update_time'=>'更新时间',
                 ), array(

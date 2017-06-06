@@ -3,6 +3,7 @@ namespace baike\models\tables;
 
 use fay\core\db\Table;
 use fay\core\Loader;
+use fay\core\Validator;
 
 /**
  * 域名后缀
@@ -25,12 +26,15 @@ class BaikeDomainSuffixesTable extends Table{
     }
     
     public function rules(){
+        Validator::registerValidator('domain_suffix', 'baike\validators\DomainSuffixValidator');
+        
         return array(
             array(array('id', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('suffix'), 'string', array('max'=>30)),
             array(array('description'), 'string', array('max'=>500)),
             
             array('suffix', 'required'),
+            array('suffix', 'domain_suffix'),
             array('suffix', 'unique', array('table'=>$this->getTableName(), 'except'=>'id', 'ajax'=>array('baike/admin/domain-suffix/is-suffix-not-exist')))
         );
     }

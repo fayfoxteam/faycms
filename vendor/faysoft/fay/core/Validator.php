@@ -148,6 +148,9 @@ class Validator{
      */
     public function createValidator($name, $params = array()){
         if(isset(self::$map[$name])){
+            /**
+             * @var $instance Validator
+             */
             $instance = new self::$map[$name];
         }else{
             return false;
@@ -213,7 +216,7 @@ class Validator{
      * @param string $name
      * @param string $class_name 带命名空间的类名
      */
-    public function registerValidator($name, $class_name){
+    public static function registerValidator($name, $class_name){
         self::$map[$name] = $class_name;
     }
     

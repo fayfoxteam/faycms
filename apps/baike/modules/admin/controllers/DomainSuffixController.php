@@ -57,15 +57,19 @@ class DomainSuffixController extends AdminController{
         }
 
         $this->form()->setModel(BaikeDomainSuffixesTable::model());
-        if($this->input->post() && $this->form()->check()){
-            $data = $this->form()->getFilteredData();
-            if(ArrayHelper::equal($data, $domain_suffix)){
-                Response::notify('success', '没有字段被修改');
+        if($this->input->post()){
+            if($this->form()->check()){
+                $data = $this->form()->getFilteredData();
+                if(ArrayHelper::equal($data, $domain_suffix)){
+                    Response::notify('success', '没有字段被修改');
+                }
+                $data['update_time'] = $this->current_time;
+                BaikeDomainSuffixesTable::model()->update($data, $domain_suffix_id);
+    
+                Response::notify('success', '一个域名后缀被编辑');
+            }else{
+                Response::goback();
             }
-            $data['update_time'] = $this->current_time;
-            BaikeDomainSuffixesTable::model()->update($data, $domain_suffix_id);
-
-            Response::notify('success', '一个域名后缀被编辑');
         }else{
             Response::notify('error', array(
                 'message'=>'不完整的请求',

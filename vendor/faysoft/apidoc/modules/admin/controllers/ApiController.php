@@ -45,7 +45,7 @@ class ApiController extends AdminController{
     
     public function __construct(){
         parent::__construct();
-        $this->layout->current_directory = 'api';
+        $this->layout->current_directory = 'apidoc-api';
     }
     
     public function index(){
@@ -450,7 +450,7 @@ class ApiController extends AdminController{
         
         $this->view->render();
     }
-    
+
     /**
      * 判断API路由是否可用
      * 可用返回状态为1，不可用返回0，http状态码均为200
@@ -465,7 +465,7 @@ class ApiController extends AdminController{
         ))->setLabels(array(
             'router'=>'路由',
         ))->check();
-        
+
         if(ApisTable::model()->fetchRow(array(
             'router = ?'=>$this->form()->getData('router'),
             'id != ?'=>$this->input->request('id', 'intval', false),
@@ -473,6 +473,30 @@ class ApiController extends AdminController{
             Response::json('', 0, '接口路由已存在');
         }else{
             Response::json();
+        }
+    }
+
+    /**
+     * 判断指定Api Id是否存在
+     * 存在返回状态为1，不可用返回0，http状态码均为200
+     * @parameter string $api_id
+     */
+    public function isApiIdExist(){
+        //表单验证
+        $this->form()->setRules(array(
+            array('api_id', 'required'),
+        ))->setFilters(array(
+            'api_id'=>'intval',
+        ))->setLabels(array(
+            'api_id'=>'Api Id',
+        ))->check();
+
+        if(ApisTable::model()->fetchRow(array(
+            'id = ?'=>$this->form()->getData('api_id'),
+        ))){
+            Response::json();
+        }else{
+            Response::json('', 0, 'Api Id不存在');
         }
     }
 }

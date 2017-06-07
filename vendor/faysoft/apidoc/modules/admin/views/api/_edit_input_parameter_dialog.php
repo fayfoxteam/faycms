@@ -5,7 +5,7 @@ use apidoc\models\tables\InputsTable;
 <div class="hide">
     <div id="edit-input-parameter-dialog" class="dialog">
         <div class="dialog-content w600">
-            <h4>编辑输入参数 - <span class="fc-orange" id="editing-input-parameter-name"></span></h4>
+            <h4>编辑请求参数 - <span class="fc-orange" id="editing-input-parameter-name"></span></h4>
             <form class="input-parameter-form" id="edit-input-parameter-form">
                 <input type="hidden" name="selector" />
                 <table class="form-table">

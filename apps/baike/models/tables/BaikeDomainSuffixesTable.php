@@ -58,4 +58,17 @@ class BaikeDomainSuffixesTable extends Table{
             'sort'=>'intval',
         );
     }
+
+    public function getNotWritableFields($scene){
+        switch($scene){
+            case 'insert':
+                return array('id');
+                break;
+            case 'update':
+            default:
+                return array(
+                    'id', 'create_time', 'sort'
+                );
+        }
+    }
 }

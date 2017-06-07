@@ -92,6 +92,21 @@ CREATE TABLE `{{$prefix}}apidoc_api_error_codes` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='api错误码';
 
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_common_inputs`;
+CREATE TABLE `{{$prefix}}apidoc_common_inputs` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
+  `required` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否必须',
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '参数类型',
+  `sample` varchar(255) NOT NULL DEFAULT '' COMMENT '示例值',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '描述',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '排序值',
+  `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='公共请求参数';
+
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_error_codes`;
 CREATE TABLE `{{$prefix}}apidoc_error_codes` (
   `id` smallint(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -109,13 +124,15 @@ CREATE TABLE `{{$prefix}}apidoc_error_codes` (
 INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_system`) VALUES ('API分类', '_system_api', '0', '1');
 
 -- 后台菜单
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5000', '100', 'api', 'API', 'fa fa-mobile', 'javascript:');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5000', '100', 'apidoc-api', 'API', 'fa fa-mobile', 'javascript:');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5001', '5000', '', 'API列表', '', 'apidoc/admin/api/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5002', '5000', '', '新增API', '', 'apidoc/admin/api/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5003', '5000', '', 'API分类', '', 'apidoc/admin/api/cat');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5004', '5000', '', '数据模型列表', '', 'apidoc/admin/model/index');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5005', '5000', '', '新增数据模型', '', 'apidoc/admin/model/create');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5006', '5000', '', '错误码管理', '', 'apidoc/admin/error-code/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5007', '5000', '', '公共请求参数', '', 'apidoc/admin/common-input/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5100', '100', 'apidoc-model', '数据模型', 'fa fa-cubes', 'javascript:');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5101', '5100', '', '数据模型列表', '', 'apidoc/admin/model/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5102', '5100', '', '新增数据模型', '', 'apidoc/admin/model/create');
 
 -- 预定义特殊对象
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('1', 'String', '\"Hello World\"', '字符串');

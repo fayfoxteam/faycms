@@ -7,6 +7,7 @@ use Michelf\MarkdownExtra;
 
 /**
  * @var $api array
+ * @var $common_inputs array
  */
 ?>
 <?php if($api['api']['description']){?>
@@ -42,6 +43,39 @@ use Michelf\MarkdownExtra;
             <label class="col-2 title">自从</label>
             <div class="col-10 pt7"><?php echo $api['api']['since']?></div>
         </div>
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-header closed">
+        <h2><i class="fa fa-caret-down"></i>公共请求参数</h2>
+    </div>
+    <div class="panel-body hide">
+        <?php if($api['inputs']){?>
+            <table>
+                <thead>
+                <tr>
+                    <th width="22%">名称</th>
+                    <th width="15%">类型</th>
+                    <th width="10%">是否必须</th>
+                    <th width="12%">示例值</th>
+                    <th width="36%">描述</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($common_inputs as $input){?>
+                    <tr>
+                        <td><?php echo HtmlHelper::encode($input['name'])?></td>
+                        <td><?php echo ApiHelper::getInputType($input['type'])?></td>
+                        <td><?php echo ApiHelper::getRequired($input['required'])?></td>
+                        <td><?php echo SampleHelper::render($input['sample'])?></td>
+                        <td><?php echo MarkdownExtra::defaultTransform($input['description'])?></td>
+                    </tr>
+                <?php }?>
+                </tbody>
+            </table>
+        <?php }else{?>
+            <span>无</span>
+        <?php }?>
     </div>
 </div>
 <div class="panel">

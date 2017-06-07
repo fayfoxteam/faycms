@@ -132,13 +132,6 @@ var domainSuffix = {
                             }
                         }
                     });
-                    
-                    //拖拽后poshytip需要重新定位
-                    $domainSuffixList.find('input,select,textarea').each(function(){
-                        if($(this).data('poshytip')){
-                            $(this).poshytip('refresh');
-                        }
-                    });
                 }
             });
             //删掉之前加入的隐藏元素
@@ -194,19 +187,9 @@ var domainSuffix = {
                     'cache': false,
                     'success': function(resp){
                         if(resp.status){
-                            _this.parent().fadeOut('fast', function(){
-                                //先复制出来，因为后面$(this)要被remove掉
-                                var $dragsortList = $(this).parent();
-                                //拖拽列表若有报错，该项内部所有poshytip信息将被删除
-                                $(this).find('input,select,textarea').poshytip('destroy');
+                            _this.parents('.dragsort-item').fadeOut('fast', function(){
                                 //移除指定项
                                 $(this).remove();
-                                //拖拽列表若有报错，该列表内所有poshytip元素将重新定位
-                                $dragsortList.find('input,select,textarea').each(function(){
-                                    if($(this).data('poshytip')){
-                                        $(this).poshytip('refresh');
-                                    }
-                                });
                             });
                         }else{
                             common.alert(resp.message);

@@ -38,7 +38,8 @@ class OutputsTable extends Table{
             array(array('since'), 'string', array('max'=>30)),
             array(array('is_array'), 'range', array('range'=>array(0, 1))),
             
-            array(array('name'), 'required'),
+            array(array('name', 'api_id', 'model_id'), 'required'),
+            array('api_id', 'exist', array('table'=>ApisTable::model()->getTableName(), 'field'=>'id', 'ajax'=>array('apidoc/admin/api/is-api-id-exist'))),
         );
     }
 

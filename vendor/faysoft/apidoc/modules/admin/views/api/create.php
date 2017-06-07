@@ -83,19 +83,6 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
     </div>
 </div>
 <?php echo F::form()->close()?>
-<?php
-//输入参数编辑窗
-if(in_array('inputs', $enabled_boxes)){
-    $this->renderPartial('_add_input_parameter_dialog');
-    $this->renderPartial('_edit_input_parameter_dialog');
-}
-//输出参数编辑窗
-if(in_array('outputs', $enabled_boxes)){
-    $this->renderPartial('_add_output_dialog');
-    $this->renderPartial('_edit_output_dialog');
-}
-
-?>
 <script type="text/javascript" src="<?php echo $this->assets('apidoc/js/api.js')?>"></script>
 <script>
 $(function(){

@@ -1,8 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
 use apidoc\models\tables\InputsTable;
-
-$type_map = InputsTable::getTypes();
 ?>
 <div class="box" id="box-inputs" data-name="inputs">
     <div class="box-title">
@@ -61,7 +59,7 @@ $type_map = InputsTable::getTypes();
                             ));
                         ?></div>
                     </td>
-                    <td><?php echo $type_map[$input['type']]?></td>
+                    <td><?php echo InputsTable::getType($input['type'])?></td>
                     <td><?php echo $input['required'] ? '<span class="fc-green">是</span>' : '否'?></td>
                     <td><?php echo HtmlHelper::encode($input['since'])?></td>
                     <td><?php echo HtmlHelper::encode($input['description'])?></td>
@@ -71,9 +69,13 @@ $type_map = InputsTable::getTypes();
         </table>
     </div>
 </div>
+<?php
+$this->renderPartial('_add_input_parameter_dialog');
+$this->renderPartial('_edit_input_parameter_dialog');
+?>
 <script>
 $(function(){
-    api.inputTypeMap = <?php echo json_encode($type_map)?>;
+    api.inputTypeMap = <?php echo json_encode(InputsTable::getTypes())?>;
     api.validInputParameter(<?php echo json_encode(F::form('input-parameter')->getJsRules())?>, <?php echo json_encode(F::form('input-parameter')->getLabels())?>);
 });
 </script>

@@ -5,7 +5,7 @@ use apidoc\models\tables\InputsTable;
 <div class="hide">
     <div id="add-input-parameter-dialog" class="dialog">
         <div class="dialog-content w600">
-            <h4>添加输入参数</h4>
+            <h4>添加请求参数</h4>
             <form class="input-parameter-form" id="add-input-parameter-form">
                 <table class="form-table">
                     <tr>

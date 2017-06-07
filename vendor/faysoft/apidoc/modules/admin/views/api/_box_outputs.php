@@ -62,6 +62,10 @@ use fay\helpers\HtmlHelper;
         </div>
     </div>
 </div>
+<?php
+$this->renderPartial('_add_output_dialog');
+$this->renderPartial('_edit_output_dialog');
+?>
 <script>
 $(function(){
     api.validOutput(<?php echo json_encode(F::form('output')->getJsRules())?>, <?php echo json_encode(F::form('output')->getLabels())?>);

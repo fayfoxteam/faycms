@@ -22,7 +22,10 @@ class DomainSuffixController extends AdminController{
             'domain_suffixes'=>BaikeDomainSuffixesTable::model()->fetchAll(array(), '*', 'sort')
         ))->render();
     }
-    
+
+    /**
+     * 创建一个域名后缀
+     */
     public function create(){
         if($this->input->post()){
             if($this->form()->setModel(BaikeDomainSuffixesTable::model())->check()){
@@ -43,7 +46,10 @@ class DomainSuffixController extends AdminController{
             ));
         }
     }
-    
+
+    /**
+     * 编辑一个域名后缀
+     */
     public function edit(){
         $domain_suffix_id = $this->input->request('id', 'intval');
 
@@ -76,7 +82,10 @@ class DomainSuffixController extends AdminController{
             ));
         }
     }
-    
+
+    /**
+     * 物理删除一个域名后缀
+     */
     public function remove(){
         $domain_suffix_id = $this->input->get('id', 'intval');
 
@@ -93,9 +102,12 @@ class DomainSuffixController extends AdminController{
 
         Response::notify('success', array(
             'message'=>'一个域名后缀被永久删除',
-        ), array('cms/admin/option/index', $this->input->get()));
+        ));
     }
-    
+
+    /**
+     * 获取一个域名后缀
+     */
     public function get(){
         $domain_suffix_id = $this->input->get('id', 'intval');
 
@@ -112,7 +124,10 @@ class DomainSuffixController extends AdminController{
             'domain_suffix'=>$domain_suffix
         ));
     }
-    
+
+    /**
+     * 验证指定域名后缀是否可用
+     */
     public function isSuffixNotExist(){
         $suffix = $this->input->request('suffix', 'trim');
         if(!$suffix){

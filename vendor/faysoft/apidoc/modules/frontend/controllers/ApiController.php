@@ -2,6 +2,7 @@
 namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
+use apidoc\models\tables\ApidocCommonInputsTable;
 use apidoc\services\ApiService;
 use fay\core\HttpException;
 
@@ -38,7 +39,9 @@ class ApiController extends FrontController{
             'canonical'=>$this->view->url('api/'.$api['api']['id']),
         ));
         
-        $this->view->api = $api;
-        $this->view->render('apidoc/frontend/api/item');
+        $this->view->assign(array(
+            'common_inputs'=>ApidocCommonInputsTable::model()->fetchAll(array(), '!create_time,update_time', 'sort'),
+            'api'=>$api
+        ))->render('apidoc/frontend/api/item');
     }
 }

@@ -89,7 +89,8 @@ CREATE TABLE `{{$prefix}}apidoc_api_error_codes` (
   `solution` varchar(500) NOT NULL DEFAULT '' COMMENT '解决方案',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `api_id-code` (`api_id`,`code`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='api错误码';
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_common_inputs`;

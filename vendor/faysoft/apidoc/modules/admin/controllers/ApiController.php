@@ -246,7 +246,7 @@ class ApiController extends AdminController{
 
             if(in_array('inputs', $enabled_boxes)){
                 //输入参数处理
-                $inputs = $this->input->post('inputs');
+                $inputs = $this->input->post('inputs', '', array());
                 //获取已存在的输入参数
                 $old_input_parameters = ArrayHelper::column(InputsTable::model()->fetchAll(array(
                     'api_id = ?' => $api_id,
@@ -279,7 +279,7 @@ class ApiController extends AdminController{
 
             if(in_array('outputs', $enabled_boxes)){
                 //输出参数处理
-                $outputs = $this->input->post('outputs');
+                $outputs = $this->input->post('outputs', '', array());
                 //获取已存在的输出参数
                 $old_output_parameters = ArrayHelper::column(OutputsTable::model()->fetchAll(array(
                     'api_id = ?'=>$api_id,

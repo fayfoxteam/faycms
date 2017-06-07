@@ -193,7 +193,7 @@ code{background-color:#f7f7f7;font-size:.85em;padding:.2em .5em}
 table{border-collapse:collapse;border-spacing:0;width:100%;max-width:100%;margin-bottom:10px;border:1px solid #eee}
 table th,table td{border-bottom:1px solid #eee;padding:12px 15px;word-break:break-all;word-wrap:break-word;white-space:normal}
 table th{position:relative;text-align:left;color:#2c2e2f}
-table td{vertical-align:text-top}
+table td{vertical-align:text-top;padding-top:4px;padding-bottom:4px}
 table th:after{content:'';display:block;position:absolute;left:0;right:0;bottom:1px;height:1px;background-color:#eee}
 @media screen and (max-width:1140px){
 	table td,table th{padding:6px 7px}

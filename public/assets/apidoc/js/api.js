@@ -363,6 +363,9 @@ var api = {
                 'url' : system.url('apidoc/admin/error-code/search'),
                 'onSelect': function(obj, data){
                     obj.val(data.code);
+                    var $row = obj.parent().parent();
+                    $row.find('.error-description').val(data.description);
+                    $row.find('.error-solution').val(data.solution);
                 },
                 'zindex': '1000'
             });

@@ -95,7 +95,7 @@ CREATE TABLE `{{$prefix}}apidoc_api_error_codes` (
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_apps`;
 CREATE TABLE `{{$prefix}}apidoc_apps` (
-  `id` smallint(5) unsigned NOT NULL,
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '应用名称',
   `description` varchar(500) NOT NULL DEFAULT '' COMMENT '应用描述',
   `need_login` tinyint(1) NOT NULL DEFAULT '0' COMMENT '仅登录用户可见',

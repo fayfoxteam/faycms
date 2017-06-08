@@ -519,7 +519,7 @@ class PostCommentService extends MultiTreeModel{
         ), $comment_fields);
         
         if(!$comment){
-            return false;
+            return array();
         }
         
         $return = array(

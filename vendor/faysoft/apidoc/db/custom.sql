@@ -93,6 +93,25 @@ CREATE TABLE `{{$prefix}}apidoc_api_error_codes` (
   UNIQUE KEY `api_id-code` (`api_id`,`code`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='api错误码';
 
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_apps`;
+CREATE TABLE `{{$prefix}}apidoc_apps` (
+  `id` smallint(5) unsigned NOT NULL,
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '应用名称',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '应用描述',
+  `need_login` tinyint(1) NOT NULL DEFAULT '0' COMMENT '仅登录用户可见',
+  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='api应用信息';
+
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_apps_apis`;
+CREATE TABLE `{{$prefix}}apidoc_apps_apis` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'App Id',
+  `api_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Api Id',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='应用-接口关联关系';
+
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_common_inputs`;
 CREATE TABLE `{{$prefix}}apidoc_common_inputs` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,

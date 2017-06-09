@@ -25,7 +25,7 @@ var _fa = {
             ua = ua.toLowerCase();
         }
 
-        if(navigator.platform == 'Win32' || navigator.platform == 'Windows'){
+        if(navigator.platform == 'Win32' || navigator.platform == 'Win64' || navigator.platform == 'Windows'){
             if(ua.indexOf('windows nt 5.0') > -1 || ua.indexOf('windows 2000') > -1) return 'win2000';
             if(ua.indexOf('windows nt 5.1') > -1 || ua.indexOf('windows xp') > -1) return 'xp';
             if(ua.indexOf('windows nt 5.2') > -1 || ua.indexOf('windows 2003') > -1) return 'win2003';

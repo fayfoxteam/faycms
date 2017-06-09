@@ -476,7 +476,7 @@ class UserService extends Service{
             $user['user'] = $u;
             if(isset($user['user']['avatar'])){
                 //如果有头像，将头像图片ID转化为图片对象
-                if(isset($extra['user']['avatar']) && preg_match('/^(\d+)x(\d+)$/', $extra['user']['avatar'], $avatar_params)){
+                if(isset($extra['avatar']) && preg_match('/^(\d+)x(\d+)$/', $extra['avatar'], $avatar_params)){
                     $user['user']['avatar'] = FileService::get($u['avatar'], array(
                         'spare'=>'avatar',
                         'dw'=>$avatar_params[1],

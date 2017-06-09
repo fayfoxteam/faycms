@@ -296,17 +296,17 @@ abstract class MultiTreeModel extends Model{
     protected function _getTree($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
         //解析$fields
         $fields = FieldHelper::parse($fields, $this->field_key);
-        if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
-            $fields[$this->field_key] = \F::table($this->model)->getFields();
+        if(empty($fields[$this->field_key]['fields']) || in_array('*', $fields[$this->field_key]['fields'])){
+            $fields[$this->field_key]['fields'] = \F::table($this->model)->getFields();
         }
-        $node_fields = $fields[$this->field_key];
+        $node_fields = $fields[$this->field_key]['fields'];
         //一些需要用到，但未指定返回的字段特殊处理下
         foreach(array('root', 'left_value', 'right_value', 'parent') as $key){
             if(!in_array($key, $node_fields)){
                 $node_fields[] = $key;
             }
         }
-        if(!empty($fields['user']) && !in_array('user_id', $node_fields)){
+        if(!empty($fields['user']['fields']) && !in_array('user_id', $node_fields)){
             $node_fields[] = 'user_id';
         }
         
@@ -335,8 +335,8 @@ abstract class MultiTreeModel extends Model{
             if(!empty($fields['user'])){
                 $extra['users'] = UserService::service()->mget(
                     array_unique(ArrayHelper::column($nodes, 'user_id')),
-                    $fields['user'],
-                    isset($fields['_extra']) ? $fields['_extra'] : array()
+                    $fields['user']['fields'],
+                    isset($fields['user']['extra']) ? $fields['user']['extra'] : array()
                 );
             }
             
@@ -383,7 +383,7 @@ abstract class MultiTreeModel extends Model{
                 $node = array();
                 //只返回需要返回的字段
                 foreach($n as $key => $val){
-                    if(in_array($key, $fields[$this->field_key])){
+                    if(in_array($key, $fields[$this->field_key]['fields'])){
                         $node[$this->field_key][$key] = $val;
                     }
                 }
@@ -419,22 +419,22 @@ abstract class MultiTreeModel extends Model{
     protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array()){
         //解析$fields
         $fields = FieldHelper::parse($fields, $this->field_key);
-        if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key])){
-            $fields[$this->field_key] = PostCommentsTable::model()->getFields();
+        if(empty($fields[$this->field_key]) || in_array('*', $fields[$this->field_key]['fields'])){
+            $fields[$this->field_key]['fields'] = PostCommentsTable::model()->getFields();
         }
         
-        $comment_fields = $fields[$this->field_key];
+        $comment_fields = $fields[$this->field_key]['fields'];
         if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
             //若需要获取用户信息，但评论字段未指定user_id，则插入user_id
             $comment_fields[] = 'user_id';
         }
         
         if(!empty($fields['parent'])){
-            if(!empty($fields['parent'][$this->field_key]) && in_array('*', $fields['parent'][$this->field_key])){
-                $fields['parent'][$this->field_key] = PostCommentsTable::model()->getFields();
+            if(!empty($fields['parent']['fields'][$this->field_key]) && in_array('*', $fields['parent']['fields'][$this->field_key])){
+                $fields['parent']['fields'][$this->field_key] = PostCommentsTable::model()->getFields();
             }
-            $parent_comment_fields = empty($fields['parent'][$this->field_key]) ? array() : $fields['parent'][$this->field_key];
-            if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
+            $parent_comment_fields = empty($fields['parent']['fields'][$this->field_key]['fields']) ? array() : $fields['parent']['fields'][$this->field_key]['fields'];
+            if(!empty($fields['parent']['fields']['user']) && !in_array('user_id', $parent_comment_fields)){
                 //若需要获取父节点用户信息，但父节点评论字段未指定user_id，则插入user_id
                 $parent_comment_fields[] = 'user_id';
             }
@@ -478,15 +478,15 @@ abstract class MultiTreeModel extends Model{
             $users = UserService::service()->mget(
                 ArrayHelper::column($data, 'user_id'),
                 $fields['user'],
-                isset($fields['_extra']) ? $fields['_extra'] : array()
+                isset($fields['user']['extra']) ? $fields['user']['extra'] : array()
             );
         }
-        if(!empty($fields['parent']['user'])){
+        if(!empty($fields['parent']['fields']['user'])){
             //获取父节点评论用户信息集合
             $parent_users = UserService::service()->mget(
                 ArrayHelper::column($data, 'parent_user_id'),
-                $fields['parent']['user'],
-                isset($fields['parent']['_extra']) ? $fields['parent']['_extra'] : array()
+                $fields['parent']['fields']['user'],
+                isset($fields['parent']['fields']['user']['extra']) ? $fields['parent']['fields']['user']['extra'] : array()
             );
         }
         $comments = array();
@@ -494,30 +494,30 @@ abstract class MultiTreeModel extends Model{
         foreach($data as $k => $d){
             $comment = array();
             //评论字段
-            foreach($fields[$this->field_key] as $cf){
+            foreach($fields[$this->field_key]['fields'] as $cf){
                 $comment[$this->field_key][$cf] = $d[$cf];
             }
             
             //作者字段
             if(!empty($fields['user'])){
-                $comment['user'] = $users[$d['user_id']];
+                $comment['user'] = isset($users[$d['user_id']]) ? $users[$d['user_id']] : array();
             }
             
             //父评论字段
-            if(!empty($fields['parent'][$this->field_key])){
-                if($d['parent_' . $fields['parent'][$this->field_key][0]] === null){
+            if(!empty($fields['parent']['fields'][$this->field_key])){
+                if($d['parent_' . $fields['parent']['fields'][$this->field_key]['fields'][0]] === null){
                     //为null的话意味着父节点不存在或已删除（数据库字段一律非null）
                     $comment['parent'][$this->field_key] = array();
                 }else{
-                    foreach($fields['parent'][$this->field_key] as $pcf){
+                    foreach($fields['parent']['fields'][$this->field_key]['fields'] as $pcf){
                         $comment['parent'][$this->field_key][$pcf] = $d['parent_' . $pcf];
                     }
                 }
             }
             
             //父评论作者字段
-            if(!empty($fields['parent']['user'])){
-                $comment['parent']['user'] = $parent_users[$d['parent_user_id']];
+            if(!empty($fields['parent']['fields']['user'])){
+                $comment['parent']['user'] = isset($parent_users[$d['parent_user_id']]) ? $parent_users[$d['parent_user_id']] : array();
             }
             
             $comments[] = $comment;
@@ -601,7 +601,7 @@ abstract class MultiTreeModel extends Model{
                         
                     //作者字段
                     if(!empty($fields['user'])){
-                        $chat['user'] = $users[$n['user_id']];
+                        $chat['user'] = isset($users[$n['user_id']]) ? $users[$n['user_id']] : array();
                     }
                 }else{
                     $sub_chat = array(
@@ -614,7 +614,7 @@ abstract class MultiTreeModel extends Model{
                     
                     //作者字段
                     if(!empty($fields['user'])){
-                        $sub_chat['user'] = $users[$n['user_id']];
+                        $sub_chat['user'] = isset($users[$n['user_id']]) ? $users[$n['user_id']] : array();
                     }
                     $chat['children'][] = $sub_chat;
                 }
@@ -735,7 +735,7 @@ abstract class MultiTreeModel extends Model{
             
             //作者字段
             if(!empty($fields['user'])){
-                $comment['user'] = $users[$d['user_id']];
+                $comment['user'] = isset($users[$d['user_id']]) ? $users[$d['user_id']] : array();
             }
             
             //父评论字段
@@ -752,7 +752,7 @@ abstract class MultiTreeModel extends Model{
             
             //父评论作者字段
             if(!empty($fields['parent']['user'])){
-                $comment['parent']['user'] = $parent_users[$d['parent_user_id']];
+                $comment['parent']['user'] = isset($parent_users[$d['parent_user_id']]) ? $parent_users[$d['parent_user_id']] : array();
             }
             
             $comments[] = $comment;

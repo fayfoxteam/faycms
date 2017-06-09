@@ -735,7 +735,17 @@ class PostCommentService extends MultiTreeModel{
         );
         if(OptionService::get('system:post_comment_verify')){
             //开启了评论审核
-            $conditions[] = 'status = '.PostCommentsTable::STATUS_APPROVED;
+            if(\F::app()->current_user){
+                //总是能看到自己发布的评论
+                $conditions['or'] = array(
+                    'status = '.PostCommentsTable::STATUS_APPROVED,
+                    'user_id = ' . \F::app()->current_user,
+                );       
+            }else{
+                $conditions[] = array(
+                    'status = '.PostCommentsTable::STATUS_APPROVED,
+                );
+            }
         }
         
         $result = $this->_getTree($post_id,
@@ -775,13 +785,25 @@ class PostCommentService extends MultiTreeModel{
         $conditions = array(
             't.delete_time = 0',
         );
-        $js_conditions = array(
+        $join_conditions = array(
             't2.delete_time = 0',
         );
         if(OptionService::get('system:post_comment_verify')){
             //开启了评论审核
-            $conditions[] = 't.status = '.PostCommentsTable::STATUS_APPROVED;
-            $js_conditions[] = 't2.status = '.PostCommentsTable::STATUS_APPROVED;
+            if(\F::app()->current_user){
+                //登录用户总是可以看到自己的评论
+                $conditions['or'] = array(
+                    't.status = ' . PostCommentsTable::STATUS_APPROVED,
+                    't.user_id = ' . \F::app()->current_user,
+                );
+                $join_conditions['or'] = array(
+                    't2.status = ' . PostCommentsTable::STATUS_APPROVED,
+                    't2.user_id = ' . \F::app()->current_user,
+                );
+            }else{
+                $conditions[] = 't.status = ' . PostCommentsTable::STATUS_APPROVED;
+                $join_conditions[] = 't2.status = ' . PostCommentsTable::STATUS_APPROVED;
+            }
         }
         
         $result = $this->_getList($post_id,
@@ -789,7 +811,7 @@ class PostCommentService extends MultiTreeModel{
             $page,
             $fields,
             $conditions,
-            $js_conditions
+            $join_conditions
         );
         
         return array(

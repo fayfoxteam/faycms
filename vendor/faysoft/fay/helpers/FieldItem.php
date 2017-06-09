@@ -30,10 +30,13 @@ class FieldItem implements \ArrayAccess{
         
         if(is_string($fields)){
             $this->_parseString($fields);
-            if($allow_fields){
-                //过滤字段
-                $this->filter($allow_fields);
-            }
+        }else if(is_array($fields)){
+            $this->_parseArray($fields);
+        }
+        
+        if($allow_fields){
+            //过滤字段
+            $this->filter($allow_fields);
         }
     }
 
@@ -53,6 +56,49 @@ class FieldItem implements \ArrayAccess{
             }else if(isset($this->siblings[$section])){
                 //递归给其他实例过滤
                 $this->siblings[$section]->filter(isset($fields[0]) ? array($section => $fields) : $fields);
+            }
+        }
+    }
+
+    /**
+     * 获取指定field扩展信息
+     * @param string $key
+     * @return string|null
+     */
+    public function getExtra($key){
+        return isset($this->extra[$key]) ? $this->extra[$key] : null;
+    }
+
+    /**
+     * 返回当前字段集合的所有字段
+     * @return array
+     */
+    public function getFields(){
+        return $this->fields;
+    }
+
+    /**
+     * 判断一个字段是否存在
+     * @param string $field
+     * @return bool
+     */
+    public function hasField($field){
+        return in_array($field, $this->fields);
+    }
+
+    /**
+     * 根据数组初始化
+     * 先解析完再过滤，这样逻辑清晰一点，过滤逻辑太绕了
+     * @param array $arr
+     */
+    private function _parseArray($arr){
+        foreach($arr as $section => $fields){
+            if($section == $this->section){
+                $this->addField(implode(',', $fields));
+            }else if(isset($this->siblings[$section])){
+                $this->siblings[$section]->addField($fields);
+            }else{
+                $this->siblings[$section] = new self(isset($fields[0]) ? implode(',', $fields) : $fields, $section);
             }
         }
     }
@@ -103,32 +149,6 @@ class FieldItem implements \ArrayAccess{
      */
     public function addField($field){
         $this->_parseString($field);
-    }
-
-    /**
-     * 获取指定field扩展信息
-     * @param string $key
-     * @return string|null
-     */
-    public function getExtra($key){
-        return isset($this->extra[$key]) ? $this->extra[$key] : null;
-    }
-
-    /**
-     * 返回当前字段集合的所有字段
-     * @return array
-     */
-    public function getFields(){
-        return $this->fields;
-    }
-
-    /**
-     * 判断一个字段是否存在
-     * @param string $field
-     * @return bool
-     */
-    public function hasField($field){
-        return in_array($field, $this->fields);
     }
 
 

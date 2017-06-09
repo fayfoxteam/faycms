@@ -325,7 +325,7 @@ class ApiController extends AdminController{
 
             //处理错误码
             if(in_array('error_code', $enabled_boxes)){
-                $error_codes = $this->input->post('error_codes');
+                $error_codes = $this->input->post('error_codes', '', array());
                 //获取已存在的错误码
                 $old_error_codes = ArrayHelper::column(ApidocApiErrorCodesTable::model()->fetchAll(array(
                     'api_id = ?'=>$api_id,

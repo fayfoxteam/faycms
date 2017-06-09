@@ -37,7 +37,7 @@ use fay\helpers\HtmlHelper;
                         'class'=>'input-since',
                     ));
                 ?>
-                <a class="dragsort-rm" href="javascript:;"></a>
+                <a class="dragsort-rm" href="javascript:"></a>
                 <a class="dragsort-item-selector"></a>
                 <div class="dragsort-item-container">
                     <span class="ib wp25">
@@ -62,10 +62,6 @@ use fay\helpers\HtmlHelper;
         </div>
     </div>
 </div>
-<?php
-$this->renderPartial('_add_output_dialog');
-$this->renderPartial('_edit_output_dialog');
-?>
 <script>
 $(function(){
     api.validOutput(<?php echo json_encode(F::form('output')->getJsRules())?>, <?php echo json_encode(F::form('output')->getLabels())?>);

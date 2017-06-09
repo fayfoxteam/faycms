@@ -53,11 +53,11 @@ use apidoc\models\tables\InputsTable;
                     <tr>
                         <th class="adaption"></th>
                         <td><?php
-                            echo HtmlHelper::link('编辑', 'javascript:;', array(
+                            echo HtmlHelper::link('编辑', 'javascript:', array(
                                 'class'=>'btn mr10',
                                 'id'=>'edit-input-parameter-form-submit',
                             ));
-                            echo HtmlHelper::link('取消', 'javascript:;', array(
+                            echo HtmlHelper::link('取消', 'javascript:', array(
                                 'class'=>'btn btn-grey fancybox-close',
                             ));
                         ?></td>

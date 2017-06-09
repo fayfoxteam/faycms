@@ -53,11 +53,11 @@ use fay\helpers\HtmlHelper;
                     <tr>
                         <th class="adaption"></th>
                         <td><?php
-                            echo HtmlHelper::link('添加', 'javascript:;', array(
+                            echo HtmlHelper::link('添加', 'javascript:', array(
                                 'class'=>'btn mr10',
                                 'id'=>'add-prop-form-submit',
                             ));
-                            echo HtmlHelper::link('取消', 'javascript:;', array(
+                            echo HtmlHelper::link('取消', 'javascript:', array(
                                 'class'=>'btn btn-grey fancybox-close',
                             ));
                         ?></td>

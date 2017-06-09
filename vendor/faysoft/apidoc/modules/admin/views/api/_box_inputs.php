@@ -69,10 +69,6 @@ use apidoc\models\tables\InputsTable;
         </table>
     </div>
 </div>
-<?php
-$this->renderPartial('_add_input_parameter_dialog');
-$this->renderPartial('_edit_input_parameter_dialog');
-?>
 <script>
 $(function(){
     api.inputTypeMap = <?php echo json_encode(InputsTable::getTypes())?>;

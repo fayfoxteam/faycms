@@ -88,7 +88,7 @@ use fay\helpers\HtmlHelper;
                             echo F::form('create')->submitLink('添加公共请求参数', array(
                                 'class'=>'btn mr10'
                             )),
-                            HtmlHelper::link('取消', 'javascript:;', array(
+                            HtmlHelper::link('取消', 'javascript:', array(
                                 'class'=>'btn btn-grey fancybox-close',
                             ));
                         ?></td>
@@ -152,7 +152,7 @@ use fay\helpers\HtmlHelper;
                         echo F::form('edit')->submitLink('编辑公共请求参数', array(
                             'class'=>'btn mr10'
                         )),
-                        HtmlHelper::link('取消', 'javascript:;', array(
+                        HtmlHelper::link('取消', 'javascript:', array(
                             'class'=>'btn btn-grey fancybox-close',
                         ));
                     ?></td>

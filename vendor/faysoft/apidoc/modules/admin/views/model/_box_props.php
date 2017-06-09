@@ -37,7 +37,7 @@ use fay\helpers\HtmlHelper;
                         'class'=>'input-since',
                     ));
                 ?>
-                <a class="dragsort-rm" href="javascript:;"></a>
+                <a class="dragsort-rm" href="javascript:"></a>
                 <a class="dragsort-item-selector"></a>
                 <div class="dragsort-item-container">
                     <span class="ib wp25">

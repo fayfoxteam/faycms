@@ -84,7 +84,7 @@ class FieldItem implements \ArrayAccess{
      * @return bool
      */
     public function offsetExists($offset){
-        return isset($this->fields[$offset]) || isset($this->children[$offset]);
+        return in_array($offset, $this->fields) || isset($this->children[$offset]);
     }
 
     /**

@@ -79,12 +79,21 @@ class FieldItem implements \ArrayAccess{
     }
 
     /**
-     * 判断fields或children是否存在
-     * @param string $offset
+     * 判断一个字段是否存在
+     * @param string $field
      * @return bool
      */
+    public function hasField($field){
+        return in_array($field, $this->fields);
+    }
+
+    /**
+     * 不支持通过ArrayAccess判断
+     * @param mixed $offset
+     * @return bool|void
+     */
     public function offsetExists($offset){
-        return in_array($offset, $this->fields) || isset($this->children[$offset]);
+        return;
     }
 
     /**

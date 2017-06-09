@@ -244,6 +244,28 @@ class PostCommentController extends ApiController{
             ));
         }
     }
+
+    /**
+     * 评论列表
+     * @parameter string $mode
+     *  - tree: 树形
+     *  - list: 盖楼
+     *  - chat: 会话
+     * @parameter int $post_id 文章ID
+     * @parameter string $fields 制定字段
+     * @parameter int $page 页码
+     * @parameter int $page_size 分页大小
+     */
+    public function listAction(){
+        $mode = $this->input->request('mode', 'trim', 'list');
+        if($mode == 'tree'){
+            $this->_tree();
+        }else if($mode == 'chat'){
+            $this->_chat();
+        }else{
+            $this->_list();
+        }
+    }
     
     /**
      * 评论列表（盖楼形式）
@@ -252,7 +274,7 @@ class PostCommentController extends ApiController{
      * @parameter int $page 页码
      * @parameter int $page_size 分页大小
      */
-    public function listAction(){
+    private function _list(){
         //验证必须get方式发起请求
         $this->checkMethod('GET');
         
@@ -313,7 +335,7 @@ class PostCommentController extends ApiController{
      * @parameter int $page 页码
      * @parameter int $page_size 分页大小
      */
-    public function tree(){
+    private function _tree(){
         //验证必须get方式发起请求
         $this->checkMethod('GET');
         
@@ -363,7 +385,7 @@ class PostCommentController extends ApiController{
      * @parameter int $page 页码
      * @parameter int $page_size 分页大小
      */
-    public function chat(){
+    private function _chat(){
         //验证必须get方式发起请求
         $this->checkMethod('GET');
         

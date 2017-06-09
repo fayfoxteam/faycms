@@ -24,34 +24,32 @@ class FieldItem implements \ArrayAccess{
      * @var array 其他平级字段集合（键值数组，值为FieldItem实例）
      */
     private $siblings = array();
-
-    /**
-     * @var array 允许请求的字段（多维数组）
-     */
-    private $allow_fields = array();
     
     public function __construct($fields, $section, $allow_fields = array()){
         $this->section = $section;
-        $this->allow_fields = $allow_fields;
         
         if(is_string($fields)){
             $this->_parseString($fields);
+            if($allow_fields){
+                //过滤字段
+                $this->filter($allow_fields);
+            }
         }
     }
-    
-    public function filter($filters){
-        foreach($filters as $section => $fields){
+
+    /**
+     * 过滤字段
+     * @param array $allow_fields
+     */
+    public function filter($allow_fields){
+        foreach($allow_fields as $section => $fields){
             if($section == $this->section && is_array($fields)){
+                if(in_array('*', $fields)){
+                    //若包含星号，则什么都不做
+                    continue;
+                }
                 //过滤字段
                 $this->fields = array_intersect($this->fields, $fields);
-                
-                if($this->allow_fields){
-                    //若原先有设置过滤字段，取交集
-                    $this->allow_fields = ArrayHelper::intersect($this->allow_fields, $filters);
-                }else{
-                    //若原先没有设置过滤字段，直接赋值
-                    $this->allow_fields = $filters;
-                }
             }else if(isset($this->siblings[$section])){
                 //递归给其他实例过滤
                 $this->siblings[$section]->filter(isset($fields[0]) ? array($section => $fields) : $fields);
@@ -61,6 +59,7 @@ class FieldItem implements \ArrayAccess{
     
     /**
      * 根据字符串初始化
+     * 先解析完再过滤，这样逻辑清晰一点，过滤逻辑太绕了
      * @param string $string
      */
     private function _parseString($string){
@@ -76,24 +75,13 @@ class FieldItem implements \ArrayAccess{
                 }else if(isset($this->siblings[$field_explode[0]])){
                     $this->siblings[$field_explode[0]]->addField($field_explode[1]);
                 }else{
-                    $allow_fields = array();
-                    if(isset($this->allow_fields[$field_explode[0]])){
-                        if(isset($this->allow_fields[$field_explode[0]][0])){
-                            //是索引数组，说明已经是底层结果，带上键。例如：['user'=>['id', 'nickname']]
-                            $allow_fields[$field_explode[0]] = $this->allow_fields[$field_explode[0]];
-                        }else{
-                            //是关联数组，说明只是个父节点，不带键。例如：['parent'=>['user'=>['id', 'nickname']]]
-                            $allow_fields = $this->allow_fields[$field_explode[0]];
-                        }
-                    }
                     $this->siblings[$field_explode[0]] = new self(
                         $field_explode[1],
-                        $field_explode[0],
-                        $allow_fields
+                        $field_explode[0]
                     );
                 }
             }else if(!empty($field)){
-                //没有点好，且非空，则归属到顶级或默认键值下
+                //没有点号，且非空，则归属到顶级或默认键值下
                 if(strpos($field, ':')){
                     //若存在冒号，则有附加信息
                     $field_extra = explode(':', $field, 2);
@@ -102,10 +90,7 @@ class FieldItem implements \ArrayAccess{
                     $this->extra[$field] = $field_extra[1];
                 }
                 
-                if(!in_array($field, $this->fields) &&
-                    (empty($this->allow_fields[$this->section]) || in_array($field, $this->allow_fields[$this->section]) ||
-                        //由于层级关系，很难处理是在当前数组还是在当前集合键所在数组
-                        in_array($field, $this->allow_fields))){
+                if(!in_array($field, $this->fields)){
                     $this->fields[] = $field;
                 }
             }

@@ -3,7 +3,7 @@ namespace fayfeed\services;
 
 use fay\core\ErrorException;
 use fay\core\Loader;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\models\MultiTreeModel;
 use fayfeed\models\tables\FeedCommentsTable;
 use fay\core\Exception;
@@ -493,18 +493,18 @@ class FeedCommentService extends MultiTreeModel{
             ),
         )
     )){
-        $fields = FieldHelper::parse($fields, 'comment');
-        if(empty($fields['comment']) || in_array('*', $fields['comment'])){
+        $fields = new FieldItem($fields, 'comment');
+        if(!$fields->getFields() || $fields->hasField('*')){
             //若未指定返回字段，初始化
-            $fields['comment'] = \F::table($this->model)->getFields(array('status', 'delete_time', 'sockpuppet'));
+            $fields->setFields(\F::table($this->model)->getFields(array('status', 'delete_time', 'sockpuppet')));
         }
         
-        $comment_fields = $fields['comment'];
-        if(!empty($fields['user']) && !in_array('user_id', $comment_fields)){
+        $comment_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $comment_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $comment_fields[] = 'user_id';
         }
-        if(!empty($fields['parent']) && !in_array('parent', $comment_fields)){
+        if($fields->parent && !in_array('parent', $comment_fields)){
             //如果要获取作者信息，则必须搜出parent
             $comment_fields[] = 'parent';
         }
@@ -515,21 +515,24 @@ class FeedCommentService extends MultiTreeModel{
         ), $comment_fields);
         
         if(!$comment){
-            return false;
+            return array();
         }
         
         $return = array(
             'comment'=>$comment,
         );
         //作者信息
-        if(!empty($fields['user'])){
-            $return['user'] = UserService::service()->get($comment['user_id'], $fields['user']);
+        if($fields->hasField('user')){
+            $return['user'] = UserService::service()->get(
+                $comment['user_id'],
+                $fields->user
+            );
         }
         
         //父节点
-        if(!empty($fields['parent'])){
-            $parent_comment_fields = $fields['parent']['comment'];
-            if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_comment_fields)){
+        if($fields->hasField('parent')){
+            $parent_comment_fields = $fields->parent->comment ? $fields->parent->comment->getFields() : array();
+            if($fields->parent->hasField('user') && !in_array('user_id', $parent_comment_fields)){
                 //如果要获取作者信息，则必须搜出user_id
                 $parent_comment_fields[] = 'user_id';
             }
@@ -541,18 +544,26 @@ class FeedCommentService extends MultiTreeModel{
             
             if($parent_comment){
                 //有父节点
-                $return['parent']['comment'] = $parent_comment;
-                if(!empty($fields['parent']['user'])){
-                    $return['parent']['user'] = UserService::service()->get($parent_comment['user_id'], $fields['parent']['user']);
+                if($fields->parent->hasField('user')){
+                    $return['parent']['user'] = UserService::service()->get(
+                        $parent_comment['user_id'],
+                        $fields->parent->user
+                    );
                 }
-                if(!in_array('user_id', $fields['parent']['comment']) && in_array('user_id', $parent_comment_fields)){
-                    unset($return['parent']['comment']['user_id']);
+                if(!$fields->parent->user->hasField('user_id') && in_array('user_id', $parent_comment_fields)){
+                    unset($parent_comment['user_id']);
+                }
+                
+                if($parent_comment){
+                    $return['parent']['comment'] = $parent_comment;
                 }
             }else{
                 //没有父节点，但是要求返回相关父节点字段，则返回空数组
-                $return['parent']['comment'] = array();
+                if($fields->parent->hasField('comment')){
+                    $return['parent']['comment'] = array();
+                }
                 
-                if(!empty($fields['parent']['user'])){
+                if($fields->parent->hasField('user')){
                     $return['parent']['user'] = array();
                 }
             }
@@ -560,7 +571,7 @@ class FeedCommentService extends MultiTreeModel{
         
         //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
         foreach(array('user_id', 'parent') as $f){
-            if(!in_array($f, $fields['comment']) && in_array($f, $comment_fields)){
+            if(!$fields->hasField($f, true) && in_array($f, $comment_fields)){
                 unset($return['comment'][$f]);
             }
         }

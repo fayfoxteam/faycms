@@ -3,7 +3,7 @@ namespace fayfeed\services;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
+use fay\core\Sql;
 use fayfeed\models\tables\FeedsFilesTable;
 use cms\services\file\FileService;
 
@@ -27,54 +27,44 @@ class FeedFileService extends Service{
      * @return array 返回包含动态附件信息的二维数组
      */
     public function get($feed_id, $fields = null){
-        if(empty($fields)){
-            //若传入$fields为空，则返回默认字段
-            $fields = self::$default_fields;
-        }
-        $files = FeedsFilesTable::model()->fetchAll(array(
-            'feed_id = ?'=>$feed_id,
-        ), $fields['fields'], 'sort');
-        foreach($files as &$f){
-            $f['url'] = FileService::getUrl($f['file_id']);
-        }
+        $fields || $fields = self::$default_fields;
+
+        $sql = new Sql();
+        $file_rows = $sql->from(array('ff'=>FeedsFilesTable::model()->getTableName()), 'post_id,description')
+            ->joinLeft(array('f'=>'files'), 'ff.file_id = f.id', '*')
+            ->where('feed_id = ?', $feed_id)
+            ->order('ff.post_id, ff.sort')
+            ->fetchAll();
+        $files = array_values(FileService::mget($file_rows, array(), $fields));
+
         return $files;
     }
     
     /**
      * 批量获取动态附件
-     * @param array $feed_id 动态ID构成的二维数组
+     * @param array $feed_ids 动态ID构成的二维数组
      * @param string $fields 附件字段（feeds_files表字段）
      * @return array 返回以动态ID为key的三维数组
      */
-    public function mget($feed_id, $fields = null){
-        if(empty($fields)){
-            //若传入$fields为空，则返回默认字段
-            $fields = self::$default_fields;
-        }else if(!is_array($fields)){
-            $fields = FieldHelper::parse($fields, 'files');
+    public function mget($feed_ids, $fields = null){
+        if(!$feed_ids){
+            return array();
         }
-        //批量搜索，必须先得到feed_id
-        if(!is_array($fields)){
-            $fields = explode(',', $fields);
+        $fields || $fields = self::$default_fields;
+
+        $sql = new Sql();
+        $file_rows = $sql->from(array('ff'=>FeedsFilesTable::model()->getTableName()), 'feed_id,description')
+            ->joinLeft(array('f'=>'files'), 'ff.file_id = f.id', '*')
+            ->where('feed_id IN (?)', $feed_ids)
+            ->order('ff.feed_id, ff.sort')
+            ->fetchAll();
+        $files = FileService::mget($file_rows, array(), $fields);
+
+        $return = array_fill_keys($feed_ids, array());
+        foreach($file_rows as $fr){
+            $return[$fr['feed_id']][] = $files[$fr['id']];
         }
-        if(!in_array('feed_id', $fields)){
-            $fields['fields'][] = 'feed_id';
-            $remove_feed_id_field = true;
-        }else{
-            $remove_feed_id_field = false;
-        }
-        $files = FeedsFilesTable::model()->fetchAll(array(
-            'feed_id IN (?)'=>$feed_id,
-        ), $fields['fields'], 'feed_id, sort');
-        $return = array_fill_keys($feed_id, array());
-        foreach($files as $f){
-            $p = $f['feed_id'];
-            if($remove_feed_id_field){
-                unset($f['feed_id']);
-            }
-            $f['url'] = FileService::getUrl($f['file_id']);
-            $return[$p][] = $f;
-        }
+
         return $return;
     }
 }

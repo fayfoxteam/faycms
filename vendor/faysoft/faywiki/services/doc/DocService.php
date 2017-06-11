@@ -10,7 +10,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\helpers\RequestHelper;
 use faywiki\models\tables\PropsTable;
 use faywiki\models\tables\WikiDocExtraTable;
@@ -79,19 +79,13 @@ class DocService extends Service{
      */
     public static $default_fields = array(
         'doc'=>array(
-            'fields'=>array(
-                'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
-            )
+            'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
         ),
         'category'=>array(
-            'fields'=>array(
-                'id', 'title', 'alias',
-            )
+            'id', 'title', 'alias',
         ),
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         )
     );
     
@@ -383,36 +377,36 @@ class DocService extends Service{
      */
     public function get($doc_id, $fields = '*', $only_published = true){
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'doc', self::$public_fields);
-        if(empty($fields['doc'])){
-            //若未指定返回字段，返回所有允许的字段
-            $fields['doc'] = self::$default_fields['doc'];
+        $fields = new FieldItem($fields, 'doc', self::$public_fields);
+        if(!$fields->getFields()){
+            //若未指定返回字段，返回默认的字段
+            $fields->addFields(self::$default_fields['doc']);
         }
 
-        $doc_fields = $fields['doc']['fields'];
-        if(!empty($fields['user']) && !in_array('user_id', $doc_fields)){
+        $doc_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $doc_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $doc_fields[] = 'user_id';
         }
-        if(!empty($fields['category']) && !in_array('cat_id', $doc_fields)){
+        if($fields->category && !in_array('cat_id', $doc_fields)){
             //如果要获取分类信息，则必须搜出cat_id
             $doc_fields[] = 'cat_id';
         }
 
-        if(!empty($fields['props']) && !in_array('cat_id', $doc_fields)){
+        if($fields->props && !in_array('cat_id', $doc_fields)){
             //如果要获取附加属性，必须搜出cat_id
             $doc_fields[] = 'cat_id';
         }
 
-        if(isset($fields['extra']) && in_array('seo_title', $fields['extra']) && !in_array('title', $doc_fields)){
+        if(isset($fields->extra) && $fields->extra->hasField('seo_title') && !in_array('title', $doc_fields)){
             //如果要获取seo_title，必须搜出title
             $doc_fields[] = 'title';
         }
-        if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']) && !in_array('title', $doc_fields)){
+        if(isset($fields->extra) && $fields->extra->hasField('seo_keywords') && !in_array('title', $doc_fields)){
             //如果要获取seo_title，必须搜出title
             $doc_fields[] = 'title';
         }
-        if(isset($fields['extra']) && in_array('seo_description', $fields['extra'])){
+        if(isset($fields->extra) && $fields->extra->hasField('seo_description')){
             //如果要获取seo_title，必须搜出title, content
             if(!in_array('abstract', $doc_fields)){
                 $doc_fields[] = 'abstract';
@@ -439,7 +433,7 @@ class DocService extends Service{
             //如果有缩略图，将缩略图图片ID转为图片对象
             $doc['thumbnail'] = $this->formatThumbnail(
                 $doc['thumbnail'],
-                isset($fields['doc']['extra']['thumbnail']) ? $fields['doc']['extra']['thumbnail'] : ''
+                $fields->getExtra('thumbnail')
             );
         }
 
@@ -448,51 +442,51 @@ class DocService extends Service{
         );
 
         //meta
-        if(!empty($fields['meta'])){
-            $return['meta'] = DocMetaService::service()->get($doc_id, $fields['meta']);
+        if($fields->meta){
+            $return['meta'] = DocMetaService::service()->get($doc_id, $fields->meta);
         }
 
         //扩展信息
-        if(!empty($fields['extra'])){
-            $return['extra'] = DocExtraService::service()->get($doc_id, $fields['extra']);
+        if($fields->extra){
+            $return['extra'] = DocExtraService::service()->get($doc_id, $fields->extra);
         }
 
         //设置一下SEO信息
-        if(isset($fields['extra']) && in_array('seo_title', $fields['extra']['fields']) && empty($return['extra']['seo_title'])){
+        if(isset($fields->extra) && $fields->extra->hasField('seo_title') && empty($return['extra']['seo_title'])){
             $return['extra']['seo_title'] = $doc['title'];
         }
-        if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']['fields']) && empty($return['extra']['seo_keywords'])){
+        if(isset($fields->extra) && $fields->extra->hasField('seo_keywords') && empty($return['extra']['seo_keywords'])){
             $return['extra']['seo_keywords'] = str_replace(array(
                 ' ', '|', '，'
             ), ',', $doc['title']);
         }
-        if(isset($fields['extra']) && in_array('seo_description', $fields['extra']['fields']) && empty($return['extra']['seo_description'])){
+        if(isset($fields->extra) && $fields->extra->hasField('seo_description') && empty($return['extra']['seo_description'])){
             $return['extra']['seo_description'] = mb_substr(trim($doc['abstract']), 0, 150, 'utf-8');
         }
 
         //作者信息
-        if(!empty($fields['user'])){
-            $return['user'] = UserService::service()->get($doc['user_id'], $fields['user']);
+        if($fields->user){
+            $return['user'] = UserService::service()->get($doc['user_id'], $fields->user);
         }
 
         //附加属性
-        if(!empty($fields['props'])){
-            if(in_array('*', $fields['props']['fields'])){
+        if($fields->props){
+            if(in_array('*', $fields->props['fields'])){
                 $props = null;
             }else{
-                $props = PropService::service()->mget($fields['props']['fields'], PropsTable::USAGE_WIKI_DOC);
+                $props = PropService::service()->mget($fields->props['fields'], PropsTable::USAGE_WIKI_DOC);
             }
             $return['props'] = DocPropService::service()->getPropSet($doc_id, $props);
         }
 
         //分类
-        if(!empty($fields['category'])){
-            $return['category'] = CategoryService::service()->get($doc['cat_id'], $fields['category']);
+        if($fields->category){
+            $return['category'] = CategoryService::service()->get($doc['cat_id'], $fields->category);
         }
 
         //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
         foreach(array('user_id', 'cat_id', 'title', 'abstract') as $f){
-            if(!in_array($f, $fields['doc']['fields']) && in_array($f, $doc_fields)){
+            if(!in_array($f, $fields->doc['fields']) && in_array($f, $doc_fields)){
                 unset($return['doc'][$f]);
             }
         }
@@ -520,22 +514,22 @@ class DocService extends Service{
             return array();
         }
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'doc', self::$public_fields);
-        if(empty($fields['doc'])){
-            //若未指定返回字段，返回所有允许的字段
-            $fields['doc'] = self::$default_fields['doc'];
+        $fields = new FieldItem($fields, 'doc', self::$public_fields);
+        if(!$fields->getFields()){
+            //若未指定返回字段，返回默认的字段
+            $fields->setFields(self::$default_fields['doc']);
         }
 
-        $doc_fields = $fields['doc']['fields'];
-        if(!empty($fields['user']) && !in_array('user_id', $doc_fields)){
+        $doc_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $doc_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $doc_fields[] = 'user_id';
         }
-        if(!empty($fields['category']) && !in_array('cat_id', $doc_fields)){
+        if($fields->category && !in_array('user_id', $doc_fields)){
             //如果要获取分类信息，则必须搜出cat_id
             $doc_fields[] = 'cat_id';
         }
-        if(!in_array('id', $fields['doc'])){
+        if(!$fields->hasField('id')){
             //id字段无论如何都要返回，因为后面要用到
             $doc_fields[] = 'id';
         }
@@ -565,7 +559,7 @@ class DocService extends Service{
                     //如果有缩略图，将缩略图图片ID转为图片对象
                     $docs[$doc_id]['thumbnail'] = $this->formatThumbnail(
                         $docs[$doc_id]['thumbnail'],
-                        isset($fields['doc']['extra']['thumbnail']) ? $fields['doc']['extra']['thumbnail'] : ''
+                        $fields->getExtra('thumbnail')
                     );
                 }
                 $return[$doc_id] = array(
@@ -575,34 +569,34 @@ class DocService extends Service{
         }
 
         //meta
-        if(!empty($fields['meta'])){
-            DocMetaService::service()->assemble($return, $fields['meta']);
+        if($fields->meta){
+            DocMetaService::service()->assemble($return, $fields->meta);
         }
 
         //扩展信息
-        if(!empty($fields['extra'])){
-            DocExtraService::service()->assemble($return, $fields['extra']);
+        if($fields->extra){
+            DocExtraService::service()->assemble($return, $fields->extra);
         }
 
         //分类
-        if(!empty($fields['category'])){
-            DocCategoryService::service()->assemble($return, $fields['category']);
+        if($fields->category){
+            DocCategoryService::service()->assemble($return, $fields->category);
         }
 
         //附加属性
-        if(!empty($fields['props'])){
-            DocPropService::service()->assemble($return, $fields['props']);
+        if($fields->props){
+            DocPropService::service()->assemble($return, $fields->props);
         }
 
         //作者信息
-        if(!empty($fields['user'])){
-            DocUserService::service()->assemble($return, $fields['user']);
+        if($fields->user){
+            DocUserService::service()->assemble($return, $fields->user);
         }
 
         foreach($return as $k => $doc){
             //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
             foreach(array('id', 'user_id', 'cat_id') as $f){
-                if(!in_array($f, $fields['doc']['fields']) && in_array($f, $doc_fields)){
+                if(!$fields->hasField($f) && in_array($f, $doc_fields)){
                     unset($doc['doc'][$f]);
                 }
             }

@@ -3,8 +3,8 @@ namespace cms\services;
 
 use fay\core\ErrorException;
 use fay\core\Loader;
-use fay\helpers\FieldHelper;
 use cms\models\tables\CategoriesTable;
+use fay\helpers\FieldItem;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 use fay\models\TreeModel;
@@ -47,7 +47,7 @@ class CategoryService extends TreeModel{
      * @return array|bool
      */
     public function getByAlias($alias, $fields = '*', $root = null){
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
         
         if($root !== null && !is_array($root)){
             if(StringHelper::isInt($root)){
@@ -64,7 +64,7 @@ class CategoryService extends TreeModel{
             $conditions['left_value >= ?'] = $root['left_value'];
             $conditions['right_value <= ?'] = $root['right_value'];
         }
-        return CategoriesTable::model()->fetchRow($conditions, $fields['fields']);
+        return CategoriesTable::model()->fetchRow($conditions, $fields->getFields());
     }
     
     /**
@@ -78,7 +78,7 @@ class CategoryService extends TreeModel{
      * @return array|bool
      */
     public function getById($id, $fields = '*', $root = null){
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
         
         if($root !== null && !is_array($root)){
             if(StringHelper::isInt($root)){
@@ -95,7 +95,7 @@ class CategoryService extends TreeModel{
             $conditions['left_value >= ?'] = $root['left_value'];
             $conditions['right_value <= ?'] = $root['right_value'];
         }
-        return CategoriesTable::model()->fetchRow($conditions, $fields['fields']);
+        return CategoriesTable::model()->fetchRow($conditions, $fields->getFields());
     }
     
     /**
@@ -113,9 +113,9 @@ class CategoryService extends TreeModel{
             $ids = explode(',', $ids);
         }
         
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem($fields, 'category');
         
-        $table_fields = CategoriesTable::model()->formatFields($fields['fields']);
+        $table_fields = CategoriesTable::model()->formatFields($fields->getFields());
         $remove_id = false;//最受是否删除id字段
         if(!in_array('id', $table_fields)){
             //id必须搜出，若为指定，则先插入id字段，到后面再unset掉
@@ -289,12 +289,12 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevel($parent, $fields = '*', $order = 'sort, id'){
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
         
         if(StringHelper::isInt($parent)){
-            return $this->getNextLevelByParentId($parent, $fields['fields'], $order);
+            return $this->getNextLevelByParentId($parent, $fields->getFields(), $order);
         }else{
-            return $this->getNextLevelByParentAlias($parent, $fields['fields'], $order);
+            return $this->getNextLevelByParentAlias($parent, $fields->getFields(), $order);
         }
     }
     
@@ -306,13 +306,13 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevelByParentAlias($alias, $fields = '*', $order = 'sort, id'){
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
         
         $node = $this->getByAlias($alias, 'id');
         if($node){
             return CategoriesTable::model()->fetchAll(array(
                 'parent = ?'=>$node['id'],
-            ), $fields['fields'], $order);
+            ), $fields->getFields(), $order);
         }else{
             return array();
         }
@@ -326,11 +326,11 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevelByParentId($id, $fields = '*', $order = 'sort, id'){
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
         
         return CategoriesTable::model()->fetchAll(array(
             'parent = ?'=>$id,
-        ), $fields['fields'], $order);
+        ), $fields->getFields(), $order);
     }
     
     /**
@@ -346,7 +346,7 @@ class CategoryService extends TreeModel{
      * @return array|bool
      */
     public function get($cat, $fields = '*', $root = null){
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
         
         if($root !== null && !is_array($root)){
             if(StringHelper::isInt($root)){
@@ -357,9 +357,9 @@ class CategoryService extends TreeModel{
         }
         
         if(StringHelper::isInt($cat)){
-            return $this->getById($cat, $fields['fields'], $root);
+            return $this->getById($cat, $fields->getFields(), $root);
         }else{
-            return $this->getByAlias($cat, $fields['fields'], $root);
+            return $this->getByAlias($cat, $fields->getFields(), $root);
         }
     }
     
@@ -542,14 +542,14 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getSibling($cat, $fields = '*', $order = 'sort, id'){
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
     
         if(StringHelper::isInt($cat)){
-            return $this->getSiblingById($cat, $fields['fields'], $order);
+            return $this->getSiblingById($cat, $fields->getFields(), $order);
         }else if(is_array($cat)){
-            return $this->getSiblingByArray($cat, $fields['fields'], $order);
+            return $this->getSiblingByArray($cat, $fields->getFields(), $order);
         }else{
-            return $this->getSiblingByAlias($cat, $fields['fields'], $order);
+            return $this->getSiblingByAlias($cat, $fields->getFields(), $order);
         }
     }
     
@@ -614,10 +614,10 @@ class CategoryService extends TreeModel{
             return array();
         }
         
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
         
         return CategoriesTable::model()->fetchAll(array(
             'parent = ?'=>$parent_id,
-        ), $fields['fields'], $order);
+        ), $fields->getFields(), $order);
     }
 }

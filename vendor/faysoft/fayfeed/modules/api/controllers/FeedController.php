@@ -2,10 +2,10 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\ApiController;
+use fay\helpers\FieldItem;
 use fayfeed\services\FeedService;
 use fayfeed\models\tables\FeedsTable;
 use fay\core\Response;
-use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 
 /**
@@ -107,20 +107,12 @@ class FeedController extends ApiController{
         ))->check();
         
         $feed_id = $this->form()->getData('feed_id');
-        $fields = $this->form()->getData('fields');
-        
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'feed', FeedService::$public_fields);
-        }else{
-            //若未指定$fields，取默认值
-            $fields = $this->default_fields;
-        }
-        
-        //post字段若未指定，需要默认下
-        if(empty($fields['feed'])){
-            $fields['feed'] = $this->default_fields['feed'];
-        }
+
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'feed',
+            FeedService::$public_fields
+        );
         
         $feed = FeedService::service()->get($feed_id, $fields, true);
         if($feed){

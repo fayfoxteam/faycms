@@ -4,12 +4,12 @@ namespace cms\services;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldHelper;
 use cms\models\tables\TagsTable;
 use cms\models\tables\TagCounterTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use cms\services\tag\TagCounterService;
+use fay\helpers\FieldItem;
 
 /**
  * 标签服务
@@ -55,8 +55,6 @@ class TagService extends Service{
      * @return array
      */
     public function getLimit($fields, $limit = 10, $order = 'sort'){
-        $fields = FieldHelper::parse($fields, 'tag');
-        
         $sql = new Sql();
         $tags = $sql->from(array('t'=>'tags'), 'id')
             ->joinLeft(array('tc'=>'tag_counter'), 't.id = tc.tag_id')
@@ -77,30 +75,28 @@ class TagService extends Service{
         is_array($ids) || $ids = explode(',', $ids);
         
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'tag', array(
+        $fields = new FieldItem($fields, 'tag', array(
             'tag'=>TagsTable::model()->getFields(),
             'counter'=>TagCounterTable::model()->getFields(),
         ));
-        if(!empty($fields['tag']) && in_array('*', $fields['tag'])){
+        if($fields->tag && $fields->hasField('*')){
             //若存在*，视为全字段搜索
-            $fields['tag'] = array(
-                'fields'=>TagsTable::model()->getFields()
-            );
+            $fields->setFields(TagsTable::model()->getFields());
         }
         
         $remove_id_field = false;
-        if(empty($fields['tag']['fields']) || !in_array('id', $fields['tag']['fields'])){
+        if(!$fields->hasField('id')){
             //id总是需要先搜出来的，返回的时候要作为索引
-            $fields['tag']['fields'][] = 'id';
+            $fields->addFields('id');
             $remove_id_field = true;
         }
         $tags = TagsTable::model()->fetchAll(array(
             'id IN (?)'=>$ids,
-        ), $fields['tag']['fields']);
+        ), $fields->getFields());
         
-        if(!empty($fields['counter'])){
+        if($fields->counter){
             //获取所有相关的counter
-            $counters = TagCounterService::service()->mget($ids, $fields['counter']);
+            $counters = TagCounterService::service()->mget($ids, $fields->counter);
         }
         
         $return = array_fill_keys($ids, array());

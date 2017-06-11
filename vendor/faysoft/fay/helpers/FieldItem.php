@@ -1,10 +1,11 @@
 <?php
 namespace fay\helpers;
+use fay\core\ErrorException;
 
 /**
  * Field项
  */
-class FieldItem implements \ArrayAccess{
+class FieldItem{
     /**
      * @var string
      */
@@ -18,7 +19,7 @@ class FieldItem implements \ArrayAccess{
     /**
      * @var array 扩展信息（键值数组）
      */
-    private $extra = array();
+    private $_extra = array();
 
     /**
      * @var array 其他平级字段集合（键值数组，值为FieldItem实例）
@@ -29,9 +30,17 @@ class FieldItem implements \ArrayAccess{
         $this->section = $section;
         
         if(is_string($fields)){
+            //解析字符串
             $this->_parseString($fields);
         }else if(is_array($fields)){
+            //解析数组（其实还是组装回字符串进行解析，因为附加属性不好处理）
             $this->_parseArray($fields);
+        }else if($fields instanceof self){
+            //重复解析，赋值即可
+            $this->section = $fields->section;
+            $this->_extra = $fields->_extra;
+            $this->fields = $fields->fields;
+            $this->siblings = $fields->siblings;
         }
         
         if($allow_fields){
@@ -45,18 +54,29 @@ class FieldItem implements \ArrayAccess{
      * @param array $allow_fields
      */
     public function filter($allow_fields){
+        $current_section_fields = array();
         foreach($allow_fields as $section => $fields){
-            if($section == $this->section && is_array($fields)){
-                if(in_array('*', $fields)){
-                    //若包含星号，则什么都不做
-                    continue;
+            if(is_int($section) && is_string($fields)){
+                //传入一维数组的话，认为是对当前section过滤
+                $current_section_fields[] = $fields;
+            }else if($section == $this->section && is_array($fields)){
+                foreach($fields as $key => $field){
+                    if(is_int($key)){
+                        //键是数字，视为当前section字段
+                        $current_section_fields[] = $field;
+                    }else if(is_array($field) && isset($this->siblings[$key])){
+                        //键是字符串，视为下一层section字段
+                        $this->siblings[$key]->filter($field);
+                    }
                 }
-                //过滤字段
-                $this->fields = array_intersect($this->fields, $fields);
             }else if(isset($this->siblings[$section])){
-                //递归给其他实例过滤
-                $this->siblings[$section]->filter(isset($fields[0]) ? array($section => $fields) : $fields);
+                //下层section字段
+                $this->siblings[$section]->filter($fields);
             }
+        }
+
+        if($current_section_fields){
+            $this->fields = array_intersect($this->fields, $current_section_fields);
         }
     }
 
@@ -66,7 +86,7 @@ class FieldItem implements \ArrayAccess{
      * @return string|null
      */
     public function getExtra($key){
-        return isset($this->extra[$key]) ? $this->extra[$key] : null;
+        return isset($this->_extra[$key]) ? $this->_extra[$key] : null;
     }
 
     /**
@@ -78,12 +98,66 @@ class FieldItem implements \ArrayAccess{
     }
 
     /**
+     * 覆盖字段集合
+     * @param array|string $fields
+     * @throws ErrorException
+     * @return $this
+     */
+    public function setFields($fields){
+        if(is_array($fields)){
+            $fields = implode(',', $fields);
+        }
+        
+        if(is_string($fields)){
+            $this->fields = array();
+            $this->addFields($fields);
+        }else{
+            throw new ErrorException('无法识别的$fields类型[' . serialize($fields) . ']', 'unknown-field-type');
+        }
+        
+        return $this;
+    }
+
+    /**
      * 判断一个字段是否存在
      * @param string $field
+     * @param bool $only_current_section 若为true，则只检查$this->fields中是否存在，不检查$this->siblings
      * @return bool
      */
-    public function hasField($field){
-        return in_array($field, $this->fields);
+    public function hasField($field, $only_current_section = false){
+        if($only_current_section){
+            return in_array($field, $this->fields);
+        }else{
+            return in_array($field, $this->fields) || isset($this->siblings[$field]);
+        }
+    }
+
+    /**
+     * 增加一个或多个字段
+     * @param string $fields
+     * @throws ErrorException
+     */
+    public function addFields($fields){
+        if(is_array($fields)){
+            //由于可能存在附加属性，先组合成字符串再走字符串逻辑简单一些
+            $fields = implode(',', $fields);
+        }
+
+        if(is_string($fields)){
+            $this->_parseString($fields);
+        }else{
+            throw new ErrorException('无法识别的$fields类型', json_encode($fields));
+        }
+    }
+
+    /**
+     * 移除一个字段
+     * @param string $field
+     */
+    public function removeField($field){
+        if($key = array_search($field, $this->fields)){
+            unset($this->fields[$key]);
+        }
     }
 
     /**
@@ -93,10 +167,13 @@ class FieldItem implements \ArrayAccess{
      */
     private function _parseArray($arr){
         foreach($arr as $section => $fields){
-            if($section == $this->section){
-                $this->addField(implode(',', $fields));
+            if(is_int($section)){
+                //当没有层级关系的时候，传入的$fields可能是个一维索引数组
+                $this->addFields($fields);
+            }else if($section == $this->section){
+                $this->addFields(implode(',', $fields));
             }else if(isset($this->siblings[$section])){
-                $this->siblings[$section]->addField($fields);
+                $this->siblings[$section]->addFields($fields);
             }else{
                 $this->siblings[$section] = new self(isset($fields[0]) ? implode(',', $fields) : $fields, $section);
             }
@@ -119,7 +196,7 @@ class FieldItem implements \ArrayAccess{
                 if($field_explode[0] == $this->section){
                     $this->_parseString($field_explode[1]);
                 }else if(isset($this->siblings[$field_explode[0]])){
-                    $this->siblings[$field_explode[0]]->addField($field_explode[1]);
+                    $this->siblings[$field_explode[0]]->addFields($field_explode[1]);
                 }else{
                     $this->siblings[$field_explode[0]] = new self(
                         $field_explode[1],
@@ -133,7 +210,7 @@ class FieldItem implements \ArrayAccess{
                     $field_extra = explode(':', $field, 2);
                     $field = $field_extra[0];
                     
-                    $this->extra[$field] = $field_extra[1];
+                    $this->_extra[$field] = $field_extra[1];
                 }
                 
                 if(!in_array($field, $this->fields)){
@@ -144,53 +221,33 @@ class FieldItem implements \ArrayAccess{
     }
 
     /**
-     * 增加一个field
-     * @param string $field
+     * 以对象的方式访问
+     * @param $name
+     * @return FieldItem
      */
-    public function addField($field){
-        $this->_parseString($field);
-    }
-
-
-    /**
-     * 获取fields，extra或下层元素
-     * @param string $offset
-     * @return mixed
-     */
-    public function offsetGet($offset){
-        if($offset === 'fields'){
-            return $this->fields;
-        }else if($offset === 'extra'){
-            return $this->extra;
-        }else if(isset($this->siblings[$offset])){
-            return $this->siblings[$offset];
+    public function __get($name){
+        if(isset($this->siblings[$name])){
+            return $this->siblings[$name];
         }else{
             return null;
         }
     }
+
     /**
-     * 不支持通过ArrayAccess判断
-     * @param mixed $offset
-     * @return bool|void
+     * 当以对象的方式访问时，用于empty和isset判断
+     * @param $name
+     * @return bool
      */
-    public function offsetExists($offset){
-        return;
+    public function __isset($name){
+        return isset($this->siblings[$name]);
     }
 
     /**
-     * 不允许通过ArrayAccess赋值
-     * @param mixed $offset
-     * @param mixed $value
+     * 将对象组装回字符串
+     * @return string
      */
-    public function offsetSet($offset, $value){
-        return;
-    }
-
-    /**
-     * 不允许通过ArrayAccess删除值
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset){
-        return;
+    public function __toString(){
+        //@todo 待实现
+        return '';
     }
 }

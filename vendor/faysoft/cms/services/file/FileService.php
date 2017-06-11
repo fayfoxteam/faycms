@@ -4,7 +4,7 @@ namespace cms\services\file;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\helpers\LocalFileHelper;
 use fay\helpers\UrlHelper;
 use cms\models\tables\FilesTable;
@@ -653,7 +653,7 @@ class FileService extends Service{
      */
     public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
         //解析fields
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem($fields, 'file');
         
         if(!is_array($file) && ($file <= 0 ||
             !$file = FilesTable::model()->find($file))
@@ -672,34 +672,26 @@ class FileService extends Service{
             }
             
             $return = array();
-            if(in_array('id', $fields['fields'])){
-                //指定文件不存在，统一返回0
-                $return['id'] = '0';
+            foreach(array('id', 'is_image', 'width', 'height') as $key){
+                if($fields->hasField($key)){
+                    $return[$key] = '0';
+                }
             }
-            if(in_array('url', $fields['fields'])){
+            if($fields->hasField('url')){
                 if($spare){
                     $return['url'] = UrlHelper::createUrl($spare);
                 }else{
                     $return['url'] = '';
                 }
             }
-            if(in_array('thumbnail', $fields['fields'])){
+            if($fields->hasField('thumbnail')){
                 if($spare){
                     $return['thumbnail'] = UrlHelper::createUrl($spare);
                 }else{
                     $return['thumbnail'] = '';
                 }
             }
-            if(in_array('is_image', $fields['fields'])){
-                $return['is_image'] = '0';
-            }
-            if(in_array('width', $fields['fields'])){
-                $return['width'] = '0';
-            }
-            if(in_array('height', $fields['fields'])){
-                $return['height'] = '0';
-            }
-            if(in_array('description', $fields['fields'])){
+            if($fields->hasField('description')){
                 $return['description'] = isset($file['description']) ? $file['description'] : '';
             }
             
@@ -707,15 +699,17 @@ class FileService extends Service{
         }
         
         $return = array();
-        if(in_array('id', $fields['fields'])){
-            $return['id'] = $file['id'];
+        foreach(array('id', 'is_image', 'width', 'height', 'description') as $key){
+            if($fields->hasField($key)){
+                $return[$key] = isset($file[$key]) ? $file[$key] : '';
+            }
         }
-        if(in_array('url', $fields['fields'])){
+        if($fields->hasField('url')){
             $return['url'] = self::getUrl($file);
         }
-        if(in_array('thumbnail', $fields['fields'])){
+        if($fields->hasField('thumbnail')){
             //如果有头像，将头像图片ID转化为图片对象
-            if(isset($fields['extra']['thumbnail']) && preg_match('/^(\d+)x(\d+)$/', $fields['extra']['thumbnail'], $thumbnail_params)){
+            if($fields->getExtra('thumbnail') && preg_match('/^(\d+)x(\d+)$/', $fields->getExtra('thumbnail'), $thumbnail_params)){
                 $return['thumbnail'] = self::getThumbnailUrl($file, array(
                     'dw'=>$thumbnail_params[1],
                     'dh'=>$thumbnail_params[2],
@@ -723,18 +717,6 @@ class FileService extends Service{
             }else{
                 $return['thumbnail'] = self::getThumbnailUrl($file, $options);
             }
-        }
-        if(in_array('is_image', $fields['fields'])){
-            $return['is_image'] = $file['is_image'];
-        }
-        if(in_array('width', $fields['fields'])){
-            $return['width'] = $file['image_width'];
-        }
-        if(in_array('height', $fields['fields'])){
-            $return['height'] = $file['image_height'];
-        }
-        if(in_array('description', $fields['fields'])){
-            $return['description'] = isset($file['description']) ? $file['description'] : '';
         }
         
         return $return;

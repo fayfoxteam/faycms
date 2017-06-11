@@ -20,14 +20,10 @@ class IndexController extends Widget{
     
     private $fields = array(
         'tag'=>array(
-            'fields'=>array(
-                'id', 'title'
-            )
+            'id', 'title'
         ),
         'counter'=>array(
-            'fields'=>array(
-                'posts'
-            )
+            'posts'
         )
     );
     

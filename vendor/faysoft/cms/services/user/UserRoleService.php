@@ -4,10 +4,10 @@ namespace cms\services\user;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use fay\helpers\FieldHelper;
 use cms\models\tables\RolesTable;
 use cms\models\tables\UsersRolesTable;
 use fay\helpers\ArrayHelper;
+use fay\helpers\FieldItem;
 
 class UserRoleService extends Service{
     /**
@@ -33,11 +33,11 @@ class UserRoleService extends Service{
         $fields || $fields = self::$default_fields;
         
         //格式化fields
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem($fields, 'roles');
         
         $sql = new Sql();
         return $sql->from(array('ur'=>'users_roles'), '')
-            ->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields['fields']))
+            ->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields->getFields()))
             ->where('ur.user_id = ?', $user_id)
             ->where('r.delete_time = 0')
             ->fetchAll();
@@ -54,11 +54,11 @@ class UserRoleService extends Service{
         $fields || $fields = self::$default_fields;
         
         //格式化fields
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem($fields, 'roles');
         
         $sql = new Sql();
         $roles = $sql->from(array('ur'=>'users_roles'), 'user_id')
-            ->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields['fields']))
+            ->joinLeft(array('r'=>'roles'), 'ur.role_id = r.id', RolesTable::model()->formatFields($fields->getFields()))
             ->where('ur.user_id IN (?)', $user_ids)
             ->where('r.delete_time = 0')
             ->fetchAll();

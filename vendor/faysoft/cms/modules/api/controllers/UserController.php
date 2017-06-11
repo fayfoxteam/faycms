@@ -4,7 +4,6 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\models\tables\UsersTable;
 use fay\core\Response;
-use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 use cms\services\user\UserService;
 
@@ -135,14 +134,6 @@ class UserController extends ApiController{
         
         $id = $this->form()->getData('id');
         $fields = $this->form()->getData('fields');
-        
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'user', UserService::$public_fields);
-        }else{
-            //若未指定$fields，取默认值
-            $fields = UserService::$default_fields;
-        }
         
         $user = UserService::service()->get($id, $fields);
         if($user){

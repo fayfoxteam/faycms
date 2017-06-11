@@ -209,10 +209,7 @@ class PostLikeService extends Service{
      * @throws PostErrorException
      */
     public function getUserLikes($fields, $page = 1, $page_size = 20, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new PostErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::getUserId($user_id);
         
         $sql = new Sql();
         $sql->from(array('pl'=>'post_likes'), 'post_id')

@@ -4,8 +4,8 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use cms\services\post\PostService;
-use fay\helpers\FieldHelper;
 use fay\core\HttpException;
+use fay\helpers\FieldItem;
 
 /**
  * 文章
@@ -16,19 +16,13 @@ class PostController extends ApiController{
      */
     protected $default_fields = array(
         'post'=>array(
-            'fields'=>array(
-                'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
-            )
+            'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
         ),
         'category'=>array(
-            'fields'=>array(
-                'id', 'title', 'alias',
-            )
+            'id', 'title', 'alias',
         ),
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         )
     );
     
@@ -57,16 +51,13 @@ class PostController extends ApiController{
         ))->check();
         
         $id = $this->form()->getData('id');
-        $fields = $this->form()->getData('fields');
         $cat = $this->form()->getData('cat');
         
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
-        }else{
-            //若未指定$fields，取默认值
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'post',
+            PostService::$public_fields
+        );
         
         //post字段若未指定，需要默认下
         if(empty($fields['post'])){

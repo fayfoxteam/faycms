@@ -26,12 +26,7 @@ class PostFileService extends Service{
      * @return array 返回包含文章附件信息的二维数组
      */
     public function get($post_id, $fields = null){
-        if(empty($fields)){
-            //若传入$fields为空，则返回默认字段
-            $fields = array(
-                'fields'=>self::$default_fields
-            );
-        }
+        $fields || $fields = self::$default_fields;
         
         $sql = new Sql();
         $file_rows = $sql->from(array('pf'=>'posts_files'), 'post_id,description')
@@ -51,12 +46,10 @@ class PostFileService extends Service{
      * @return array 返回以文章ID为key的三维数组
      */
     public function mget($post_ids, $fields = null){
-        if(empty($fields)){
-            //若传入$fields为空，则返回默认字段
-            $fields = array(
-                'fields'=>self::$default_fields
-            );
+        if(!$post_ids){
+            return array();
         }
+        $fields || $fields = self::$default_fields;
         
         $sql = new Sql();
         $file_rows = $sql->from(array('pf'=>'posts_files'), 'post_id,description')

@@ -6,10 +6,10 @@ use fay\core\Service;
 use fay\core\Exception;
 use cms\models\tables\FollowsTable;
 use fay\helpers\ArrayHelper;
+use fay\helpers\FieldItem;
 use fay\helpers\RequestHelper;
 use fay\core\Sql;
 use fay\common\ListView;
-use fay\helpers\FieldHelper;
 use cms\models\tables\UserCounterTable;
 use cms\services\user\UserService;
 
@@ -202,15 +202,12 @@ class FollowService extends Service{
      * @param int $page_size 分页大小
      * @return array
      */
-    public static function follows($user_id = null, $fields = 'follows.relation,user.id,user.nickname,user.avatar', $page = 1, $page_size = 20){
+    public static function follows($user_id = null, $fields = 'relation,user.id,user.nickname,user.avatar', $page = 1, $page_size = 20){
         $user_id || $user_id = \F::app()->current_user;
-        $fields = FieldHelper::parse($fields, 'follows');
+        $fields = new FieldItem($fields, 'follows');
         
-        isset($fields['follows']) || $fields['follows'] = array(
-            'fields'=>array()
-        );
-        $follows_fields = $fields['follows']['fields'];
-        if(isset($fields['user']) && !in_array('user_id', $follows_fields)){
+        $follows_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $follows_fields)){
             $follows_fields[] = 'user_id';
         }
         
@@ -231,13 +228,13 @@ class FollowService extends Service{
             'pager'=>$listview->getPager(),
         );
         
-        if($follows && !empty($fields['user'])){
-            $users = UserService::service()->mget(ArrayHelper::column($follows, 'user_id'), $fields['user']);
+        if($follows && $fields->user){
+            $users = UserService::service()->mget(ArrayHelper::column($follows, 'user_id'), $fields->user);
         }
         
         foreach($follows as $f){
             $follow = array();
-            foreach($fields['follows']['fields'] as $field){
+            foreach($fields->getFields() as $field){
                 $follow['follow'][$field] = $f[$field];
             }
             
@@ -261,11 +258,10 @@ class FollowService extends Service{
      */
     public static function fans($user_id = null, $fields = 'follows.relation,user.id,user.nickname,user.avatar', $page = 1, $page_size = 20){
         $user_id || $user_id = \F::app()->current_user;
-        $fields = FieldHelper::parse($fields, 'follows');
+        $fields = new FieldItem($fields, 'follows');
         
-        isset($fields['follows']) || $fields['follows'] = array();
-        $follows_fields = $fields['follows']['fields'];
-        if(isset($fields['user']) && !in_array('fans_id', $follows_fields)){
+        $follows_fields = $fields->getFields();
+        if($fields->user && !in_array('fans_id', $follows_fields)){
             $follows_fields[] = 'fans_id';
         }
         
@@ -286,13 +282,13 @@ class FollowService extends Service{
             'pager'=>$listview->getPager(),
         );
         
-        if($fans && !empty($fields['user'])){
-            $users = UserService::service()->mget(ArrayHelper::column($fans, 'fans_id'), $fields['user']);
+        if($fans && !empty($fields->user)){
+            $users = UserService::service()->mget(ArrayHelper::column($fans, 'fans_id'), $fields->user);
         }
         
         foreach($fans as $f){
             $follow = array();
-            foreach($fields['follows'] as $field){
+            foreach($fields->getFields() as $field){
                 $follow['follow'][$field] = $f[$field];
             }
             

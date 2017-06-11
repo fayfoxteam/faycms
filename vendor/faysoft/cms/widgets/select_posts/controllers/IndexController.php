@@ -13,34 +13,22 @@ class IndexController extends Widget{
      */
     private $fields = array(
         'post'=>array(
-            'fields'=>array(
-                'id', 'cat_id', 'title', 'publish_time', 'user_id', 'is_top', 'thumbnail', 'abstract'
-            )
+            'id', 'cat_id', 'title', 'publish_time', 'user_id', 'is_top', 'thumbnail', 'abstract'
         ),
         'user'=>array(
-            'fields'=>array(
-                'id', 'username', 'nickname', 'avatar'
-            )
+            'id', 'username', 'nickname', 'avatar'
         ),
         'meta'=>array(
-            'fields'=>array(
-                'comments', 'views', 'likes'
-            )
+            'comments', 'views', 'likes'
         ),
         'files'=>array(
-            'fields'=>array(
-                'id', 'description', 'url', 'thumbnail', 'is_image'
-            )
+            'id', 'description', 'url', 'thumbnail', 'is_image'
         ),
         'category'=>array(
-            'fields'=>array(
-                'id', 'title', 'alias'
-            )
+            'id', 'title', 'alias'
         ),
         'tags'=>array(
-            'fields'=>array(
-                'id', 'title',
-            )
+            'id', 'title',
         ),
     );
     
@@ -120,9 +108,7 @@ class IndexController extends Widget{
         //附加属性
         if(in_array('props', $this->config['fields'])){
             $fields['props'] = array(
-                'fields'=>array(
-                    '*'
-                )
+                '*'
             );
         }
         //附件缩略图

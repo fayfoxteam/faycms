@@ -4,8 +4,8 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use cms\services\FollowService;
-use fay\helpers\FieldHelper;
 use fay\core\HttpException;
+use fay\helpers\FieldItem;
 
 /**
  * 关注
@@ -16,14 +16,10 @@ class FollowController extends ApiController{
      */
     protected $default_fields = array(
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         ),
         'follows'=>array(
-            'fields'=>array(
-                'relation'
-            )
+            'relation'
         ),
     );
     
@@ -71,14 +67,14 @@ class FollowController extends ApiController{
         
         $user_id = $this->form()->getData('user_id');
         
-        if(Follow::isFollow($user_id)){
+        if(FollowService::isFollow($user_id)){
             Response::notify('error', array(
                 'message'=>'您已关注过该用户',
                 'code'=>'already-followed',
             ));
         }
-        
-        Follow::add($user_id, $this->form()->getData('trackid', ''));
+
+        FollowService::add($user_id, $this->form()->getData('trackid', ''));
         Response::notify('success', '关注成功');
     }
     
@@ -103,14 +99,14 @@ class FollowController extends ApiController{
         
         $user_id = $this->form()->getData('user_id');
         
-        if(!Follow::isFollow($user_id)){
+        if(!FollowService::isFollow($user_id)){
             Response::notify('error', array(
                 'message'=>'您未关注过该用户',
                 'code'=>'not-followed',
             ));
         }
-        
-        Follow::remove($user_id);
+
+        FollowService::remove($user_id);
         Response::notify('success', '取消关注成功');
     }
     
@@ -134,7 +130,7 @@ class FollowController extends ApiController{
         
         $user_id = $this->form()->getData('user_id');
             
-        if($is_follow = Follow::isFollow($user_id)){
+        if($is_follow = FollowService::isFollow($user_id)){
             Response::notify('success', array('data'=>$is_follow, 'message'=>'已关注', 'code'=>'followed'));
         }else{
             Response::notify('success', array('data'=>0, 'message'=>'未关注', 'code'=>'unfollowed'));
@@ -159,7 +155,7 @@ class FollowController extends ApiController{
             $user_ids = explode(',', str_replace(' ', '', $user_ids));
         }
         
-        if($is_follow = Follow::mIsFollow($user_ids)){
+        if($is_follow = FollowService::mIsFollow($user_ids)){
             Response::notify('success', array('data'=>$is_follow));
         }
     }
@@ -197,15 +193,13 @@ class FollowController extends ApiController{
             throw new HttpException('未指定用户', 404, 'user_id:not-found');
         }
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'follows', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'follows',
+            $this->allowed_fields
+        );
         
-        $fans = Follow::fans($user_id,
+        $fans = FollowService::fans($user_id,
             $fields,
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20));
@@ -245,15 +239,13 @@ class FollowController extends ApiController{
             throw new HttpException('未指定用户', 404, 'user_id:not-found');
         }
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'follows', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'follows',
+            $this->allowed_fields
+        );
             
-        $follows = Follow::follows($user_id,
+        $follows = FollowService::follows($user_id,
             $fields,
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20));

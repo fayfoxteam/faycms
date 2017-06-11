@@ -15,6 +15,7 @@ use fay\core\db\Table;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
+use fay\helpers\FieldItem;
 
 class PostPropService extends Service implements PropUsageInterface{
     /**
@@ -123,11 +124,12 @@ class PostPropService extends Service implements PropUsageInterface{
      *   若不包含$posts.post.id，则以$posts的键作为文章ID
      * @param null|string $fields 属性列表
      */
-    public function assemble(&$posts, $fields = null){
-        if(in_array('*', $fields['fields'])){
+    public function assemble(&$posts, $fields = '*'){
+        $fields = new FieldItem($fields, 'props');
+        if($fields->hasField('*') || !$fields->getFields()){
             $props = null;
         }else{
-            $props = PropService::service()->mget($fields, PropsTable::USAGE_POST_CAT);
+            $props = PropService::service()->mget($fields->getFields(), PropsTable::USAGE_POST_CAT);
         }
 
         foreach($posts as $k => $p){

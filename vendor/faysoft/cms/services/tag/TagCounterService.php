@@ -3,14 +3,14 @@ namespace cms\services\tag;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
 use cms\models\tables\TagCounterTable;
+use fay\helpers\FieldItem;
 
 class TagCounterService extends Service{
     /**
      * 可返回字段
      */
-    public static $public_fields = array(
+    public static $default_fields = array(
         'posts'
     );
     
@@ -59,15 +59,11 @@ class TagCounterService extends Service{
      * @return array 返回包含标签profile信息的二维数组
      */
     public function get($tag_id, $fields = null){
-        //若传入$fields为空，则返回默认字段
-        $fields || $fields = self::$public_fields;
-        
-        //格式化fields
-        $fields = FieldHelper::parse($fields, null, self::$public_fields);
+        $fields = new FieldItem($fields ? $fields : self::$default_fields, 'tag_counter');
         
         return TagCounterTable::model()->fetchRow(array(
             'tag_id = ?'=>$tag_id,
-        ), $fields['fields']);
+        ), $fields->getFields());
     }
     
     /**
@@ -77,21 +73,18 @@ class TagCounterService extends Service{
      * @return array 返回以标签ID为key的三维数组
      */
     public function mget($tag_ids, $fields = null){
-        //若传入$fields为空，则返回默认字段
-        $fields || $fields = self::$public_fields;
-        
         //格式化fields
-        $fields = FieldHelper::parse($fields, null, self::$public_fields);
+        $fields = new FieldItem($fields ? $fields : self::$default_fields, 'tag_counter');
         
-        if(!in_array('tag_id', $fields['fields'])){
-            $fields['fields'][] = 'tag_id';
+        if(!$fields->hasField('tag_id')){
+            $fields->addFields('tag_id');
             $remove_tag_id = true;
         }else{
             $remove_tag_id = false;
         }
         $counters = TagCounterTable::model()->fetchAll(array(
             'tag_id IN (?)'=>$tag_ids,
-        ), $fields['fields'], 'tag_id');
+        ), $fields->getFields(), 'tag_id');
         $return = array_fill_keys($tag_ids, array());
         foreach($counters as $c){
             $u = $c['tag_id'];

@@ -3,14 +3,14 @@ namespace cms\services\user;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
 use cms\models\tables\UserProfileTable;
+use fay\helpers\FieldItem;
 
 class UserProfileService extends Service{
     /**
      * 可返回字段
      */
-    public static $public_fields = array(
+    public static $default_fields = array(
         'reg_time', 'last_login_time', 'last_login_ip', 'last_time_online'
     );
     
@@ -28,15 +28,15 @@ class UserProfileService extends Service{
      * @return array 返回包含用户profile信息的二维数组
      */
     public function get($user_id, $fields = null){
-        //若传入$fields为空，则返回默认字段
-        $fields || $fields = self::$public_fields;
-        
-        //格式化fields
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            UserProfileTable::model()->getFields()
+        );
         
         return UserProfileTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
-        ), $fields['fields']);
+        ), $fields->getFields());
     }
     
     /**
@@ -46,21 +46,21 @@ class UserProfileService extends Service{
      * @return array 返回以用户ID为key的三维数组
      */
     public function mget($user_ids, $fields = null){
-        //若传入$fields为空，则返回默认字段
-        $fields || $fields = self::$public_fields;
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            UserProfileTable::model()->getFields()
+        );
         
-        //格式化fields
-        $fields = FieldHelper::parse($fields, null, self::$public_fields);
-        
-        if(!in_array('user_id', $fields['fields'])){
-            $fields['fields'][] = 'user_id';
+        if(!$fields->hasField('user_id')){
+            $fields->addFields('user_id');
             $remove_user_id = true;
         }else{
             $remove_user_id = false;
         }
         $profiles = UserProfileTable::model()->fetchAll(array(
             'user_id IN (?)'=>$user_ids,
-        ), $fields['fields'], 'user_id');
+        ), $fields->getFields(), 'user_id');
         $return = array_fill_keys($user_ids, array());
         foreach($profiles as $p){
             $u = $p['user_id'];

@@ -5,9 +5,9 @@ use cms\library\ApiController;
 use cms\services\MessageService;
 use fay\core\Response;
 use cms\models\tables\PostsTable;
-use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 use cms\services\user\UserService;
+use fay\helpers\FieldItem;
 
 /**
  * 用户留言
@@ -18,27 +18,17 @@ class MessageController extends ApiController{
      */
     protected $default_fields = array(
         'message'=>array(
-            'fields'=>array(
-                'id', 'content', 'parent', 'create_time',
-            )
+            'id', 'content', 'parent', 'create_time',
         ),
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         ),
         'parent'=>array(
-            'fields'=>array(
-                'message'=>array(
-                    'fields'=>array(
-                        'id', 'content', 'parent', 'create_time',
-                    )
-                ),
-                'user'=>array(
-                    'fields'=>array(
-                        'id', 'nickname', 'avatar',
-                    )
-                )
+            'message'=>array(
+                'id', 'content', 'parent', 'create_time',
+            ),
+            'user'=>array(
+                'id', 'nickname', 'avatar',
             )
         ),
     );
@@ -287,13 +277,11 @@ class MessageController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'message', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'message',
+            $this->allowed_fields
+        );
         
         $result = MessageService::service()->getList(
             $this->form()->getData('to_user_id'),
@@ -345,13 +333,11 @@ class MessageController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'message', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'message',
+            $this->allowed_fields
+        );
         
         Response::json(MessageService::service()->getTree(
             $this->form()->getData('to_user_id'),
@@ -391,14 +377,12 @@ class MessageController extends ApiController{
             'page_size'=>'分页大小',
             'fields'=>'字段',
         ))->check();
-        
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'message', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'message',
+            $this->allowed_fields
+        );
         
         Response::json(MessageService::service()->getChats(
             $this->form()->getData('to_user_id'),
@@ -423,15 +407,11 @@ class MessageController extends ApiController{
         ))->check();
         
         $id = $this->form()->getData('id');
-        $fields = $this->form()->getData('fields');
-            
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'post', $this->allowed_fields);
-        }else{
-            //若未指定$fields，取默认值
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'message',
+            $this->allowed_fields
+        );
             
         $message = MessageService::service()->get($id, $fields);
         

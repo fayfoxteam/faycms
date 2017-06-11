@@ -5,7 +5,7 @@ use cms\library\UserController;
 use cms\services\post\PostFavoriteService;
 use fay\core\Response;
 use cms\services\post\PostService;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 
 /**
  * 文章收藏
@@ -102,17 +102,17 @@ class PostFavoriteController extends UserController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
-        }else{
-            $fields = PostService::$default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', PostService::$default_fields),
+            'doc',
+            PostService::$public_fields
+        );
         
-        $favorites = PostFavoriteService::service()->getList($fields,
+        $favorites = PostFavoriteService::service()->getList(
+            $fields,
             $this->form()->getData('page', 1),
-            $this->form()->getData('page_size', 20));
+            $this->form()->getData('page_size', 20)
+        );
         Response::json($favorites);
     }
 }

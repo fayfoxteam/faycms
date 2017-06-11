@@ -3,7 +3,7 @@ namespace faywiki\services\doc;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use faywiki\models\tables\WikiDocMetaTable;
 
 class DocMetaService extends Service{
@@ -26,12 +26,15 @@ class DocMetaService extends Service{
      * @return array 返回包含文档meta信息的一维数组
      */
     public function get($doc_id, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields, null, WikiDocMetaTable::model()->getFields());
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            WikiDocMetaTable::model()->getFields()
+        );
         
         return WikiDocMetaTable::model()->fetchRow(array(
             'doc_id = ?'=>$doc_id,
-        ), $fields['fields']);
+        ), $fields->getFields());
     }
     
     /**
@@ -44,19 +47,22 @@ class DocMetaService extends Service{
         if(!$doc_ids){
             return array();
         }
+
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            WikiDocMetaTable::model()->getFields()
+        );
         
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields, null, WikiDocMetaTable::model()->getFields());
-        
-        if(!in_array('doc_id', $fields['fields'])){
-            $fields['fields'][] = 'doc_id';
+        if(!$fields->hasField('doc_id')){
+            $fields->addFields('doc_id');
             $remove_doc_id = true;
         }else{
             $remove_doc_id = false;
         }
         $metas = WikiDocMetaTable::model()->fetchAll(array(
             'doc_id IN (?)'=>$doc_ids,
-        ), $fields['fields'], 'doc_id');
+        ), $fields->getFields(), 'doc_id');
         $return = array_fill_keys($doc_ids, array());
         foreach($metas as $m){
             $doc = $m['doc_id'];

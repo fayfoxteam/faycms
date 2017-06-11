@@ -5,7 +5,7 @@ use cms\models\tables\PropsTable;
 use cms\services\prop\PropService;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\helpers\NumberHelper;
 use fay\helpers\RequestHelper;
 use fay\core\db\Expr;
@@ -60,9 +60,7 @@ class UserService extends Service{
      */
     public static $default_fields = array(
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         )
     );
     
@@ -94,13 +92,13 @@ class UserService extends Service{
         //获取用户信息
         $user = $this->get($user_id, array(
             'user'=>array(
-                'fields'=>array('id', 'username', 'nickname', 'avatar', 'admin', 'block')
+                'id', 'username', 'nickname', 'avatar', 'admin', 'block'
             ),
             'profile'=>array(
-                'fields'=>array('last_login_time', 'last_login_ip')
+                'last_login_time', 'last_login_ip'
             ),
             'roles'=>array(
-                'fields'=>array('id')
+                'id'
             ),
         ));
         
@@ -325,32 +323,25 @@ class UserService extends Service{
      *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
      * @return false|array 若用户ID不存在，返回false，否则返回数组
      */
-    public function get($id, $fields = 'user.username,user.nickname,user.id,user.avatar'){
+    public function get($id, $fields = 'username,nickname,id,avatar'){
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'user');
-        if(empty($fields['user'])){
+        $fields = new FieldItem($fields, 'user');
+        if(!$fields->getFields()){
             //若未指定返回字段，初始化
-            $fields['user'] = array(
-                'fields'=>array(
-                    'id', 'username', 'nickname', 'avatar',
-                )
-            );
-        }else if(in_array('*', $fields['user']['fields'])){
+            $fields->addFields('id,username,nickname,avatar');
+        }else if($fields->hasField('*')){
             //若存在*，视为全字段搜索，但密码字段不会被返回
-            $fields['user']['fields'] = UsersTable::model()->getFields(array('password', 'salt'));
+           $fields->setFields(UsersTable::model()->getFields(array('password', 'salt')));
         }else{
             //永远不会返回密码字段
-            foreach($fields['user']['fields'] as $k => $v){
-                if($v == 'password' || $v == 'salt'){
-                    unset($fields['user']['fields'][$k]);
-                }
-            }
+            $fields->removeField('password');
+            $fields->removeField('salt');
         }
         
-        if(empty($fields['user']['fields'])){
-            $user = array();
+        if($user_fields = $fields->getFields()){
+            $user = UsersTable::model()->find($id, $user_fields);
         }else{
-            $user = UsersTable::model()->find($id, $fields['user']['fields']);
+            $user = array();
         }
         
         if($user === false){
@@ -359,7 +350,8 @@ class UserService extends Service{
         
         if(isset($user['avatar'])){
             //如果有头像，将头像图片ID转化为图片对象
-            if(isset($fields['user']['extra']['avatar']) && preg_match('/^(\d+)x(\d+)$/', $fields['user']['extra']['avatar'], $avatar_params)){
+            $avatar_extra = $fields->getExtra('avatar');
+            if($avatar_extra && preg_match('/^(\d+)x(\d+)$/', $avatar_extra, $avatar_params)){
                 $user['avatar'] = FileService::get($user['avatar'], array(
                     'spare'=>'avatar',
                     'dw'=>$avatar_params[1],
@@ -379,28 +371,28 @@ class UserService extends Service{
         }
         
         //角色属性
-        if(!empty($fields['props'])){
-            if(in_array('*', $fields['props']['fields'])){
+        if($fields->props){
+            if($fields->props->hasField('*')){
                 $props = null;
             }else{
-                $props = PropService::service()->mget($fields['props']['fields'], PropsTable::USAGE_ROLE);
+                $props = PropService::service()->mget($fields->props->getFields(), PropsTable::USAGE_ROLE);
             }
             $return['props'] = UserPropService::service()->getPropSet($id, $props);
         }
         
         //角色
-        if(!empty($fields['roles'])){
-            $return['roles'] = UserRoleService::service()->get($id, $fields['roles']);
+        if($fields->roles){
+            $return['roles'] = UserRoleService::service()->get($id, $fields->roles);
         }
         
         //profile
-        if(!empty($fields['profile'])){
-            $return['profile'] = UserProfileService::service()->get($id, $fields['profile']);
+        if($fields->profile){
+            $return['profile'] = UserProfileService::service()->get($id, $fields->profile);
         }
         
         //counter
-        if(!empty($fields['counter'])){
-            $return['counter'] = UserCounterService::service()->get($id, $fields['counter']);
+        if($fields->counter){
+            $return['counter'] = UserCounterService::service()->get($id, $fields->counter);
         }
         
         return $return;
@@ -415,10 +407,9 @@ class UserService extends Service{
      *  - props.*系列可指定返回哪些角色属性，若有一项为'props.*'，则返回所有角色属性（星号指代的是角色属性的别名）
      *  - profile.*系列可指定返回哪些用户资料，若有一项为'profile.*'，则返回所有用户资料
      *  - counter.*系列可指定返回哪些用户计数器，若有一项为'counter.*'，则返回所有计数字段
-     * @param array $extra 扩展信息。例如：头像缩略图尺寸
      * @return array
      */
-    public function mget($ids, $fields = 'user.username,user.nickname,user.id,user.avatar', $extra = array()){
+    public function mget($ids, $fields = 'id,nickname,avatar'){
         if(empty($ids)){
             return array();
         }
@@ -427,48 +418,39 @@ class UserService extends Service{
         is_array($ids) || $ids = explode(',', $ids);
         
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'user');
-        if(empty($fields['user'])){
+        $fields = new FieldItem($fields, 'user');
+        if(!$fields->getFields()){
             //若未指定返回字段，初始化
-            $fields['user'] = array(
-                'fields'=>array(
-                    'id', 'username', 'nickname', 'avatar',
-                )
-            );
-        }else if(in_array('*', $fields['user'])){
+            $fields->setFields('id,nickname,avatar');
+        }else if($fields->hasField('*')){
             //若存在*，视为全字段搜索，但密码字段不会被返回
-            $fields['user'] = array(
-                'fields'=>UsersTable::model()->getFields(array('password', 'salt'))
-            );
+            $fields->setFields(UsersTable::model()->getFields(array('password', 'salt')));
         }else{
             //永远不会返回密码字段
-            foreach($fields['user'] as $k => $v){
-                if($v == 'password' || $v == 'salt'){
-                    unset($fields['user'][$k]);
-                }
-            }
+            $fields->removeField('password');
+            $fields->removeField('salt');
         }
         
         $remove_id_field = false;
-        if(empty($fields['user']['fields']) || !in_array('id', $fields['user']['fields'])){
+        if(!$fields->hasField('id')){
             //id总是需要先搜出来的，返回的时候要作为索引
-            $fields['user']['fields'][] = 'id';
+            $fields->addFields('id');
             $remove_id_field = true;
         }
         $users = UsersTable::model()->fetchAll(array(
             'id IN (?)'=>$ids,
-        ), $fields['user']['fields']);
+        ), $fields->getFields());
         
-        if(!empty($fields['profile'])){
+        if($fields->profile){
             //获取所有相关的profile
-            $profiles = UserProfileService::service()->mget($ids, $fields['profile']);
+            $profiles = UserProfileService::service()->mget($ids, $fields->profile);
         }
-        if(!empty($fields['roles'])){
+        if($fields->roles){
             //获取所有相关的roles
-            $roles = UserRoleService::service()->mget($ids, $fields['roles']);
+            $roles = UserRoleService::service()->mget($ids, $fields->roles);
         }
-        if(!empty($fields['counter'])){
-            $counters = UserCounterService::service()->mget($ids, $fields['counter']);
+        if($fields->counter){
+            $counters = UserCounterService::service()->mget($ids, $fields->counter);
         }
         
         $return = array_fill_keys($ids, array());
@@ -476,7 +458,7 @@ class UserService extends Service{
             $user['user'] = $u;
             if(isset($user['user']['avatar'])){
                 //如果有头像，将头像图片ID转化为图片对象
-                if(isset($extra['avatar']) && preg_match('/^(\d+)x(\d+)$/', $extra['avatar'], $avatar_params)){
+                if($fields->getExtra('avatar') && preg_match('/^(\d+)x(\d+)$/', $fields->getExtra('avatar'), $avatar_params)){
                     $user['user']['avatar'] = FileService::get($u['avatar'], array(
                         'spare'=>'avatar',
                         'dw'=>$avatar_params[1],
@@ -505,11 +487,11 @@ class UserService extends Service{
             }
             
             //角色属性
-            if(!empty($fields['props'])){
-                if(in_array('*', $fields['props'])){
+            if($fields->props){
+                if($fields->props->hasField('*')){
                     $props = null;
                 }else{
-                    $props = PropService::service()->mget($fields['props'], PropsTable::USAGE_ROLE);
+                    $props = PropService::service()->mget($fields->props->getFields(), PropsTable::USAGE_ROLE);
                 }
                 $user['props'] = UserPropService::service()->getPropSet($u['id'], $props);
             }

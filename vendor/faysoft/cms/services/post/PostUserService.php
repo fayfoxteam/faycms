@@ -11,9 +11,7 @@ class PostUserService extends Service{
      */
     public static $default_fields = array(
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         )
     );
     

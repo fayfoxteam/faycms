@@ -5,7 +5,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\helpers\StringHelper;
 use cms\models\tables\CategoriesTable;
 use cms\models\tables\PostsTable;
@@ -41,12 +41,15 @@ class PostCategoryService extends Service{
      * @return array 返回包含分类信息的二维数组
      */
     public function get($post_id, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            CategoriesTable::model()->getFields()
+        );
         
         $sql = new Sql();
         return $sql->from(array('pc'=>'posts_categories'), '')
-            ->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', CategoriesTable::model()->formatFields($fields['fields']))
+            ->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', $fields->getFields())
             ->where(array('pc.post_id = ?'=>$post_id))
             ->fetchAll();
     }
@@ -58,12 +61,15 @@ class PostCategoryService extends Service{
      * @return array 返回以文章ID为key的三维数组
      */
     public function mget($post_ids, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields, null, CategoriesTable::model()->getFields());
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            CategoriesTable::model()->getFields()
+        );
         
         $sql = new Sql();
         $cats = $sql->from(array('pc'=>'posts_categories'), 'post_id')
-            ->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', CategoriesTable::model()->formatFields($fields['fields']))
+            ->joinLeft(array('c'=>'categories'), 'pc.cat_id = c.id', $fields->getFields())
             ->where(array('pc.post_id IN (?)'=>$post_ids))
             ->fetchAll();
         $return = array_fill_keys($post_ids, array());
@@ -555,30 +561,13 @@ class PostCategoryService extends Service{
      * 根据分类数组获取对应的文章
      * @param array $cat 分类数组，至少需要包括id,left_value,right_value信息
      * @param int $limit 显示文章数若为0，则不限制
-     * @param string|array $fields 可指定返回字段
-     *  - post.*系列可指定posts表返回字段，若有一项为'post.*'，则返回所有字段
-     *  - meta.*系列可指定post_meta表返回字段，若有一项为'meta.*'，则返回所有字段
-     *  - tags.*系列可指定标签相关字段，可选tags表字段，若有一项为'tags.*'，则返回所有字段
-     *  - files.*系列可指定posts_files表返回字段，若有一项为'posts_files.*'，则返回所有字段
-     *  - props.*系列可指定返回哪些文章分类属性，若有一项为'props.*'，则返回所有文章分类属性
-     *  - user.*系列可指定作者信息，格式参照\cms\services\user\UserService::get()
-     *  - categories.*系列可指定附加分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
-     *  - category.*系列可指定主分类，可选categories表字段，若有一项为'categories.*'，则返回所有字段
+     * @param string|array $fields 参照PostService::mget()
      * @param boolean $children 若该参数为true，则返回所有该分类及其子分类所对应的文章
      * @param string $order 排序字段
      * @param mixed $conditions 附加条件
      * @return array
      */
-    private function getPostsByCatArray($cat, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $children = false, $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = null){
-        //解析$fields
-        $fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
-        if(empty($fields['post'])){
-            //若未指定返回字段，返回所有允许的字段
-            $fields['post'] = array(
-                'fields'=>PostService::$public_fields['post']
-            );
-        }
-        
+    private function getPostsByCatArray($cat, $limit = 10, $fields = null, $children = false, $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = null){
         $sql = new Sql();
         $sql->from(array('p'=>'posts'), 'id')
             ->joinLeft(array('pc'=>'posts_categories'), 'p.id = pc.post_id')

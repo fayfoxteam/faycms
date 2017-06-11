@@ -5,9 +5,9 @@ use cms\library\ApiController;
 use cms\services\post\PostCommentService;
 use fay\core\Response;
 use cms\models\tables\PostsTable;
-use fay\helpers\FieldHelper;
 use fay\core\HttpException;
 use cms\services\post\PostService;
+use fay\helpers\FieldItem;
 
 /**
  * 文章评论
@@ -18,27 +18,17 @@ class PostCommentController extends ApiController{
      */
     protected $default_fields = array(
         'comment'=>array(
-            'fields'=>array(
-                'id', 'content', 'parent', 'create_time',
-            )
+            'id', 'content', 'parent', 'create_time',
         ),
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         ),
         'parent'=>array(
-            'fields'=>array(
-                'comment'=>array(
-                    'fields'=>array(
-                        'id', 'content', 'parent', 'create_time',
-                    )
-                ),
-                'user'=>array(
-                    'fields'=>array(
-                        'id', 'nickname', 'avatar',
-                    )
-                ),
+            'comment'=>array(
+                'id', 'content', 'parent', 'create_time',
+            ),
+            'user'=>array(
+                'id', 'nickname', 'avatar',
             ),
         ),
     );
@@ -112,7 +102,7 @@ class PostCommentController extends ApiController{
         
         if($fields){
             //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
+            $fields = new FieldItem($fields, 'comment', $this->allowed_fields);
             
             $comment = PostCommentService::service()->get($comment_id, $fields);
             
@@ -299,14 +289,12 @@ class PostCommentController extends ApiController{
             'page_size'=>'分页大小',
             'fields'=>'字段',
         ))->check();
-        
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'comment',
+            $this->allowed_fields
+        );
         
         $result = PostCommentService::service()->getList(
             $this->form()->getData('post_id'),
@@ -361,13 +349,11 @@ class PostCommentController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'comment',
+            $this->allowed_fields
+        );
         
         Response::json(PostCommentService::service()->getTree(
             $this->form()->getData('post_id'),
@@ -410,14 +396,12 @@ class PostCommentController extends ApiController{
             'page_size'=>'分页大小',
             'fields'=>'字段',
         ))->check();
-        
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
-        }else{
-            $fields = $this->default_fields;
-        }
+
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'comment',
+            $this->allowed_fields
+        );
         
         Response::json(PostCommentService::service()->getChats(
             $this->form()->getData('post_id'),
@@ -445,15 +429,11 @@ class PostCommentController extends ApiController{
         ))->check();
         
         $id = $this->form()->getData('id');
-        $fields = $this->form()->getData('fields');
-        
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'comment', $this->allowed_fields);
-        }else{
-            //若未指定$fields，取默认值
-            $fields = $this->default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', $this->default_fields),
+            'comment',
+            $this->allowed_fields
+        );
         
         $comment = PostCommentService::service()->get($id, $fields);
         

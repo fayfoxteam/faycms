@@ -8,7 +8,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\helpers\StringHelper;
 use cms\models\tables\PostsTable;
 use cms\models\tables\PostsCategoriesTable;
@@ -97,19 +97,13 @@ class PostService extends Service{
      */
     public static $default_fields = array(
         'post'=>array(
-            'fields'=>array(
-                'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
-            )
+            'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
         ),
         'category'=>array(
-            'fields'=>array(
-                'id', 'title', 'alias',
-            )
+            'id', 'title', 'alias',
         ),
         'user'=>array(
-            'fields'=>array(
-                'id', 'nickname', 'avatar',
-            )
+            'id', 'nickname', 'avatar',
         )
     );
 
@@ -556,25 +550,29 @@ class PostService extends Service{
      * @param bool $only_published 若为true，则只在已发布的文章里搜索。默认为true
      * @return array|bool
      */
-    public function get($id, $fields = 'post.*', $cat = null, $only_published = true){
+    public function get($id, $fields = null, $cat = null, $only_published = true){
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'post', self::$public_fields);
-        if(empty($fields['post'])){
-            //若未指定返回字段，返回所有允许的字段
-            $fields['post'] = self::$default_fields['post'];
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            'post',
+            self::$public_fields
+        );
+        if(!$fields->getFields()){
+            //若未指定返回字段，返回默认的字段
+            $fields->addFields(self::$default_fields['post']);
         }
         
-        $post_fields = $fields['post']['fields'];
-        if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
+        $post_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $post_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $post_fields[] = 'user_id';
         }
-        if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
+        if($fields->category && !in_array('cat_id', $post_fields)){
             //如果要获取分类信息，则必须搜出cat_id
             $post_fields[] = 'cat_id';
         }
         
-        if(!empty($fields['nav'])){
+        if($fields->nav){
             //如果要获取上一篇，下一篇，则必须搜出publish_time, sort, cat_id
             if(!in_array('publish_time', $post_fields)){
                 $post_fields[] = 'publish_time';
@@ -587,20 +585,20 @@ class PostService extends Service{
             }
         }
         
-        if(!empty($fields['props']) && !in_array('cat_id', $post_fields)){
+        if($fields->props && !in_array('cat_id', $post_fields)){
             //如果要获取附加属性，必须搜出cat_id
             $post_fields[] = 'cat_id';
         }
         
-        if(isset($fields['extra']) && in_array('seo_title', $fields['extra']) && !in_array('title', $post_fields)){
+        if($fields->extra && $fields->extra->hasField('seo_title') && !in_array('title', $post_fields)){
             //如果要获取seo_title，必须搜出title
             $post_fields[] = 'title';
         }
-        if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']) && !in_array('title', $post_fields)){
+        if($fields->extra && $fields->extra->hasField('seo_keywords') && !in_array('title', $post_fields)){
             //如果要获取seo_title，必须搜出title
             $post_fields[] = 'title';
         }
-        if(isset($fields['extra']) && in_array('seo_description', $fields['extra'])){
+        if($fields->extra && $fields->extra->hasField('seo_description')){
             //如果要获取seo_title，必须搜出title, content
             if(!in_array('abstract', $post_fields)){
                 $post_fields[] = 'abstract';
@@ -647,7 +645,7 @@ class PostService extends Service{
             //如果有缩略图，将缩略图图片ID转为图片对象
             $post['thumbnail'] = $this->formatThumbnail(
                 $post['thumbnail'],
-                isset($fields['post']['extra']['thumbnail']) ? $fields['post']['extra']['thumbnail'] : ''
+                $fields->getExtra('thumbnail')
             );
         }
         
@@ -656,75 +654,75 @@ class PostService extends Service{
         );
         
         //meta
-        if(!empty($fields['meta'])){
-            $return['meta'] = PostMetaService::service()->get($id, $fields['meta']);
+        if($fields->meta){
+            $return['meta'] = PostMetaService::service()->get($id, $fields->meta);
         }
         
         //扩展信息
-        if(!empty($fields['extra'])){
-            $return['extra'] = PostExtraService::service()->get($id, $fields['extra']);
+        if($fields->extra){
+            $return['extra'] = PostExtraService::service()->get($id, $fields->extra);
         }
         
         //设置一下SEO信息
-        if(isset($fields['extra']) && in_array('seo_title', $fields['extra']['fields']) && empty($return['extra']['seo_title'])){
+        if($fields->extra && $fields->extra->hasField('seo_title') && empty($return['extra']['seo_title'])){
             $return['extra']['seo_title'] = $post['title'];
         }
-        if(isset($fields['extra']) && in_array('seo_keywords', $fields['extra']['fields']) && empty($return['extra']['seo_keywords'])){
+        if($fields->extra && $fields->extra->hasField('seo_keywords') && empty($return['extra']['seo_keywords'])){
             $return['extra']['seo_keywords'] = str_replace(array(
                 ' ', '|', '，'
             ), ',', $post['title']);
         }
-        if(isset($fields['extra']) && in_array('seo_description', $fields['extra']['fields']) && empty($return['extra']['seo_description'])){
+        if($fields->extra && $fields->extra->hasField('seo_description') && empty($return['extra']['seo_description'])){
             $return['extra']['seo_description'] = $post['abstract'] ? $post['abstract'] : trim(mb_substr(str_replace(array("\r\n", "\r", "\n"), ' ', strip_tags($post['content'])), 0, 150, 'utf-8'));
         }
         
         //作者信息
-        if(!empty($fields['user'])){
-            $return['user'] = UserService::service()->get($post['user_id'], $fields['user']);
+        if($fields->user){
+            $return['user'] = UserService::service()->get($post['user_id'], $fields->user);
         }
         
         //标签
-        if(!empty($fields['tags'])){
-            $return['tags'] = PostTagService::service()->get($id, $fields['tags']);
+        if($fields->tags){
+            $return['tags'] = PostTagService::service()->get($id, $fields->tags);
         }
         
         //附件
-        if(!empty($fields['files'])){
-            $return['files'] = PostFileService::service()->get($id, $fields['files']);
+        if($fields->files){
+            $return['files'] = PostFileService::service()->get($id, $fields->files);
         }
         
         //附加属性
-        if(!empty($fields['props'])){
-            if(in_array('*', $fields['props']['fields'])){
+        if($fields->props){
+            if($fields->props->hasField('*')){
                 $props = null;
             }else{
-                $props = PropService::service()->mget($fields['props']['fields'], PropsTable::USAGE_POST_CAT);
+                $props = PropService::service()->mget($fields->props->getFields(), PropsTable::USAGE_POST_CAT);
             }
             $return['props'] = PostPropService::service()->getPropSet($id, $props);
         }
         
         //附加分类
-        if(!empty($fields['categories'])){
-            $return['categories'] = PostCategoryService::service()->get($id, $fields['categories']);
+        if($fields->categories){
+            $return['categories'] = PostCategoryService::service()->get($id, $fields->categories);
         }
         
         //主分类
-        if(!empty($fields['category'])){
-            $return['category'] = CategoryService::service()->get($post['cat_id'], $fields['category']);
+        if($fields->category){
+            $return['category'] = CategoryService::service()->get($post['cat_id'], $fields->category);
         }
         
         //前后一篇文章导航
-        if(!empty($fields['nav'])){
+        if($fields->nav){
             //上一篇
-            $return['nav']['prev'] = $this->getPrevPost($id, $fields['nav']);
+            $return['nav']['prev'] = $this->getPrevPost($id, $fields->nav);
             
             //下一篇
-            $return['nav']['next'] = $this->getNextPost($id, $fields['nav']);
+            $return['nav']['next'] = $this->getNextPost($id, $fields->nav);
         }
         
         //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
         foreach(array('user_id', 'publish_time', 'sort', 'cat_id', 'title', 'abstract', 'content') as $f){
-            if(!in_array($f, $fields['post']['fields']) && in_array($f, $post_fields)){
+            if(!$fields->hasField($f) && in_array($f, $post_fields)){
                 unset($return['post'][$f]);
             }
         }
@@ -744,9 +742,9 @@ class PostService extends Service{
         //根据文章ID获取当前文章
         $post = PostsTable::model()->find($post_id, 'id,cat_id,publish_time,sort');
         //解析字段
-        $fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
+        $fields = new FieldItem($fields, 'post', PostService::$public_fields);
         
-        $post_fields = $fields['post']['fields'];
+        $post_fields = $fields->getFields();
         if(!in_array('sort', $post_fields)){
             $post_fields[] = 'sort';
         }
@@ -777,10 +775,10 @@ class PostService extends Service{
                     ->order('id ASC')
                     ->fetchRow();
             }
-            if(!in_array('sort', $fields['post']['fields'])){
+            if(!$fields->hasField('sort')){
                 unset($prev_post['sort']);
             }
-            if(!in_array('publish_time', $fields['post']['fields'])){
+            if(!$fields->hasField('publish_time')){
                 unset($prev_post['publish_time']);
             }
         }
@@ -799,9 +797,9 @@ class PostService extends Service{
         //根据文章ID获取当前文章
         $post = PostsTable::model()->find($post_id, 'id,cat_id,publish_time,sort');
         //解析字段
-        $fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
+        $fields = new FieldItem($fields, 'post', PostService::$public_fields);
         
-        $post_fields = $fields['post']['fields'];
+        $post_fields = $fields->getFields();
         if(!in_array('sort', $post_fields)){
             $post_fields[] = 'sort';
         }
@@ -832,10 +830,10 @@ class PostService extends Service{
                     ->order('id ASC')
                     ->fetchRow();
             }
-            if(!in_array('sort', $fields['post']['fields'])){
+            if(!$fields->hasField('sort')){
                 unset($next_post['sort']);
             }
-            if(!in_array('publish_time', $fields['post']['fields'])){
+            if(!$fields->hasField('publish_time')){
                 unset($next_post['publish_time']);
             }
         }
@@ -1101,22 +1099,22 @@ class PostService extends Service{
             return array();
         }
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'post', self::$public_fields);
-        if(empty($fields['post'])){
-            //若未指定返回字段，返回所有允许的字段
-            $fields['post'] = self::$default_fields['post'];
+        $fields = new FieldItem($fields, 'post', self::$public_fields);
+        if(!$fields->getFields()){
+            //若未指定返回字段，返回默认的字段
+            $fields->setFields(self::$default_fields['post']);
         }
         
-        $post_fields = $fields['post']['fields'];
-        if(!empty($fields['user']) && !in_array('user_id', $post_fields)){
+        $post_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $post_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $post_fields[] = 'user_id';
         }
-        if(!empty($fields['category']) && !in_array('cat_id', $post_fields)){
+        if($fields->category && !in_array('cat_id', $post_fields)){
             //如果要获取分类信息，则必须搜出cat_id
             $post_fields[] = 'cat_id';
         }
-        if(!in_array('id', $fields['post'])){
+        if(!$fields->hasField('id')){
             //id字段无论如何都要返回，因为后面要用到
             $post_fields[] = 'id';
         }
@@ -1146,7 +1144,7 @@ class PostService extends Service{
                     //如果有缩略图，将缩略图图片ID转为图片对象
                     $posts[$pid]['thumbnail'] = $this->formatThumbnail(
                         $posts[$pid]['thumbnail'],
-                        isset($fields['post']['extra']['thumbnail']) ? $fields['post']['extra']['thumbnail'] : ''
+                        $fields->getExtra('thumbnail')
                     );
                 }
                 $return[$pid] = array(
@@ -1156,49 +1154,49 @@ class PostService extends Service{
         }
         
         //meta
-        if(!empty($fields['meta'])){
-            PostMetaService::service()->assemble($return, $fields['meta']);
+        if($fields->meta){
+            PostMetaService::service()->assemble($return, $fields->meta);
         }
         
         //扩展信息
-        if(!empty($fields['extra'])){
-            PostExtraService::service()->assemble($return, $fields['extra']);
+        if($fields->extra){
+            PostExtraService::service()->assemble($return, $fields->extra);
         }
         
         //标签
-        if(!empty($fields['tags'])){
-            PostTagService::service()->assemble($return, $fields['tags']);
+        if($fields->tags){
+            PostTagService::service()->assemble($return, $fields->tags);
         }
         
         //附件
-        if(!empty($fields['files'])){
-            PostFileService::service()->assemble($return, $fields['files']);
+        if($fields->files){
+            PostFileService::service()->assemble($return, $fields->files);
         }
         
         //附加分类
-        if(!empty($fields['categories'])){
-            PostCategoryService::service()->assembleSecondaryCats($return, $fields['categories']);
+        if($fields->categories){
+            PostCategoryService::service()->assembleSecondaryCats($return, $fields->categories);
         }
         
         //主分类
-        if(!empty($fields['category'])){
-            PostCategoryService::service()->assemblePrimaryCat($return, $fields['category']);
+        if($fields->category){
+            PostCategoryService::service()->assemblePrimaryCat($return, $fields->category);
         }
         
         //附加属性
-        if(!empty($fields['props'])){
-            PostPropService::service()->assemble($return, $fields['props']);
+        if($fields->props){
+            PostPropService::service()->assemble($return, $fields->props);
         }
         
         //作者信息
-        if(!empty($fields['user'])){
-            PostUserService::service()->assemble($return, $fields['user']);
+        if($fields->user){
+            PostUserService::service()->assemble($return, $fields->user);
         }
         
         foreach($return as $k => $post){
             //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
             foreach(array('id', 'user_id', 'cat_id') as $f){
-                if(!in_array($f, $fields['post']['fields']) && in_array($f, $post_fields)){
+                if(!$fields->hasField($f) && in_array($f, $post_fields)){
                     unset($post['post'][$f]);
                 }
             }
@@ -1514,7 +1512,7 @@ class PostService extends Service{
     
     private function formatThumbnail($thumbnail, $extra = ''){
         //如果有缩略图，将缩略图图片ID转为图片对象
-        if(preg_match('/^(\d+)x(\d+)$/', $extra, $avatar_params)){
+        if($extra && preg_match('/^(\d+)x(\d+)$/', $extra, $avatar_params)){
             return FileService::get($thumbnail, array(
                 'spare'=>'post',
                 'dw'=>$avatar_params[1],

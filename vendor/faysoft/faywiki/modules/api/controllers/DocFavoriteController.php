@@ -3,7 +3,7 @@ namespace faywiki\modules\api\controllers;
 
 use cms\library\UserController;
 use fay\core\Response;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use faywiki\services\doc\DocFavoriteService;
 use faywiki\services\doc\DocService;
 
@@ -102,17 +102,17 @@ class DocFavoriteController extends UserController{
             'fields'=>'字段',
         ))->check();
 
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'doc', DocService::$public_fields);
-        }else{
-            $fields = DocService::$default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', DocService::$default_fields),
+            'doc',
+            DocService::$public_fields
+        );
 
-        $favorites = DocFavoriteService::service()->getList($fields,
+        $favorites = DocFavoriteService::service()->getList(
+            $fields,
             $this->form()->getData('page', 1),
-            $this->form()->getData('page_size', 20));
+            $this->form()->getData('page_size', 20)
+        );
         Response::json($favorites);
     }
 }

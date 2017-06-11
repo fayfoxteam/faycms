@@ -10,54 +10,34 @@ use cms\models\tables\PostMetaTable;
 class IndexController extends Widget{
     private $fields = array(
         'post'=>array(
-            'fields'=>array(
-                'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
-            )
+            'id', 'title', 'content', 'content_type', 'publish_time', 'thumbnail', 'abstract',
         ),
         'category'=>array(
-            'fields'=>array(
-                'id', 'title', 'alias',
-            )
+            'id', 'title', 'alias',
         ),
         'categories'=>array(
-            'fields'=>array(
-                'id', 'title', 'alias',
-            )
+            'id', 'title', 'alias',
         ),
         'user'=>array(
-            'fields'=>array(
-                'id', 'username', 'nickname', 'avatar',
-            )
+            'id', 'username', 'nickname', 'avatar',
         ),
         'nav'=>array(
-            'fields'=>array(
-                'id', 'title',
-            )
+            'id', 'title',
         ),
         'tags'=>array(
-            'fields'=>array(
-                'id', 'title',
-            )
+            'id', 'title',
         ),
         'files'=>array(
-            'fields'=>array(
-                '*',
-            )
+            '*',
         ),
         'props'=>array(
-            'fields'=>array(
-                '*',//这里指定的是属性别名，取值视后台设定而定
-            )
+            '*',//这里指定的是属性别名，取值视后台设定而定
         ),
         'meta'=>array(
-            'fields'=>array(
-                'comments', 'views', 'likes',
-            )
+            'comments', 'views', 'likes',
         ),
         'extra'=>array(
-            'fields'=>array(
-                'seo_title', 'seo_keywords', 'seo_description', 'source', 'source_link',
-            )
+            'seo_title', 'seo_keywords', 'seo_description', 'source', 'source_link',
         )
     );
     

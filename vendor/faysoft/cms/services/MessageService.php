@@ -3,7 +3,7 @@ namespace cms\services;
 
 use fay\core\ErrorException;
 use fay\core\Loader;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\models\MultiTreeModel;
 use cms\models\tables\MessagesTable;
 use fay\core\Exception;
@@ -500,22 +500,22 @@ class MessageService extends MultiTreeModel{
             ),
         )
     )){
-        $fields = FieldHelper::parse($fields, 'message');
-        if(empty($fields['message']) || in_array('*', $fields['message'])){
+        $fields = new FieldItem($fields, 'message');
+        if(!$fields->getFields() || $fields->hasField('*')){
             //若未指定返回字段，初始化
-            $fields['message'] = \F::table($this->model)->getFields(array('status', 'delete_time', 'sockpuppet'));
+            $fields->setFields(\F::table($this->model)->getFields(array('status', 'delete_time', 'sockpuppet')));
         }
         
-        $message_fields = $fields['message'];
-        if(!empty($fields['user']) && !in_array('user_id', $message_fields)){
+        $message_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $message_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $message_fields[] = 'user_id';
         }
-        if(!empty($fields['to_user']) && !in_array('to_user_id', $message_fields)){
+        if($fields->to_user && !in_array('to_user_id', $message_fields)){
             //如果要获取被留言用户信息，则必须搜出to_user_id
             $message_fields[] = 'to_user_id';
         }
-        if(!empty($fields['parent']) && !in_array('parent', $message_fields)){
+        if($fields->parent && !in_array('parent', $message_fields)){
             //如果要获取作者信息，则必须搜出parent
             $message_fields[] = 'parent';
         }
@@ -534,19 +534,19 @@ class MessageService extends MultiTreeModel{
         );
         
         //作者信息
-        if(!empty($fields['user'])){
-            $return['user'] = UserService::service()->get($message['user_id'], $fields['user']);
+        if($fields->user){
+            $return['user'] = UserService::service()->get($message['user_id'], $fields->user);
         }
         
         //被回复用户信息
-        if(!empty($fields['to_user'])){
-            $return['to_user'] = UserService::service()->get($message['to_user_id'], $fields['to_user']);
+        if($fields->to_user){
+            $return['to_user'] = UserService::service()->get($message['to_user_id'], $fields->to_user);
         }
         
         //父节点
-        if(!empty($fields['parent'])){
-            $parent_message_fields = $fields['parent']['message'];
-            if(!empty($fields['parent']['user']) && !in_array('user_id', $parent_message_fields)){
+        if($fields->parent){
+            $parent_message_fields = $fields->parent->message ? $fields->parent->message->getFields() : array();
+            if($fields->parent->user && !in_array('user_id', $parent_message_fields)){
                 //如果要获取作者信息，则必须搜出user_id
                 $parent_message_fields[] = 'user_id';
             }
@@ -559,17 +559,17 @@ class MessageService extends MultiTreeModel{
             if($parent_message){
                 //有父节点
                 $return['parent']['message'] = $parent_message;
-                if(!empty($fields['parent']['user'])){
-                    $return['parent']['user'] = UserService::service()->get($parent_message['user_id'], $fields['parent']['user']);
+                if($fields->parent->user){
+                    $return['parent']['user'] = UserService::service()->get($parent_message['user_id'], $fields->parent->user);
                 }
-                if(!in_array('user_id', $fields['parent']['message']) && in_array('user_id', $parent_message_fields)){
+                if(!$fields->parent->message->hasField('user_id') && in_array('user_id', $parent_message_fields)){
                     unset($return['parent']['message']['user_id']);
                 }
             }else{
                 //没有父节点，但是要求返回相关父节点字段，则返回空数组
                 $return['parent']['message'] = array();
                 
-                if(!empty($fields['parent']['user'])){
+                if($fields->parent->user){
                     $return['parent']['user'] = array();
                 }
             }
@@ -577,7 +577,7 @@ class MessageService extends MultiTreeModel{
         
         //过滤掉那些未指定返回，但出于某些原因先搜出来的字段
         foreach(array('user_id', 'parent', 'to_user_id') as $f){
-            if(!in_array($f, $fields['message']) && in_array($f, $message_fields)){
+            if($fields->hasField($f, true) && in_array($f, $message_fields)){
                 unset($return['message'][$f]);
             }
         }

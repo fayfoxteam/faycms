@@ -3,8 +3,8 @@ namespace cms\services\post;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
 use cms\models\tables\PostExtraTable;
+use fay\helpers\FieldItem;
 
 class PostExtraService extends Service{
     /**
@@ -26,12 +26,15 @@ class PostExtraService extends Service{
      * @return array 返回包含文章meta信息的一维数组
      */
     public function get($post_id, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            PostExtraTable::model()->getFields()
+        );
         
         return PostExtraTable::model()->fetchRow(array(
             'post_id = ?'=>$post_id,
-        ), $fields['fields']);
+        ), $fields->getFields());
     }
     
     /**
@@ -44,20 +47,23 @@ class PostExtraService extends Service{
         if(!$post_ids){
             return array();
         }
-        
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields);
+
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            PostExtraTable::model()->getFields()
+        );
         
         //批量搜索，必须先得到post_id
-        if(!in_array('post_id', $fields['fields'])){
-            $fields['fields'][] = 'post_id';
+        if(!$fields->hasField('post_id')){
+            $fields->addFields('post_id');
             $remove_post_id = true;
         }else{
             $remove_post_id = false;
         }
         $metas = PostExtraTable::model()->fetchAll(array(
             'post_id IN (?)'=>$post_ids,
-        ), $fields['fields'], 'post_id');
+        ), $fields->getFields(), 'post_id');
         $return = array_fill_keys($post_ids, array());
         foreach($metas as $m){
             $p = $m['post_id'];
@@ -77,9 +83,6 @@ class PostExtraService extends Service{
      * @param null|string $fields 字段（post_extra表字段）
      */
     public function assemble(&$posts, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields);
-        
         //获取所有文章ID
         $post_ids = array();
         foreach($posts as $k => $p){

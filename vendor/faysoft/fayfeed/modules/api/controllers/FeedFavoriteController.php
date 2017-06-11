@@ -2,10 +2,10 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\UserController;
+use fay\helpers\FieldItem;
 use fayfeed\services\FeedFavoriteService;
 use fay\core\Response;
 use fayfeed\services\FeedService;
-use fay\helpers\FieldHelper;
 
 /**
  * 动态收藏
@@ -99,17 +99,17 @@ class FeedFavoriteController extends UserController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'feed', FeedService::$public_fields);
-        }else{
-            $fields = FeedService::$default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', FeedService::$default_fields),
+            'doc',
+            FeedService::$public_fields
+        );
         
-        $favorites = FeedFavoriteService::service()->getList($fields,
+        $favorites = FeedFavoriteService::service()->getList(
+            $fields,
             $this->form()->getData('page', 1),
-            $this->form()->getData('page_size', 20));
+            $this->form()->getData('page_size', 20)
+        );
         
         Response::json($favorites);
     }

@@ -5,7 +5,7 @@ use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fayfeed\models\tables\FeedsTable;
 use fayfeed\models\tables\FeedsFilesTable;
 use cms\models\tables\UserCounterTable;
@@ -414,16 +414,19 @@ class FeedService extends Service{
      * @return array|bool
      */
     public function get($id, $fields = null, $only_published = true){
-        $fields || $fields = self::$default_fields;
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'feed');
-        if(empty($fields['feed']) || in_array('*', $fields['feed'])){
-            //若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
-            $fields['feed'] = FeedsTable::model()->getFields();
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            'feed',
+            self::$public_fields
+        );
+        if(!$fields->getFields()){
+            //若未指定返回字段，返回默认的字段
+            $fields->addFields(self::$default_fields['feed']);
         }
         
-        $feed_fields = $fields['feed'];
-        if(!empty($fields['user']) && !in_array('user_id', $feed_fields)){
+        $feed_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $feed_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $feed_fields[] = 'user_id';
         }
@@ -451,23 +454,23 @@ class FeedService extends Service{
         );
         
         //meta
-        if(!empty($fields['meta'])){
-            $return['meta'] = FeedMetaService::service()->get($id, $fields['meta']);
+        if($fields->meta){
+            $return['meta'] = FeedMetaService::service()->get($id, $fields->meta);
         }
         
         //作者信息
-        if(!empty($fields['user'])){
-            $return['user'] = UserService::service()->get($feed['user_id'], $fields['user']);
+        if($fields->user){
+            $return['user'] = UserService::service()->get($feed['user_id'], $fields->user);
         }
         
         //标签
-        if(!empty($fields['tags'])){
-            $return['tags'] = FeedTagService::service()->get($id, $fields['tags']);
+        if($fields->tags){
+            $return['tags'] = FeedTagService::service()->get($id, $fields->tags);
         }
         
         //附件
-        if(!empty($fields['files'])){
-            $return['files'] = FeedFileService::service()->get($id, $fields['files']);
+        if($fields->files){
+            $return['files'] = FeedFileService::service()->get($id, $fields->files);
         }
         
         return $return;
@@ -487,19 +490,22 @@ class FeedService extends Service{
      * @return array
      */
     public function mget($feed_ids, $fields, $only_published = true){
+        if(!$feed_ids){
+            return array();
+        }
         //解析$fields
-        $fields = FieldHelper::parse($fields, 'feed');
-        if(empty($fields['feed']) || in_array('*', $fields['feed'])){
-            //若未指定返回字段，初始化（默认不返回content，因为列表页基本是不会显示动态详情的）
-            $fields['feed'] = FeedsTable::model()->getFields();
+        $fields = new FieldItem($fields, 'feed', self::$public_fields);
+        if(!$fields->getFields()){
+            //若未指定返回字段，返回默认的字段
+            $fields->setFields(self::$default_fields['post']);
         }
         
-        $feed_fields = $fields['feed'];
-        if(!empty($fields['user']) && !in_array('user_id', $feed_fields)){
+        $feed_fields = $fields->getFields();
+        if($fields->user && !in_array('user_id', $feed_fields)){
             //如果要获取作者信息，则必须搜出user_id
             $feed_fields[] = 'user_id';
         }
-        if(!in_array('id', $fields['feed'])){
+        if(!$fields->hasField('id')){
             //id字段无论如何都要返回，因为后面要用到
             $feed_fields[] = 'id';
         }
@@ -524,18 +530,18 @@ class FeedService extends Service{
         }
         
         //meta
-        if(!empty($fields['meta'])){
-            $feed_metas = FeedMetaService::service()->mget($feed_ids, $fields['meta']);
+        if($fields->meta){
+            $feed_metas = FeedMetaService::service()->mget($feed_ids, $fields->meta);
         }
         
         //标签
-        if(!empty($fields['tags'])){
-            $feed_tags = FeedTagService::service()->mget($feed_ids, $fields['tags']);
+        if($fields->tags){
+            $feed_tags = FeedTagService::service()->mget($feed_ids, $fields->tags);
         }
         
         //附件
-        if(!empty($fields['files'])){
-            $feed_files = FeedFileService::service()->mget($feed_ids, $fields['files']);
+        if($fields->files){
+            $feed_files = FeedFileService::service()->mget($feed_ids, $fields->files);
         }
     }
     

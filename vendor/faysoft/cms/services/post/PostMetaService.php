@@ -3,8 +3,8 @@ namespace cms\services\post;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
 use cms\models\tables\PostMetaTable;
+use fay\helpers\FieldItem;
 
 class PostMetaService extends Service{
     /**
@@ -26,12 +26,15 @@ class PostMetaService extends Service{
      * @return array 返回包含文章meta信息的一维数组
      */
     public function get($post_id, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields, null, PostMetaTable::model()->getFields());
-        
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            PostMetaTable::model()->getFields()
+        );
+
         return PostMetaTable::model()->fetchRow(array(
             'post_id = ?'=>$post_id,
-        ), $fields['fields']);
+        ), $fields->getFields());
     }
     
     /**
@@ -44,19 +47,22 @@ class PostMetaService extends Service{
         if(!$post_ids){
             return array();
         }
+
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            PostMetaTable::model()->getFields()
+        );
         
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields, null, PostMetaTable::model()->getFields());
-        
-        if(!in_array('post_id', $fields['fields'])){
-            $fields['fields'][] = 'post_id';
+        if(!$fields->hasField('post_id')){
+            $fields->addFields('post_id');
             $remove_post_id = true;
         }else{
             $remove_post_id = false;
         }
         $metas = PostMetaTable::model()->fetchAll(array(
             'post_id IN (?)'=>$post_ids,
-        ), $fields['fields'], 'post_id');
+        ), $fields->getFields(), 'post_id');
         $return = array_fill_keys($post_ids, array());
         foreach($metas as $m){
             $p = $m['post_id'];

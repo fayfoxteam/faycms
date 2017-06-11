@@ -5,7 +5,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use fay\helpers\StringHelper;
 use cms\models\tables\PostsTable;
 use cms\models\tables\TagCounterTable;
@@ -53,19 +53,15 @@ class PostTagService extends Service{
      * @return array 返回以文章ID为key的三维数组
      */
     public function mget($post_ids, $fields = null){
-        if(empty($fields)){
-            //若传入$fields为空，则返回默认字段
-            $fields = array(
-                'fields'=>self::$default_fields
-            );
-        }else{
-            //格式化fields
-            $fields = FieldHelper::parse($fields);
-        }
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            TagsTable::model()->getFields()
+        );
         
         $sql = new Sql();
         $tags = $sql->from(array('pt'=>'posts_tags'), 'post_id')
-            ->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', TagsTable::model()->formatFields($fields['fields']))
+            ->joinLeft(array('t'=>'tags'), 'pt.tag_id = t.id', $fields->getFields())
             ->where(array('pt.post_id IN (?)'=>$post_ids))
             ->fetchAll();
         $return = array_fill_keys($post_ids, array());

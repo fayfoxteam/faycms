@@ -5,8 +5,8 @@ use cms\library\ApiController;
 use fay\core\Response;
 use cms\services\post\PostLikeService;
 use cms\services\post\PostService;
-use fay\helpers\FieldHelper;
 use cms\services\user\UserService;
+use fay\helpers\FieldItem;
 
 /**
  * 文章点赞
@@ -121,18 +121,18 @@ class PostLikeController extends ApiController{
             ));
         }
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'post', UserService::$public_fields);
-        }else{
-            $fields = UserService::$default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', UserService::$default_fields),
+            'user',
+            UserService::$public_fields
+        );
         
-        $likes = PostLikeService::service()->getPostLikes($post_id,
+        $likes = PostLikeService::service()->getPostLikes(
+            $post_id,
             $fields,
             $this->form()->getData('page', 1),
-            $this->form()->getData('page_size', 20));
+            $this->form()->getData('page_size', 20)
+        );
         Response::json($likes);
     }
     
@@ -163,17 +163,17 @@ class PostLikeController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = $this->form()->getData('fields');
-        if($fields){
-            //过滤字段，移除那些不允许的字段
-            $fields = FieldHelper::parse($fields, 'post', PostService::$public_fields);
-        }else{
-            $fields = PostService::$default_fields;
-        }
+        $fields = new FieldItem(
+            $this->form()->getData('fields', PostService::$default_fields),
+            'doc',
+            PostService::$public_fields
+        );
         
-        $likes = PostLikeService::service()->getUserLikes($fields,
+        $likes = PostLikeService::service()->getUserLikes(
+            $fields,
             $this->form()->getData('page', 1),
-            $this->form()->getData('page_size', 20));
+            $this->form()->getData('page_size', 20)
+        );
         Response::json($likes);
     }
 }

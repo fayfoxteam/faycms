@@ -1018,22 +1018,16 @@ class PostController extends AdminController{
             $this->form()->getData('id'),
             array(
                 'post'=>array(
-                    'fields'=>array('*'),
-                    'extra'=>array(
-                        'thumbnail'=>'0x200'
-                    )
+                    '*', 'thumbnail:0x200',
                 ),
                 'category'=>array(
-                    'fields'=>array('title')
+                    'title'
                 ),
                 'files'=>array(
-                    'fields'=>array('id', 'url', 'thumbnail', 'description', 'is_image'),
-                    'extra'=>array(
-                        'thumbnail'=>'200x130'
-                    )
+                    'id', 'url', 'thumbnail:200x130', 'description', 'is_image',
                 ),
                 'user'=>array(
-                    'fields'=>array('nickname', 'avatar')
+                    'nickname', 'avatar'
                 )
             ),
             null,

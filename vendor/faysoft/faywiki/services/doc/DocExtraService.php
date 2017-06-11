@@ -3,7 +3,7 @@ namespace cms\services\doc;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldHelper;
+use fay\helpers\FieldItem;
 use faywiki\models\tables\WikiDocExtraTable;
 
 class DocExtraService extends Service{
@@ -26,12 +26,14 @@ class DocExtraService extends Service{
      * @return array 返回包含文档meta信息的一维数组
      */
     public function get($doc_id, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem($fields ? $fields : self::$default_fields,
+            '',
+            WikiDocExtraTable::model()->getFields()
+        );
         
         return WikiDocExtraTable::model()->fetchRow(array(
             'doc_id = ?'=>$doc_id,
-        ), $fields['fields']);
+        ), $fields->getFields());
     }
     
     /**
@@ -45,19 +47,22 @@ class DocExtraService extends Service{
             return array();
         }
         
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields);
+        $fields = new FieldItem(
+            $fields ? $fields : self::$default_fields,
+            '',
+            WikiDocExtraTable::model()->getFields()
+        );
         
         //批量搜索，必须先得到doc_id
-        if(!in_array('doc_id', $fields['fields'])){
-            $fields['fields'][] = 'doc_id';
+        if(!$fields->hasField('doc_id')){
+            $fields->addFields('doc_id');
             $remove_doc_id = true;
         }else{
             $remove_doc_id = false;
         }
         $metas = WikiDocExtraTable::model()->fetchAll(array(
             'doc_id IN (?)'=>$doc_ids,
-        ), $fields['fields'], 'doc_id');
+        ), $fields->getFields(), 'doc_id');
         $return = array_fill_keys($doc_ids, array());
         foreach($metas as $m){
             $p = $m['doc_id'];
@@ -77,9 +82,6 @@ class DocExtraService extends Service{
      * @param null|string $fields 字段（doc_extra表字段）
      */
     public function assemble(&$docs, $fields = null){
-        $fields || $fields = self::$default_fields;
-        $fields = FieldHelper::parse($fields);
-        
         //获取所有文档ID
         $doc_ids = array();
         foreach($docs as $k => $p){

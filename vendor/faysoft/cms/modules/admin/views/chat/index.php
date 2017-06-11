@@ -15,7 +15,7 @@ $settings = F::form('setting')->getAllData();
     </div>
 </div>
 <div class="hide">
-    <div id="chat-dialog" class="dialog w650">
+    <div id="chat-dialog" class="dialog w650 p0">
         <div class="">
             <div class="cf cd-header">
                 <img src="<?php echo $this->assets('images/avatar.png" class="circle cd-avatar')?>" />

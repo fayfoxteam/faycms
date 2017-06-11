@@ -501,11 +501,11 @@ abstract class MultiTreeModel extends Model{
             }
             
             //父评论字段
-            if($fields->parent->{$this->field_key}){
+            if(!empty($parent_comment_fields)){
                 if($d['parent_' . $parent_comment_fields[0]] === null){
                     //为null的话意味着父节点不存在或已删除（数据库字段一律非null）
                     $comment['parent'][$this->field_key] = array();
-                }else{
+                }else if($fields->parent->{$this->field_key}){
                     foreach($fields->parent->{$this->field_key}->getFields() as $pcf){
                         $comment['parent'][$this->field_key][$pcf] = $d['parent_' . $pcf];
                     }
@@ -671,7 +671,7 @@ abstract class MultiTreeModel extends Model{
             if(!empty($fields->parent->{$this->field_key}) && in_array('*', $fields->parent->getFields())){
                 $fields->parent->{$this->field_key}->setFields(\F::table($this->model)->getFields());
             }
-            $parent_comment_fields = empty($fields->parent->{$this->field_key}) ? array() : $fields->parent->{$this->field_key};
+            $parent_comment_fields = $fields->parent->{$this->field_key} ? $fields->parent->{$this->field_key}->getFields() : array();
             if(!empty($fields->parent->user) && !in_array('user_id', $parent_comment_fields)){
                 //若需要获取父节点用户信息，但父节点评论字段未指定user_id，则插入user_id
                 $parent_comment_fields[] = 'user_id';
@@ -692,8 +692,9 @@ abstract class MultiTreeModel extends Model{
         
         if(!empty($parent_comment_fields)){
             //表自连接，字段名都是一样的，需要设置别名
+            $parent_comment_fields_alias = array();
             foreach($parent_comment_fields as $key => $f){
-                $parent_comment_fields[$key] = $f . ' AS parent_' . $f;
+                $parent_comment_fields_alias[$key] = $f . ' AS parent_' . $f;
             }
             
             $_join_conditions = array(
@@ -703,7 +704,7 @@ abstract class MultiTreeModel extends Model{
                 //开启审核，仅返回通过审核的评论
                 $_join_conditions = array_merge($_join_conditions, $join_conditions);
             }
-            $sql->joinLeft(array('t2'=>\F::table($this->model)->getTableName()), $_join_conditions, $parent_comment_fields);
+            $sql->joinLeft(array('t2'=>\F::table($this->model)->getTableName()), $_join_conditions, $parent_comment_fields_alias);
         }
         
         $listview = new ListView($sql, array(
@@ -726,7 +727,7 @@ abstract class MultiTreeModel extends Model{
         foreach($data as $k => $d){
             $comment = array();
             //评论字段
-            foreach($fields->{$this->field_key} as $cf){
+            foreach($fields->getFields() as $cf){
                 $comment[$this->field_key][$cf] = $d[$cf];
             }
             
@@ -736,12 +737,12 @@ abstract class MultiTreeModel extends Model{
             }
             
             //父评论字段
-            if(!empty($fields->parent->{$this->field_key})){
-                if($d['parent_' . $fields->parent->{$this->field_key}[0]] === null){
+            if(!empty($parent_comment_fields)){
+                if($d['parent_' . $parent_comment_fields[0]] === null){
                     //为null的话意味着父节点不存在或已删除（数据库字段一律非null）
                     $comment['parent'][$this->field_key] = array();
-                }else{
-                    foreach($fields->parent->{$this->field_key} as $pcf){
+                }else if($fields->parent->{$this->field_key}){
+                    foreach($fields->parent->{$this->field_key}->getFields() as $pcf){
                         $comment['parent'][$this->field_key][$pcf] = $d['parent_' . $pcf];
                     }
                 }

@@ -20,13 +20,13 @@ var chat = {
                     chat.showReplies(resp.data.children);
                     
                     system.getScript(system.assets('js/jquery.slimscroll.min.js'), function(){
-                        $("#chat-dialog .cd-reply-list").slimScroll({
-                            'color':'#a8d3f6',
-                            'distance':'8px',
-                            'opacity':.7,
-                            'alwaysVisible':true
+                        $('#chat-dialog').find('.cd-reply-list').slimScroll({
+                            'color': '#a8d3f6',
+                            'distance': '8px',
+                            'opacity': .7,
+                            'alwaysVisible': true,
+                            'start': 'bottom'
                         });
-                        $.fancybox.center(true);
                     });
                 }else{
                     common.alert(resp.message);
@@ -56,7 +56,7 @@ var chat = {
      * 显示回复
      */
     'showReplies':function(replies){
-        var $container = $('#chat-dialog .cd-timeline');
+        var $container = $('#chat-dialog').find('.cd-timeline');
         $.each(replies.messages, function(i, data){
             $container.append(chat.showOneReply(data));
         });
@@ -117,21 +117,17 @@ var chat = {
      * 绑定回复事件
      */
     'reply':function(){
-        system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function(){
-            system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function(){
-                $('.ci-reply-link').fancybox({
-                    'padding':0,
-                    'titleShow':false,
-                    'onStart':function(){
-                        chat.reset();
-                    },
-                    'onComplete':function(o){
-                        $('#chat-dialog').block({
-                            'zindex': 120000
-                        });
-                        chat.getChat($(o).attr('data-id'));
-                    }
-                });
+        common.loadFancybox(function(){
+            $('.ci-reply-link').fancybox({
+                'beforeLoad':function(){
+                    chat.reset();
+                },
+                'onComplete':function(instance, slide){
+                    $('#chat-dialog').block({
+                        'zindex': 120000
+                    });
+                    chat.getChat($(slide.opts.$orig).attr('data-id'));
+                }
             });
         });
     },
@@ -148,9 +144,10 @@ var chat = {
                     'dataType': 'json',
                     'cache': false,
                     'success': function(resp){
-                        $('#chat-'+resp.data.id).unblock();
+                        var $chat = $('#chat-'+resp.data.id);
+                        $chat.unblock();
                         if(resp.status){
-                            $('#chat-'+resp.data.id).fadeOut('normal', function(){
+                            $chat.fadeOut('normal', function(){
                                 $(this).remove();
                             });
                         }else{
@@ -296,8 +293,9 @@ var chat = {
                 });
             }
         }).on('click', '#chat-dialog .reply-link', function(){
-            $('#chat-dialog [name="parent"]').val($(this).attr('data-id'));
-            $('#chat-dialog [name="content"]').attr('placeholder', '回复 '+$(this).attr('data-username')).focus();
+            var $chatDialog = $('#chat-dialog');
+            $chatDialog.find('[name="parent"]').val($(this).attr('data-id'));
+            $chatDialog.find('[name="content"]').attr('placeholder', '回复 '+$(this).attr('data-username')).focus();
         }).on('submit', '#reply-form', function(){
             $('#chat-dialog').block({
                 'zindex': 120000
@@ -313,9 +311,9 @@ var chat = {
                     $chatDialog.unblock();
                     if(resp.status){
                         $chatDialog.find('[name="content"]').val('');
-                        $chatDialog.find('.cd-timeline').prepend(chat.showOneReply(resp.data));
+                        $chatDialog.find('.cd-timeline').append(chat.showOneReply(resp.data));
                         $chatDialog.find('.cd-reply-list').slimScroll({
-                            'scrollTo':'0px',
+                            'scrollTo':'10000px',
                             'animate':true
                         });
                     }else{

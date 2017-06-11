@@ -4,7 +4,6 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\MessagesTable;
 use cms\models\tables\ActionlogsTable;
-use cms\services\post\PostService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use cms\services\MessageService;
@@ -79,8 +78,6 @@ class MessageController extends AdminController{
     public function remove(){
         $id = $this->input->get('id', 'intval');
 
-        $message = MessagesTable::model()->find($id, 'to_user_id');
-        
         MessageService::service()->remove($id);
         $this->actionlog(ActionlogsTable::TYPE_MESSAGE, '将留言永久删除', $id);
         

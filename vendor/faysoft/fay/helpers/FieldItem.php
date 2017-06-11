@@ -1,5 +1,6 @@
 <?php
 namespace fay\helpers;
+
 use fay\core\ErrorException;
 
 /**
@@ -54,7 +55,7 @@ class FieldItem{
      * @param array $allow_fields
      */
     public function filter($allow_fields){
-        $current_section_fields = array();
+        $current_section_fields = array('*');//不过滤星号
         foreach($allow_fields as $section => $fields){
             if(is_int($section) && is_string($fields)){
                 //传入一维数组的话，认为是对当前section过滤

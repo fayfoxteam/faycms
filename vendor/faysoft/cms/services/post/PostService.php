@@ -557,9 +557,9 @@ class PostService extends Service{
             'post',
             self::$public_fields
         );
-        if(!$fields->getFields()){
+        if(!$fields->getFields() || $fields->hasField('*')){
             //若未指定返回字段，返回默认的字段
-            $fields->addFields(self::$default_fields['post']);
+            $fields->setFields(self::$public_fields['post']);
         }
         
         $post_fields = $fields->getFields();

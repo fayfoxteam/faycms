@@ -4,6 +4,7 @@ namespace cms\widgets\post_list\controllers;
 use cms\helpers\LinkHelper;
 use fay\helpers\ArrayHelper;
 use cms\services\post\PostService;
+use fay\helpers\FieldItem;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -37,6 +38,9 @@ class IndexController extends Widget{
         ),
         'tags'=>array(
             'id', 'title',
+        ),
+        'props'=>array(
+            '*',
         ),
     );
     
@@ -128,55 +132,34 @@ class IndexController extends Widget{
     
     /**
      * 获取$fields
-     * @return array
+     * @return FieldItem
      */
     private function getFields(){
         $fields = array(
             'post'=>$this->fields['post'],
             'extra'=>$this->fields['extra'],
         );
+
+        foreach($this->config['fields'] as $f){
+            if(isset($this->fields[$f])){
+                $fields[$f] = $this->fields[$f];
+            }
+        }
         
+        $fields = new FieldItem($fields, 'post');
+
         //文章缩略图
         if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){
-            $fields['post']['extra'] = array(
-                'thumbnail'=>(empty($this->config['post_thumbnail_width']) ? 0 : $this->config['post_thumbnail_width']) .
-                    'x' .
-                    (empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']),
-            );
+            $fields->addExtra('thumbnail', (empty($this->config['post_thumbnail_width']) ? 0 : $this->config['post_thumbnail_width']) .
+                'x' .
+                (empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']));
         }
-        //分类信息
-        if(in_array('category', $this->config['fields'])){
-            $fields['category'] = $this->fields['category'];
-        }
-        //计数器
-        if(in_array('meta', $this->config['fields'])){
-            $fields['meta'] = $this->fields['meta'];
-        }
-        //用户信息
-        if(in_array('user', $this->config['fields'])){
-            $fields['user'] = $this->fields['user'];
-        }
-        //标签
-        if(in_array('tags', $this->config['fields'])){
-            $fields['tags'] = $this->fields['tags'];
-        }
-        //附加属性
-        if(in_array('props', $this->config['fields'])){
-            $fields['props'] = array(
-                '*'
-            );
-        }
+        
         //附件缩略图
         if(in_array('files', $this->config['fields'])){
-            $file_fields = $this->fields['files'];
-            if(!empty($this->config['file_thumbnail_width']) || !empty($this->config['file_thumbnail_height'])){
-                $file_fields['extra'] = array(
-                    'thumbnail'=>(empty($this->config['file_thumbnail_width']) ? 0 : $this->config['file_thumbnail_width']) .
-                        'x' .
-                        (empty($this->config['file_thumbnail_height']) ? 0 : $this->config['file_thumbnail_height']),
-                );
-            }
-            $fields['files'] = $file_fields;
+            $fields->files->addExtra('thumbnail', (empty($this->config['file_thumbnail_width']) ? 0 : $this->config['file_thumbnail_width']) .
+                'x' .
+                (empty($this->config['file_thumbnail_height']) ? 0 : $this->config['file_thumbnail_height']));
         }
         
         return $fields;

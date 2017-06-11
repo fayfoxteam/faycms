@@ -152,6 +152,15 @@ class FieldItem{
     }
 
     /**
+     * 新增一个扩展信息（若$key已存在，会被覆盖）
+     * @param string $key
+     * @param string $value
+     */
+    public function addExtra($key, $value){
+        $this->_extra[$key] = $value;
+    }
+
+    /**
      * 移除一个字段
      * @param string $field
      */

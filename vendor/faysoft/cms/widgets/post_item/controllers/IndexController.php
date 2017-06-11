@@ -1,6 +1,7 @@
 <?php
 namespace cms\widgets\post_item\controllers;
 
+use fay\helpers\FieldItem;
 use fay\widget\Widget;
 use cms\services\post\PostService;
 use fay\core\HttpException;
@@ -56,7 +57,25 @@ class IndexController extends Widget{
             'extra'=>$this->fields['extra'],
         );
         foreach($this->config['fields'] as $f){
-            $fields[$f] = $this->fields[$f];
+            if(isset($this->fields[$f])){
+                $fields[$f] = $this->fields[$f];
+            }
+        }
+        
+        $fields = new FieldItem($fields, 'post');
+        
+        //文章缩略图
+        if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){
+            $fields->addExtra('thumbnail', (empty($this->config['post_thumbnail_width']) ? 0 : $this->config['post_thumbnail_width']) .
+                'x' .
+                (empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']));
+        }
+
+        //附件缩略图
+        if(in_array('files', $this->config['fields'])){
+            $fields->files->addExtra('thumbnail', (empty($this->config['file_thumbnail_width']) ? 0 : $this->config['file_thumbnail_width']) .
+                'x' .
+                (empty($this->config['file_thumbnail_height']) ? 0 : $this->config['file_thumbnail_height']));
         }
         
         //文章缩略图

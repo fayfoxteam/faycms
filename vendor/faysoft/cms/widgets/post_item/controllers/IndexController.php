@@ -78,25 +78,6 @@ class IndexController extends Widget{
                 (empty($this->config['file_thumbnail_height']) ? 0 : $this->config['file_thumbnail_height']));
         }
         
-        //文章缩略图
-        if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){
-            $fields['post']['extra'] = array(
-                'thumbnail'=>(empty($this->config['post_thumbnail_width']) ? 0 : $this->config['post_thumbnail_width']) .
-                    'x' .
-                    (empty($this->config['post_thumbnail_height']) ? 0 : $this->config['post_thumbnail_height']),
-            );
-        }
-        
-        //附件缩略图
-        if(in_array('files', $this->config['fields']) &&
-            (!empty($this->config['file_thumbnail_width']) || !empty($this->config['file_thumbnail_height']))){
-            $fields['files']['extra'] = array(
-                'thumbnail'=>(empty($this->config['file_thumbnail_width']) ? 0 : $this->config['file_thumbnail_width']) .
-                    'x' .
-                    (empty($this->config['file_thumbnail_height']) ? 0 : $this->config['file_thumbnail_height']),
-            );
-        }
-        
         if(!empty($this->config['id_key']) && $this->input->get($this->config['id_key'])){
             //有设置ID字段名，且传入ID字段
             $post = PostService::service()->get(

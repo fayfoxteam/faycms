@@ -92,7 +92,7 @@ class PostLikeController extends ApiController{
      * @parameter int $page 页码
      * @parameter int $page_size 分页大小
      */
-    public function postLikes(){
+    public function listAction(){
         //验证必须get方式发起请求
         $this->checkMethod('GET');
         

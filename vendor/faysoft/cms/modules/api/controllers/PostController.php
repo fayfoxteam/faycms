@@ -60,8 +60,8 @@ class PostController extends ApiController{
         );
         
         //post字段若未指定，需要默认下
-        if(empty($fields['post'])){
-            $fields['post'] = $this->default_fields['post'];
+        if(!$fields->getFields()){
+            $fields->setFields($this->default_fields['post']);
         }
         
         $post = PostService::service()->get($id, $fields, $cat);

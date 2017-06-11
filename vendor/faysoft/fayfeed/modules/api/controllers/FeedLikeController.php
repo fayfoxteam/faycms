@@ -92,7 +92,7 @@ class FeedLikeController extends ApiController{
      * @parameter int $page 页码
      * @parameter int $page_size 分页大小
      */
-    public function feedLikes(){
+    public function listAction(){
         //表单验证
         $this->form()->setRules(array(
             array(array('feed_id', 'page', 'page_size'), 'int', array('min'=>1)),

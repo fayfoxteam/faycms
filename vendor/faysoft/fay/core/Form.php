@@ -162,7 +162,7 @@ class Form{
         if($this->_data === null){
             $this->setData(Input::getInstance()->request());
         }
-        if(isset($this->_data[$key])){
+        if(isset($this->_data[$key]) && $this->_data[$key] !== ''){
             if($filter && isset($this->_filters[$key])){
                 return \F::filter($this->_filters[$key], $this->_data[$key]);
             }else{

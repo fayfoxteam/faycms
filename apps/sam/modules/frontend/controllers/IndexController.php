@@ -90,7 +90,7 @@ class IndexController extends Controller{
             //时间
             ->write(date('Y-m-d', strtotime($start_time)) . ' ~ ' . date('Y-m-d', strtotime($end_time)), 10, $color, array(280, 0, 0, 951))
             //店名
-            ->write($store_name, 16.5, '#ffffff', array(20, 995, 0, 250), 'assets/fonts/msyh.ttf', array('left', 'top'), 1, 1)
+            ->write($store_name, 16.5, '#ffffff', array(20, 995, 0, 250), 'assets/fonts/msyh.ttf', array('right', 'top'), 1, 1)
             
             //来源
             ->write($source[0], $font_size, $color, array($offset_y + 51, 0, 0, $offset_x - 143))

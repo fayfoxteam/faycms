@@ -8,6 +8,7 @@ use fay\core\Loader;
  * Apidoc apis table model
  * 
  * @property int $id Id
+ * @property int $app_id App ID
  * @property string $title 标题
  * @property string $router 路由
  * @property string $description 描述
@@ -70,7 +71,7 @@ class ApisTable extends Table{
         return array(
             array(array('user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
-            array(array('id'), 'int', array('min'=>0, 'max'=>65535)),
+            array(array('id', 'app_id'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('title'), 'string', array('max'=>255)),
             array(array('router'), 'string', array('max'=>100)),
             array(array('since'), 'string', array('max'=>30)),
@@ -89,6 +90,7 @@ class ApisTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
+            'app_id'=>'App ID',
             'title'=>'标题',
             'router'=>'路由',
             'description'=>'描述',
@@ -107,6 +109,7 @@ class ApisTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
+            'app_id'=>'intval',
             'title'=>'trim',
             'router'=>'trim',
             'description'=>'',

@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_apis`;
 CREATE TABLE `{{$prefix}}apidoc_apis` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `app_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT 'App ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `router` varchar(100) NOT NULL DEFAULT '' COMMENT '路由',
   `description` text NOT NULL COMMENT '描述',
@@ -14,8 +15,8 @@ CREATE TABLE `{{$prefix}}apidoc_apis` (
   `since` varchar(30) NOT NULL DEFAULT '' COMMENT '自从',
   `sample_response` text NOT NULL COMMENT '响应示例',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `router` (`router`)
-) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET={{$charset}} COMMENT='接口';
+  UNIQUE KEY `api_id-router` (`app_id`,`router`)
+) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口';
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_inputs`;
 CREATE TABLE `{{$prefix}}apidoc_inputs` (
@@ -103,14 +104,6 @@ CREATE TABLE `{{$prefix}}apidoc_apps` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='api应用信息';
-
-DROP TABLE IF EXISTS `{{$prefix}}apidoc_apps_apis`;
-CREATE TABLE `{{$prefix}}apidoc_apps_apis` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'App Id',
-  `api_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'Api Id',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='应用-接口关联关系';
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_common_inputs`;
 CREATE TABLE `{{$prefix}}apidoc_common_inputs` (

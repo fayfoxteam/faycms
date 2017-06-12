@@ -45,15 +45,6 @@ class IndexController extends Widget{
         ),
     );
     
-    /**
-     * 排序方式
-     */
-    private $order_map = array(
-        'hand'=>'is_top DESC, sort DESC, publish_time DESC',
-        'publish_time'=>'publish_time DESC',
-        'views'=>'views DESC, publish_time DESC',
-    );
-    
     public function initConfig($config){
         empty($config['tag_title_key']) && $config['tag_title_key'] = 'tag_title';
         empty($config['tag_id_key']) && $config['tag_id_key'] = 'tag_id';
@@ -127,10 +118,10 @@ class IndexController extends Widget{
      * @return string
      */
     private function getOrder(){
-        if(!empty($this->config['order']) && isset($this->order_map[$this->config['order']])){
-            return $this->order_map[$this->config['order']];
+        if(!empty($this->config['order']) && isset(PostService::$sort_by[$this->config['order']])){
+            return PostService::$sort_by[$this->config['order']];
         }else{
-            return $this->order_map['hand'];
+            return PostService::$sort_by['hand'];
         }
     }
     

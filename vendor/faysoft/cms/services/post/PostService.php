@@ -106,6 +106,12 @@ class PostService extends Service{
             'id', 'nickname', 'avatar',
         )
     );
+    
+    public static $sort_by = array(
+        'hand'=>'is_top DESC, sort DESC, publish_time DESC',
+        'publish_time'=>'publish_time DESC',
+        'views'=>'views DESC, publish_time DESC',
+    );
 
     /**
      * @return $this

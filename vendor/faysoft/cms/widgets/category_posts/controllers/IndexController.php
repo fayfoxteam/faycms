@@ -2,6 +2,7 @@
 namespace cms\widgets\category_posts\controllers;
 
 use cms\helpers\LinkHelper;
+use cms\services\post\PostService;
 use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
 use cms\services\CategoryService;
@@ -37,15 +38,6 @@ class IndexController extends Widget{
         'props'=>array(
             '*',
         ),
-    );
-    
-    /**
-     * 排序方式
-     */
-    private $order_map = array(
-        'hand'=>'is_top DESC, sort DESC, publish_time DESC',
-        'publish_time'=>'publish_time DESC',
-        'views'=>'views DESC, publish_time DESC',
     );
     
     public function getData(){
@@ -136,10 +128,10 @@ class IndexController extends Widget{
      * @return string
      */
     private function getOrder(){
-        if(!empty($this->config['order']) && isset($this->order_map[$this->config['order']])){
-            return $this->order_map[$this->config['order']];
+        if(!empty($this->config['order']) && isset(PostService::$sort_by[$this->config['order']])){
+            return PostService::$sort_by[$this->config['order']];
         }else{
-            return $this->order_map['hand'];
+            return PostService::$sort_by['hand'];
         }
     }
     

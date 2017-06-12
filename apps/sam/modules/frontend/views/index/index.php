@@ -68,6 +68,21 @@ use fay\helpers\HtmlHelper;
                         <td><label><input type="checkbox" name="watermark" value="1" checked="checked">是</label></td>
                     </tr>
                     <tr>
+                        <th>来源</th>
+                        <td>
+                            <?php
+                                $i=0;
+                                foreach(explode('、', '手淘搜索、淘内免费其他、手淘问大家、手淘首页、手淘旺信、手淘微淘、手淘必买清单、手淘每日新品、手淘每日好店、手淘有好货、手淘我的评价') as $source){
+                                    $i++;
+                                    if($i == 7){
+                                        echo '<br>';
+                                    }
+                            ?>
+                            <label><input type="checkbox" name="source[]" value="<?php echo HtmlHelper::encode($source)?>" ><?php echo HtmlHelper::encode($source)?></label>
+                            <?php }?>
+                        </td>
+                    </tr>
+                    <tr>
                         <th colspan="2">
                             <input type="submit" value="预览">
                             <input type="button" value="下载" id="download-btn">

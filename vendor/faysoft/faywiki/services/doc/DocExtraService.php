@@ -3,7 +3,7 @@ namespace cms\services\doc;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use faywiki\models\tables\WikiDocExtraTable;
 
 class DocExtraService extends Service{
@@ -26,7 +26,7 @@ class DocExtraService extends Service{
      * @return array 返回包含文档meta信息的一维数组
      */
     public function get($doc_id, $fields = null){
-        $fields = new FieldItem($fields ? $fields : self::$default_fields,
+        $fields = new FieldsHelper($fields ? $fields : self::$default_fields,
             '',
             WikiDocExtraTable::model()->getFields()
         );
@@ -47,7 +47,7 @@ class DocExtraService extends Service{
             return array();
         }
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             WikiDocExtraTable::model()->getFields()

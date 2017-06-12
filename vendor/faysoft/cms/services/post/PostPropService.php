@@ -15,7 +15,7 @@ use fay\core\db\Table;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 class PostPropService extends Service implements PropUsageInterface{
     /**
@@ -125,7 +125,7 @@ class PostPropService extends Service implements PropUsageInterface{
      * @param null|string $fields 属性列表
      */
     public function assemble(&$posts, $fields = '*'){
-        $fields = new FieldItem($fields, 'props');
+        $fields = new FieldsHelper($fields, 'props');
         if($fields->hasField('*') || !$fields->getFields()){
             $props = null;
         }else{

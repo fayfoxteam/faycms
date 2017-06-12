@@ -4,7 +4,7 @@ namespace faywiki\modules\api\controllers;
 use cms\library\ApiController;
 use fay\core\Response;
 use cms\services\user\UserService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use faywiki\services\doc\DocLikeService;
 use faywiki\services\doc\DocService;
 
@@ -121,7 +121,7 @@ class DocLikeController extends ApiController{
             ));
         }
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', UserService::$default_fields),
             'user',
             UserService::$public_fields
@@ -163,7 +163,7 @@ class DocLikeController extends ApiController{
             'fields'=>'字段',
         ))->check();
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', DocService::$default_fields),
             'doc',
             DocService::$public_fields

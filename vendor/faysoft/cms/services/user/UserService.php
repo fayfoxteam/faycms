@@ -5,7 +5,7 @@ use cms\models\tables\PropsTable;
 use cms\services\prop\PropService;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\NumberHelper;
 use fay\helpers\RequestHelper;
 use fay\core\db\Expr;
@@ -325,7 +325,7 @@ class UserService extends Service{
      */
     public function get($id, $fields = 'username,nickname,id,avatar'){
         //解析$fields
-        $fields = new FieldItem($fields, 'user');
+        $fields = new FieldsHelper($fields, 'user');
         if(!$fields->getFields()){
             //若未指定返回字段，初始化
             $fields->addFields('id,username,nickname,avatar');
@@ -418,7 +418,7 @@ class UserService extends Service{
         is_array($ids) || $ids = explode(',', $ids);
         
         //解析$fields
-        $fields = new FieldItem($fields, 'user');
+        $fields = new FieldsHelper($fields, 'user');
         if(!$fields->getFields()){
             //若未指定返回字段，初始化
             $fields->setFields('id,nickname,avatar');

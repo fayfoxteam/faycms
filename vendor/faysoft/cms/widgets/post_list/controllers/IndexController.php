@@ -4,7 +4,7 @@ namespace cms\widgets\post_list\controllers;
 use cms\helpers\LinkHelper;
 use fay\helpers\ArrayHelper;
 use cms\services\post\PostService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -132,7 +132,7 @@ class IndexController extends Widget{
     
     /**
      * 获取$fields
-     * @return FieldItem
+     * @return FieldsHelper
      */
     private function getFields(){
         $fields = array(
@@ -146,7 +146,7 @@ class IndexController extends Widget{
             }
         }
         
-        $fields = new FieldItem($fields, 'post');
+        $fields = new FieldsHelper($fields, 'post');
 
         //文章缩略图
         if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){

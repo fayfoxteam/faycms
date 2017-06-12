@@ -5,7 +5,7 @@ use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fayfeed\models\tables\FeedsTable;
 use fayfeed\models\tables\FeedsFilesTable;
 use cms\models\tables\UserCounterTable;
@@ -415,7 +415,7 @@ class FeedService extends Service{
      */
     public function get($id, $fields = null, $only_published = true){
         //解析$fields
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             'feed',
             self::$public_fields
@@ -494,7 +494,7 @@ class FeedService extends Service{
             return array();
         }
         //解析$fields
-        $fields = new FieldItem($fields, 'feed', self::$public_fields);
+        $fields = new FieldsHelper($fields, 'feed', self::$public_fields);
         if(!$fields->getFields()){
             //若未指定返回字段，返回默认的字段
             $fields->setFields(self::$default_fields['post']);

@@ -2,7 +2,7 @@
 namespace cms\services\post;
 
 use fay\core\Loader;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\models\MultiTreeModel;
 use cms\models\tables\PostCommentsTable;
 use fay\core\Exception;
@@ -495,7 +495,7 @@ class PostCommentService extends MultiTreeModel{
             ),
         )
     )){
-        $fields = new FieldItem($fields, 'comment');
+        $fields = new FieldsHelper($fields, 'comment');
         if(!$fields->getFields() || $fields->hasField('*')){
             //若未指定返回字段，初始化
             $fields->setFields(\F::table($this->model)->getFields(array('status', 'delete_time', 'sockpuppet')));

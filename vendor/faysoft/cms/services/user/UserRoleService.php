@@ -7,7 +7,7 @@ use fay\core\Sql;
 use cms\models\tables\RolesTable;
 use cms\models\tables\UsersRolesTable;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 class UserRoleService extends Service{
     /**
@@ -33,7 +33,7 @@ class UserRoleService extends Service{
         $fields || $fields = self::$default_fields;
         
         //格式化fields
-        $fields = new FieldItem($fields, 'roles');
+        $fields = new FieldsHelper($fields, 'roles');
         
         $sql = new Sql();
         return $sql->from(array('ur'=>'users_roles'), '')
@@ -54,7 +54,7 @@ class UserRoleService extends Service{
         $fields || $fields = self::$default_fields;
         
         //格式化fields
-        $fields = new FieldItem($fields, 'roles');
+        $fields = new FieldsHelper($fields, 'roles');
         
         $sql = new Sql();
         $roles = $sql->from(array('ur'=>'users_roles'), 'user_id')

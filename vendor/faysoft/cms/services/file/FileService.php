@@ -4,7 +4,7 @@ namespace cms\services\file;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\LocalFileHelper;
 use fay\helpers\UrlHelper;
 use cms\models\tables\FilesTable;
@@ -653,7 +653,7 @@ class FileService extends Service{
      */
     public static function get($file, $options = array(), $fields = 'id,url,thumbnail'){
         //解析fields
-        $fields = new FieldItem($fields, 'file');
+        $fields = new FieldsHelper($fields, 'file');
         
         if(!is_array($file) && ($file <= 0 ||
             !$file = FilesTable::model()->find($file))

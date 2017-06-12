@@ -5,7 +5,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
 use cms\models\tables\PostsTable;
 use cms\models\tables\TagCounterTable;
@@ -53,7 +53,7 @@ class PostTagService extends Service{
      * @return array 返回以文章ID为key的三维数组
      */
     public function mget($post_ids, $fields = null){
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             TagsTable::model()->getFields()

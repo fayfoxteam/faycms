@@ -2,7 +2,7 @@
 namespace cms\widgets\category_posts\controllers;
 
 use cms\helpers\LinkHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
 use cms\services\CategoryService;
 use fay\helpers\DateHelper;
@@ -145,7 +145,7 @@ class IndexController extends Widget{
     
     /**
      * 获取$fields
-     * @return FieldItem
+     * @return FieldsHelper
      */
     private function getFields(){
         $fields = array(
@@ -159,7 +159,7 @@ class IndexController extends Widget{
             }
         }
 
-        $fields = new FieldItem($fields, 'post');
+        $fields = new FieldsHelper($fields, 'post');
         
         //文章缩略图
         if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){

@@ -7,7 +7,7 @@ use fay\core\Response;
 use cms\models\tables\PostsTable;
 use fay\core\HttpException;
 use cms\services\user\UserService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 /**
  * 用户留言
@@ -277,7 +277,7 @@ class MessageController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'message',
             $this->allowed_fields
@@ -333,7 +333,7 @@ class MessageController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'message',
             $this->allowed_fields
@@ -378,7 +378,7 @@ class MessageController extends ApiController{
             'fields'=>'字段',
         ))->check();
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'message',
             $this->allowed_fields
@@ -407,7 +407,7 @@ class MessageController extends ApiController{
         ))->check();
         
         $id = $this->form()->getData('id');
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'message',
             $this->allowed_fields

@@ -4,7 +4,7 @@ namespace cms\services\tag;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\TagCounterTable;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 class TagCounterService extends Service{
     /**
@@ -59,7 +59,7 @@ class TagCounterService extends Service{
      * @return array 返回包含标签profile信息的二维数组
      */
     public function get($tag_id, $fields = null){
-        $fields = new FieldItem($fields ? $fields : self::$default_fields, 'tag_counter');
+        $fields = new FieldsHelper($fields ? $fields : self::$default_fields, 'tag_counter');
         
         return TagCounterTable::model()->fetchRow(array(
             'tag_id = ?'=>$tag_id,
@@ -74,7 +74,7 @@ class TagCounterService extends Service{
      */
     public function mget($tag_ids, $fields = null){
         //格式化fields
-        $fields = new FieldItem($fields ? $fields : self::$default_fields, 'tag_counter');
+        $fields = new FieldsHelper($fields ? $fields : self::$default_fields, 'tag_counter');
         
         if(!$fields->hasField('tag_id')){
             $fields->addFields('tag_id');

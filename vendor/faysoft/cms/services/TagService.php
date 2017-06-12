@@ -9,7 +9,7 @@ use cms\models\tables\TagCounterTable;
 use fay\core\Sql;
 use fay\common\ListView;
 use cms\services\tag\TagCounterService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 /**
  * 标签服务
@@ -75,7 +75,7 @@ class TagService extends Service{
         is_array($ids) || $ids = explode(',', $ids);
         
         //解析$fields
-        $fields = new FieldItem($fields, 'tag', array(
+        $fields = new FieldsHelper($fields, 'tag', array(
             'tag'=>TagsTable::model()->getFields(),
             'counter'=>TagCounterTable::model()->getFields(),
         ));

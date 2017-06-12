@@ -3,7 +3,7 @@ namespace faywiki\modules\api\controllers;
 
 use cms\library\UserController;
 use fay\core\Response;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use faywiki\services\doc\DocFavoriteService;
 use faywiki\services\doc\DocService;
 
@@ -102,7 +102,7 @@ class DocFavoriteController extends UserController{
             'fields'=>'字段',
         ))->check();
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', DocService::$default_fields),
             'doc',
             DocService::$public_fields

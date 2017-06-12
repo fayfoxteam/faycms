@@ -6,7 +6,7 @@ use fay\core\ErrorException;
 /**
  * Field项
  */
-class FieldItem{
+class FieldsHelper{
     /**
      * @var string
      */
@@ -23,7 +23,7 @@ class FieldItem{
     private $_extra = array();
 
     /**
-     * @var array 其他平级字段集合（键值数组，值为FieldItem实例）
+     * @var array 其他平级字段集合（键值数组，值为FieldsHelper实例）
      */
     private $siblings = array();
     
@@ -233,7 +233,7 @@ class FieldItem{
     /**
      * 以对象的方式访问
      * @param $name
-     * @return FieldItem
+     * @return FieldsHelper
      */
     public function __get($name){
         if(isset($this->siblings[$name])){

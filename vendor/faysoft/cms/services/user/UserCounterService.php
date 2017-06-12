@@ -4,7 +4,7 @@ namespace cms\services\user;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\UserCounterTable;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 class UserCounterService extends Service{
     /**
@@ -59,7 +59,7 @@ class UserCounterService extends Service{
      * @return array 返回包含用户profile信息的二维数组
      */
     public function get($user_id, $fields = null){
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             UserCounterTable::model()->getFields()
@@ -77,7 +77,7 @@ class UserCounterService extends Service{
      * @return array 返回以用户ID为key的三维数组
      */
     public function mget($user_ids, $fields = null){
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             UserCounterTable::model()->getFields()

@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\post_item\controllers;
 
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
 use cms\services\post\PostService;
 use fay\core\HttpException;
@@ -62,7 +62,7 @@ class IndexController extends Widget{
             }
         }
         
-        $fields = new FieldItem($fields, 'post');
+        $fields = new FieldsHelper($fields, 'post');
         
         //文章缩略图
         if(!empty($this->config['post_thumbnail_width']) || !empty($this->config['post_thumbnail_height'])){

@@ -5,7 +5,7 @@ use cms\library\UserController;
 use cms\services\post\PostFavoriteService;
 use fay\core\Response;
 use cms\services\post\PostService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 /**
  * 文章收藏
@@ -102,7 +102,7 @@ class PostFavoriteController extends UserController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', PostService::$default_fields),
             'doc',
             PostService::$public_fields

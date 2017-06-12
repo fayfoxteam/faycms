@@ -4,7 +4,7 @@ namespace cms\services\post;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\PostExtraTable;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 class PostExtraService extends Service{
     /**
@@ -26,7 +26,7 @@ class PostExtraService extends Service{
      * @return array 返回包含文章meta信息的一维数组
      */
     public function get($post_id, $fields = null){
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             PostExtraTable::model()->getFields()
@@ -48,7 +48,7 @@ class PostExtraService extends Service{
             return array();
         }
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             PostExtraTable::model()->getFields()

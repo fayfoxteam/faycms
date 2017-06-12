@@ -4,7 +4,7 @@ namespace cms\services;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use cms\models\tables\CategoriesTable;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\ArrayHelper;
 use fay\models\TreeModel;
@@ -47,7 +47,7 @@ class CategoryService extends TreeModel{
      * @return array|bool
      */
     public function getByAlias($alias, $fields = '*', $root = null){
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         if($root !== null && !is_array($root)){
             if(StringHelper::isInt($root)){
@@ -78,7 +78,7 @@ class CategoryService extends TreeModel{
      * @return array|bool
      */
     public function getById($id, $fields = '*', $root = null){
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         if($root !== null && !is_array($root)){
             if(StringHelper::isInt($root)){
@@ -113,7 +113,7 @@ class CategoryService extends TreeModel{
             $ids = explode(',', $ids);
         }
         
-        $fields = new FieldItem($fields, 'category');
+        $fields = new FieldsHelper($fields, 'category');
         
         $table_fields = CategoriesTable::model()->formatFields($fields->getFields());
         $remove_id = false;//最受是否删除id字段
@@ -289,7 +289,7 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevel($parent, $fields = '*', $order = 'sort, id'){
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         if(StringHelper::isInt($parent)){
             return $this->getNextLevelByParentId($parent, $fields->getFields(), $order);
@@ -306,7 +306,7 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevelByParentAlias($alias, $fields = '*', $order = 'sort, id'){
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         $node = $this->getByAlias($alias, 'id');
         if($node){
@@ -326,7 +326,7 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevelByParentId($id, $fields = '*', $order = 'sort, id'){
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         return CategoriesTable::model()->fetchAll(array(
             'parent = ?'=>$id,
@@ -346,7 +346,7 @@ class CategoryService extends TreeModel{
      * @return array|bool
      */
     public function get($cat, $fields = '*', $root = null){
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         if($root !== null && !is_array($root)){
             if(StringHelper::isInt($root)){
@@ -542,7 +542,7 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getSibling($cat, $fields = '*', $order = 'sort, id'){
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
     
         if(StringHelper::isInt($cat)){
             return $this->getSiblingById($cat, $fields->getFields(), $order);
@@ -614,7 +614,7 @@ class CategoryService extends TreeModel{
             return array();
         }
         
-        $fields = new FieldItem($fields, 'category', CategoriesTable::model()->getFields());
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         return CategoriesTable::model()->fetchAll(array(
             'parent = ?'=>$parent_id,

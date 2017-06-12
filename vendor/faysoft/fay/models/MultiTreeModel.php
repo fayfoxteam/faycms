@@ -8,7 +8,7 @@ use fay\helpers\ArrayHelper;
 use fay\core\Sql;
 use fay\common\ListView;
 use cms\services\user\UserService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 /**
  * 基于左右值的多树操作
@@ -294,7 +294,7 @@ abstract class MultiTreeModel extends Model{
      */
     protected function _getTree($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'root DESC, left_value ASC'){
         //解析$fields
-        $fields = new FieldItem($fields, $this->field_key);
+        $fields = new FieldsHelper($fields, $this->field_key);
         if(!$fields->getFields() || $fields->hasField('*')){
             $fields->setFields(\F::table($this->model)->getFields());
         }
@@ -367,7 +367,7 @@ abstract class MultiTreeModel extends Model{
      * 根据parent字段渲染出一个多维数组
      * （因为$nodes不会包含软删除数据，所以利用left_value和right_value是构造不出tree的，不连续）
      * @param array $nodes
-     * @param FieldItem $fields
+     * @param FieldsHelper $fields
      * @param int $parent
      * @param array $extra
      * @return array
@@ -416,7 +416,7 @@ abstract class MultiTreeModel extends Model{
      */
     protected function _getList($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array()){
         //解析$fields
-        $fields = new FieldItem($fields, $this->field_key);
+        $fields = new FieldsHelper($fields, $this->field_key);
         if(!$fields->getFields() || $fields->hasField('*')){
             $fields->setFields(\F::table($this->model)->getFields());
         }
@@ -538,7 +538,7 @@ abstract class MultiTreeModel extends Model{
      */
     protected function _getChats($value, $count = 10, $page = 1, $fields = '*', $conditions = array(), $order = 'id DESC'){
         //解析$fields
-        $fields = new FieldItem($fields, $this->field_key);
+        $fields = new FieldsHelper($fields, $this->field_key);
         if(!$fields->getFields() || $fields->hasField('*')){
             $fields->setFields(\F::table($this->model)->getFields());
         }
@@ -656,7 +656,7 @@ abstract class MultiTreeModel extends Model{
         }
         
         //解析$fields
-        $fields = new FieldItem($fields, $this->field_key);
+        $fields = new FieldsHelper($fields, $this->field_key);
         if(empty($fields->{$this->field_key}) || in_array('*', $fields->getFields())){
             $fields->setFields(\F::table($this->model)->getFields());
         }

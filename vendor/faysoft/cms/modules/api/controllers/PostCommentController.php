@@ -7,7 +7,7 @@ use fay\core\Response;
 use cms\models\tables\PostsTable;
 use fay\core\HttpException;
 use cms\services\post\PostService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 /**
  * 文章评论
@@ -102,7 +102,7 @@ class PostCommentController extends ApiController{
         
         if($fields){
             //过滤字段，移除那些不允许的字段
-            $fields = new FieldItem($fields, 'comment', $this->allowed_fields);
+            $fields = new FieldsHelper($fields, 'comment', $this->allowed_fields);
             
             $comment = PostCommentService::service()->get($comment_id, $fields);
             
@@ -290,7 +290,7 @@ class PostCommentController extends ApiController{
             'fields'=>'字段',
         ))->check();
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'comment',
             $this->allowed_fields
@@ -349,7 +349,7 @@ class PostCommentController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'comment',
             $this->allowed_fields
@@ -397,7 +397,7 @@ class PostCommentController extends ApiController{
             'fields'=>'字段',
         ))->check();
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'comment',
             $this->allowed_fields
@@ -429,7 +429,7 @@ class PostCommentController extends ApiController{
         ))->check();
         
         $id = $this->form()->getData('id');
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'comment',
             $this->allowed_fields

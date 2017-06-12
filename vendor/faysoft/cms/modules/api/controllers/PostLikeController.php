@@ -6,7 +6,7 @@ use fay\core\Response;
 use cms\services\post\PostLikeService;
 use cms\services\post\PostService;
 use cms\services\user\UserService;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 /**
  * 文章点赞
@@ -121,7 +121,7 @@ class PostLikeController extends ApiController{
             ));
         }
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', UserService::$default_fields),
             'user',
             UserService::$public_fields
@@ -163,7 +163,7 @@ class PostLikeController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', PostService::$default_fields),
             'doc',
             PostService::$public_fields

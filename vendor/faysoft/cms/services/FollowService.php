@@ -6,7 +6,7 @@ use fay\core\Service;
 use fay\core\Exception;
 use cms\models\tables\FollowsTable;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\RequestHelper;
 use fay\core\Sql;
 use fay\common\ListView;
@@ -204,7 +204,7 @@ class FollowService extends Service{
      */
     public static function follows($user_id = null, $fields = 'relation,user.id,user.nickname,user.avatar', $page = 1, $page_size = 20){
         $user_id || $user_id = \F::app()->current_user;
-        $fields = new FieldItem($fields, 'follows');
+        $fields = new FieldsHelper($fields, 'follows');
         
         $follows_fields = $fields->getFields();
         if($fields->user && !in_array('user_id', $follows_fields)){
@@ -258,7 +258,7 @@ class FollowService extends Service{
      */
     public static function fans($user_id = null, $fields = 'follows.relation,user.id,user.nickname,user.avatar', $page = 1, $page_size = 20){
         $user_id || $user_id = \F::app()->current_user;
-        $fields = new FieldItem($fields, 'follows');
+        $fields = new FieldsHelper($fields, 'follows');
         
         $follows_fields = $fields->getFields();
         if($fields->user && !in_array('fans_id', $follows_fields)){

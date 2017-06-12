@@ -2,7 +2,7 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\UserController;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fayfeed\services\FeedFavoriteService;
 use fay\core\Response;
 use fayfeed\services\FeedService;
@@ -99,7 +99,7 @@ class FeedFavoriteController extends UserController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', FeedService::$default_fields),
             'doc',
             FeedService::$public_fields

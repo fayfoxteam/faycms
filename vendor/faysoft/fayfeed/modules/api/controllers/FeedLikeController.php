@@ -3,7 +3,7 @@ namespace fayfeed\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\Response;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fayfeed\services\FeedLikeService;
 use fayfeed\services\FeedService;
 use cms\services\user\UserService;
@@ -118,7 +118,7 @@ class FeedLikeController extends ApiController{
             ));
         }
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', UserService::$default_fields),
             'user',
             UserService::$public_fields
@@ -157,7 +157,7 @@ class FeedLikeController extends ApiController{
             'fields'=>'字段',
         ))->check();
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', FeedService::$default_fields),
             'doc',
             FeedService::$public_fields

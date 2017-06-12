@@ -8,7 +8,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
 use cms\models\tables\PostsTable;
 use cms\models\tables\PostsCategoriesTable;
@@ -552,7 +552,7 @@ class PostService extends Service{
      */
     public function get($id, $fields = null, $cat = null, $only_published = true){
         //解析$fields
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             'post',
             self::$public_fields
@@ -742,7 +742,7 @@ class PostService extends Service{
         //根据文章ID获取当前文章
         $post = PostsTable::model()->find($post_id, 'id,cat_id,publish_time,sort');
         //解析字段
-        $fields = new FieldItem($fields, 'post', PostService::$public_fields);
+        $fields = new FieldsHelper($fields, 'post', PostService::$public_fields);
         
         $post_fields = $fields->getFields();
         if(!in_array('sort', $post_fields)){
@@ -797,7 +797,7 @@ class PostService extends Service{
         //根据文章ID获取当前文章
         $post = PostsTable::model()->find($post_id, 'id,cat_id,publish_time,sort');
         //解析字段
-        $fields = new FieldItem($fields, 'post', PostService::$public_fields);
+        $fields = new FieldsHelper($fields, 'post', PostService::$public_fields);
         
         $post_fields = $fields->getFields();
         if(!in_array('sort', $post_fields)){
@@ -1099,7 +1099,7 @@ class PostService extends Service{
             return array();
         }
         //解析$fields
-        $fields = new FieldItem($fields, 'post', self::$public_fields);
+        $fields = new FieldsHelper($fields, 'post', self::$public_fields);
         if(!$fields->getFields()){
             //若未指定返回字段，返回默认的字段
             $fields->setFields(self::$default_fields['post']);

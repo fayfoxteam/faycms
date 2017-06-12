@@ -5,7 +5,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
 use cms\models\tables\CategoriesTable;
 use cms\models\tables\PostsTable;
@@ -41,7 +41,7 @@ class PostCategoryService extends Service{
      * @return array 返回包含分类信息的二维数组
      */
     public function get($post_id, $fields = null){
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             CategoriesTable::model()->getFields()
@@ -61,7 +61,7 @@ class PostCategoryService extends Service{
      * @return array 返回以文章ID为key的三维数组
      */
     public function mget($post_ids, $fields = null){
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
             CategoriesTable::model()->getFields()

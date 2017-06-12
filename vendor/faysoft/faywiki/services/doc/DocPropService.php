@@ -8,7 +8,7 @@ use cms\services\prop\PropUsageInterface;
 use fay\core\db\Table;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use faywiki\models\tables\PropsTable;
 use faywiki\models\tables\WikiDocPropIntTable;
 use faywiki\models\tables\WikiDocPropTextTable;
@@ -124,7 +124,7 @@ class DocPropService extends Service implements PropUsageInterface{
      * @param null|string $fields 属性列表
      */
     public function assemble(&$docs, $fields = null){
-        $fields = new FieldItem($fields, 'props');
+        $fields = new FieldsHelper($fields, 'props');
         if($fields->hasField('*') || !$fields->getFields()){
             $props = null;
         }else{

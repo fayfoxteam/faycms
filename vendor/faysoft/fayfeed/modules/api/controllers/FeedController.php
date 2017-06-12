@@ -2,7 +2,7 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fayfeed\services\FeedService;
 use fayfeed\models\tables\FeedsTable;
 use fay\core\Response;
@@ -108,7 +108,7 @@ class FeedController extends ApiController{
         
         $feed_id = $this->form()->getData('feed_id');
 
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'feed',
             FeedService::$public_fields

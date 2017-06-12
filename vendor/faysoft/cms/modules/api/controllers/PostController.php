@@ -5,7 +5,7 @@ use cms\library\ApiController;
 use fay\core\Response;
 use cms\services\post\PostService;
 use fay\core\HttpException;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 
 /**
  * 文章
@@ -53,7 +53,7 @@ class PostController extends ApiController{
         $id = $this->form()->getData('id');
         $cat = $this->form()->getData('cat');
         
-        $fields = new FieldItem(
+        $fields = new FieldsHelper(
             $this->form()->getData('fields', $this->default_fields),
             'post',
             PostService::$public_fields

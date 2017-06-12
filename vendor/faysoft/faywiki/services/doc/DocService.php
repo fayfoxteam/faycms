@@ -10,7 +10,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\FieldItem;
+use fay\helpers\FieldsHelper;
 use fay\helpers\RequestHelper;
 use faywiki\models\tables\PropsTable;
 use faywiki\models\tables\WikiDocExtraTable;
@@ -377,7 +377,7 @@ class DocService extends Service{
      */
     public function get($doc_id, $fields = '*', $only_published = true){
         //解析$fields
-        $fields = new FieldItem($fields, 'doc', self::$public_fields);
+        $fields = new FieldsHelper($fields, 'doc', self::$public_fields);
         if(!$fields->getFields()){
             //若未指定返回字段，返回默认的字段
             $fields->addFields(self::$default_fields['doc']);
@@ -514,7 +514,7 @@ class DocService extends Service{
             return array();
         }
         //解析$fields
-        $fields = new FieldItem($fields, 'doc', self::$public_fields);
+        $fields = new FieldsHelper($fields, 'doc', self::$public_fields);
         if(!$fields->getFields()){
             //若未指定返回字段，返回默认的字段
             $fields->setFields(self::$default_fields['doc']);

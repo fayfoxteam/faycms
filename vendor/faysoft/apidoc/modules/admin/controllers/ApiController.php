@@ -29,6 +29,7 @@ class ApiController extends AdminController{
         array('name'=>'outputs', 'title'=>'响应参数'),
         array('name'=>'error_code', 'title'=>'错误码'),
         array('name'=>'sample_response', 'title'=>'响应示例'),
+        array('name'=>'app', 'title'=>'所属应用'),
     );
     
     /**
@@ -36,7 +37,7 @@ class ApiController extends AdminController{
     */
     public $default_box_sort = array(
         'side'=>array(
-            'router', 'category', 'http_method', 'need_login', 'since'
+            'router', 'category', 'app', 'http_method', 'need_login', 'since'
         ),
         'normal'=>array(
             'inputs', 'outputs', 'sample_response'

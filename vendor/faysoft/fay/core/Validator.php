@@ -2,7 +2,7 @@
 namespace fay\core;
 
 class Validator{
-    public static $map = array(
+    protected static $map = array(
         'email'=>'fay\validators\EmailValidator',
         'string'=>'fay\validators\StringValidator',
         'required'=>'fay\validators\RequiredValidator',
@@ -88,9 +88,13 @@ class Validator{
             $this->$k = $p;
         }
     }
-    
+
     /**
      * 执行验证
+     * @param array $rules
+     * @param array $labels
+     * @param string $source
+     * @return array|bool
      */
     public function check($rules, $labels = array(), $source = 'request'){
         if(is_array($source)){

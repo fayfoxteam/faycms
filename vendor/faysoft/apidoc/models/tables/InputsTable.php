@@ -30,19 +30,19 @@ class InputsTable extends Table{
     const TYPE_NUMBER = 2;
 
     /**
-     * 类型 - 数字
+     * 类型 - 文件
      */
     const TYPE_FILE = 3;
 
     /**
      * 类型 - 逗号分割的数字集合
      */
-    const TYPE_NUMBER_SET = 3;
+    const TYPE_NUMBER_SET = 4;
 
     /**
      * 类型 - 逗号分割的字符串集合
      */
-    const TYPE_STRING_SET = 4;
+    const TYPE_STRING_SET = 5;
     
     protected $_name = 'apidoc_inputs';
     

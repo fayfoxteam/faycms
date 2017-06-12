@@ -2,11 +2,11 @@
 namespace apidoc\services;
 
 use apidoc\models\tables\ApidocApiErrorCodesTable;
-use apidoc\models\tables\ApisTable;
+use apidoc\models\tables\ApidocApisTable;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\services\CategoryService;
-use apidoc\models\tables\InputsTable;
+use apidoc\models\tables\ApidocInputsTable;
 use fay\core\Sql;
 
 class ApiService extends Service{
@@ -18,7 +18,7 @@ class ApiService extends Service{
     }
     
     public function get($id){
-        $api = ApisTable::model()->find($id);
+        $api = ApidocApisTable::model()->find($id);
         if(!$api){
             return false;
         }
@@ -27,7 +27,7 @@ class ApiService extends Service{
         $return = array(
             'api'=>$api,
             'category'=>CategoryService::service()->get($api['cat_id'], 'alias'),
-            'inputs'=>InputsTable::model()->fetchAll('api_id = '.$api['id'], '*', 'required DESC, name ASC'),
+            'inputs'=>ApidocInputsTable::model()->fetchAll('api_id = '.$api['id'], '*', 'required DESC, name ASC'),
             'outputs'=>$sql->from(array('o'=>'apidoc_outputs'), array('name', 'sample', 'description', 'model_id', 'is_array'))
                 ->joinLeft(array('ob'=>'apidoc_models'), 'o.model_id = ob.id', array('name AS model_name'))
                 ->where('o.api_id = ' . $api['id'])

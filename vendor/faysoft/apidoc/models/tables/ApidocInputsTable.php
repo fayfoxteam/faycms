@@ -18,7 +18,7 @@ use fay\core\Loader;
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
  */
-class InputsTable extends Table{
+class ApidocInputsTable extends Table{
 /**
      * 类型 - 字符串
      */
@@ -65,7 +65,7 @@ class InputsTable extends Table{
             ))),
             array(array('required'), 'range', array('range'=>array('0', '1'))),
             array(array('name', 'required', 'type', 'api_id'), 'required'),
-            array('api_id', 'exist', array('table'=>ApisTable::model()->getTableName(), 'field'=>'id', 'ajax'=>array('apidoc/admin/api/is-api-id-exist'))),
+            array('api_id', 'exist', array('table'=>ApidocApisTable::model()->getTableName(), 'field'=>'id', 'ajax'=>array('apidoc/admin/api/is-api-id-exist'))),
         );
     }
 

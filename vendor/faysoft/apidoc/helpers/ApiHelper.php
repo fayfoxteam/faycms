@@ -1,9 +1,9 @@
 <?php
 namespace apidoc\helpers;
 
-use apidoc\models\tables\ApisTable;
-use apidoc\models\tables\InputsTable;
-use apidoc\models\tables\ModelsTable;
+use apidoc\models\tables\ApidocApisTable;
+use apidoc\models\tables\ApidocInputsTable;
+use apidoc\models\tables\ApidocModelsTable;
 
 class ApiHelper{
     /**
@@ -14,23 +14,23 @@ class ApiHelper{
      */
     public static function getStatus($status, $coloring = true){
         switch ($status) {
-            case ApisTable::STATUS_DEVELOPING:
+            case ApidocApisTable::STATUS_DEVELOPING:
                 if($coloring)
                     return '<span class="fc-orange">开发中</span>';
                 else
                     return '开发中';
                 break;
                 break;
-            case ApisTable::STATUS_BETA:
+            case ApidocApisTable::STATUS_BETA:
                 if($coloring)
                     return '<span class="fc-green">测试中</span>';
                 else
                     return '测试中';
                 break;
-            case ApisTable::STATUS_STABLE:
+            case ApidocApisTable::STATUS_STABLE:
                 return '已上线';
                 break;
-            case ApisTable::STATUS_DEPRECATED:
+            case ApidocApisTable::STATUS_DEPRECATED:
                 if($coloring)
                     return '<span class="fc-red">已弃用</span>';
                 else
@@ -69,11 +69,11 @@ class ApiHelper{
      * @return string
      */
     public static function getHttpMethod($http_method){
-        if($http_method == ApisTable::HTTP_METHOD_BOTH){
+        if($http_method == ApidocApisTable::HTTP_METHOD_BOTH){
             return 'GET/POST';
-        }else if($http_method == ApisTable::HTTP_METHOD_POST){
+        }else if($http_method == ApidocApisTable::HTTP_METHOD_POST){
             return 'POST';
-        }else if($http_method == ApisTable::HTTP_METHOD_GET){
+        }else if($http_method == ApidocApisTable::HTTP_METHOD_GET){
             return 'GET';
         }else{
             return 'OTHER';
@@ -86,7 +86,7 @@ class ApiHelper{
      * @return string
      */
     public static function getInputType($type){
-        $types = InputsTable::getTypes();
+        $types = ApidocInputsTable::getTypes();
         return isset($types[$type]) ? $types[$type] : 'Other';
     }
     
@@ -97,25 +97,25 @@ class ApiHelper{
      */
     public static function getOutputType($type){
         switch($type){
-            case ModelsTable::ITEM_ARRAY:
+            case ApidocModelsTable::ITEM_ARRAY:
                 return 'Array';
             break;
-            case ModelsTable::ITEM_BINARY:
+            case ApidocModelsTable::ITEM_BINARY:
                 return 'Binary';
             break;
-            case ModelsTable::ITEM_BOOLEAN:
+            case ApidocModelsTable::ITEM_BOOLEAN:
                 return 'Boolean';
             break;
-            case ModelsTable::ITEM_INT:
+            case ApidocModelsTable::ITEM_INT:
                 return 'Int';
             break;
-            case ModelsTable::ITEM_NUMBER:
+            case ApidocModelsTable::ITEM_NUMBER:
                 return 'Number';
             break;
-            case ModelsTable::ITEM_PRICE:
+            case ApidocModelsTable::ITEM_PRICE:
                 return 'Price';
             break;
-            case ModelsTable::ITEM_STRING:
+            case ApidocModelsTable::ITEM_STRING:
                 return 'String';
             break;
             default:

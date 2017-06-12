@@ -1,5 +1,5 @@
 <?php
-use apidoc\models\tables\InputsTable;
+use apidoc\models\tables\ApidocInputsTable;
 use fay\helpers\HtmlHelper;
 
 /**
@@ -17,7 +17,7 @@ use fay\helpers\HtmlHelper;
                     <div class="col-3">
                         <strong class="mr5">名称：</strong><?php
                             echo HtmlHelper::encode($common_input['name'])
-                        ?><em>（<?php echo HtmlHelper::encode(InputsTable::getType($common_input['type']))?>）</em>
+                        ?><em>（<?php echo HtmlHelper::encode(ApidocInputsTable::getType($common_input['type']))?>）</em>
                         <div class="mt5">
                             <a href="javascript:" class="edit-common-input-link" data-src="#edit-common-input-dialog" data-id="<?php echo $common_input['id']?>">编辑</a>
                             |
@@ -49,9 +49,9 @@ use fay\helpers\HtmlHelper;
                     </tr>
                     <tr>
                         <th class="adaption">类型<em class="required">*</em></th>
-                        <td><?php echo F::form('create')->select('type', InputsTable::getTypes(), array(
+                        <td><?php echo F::form('create')->select('type', ApidocInputsTable::getTypes(), array(
                                 'class'=>'form-control w150 ib',
-                            ), InputsTable::TYPE_STRING)?></td>
+                            ), ApidocInputsTable::TYPE_STRING)?></td>
                     </tr>
                     <tr>
                         <th class="adaption">是否必须<em class="required">*</em></th>
@@ -113,9 +113,9 @@ use fay\helpers\HtmlHelper;
                 </tr>
                 <tr>
                     <th class="adaption">类型<em class="required">*</em></th>
-                    <td><?php echo F::form('edit')->select('type', InputsTable::getTypes(), array(
+                    <td><?php echo F::form('edit')->select('type', ApidocInputsTable::getTypes(), array(
                         'class'=>'form-control w150 ib',
-                    ), InputsTable::TYPE_STRING)?></td>
+                    ), ApidocInputsTable::TYPE_STRING)?></td>
                 </tr>
                 <tr>
                     <th class="adaption">是否必须<em class="required">*</em></th>

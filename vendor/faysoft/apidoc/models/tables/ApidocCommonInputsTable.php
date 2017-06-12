@@ -36,7 +36,7 @@ class ApidocCommonInputsTable extends Table{
             array(array('since'), 'string', array('max'=>30)),
 
             array('type', 'range', array('range'=>array(
-                InputsTable::TYPE_STRING, InputsTable::TYPE_NUMBER, InputsTable::TYPE_FILE, InputsTable::TYPE_NUMBER_SET
+                ApidocInputsTable::TYPE_STRING, ApidocInputsTable::TYPE_NUMBER, ApidocInputsTable::TYPE_FILE, ApidocInputsTable::TYPE_NUMBER_SET
             ))),
             array(array('required'), 'range', array('range'=>array('0', '1'))),
             array(array('name', 'required', 'type'), 'required')

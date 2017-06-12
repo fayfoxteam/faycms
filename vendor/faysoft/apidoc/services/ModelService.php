@@ -1,7 +1,7 @@
 <?php
 namespace apidoc\services;
 
-use apidoc\models\tables\ModelsTable;
+use apidoc\models\tables\ApidocModelsTable;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\NumberHelper;
@@ -21,9 +21,9 @@ class ModelService extends Service{
      */
     public function getSample($key){
         if(NumberHelper::isInt($key)){
-            $model = ModelsTable::model()->find($key, 'sample');
+            $model = ApidocModelsTable::model()->find($key, 'sample');
         }else{
-            $model = ModelsTable::model()->fetchRow(array(
+            $model = ApidocModelsTable::model()->fetchRow(array(
                 'name = ?'=>$key,
             ), 'sample');
         }

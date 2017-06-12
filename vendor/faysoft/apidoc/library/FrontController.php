@@ -6,7 +6,7 @@ use fay\core\Controller;
 use fay\helpers\RequestHelper;
 use cms\models\tables\SpiderLogsTable;
 use cms\services\CategoryService;
-use apidoc\models\tables\ApisTable;
+use apidoc\models\tables\ApidocApisTable;
 use fay\helpers\HtmlHelper;
 
 class FrontController extends Controller{
@@ -31,7 +31,7 @@ class FrontController extends Controller{
     
     private function getLeftMenu(){
         $api_cats = CategoryService::service()->getNextLevel('_system_api', array('id', 'alias', 'title', 'description'));
-        $apis = ApisTable::model()->fetchAll(array(), 'id,title,router,cat_id', 'cat_id');
+        $apis = ApidocApisTable::model()->fetchAll(array(), 'id,title,router,cat_id', 'cat_id');
         $menus = array();
         foreach($api_cats as $c){
             $menu = array(

@@ -1,5 +1,5 @@
 <?php
-use apidoc\models\tables\ApisTable;
+use apidoc\models\tables\ApidocApisTable;
 
 /**
  * @var $this \fay\core\View
@@ -40,9 +40,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                     <div class="misc-pub-section mt6">
                         <strong>状态：</strong>
                         <?php
-                            echo F::form()->select('status', ApisTable::getStatus(), array(
+                            echo F::form()->select('status', ApidocApisTable::getStatus(), array(
                                 'class'=>'form-control mw100 mt5 ib',
-                            ), ApisTable::STATUS_DEVELOPING);
+                            ), ApidocApisTable::STATUS_DEVELOPING);
                         ?>
                     </div>
                 </div>

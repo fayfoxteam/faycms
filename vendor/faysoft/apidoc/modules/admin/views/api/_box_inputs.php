@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use apidoc\models\tables\InputsTable;
+use apidoc\models\tables\ApidocInputsTable;
 ?>
 <div class="box" id="box-inputs" data-name="inputs">
     <div class="box-title">
@@ -59,7 +59,7 @@ use apidoc\models\tables\InputsTable;
                             ));
                         ?></div>
                     </td>
-                    <td><?php echo InputsTable::getType($input['type'])?></td>
+                    <td><?php echo ApidocInputsTable::getType($input['type'])?></td>
                     <td><?php echo $input['required'] ? '<span class="fc-green">是</span>' : '否'?></td>
                     <td><?php echo HtmlHelper::encode($input['since'])?></td>
                     <td><?php echo HtmlHelper::encode($input['description'])?></td>
@@ -71,7 +71,7 @@ use apidoc\models\tables\InputsTable;
 </div>
 <script>
 $(function(){
-    api.inputTypeMap = <?php echo json_encode(InputsTable::getTypes())?>;
+    api.inputTypeMap = <?php echo json_encode(ApidocInputsTable::getTypes())?>;
     api.validInputParameter(<?php echo json_encode(F::form('input-parameter')->getJsRules())?>, <?php echo json_encode(F::form('input-parameter')->getLabels())?>);
 });
 </script>

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use apidoc\models\tables\InputsTable;
+use apidoc\models\tables\ApidocInputsTable;
 ?>
 <div class="hide">
     <div id="edit-input-parameter-dialog" class="dialog">
@@ -17,9 +17,9 @@ use apidoc\models\tables\InputsTable;
                     </tr>
                     <tr>
                         <th class="adaption">类型<em class="required">*</em></th>
-                        <td><?php echo F::form('input-parameter')->select('type', InputsTable::getTypes(), array(
+                        <td><?php echo F::form('input-parameter')->select('type', ApidocInputsTable::getTypes(), array(
                             'class'=>'form-control w150 ib',
-                        ), InputsTable::TYPE_STRING)?></td>
+                        ), ApidocInputsTable::TYPE_STRING)?></td>
                     </tr>
                     <tr>
                         <th class="adaption">是否必须<em class="required">*</em></th>

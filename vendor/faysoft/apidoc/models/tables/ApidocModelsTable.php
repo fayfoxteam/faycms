@@ -16,7 +16,7 @@ use fay\core\Loader;
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
  */
-class ModelsTable extends Table{
+class ApidocModelsTable extends Table{
     /**
      * 特殊对象 - 字符串
      */

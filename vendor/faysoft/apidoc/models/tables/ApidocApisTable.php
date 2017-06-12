@@ -22,7 +22,7 @@ use fay\core\Loader;
  * @property string $since 自从
  * @property string $sample_response 响应示例
  */
-class ApisTable extends Table{
+class ApidocApisTable extends Table{
     /**
      * 状态 - 开发中
      */

@@ -3,7 +3,7 @@ namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
 use cms\services\OptionService;
-use apidoc\models\tables\ModelsTable;
+use apidoc\models\tables\ApidocModelsTable;
 
 class IndexController extends FrontController{
     public function __construct(){
@@ -26,7 +26,7 @@ class IndexController extends FrontController{
         ));
         
         $this->view->assign(array(
-            'models'=>ModelsTable::model()->fetchAll('id < 1000', 'name,description,sample', 'id')
+            'models'=>ApidocModelsTable::model()->fetchAll('id < 1000', 'name,description,sample', 'id')
         ))->render('apidoc/frontend/index/index');
     }
 }

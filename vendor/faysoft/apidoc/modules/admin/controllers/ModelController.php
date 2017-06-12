@@ -4,12 +4,12 @@ namespace apidoc\modules\admin\controllers;
 use cms\library\AdminController;
 use fay\core\Sql;
 use fay\common\ListView;
-use apidoc\models\tables\OutputsTable;
-use apidoc\models\tables\ModelsTable;
+use apidoc\models\tables\ApidocOutputsTable;
+use apidoc\models\tables\ApidocModelsTable;
 use fay\core\Response;
 use cms\services\SettingService;
 use fay\helpers\StringHelper;
-use apidoc\models\tables\ModelPropsTable;
+use apidoc\models\tables\ApidocModelPropsTable;
 use fay\core\ErrorException;
 
 /**
@@ -69,7 +69,7 @@ class ModelController extends AdminController{
             'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
         ));
         
-        $this->form()->setModel(OutputsTable::model());
+        $this->form()->setModel(ApidocOutputsTable::model());
         
         $this->view->render();
     }
@@ -83,36 +83,36 @@ class ModelController extends AdminController{
             );
         }
         
-        $this->form()->setModel(ModelsTable::model());
+        $this->form()->setModel(ApidocModelsTable::model());
         
         //启用的编辑框
         $_setting_key = 'admin_model_boxes';
         
         if($this->input->post() && $this->form()->check()){
-            $data = ModelsTable::model()->fillData($this->input->post(), true, 'insert');
+            $data = ApidocModelsTable::model()->fillData($this->input->post(), true, 'insert');
             $data['create_time'] = $this->current_time;
             $data['update_time'] = $this->current_time;
             $data['user_id'] = $this->current_user;
-            $model_id = ModelsTable::model()->insert($data);
+            $model_id = ApidocModelsTable::model()->insert($data);
             
             $props = $this->input->post('props');
             $i = 0;
             foreach($props as $p){
                 $i++;
-                $type_model = ModelsTable::model()->fetchRow(array(
+                $type_model = ApidocModelsTable::model()->fetchRow(array(
                     'name = ?'=>$p['type_name'],
                 ), 'id');
                 if(!$type_model){
                     throw new ErrorException('指定属性类型不存在', $p['type_name']);
                 }
                 
-                $prop = ModelPropsTable::model()->fillData($p, true, 'insert');
+                $prop = ApidocModelPropsTable::model()->fillData($p, true, 'insert');
                 $prop['create_time'] = $this->current_time;
                 $prop['update_time'] = $this->current_time;
                 $prop['model_id'] = $model_id;
                 $prop['type'] = $type_model['id'];
                 $prop['sort'] = $i;
-                ModelPropsTable::model()->insert($prop);
+                ApidocModelPropsTable::model()->insert($prop);
             }
             
             Response::notify('success', '数据模型添加成功', array('apidoc/admin/model/edit', array(
@@ -132,7 +132,7 @@ class ModelController extends AdminController{
         ));
         
         //所有数据模型
-        $models = ModelsTable::model()->fetchAll(array(), 'id,name,description');
+        $models = ApidocModelsTable::model()->fetchAll(array(), 'id,name,description');
         $modelMap = array();
         foreach($models as $m){
             $modelMap[$m['id']] = $m['name'] . '(' . StringHelper::niceShort($m['description'], 10) . ')';
@@ -140,7 +140,7 @@ class ModelController extends AdminController{
         $this->view->models = $modelMap;
         
         //属性表单规则
-        $this->form('prop')->setModel(ModelPropsTable::model())
+        $this->form('prop')->setModel(ApidocModelPropsTable::model())
             ->setRule(array('type_name', 'required'))
             ->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
             ->setRule(array('type_name', 'ajax', array('url'=>array('apidoc/admin/model/is-name-exist'))))
@@ -162,38 +162,38 @@ class ModelController extends AdminController{
         
         $model_id = $this->input->get('id', 'intval');
         
-        $this->form()->setModel(ModelsTable::model());
+        $this->form()->setModel(ApidocModelsTable::model());
         
         //启用的编辑框
         $_setting_key = 'admin_model_boxes';
         $enabled_boxes = $this->getEnabledBoxes($_setting_key);
         
         if($this->input->post() && $this->form()->check()){
-            $data = ModelsTable::model()->fillData($this->input->post(), true, 'update');
+            $data = ApidocModelsTable::model()->fillData($this->input->post(), true, 'update');
             $data['update_time'] = $this->current_time;
-            ModelsTable::model()->update($data, $model_id);
+            ApidocModelsTable::model()->update($data, $model_id);
             
             $props = $this->input->post('props');
             //删除已被删除的属性
             if($props){
-                ModelPropsTable::model()->delete(array(
+                ApidocModelPropsTable::model()->delete(array(
                     'model_id = ?'=>$model_id,
                     'id NOT IN (?)'=>array_keys($props),
                 ));
             }else if(in_array('props', $enabled_boxes)){
-                ModelPropsTable::model()->delete(array(
+                ApidocModelPropsTable::model()->delete(array(
                     'model_id = ?'=>$model_id,
                 ));
             }
             //获取已存在的属性
-            $old_prop_ids = ModelPropsTable::model()->fetchCol('id', array(
+            $old_prop_ids = ApidocModelPropsTable::model()->fetchCol('id', array(
                 'model_id = ?'=>$model_id,
             ));
             
             $i = 0;
             foreach($props as $prop_id => $p){
                 $i++;
-                $type_model = ModelsTable::model()->fetchRow(array(
+                $type_model = ApidocModelsTable::model()->fetchRow(array(
                     'name = ?'=>$p['type_name'],
                 ), 'id');
                 if(!$type_model){
@@ -201,19 +201,19 @@ class ModelController extends AdminController{
                 }
                 
                 if(in_array($prop_id, $old_prop_ids)){
-                    $prop = ModelPropsTable::model()->fillData($p, true, 'update');
+                    $prop = ApidocModelPropsTable::model()->fillData($p, true, 'update');
                     $prop['sort'] = $i;
                     $prop['type'] = $type_model['id'];
                     $prop['update_time'] = $this->current_time;
-                    ModelPropsTable::model()->update($prop, $prop_id);
+                    ApidocModelPropsTable::model()->update($prop, $prop_id);
                 }else{
-                    $prop = ModelPropsTable::model()->fillData($p, true, 'insert');
+                    $prop = ApidocModelPropsTable::model()->fillData($p, true, 'insert');
                     $prop['model_id'] = $model_id;
                     $prop['sort'] = $i;
                     $prop['type'] = $type_model['id'];
                     $prop['create_time'] = $this->current_time;
                     $prop['update_time'] = $this->current_time;
-                    ModelPropsTable::model()->insert($prop);
+                    ApidocModelPropsTable::model()->insert($prop);
                 }
             }
             
@@ -222,7 +222,7 @@ class ModelController extends AdminController{
             )));
         }
         
-        $model = ModelsTable::model()->find($model_id);
+        $model = ApidocModelsTable::model()->find($model_id);
         $this->form()->setData($model);
         
         //可配置信息
@@ -237,7 +237,7 @@ class ModelController extends AdminController{
         ));
         
         //所有数据模型
-        $models = ModelsTable::model()->fetchAll(array(), 'id,name,description');
+        $models = ApidocModelsTable::model()->fetchAll(array(), 'id,name,description');
         $modelMap = array();
         foreach($models as $m){
             $modelMap[$m['id']] = $m['name'] . '(' . StringHelper::niceShort($m['description'], 10) . ')';
@@ -245,7 +245,7 @@ class ModelController extends AdminController{
         $this->view->models = $modelMap;
         
         //属性表单规则
-        $this->form('prop')->setModel(ModelPropsTable::model())
+        $this->form('prop')->setModel(ApidocModelPropsTable::model())
             ->setRule(array('type_name', 'required'))
             ->setRule(array('type_name', 'exist', array('table'=>'apidoc_models', 'field'=>'name')))
             ->setRule(array('type_name', 'ajax', array('url'=>array('apidoc/admin/model/is-name-exist'))))
@@ -255,8 +255,8 @@ class ModelController extends AdminController{
             
         //原属性
         $sql = new Sql();
-        $this->view->props = $sql->from(array('mp'=>ModelPropsTable::model()->getTableName()))
-            ->joinLeft(array('m'=>ModelsTable::model()->getTableName()), 'mp.type = m.id', 'name AS type_name')
+        $this->view->props = $sql->from(array('mp'=>ApidocModelPropsTable::model()->getTableName()))
+            ->joinLeft(array('m'=>ApidocModelsTable::model()->getTableName()), 'mp.type = m.id', 'name AS type_name')
             ->where('mp.model_id = ?', $model_id)
             ->order('mp.sort')
             ->fetchAll();
@@ -272,7 +272,7 @@ class ModelController extends AdminController{
         $keywords = $this->input->request('key', 'trim');
         
         $sql = new Sql();
-        $models = $sql->from(array('m'=>ModelsTable::model()->getTableName()), array('id', 'name', 'description'))
+        $models = $sql->from(array('m'=>ApidocModelsTable::model()->getTableName()), array('id', 'name', 'description'))
             ->orWhere(array(
                 'name LIKE ?'=>"%{$keywords}%",
                 'description LIKE ?'=>"%{$keywords}%",
@@ -292,7 +292,7 @@ class ModelController extends AdminController{
     }
     
     public function isNameExist(){
-        if(ModelsTable::model()->fetchRow(array(
+        if(ApidocModelsTable::model()->fetchRow(array(
             'name = ?'=>$this->input->request('name', 'trim'),
         ))){
             Response::json();

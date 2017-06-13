@@ -100,12 +100,26 @@ use fay\helpers\HtmlHelper;
 </div>
 <script src="<?php echo $this->assets('js/My97DatePicker/WdatePicker.js')?>"></script>
 <script>
+    $('[name="source[]"]').on('click', function(){
+        if($('[name="source[]"]:checked').length > 3){
+            alert('最多选3个来源');
+            return false;
+        }
+    });
     $('#form').on('submit', function(){
+        if($('[name="source[]"]:checked').length != 3){
+            alert('必须选择3个来源');
+            return false;
+        }
         $('#preview-img').attr('src', '<?php echo $this->url('index/pic')?>?'+$(this).serialize());
         return false;
     });
     
     $('#download-btn').on('click', function(){
+        if($('[name="source[]"]:checked').length != 3){
+            alert('必须选择3个来源');
+            return false;
+        }
         window.location.href = '<?php echo $this->url('index/pic')?>?download=1&'+$('#form').serialize();
     });
 </script>

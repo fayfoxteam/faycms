@@ -131,6 +131,7 @@ class Db{
             $result = $this->_conn->exec($sql);
             if($result === false){
                 $this->error($this->_conn->errorInfo(), $sql);
+                return false;
             }else{
                 return $result;
             }

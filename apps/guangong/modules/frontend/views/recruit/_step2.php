@@ -28,15 +28,11 @@ $(function(){
     audio.addEventListener('timeupdate', function(){
         if(audio.duration == audio.currentTime){
             //播放结束，弹窗
-            $.fancybox(['<div id="baiwan-dialog" class="dialog">',
+            $.fancybox.open(['<div id="baiwan-dialog" class="dialog">',
                 '<div class="dialog-content">',
-                    '<div class="aa">已拜关将军<br>即行加入之</div>',
-                    '<div class="yin"><img src="<?php echo $this->appAssets('images/arm/guanyin.png')?>"></div>',
+                    '<img src="', system.url('apps/guangong/images/recruit/yibai.png'), '" class="baiwan">',
                 '</div>',
             '</div>'].join(''), {
-                'padding': 0,
-                'centerOnScroll': true,
-                'width': '90%',
                 'onClosed': function(){
                     //common.swiper.slideNext();
                 }

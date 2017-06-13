@@ -88,7 +88,9 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #jiangjunmiling-dialog .dialog-content .yinzhang-text{width:100%;margin-bottom:15px}
 #jiangjunmiling-dialog .dialog-content .yinzhang{width:67px}
 
-#baiwan-dialog{text-align:center;background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%;padding:20px 0}
+#baiwan-dialog{text-align:center;background-size:100% 100%;padding:20px 0}
 #baiwan-dialog .aa{width:200px;padding:40px 50px;line-height:1.5}
 #baiwan-dialog .attendance-count{margin-bottom:35px}
 #baiwan-dialog .yin{margin-bottom:20px}
+#baiwan-dialog .baiwan{width:55%}
+#baiwan-dialog .fancybox-close-small{right:78px}

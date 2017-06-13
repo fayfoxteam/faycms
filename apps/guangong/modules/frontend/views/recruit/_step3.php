@@ -8,13 +8,8 @@
  */
 ?>
 <div class="swiper-slide" id="recruit-31">
-    <div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
     <div class="layer dadao"><img src="<?php echo $this->appAssets('images/recruit/dadao.png')?>"></div>
     <div class="layer title"><img src="<?php echo $this->appAssets('images/recruit/t3.png')?>"></div>
-    <div class="layer description">
-        <p>应征规则：</p>
-        <p>加入关于军团须提交相关个人信息纳入网络军籍存档，请保证档案信息真实性和严肃性；同时分担个位数小额军费。本系统按要求确保个人信息安全。</p>
-    </div>
 </div>
 <div class="swiper-slide" id="recruit-32">
     <div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
@@ -76,7 +71,7 @@
             </fieldset>
             <fieldset>
                 <label>服役期</label>
-                <div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('', '报名第二天至第365天', array(
+                <div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('', date('Y年m月d日', strtotime('+365 days')), array(
                     'class'=>'form-control',
                     'readonly'=>'readonly',
                 ))?></div>

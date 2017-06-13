@@ -7,13 +7,8 @@
  */
 ?>
 <div class="swiper-slide" id="recruit-41">
-    <div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
     <div class="layer dadao"><img src="<?php echo $this->appAssets('images/recruit/dadao.png')?>"></div>
     <div class="layer title"><img src="<?php echo $this->appAssets('images/recruit/t4.png')?>"></div>
-    <div class="layer description">
-        <p>体验规则：</p>
-        <p>完成报名手续并取得网络军籍之正式注册兵员访客接受将军密令，接受密令者需认真待之。</p>
-    </div>
 </div>
 <div class="swiper-slide" id="recruit-42">
     <div class="layer guangongdianbing"><img src="<?php echo $this->appAssets('images/recruit/guangongdianbing.png')?>"></div>

@@ -24,10 +24,13 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-1{background:url(../images/recruit/index.jpg) no-repeat center center transparent;background-size:cover}
 
 #recruit-2 .text{width:230px;left:50%;top:50%;margin-left:-115px;margin-top:-186px}
+#recruit-2.swiper-slide{background-image:url(../images/recruit/bg-2.jpg)}
 #recruit-3 .steps{height:240px;width:210px;left:50%;top:50%;margin-left:-105px;margin-top:-120px}
 #recruit-3 .steps img{width:43px}
+#recruit-3.swiper-slide{background-image:url(../images/recruit/bg-3.jpg)}
 
 #recruit-4 .description{width:254px;margin-left:-127px}
+#recruit-4.swiper-slide{background-image:url(../images/recruit/bg-3.jpg)}
 
 #recruit-5 .zhaomuling{left:50%;top:17px;margin-left:-81px}
 #recruit-5 .zhaomuling-text{width:65%;left:50%;bottom:20px;margin-left:-38%;max-width:280px}
@@ -36,7 +39,7 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 }
 
 #recruit-6 .yi{left:50%;top:40px;width:200px;margin-left:-100px}
-#recruit-6 .yi-text{width:86%;left:50%;bottom:77px;margin-left:-43%;max-width:300px}
+#recruit-6 .yi-text{width:77%;left:50%;bottom:77px;margin-left:-38%;max-width:300px}
 @media screen and (min-width:348px){
     #recruit-6 .yi-text{margin-left:-160px}
 }
@@ -45,13 +48,23 @@ fieldset .form-control.ib{display:inline-block;width:auto}
     #recruit-6 .yi-text{bottom:25px}
 }
 
+#recruit-7.swiper-slide{background-image:url(../images/recruit/bg-4.jpg)}
+
 #recruit-8 .guangong{width:70%;left:50%;top:50%;transform:translate(-50%, -67%);max-width:420px}
 #recruit-8 .bai-ni-ma-bi-steps{height:240px;width:240px;left:50%;top:50%;margin-left:-135px;margin-top:27px}
 #recruit-8 .bai-ni-ma-bi-steps a{margin:0 12px}
 #recruit-8 .bai-ni-ma-bi-steps img{width:43px}
 #recruit-8 .jiangjunshengping{height:93px;width:30px;left:50%;top:50%;margin-left:104px;margin-top:171px}
+@media screen and (max-width:350px){
+    #recruit-8 .guangong{width:62%;transform:translate(-50%, -58%)}
+    #recruit-8 .bai-ni-ma-bi-steps{height:195px}
+    #recruit-8 .bai-ni-ma-bi-steps a{margin:0 5px}
+    #recruit-8 .jiangjunshengping{margin-top:128px}
+}
 #shengping-dialog .dialog-content{background:url(../images/recruit/juanzhou-kai.png) no-repeat center center transparent;background-size:100% 100%;padding:60px 38px}
 #shengping-dialog .dialog-content img{width:100%}
+
+#recruit-31.swiper-slide{background-image:url(../images/recruit/bg-5.jpg)}
 
 #recruit-32 .to-login,#recruit-32 .military{left:50%;top:50%;margin-left:-52px;margin-top:-23px;}
 #recruit-32 .to-login a,#recruit-32 .military a{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
@@ -65,6 +78,8 @@ fieldset .form-control.ib{display:inline-block;width:auto}
     #recruit-32 .register-form{margin-left:-49%}
     .submit-link{padding:10px 20px}
 }
+
+#recruit-41.swiper-slide{background-image:url(../images/recruit/bg-6.jpg)}
 
 #recruit-42 .guangongdianbing{width:168px;top:75px;left:50%;margin-left:-84px}
 #recruit-42 .button{bottom:60px;left:50%;margin-left:-65px}

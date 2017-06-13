@@ -24,7 +24,7 @@ class PostLikeController extends ApiController{
         //表单验证
         $this->form()->setRules(array(
             array(array('post_id'), 'required'),
-            array('post_id', 'int', array('min'=>1)),
+            array('post_id', 'cms\validators\PostIDValidator'),
         ))->setFilters(array(
             'post_id'=>'intval',
             'trackid'=>'trim',
@@ -33,13 +33,6 @@ class PostLikeController extends ApiController{
         ))->check();
         
         $post_id = $this->form()->getData('post_id');
-        
-        if(!PostService::isPostIdExist($post_id)){
-            Response::notify('error', array(
-                'message'=>'文章ID不存在',
-                'code'=>'invalid-parameter:post_id-is-not-exist',
-            ));
-        }
         
         if(PostLikeService::isLiked($post_id)){
             Response::notify('error', array(
@@ -98,7 +91,8 @@ class PostLikeController extends ApiController{
         
         //表单验证
         $this->form()->setRules(array(
-            array(array('post_id', 'page', 'page_size'), 'int', array('min'=>1)),
+            array(array('page', 'page_size'), 'int', array('min'=>1)),
+            array('post_id', 'cms\validators\PostIDValidator'),
             array('fields', 'fields'),
         ))->setFilters(array(
             'post_id'=>'intval',

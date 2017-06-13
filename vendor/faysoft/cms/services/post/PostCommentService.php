@@ -1,6 +1,7 @@
 <?php
 namespace cms\services\post;
 
+use fay\core\HttpException;
 use fay\core\Loader;
 use fay\helpers\FieldsHelper;
 use fay\models\MultiTreeModel;
@@ -64,7 +65,7 @@ class PostCommentService extends MultiTreeModel{
     public static function service(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     /**
      * 发表一条文章评论
      * @param int $post_id 文章ID
@@ -76,18 +77,19 @@ class PostCommentService extends MultiTreeModel{
      * @param int $sockpuppet 马甲信息，若是真实用户，传入0，默认为0
      * @return int
      * @throws Exception
+     * @throws HttpException
      */
     public function create($post_id, $content, $parent = 0, $status = PostCommentsTable::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
         $user_id === null && $user_id = \F::app()->current_user;
         
         if(!PostService::isPostIdExist($post_id)){
-            throw new Exception('文章ID不存在', 'post_id-not-exist');
+            throw new HttpException('文章ID不存在', 'invalid-parameter:post_id-not-exist');
         }
         
         if($parent){
             $parent_comment = PostCommentsTable::model()->find($parent, 'post_id,delete_time');
             if(!$parent_comment || $parent_comment['delete_time']){
-                throw new Exception('父节点不存在', 'parent-not-exist');
+                throw new HttpException('父节点不存在', 'parent-not-exist');
             }
             if($parent_comment['post_id'] != $post_id){
                 throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'post_id-and-parent-not-match');

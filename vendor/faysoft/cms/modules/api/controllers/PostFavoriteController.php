@@ -20,7 +20,7 @@ class PostFavoriteController extends UserController{
         //表单验证
         $this->form()->setRules(array(
             array(array('post_id'), 'required'),
-            array('post_id', 'int', array('min'=>1)),
+            array('post_id', 'cms\validators\PostIDValidator'),
         ))->setFilters(array(
             'post_id'=>'intval',
             'trackid'=>'trim',
@@ -29,13 +29,6 @@ class PostFavoriteController extends UserController{
         ))->check();
         
         $post_id = $this->form()->getData('post_id');
-        
-        if(!PostService::isPostIdExist($post_id)){
-            Response::notify('error', array(
-                'message'=>'文章ID不存在',
-                'code'=>'invalid-parameter:post_id-is-not-exist',
-            ));
-        }
         
         if(PostFavoriteService::isFavorited($post_id)){
             Response::notify('error', array(

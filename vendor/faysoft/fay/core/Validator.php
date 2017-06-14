@@ -18,7 +18,7 @@ class Validator{
         'range'=>'fay\validators\RangeValidator',
         'compare'=>'fay\validators\CompareValidator',
         'fields'=>'fay\validators\FieldsValidator',
-        'idcard'=>'fay\validators\IdCardValidator',
+        'idcard'=>'fay\validators\IDCardValidator',
         'captcha'=>'fay\validators\CaptchaValidator',
     );
     
@@ -157,7 +157,7 @@ class Validator{
              */
             $instance = new self::$map[$name];
         }else{
-            return false;
+            $instance = new $name;
         }
         $instance->init($params);
         $instance->_rule = $name;

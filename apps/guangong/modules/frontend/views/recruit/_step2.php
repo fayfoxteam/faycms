@@ -4,13 +4,8 @@
  */
 ?>
 <div class="swiper-slide" id="recruit-7">
-    <div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
     <div class="layer dadao"><img src="<?php echo $this->appAssets('images/recruit/dadao.png')?>"></div>
     <div class="layer title"><img src="<?php echo $this->appAssets('images/recruit/t2.png')?>"></div>
-    <div class="layer description">
-        <p>拜祭规则：</p>
-        <p>崇信关公忠义精神之三国迷、军事迷、谋略迷及正直青年，诚心加入关羽军团者，请拜关将军。无心者，请止步。</p>
-    </div>
 </div>
 <div class="swiper-slide bai" id="recruit-8">
     <div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
@@ -33,15 +28,11 @@ $(function(){
     audio.addEventListener('timeupdate', function(){
         if(audio.duration == audio.currentTime){
             //播放结束，弹窗
-            $.fancybox(['<div id="baiwan-dialog" class="dialog">',
+            $.fancybox.open(['<div id="baiwan-dialog" class="dialog">',
                 '<div class="dialog-content">',
-                    '<div class="aa">已拜关将军<br>即行加入之</div>',
-                    '<div class="yin"><img src="<?php echo $this->appAssets('images/arm/guanyin.png')?>"></div>',
+                    '<img src="', system.url('apps/guangong/images/recruit/yibai.png'), '" class="baiwan">',
                 '</div>',
             '</div>'].join(''), {
-                'padding': 0,
-                'centerOnScroll': true,
-                'width': '90%',
                 'onClosed': function(){
                     //common.swiper.slideNext();
                 }

@@ -37,8 +37,8 @@ class FeedCommentService extends MultiTreeModel{
     }
     
     /**
-     * 发表一条文章评论
-     * @param int $feed_id 文章ID
+     * 发表一条动态评论
+     * @param int $feed_id 动态ID
      * @param string $content 评论内容
      * @param int $parent 父ID，若是回复评论的评论，则带上被评论的评论ID，默认为0
      * @param int $status 状态（默认为待审核）
@@ -52,7 +52,7 @@ class FeedCommentService extends MultiTreeModel{
         $user_id === null && $user_id = \F::app()->current_user;
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            throw new Exception('文章ID不存在', 'feed_id-not-exist');
+            throw new Exception('动态ID不存在', 'feed_id-not-exist');
         }
         
         if($parent){
@@ -61,7 +61,7 @@ class FeedCommentService extends MultiTreeModel{
                 throw new Exception('父节点不存在', 'parent-not-exist');
             }
             if($parent_comment['feed_id'] != $feed_id){
-                throw new Exception('被评论文章ID与指定父节点文章ID不一致', 'feed_id-and-parent-not-match');
+                throw new Exception('被评论动态ID与指定父节点动态ID不一致', 'feed_id-and-parent-not-match');
             }
         }
         
@@ -76,7 +76,7 @@ class FeedCommentService extends MultiTreeModel{
             'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
         )), $parent);
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments(array(array(
             'feed_id'=>$feed_id,
             'status'=>$status,
@@ -112,7 +112,7 @@ class FeedCommentService extends MultiTreeModel{
             'update_time'=>\F::app()->current_time,
         ), $comment_id);
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments(array($comment), 'delete');
         
         //触发事件
@@ -144,7 +144,7 @@ class FeedCommentService extends MultiTreeModel{
             'id IN (?)'=>$comment_ids,
         ));
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments($comments, 'delete');
         
         foreach($comments as $c){
@@ -177,7 +177,7 @@ class FeedCommentService extends MultiTreeModel{
             'update_time'=>\F::app()->current_time,
         ), $comment_id);
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments(array($comment), 'undelete');
         
         //触发事件
@@ -209,7 +209,7 @@ class FeedCommentService extends MultiTreeModel{
             'id IN (?)'=>$comment_ids,
         ));
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments($comments, 'undelete');
         
         foreach($comments as $c){
@@ -252,7 +252,7 @@ class FeedCommentService extends MultiTreeModel{
                 'id IN (?)'=>$comment_ids,
             ));
             
-            //更新文章评论数
+            //更新动态评论数
             $this->updateFeedComments($comments, 'delete');
             
             //触发事件
@@ -286,7 +286,7 @@ class FeedCommentService extends MultiTreeModel{
         $this->_remove($comment);
         
         if(!$comment['delete_time']){
-            //更新文章评论数
+            //更新动态评论数
             $this->updateFeedComments(array($comment), 'remove');
         }
         
@@ -324,7 +324,7 @@ class FeedCommentService extends MultiTreeModel{
                 $undeleted_comments[] = $c;
             }
         }
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments($undeleted_comments, 'remove');
         
         //执行删除
@@ -353,7 +353,7 @@ class FeedCommentService extends MultiTreeModel{
         
         $this->setStatus($comment_id, FeedCommentsTable::STATUS_APPROVED);
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments(array($comment), 'approve');
         
         //触发事件
@@ -381,7 +381,7 @@ class FeedCommentService extends MultiTreeModel{
         //更新状态
         $affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedCommentsTable::STATUS_APPROVED);
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments($comments, 'approve');
         
         foreach($comments as $c){
@@ -414,7 +414,7 @@ class FeedCommentService extends MultiTreeModel{
         
         $this->setStatus($comment_id, FeedCommentsTable::STATUS_UNAPPROVED);
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments(array($comment), 'disapprove');
         
         //触发事件
@@ -442,7 +442,7 @@ class FeedCommentService extends MultiTreeModel{
         //更新状态
         $affected_rows = $this->setStatus(ArrayHelper::column($comments, 'id'), FeedCommentsTable::STATUS_UNAPPROVED);
         
-        //更新文章评论数
+        //更新动态评论数
         $this->updateFeedComments($comments, 'disapprove');
         
         foreach($comments as $c){

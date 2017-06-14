@@ -1064,20 +1064,31 @@ class PostService extends Service{
     }
     
     /**
-     * 判断一个文章ID是否存在（“已删除/未发布/未到定时发布时间”的文章都被视为不存在）
+     * 判断一个文章ID是否存在
      * @param int $post_id
+     * @param bool $only_published 若为true，则“已删除/未发布/未到定时发布时间”的文章都被视为不存在
      * @return bool 若文章已发布且未删除返回true，否则返回false
      */
-    public static function isPostIdExist($post_id){
-        if($post_id){
-            $post = PostsTable::model()->find($post_id, 'delete_time,publish_time,status');
-            if($post['delete_time'] || $post['publish_time'] > \F::app()->current_time || $post['status'] != PostsTable::STATUS_PUBLISHED){
-                return false;
-            }else{
-                return true;
-            }
-        }else{
+    public static function isPostIdExist($post_id, $only_published = true){
+        if(!$post_id){
+            //文章ID非真，直接返回false
             return false;
+        }
+        
+        $post = PostsTable::model()->find($post_id, 'delete_time,publish_time,status');
+        if(!$post){
+            //没搜到对应记录
+            return false;
+        }else if(!$only_published){
+            //不需要检查是否已发布，文章存在就返回true
+            return true;
+        }
+        
+        //检查是否已发布
+        if($post['delete_time'] || $post['publish_time'] > \F::app()->current_time || $post['status'] != PostsTable::STATUS_PUBLISHED){
+            return false;
+        }else{
+            return true;
         }
     }
     

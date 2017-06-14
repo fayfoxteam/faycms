@@ -6,7 +6,7 @@ use fay\core\Validator;
 /**
  * 验证身份证格式是否正确（仅支持18位身份证）
  */
-class IdCardValidator extends Validator{
+class IDCardValidator extends Validator{
     /**
      * 错误描述
      */

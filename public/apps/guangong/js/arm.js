@@ -31,7 +31,7 @@ var arm = {
 
         //录军籍卷轴
         if($swiper.find('.juanzhou-he').length){
-            $swiper.find('.juanzhou-he').show().addClass('rollIn animated');
+            $swiper.find('.juanzhou-he').show().addClass('fadeInLeft animated');
         }else{
             $('.juanzhou-he').hide().removeClass('fadeInDown animated');
         }
@@ -260,8 +260,8 @@ var arm = {
      */
     'showInfo': function(){
         var $arm10 = $('#arm-10');
-        $arm10.find('.juanzhou-he').addClass('rotateOut animated');
-        $arm10.find('.juanzhou-he').removeClass('rollIn');
+        $arm10.find('.juanzhou-he').addClass('fadeOut animated');
+        $arm10.find('.juanzhou-he').removeClass('fadeInLeft');
         $arm10.find('.shake').remove();
 
         $.ajax({

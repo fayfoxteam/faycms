@@ -6,7 +6,6 @@ use cms\services\post\PostCommentService;
 use fay\core\Response;
 use cms\models\tables\PostsTable;
 use fay\core\HttpException;
-use cms\services\post\PostService;
 use fay\helpers\FieldsHelper;
 
 /**
@@ -69,7 +68,7 @@ class PostCommentController extends ApiController{
         //表单验证
         $this->form()->setRules(array(
             array(array('post_id', 'content'), 'required'),
-            array(array('post_id'), 'int', array('min'=>1)),
+            array(array('post_id'), 'cms\validators\PostIDValidator'),
             array(array('parent'), 'int', array('min'=>0)),
             array(array('parent'), 'exist', array(
                 'table'=>'post_comments',
@@ -86,13 +85,6 @@ class PostCommentController extends ApiController{
         
         $post_id = $this->form()->getData('post_id');
         $fields = $this->form()->getData('fields');
-        
-        if(!PostService::isPostIdExist($post_id)){
-            Response::notify('error', array(
-                'message'=>'文章ID不存在',
-                'code'=>'invalid-parameter:post_id-is-not-exist',
-            ));
-        }
         
         $comment_id = PostCommentService::service()->create(
             $post_id,

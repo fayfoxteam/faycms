@@ -72,6 +72,7 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-32 .register-form .form-control.ib{margin-right:2%;width:48%}
 #recruit-32 .avatar-container{text-align:center;margin-bottom:30px}
 #recruit-32 .avatar-container img{border-radius:50%;width:100px;height:100px;}
+#recruit-32.swiper-slide{background-image:url(../images/recruit/bg-2.jpg)}
 .submit-container{bottom:60px;text-align:center;left:50%;margin-left:-52px}
 .submit-link{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
 @media screen and (max-width:350px){
@@ -94,3 +95,8 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #baiwan-dialog .yin{margin-bottom:20px}
 #baiwan-dialog .baiwan{width:55%}
 #baiwan-dialog .fancybox-close-small{right:78px}
+
+#register-success-dialog{background-image:url(../images/recruit/register-success.png);background-size:100% 100%}
+#register-success-dialog .dialog-content{padding:208px 30px 46px}
+#register-success-dialog a{color:#fff;background-color:#936A32;font-size:18px;padding:10px 16px}
+#register-success-dialog .fancybox-close-small{right:26px;top:22px}

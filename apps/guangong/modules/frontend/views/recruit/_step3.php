@@ -12,7 +12,6 @@
     <div class="layer title"><img src="<?php echo $this->appAssets('images/recruit/t3.png')?>"></div>
 </div>
 <div class="swiper-slide" id="recruit-32">
-    <div class="layer brand"><img src="<?php echo $this->appAssets('images/recruit/brand.png')?>"></div>
     <?php if($user_extra && $user_extra['military'] >= \cms\services\OptionService::get('guangong:junfei', 1100)){//已经缴纳军费?>
         
     <?php }else if(!empty($user['user']['mobile'])){//已经微信注册，且填写了注册信息，但未缴纳军费?>
@@ -119,8 +118,15 @@ $(function(){
     });
     common.form.afterAjaxSubmit = function(resp){
         if(resp.status){
-            //若用户未注册（已经完成微信登录），提交注册信息后，直接跳转到微信支付
-            window.location.href = "<?php echo $this->url('api/payment/military')?>";
+            $.fancybox.open(['<div id="register-success-dialog" class="dialog">',
+                '<div class="dialog-content">',
+                    '<a href="', system.url('api/payment/military'), '">我要支付军费</a>',
+                '</div>',
+            '</div>'].join(''), {
+                'onClosed': function(){
+                    //common.swiper.slideNext();
+                }
+            });
         }else{
             common.toast(resp.message, 'error');
             common.changeCaptcha($('.captcha'));

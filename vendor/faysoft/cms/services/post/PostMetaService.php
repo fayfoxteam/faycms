@@ -29,7 +29,7 @@ class PostMetaService extends Service{
         $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
-            PostMetaTable::model()->getFields()
+            PostMetaTable::model()->getFields('real_views,real_comments,real_likes,real_favorites')
         );
 
         return PostMetaTable::model()->fetchRow(array(
@@ -51,7 +51,7 @@ class PostMetaService extends Service{
         $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
             '',
-            PostMetaTable::model()->getFields()
+            PostMetaTable::model()->getFields('real_views,real_comments,real_likes,real_favorites')
         );
         
         if(!$fields->hasField('post_id')){

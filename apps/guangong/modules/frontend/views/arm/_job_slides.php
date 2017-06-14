@@ -133,7 +133,7 @@ $(function(){
     audio.addEventListener('timeupdate', function(){
         if(audio.currentTime == audio.duration){
             common.loadFancybox(function(){
-                $.fancybox($('#attendance-dialog').parent().html());
+                $.fancybox.open($('#attendance-dialog').parent().html());
             });
         }
     });
@@ -152,14 +152,17 @@ $(function(){
             'cache': false,
             'success': function(resp){
                 $('body').unblock();
+                if(resp.data && resp.data.rank){
+                    $('#attendance-dialog').find('.rank-title').text(resp.data.rank.captain + ' ');
+                }
             }
         });
     });
 
     common.loadFancybox(function(){
         $('#post-dialog-link').fancybox({
-            'beforeLoad': function(o){
-                if($(o).attr('data-id') == '0'){
+            'beforeLoad': function(instance, slide){
+                if(slide.opts.$orig.attr('data-id') == '0'){
                     common.toast('恭喜您已经完成所有资料阅读');
                     return false;
                 }else{
@@ -167,7 +170,7 @@ $(function(){
                     $.ajax({
                         'type': 'GET',
                         'url': system.url('api/post/item'),
-                        'data': {'id': $(o).attr('data-id')},
+                        'data': {'id': slide.opts.$orig.attr('data-id')},
                         'dataType': 'json',
                         'cache': false,
                         'success': function(resp){

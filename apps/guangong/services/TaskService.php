@@ -55,13 +55,16 @@ class TaskService extends Service{
             'create_time'=>\F::app()->current_time,
         ));
         
-        $this->afterDone($user_id);
+        if($this->afterDone($user_id)){
+            return 1;
+        }
         return true;
     }
     
     /**
      * 完成任务后调用，判断用户是否已经完成当日所有任务
      * @param null|int $user_id
+     * @return bool
      * @throws ErrorException
      */
     private function afterDone($user_id = null){
@@ -85,7 +88,9 @@ class TaskService extends Service{
         
         //开启任务数等于完成任务数，说明已经完成所有当日任务
         if(count($task_ids) == count($done_tasks)){
-            AttendanceService::service()->attend($user_id);
+            return AttendanceService::service()->attend($user_id);
+        }else{
+            return null;
         }
     }
 }

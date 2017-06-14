@@ -19,6 +19,7 @@ class AttendanceService extends Service{
     /**
      * 出勤（完成所有当日任务，算一次出勤）
      * @param null|int $user_id 用户ID，默认为当前登录用户ID
+     * @return bool
      * @throws ErrorException
      * @throws Exception
      */
@@ -61,7 +62,7 @@ class AttendanceService extends Service{
         ));
         
         //更新用户军衔
-        RankService::service()->update($user_id);
+        return RankService::service()->update($user_id);
     }
     
     /**

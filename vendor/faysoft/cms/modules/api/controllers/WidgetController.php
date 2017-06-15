@@ -96,6 +96,10 @@ class WidgetController extends ApiController{
         ))->check();
         
         $data = \F::widget()->getData($this->form()->getData('alias'));
-        Response::json($data);
+        if($this->input->get('callback')){
+            Response::jsonp($this->input->get('callback'), $data);
+        }else{
+            Response::json($data);
+        }
     }
 }

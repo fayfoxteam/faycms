@@ -24,15 +24,17 @@ use fay\core\Loader;
  */
 class PostCommentsTable extends Table{
     /**
-     * 状态-待审核
+     * 状态 - 待审核
      */
     const STATUS_PENDING = 1;
+    
     /**
-     * 状态-通过审核
+     * 状态 - 通过审核
      */
     const STATUS_APPROVED = 2;
+    
     /**
-     * 状态-未通过审核
+     * 状态 - 未通过审核
      */
     const STATUS_UNAPPROVED = 3;
     

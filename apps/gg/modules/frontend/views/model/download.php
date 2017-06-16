@@ -1,6 +1,6 @@
 <?php echo '<?php';?>
 
-namespace App\Http\Model;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 <?php if($soft_delete){?>
@@ -14,9 +14,9 @@ class <?php echo $class_name?> extends Model
 
 <?php }?>
     protected $table = '<?php echo $table?>';
-<?php if($fillable){?>
+<?php if($guarded){?>
 
-    protected $fillable = ['<?php echo implode("', '", $fillable)?>'];
+    protected $guarded = ['<?php echo implode("', '", $guarded)?>'];
 <?php }?>
 <?php if(!$has_timestamps){?>
 

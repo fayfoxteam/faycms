@@ -50,6 +50,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
             ));
             $this->renderPartial('_info_slides');
             $this->renderPartial('_job_slides', array(
+                'user'=>$user,
                 'next_post'=>$next_post,
                 'js_sdk_config'=>$js_sdk_config,
             ));

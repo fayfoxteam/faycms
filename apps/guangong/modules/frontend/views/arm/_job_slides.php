@@ -1,3 +1,26 @@
+<div class="swiper-slide stop-to-next" id="arm-zhijungui">
+    <div class="layer title-zhijungui"><img src="<?php echo $this->appAssets('images/arm/zhijungui.png')?>"></div>
+    <div class="layer shenfenshibie-form-container">
+        <form id="shenfenshibie-form">
+            <fieldset>
+                <label>识&nbsp;别&nbsp;号</label>
+                <div class="field-container"><?php echo F::form()->inputText('mobile', array(
+                    'class'=>'form-control',
+                    'placeholder'=>'手机号',
+                ))?></div>
+            </fieldset>
+            <fieldset>
+                <label>军团代号</label>
+                <div class="field-container"><?php echo F::form()->inputText('daihao', array(
+                    'class'=>'form-control',
+                ))?></div>
+            </fieldset>
+            <fieldset class="center">
+                <a href="javascript:" class="shenfenshibie-container" id="shenfenshibie-form-submit"><img src="<?php echo $this->appAssets('images/arm/btn-shenfenshibie.png')?>"></a>
+            </fieldset>
+        </form>
+    </div>
+</div>
 <div class="swiper-slide" id="arm-12">
     <div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
     <div class="layer title"><img src="<?php echo $this->appAssets('images/arm/t5.png')?>"></div>
@@ -6,16 +29,16 @@
     <div class="layer jobs">
         <ul>
             <li class="job-1">
-                <a href="javascript:" id="attendance-dialog-link" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1.png')?>"></a>
+                <a href="javascript:" id="attendance-dialog-link" class="task-link" data-task-id="1"><img src="<?php echo $this->appAssets('images/arm/junzhi-1-2.png')?>"></a>
             </li>
             <li class="job-2">
-                <a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2.png')?>"></a>
+                <a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2-2.png')?>"></a>
             </li>
             <li class="job-3">
-                <a href="#post-dialog" id="post-dialog-link" data-id="<?php echo empty($next_post) ? 0 : $next_post?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3.png')?>"></a>
+                <a href="#post-dialog" id="post-dialog-link" data-id="<?php echo empty($next_post) ? 0 : $next_post?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3-2.png')?>"></a>
             </li>
             <li class="job-4">
-                <a href="<?php echo $this->url()?>" class=""><img src="<?php echo $this->appAssets('images/arm/junzhi-4.png')?>"></a>
+                <a href="<?php echo $this->url()?>" class=""><img src="<?php echo $this->appAssets('images/arm/junzhi-4-2.png')?>"></a>
             </li>
         </ul>
     </div>
@@ -187,6 +210,25 @@ $(function(){
                 }
             }
         });
+    });
+    
+    $('#shenfenshibie-form').on('submit', function(){
+        if($(this).find('[name="mobile"]').val() == ''){
+            common.toast('识别号不能为空', 'error');
+        }else if($(this).find('[name="mobile"]').val() == '<?php echo $user['user']['mobile']?>'){
+            $(this).find('[name="daihao"]').val('<?php echo \guangong\helpers\UserHelper::getCode(\F::app()->current_user)?>');
+            $('#arm-zhijungui').removeClass('stop-to-next');
+            $('.u-arrow-right').show();
+            common.swiper.params.allowSwipeToNext = true;
+            common.swiper.slideNext();
+        }else{
+            common.toast('识别号错误', 'error');
+        }
+        return false;
+    }).on('blur', '[name="mobile"]', function(){
+        if($(this).val() == '<?php echo $user['user']['mobile']?>'){
+            $('#shenfenshibie-form').find('[name="daihao"]').val('<?php echo \guangong\helpers\UserHelper::getCode(\F::app()->current_user)?>')
+        }
     });
 });
 </script>

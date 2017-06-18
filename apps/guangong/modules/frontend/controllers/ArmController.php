@@ -25,7 +25,7 @@ class ArmController extends FrontController{
     
     public function index(){
         if($this->checkLogin()){
-            $user = UserService::service()->get($this->current_user, 'nickname');
+            $user = UserService::service()->get($this->current_user, 'nickname,mobile,id');
             $user_extra = GuangongUserExtraTable::model()->find($this->current_user);
             if(!$user_extra['arm_id'] || !$user_extra['defence_area_id'] || !$user_extra['hour_id']){
                 //有一项没有完成，就要重新来过

@@ -47,9 +47,9 @@ body .fancybox-container--ready .fancybox-bg{opacity:0.2}
 }
 .off{background-image:url(images/music_off.png);background-size:30px 30px; background-repeat:no-repeat;background-position:center center;}
 
-#rank-dialog{background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%}
-#rank-dialog .yin{margin-bottom:20px;text-align:center}
-#rank-dialog .rank-description img{width:230px;max-width:100%}
+#rank-dialog .dialog-content{padding:0}
+#rank-dialog .rank-description img{max-width:100%}
+#rank-dialog .fancybox-close-small{top:41px}
 
 #attendance-dialog{text-align:center;background-image:url(../images/arm/caozhi-bg.png);background-size:100% 100%;padding:20px 0}
 #attendance-dialog .nickname,#attendance-dialog .sign-up-days{margin-bottom:14px}

@@ -14,6 +14,15 @@
     .title{margin-top:-55px}
 }
 
+fieldset{margin-bottom:6px;}
+fieldset .field-container{width:70%;display:inline-block;text-align:left;}
+fieldset .field-container .captcha{width:auto;height:30px;display:inline-block;vertical-align:bottom;margin-left:7%}
+fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;color:#717070}
+fieldset .form-control.short{width:50%}
+fieldset label{color:#231915;font-size:12px;display:inline-block;width:57px;min-width:48px;padding-top:7px;text-align:right;}
+fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%;margin-left:29%;text-align:left}
+fieldset .form-control.ib{display:inline-block;width:auto}
+
 .form-group{margin:0 13px}
 .form-group .content{line-height:2;font-family:arial;}
 .form-group .label-title{font-weight:bold;margin-right:10px;font-family:黑体}
@@ -50,7 +59,8 @@
 #arm-4 .next-link{bottom:130px;left:50%;margin-left:-57px}
 #arm-4 .go-to-sign{width:80px;left:50%;bottom:70px;margin-left:-40px}
 #arm-4 .go-to-sign a{color:#E5302D}
-#arm-4.swiper-slide{background-image:url(../images/arm/bg-guizeshuoming-fangqu.jpg)}
+#arm-4.set-defence-slide.swiper-slide{background-image:url(../images/arm/bg-guizeshuoming-fangqu.jpg)}
+#arm-4.swiper-slide{background-image:url(../images/arm/bg-fangqu-no-desc.jpg)}
 #go-to-sign-dialog{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%;width:260px;height:200px;font-size:22px;text-align:center;line-height:1.6;padding-top:56px}
 #go-to-sign-dialog .fancybox-close-small{top:17px;right:17px}
 @media screen and (max-width:350px){
@@ -116,19 +126,24 @@
 
 #arm-11 .desc{left:50%;margin-left:-121px;font-size:12px;bottom:54px}
 
+#arm-zhijungui .title-zhijungui{width:80px;top:50px;left:50%;margin-left:-40px}
+.shenfenshibie-form-container{top:230px}
+.shenfenshibie-form-container fieldset{margin-bottom:10px}
+.shenfenshibie-container{display:inline-block;margin-top:20px}
+.shenfenshibie-container img{width:100px;height:auto}
+
 #arm-13 .job-title{top:40px;left:50%;width:244px;margin-left:-140px}
-#arm-13 .jobs{left:50%;margin-left:-131px;top:105px}
-#arm-13 .jobs ul li{width:225px;height:96px;margin-bottom:10px;background-image:url(../images/arm/junzhi-bg.png);background-size:100% 100%}
-#arm-13 .jobs img{width:80%;height:auto;margin-top:18px}
+#arm-13 .jobs{left:5%;width:80%;top:105px}
+#arm-13 .jobs ul li{width:40%;display:inline-block}
 #arm-13 .description{width:90%;margin-left:-45%}
 #arm-13 .description p{text-indent:2em;color:#3E3938;font-size:12px}
 #arm-13 .description p a{color:#E50012}
 #arm-13.swiper-slide{background-image:url(../images/arm/bg-lvjunzhi.jpg)}
 @media screen and (max-width:350px){
     #arm-13 .job-title{top:26px;width:212px;margin-left:-131px}
-    #arm-13 .jobs{top:84px}
-    #arm-13 .jobs ul li{width:200px;height:71px}
+    #arm-13 .jobs{top:71px}
     #arm-13 .jobs img{margin-top:9px}
+    #arm-13 .jobs ul li{width:36%}
 }
 
 #yunchangjian-dialog{background-color:#eee;overflow:auto}

@@ -19,7 +19,7 @@ fieldset .field-container{width:70%;display:inline-block;text-align:left;}
 fieldset .field-container .captcha{width:auto;height:30px;display:inline-block;vertical-align:bottom;margin-left:7%}
 fieldset .form-control{background-color:#CFB679;border:0 none;padding:8px 7px;font-size:12px;width:100%;display:inline-block;color:#717070}
 fieldset .form-control.short{width:50%}
-fieldset label{color:#231915;font-size:12px;display:inline-block;width:57px;min-width:48px;padding-top:7px;text-align:right;}
+fieldset label{color:#231915;font-size:12px;display:inline-block;width:57px;min-width:48px;text-align:right;}
 fieldset p{color:#717070;font-size:12px;margin-top:7px;line-height:1.5;width:70%;margin-left:29%;text-align:left}
 fieldset .form-control.ib{display:inline-block;width:auto}
 
@@ -127,7 +127,7 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #arm-11 .desc{left:50%;margin-left:-121px;font-size:12px;bottom:54px}
 
 #arm-zhijungui .title-zhijungui{width:80px;top:50px;left:50%;margin-left:-40px}
-.shenfenshibie-form-container{top:230px}
+.shenfenshibie-form-container{top:230px;width:226px;left:50%;margin-left:-113px}
 .shenfenshibie-form-container fieldset{margin-bottom:10px}
 .shenfenshibie-container{display:inline-block;margin-top:20px}
 .shenfenshibie-container img{width:100px;height:auto}

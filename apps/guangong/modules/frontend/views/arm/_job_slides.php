@@ -149,14 +149,41 @@ wx.ready(function(){
     });
 });
 
-$('#post-dialog').css({'width': document.documentElement.clientWidth * 0.7});
-
 $(function(){
     var audio = new Audio("<?php echo $this->appAssets('music/gusheng2.mp3')?>");
     audio.addEventListener('timeupdate', function(){
         if(audio.currentTime == audio.duration){
             common.loadFancybox(function(){
-                $.fancybox.open($('#attendance-dialog').parent().html());
+                //记录任务
+                $.ajax({
+                    'type': 'POST',
+                    'url': system.url('api/task/do'),
+                    'data': {'task_id': 1},
+                    'dataType': 'json',
+                    'cache': false,
+                    'success': function(resp){
+                        console.log(resp);
+                        $('body').unblock();
+                        if(resp.data && resp.data.rank){
+                            $('#attendance-dialog').find('.rank-title').text(resp.data.rank.captain + ' ');
+                        }
+
+                        $.fancybox.open($('#attendance-dialog').parent().html(), {
+                            'afterClose': function(){
+                                if(resp.message == '军衔提升'){
+                                    $.fancybox.open([
+                                        '<div id="renmingzhuang-dialog" class="', resp.data.rank.id < 5 ? 'dideng' : 'gaodeng', '">',
+                                            '<h1>', resp.data.rank.id < 5 ? '任命状' : '晋升令', '</h1>',
+                                            '<p>丙申年因履职有功</p>',
+                                            '<p>依规擢升', resp.data.user.user.nickname, '为</p>',
+                                            '<p>关于军团', resp.data.rank.captain, '</p>',
+                                        '</div>'
+                                    ].join(''));
+                                }
+                            }
+                        });
+                    }
+                });
             });
         }
     });
@@ -166,20 +193,6 @@ $(function(){
     
     $('.task-link').on('click', function(){
         $('body').block();
-        //记录任务
-        $.ajax({
-            'type': 'POST',
-            'url': system.url('api/task/do'),
-            'data': {'task_id': $(this).attr('data-task-id')},
-            'dataType': 'json',
-            'cache': false,
-            'success': function(resp){
-                $('body').unblock();
-                if(resp.data && resp.data.rank){
-                    $('#attendance-dialog').find('.rank-title').text(resp.data.rank.captain + ' ');
-                }
-            }
-        });
     });
 
     common.loadFancybox(function(){

@@ -161,3 +161,12 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #jiangjunxian-dialog .desc{font-size:14px;color:#231915;margin-top:25px;border:1px dashed #000}
 #jiangjunxian-dialog .desc label{font-weight:bold;float:left}
 #jiangjunxian-dialog .desc span{margin-left:38px;display:block;line-height:1.2}
+
+#renmingzhuang-dialog{background-image:url(../images/arm/jingshenling.png);background-size:100% 100%;padding:90px 77px 60px 93px}
+#renmingzhuang-dialog h1{font-size:26px;float:right;width:30px;}
+#renmingzhuang-dialog p{font-size:20px;width:25px;float:right;height:250px;margin-right:6px}
+#renmingzhuang-dialog .fancybox-close-small{top:56px;right:38px}
+#renmingzhuang-dialog.dideng h1{font-size:20px}
+#renmingzhuang-dialog.dideng{background-image:url(../images/arm/renmingzhuang.png);}
+#renmingzhuang-dialog.dideng{padding:54px 43px 7px 70px}
+#renmingzhuang-dialog.dideng .fancybox-close-small{top:9px;right:8px}

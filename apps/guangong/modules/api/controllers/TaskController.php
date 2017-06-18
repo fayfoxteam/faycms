@@ -2,6 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
+use cms\services\user\UserService;
 use fay\core\Response;
 use guangong\models\tables\GuangongRanksTable;
 use guangong\models\tables\GuangongUserExtraTable;
@@ -36,7 +37,8 @@ class TaskController extends ApiController{
             Response::notify('success', array(
                 'message'=>'军衔提升',
                 'data'=>array(
-                    'rank'=>$rank
+                    'rank'=>$rank,
+                    'user'=>UserService::service()->get($this->current_user, 'id,nickname,realname'),
                 ),
             ));
         }else if($result){

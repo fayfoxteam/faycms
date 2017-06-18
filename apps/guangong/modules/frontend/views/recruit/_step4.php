@@ -15,7 +15,7 @@
     <div class="layer user-info">
         <fieldset>
             <label>识&nbsp;别&nbsp;号</label>
-            <div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('mobile', $user['user']['mobile'], array(
+            <div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText('mobile', '', array(
                 'class'=>'form-control',
                 'placeholder'=>'手机号为身份识别号',
             ))?></div>
@@ -24,10 +24,9 @@
             <label>军团代号</label>
             <div class="field-container"><?php echo \fay\helpers\HtmlHelper::inputText(
                 'daihao',
-                $arm ? "关羽军团{$arm['name']}营{$user['user']['id']}" : '',
+                '',
                 array(
                     'class'=>'form-control',
-                    'placeholder'=>'手机号为身份识别号',
                 ))?></div>
         </fieldset>
     </div>
@@ -49,19 +48,31 @@
 </div>
 <?php $this->renderPartial('_js')?>
 <script>
-<?php if(isset($user_extra['military']) && $user_extra['military'] >= \cms\services\OptionService::get('guangong:junfei', 1100)){?>
-common.loadFancybox(function(){
-    $('#jiangjunmiling-link').fancybox({
-        'type': 'inline',
-        'centerOnScroll': true,
-        'padding': 0,
-        'showCloseButton': false,
-        'width': '80%'
-    });
+$('#jiangjunmiling-link').on('click', function(){
+    if($('#recruit-42').find('[name="mobile"]').val() == ''){
+        common.toast('识别号不能为空', 'error');
+        return false;
+    }else if($('#recruit-42').find('[name="mobile"]').val() == '<?php echo $user['user']['mobile']?>'){
+        $('#recruit-42').find('[name="daihao"]').val('<?php echo \guangong\helpers\UserHelper::getCode(\F::app()->current_user)?>');
+        common.loadFancybox(function(){
+            $.fancybox.open($('#jiangjunmiling-dialog').parent().html());
+        });
+    }else{
+        common.toast('识别号错误', 'error');
+        return false;
+    }
 });
+$('#recruit-42').find('[name="mobile"]').on('blur', function(){
+    if($(this).val() == '<?php echo $user['user']['mobile']?>'){
+        $('#recruit-42').find('[name="daihao"]').val('<?php echo \guangong\helpers\UserHelper::getCode(\F::app()->current_user)?>')
+    }
+});
+<?php if(isset($user_extra['military']) && $user_extra['military'] >= \cms\services\OptionService::get('guangong:junfei', 1100)){?>
+
 <?php }else{?>
     $('#jiangjunmiling-link').on('click', function(){
         common.toast('您还未完成注册，请加入关羽军团后领受将军密令', 'error');
     });
 <?php }?>
+
 </script>

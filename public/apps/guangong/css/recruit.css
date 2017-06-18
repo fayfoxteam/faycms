@@ -71,7 +71,7 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #recruit-32 .to-login a,#recruit-32 .military a{background-color:#926931;font-size:16px;color:#231916;padding:15px 20px}
 #recruit-32 .register-form{width:80%;max-width:320px;left:50%;margin-left:-40%;top:50%;margin-top:-215px}
 #recruit-32 .register-form .form-control.ib{margin-right:2%;width:48%}
-#recruit-32 .avatar-container{text-align:center;margin-bottom:30px}
+#recruit-32 .avatar-container{text-align:center;margin-bottom:12px}
 #recruit-32 .avatar-container img{width:100px;height:133px;}
 #recruit-32.swiper-slide{background-image:url(../images/recruit/bg-2.jpg)}
 .submit-container{bottom:60px;text-align:center;left:50%;margin-left:-52px}
@@ -102,6 +102,7 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #register-success-dialog a{color:#fff;background-color:#936A32;font-size:18px;padding:10px 16px}
 #register-success-dialog .fancybox-close-small{right:26px;top:22px}
 
+#upload-photo-link{margin-left:58px}
 #upload-photo-link.no-photo{position:relative;display:inline-block}
 #upload-photo-link.no-photo img{display:block}
 #upload-photo-link.no-photo:before{content:"";position:absolute;left:0;right:0;width:100%;height:100%;background-color:#333;opacity:0.3}

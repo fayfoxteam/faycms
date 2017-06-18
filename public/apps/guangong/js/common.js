@@ -164,9 +164,9 @@ var common = {
         
         //一些结果页
         if($swiper.find('.result').length){
-            $swiper.find('.result').show().addClass('fadeInRight animated');
+            $swiper.find('.result').show().addClass('fadeInLeft animated');
         }else{
-            $('.result').hide().removeClass('fadeInRight animated');
+            $('.result').hide().removeClass('fadeInLeft animated');
         }
         
         //右上角小标题

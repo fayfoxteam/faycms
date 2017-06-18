@@ -25,8 +25,14 @@
                 'id'=>'photo-server-id',
             ));?>
             <fieldset class="avatar-container">
-                <a href="javascript:" id="upload-photo-link">
-                    <img src="<?php echo $user['user']['avatar']['thumbnail']?>" id="photo-preview">
+                <a href="javascript:" id="upload-photo-link" class="<?php if(!$user['user']['avatar']['id']){echo 'no-photo';}?>">
+                    <img src="<?php
+                        if($user['user']['avatar']['id']){
+                            echo $user['user']['avatar']['thumbnail'];
+                        }else{
+                            echo $this->appAssets('images/recruit/avatar.png');
+                        }
+                    ?>" id="photo-preview">
                 </a>
             </fieldset>
             <fieldset>
@@ -149,6 +155,7 @@ $(function(){
                             var serverId = res.serverId; // 返回图片的服务器端ID
                             $('#photo-server-id').val(serverId.toString());
                             $('#photo-preview').attr('src', 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=<?php echo $access_token?>&media_id='+serverId.toString());
+                            $('#photo-preview').parent().removeClass('no-photo');
                         }
                     });
                 }

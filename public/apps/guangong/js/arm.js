@@ -283,7 +283,7 @@ var arm = {
                     $('#info-region').text(resp.data.extra.state_name + ' ' + resp.data.extra.city_name + ' ' + resp.data.extra.district_name);
                     if(resp.data.extra.sign_up_time != 0){
                         $('#info-sign-up-time').text(system.date(resp.data.extra.sign_up_time, true));
-                        $('#info-army-time').text(system.date(parseInt(resp.data.extra.sign_up_time) + 86400 * 365, true));
+                        $('#info-army-time').text('至'+system.date(parseInt(resp.data.extra.sign_up_time) + 86400 * 365, true));
                     }
                     $('#info-defence-area').text(resp.data.extra.defence_area_name);
                     $('#info-arm').text(resp.data.extra.arm_name);

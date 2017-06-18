@@ -39,7 +39,7 @@
         <fieldset>
             <label class="label-title">军职</label>
             <a href="#rank-dialog" class="content rank-dialog-link" data-id="" id="info-rank"></a>
-            <a href="<?php echo $this->url('rank')?>" class="all-rank-link">→全部军职</a>
+            <!--<a href="<?php /*echo $this->url('rank')*/?>" class="all-rank-link">→全部军职</a>-->
         </fieldset>
         <fieldset>
             <label class="label-title">军团代号</label>

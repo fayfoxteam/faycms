@@ -31,6 +31,10 @@ return array(
                 \guangong\models\tables\GuangongUserExtraTable::model()->insert(array(
                     'user_id'=>$user_id,
                 ));
+                //变态需求，微信登陆后不能用微信头像
+                \cms\models\tables\UsersTable::model()->update(array(
+                    'avatar'=>0,
+                ), $user_id);
             }
         ),
     ),

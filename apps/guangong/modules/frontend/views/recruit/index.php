@@ -8,6 +8,7 @@
  * @var $js_sdk_config array
  */
 $this->appendCss($this->appAssets('css/recruit.css'));
+$this->appendCss($this->assets('css/font-awesome.css'));
 ?>
 <div class="layer u-arrow-right"><img src="<?php echo $this->appAssets('images/btn01_arrow_right.png')?>"></div>
 <div class="swiper-container">

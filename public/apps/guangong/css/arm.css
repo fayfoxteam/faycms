@@ -99,7 +99,7 @@
     #arm-10 .shake{margin-top:96px}
 }
 
-#arm-10 .juanzhou-kai{display:none;font-size:14px;padding:70px 20px 0;text-align:left;width:275px;height:400px;top:50px;left:50%;margin-left:-148px;background-image:url(../images/arm/juanzhou-kai.png);background-size:100% 100%}
+#arm-10 .juanzhou-kai{display:none;font-size:14px;padding:70px 20px 0;text-align:left;width:275px;height:400px;top:50px;left:50%;margin-left:-138px;background-image:url(../images/arm/juanzhou-kai.png);background-size:100% 100%}
 #arm-10 .juanzhou-kai a{color:#000}
 #arm-10 .juanzhou-kai label.label-title{width:60px;display:inline-block;text-align:right;float:left;font-weight:bold}
 #arm-10 .juanzhou-kai .content{margin-left:10px;text-align:left;display:inline-block}
@@ -108,6 +108,11 @@
 #arm-10 .juanzhou-kai #info-avatar img{width:70px;height:70px}
 #arm-10 .juanzhou-kai a.all-rank-link{color:blue}
 #arm-10.swiper-slide{background-image:url(../images/arm/bg-junji.jpg)}
+#arm-10 .junjicundang{width:40%;max-width:150px;bottom:60px;left:50%;transform:translate(-50%,0px);display:none}
+@media screen and (max-width:350px){
+    #arm-10 .juanzhou-kai{top:17px}
+    #arm-10 .junjicundang{bottom:20px}
+}
 
 #arm-11 .desc{left:50%;margin-left:-121px;font-size:12px;bottom:54px}
 

@@ -263,6 +263,9 @@ var arm = {
         $arm10.find('.juanzhou-he').addClass('fadeOut animated');
         $arm10.find('.juanzhou-he').removeClass('fadeInLeft');
         $arm10.find('.shake').remove();
+        $arm10.find('.junjicundang').on('click', function(){
+            common.swiper.slideNext();
+        });
 
         $.ajax({
             'type': 'GET',
@@ -273,6 +276,7 @@ var arm = {
             'success': function(resp){
                 if(resp.status){
                     $arm10.find('.description').hide();
+                    $arm10.find('.junjicundang').fadeIn();
                     $('#info-avatar img').attr('src', resp.data.user.avatar.thumbnail);
                     $('#info-mobile').text(resp.data.user.mobile);
                     $('#info-birthday').text(resp.data.extra.birthday);

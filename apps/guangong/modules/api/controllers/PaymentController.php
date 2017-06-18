@@ -25,7 +25,7 @@ class PaymentController extends \faypay\modules\api\controllers\PaymentControlle
                 )
             ),
             array(
-                'subject'=>'关羽军团军费',
+                'subject'=>'网络体验服务费',
                 'return_url'=>UrlHelper::createUrl('payment/success'),
             )
         );
@@ -34,6 +34,6 @@ class PaymentController extends \faypay\modules\api\controllers\PaymentControlle
         Response::redirect('api/payment/pay', array(
             'trade_id'=>$trade_id,
             'payment_id'=>1,//这个系统，写死就好了
-        ), false);
+        ));
     }
 }

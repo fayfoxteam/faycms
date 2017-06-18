@@ -46,5 +46,6 @@
             <span class="content" id="info-id"></span>
         </fieldset>
     </div>
+    <div class="layer junjicundang"><a href="javascript:" id="junjicundang-link"><img src="<?php echo $this->appAssets('images/arm/btn-junjicundang.jpg')?>"></a></div>
     <div class="layer shake"><img src="<?php echo $this->appAssets('images/arm/shake.png')?>"></div>
 </div>

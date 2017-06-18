@@ -149,7 +149,7 @@ var arm = {
                     common.fancybox();
                     setTimeout(function(){
                         $('#arm-6').find('a.result').click();
-                    }, 800);
+                    }, 2000);
                     
                     //移除class。摇一摇就失效了
                     $setArmSlide.removeClass('set-arm-slide');
@@ -193,7 +193,7 @@ var arm = {
                     common.fancybox();
                     setTimeout(function(){
                         $arm8.find('a.result').click();
-                    }, 800);
+                    }, 2000);
                     
                     //移除class。摇一摇就失效了
                     $('.set-hour-slide').removeClass('set-hour-slide');
@@ -238,7 +238,7 @@ var arm = {
                         //common.toast(resp.message, 'success');
                         setTimeout(function(){
                             $('#arm-4').find('a.result').click();
-                        }, 800);
+                        }, 2000);
                         
                         //插入分享按钮和确定按钮
                         $arm4.append(['<div class="layer operations">',

@@ -160,7 +160,7 @@ var arm = {
                         '<a href="javascript:" class="btn-1 reset-arm-link">重摇一次</a> ',
                         '</div>'].join(''));
                     
-                    common.toast(resp.message, 'success');
+                    //common.toast(resp.message, 'success');
                 }else{
                     common.toast(resp.message, 'error');
                 }
@@ -204,7 +204,7 @@ var arm = {
                         '<a href="javascript:" class="btn-1 reset-hour-link">重摇一次</a> ',
                         '</div>'].join(''));
                     
-                    common.toast(resp.message, 'success');
+                    //common.toast(resp.message, 'success');
                 }else{
                     common.toast(resp.message, 'error');
                 }
@@ -235,7 +235,7 @@ var arm = {
                         $arm4.find('.description').hide();
                         $arm4.find('.map').html('<a class="result" data-fancybox href="#defence-dialog"><img src="' + resp.data.picture.url + '"></a>');
                         $('#defence-dialog').find('img').attr('src', resp.data.text_picture.url);
-                        common.toast(resp.message, 'success');
+                        //common.toast(resp.message, 'success');
                         setTimeout(function(){
                             $('#arm-4').find('a.result').click();
                         }, 800);

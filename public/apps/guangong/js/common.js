@@ -240,6 +240,7 @@ var common = {
     'loadFancybox': function(func){
         system.getCss(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.css'), function() {
             system.getScript(system.assets('js/fancybox-3.0/dist/jquery.fancybox.min.js'), function () {
+                $.fancybox.defaults.focus = false;
                 if(typeof(func) == 'function'){
                     func();
                 }

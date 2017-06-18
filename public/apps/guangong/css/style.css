@@ -18,6 +18,7 @@ body .fancybox-close-small:after{font-size:30px;background-color:transparent;col
 body .fancybox-close-small:hover:after{background-color:transparent;color:#555}
 body .fancybox-slide>*{background-color:transparent}
 body .fancybox-container--ready .fancybox-bg{opacity:0.2}
+body .fancybox-content{width:auto}
 
 @keyframes leftflip {
     0%,30% {opacity: 0;transform: translate(-10,0px);}

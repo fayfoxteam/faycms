@@ -35,7 +35,7 @@
                 <a href="javascript:" class="show-weixin-share-link"><img src="<?php echo $this->appAssets('images/arm/junzhi-2-2.png')?>"></a>
             </li>
             <li class="job-3">
-                <a href="#post-dialog" id="post-dialog-link" data-id="<?php echo empty($next_post) ? 0 : $next_post?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3-2.png')?>"></a>
+                <a href="<?php echo $this->url('post')?>" id="post-dialog-link" data-id="<?php echo empty($next_post) ? 0 : $next_post?>"><img src="<?php echo $this->appAssets('images/arm/junzhi-3-2.png')?>"></a>
             </li>
             <li class="job-4">
                 <a href="<?php echo $this->url()?>" class=""><img src="<?php echo $this->appAssets('images/arm/junzhi-4-2.png')?>"></a>
@@ -129,19 +129,19 @@ wx.ready(function(){
         success: function(){
             // 用户确认分享后执行的回调函数
             $('body').block();
-            $.ajax({
-                'type': 'POST',
-                'url': system.url('api/task/do'),
-                'data': {'task_id': 2},
-                'dataType': 'json',
-                'cache': false,
-                'success': function(resp){
-                    $('body').unblock();
-                    if(resp.status){
-                        common.toast('分享朋友圈任务完成', 'success');
-                    }
-                }
-            });
+//            $.ajax({
+//                'type': 'POST',
+//                'url': system.url('api/task/do'),
+//                'data': {'task_id': 2},
+//                'dataType': 'json',
+//                'cache': false,
+//                'success': function(resp){
+//                    $('body').unblock();
+//                    if(resp.status){
+//                        common.toast('分享朋友圈任务完成', 'success');
+//                    }
+//                }
+//            });
         },
         cancel: function () {
             // 用户取消分享后执行的回调函数
@@ -202,24 +202,24 @@ $(function(){
                     common.toast('恭喜您已经完成所有资料阅读');
                     return false;
                 }else{
-                    $('body').block();
-                    $.ajax({
-                        'type': 'GET',
-                        'url': system.url('api/post/item'),
-                        'data': {'id': slide.opts.$orig.attr('data-id')},
-                        'dataType': 'json',
-                        'cache': false,
-                        'success': function(resp){
-                            $('body').unblock();
-                            if(resp.status){
-                                var $postDialog = $('#post-dialog');
-                                $postDialog.find('.post-title').text(resp.data.post.title);
-                                $postDialog.find('.post-content').html(resp.data.post.content);
-                            }else{
-                                common.toast('恭喜您已经完成所有资料阅读');
-                            }
-                        }
-                    });
+//                    $('body').block();
+//                    $.ajax({
+//                        'type': 'GET',
+//                        'url': system.url('api/post/item'),
+//                        'data': {'id': slide.opts.$orig.attr('data-id')},
+//                        'dataType': 'json',
+//                        'cache': false,
+//                        'success': function(resp){
+//                            $('body').unblock();
+//                            if(resp.status){
+//                                var $postDialog = $('#post-dialog');
+//                                $postDialog.find('.post-title').text(resp.data.post.title);
+//                                $postDialog.find('.post-content').html(resp.data.post.content);
+//                            }else{
+//                                common.toast('恭喜您已经完成所有资料阅读');
+//                            }
+//                        }
+//                    });
                 }
             }
         });

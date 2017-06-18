@@ -111,7 +111,7 @@ var common = {
      * 动画效果
      */
     'animate': function(){
-        var $swiper = $('.swiper-wrapper .swiper-slide:eq('+common.swiper.activeIndex+')');
+        var $swiper = $('.swiper-wrapper .swiper-slide:eq('+(common.swiper ? common.swiper.activeIndex : 1)+')');
         
         //步骤页面
         $steps = $swiper.find('.steps');
@@ -257,6 +257,8 @@ var common = {
         this.rankDialog();
         this.weixinShare();
         this.nextArrow();
-        common.swiper.on('SlideChangeStart', this.animate);
+        if(common.swiper){
+            common.swiper.on('SlideChangeStart', this.animate);
+        }
     }
 };

@@ -39,7 +39,7 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 }
 
 #recruit-6 .yi{left:50%;top:40px;width:200px;margin-left:-100px}
-#recruit-6 .yi-text{width:77%;left:50%;bottom:77px;margin-left:-38%;max-width:300px}
+#recruit-6 .yi-text{width:77%;left:50%;bottom:46px;margin-left:-38%;max-width:300px}
 #recruit-6.swiper-slide{background-image:url(../images/recruit/bg-2.jpg)}
 @media screen and (min-width:348px){
     #recruit-6 .yi-text{margin-left:-160px}

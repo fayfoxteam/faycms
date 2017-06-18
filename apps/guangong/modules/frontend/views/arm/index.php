@@ -65,7 +65,9 @@ $this->appendCss($this->appAssets('css/arm.css'));
         'hour'=>$hour
     ));
     $this->renderPartial('_rank_dialog');
-    $this->renderPartial('_defence_dialog');
+    $this->renderPartial('_defence_dialog', array(
+        'defence'=>$defence,
+    ));
     $this->renderPartial('_attendance_dialog', array(
         'user'=>$user,
         'attendances'=>$attendances,

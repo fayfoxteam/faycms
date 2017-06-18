@@ -5,7 +5,6 @@ use cms\library\ApiController;
 use fay\core\Response;
 use guangong\models\tables\GuangongRanksTable;
 use guangong\models\tables\GuangongUserExtraTable;
-use guangong\services\RankService;
 use guangong\services\TaskService;
 
 class TaskController extends ApiController{

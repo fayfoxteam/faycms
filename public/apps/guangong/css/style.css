@@ -18,13 +18,13 @@ body .fancybox-close-small:after{font-size:30px;background-color:transparent;col
 body .fancybox-close-small:hover:after{background-color:transparent;color:#555}
 body .fancybox-slide>*{background-color:transparent}
 
-@keyframes rightflip {
-    0%,30% {opacity: 0;transform: translate(10,0px);}
+@keyframes leftflip {
+    0%,30% {opacity: 0;transform: translate(-10,0px);}
     60% {opacity: 1;transform: translate(0,0);}
-    100% {opacity: 0;transform: translate(-8px,0);}
+    100% {opacity: 0;transform: translate(8px,0);}
 }
-.u-arrow-right{width:14px;height:24px;z-index:150;top:50%;margin-top:-10%;right:5px}
-.u-arrow-right img{position:absolute;top:50%;left:50%;margin:-7px 0 0 -14px;width:14px;height:24px;background-position:0 -82px;-webkit-animation:rightflip 1.5s infinite ease-in-out;-moz-animation:rightflip 1.5s infinite ease-in-out;animation:rightflip 1.5s infinite ease-in-out}
+.u-arrow-right{width:14px;height:24px;z-index:150;top:50%;margin-top:-10%;right:5px;transform:rotate(180deg);}
+.u-arrow-right img{position:absolute;top:50%;left:50%;margin:-7px 0 0 -1px;width:14px;height:24px;background-position:0 -82px;-webkit-animation:leftflip 1.5s infinite ease-in-out;-moz-animation:leftflip 1.5s infinite ease-in-out;animation:leftflip 1.5s infinite ease-in-out}
 
 .fn-block{position:absolute;top:0;left:0;width:100%;height:100%;cursor:wait;z-index:500;background:url(images/bgblackp10.png) repeat scroll 0 0 transparent}
 .fn-block-loading-img{position:absolute;top:50%;left:50%;margin:-22px 0 0 -22px;z-index:501;cursor:wait}

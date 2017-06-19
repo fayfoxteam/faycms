@@ -70,7 +70,9 @@ class PostService extends Service{
             'id', 'title', 'alias',
         ),
         'user'=>array(
-            'id', 'nickname', 'avatar',
+            'id', 'nickname', 'avatar', 'roles'=>array(
+                'id', 'title'
+            )
         ),
         'nav'=>array(
             'id', 'title',

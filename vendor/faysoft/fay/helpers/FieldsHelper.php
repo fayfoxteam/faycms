@@ -55,7 +55,7 @@ class FieldsHelper{
      * @param array $allow_fields
      */
     public function filter($allow_fields){
-        $current_section_fields = array('*');//不过滤星号
+        $current_section_fields = array();//不过滤星号
         foreach($allow_fields as $section => $fields){
             if(is_int($section) && is_string($fields)){
                 //传入一维数组的话，认为是对当前section过滤
@@ -74,10 +74,26 @@ class FieldsHelper{
                 //下层section字段
                 $this->siblings[$section]->filter($fields);
             }
+            
+            if(isset($this->siblings[$section]) && !$this->siblings[$section]->getFields()){
+                //如果字段被全部过滤掉了，则删除这个Section
+                unset($this->siblings[$section]);
+            }
         }
 
         if($current_section_fields){
-            $this->fields = array_intersect($this->fields, $current_section_fields);
+            if(!in_array('*', $allow_fields) && in_array('*', $this->fields)){
+                //当前字段中有型号，允许的字段中没有星号，则将当前字段替换为允许的字段
+                $this->fields = $current_section_fields;
+            }else if(in_array('*', $allow_fields)){
+                //允许的字段中有型号，则不做过滤
+            }else{
+                //两边都没星号，取交集
+                $this->fields = array_intersect($this->fields, $current_section_fields);
+            }
+        }else{
+            //全部被过滤光了，把$this->fields置空
+            $this->fields = array();
         }
     }
 

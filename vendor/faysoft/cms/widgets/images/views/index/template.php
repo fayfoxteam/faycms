@@ -1,6 +1,5 @@
 <?php
 use fay\helpers\HtmlHelper;
-use cms\services\file\FileService;
 
 /**
  * @var $widget \cms\widgets\images\controllers\IndexController

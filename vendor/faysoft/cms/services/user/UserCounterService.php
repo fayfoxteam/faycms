@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\user;
 
+use cms\models\tables\UserCounterTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\UserCounterTable;
 use fay\helpers\FieldsHelper;
 
 class UserCounterService extends Service{

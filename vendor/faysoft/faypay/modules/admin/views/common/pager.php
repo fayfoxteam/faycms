@@ -1,6 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
 use fay\core\Uri;
+use fay\helpers\HtmlHelper;
+
 ?>
 <div class="pager">
 <?php

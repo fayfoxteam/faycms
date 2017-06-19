@@ -4,8 +4,8 @@ namespace faypay\services\trade\state;
 use faypay\services\methods\PaymentMethodService;
 use faypay\services\trade\TradeErrorException;
 use faypay\services\trade\TradeException;
-use faypay\services\trade\TradePaymentItem;
 use faypay\services\trade\TradeItem;
+use faypay\services\trade\TradePaymentItem;
 use faypay\services\trade\TradePaymentService;
 
 /**

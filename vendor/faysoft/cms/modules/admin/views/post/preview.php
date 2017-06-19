@@ -2,6 +2,7 @@
 use cms\models\tables\PostsTable;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
+
 /**
  * @var $this \fay\core\View
  * @var $post array

@@ -3,8 +3,8 @@ namespace fay\common;
 
 use fay\core\Db;
 use fay\core\ErrorException;
-use fay\core\Sql;
 use fay\core\Exception;
+use fay\core\Sql;
 use fay\helpers\UrlHelper;
 
 class ListView{

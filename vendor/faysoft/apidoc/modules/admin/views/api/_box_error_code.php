@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" id="box-inputs" data-name="error_code">
     <div class="box-title">

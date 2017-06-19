@@ -2,14 +2,14 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\models\tables\TagsTable;
 use cms\models\tables\ActionlogsTable;
 use cms\models\tables\PostsTagsTable;
-use fay\core\Sql;
-use fay\common\ListView;
-use fay\core\Response;
-use fay\core\HttpException;
 use cms\models\tables\TagCounterTable;
+use cms\models\tables\TagsTable;
+use fay\common\ListView;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
 
 class TagController extends AdminController{
     public function __construct(){

@@ -1,9 +1,9 @@
 <?php
 namespace fay\validators;
 
-use fay\core\Validator;
-use fay\core\Sql;
 use fay\core\ErrorException;
+use fay\core\Sql;
+use fay\core\Validator;
 
 /**
  * 该验证器必须传入table, field参数

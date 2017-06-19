@@ -1,14 +1,14 @@
 <?php
 namespace fayfeed\services;
 
+use cms\services\user\UserService;
+use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\core\Exception;
 use fay\helpers\ArrayHelper;
-use cms\services\user\UserService;
+use fay\helpers\RequestHelper;
 use fayfeed\models\tables\FeedFavoritesTable;
 use fayfeed\models\tables\FeedMetaTable;
-use fay\helpers\RequestHelper;
 
 class FeedFavoriteService extends Service{
     /**

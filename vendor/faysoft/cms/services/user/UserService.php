@@ -1,24 +1,24 @@
 <?php
 namespace cms\services\user;
 
+use cms\models\tables\ActionsTable;
 use cms\models\tables\PropsTable;
+use cms\models\tables\RolesTable;
+use cms\models\tables\UserCounterTable;
+use cms\models\tables\UserLoginsTable;
+use cms\models\tables\UserProfileTable;
+use cms\models\tables\UsersRolesTable;
+use cms\models\tables\UsersTable;
+use cms\services\AnalystService;
+use cms\services\file\FileService;
+use cms\services\OptionService;
 use cms\services\prop\PropService;
+use fay\core\db\Expr;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\FieldsHelper;
 use fay\helpers\NumberHelper;
 use fay\helpers\RequestHelper;
-use fay\core\db\Expr;
-use cms\models\tables\ActionsTable;
-use cms\models\tables\RolesTable;
-use cms\models\tables\UserProfileTable;
-use cms\models\tables\UsersTable;
-use cms\models\tables\UsersRolesTable;
-use cms\models\tables\UserCounterTable;
-use cms\models\tables\UserLoginsTable;
-use cms\services\AnalystService;
-use cms\services\file\FileService;
-use cms\services\OptionService;
 
 /**
  * 用户服务

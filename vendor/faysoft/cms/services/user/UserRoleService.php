@@ -1,11 +1,11 @@
 <?php
 namespace cms\services\user;
 
+use cms\models\tables\RolesTable;
+use cms\models\tables\UsersRolesTable;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use cms\models\tables\RolesTable;
-use cms\models\tables\UsersRolesTable;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 

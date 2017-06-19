@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\HtmlHelper;
 use cms\services\file\FileService;
+use fay\helpers\HtmlHelper;
 
 echo F::form()->open();
 ?>

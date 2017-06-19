@@ -1,8 +1,8 @@
 <?php
-use apidoc\helpers\SampleHelper;
-use fay\helpers\HtmlHelper;
 use apidoc\helpers\ApiHelper;
+use apidoc\helpers\SampleHelper;
 use apidoc\helpers\TrackHelper;
+use fay\helpers\HtmlHelper;
 use Michelf\MarkdownExtra;
 
 /**

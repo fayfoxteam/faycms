@@ -1,4 +1,4 @@
-<?php 
+<?php
 use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
 

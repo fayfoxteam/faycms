@@ -2,11 +2,11 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use cms\services\MessageService;
-use fay\core\Response;
 use cms\models\tables\PostsTable;
-use fay\core\HttpException;
+use cms\services\MessageService;
 use cms\services\user\UserService;
+use fay\core\HttpException;
+use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
 /**

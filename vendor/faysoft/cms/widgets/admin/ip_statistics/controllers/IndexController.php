@@ -1,9 +1,9 @@
 <?php
 namespace cms\widgets\admin\ip_statistics\controllers;
 
-use fay\widget\Widget;
-use fay\core\Sql;
 use fay\core\Loader;
+use fay\core\Sql;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function index(){

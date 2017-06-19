@@ -2,11 +2,9 @@
 namespace apidoc\library;
 
 use apidoc\helpers\LinkHelper;
-use fay\core\Controller;
-use fay\helpers\RequestHelper;
-use cms\models\tables\SpiderLogsTable;
-use cms\services\CategoryService;
 use apidoc\models\tables\ApidocApisTable;
+use cms\services\CategoryService;
+use fay\core\Controller;
 use fay\helpers\HtmlHelper;
 
 class FrontController extends Controller{

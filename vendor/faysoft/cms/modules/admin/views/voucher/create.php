@@ -1,6 +1,6 @@
 <?php
-use cms\models\tables\VouchersTable;
 use fay\helpers\HtmlHelper;
+
 ?>
 <form id="form" class="validform" action="" method="post">
     <div class="form-field">

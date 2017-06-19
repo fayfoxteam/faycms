@@ -2,9 +2,9 @@
 namespace cms\modules\tools\controllers;
  
 use cms\library\ToolsController;
-use fay\core\Response;
 use cms\services\file\QiniuService;
 use cms\services\file\WeixinFileService;
+use fay\core\Response;
 
 class FileController extends ToolsController{
     /*

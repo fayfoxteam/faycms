@@ -1,9 +1,9 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\TemplatesTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\TemplatesTable;
 
 class TemplateService extends Service{
     /**

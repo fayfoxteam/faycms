@@ -2,19 +2,19 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\core\Sql;
-use cms\models\tables\UsersTable;
-use cms\models\tables\RolesTable;
-use fay\common\ListView;
-use cms\services\user\UserPropService;
-use cms\services\user\UserService;
 use cms\models\tables\ActionlogsTable;
-use fay\core\Response;
-use fay\helpers\HtmlHelper;
+use cms\models\tables\RolesTable;
+use cms\models\tables\UserProfileTable;
+use cms\models\tables\UsersTable;
+use cms\services\user\UserPropService;
+use cms\services\user\UserRoleService;
+use cms\services\user\UserService;
+use fay\common\ListView;
 use fay\core\HttpException;
 use fay\core\Loader;
-use cms\models\tables\UserProfileTable;
-use cms\services\user\UserRoleService;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 
 class UserController extends AdminController{
     public function __construct(){

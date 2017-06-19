@@ -2,12 +2,12 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
+use cms\models\tables\PropsTable;
 use cms\services\prop\ItemPropService;
 use cms\services\prop\PropService;
 use fay\common\ListView;
 use fay\core\HttpException;
 use fay\core\Response;
-use cms\models\tables\PropsTable;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
 

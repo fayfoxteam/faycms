@@ -3,10 +3,10 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\AnalystSitesTable;
-use fay\helpers\HtmlHelper;
-use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 
 class AnalystSiteController extends AdminController{
     public function __construct(){

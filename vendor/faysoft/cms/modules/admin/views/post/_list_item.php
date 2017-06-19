@@ -1,11 +1,11 @@
 <?php
-use fay\helpers\HtmlHelper;
-use cms\services\post\PostService;
-use fay\helpers\DateHelper;
 use cms\helpers\PostHelper;
 use cms\services\file\FileService;
-use cms\services\post\PostTagService;
 use cms\services\post\PostCategoryService;
+use cms\services\post\PostService;
+use cms\services\post\PostTagService;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $data array

@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <style>
 #file-preview{text-align:center;}

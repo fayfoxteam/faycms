@@ -2,11 +2,11 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\ApiController;
+use cms\services\user\UserService;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 use fayfeed\services\FeedLikeService;
 use fayfeed\services\FeedService;
-use cms\services\user\UserService;
 
 /**
  * 动态点赞

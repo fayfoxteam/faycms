@@ -1,6 +1,4 @@
 <?php
-use fay\helpers\HtmlHelper;
-use cms\services\file\FileService;
 ?>
 <div class="box" id="box-thumbnail" data-name="thumbnail">
     <div class="box-title">

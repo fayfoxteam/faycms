@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\PostMetaTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\PostMetaTable;
 use fay\helpers\FieldsHelper;
 
 class PostMetaService extends Service{

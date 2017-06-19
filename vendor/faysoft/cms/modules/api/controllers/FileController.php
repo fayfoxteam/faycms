@@ -2,12 +2,12 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
+use cms\models\tables\FilesTable;
 use cms\services\CaptchaService;
 use cms\services\file\FileService;
-use cms\models\tables\FilesTable;
 use cms\services\file\ImageService;
-use fay\core\Validator;
 use fay\core\HttpException;
+use fay\core\Validator;
 use fay\helpers\StringHelper;
 use PHPQRCode\QRcode;
 

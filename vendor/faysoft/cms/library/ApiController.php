@@ -2,7 +2,6 @@
 namespace cms\library;
 
 use fay\core\Controller;
-use fay\core\Http;
 use fay\core\Response;
 
 /**

@@ -3,16 +3,16 @@ namespace cms\modules\admin\controllers;
 
 use cms\helpers\WidgetHelper;
 use cms\library\AdminController;
+use cms\models\tables\ActionlogsTable;
 use cms\models\tables\WidgetAreasWidgetsTable;
 use cms\models\tables\WidgetsTable;
 use cms\services\widget\WidgetAreaService;
+use fay\common\ListView;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
 use fay\helpers\LocalFileHelper;
 use fay\helpers\StringHelper;
-use cms\models\tables\ActionlogsTable;
-use fay\core\Sql;
-use fay\common\ListView;
-use fay\core\Response;
-use fay\core\HttpException;
 use Michelf\Markdown;
 
 class WidgetController extends AdminController{

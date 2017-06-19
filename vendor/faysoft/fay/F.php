@@ -1,15 +1,15 @@
 <?php
-use fay\core\Controller;
-use fay\core\Input;
-use fay\core\Form;
 use fay\core\Cache;
-use fay\core\Session;
 use fay\core\Config;
+use fay\core\Controller;
+use fay\core\Cookie;
 use fay\core\Db;
+use fay\core\Form;
+use fay\core\Input;
+use fay\core\Loader;
+use fay\core\Session;
 use fay\log\Logger;
 use fay\widget\Loader as WidgetLoader;
-use fay\core\Cookie;
-use fay\core\Loader;
 
 /**
  * 超级类，可以在任何地方获取各种方法

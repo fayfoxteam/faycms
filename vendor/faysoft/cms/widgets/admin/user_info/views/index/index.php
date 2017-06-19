@@ -1,8 +1,9 @@
 <?php
-use fay\helpers\DateHelper;
-use fay\helpers\ArrayHelper;
 use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
+use fay\helpers\ArrayHelper;
+use fay\helpers\DateHelper;
+
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
     <div class="box-title">

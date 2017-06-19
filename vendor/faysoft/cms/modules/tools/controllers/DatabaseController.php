@@ -2,8 +2,8 @@
 namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
-use fay\helpers\StringHelper;
 use fay\core\Db;
+use fay\helpers\StringHelper;
 
 class DatabaseController extends ToolsController{
     /**

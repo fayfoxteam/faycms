@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\friendlinks\controllers;
 
-use fay\widget\Widget;
 use cms\services\LinkService;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     /**

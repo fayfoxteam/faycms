@@ -1,12 +1,12 @@
 <?php
 namespace fayfeed\services;
 
+use cms\services\user\UserService;
+use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fayfeed\models\tables\FeedLikesTable;
-use cms\services\user\UserService;
 use fayfeed\models\tables\FeedMetaTable;
 
 class FeedLikeService extends Service{

@@ -2,10 +2,10 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\Response;
 use cms\services\post\PostLikeService;
 use cms\services\post\PostService;
 use cms\services\user\UserService;
+use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
 /**

@@ -1,9 +1,9 @@
 <?php
 namespace cms\widgets\admin\change_app\controllers;
 
+use fay\core\Response;
 use fay\helpers\LocalFileHelper;
 use fay\widget\Widget;
-use fay\core\Response;
 
 class IndexController extends Widget{
     public function index(){

@@ -2,8 +2,8 @@
 namespace cms\services\post;
 
 use cms\models\tables\PostPropIntTable;
-use cms\models\tables\PostPropTitleAliasTable;
 use cms\models\tables\PostPropTextTable;
+use cms\models\tables\PostPropTitleAliasTable;
 use cms\models\tables\PostPropVarcharTable;
 use cms\models\tables\PostsTable;
 use cms\models\tables\PropsTable;

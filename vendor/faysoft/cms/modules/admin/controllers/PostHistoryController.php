@@ -5,7 +5,6 @@ use cms\library\AdminController;
 use cms\services\CategoryService;
 use cms\services\post\PostHistoryService;
 use cms\services\user\UserService;
-use fay\core\HttpException;
 use fay\core\Response;
 use fay\helpers\ArrayHelper;
 

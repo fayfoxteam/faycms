@@ -3,10 +3,10 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\KeywordsTable;
-use fay\core\Sql;
 use fay\common\ListView;
-use fay\core\Response;
 use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
 
 class KeywordController extends AdminController{
     public function __construct(){

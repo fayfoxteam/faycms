@@ -2,8 +2,8 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\Response;
 use cms\models\tables\RegionsTable;
+use fay\core\Response;
 
 /**
  * 地区选择

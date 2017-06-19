@@ -2,24 +2,24 @@
 namespace fayshop\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fayshop\models\tables\ShopGoodsTable;
-use fayshop\models\tables\ShopGoodsFilesTable;
-use fayshop\models\tables\ShopGoodsCatPropValuesTable;
-use fayshop\models\tables\ShopGoodsPropValuesTable;
-use fayshop\models\tables\ShopGoodsSkusTable;
 use cms\models\tables\ActionlogsTable;
 use cms\models\tables\CategoriesTable;
-use fayshop\models\tables\ShopGoodsCatPropsTable;
-use fay\core\Sql;
-use fay\common\ListView;
 use cms\services\CategoryService;
-use fay\helpers\DateHelper;
-use cms\services\shop\ShopGoodsService;
-use fay\core\Response;
-use fay\helpers\HtmlHelper;
 use cms\services\FlashService;
 use cms\services\SettingService;
+use cms\services\shop\ShopGoodsService;
+use fay\common\ListView;
 use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
+use fayshop\models\tables\ShopGoodsCatPropsTable;
+use fayshop\models\tables\ShopGoodsCatPropValuesTable;
+use fayshop\models\tables\ShopGoodsFilesTable;
+use fayshop\models\tables\ShopGoodsPropValuesTable;
+use fayshop\models\tables\ShopGoodsSkusTable;
+use fayshop\models\tables\ShopGoodsTable;
 
 class GoodsController extends AdminController{
     /**

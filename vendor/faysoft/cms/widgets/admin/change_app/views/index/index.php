@@ -1,5 +1,6 @@
-<?php 
+<?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" data-name="<?php echo $this->__name?>">
     <div class="box-title">

@@ -1,11 +1,11 @@
 <?php
 namespace fayfeed\services;
 
+use cms\services\file\FileService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fayfeed\models\tables\FeedsFilesTable;
-use cms\services\file\FileService;
 
 class FeedFileService extends Service{
     /**

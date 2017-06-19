@@ -1,7 +1,7 @@
 <?php
-use fay\helpers\LocalFileHelper;
-use fay\helpers\HtmlHelper;
 use fay\core\Uri;
+use fay\helpers\HtmlHelper;
+use fay\helpers\LocalFileHelper;
 
 /**
  * @var $exception Exception

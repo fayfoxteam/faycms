@@ -2,11 +2,11 @@
 /**
  * 开发模式或debug模式下，出现在页面底部的debug数据
  */
-use fay\helpers\BacktraceHelper;
-use fay\helpers\StringHelper;
-use fay\helpers\SqlHelper;
-use fay\helpers\HtmlHelper;
 use fay\core\Db;
+use fay\helpers\BacktraceHelper;
+use fay\helpers\HtmlHelper;
+use fay\helpers\SqlHelper;
+use fay\helpers\StringHelper;
 
 if(Db::hasInstance()){
     $db = Db::getInstance();;

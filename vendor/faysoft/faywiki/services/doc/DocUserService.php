@@ -1,9 +1,9 @@
 <?php
 namespace faywiki\services\doc;
 
+use cms\services\user\UserService;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\services\user\UserService;
 
 class DocUserService extends Service{
     /**

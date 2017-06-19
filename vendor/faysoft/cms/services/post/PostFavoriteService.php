@@ -1,17 +1,17 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\PostFavoritesTable;
+use cms\models\tables\PostMetaTable;
+use cms\models\tables\PostsTable;
+use cms\services\user\UserService;
 use fay\common\ListView;
 use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use cms\models\tables\PostsTable;
-use cms\services\user\UserService;
-use cms\models\tables\PostFavoritesTable;
 use fay\helpers\RequestHelper;
-use cms\models\tables\PostMetaTable;
 
 class PostFavoriteService extends Service{
     /**

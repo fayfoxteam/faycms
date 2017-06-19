@@ -1,6 +1,7 @@
 <?php
 use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
+
 ?>
 <tr>
     <td><a href="<?php echo $data['url']?>" target="_blank">

@@ -1,8 +1,9 @@
 <?php
 use cms\models\tables\UsersTable;
+use fay\helpers\ArrayHelper;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
-use fay\helpers\ArrayHelper;
+
 ?>
 <div class="row">
     <div class="col-12">

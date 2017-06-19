@@ -1,8 +1,8 @@
 <?php
 namespace cms\services;
 
-use fay\core\Loader;
 use cms\models\tables\MenusTable;
+use fay\core\Loader;
 use fay\helpers\StringHelper;
 use fay\models\TreeModel;
 

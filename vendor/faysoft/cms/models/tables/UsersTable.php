@@ -1,8 +1,8 @@
 <?php
 namespace cms\models\tables;
 
-use fay\core\db\Table;
 use cms\services\OptionService;
+use fay\core\db\Table;
 use fay\core\Loader;
 
 /**

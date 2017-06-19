@@ -1,7 +1,7 @@
 <?php
 use apidoc\helpers\SampleHelper;
-use fay\helpers\HtmlHelper;
 use apidoc\helpers\TrackHelper;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $model array

@@ -1,9 +1,9 @@
 <?php
-use cms\services\file\FileService;
-use fay\helpers\HtmlHelper;
-use fay\helpers\DateHelper;
-use cms\services\file\QiniuService;
 use cms\services\CategoryService;
+use cms\services\file\FileService;
+use cms\services\file\QiniuService;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $data array

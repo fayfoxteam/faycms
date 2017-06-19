@@ -2,8 +2,8 @@
 namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
-use fay\helpers\RequestHelper;
 use fay\core\Loader;
+use fay\helpers\RequestHelper;
 
 class IndexController extends ToolsController{
     

@@ -2,9 +2,9 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\core\Sql;
 use fay\common\ListView;
 use fay\core\Response;
+use fay\core\Sql;
 
 class ChatController extends AdminController{
     public function __construct(){

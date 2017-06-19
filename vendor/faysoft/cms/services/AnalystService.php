@@ -1,13 +1,13 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\AnalystCachesTable;
+use cms\models\tables\AnalystMacsTable;
+use cms\models\tables\AnalystVisitsTable;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
-use cms\models\tables\AnalystMacsTable;
-use cms\models\tables\AnalystVisitsTable;
-use cms\models\tables\AnalystCachesTable;
 
 class AnalystService extends Service{
     /**

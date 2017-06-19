@@ -1,9 +1,9 @@
 <?php
 namespace fay\validators;
 
-use fay\core\Validator;
-use fay\core\Sql;
 use fay\core\ErrorException;
+use fay\core\Sql;
+use fay\core\Validator;
 
 /**
  * 验证表字段是否唯一

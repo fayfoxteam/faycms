@@ -1,12 +1,12 @@
 <?php
 namespace cms\services\file;
 
+use cms\models\tables\FilesTable;
+use cms\services\OptionService;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\FilesTable;
 use fay\helpers\StringHelper;
-use cms\services\OptionService;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;

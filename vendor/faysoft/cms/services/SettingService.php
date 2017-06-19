@@ -1,9 +1,9 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\UserSettingsTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\UserSettingsTable;
 
 class SettingService extends Service{
     /**

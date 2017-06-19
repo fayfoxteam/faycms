@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" id="box-gather" data-name="gather">
     <div class="box-title">

@@ -2,13 +2,12 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\services\file\ImageService;
+use cms\models\tables\PostsTable;
 use cms\services\file\ImageTextService;
+use fay\core\Db;
 use fay\core\Validator;
 use fay\helpers\HtmlHelper;
-use cms\models\tables\PostsTable;
 use fay\log\Logger;
-use fay\core\Db;
 
 class TestController extends AdminController{
     public function valid(){

@@ -3,8 +3,8 @@ namespace cms\modules\api\controllers;
 
 use cms\library\UserController;
 use cms\services\post\PostFavoriteService;
-use fay\core\Response;
 use cms\services\post\PostService;
+use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
 /**

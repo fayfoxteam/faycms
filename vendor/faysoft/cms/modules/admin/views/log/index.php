@@ -1,7 +1,7 @@
 <?php
 use cms\helpers\ListTableHelper;
-use fay\helpers\HtmlHelper;
 use cms\models\tables\LogsTable;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $iplocation \IpLocation

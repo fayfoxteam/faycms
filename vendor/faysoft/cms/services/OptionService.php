@@ -1,9 +1,9 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\OptionsTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\OptionsTable;
 use fay\helpers\ArrayHelper;
 
 class OptionService extends Service{

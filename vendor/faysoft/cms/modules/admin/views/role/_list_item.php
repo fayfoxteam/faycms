@@ -1,6 +1,7 @@
 <?php
 use cms\models\tables\PropsTable;
 use fay\helpers\HtmlHelper;
+
 ?>
 <tr valign="top" id="role-<?php echo $data['id']?>">
     <td>

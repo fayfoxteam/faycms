@@ -2,17 +2,17 @@
 namespace fayexam\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\core\Sql;
-use fay\common\ListView;
-use fayexam\models\tables\ExamQuestionsTable;
 use cms\models\tables\ActionlogsTable;
-use fay\helpers\HtmlHelper;
 use cms\services\CategoryService;
-use fayexam\models\tables\ExamAnswersTable;
-use fay\core\Response;
-use fayexam\models\tables\ExamExamsQuestionsTable;
 use cms\services\FlashService;
+use fay\common\ListView;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
+use fayexam\models\tables\ExamAnswersTable;
+use fayexam\models\tables\ExamExamsQuestionsTable;
+use fayexam\models\tables\ExamQuestionsTable;
 
 class QuestionController extends AdminController{
     public function __construct(){

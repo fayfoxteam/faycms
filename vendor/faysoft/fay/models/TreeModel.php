@@ -1,8 +1,8 @@
 <?php
 namespace fay\models;
 
-use fay\core\ErrorException;
 use fay\core\db\Expr;
+use fay\core\ErrorException;
 use fay\core\Exception;
 use fay\helpers\StringHelper;
 

@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" id="box-sku" data-name="sku">
     <div class="box-title">

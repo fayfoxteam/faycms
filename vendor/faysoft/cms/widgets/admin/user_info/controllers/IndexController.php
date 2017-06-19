@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\admin\user_info\controllers;
 
-use fay\widget\Widget;
 use fay\core\Loader;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function index(){

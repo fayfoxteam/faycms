@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="form-field">
     <label class="title bold">名称<em class="required">*</em></label>

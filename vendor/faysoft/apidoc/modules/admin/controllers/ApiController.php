@@ -2,18 +2,18 @@
 namespace apidoc\modules\admin\controllers;
 
 use apidoc\models\tables\ApidocApiErrorCodesTable;
-use cms\library\AdminController;
-use fay\core\Sql;
-use fay\common\ListView;
-use cms\services\SettingService;
-use fay\helpers\ArrayHelper;
-use cms\services\CategoryService;
 use apidoc\models\tables\ApidocApisTable;
 use apidoc\models\tables\ApidocInputsTable;
-use fay\core\Response;
-use apidoc\models\tables\ApidocOutputsTable;
 use apidoc\models\tables\ApidocModelsTable;
+use apidoc\models\tables\ApidocOutputsTable;
+use cms\library\AdminController;
+use cms\services\CategoryService;
+use cms\services\SettingService;
+use fay\common\ListView;
 use fay\core\ErrorException;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\ArrayHelper;
 
 class ApiController extends AdminController{
     /**

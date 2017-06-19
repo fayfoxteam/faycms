@@ -1,7 +1,8 @@
 <?php
 use fay\helpers\DateHelper;
-use fay\helpers\StringHelper;
 use fay\helpers\HtmlHelper;
+use fay\helpers\StringHelper;
+
 ?>
 <tr>
     <td><?php echo $data['spider']?></td>

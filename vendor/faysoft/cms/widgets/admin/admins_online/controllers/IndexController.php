@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\admin\admins_online\controllers;
 
-use fay\widget\Widget;
 use fay\core\Sql;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     

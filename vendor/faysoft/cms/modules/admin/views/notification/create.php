@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <?php echo F::form()->open()?>
 <div class="poststuff">

@@ -1,6 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
 use cms\services\OptionService;
+use fay\helpers\HtmlHelper;
+
 ?>
 <form id="qq-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">

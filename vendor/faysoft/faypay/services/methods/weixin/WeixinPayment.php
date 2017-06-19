@@ -1,13 +1,13 @@
 <?php
 namespace faypay\services\methods\weixin;
 
+use cms\services\user\UserOauthService;
 use fay\helpers\UrlHelper;
 use faypay\models\PaymentMethodConfigModel;
 use faypay\models\PaymentTradeModel;
 use faypay\services\methods\PaymentMethodException;
 use faypay\services\methods\PaymentMethodInterface;
 use faypay\services\trade\TradePaymentService;
-use cms\services\user\UserOauthService;
 
 class WeixinPayment implements PaymentMethodInterface{
     /**

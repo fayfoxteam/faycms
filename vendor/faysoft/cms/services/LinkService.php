@@ -1,9 +1,9 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\LinksTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\LinksTable;
 use fay\helpers\StringHelper;
 
 class LinkService extends Service{

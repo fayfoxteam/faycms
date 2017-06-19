@@ -1,12 +1,12 @@
 <?php
 use cms\helpers\LinkHelper;
-use cms\services\OptionService;
 use cms\models\tables\PostsTable;
+use cms\models\tables\RolesTable;
+use cms\services\OptionService;
+use cms\services\post\PostCategoryService;
+use cms\services\user\UserRoleService;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
-use cms\models\tables\RolesTable;
-use cms\services\user\UserRoleService;
-use cms\services\post\PostCategoryService;
 
 /**
  * @var $doc array

@@ -1,17 +1,17 @@
 <?php
 namespace faywiki\services\doc;
 
+use cms\services\user\UserService;
 use fay\common\ListView;
 use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use faywiki\models\tables\WikiDocsTable;
-use cms\services\user\UserService;
-use faywiki\models\tables\WikiDocFavoritesTable;
 use fay\helpers\RequestHelper;
+use faywiki\models\tables\WikiDocFavoritesTable;
 use faywiki\models\tables\WikiDocMetaTable;
+use faywiki\models\tables\WikiDocsTable;
 
 class DocFavoriteService extends Service{
     /**

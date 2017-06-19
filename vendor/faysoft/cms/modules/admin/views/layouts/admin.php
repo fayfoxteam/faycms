@@ -1,10 +1,10 @@
-<?php 
-use fay\helpers\HtmlHelper;
-use cms\services\OptionService;
+<?php
 use cms\services\file\FileService;
 use cms\services\FlashService;
+use cms\services\OptionService;
 use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $subtitle string

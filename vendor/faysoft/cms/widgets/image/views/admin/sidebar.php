@@ -1,5 +1,4 @@
 <?php
-use fay\helpers\HtmlHelper;
 ?>
 <div class="box" id="box-publish-time" data-name="publish-time">
     <div class="box-title">

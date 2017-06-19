@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\user;
 
+use cms\models\tables\UserProfileTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\UserProfileTable;
 use fay\helpers\FieldsHelper;
 
 class UserProfileService extends Service{

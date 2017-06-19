@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\images\controllers;
 
-use fay\widget\Widget;
 use cms\services\FlashService;
+use fay\widget\Widget;
 
 class AdminController extends Widget{
     public function initConfig($config){

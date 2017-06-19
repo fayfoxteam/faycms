@@ -2,12 +2,12 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\services\MenuService;
-use cms\models\tables\MenusTable;
 use cms\models\tables\ActionlogsTable;
-use fay\core\Response;
+use cms\models\tables\MenusTable;
 use cms\models\tables\RolesTable;
+use cms\services\MenuService;
 use cms\services\user\UserRoleService;
+use fay\core\Response;
 
 class MenuController extends AdminController{
     public function __construct(){

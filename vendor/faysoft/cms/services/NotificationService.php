@@ -1,11 +1,11 @@
 <?php
 namespace cms\services;
 
-use fay\core\Loader;
-use fay\core\Service;
-use cms\models\tables\UsersTable;
 use cms\models\tables\NotificationsTable;
 use cms\models\tables\UsersNotificationsTable;
+use cms\models\tables\UsersTable;
+use fay\core\Loader;
+use fay\core\Service;
 
 class NotificationService extends Service{
     /**

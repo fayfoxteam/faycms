@@ -1,11 +1,11 @@
 <?php
 namespace faywiki\services\doc;
 
+use cms\models\tables\UserCounterTable;
+use cms\services\user\UserCounterService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use cms\services\user\UserCounterService;
-use cms\models\tables\UserCounterTable;
 use faywiki\models\tables\WikiDocsTable;
 
 class DocUserCounterService extends Service{

@@ -1,9 +1,9 @@
 <?php
 namespace cms\widgets\admin\tongji_chart\controllers;
 
-use fay\widget\Widget;
 use cms\services\AnalystService;
 use fay\core\Response;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function init(){

@@ -1,8 +1,8 @@
 <?php
 namespace cms\helpers;
 
-use fay\helpers\HtmlHelper;
 use fay\core\Uri;
+use fay\helpers\HtmlHelper;
 use fay\helpers\UrlHelper;
 
 class MenuHelper{

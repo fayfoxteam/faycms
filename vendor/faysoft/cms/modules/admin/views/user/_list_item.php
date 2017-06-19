@@ -1,9 +1,10 @@
 <?php
 use cms\models\tables\UsersTable;
-use fay\helpers\DateHelper;
-use fay\helpers\HtmlHelper;
 use cms\services\file\FileService;
 use cms\services\user\UserRoleService;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
+
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
     <?php if(in_array('avatar', $cols)){?>

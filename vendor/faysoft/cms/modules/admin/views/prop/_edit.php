@@ -1,7 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
 use cms\models\tables\PropsTable;
 use fay\helpers\ArrayHelper;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $this \fay\core\View

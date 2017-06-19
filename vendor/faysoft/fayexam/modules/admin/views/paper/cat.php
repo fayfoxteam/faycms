@@ -1,4 +1,4 @@
-<?php 
+<?php
 use fay\helpers\HtmlHelper;
 
 function showCats($cats, $dep = 0){?>

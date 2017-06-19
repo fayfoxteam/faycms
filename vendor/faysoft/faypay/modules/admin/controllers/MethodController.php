@@ -2,13 +2,13 @@
 namespace faypay\modules\admin\controllers;
 
 use cms\library\AdminController;
+use cms\models\tables\ActionlogsTable;
 use fay\common\ListView;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
-use cms\models\tables\ActionlogsTable;
 use faypay\models\tables\PaymentsTable;
 
 class MethodController extends AdminController{

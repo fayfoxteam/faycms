@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" id="box-outputs" data-name="outputs">
     <div class="box-title">

@@ -1,10 +1,10 @@
 <?php
 namespace cms\widgets\page_item\controllers;
 
-use fay\widget\Widget;
+use cms\models\tables\PagesTable;
 use cms\services\PageService;
 use fay\core\HttpException;
-use cms\models\tables\PagesTable;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function initConfig($config){

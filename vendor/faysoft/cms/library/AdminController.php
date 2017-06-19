@@ -1,20 +1,20 @@
 <?php
 namespace cms\library;
 
-use fay\core\Controller;
-use fay\core\Http;
-use fay\core\Uri;
-use fay\helpers\RequestHelper;
 use cms\models\forms\SettingForm;
 use cms\models\tables\ActionlogsTable;
-use cms\services\SettingService;
-use fay\core\Response;
-use cms\services\MenuService;
-use fay\core\HttpException;
-use cms\services\FlashService;
 use cms\models\tables\RolesTable;
-use fay\helpers\ArrayHelper;
+use cms\services\FlashService;
+use cms\services\MenuService;
+use cms\services\SettingService;
 use cms\services\user\UserService;
+use fay\core\Controller;
+use fay\core\Http;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Uri;
+use fay\helpers\ArrayHelper;
+use fay\helpers\RequestHelper;
 
 class AdminController extends Controller{
     public $layout_template = 'admin';

@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\post;
 
+use cms\services\user\UserService;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\services\user\UserService;
 
 class PostUserService extends Service{
     /**

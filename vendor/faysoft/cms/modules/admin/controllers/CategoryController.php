@@ -2,14 +2,14 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\helpers\NumberHelper;
+use cms\models\tables\ActionlogsTable;
 use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
-use cms\models\tables\ActionlogsTable;
-use fay\helpers\PinyinHelper;
+use cms\services\FlashService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
-use cms\services\FlashService;
+use fay\helpers\NumberHelper;
+use fay\helpers\PinyinHelper;
 
 class CategoryController extends AdminController{
     public function __construct(){

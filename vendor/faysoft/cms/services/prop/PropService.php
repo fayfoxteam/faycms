@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\prop;
 
-use cms\models\tables\PropsUsagesTable;
-use cms\models\tables\PropsTable;
 use cms\models\tables\PropOptionsTable;
+use cms\models\tables\PropsTable;
+use cms\models\tables\PropsUsagesTable;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Loader;

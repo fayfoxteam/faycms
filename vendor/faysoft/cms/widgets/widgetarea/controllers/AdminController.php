@@ -1,10 +1,9 @@
 <?php
 namespace cms\widgets\widgetarea\controllers;
 
-use cms\services\widget\WidgetAreaService;
-use fay\helpers\ArrayHelper;
-use fay\widget\Widget;
 use cms\services\FlashService;
+use cms\services\widget\WidgetAreaService;
+use fay\widget\Widget;
 
 class AdminController extends Widget{
     public function initConfig($config){

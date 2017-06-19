@@ -2,11 +2,11 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\models\tables\MessagesTable;
 use cms\models\tables\ActionlogsTable;
+use cms\models\tables\MessagesTable;
+use cms\services\MessageService;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
-use cms\services\MessageService;
 
 class MessageController extends AdminController{
     public function approve(){

@@ -1,10 +1,10 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\ContactsTable;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\RequestHelper;
-use cms\models\tables\ContactsTable;
 
 class ContactService extends Service{
     /**

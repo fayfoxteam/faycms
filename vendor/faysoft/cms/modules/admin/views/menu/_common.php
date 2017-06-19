@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\HtmlHelper;
 use cms\models\tables\MenusTable;
+use fay\helpers\HtmlHelper;
 
 F::form('create')->setModel(MenusTable::model());
 F::form('edit')->setModel(MenusTable::model());

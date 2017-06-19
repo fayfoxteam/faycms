@@ -1,6 +1,7 @@
 <?php
 namespace faywiki\services\doc;
 
+use cms\services\user\UserService;
 use fay\common\ListView;
 use fay\core\Loader;
 use fay\core\Service;
@@ -8,9 +9,8 @@ use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\RequestHelper;
 use faywiki\models\tables\WikiDocLikesTable;
-use faywiki\models\tables\WikiDocsTable;
-use cms\services\user\UserService;
 use faywiki\models\tables\WikiDocMetaTable;
+use faywiki\models\tables\WikiDocsTable;
 
 class DocLikeService extends Service{
     /**

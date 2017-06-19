@@ -2,12 +2,12 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\models\tables\UsersTable;
 use cms\models\tables\ActionlogsTable;
-use cms\services\user\UserPropService;
-use cms\services\user\UserService;
 use cms\models\tables\RolesTable;
+use cms\models\tables\UsersTable;
+use cms\services\user\UserPropService;
 use cms\services\user\UserRoleService;
+use cms\services\user\UserService;
 use fay\core\Response;
 
 class ProfileController extends AdminController{

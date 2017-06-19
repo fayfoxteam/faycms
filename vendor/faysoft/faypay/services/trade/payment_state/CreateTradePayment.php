@@ -3,10 +3,10 @@ namespace faypay\services\trade\payment_state;
 
 use fay\core\Exception;
 use fay\helpers\UrlHelper;
-use faypay\models\tables\TradePaymentsTable;
-use faypay\models\tables\TradesTable;
 use faypay\models\PaymentMethodConfigModel;
 use faypay\models\PaymentTradeModel;
+use faypay\models\tables\TradePaymentsTable;
+use faypay\models\tables\TradesTable;
 use faypay\services\methods\PaymentMethodService;
 use faypay\services\trade\TradeException;
 use faypay\services\trade\TradePaymentItem;

@@ -1,8 +1,9 @@
 <?php
-use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
-use fayexam\models\tables\ExamPapersTable;
+use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
+use fayexam\models\tables\ExamPapersTable;
+
 ?>
 <tr valign="top">
     <td>

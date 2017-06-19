@@ -1,9 +1,9 @@
 <?php
 namespace cms\widgets\page_item\controllers;
 
-use fay\widget\Widget;
-use cms\services\FlashService;
 use cms\models\tables\PagesTable;
+use cms\services\FlashService;
+use fay\widget\Widget;
 
 class AdminController extends Widget{
     public function initConfig($config){

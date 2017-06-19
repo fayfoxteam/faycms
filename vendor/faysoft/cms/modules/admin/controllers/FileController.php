@@ -3,22 +3,22 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\forms\SettingForm;
+use cms\models\tables\ActionlogsTable;
 use cms\models\tables\FilesTable;
+use cms\services\CategoryService;
 use cms\services\file\FileService;
 use cms\services\file\ImageService;
 use cms\services\file\ImageTextService;
-use cms\services\file\WeixinFileService;
-use cms\services\SettingService;
-use fay\core\Sql;
-use fay\common\ListView;
-use fay\helpers\LocalFileHelper;
 use cms\services\file\QiniuService;
-use fay\core\HttpException;
-use fay\core\Validator;
-use fay\core\Response;
-use cms\models\tables\ActionlogsTable;
+use cms\services\file\WeixinFileService;
 use cms\services\OptionService;
-use cms\services\CategoryService;
+use cms\services\SettingService;
+use fay\common\ListView;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\core\Validator;
+use fay\helpers\LocalFileHelper;
 use fay\helpers\StringHelper;
 
 class FileController extends AdminController{

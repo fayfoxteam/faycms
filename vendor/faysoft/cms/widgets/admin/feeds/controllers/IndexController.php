@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\admin\feeds\controllers;
 
-use fay\widget\Widget;
 use cms\models\tables\LogsTable;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function index(){

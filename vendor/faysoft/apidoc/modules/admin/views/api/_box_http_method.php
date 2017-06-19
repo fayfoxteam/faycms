@@ -1,5 +1,6 @@
 <?php
 use apidoc\models\tables\ApidocApisTable;
+
 ?>
 <div class="box" id="box-http-method" data-name="http_method">
     <div class="box-title">

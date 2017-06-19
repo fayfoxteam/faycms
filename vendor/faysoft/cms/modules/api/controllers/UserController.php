@@ -3,9 +3,9 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use cms\models\tables\UsersTable;
-use fay\core\Response;
-use fay\core\HttpException;
 use cms\services\user\UserService;
+use fay\core\HttpException;
+use fay\core\Response;
 
 /**
  * 用户

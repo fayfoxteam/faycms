@@ -1,9 +1,9 @@
 <?php
 namespace cms\services;
 
-use fay\core\Service;
-use fay\core\Loader;
 use fay\core\ErrorException;
+use fay\core\Loader;
+use fay\core\Service;
 
 class SmsService extends Service{
     /**

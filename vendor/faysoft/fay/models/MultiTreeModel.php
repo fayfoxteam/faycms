@@ -1,13 +1,13 @@
 <?php
 namespace fay\models;
 
-use fay\core\Model;
+use cms\services\user\UserService;
+use fay\common\ListView;
 use fay\core\db\Expr;
 use fay\core\ErrorException;
-use fay\helpers\ArrayHelper;
+use fay\core\Model;
 use fay\core\Sql;
-use fay\common\ListView;
-use cms\services\user\UserService;
+use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 
 /**

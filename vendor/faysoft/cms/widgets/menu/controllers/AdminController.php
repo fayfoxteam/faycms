@@ -1,10 +1,10 @@
 <?php
 namespace cms\widgets\menu\controllers;
 
-use fay\widget\Widget;
-use cms\services\MenuService;
 use cms\models\tables\MenusTable;
 use cms\services\FlashService;
+use cms\services\MenuService;
+use fay\widget\Widget;
 
 class AdminController extends Widget{
     public function initConfig($config){

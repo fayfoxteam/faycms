@@ -2,11 +2,11 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\core\Sql;
+use cms\models\tables\LogsTable;
 use fay\common\ListView;
 use fay\core\Loader;
 use fay\core\Response;
-use cms\models\tables\LogsTable;
+use fay\core\Sql;
 
 class LogController extends AdminController{
     public function __construct(){

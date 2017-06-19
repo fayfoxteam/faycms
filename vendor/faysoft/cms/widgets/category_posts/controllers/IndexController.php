@@ -2,12 +2,12 @@
 namespace cms\widgets\category_posts\controllers;
 
 use cms\helpers\LinkHelper;
+use cms\services\CategoryService;
+use cms\services\post\PostCategoryService;
 use cms\services\post\PostService;
+use fay\helpers\DateHelper;
 use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
-use cms\services\CategoryService;
-use fay\helpers\DateHelper;
-use cms\services\post\PostCategoryService;
 
 class IndexController extends Widget{
     /**

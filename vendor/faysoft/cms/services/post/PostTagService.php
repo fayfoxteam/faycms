@@ -1,18 +1,18 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\PostsTable;
+use cms\models\tables\PostsTagsTable;
+use cms\models\tables\TagCounterTable;
+use cms\models\tables\TagsTable;
+use cms\services\tag\TagCounterService;
+use cms\services\TagService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
-use cms\models\tables\PostsTable;
-use cms\models\tables\TagCounterTable;
-use cms\models\tables\TagsTable;
-use cms\models\tables\PostsTagsTable;
-use cms\services\TagService;
-use cms\services\tag\TagCounterService;
 
 class PostTagService extends Service{
     /**

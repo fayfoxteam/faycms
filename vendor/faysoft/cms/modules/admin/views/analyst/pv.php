@@ -1,6 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
 use cms\helpers\ListTableHelper;
+use fay\helpers\HtmlHelper;
+
 ?>
 <div class="row">
     <div class="col-12">

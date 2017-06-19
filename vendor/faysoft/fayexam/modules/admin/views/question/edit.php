@@ -1,6 +1,6 @@
 <?php
-use fayexam\models\tables\ExamQuestionsTable;
 use fay\helpers\HtmlHelper;
+use fayexam\models\tables\ExamQuestionsTable;
 use fayexam\services\ExamService;
 
 echo F::form()->open();

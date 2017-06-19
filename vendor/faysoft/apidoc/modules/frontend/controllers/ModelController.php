@@ -2,12 +2,12 @@
 namespace apidoc\modules\frontend\controllers;
 
 use apidoc\helpers\LinkHelper;
+use apidoc\helpers\TrackHelper;
 use apidoc\library\FrontController;
 use apidoc\models\tables\ApidocApisTable;
+use apidoc\models\tables\ApidocModelsTable;
 use cms\services\CategoryService;
 use fay\core\HttpException;
-use apidoc\helpers\TrackHelper;
-use apidoc\models\tables\ApidocModelsTable;
 use fay\core\Sql;
 
 class ModelController extends FrontController{

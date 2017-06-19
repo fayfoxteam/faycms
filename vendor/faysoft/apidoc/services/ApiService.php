@@ -3,10 +3,10 @@ namespace apidoc\services;
 
 use apidoc\models\tables\ApidocApiErrorCodesTable;
 use apidoc\models\tables\ApidocApisTable;
+use apidoc\models\tables\ApidocInputsTable;
+use cms\services\CategoryService;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\services\CategoryService;
-use apidoc\models\tables\ApidocInputsTable;
 use fay\core\Sql;
 
 class ApiService extends Service{

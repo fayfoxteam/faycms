@@ -1,14 +1,14 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\TagCounterTable;
+use cms\models\tables\TagsTable;
+use cms\services\tag\TagCounterService;
+use fay\common\ListView;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\ArrayHelper;
-use cms\models\tables\TagsTable;
-use cms\models\tables\TagCounterTable;
 use fay\core\Sql;
-use fay\common\ListView;
-use cms\services\tag\TagCounterService;
+use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 
 /**

@@ -1,6 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
 use apidoc\models\tables\ApidocInputsTable;
+use fay\helpers\HtmlHelper;
+
 ?>
 <div class="hide">
     <div id="add-input-parameter-dialog" class="dialog">

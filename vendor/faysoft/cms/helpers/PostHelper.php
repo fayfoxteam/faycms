@@ -2,10 +2,6 @@
 namespace cms\helpers;
 
 use cms\models\tables\PostsTable;
-use cms\services\OptionService;
-use fay\core\ErrorException;
-use fay\helpers\NumberHelper;
-use fay\helpers\UrlHelper;
 
 class PostHelper{
     /**

@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\jq_camera\controllers;
 
-use fay\widget\Widget;
 use cms\services\file\FileService;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function initConfig($config){

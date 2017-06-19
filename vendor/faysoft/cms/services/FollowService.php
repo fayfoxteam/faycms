@@ -1,17 +1,17 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\FollowsTable;
+use cms\models\tables\UserCounterTable;
+use cms\services\user\UserService;
+use fay\common\ListView;
+use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\core\Exception;
-use cms\models\tables\FollowsTable;
+use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 use fay\helpers\RequestHelper;
-use fay\core\Sql;
-use fay\common\ListView;
-use cms\models\tables\UserCounterTable;
-use cms\services\user\UserService;
 
 /**
  * 关注服务

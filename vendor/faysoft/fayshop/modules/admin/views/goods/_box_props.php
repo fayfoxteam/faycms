@@ -1,6 +1,7 @@
 <?php
-use fayshop\models\tables\ShopGoodsCatPropsTable;
 use fay\helpers\HtmlHelper;
+use fayshop\models\tables\ShopGoodsCatPropsTable;
+
 ?>
 <div class="box" id="box-props" data-name="props">
     <div class="box-title">

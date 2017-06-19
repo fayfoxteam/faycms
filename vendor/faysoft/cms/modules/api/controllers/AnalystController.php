@@ -2,12 +2,11 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\helpers\RequestHelper;
-use fay\helpers\StringHelper;
-use fay\helpers\DateHelper;
 use cms\models\tables\AnalystMacsTable;
 use cms\models\tables\AnalystVisitsTable;
 use cms\services\AnalystService;
+use fay\helpers\RequestHelper;
+use fay\helpers\StringHelper;
 
 /**
  * 访问统计

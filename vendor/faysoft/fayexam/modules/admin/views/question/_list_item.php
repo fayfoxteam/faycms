@@ -1,7 +1,8 @@
 <?php
+use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use fayexam\models\tables\ExamQuestionsTable;
-use fay\helpers\DateHelper;
+
 ?>
 <tr valign="top">
     <td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(

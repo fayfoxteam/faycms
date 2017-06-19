@@ -2,8 +2,8 @@
 namespace faywiki\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\Response;
 use cms\services\user\UserService;
+use fay\core\Response;
 use fay\helpers\FieldsHelper;
 use faywiki\services\doc\DocLikeService;
 use faywiki\services\doc\DocService;

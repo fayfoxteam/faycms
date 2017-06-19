@@ -1,7 +1,7 @@
 <?php
-use faywiki\models\tables\PropsTable;
-use fay\helpers\HtmlHelper;
 use cms\services\post\PostCategoryService;
+use fay\helpers\HtmlHelper;
+use faywiki\models\tables\PropsTable;
 
 /**
  * @var $root array

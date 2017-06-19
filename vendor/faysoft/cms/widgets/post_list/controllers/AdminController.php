@@ -1,9 +1,9 @@
 <?php
 namespace cms\widgets\post_list\controllers;
 
-use fay\widget\Widget;
 use cms\services\CategoryService;
 use cms\services\FlashService;
+use fay\widget\Widget;
 
 class AdminController extends Widget{
     public function initConfig($config){

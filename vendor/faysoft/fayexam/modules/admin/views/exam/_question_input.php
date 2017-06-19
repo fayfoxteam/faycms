@@ -1,7 +1,7 @@
 <?php
+use fay\helpers\HtmlHelper;
 use fayexam\models\tables\ExamAnswersTable;
 use fayexam\models\tables\ExamExamQuestionAnswerTextTable;
-use fay\helpers\HtmlHelper;
 
 $answer = ExamAnswersTable::model()->fetchRow('question_id = '.$exam_question['question_id']);
 $user_answer = ExamExamQuestionAnswerTextTable::model()->fetchRow('exam_question_id = '.$exam_question['id']);

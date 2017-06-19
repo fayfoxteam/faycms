@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\admin\tongji\controllers;
 
-use fay\widget\Widget;
 use cms\services\AnalystService;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function index(){

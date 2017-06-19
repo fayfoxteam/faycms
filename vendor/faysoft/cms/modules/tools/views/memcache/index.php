@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="detail-panel">
 <?php foreach($slabs as $slabId => $slabMeta){

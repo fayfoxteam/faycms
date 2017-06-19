@@ -1,6 +1,6 @@
 <?php
-use cms\helpers\ListTableHelper;
 use apidoc\models\tables\ApidocApisTable;
+use cms\helpers\ListTableHelper;
 use fay\helpers\HtmlHelper;
 
 $cols = F::form('setting')->getData('cols', array());

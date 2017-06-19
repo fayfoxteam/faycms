@@ -2,8 +2,8 @@
 namespace apidoc\modules\frontend\controllers;
 
 use apidoc\library\FrontController;
-use cms\services\OptionService;
 use apidoc\models\tables\ApidocModelsTable;
+use cms\services\OptionService;
 
 class IndexController extends FrontController{
     public function __construct(){

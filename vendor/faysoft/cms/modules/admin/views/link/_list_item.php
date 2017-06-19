@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $data array

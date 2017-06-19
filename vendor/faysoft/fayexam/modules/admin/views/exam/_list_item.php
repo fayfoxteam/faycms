@@ -1,6 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
 use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
+
 ?>
 <tr valign="top">
     <td>

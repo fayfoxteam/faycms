@@ -1,10 +1,10 @@
 <?php
 namespace cms\services\wechat\jssdk;
 
+use cms\services\wechat\core\AccessToken;
 use fay\caching\Cache;
 use fay\core\ErrorException;
 use fay\helpers\HttpHelper;
-use cms\services\wechat\core\AccessToken;
 
 /**
  * 通过Access Token获取Ticket

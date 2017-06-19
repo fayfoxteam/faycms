@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" id="box-props" data-name="props">
     <div class="box-title">

@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" id="box-tongji-chart" data-name="<?php echo $this->__name?>">
     <div class="box-title">

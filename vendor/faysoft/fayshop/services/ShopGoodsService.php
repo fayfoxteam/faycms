@@ -2,11 +2,11 @@
 namespace cms\services\shop;
 
 use fay\core\Service;
-use fayshop\models\tables\GoodsTable;
-use fayshop\models\tables\GoodsFilesTable;
 use fay\core\Sql;
-use fayshop\models\tables\GoodsSkusTable;
 use fayshop\models\tables\GoodsCatPropsTable;
+use fayshop\models\tables\GoodsFilesTable;
+use fayshop\models\tables\GoodsSkusTable;
+use fayshop\models\tables\GoodsTable;
 
 class ShopGoodsService extends Service{
     /**

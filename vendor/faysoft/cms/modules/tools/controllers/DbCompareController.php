@@ -2,10 +2,10 @@
 namespace cms\modules\tools\controllers;
 
 use cms\library\ToolsController;
-use fay\core\Response;
-use fay\helpers\SqlHelper;
 use fay\core\Db;
+use fay\core\Response;
 use fay\core\Uri;
+use fay\helpers\SqlHelper;
 
 class DbCompareController extends ToolsController{
     /**

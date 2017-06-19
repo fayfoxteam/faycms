@@ -1,10 +1,10 @@
 <?php
 namespace cms\widgets\menu\controllers;
 
+use cms\models\tables\MenusTable;
+use cms\services\MenuService;
 use fay\helpers\HtmlHelper;
 use fay\widget\Widget;
-use cms\services\MenuService;
-use cms\models\tables\MenusTable;
 
 class IndexController extends Widget{
     public function initConfig($config){

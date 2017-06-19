@@ -2,15 +2,15 @@
 namespace fayexam\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\core\Sql;
-use fay\common\ListView;
-use fayexam\models\tables\ExamExamsTable;
-use cms\models\tables\UsersTable;
-use fayexam\models\tables\ExamPapersTable;
-use fayexam\models\tables\ExamExamsQuestionsTable;
-use fay\core\Response;
 use cms\models\tables\ActionlogsTable;
+use cms\models\tables\UsersTable;
 use cms\services\ExamService;
+use fay\common\ListView;
+use fay\core\Response;
+use fay\core\Sql;
+use fayexam\models\tables\ExamExamsQuestionsTable;
+use fayexam\models\tables\ExamExamsTable;
+use fayexam\models\tables\ExamPapersTable;
 
 class ExamController extends AdminController{
     public function __construct(){

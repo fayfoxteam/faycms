@@ -1,6 +1,6 @@
 <?php
-use fay\helpers\HtmlHelper;
 use fay\core\Uri;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $listview \fay\common\ListView

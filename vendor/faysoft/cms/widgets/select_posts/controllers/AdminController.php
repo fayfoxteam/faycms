@@ -1,10 +1,10 @@
 <?php
 namespace cms\widgets\select_posts\controllers;
 
+use cms\services\FlashService;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\widget\Widget;
-use cms\services\FlashService;
 
 class AdminController extends Widget{
     public function initConfig($config){

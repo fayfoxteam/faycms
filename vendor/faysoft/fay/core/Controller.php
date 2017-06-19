@@ -1,9 +1,9 @@
 <?php
 namespace fay\core;
 
+use cms\services\user\UserService;
 use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
-use cms\services\user\UserService;
 
 /**
  * @property View $view 视图

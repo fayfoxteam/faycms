@@ -1,21 +1,21 @@
 <?php
 namespace fayfeed\services;
 
+use cms\models\tables\UserCounterTable;
+use cms\services\user\UserService;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldsHelper;
-use fayfeed\models\tables\FeedsTable;
-use fayfeed\models\tables\FeedsFilesTable;
-use cms\models\tables\UserCounterTable;
-use fayfeed\models\tables\FeedMetaTable;
 use fay\helpers\RequestHelper;
 use fayfeed\models\tables\FeedExtraTable;
-use fayfeed\models\tables\FeedsTagsTable;
-use fayfeed\models\tables\FeedLikesTable;
 use fayfeed\models\tables\FeedFavoritesTable;
-use cms\services\user\UserService;
+use fayfeed\models\tables\FeedLikesTable;
+use fayfeed\models\tables\FeedMetaTable;
+use fayfeed\models\tables\FeedsFilesTable;
+use fayfeed\models\tables\FeedsTable;
+use fayfeed\models\tables\FeedsTagsTable;
 
 /**
  * 动态服务

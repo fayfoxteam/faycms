@@ -2,13 +2,13 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\models\tables\OptionsTable;
-use fay\core\Sql;
-use fay\common\ListView;
-use fay\core\Response;
-use fay\core\HttpException;
-use cms\services\FlashService;
 use cms\models\tables\ActionlogsTable;
+use cms\models\tables\OptionsTable;
+use cms\services\FlashService;
+use fay\common\ListView;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
 
 class OptionController extends AdminController{
     public function __construct(){

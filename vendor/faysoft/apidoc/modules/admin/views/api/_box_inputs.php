@@ -1,6 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
 use apidoc\models\tables\ApidocInputsTable;
+use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box" id="box-inputs" data-name="inputs">
     <div class="box-title">

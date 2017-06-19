@@ -1,9 +1,10 @@
 <?php
-use fay\helpers\HtmlHelper;
-use fay\helpers\DateHelper;
-use cms\models\tables\PostCommentsTable;
 use cms\helpers\PostCommentHelper;
+use cms\models\tables\PostCommentsTable;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
+
 ?>
 <tr valign="top" id="message-<?php echo $data['id']?>">
     <td><?php echo HtmlHelper::inputCheckbox('ids[]', $data['id'], false, array(

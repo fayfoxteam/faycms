@@ -2,11 +2,11 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\helpers\FieldsHelper;
-use fayfeed\services\FeedService;
-use fayfeed\models\tables\FeedsTable;
-use fay\core\Response;
 use fay\core\HttpException;
+use fay\core\Response;
+use fay\helpers\FieldsHelper;
+use fayfeed\models\tables\FeedsTable;
+use fayfeed\services\FeedService;
 
 /**
  * 动态

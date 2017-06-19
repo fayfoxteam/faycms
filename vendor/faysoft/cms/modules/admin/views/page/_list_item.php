@@ -1,8 +1,9 @@
 <?php
-use fay\helpers\HtmlHelper;
-use fay\helpers\DateHelper;
 use cms\helpers\PageHelper;
 use cms\services\PageService;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
+
 ?>
 <tr valign="top" id="page-<?php echo $data['id']?>">
     <td>

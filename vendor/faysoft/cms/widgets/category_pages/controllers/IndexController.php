@@ -1,9 +1,9 @@
 <?php
 namespace cms\widgets\category_pages\controllers;
 
-use fay\widget\Widget;
 use cms\services\CategoryService;
 use fay\core\Sql;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function initConfig($config){

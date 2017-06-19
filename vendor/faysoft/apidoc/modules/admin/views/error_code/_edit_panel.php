@@ -1,6 +1,4 @@
 <?php
-use cms\models\tables\PropsTable;
-use cms\services\prop\PropService;
 ?>
 <?php echo F::form()->inputHidden('refer')?>
 <div class="form-field">

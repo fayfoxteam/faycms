@@ -1,5 +1,6 @@
 <?php
 use fayexam\models\tables\ExamQuestionsTable;
+
 ?>
 <div class="box" id="box-type" data-name="type">
     <div class="box-title">

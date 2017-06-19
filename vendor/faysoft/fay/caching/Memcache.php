@@ -2,6 +2,7 @@
 namespace fay\caching;
 
 use fay\core\ErrorException;
+
 /**
  * Memcache缓存
  */

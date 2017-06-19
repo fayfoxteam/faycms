@@ -1,12 +1,12 @@
 <?php
 namespace apidoc\modules\admin\controllers;
 
-use cms\library\AdminController;
 use apidoc\models\tables\ApidocAppsTable;
-use fay\core\Sql;
+use cms\library\AdminController;
 use fay\common\ListView;
-use fay\core\Response;
 use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
 
 class AppController extends AdminController{
     public function __construct(){

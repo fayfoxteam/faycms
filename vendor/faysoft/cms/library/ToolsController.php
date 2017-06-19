@@ -1,13 +1,13 @@
 <?php
 namespace cms\library;
 
-use fay\core\Controller;
-use fay\core\Uri;
-use fay\core\Response;
-use fay\core\HttpException;
 use cms\models\tables\RolesTable;
-use cms\services\user\UserService;
 use cms\services\user\UserRoleService;
+use cms\services\user\UserService;
+use fay\core\Controller;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Uri;
 use fay\helpers\LocalFileHelper;
 
 class ToolsController extends Controller{

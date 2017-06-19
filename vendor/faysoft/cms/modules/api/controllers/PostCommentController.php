@@ -2,10 +2,10 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use cms\services\post\PostCommentService;
-use fay\core\Response;
 use cms\models\tables\PostsTable;
+use cms\services\post\PostCommentService;
 use fay\core\HttpException;
+use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
 /**

@@ -1,8 +1,8 @@
 <?php
 namespace apidoc\modules\admin\controllers;
 
-use cms\library\AdminController;
 use apidoc\models\tables\ApidocCommonInputsTable;
+use cms\library\AdminController;
 use fay\core\Response;
 use fay\helpers\ArrayHelper;
 

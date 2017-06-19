@@ -1,16 +1,16 @@
 <?php
 namespace apidoc\modules\admin\controllers;
 
-use cms\library\AdminController;
-use fay\core\Sql;
-use fay\common\ListView;
-use apidoc\models\tables\ApidocOutputsTable;
-use apidoc\models\tables\ApidocModelsTable;
-use fay\core\Response;
-use cms\services\SettingService;
-use fay\helpers\StringHelper;
 use apidoc\models\tables\ApidocModelPropsTable;
+use apidoc\models\tables\ApidocModelsTable;
+use apidoc\models\tables\ApidocOutputsTable;
+use cms\library\AdminController;
+use cms\services\SettingService;
+use fay\common\ListView;
 use fay\core\ErrorException;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\StringHelper;
 
 /**
  * 数据模型

@@ -1,7 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
-use cms\models\tables\VouchersTable;
 use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
+
 ?>
 <tr>
     <td>

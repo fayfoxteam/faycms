@@ -13,8 +13,8 @@ use cms\services\prop\PropService;
 use cms\services\prop\PropUsageInterface;
 use fay\core\db\Table;
 use fay\core\ErrorException;
-use fay\core\Service;
 use fay\core\Loader;
+use fay\core\Service;
 
 class  UserPropService extends Service implements PropUsageInterface{
     /**

@@ -1,7 +1,8 @@
 <?php
+use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
-use fay\helpers\DateHelper;
+
 ?>
 <tr>
     <?php if(in_array('area', $cols)){?>

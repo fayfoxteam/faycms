@@ -1,13 +1,13 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\CategoriesTable;
+use cms\models\tables\PagesCategoriesTable;
+use cms\models\tables\PagesTable;
 use cms\services\file\FileService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use cms\models\tables\PagesCategoriesTable;
-use cms\models\tables\PagesTable;
-use cms\models\tables\CategoriesTable;
 use fay\helpers\StringHelper;
 
 class PageService extends Service{

@@ -1,12 +1,12 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\PostsTable;
+use cms\models\tables\UserCounterTable;
+use cms\services\user\UserCounterService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use cms\models\tables\PostsTable;
-use cms\services\user\UserCounterService;
-use cms\models\tables\UserCounterTable;
 
 class PostUserCounterService extends Service{
     /**

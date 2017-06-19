@@ -1,12 +1,12 @@
 <?php
 namespace cms\services;
 
+use cms\models\tables\CategoriesTable;
 use fay\core\ErrorException;
 use fay\core\Loader;
-use cms\models\tables\CategoriesTable;
+use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
-use fay\helpers\ArrayHelper;
 use fay\models\TreeModel;
 
 class CategoryService extends TreeModel{

@@ -1,12 +1,12 @@
 <?php
 namespace cms\widgets\post_item\controllers;
 
+use cms\models\tables\PostMetaTable;
+use cms\services\post\PostService;
+use fay\core\db\Expr;
+use fay\core\HttpException;
 use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
-use cms\services\post\PostService;
-use fay\core\HttpException;
-use fay\core\db\Expr;
-use cms\models\tables\PostMetaTable;
 
 class IndexController extends Widget{
     private $fields = array(

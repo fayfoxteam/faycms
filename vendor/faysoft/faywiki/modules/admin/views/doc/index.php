@@ -1,7 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
-use cms\models\tables\PostsTable;
 use cms\helpers\ListTableHelper;
+use cms\models\tables\PostsTable;
+use fay\helpers\HtmlHelper;
 
 /**
  * @var $listview \fay\common\ListView

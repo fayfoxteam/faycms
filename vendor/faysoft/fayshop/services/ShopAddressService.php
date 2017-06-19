@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\shop;
 
+use cms\models\tables\UserAddressesTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\UserAddressesTable;
 
 class ShopAddressService extends Service{
     /**

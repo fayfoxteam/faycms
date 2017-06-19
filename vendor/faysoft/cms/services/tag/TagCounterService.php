@@ -1,9 +1,9 @@
 <?php
 namespace cms\services\tag;
 
+use cms\models\tables\TagCounterTable;
 use fay\core\Loader;
 use fay\core\Service;
-use cms\models\tables\TagCounterTable;
 use fay\helpers\FieldsHelper;
 
 class TagCounterService extends Service{

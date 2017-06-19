@@ -2,12 +2,12 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\models\tables\LinksTable;
 use cms\models\tables\ActionlogsTable;
-use fay\core\Sql;
+use cms\models\tables\LinksTable;
+use cms\services\CategoryService;
 use fay\common\ListView;
 use fay\core\Response;
-use cms\services\CategoryService;
+use fay\core\Sql;
 
 class LinkController extends AdminController{
     public function __construct(){

@@ -1,18 +1,18 @@
 <?php
 namespace cms\services\file;
 
+use cms\models\tables\FilesTable;
+use cms\services\CategoryService;
+use cms\services\OptionService;
+use fay\common\Upload;
+use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 use fay\helpers\LocalFileHelper;
-use fay\helpers\UrlHelper;
-use cms\models\tables\FilesTable;
-use fay\common\Upload;
 use fay\helpers\StringHelper;
-use fay\core\ErrorException;
-use cms\services\CategoryService;
-use cms\services\OptionService;
+use fay\helpers\UrlHelper;
 
 /**
  * 用户上传文件相关服务

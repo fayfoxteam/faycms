@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <form id="batch-form" method="post" action="<?php echo $this->url('cms/admin/notification/batch')?>" class="form-inline">
     <div class="row">

@@ -1,6 +1,7 @@
 <?php
 use apidoc\helpers\MenuHelper;
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="sidebar-menu <?php if(!F::config()->get('debug'))echo ' fixed';
 ?>" id="sidebar-menu">

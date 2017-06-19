@@ -1,20 +1,20 @@
 <?php
 namespace cms\services\post;
 
+use cms\models\tables\CategoriesTable;
+use cms\models\tables\PostsCategoriesTable;
+use cms\models\tables\PostsTable;
+use cms\models\tables\RolesCatsTable;
+use cms\models\tables\RolesTable;
+use cms\services\CategoryService;
+use cms\services\OptionService;
+use cms\services\user\UserRoleService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
-use cms\models\tables\CategoriesTable;
-use cms\models\tables\PostsTable;
-use cms\models\tables\PostsCategoriesTable;
-use cms\services\OptionService;
-use cms\services\user\UserRoleService;
-use cms\models\tables\RolesTable;
-use cms\models\tables\RolesCatsTable;
-use cms\services\CategoryService;
 
 class PostCategoryService extends Service{
     /**

@@ -1,7 +1,7 @@
 <?php
-use fay\helpers\HtmlHelper;
-use cms\models\tables\PostCommentsTable;
 use cms\helpers\PostCommentHelper;
+use cms\models\tables\PostCommentsTable;
+use fay\helpers\HtmlHelper;
 
 $settings = F::form('setting')->getAllData();
 $cols = F::form('setting')->getData('cols', array());

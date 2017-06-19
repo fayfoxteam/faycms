@@ -2,8 +2,8 @@
 /**
  * 单图上传DOM
  */
-use fay\helpers\HtmlHelper;
 use cms\services\file\FileService;
+use fay\helpers\HtmlHelper;
 use fay\helpers\NumberHelper;
 
 //默认参数

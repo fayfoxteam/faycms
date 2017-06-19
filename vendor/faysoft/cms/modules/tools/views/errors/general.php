@@ -1,5 +1,6 @@
-<?php 
+<?php
 use fay\helpers\BacktraceHelper;
+
 ?>
 <!DOCTYPE html>
 <html>

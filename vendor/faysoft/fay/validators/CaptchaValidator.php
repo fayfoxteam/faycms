@@ -1,8 +1,8 @@
 <?php
 namespace fay\validators;
 
-use fay\core\Validator;
 use cms\services\CaptchaService;
+use fay\core\Validator;
 
 /**
  * 验证码

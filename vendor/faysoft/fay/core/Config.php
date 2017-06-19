@@ -2,6 +2,7 @@
 namespace fay\core;
 
 use fay\helpers\ArrayHelper;
+
 class Config{
     private static $_instance;
     private $_configs;

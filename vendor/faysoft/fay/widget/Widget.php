@@ -2,10 +2,10 @@
 namespace fay\widget;
 
 use cms\helpers\WidgetHelper;
+use cms\models\tables\WidgetsTable;
 use fay\core\Db;
 use fay\core\Input;
 use fay\helpers\RequestHelper;
-use cms\models\tables\WidgetsTable;
 
 abstract class Widget{
     /**

@@ -1,6 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
-use cms\models\tables\VouchersTable;
+
 ?>
 <div class="row">
     <div class="col-12">

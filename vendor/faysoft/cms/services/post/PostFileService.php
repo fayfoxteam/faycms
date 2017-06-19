@@ -1,10 +1,10 @@
 <?php
 namespace cms\services\post;
 
+use cms\services\file\FileService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
-use cms\services\file\FileService;
 
 class PostFileService extends Service{
     /**

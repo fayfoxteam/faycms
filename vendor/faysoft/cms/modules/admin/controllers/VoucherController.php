@@ -3,11 +3,11 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\VouchersTable;
-use fay\helpers\StringHelper;
 use cms\services\CategoryService;
-use fay\core\Sql;
-use fay\common\ListView;
 use cms\services\FlashService;
+use fay\common\ListView;
+use fay\core\Sql;
+use fay\helpers\StringHelper;
 
 class VoucherController extends AdminController{
     public function __construct(){

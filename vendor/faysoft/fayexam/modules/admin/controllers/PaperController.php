@@ -3,13 +3,13 @@ namespace fayexam\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
-use fay\helpers\HtmlHelper;
 use cms\services\CategoryService;
-use fay\core\Response;
-use fayexam\models\tables\ExamPapersTable;
-use fayexam\models\tables\ExamPaperQuestionsTable;
-use fay\core\Sql;
 use fay\common\ListView;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
+use fayexam\models\tables\ExamPaperQuestionsTable;
+use fayexam\models\tables\ExamPapersTable;
 
 class PaperController extends AdminController{
     public function __construct(){

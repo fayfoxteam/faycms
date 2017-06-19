@@ -2,16 +2,16 @@
 namespace faywiki\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\services\CategoryService;
 use cms\models\tables\ActionlogsTable;
-use cms\services\SettingService;
-use fay\core\Sql;
-use fay\common\ListView;
-use fay\core\Response;
-use fay\helpers\HtmlHelper;
-use fay\core\HttpException;
+use cms\services\CategoryService;
 use cms\services\FlashService;
 use cms\services\post\PostService;
+use cms\services\SettingService;
+use fay\common\ListView;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 use faywiki\models\tables\WikiDocExtraTable;
 use faywiki\models\tables\WikiDocMetaTable;
 use faywiki\models\tables\WikiDocsTable;

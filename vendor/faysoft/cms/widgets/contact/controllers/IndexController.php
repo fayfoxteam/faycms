@@ -1,8 +1,8 @@
 <?php
 namespace cms\widgets\contact\controllers;
 
-use fay\core\Response;
 use cms\services\ContactService;
+use fay\core\Response;
 use fay\widget\Widget;
 
 class IndexController extends Widget{

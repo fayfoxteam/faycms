@@ -1,6 +1,7 @@
 <?php
 use apidoc\models\tables\ApidocAppsTable;
 use fay\helpers\ArrayHelper;
+
 ?>
 <div class="box" id="box-app" data-name="app">
     <div class="box-title">

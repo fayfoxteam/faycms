@@ -2,9 +2,9 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\helpers\StringHelper;
 use fay\core\HttpException;
 use fay\core\Response;
+use fay\helpers\StringHelper;
 
 /**
  * 小工具

@@ -2,16 +2,16 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fay\core\Sql;
-use fay\common\ListView;
-use cms\models\tables\RolesTable;
-use cms\models\tables\RolesActionsTable;
 use cms\models\tables\ActionlogsTable;
-use fay\core\Response;
-use fay\helpers\HtmlHelper;
-use cms\services\CategoryService;
+use cms\models\tables\RolesActionsTable;
 use cms\models\tables\RolesCatsTable;
+use cms\models\tables\RolesTable;
+use cms\services\CategoryService;
 use cms\services\OptionService;
+use fay\common\ListView;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 
 class RoleController extends AdminController{
     public function __construct(){

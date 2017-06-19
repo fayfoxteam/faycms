@@ -3,10 +3,10 @@ namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
 use cms\services\CategoryService;
-use fay\core\Db;
 use cms\services\MenuService;
-use fay\helpers\RequestHelper;
+use fay\core\Db;
 use fay\core\Response;
+use fay\helpers\RequestHelper;
 
 class DbController extends InstallController{
     

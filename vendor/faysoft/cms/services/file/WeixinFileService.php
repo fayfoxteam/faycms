@@ -1,14 +1,14 @@
 <?php
 namespace cms\services\file;
 
-use fay\core\ErrorException;
-use fay\core\HttpException;
-use fay\core\Loader;
-use fay\core\Service;
 use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use cms\services\OptionService;
 use cms\services\wechat\core\AccessToken;
+use fay\core\ErrorException;
+use fay\core\HttpException;
+use fay\core\Loader;
+use fay\core\Service;
 
 /**
  * 文件相关操作类，本类仅包含本地文件操作方法，不集成任何第三方的存储

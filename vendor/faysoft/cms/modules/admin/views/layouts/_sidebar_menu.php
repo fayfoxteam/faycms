@@ -1,7 +1,8 @@
 <?php
 use cms\helpers\MenuHelper;
-use fay\helpers\HtmlHelper;
 use cms\services\SettingService;
+use fay\helpers\HtmlHelper;
+
 ?>
 <div class="sidebar-menu <?php
     $admin_sidebar_class = SettingService::service()->get('admin_sidebar_class');

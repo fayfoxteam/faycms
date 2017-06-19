@@ -2,17 +2,17 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\services\CategoryService;
-use cms\models\tables\PagesTable;
-use cms\models\tables\PagesCategoriesTable;
 use cms\models\tables\ActionlogsTable;
-use cms\services\SettingService;
-use fay\core\Sql;
-use fay\common\ListView;
+use cms\models\tables\PagesCategoriesTable;
+use cms\models\tables\PagesTable;
+use cms\services\CategoryService;
 use cms\services\PageService;
-use fay\core\Response;
-use fay\helpers\HtmlHelper;
+use cms\services\SettingService;
+use fay\common\ListView;
 use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 
 class PageController extends AdminController{
     public $boxes = array(

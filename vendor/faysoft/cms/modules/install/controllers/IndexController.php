@@ -2,15 +2,15 @@
 namespace cms\modules\install\controllers;
 
 use cms\library\InstallController;
+use cms\models\tables\RolesTable;
 use cms\models\tables\UsersTable;
 use cms\services\OptionService;
-use fay\core\Response;
+use cms\services\user\UserService;
 use fay\core\Db;
 use fay\core\Exception;
+use fay\core\Response;
 use fay\helpers\LocalFileHelper;
 use fay\helpers\RequestHelper;
-use cms\models\tables\RolesTable;
-use cms\services\user\UserService;
 
 class IndexController extends InstallController{
     public function __construct(){

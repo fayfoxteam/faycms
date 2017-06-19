@@ -2,17 +2,17 @@
 namespace cms\widgets\tag_post_list\controllers;
 
 use cms\helpers\LinkHelper;
-use fay\helpers\ArrayHelper;
+use cms\models\tables\PostsTable;
 use cms\models\tables\TagsTable;
+use cms\services\CategoryService;
 use cms\services\post\PostService;
+use fay\common\ListView;
+use fay\core\HttpException;
+use fay\core\Sql;
+use fay\helpers\ArrayHelper;
+use fay\helpers\DateHelper;
 use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
-use fay\core\Sql;
-use fay\common\ListView;
-use cms\models\tables\PostsTable;
-use cms\services\CategoryService;
-use fay\helpers\DateHelper;
-use fay\core\HttpException;
 
 class IndexController extends Widget{
     /**

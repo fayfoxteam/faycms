@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="hide">
     <div id="edit-prop-dialog" class="dialog">

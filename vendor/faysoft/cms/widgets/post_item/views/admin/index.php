@@ -1,7 +1,8 @@
 <?php
 use cms\models\tables\RolesTable;
-use fay\helpers\HtmlHelper;
 use cms\services\user\UserRoleService;
+use fay\helpers\HtmlHelper;
+
 ?>
 <div class="box">
     <div class="box-title">

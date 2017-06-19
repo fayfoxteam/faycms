@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\StringHelper;
+
 ?>
 <?php echo F::form()->open(null, 'post')?>
     <div class="row">

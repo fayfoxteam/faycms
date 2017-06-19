@@ -1,5 +1,6 @@
 <?php
 use fay\helpers\HtmlHelper;
+
 ?>
 <div class="hide">
     <div id="add-output-dialog" class="dialog">

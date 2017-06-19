@@ -1,13 +1,13 @@
 <?php
 namespace cms\services\user;
 
+use cms\models\tables\UsersTable;
+use cms\services\file\FileService;
 use fay\core\ErrorException;
 use fay\core\HttpException;
 use fay\core\Loader;
 use fay\core\Service;
 use fayoauth\models\tables\OauthUserConnectsTable;
-use cms\models\tables\UsersTable;
-use cms\services\file\FileService;
 use fayoauth\services\OauthAppService;
 use fayoauth\services\OAuthException;
 use fayoauth\services\UserAbstract;

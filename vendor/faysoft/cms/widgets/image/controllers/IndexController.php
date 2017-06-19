@@ -2,8 +2,8 @@
 namespace cms\widgets\image\controllers;
 
 use cms\models\tables\FilesTable;
-use fay\widget\Widget;
 use cms\services\file\FileService;
+use fay\widget\Widget;
 
 class IndexController extends Widget{
     public function initConfig($config){

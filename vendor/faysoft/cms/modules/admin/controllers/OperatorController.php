@@ -2,19 +2,19 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\models\tables\UsersTable;
-use fay\core\Sql;
-use cms\models\tables\RolesTable;
 use cms\models\tables\ActionlogsTable;
-use fay\common\ListView;
+use cms\models\tables\RolesTable;
+use cms\models\tables\UserProfileTable;
+use cms\models\tables\UsersTable;
 use cms\services\user\UserPropService;
+use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
-use fay\core\Response;
-use fay\helpers\HtmlHelper;
+use fay\common\ListView;
 use fay\core\HttpException;
 use fay\core\Loader;
-use cms\models\tables\UserProfileTable;
-use cms\services\user\UserRoleService;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 
 class OperatorController extends AdminController{
     public function __construct(){

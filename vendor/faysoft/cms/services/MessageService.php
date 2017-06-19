@@ -1,16 +1,16 @@
 <?php
 namespace cms\services;
 
-use fay\core\ErrorException;
-use fay\core\Loader;
-use fay\helpers\FieldsHelper;
-use fay\models\MultiTreeModel;
 use cms\models\tables\MessagesTable;
-use fay\core\Exception;
-use fay\helpers\ArrayHelper;
-use fay\helpers\RequestHelper;
 use cms\models\tables\UserCounterTable;
 use cms\services\user\UserService;
+use fay\core\ErrorException;
+use fay\core\Exception;
+use fay\core\Loader;
+use fay\helpers\ArrayHelper;
+use fay\helpers\FieldsHelper;
+use fay\helpers\RequestHelper;
+use fay\models\MultiTreeModel;
 
 /**
  * 留言服务

@@ -1,9 +1,10 @@
 <?php
-use fay\helpers\DateHelper;
-use fay\helpers\HtmlHelper;
+use cms\models\tables\RolesTable;
 use cms\services\file\FileService;
 use cms\services\user\UserRoleService;
-use cms\models\tables\RolesTable;
+use fay\helpers\DateHelper;
+use fay\helpers\HtmlHelper;
+
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
     <?php if(in_array('avatar', $cols)){?>

@@ -3,16 +3,16 @@ namespace fayexam\services;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fayexam\models\tables\ExamPapersTable;
 use fay\core\Sql;
-use fayexam\models\tables\ExamExamQuestionAnswersIntTable;
-use fayexam\models\tables\ExamAnswersTable;
-use fayexam\models\tables\ExamQuestionsTable;
-use fayexam\models\tables\ExamPaperQuestionsTable;
-use fayexam\models\tables\ExamExamsTable;
-use fayexam\models\tables\ExamExamsQuestionsTable;
-use fayexam\models\tables\ExamExamQuestionAnswerTextTable;
 use fay\helpers\StringHelper;
+use fayexam\models\tables\ExamAnswersTable;
+use fayexam\models\tables\ExamExamQuestionAnswersIntTable;
+use fayexam\models\tables\ExamExamQuestionAnswerTextTable;
+use fayexam\models\tables\ExamExamsQuestionsTable;
+use fayexam\models\tables\ExamExamsTable;
+use fayexam\models\tables\ExamPaperQuestionsTable;
+use fayexam\models\tables\ExamPapersTable;
+use fayexam\models\tables\ExamQuestionsTable;
 
 class ExamService extends Service{
     /**

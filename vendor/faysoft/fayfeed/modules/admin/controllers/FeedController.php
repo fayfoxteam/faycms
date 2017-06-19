@@ -2,17 +2,17 @@
 namespace fayfeed\modules\admin\controllers;
 
 use cms\library\AdminController;
-use fayfeed\models\tables\FeedsTable;
-use fayfeed\models\tables\FeedsFilesTable;
-use cms\services\SettingService;
-use fayfeed\services\FeedService;
 use cms\models\tables\ActionlogsTable;
-use fay\core\Response;
-use fayfeed\models\tables\FeedExtraTable;
-use fay\core\Sql;
-use fayfeed\models\tables\FeedMetaTable;
+use cms\services\SettingService;
 use fay\common\ListView;
+use fay\core\Response;
+use fay\core\Sql;
 use fay\helpers\HtmlHelper;
+use fayfeed\models\tables\FeedExtraTable;
+use fayfeed\models\tables\FeedMetaTable;
+use fayfeed\models\tables\FeedsFilesTable;
+use fayfeed\models\tables\FeedsTable;
+use fayfeed\services\FeedService;
 
 class FeedController extends AdminController{
     /**

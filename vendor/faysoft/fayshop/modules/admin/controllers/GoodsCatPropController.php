@@ -2,16 +2,16 @@
 namespace fayshop\modules\admin\controllers;
 
 use cms\library\AdminController;
+use cms\models\tables\ActionlogsTable;
 use cms\models\tables\CategoriesTable;
-use fay\helpers\HtmlHelper;
-use fay\core\Sql;
+use cms\services\CategoryService;
 use fay\common\ListView;
+use fay\core\HttpException;
+use fay\core\Response;
+use fay\core\Sql;
+use fay\helpers\HtmlHelper;
 use fayshop\models\tables\ShopGoodsCatPropsTable;
 use fayshop\models\tables\ShopGoodsCatPropValuesTable;
-use cms\models\tables\ActionlogsTable;
-use fay\core\Response;
-use cms\services\CategoryService;
-use fay\core\HttpException;
 
 /**
  * 商品属性

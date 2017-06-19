@@ -6,11 +6,11 @@ use fay\core\Loader;
 
 /**
  * Gg help cats table model
- * 
+ *
  * @property int $id Id
  * @property string $name Name
  * @property string $remark Remark
- * @property int $position Position
+ * @property int $sort Sort
  * @property int $updated_ip Updated Ip
  * @property string $updated_at 更新时间
  * @property int $created_ip Created Ip
@@ -19,18 +19,18 @@ use fay\core\Loader;
  */
 class GgHelpCatsTable extends Table{
     protected $_name = 'gg_help_cats';
-    
+
     /**
      * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     public function rules(){
         return array(
             array(array('updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-            array(array('id', 'position'), 'int', array('min'=>0, 'max'=>65535)),
+            array(array('id', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>32)),
             array(array('remark'), 'string', array('max'=>255)),
         );
@@ -41,7 +41,7 @@ class GgHelpCatsTable extends Table{
             'id'=>'Id',
             'name'=>'Name',
             'remark'=>'Remark',
-            'position'=>'Position',
+            'sort'=>'Sort',
             'updated_ip'=>'Updated Ip',
             'updated_at'=>'更新时间',
             'created_ip'=>'Created Ip',
@@ -55,7 +55,7 @@ class GgHelpCatsTable extends Table{
             'id'=>'intval',
             'name'=>'trim',
             'remark'=>'trim',
-            'position'=>'intval',
+            'sort'=>'intval',
             'updated_ip'=>'intval',
             'updated_at'=>'',
             'created_ip'=>'intval',

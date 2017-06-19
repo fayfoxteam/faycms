@@ -48,14 +48,23 @@ class ModelController extends FrontController{
                 $guarded[] = $field['Field'];
             }
         }
+
+        //获取表注释
+        $create_table = Db::getInstance()->fetchRow("SHOW CREATE TABLE {$table}");
+        $create_table = explode('\n', $create_table['Create Table']);
+        $create_table_last_line = array_pop($create_table);
+        preg_match('/COMMENT=\'(.*)\'/', $create_table_last_line, $table_comment);
+        $table_comment = isset($table_comment[1]) ? $table_comment[1] : '';
         
-        $class_name = StringHelper::underscore2case($table_without_prefix).'Model';
+        $class_name = StringHelper::underscore2case($table_without_prefix);
         $content = $this->view->renderPartial(null, array(
             'class_name'=>$class_name,
             'soft_delete'=>$soft_delete,
             'table'=>$table_without_prefix,
             'has_timestamps'=>$has_timestamps,
             'guarded'=>$guarded,
+            'fields'=>$fields,
+            'table_comment'=>$table_comment,
         ), -1, true);
 
         $filename = $class_name . '.php';

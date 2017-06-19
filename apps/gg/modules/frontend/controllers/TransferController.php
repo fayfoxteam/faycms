@@ -138,6 +138,10 @@ class TransferController extends FrontController{
                 $new_row['sort'] = $row['sorting'];
             }
 
+            if(in_array('sort', $fields) && array_key_exists('position', $row)){
+                $new_row['sort'] = $row['position'];
+            }
+
             if(in_array('status', $fields) && array_key_exists('start', $row)){
                 $new_row['status'] = $row['start'];
             }
@@ -195,6 +199,10 @@ class TransferController extends FrontController{
 
             if($table == 'merchant_oauth'){
                 $new_row['type'] = 1;
+            }
+
+            if($table == 'template_cats'){
+                $new_row['name'] = $row['title'];
             }
             
             $data[] = $new_row;

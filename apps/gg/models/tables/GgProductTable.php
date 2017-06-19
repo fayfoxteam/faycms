@@ -24,6 +24,7 @@ use fay\core\Loader;
  * @property string $created_at 创建时间
  * @property string $deleted_at Deleted At
  * @property float $price 价格
+ * @property int $price_type 币种:1人民币,2美元
  */
 class GgProductTable extends Table{
     protected $_name = 'gg_product';
@@ -39,6 +40,7 @@ class GgProductTable extends Table{
         return array(
             array(array('id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('merchant_id', 'website_id', 'cat_id', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('price_type'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
             array(array('price'), 'float', array('length'=>10, 'decimal'=>2)),
             array(array('is_comment', 'is_recommended'), 'range', array('range'=>array(0, 1))),
@@ -64,6 +66,7 @@ class GgProductTable extends Table{
             'created_at'=>'创建时间',
             'deleted_at'=>'Deleted At',
             'price'=>'价格',
+            'price_type'=>'币种:1人民币,2美元',
         );
     }
 
@@ -86,6 +89,7 @@ class GgProductTable extends Table{
             'created_at'=>'',
             'deleted_at'=>'',
             'price'=>'floatval',
+            'price_type'=>'intval',
         );
     }
 }

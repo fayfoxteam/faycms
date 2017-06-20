@@ -10,6 +10,7 @@
  * @var $sign_up_days int
  * @var $js_sdk_config string
  * @var $next_post int
+ * @var $read_count int
  */
 $this->appendCss($this->appAssets('css/arm.css'));
 ?>
@@ -73,6 +74,9 @@ $this->appendCss($this->appAssets('css/arm.css'));
         'user'=>$user,
         'attendances'=>$attendances,
         'sign_up_days'=>$sign_up_days,
+    ));
+    $this->renderPartial('_read_dialog', array(
+        'read_count'=>$read_count,
     ));
     $this->renderPartial('_post_dialog');
     $this->renderPartial('_unregister_dialog');

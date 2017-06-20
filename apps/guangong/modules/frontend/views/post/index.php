@@ -65,7 +65,7 @@ use fay\helpers\HtmlHelper;
                 ?></div></td>
                 <td><div class="status"><?php
                     if($post['read_id']){
-                        echo '已读';
+                        echo '<span style="color:#C7000C">已读</span>';
                     }else if($show_status){
                         echo '未读';
                         $show_status = false;

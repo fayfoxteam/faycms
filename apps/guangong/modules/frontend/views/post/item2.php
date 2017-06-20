@@ -40,7 +40,9 @@ use fay\helpers\HtmlHelper;
 <div class="wrapper">
     <h1><?php echo HtmlHelper::encode($post['post']['title'])?></h1>
     <div class="post-content"><?php echo $post['post']['content']?></div>
-    <div class="return-container"><a href="javascript:parent.$.fancybox.close()" class="btn">已&nbsp;读</a></div>
+    <div class="return-container"><a href="<?php echo \fay\helpers\UrlHelper::createUrl('api/post/log-read', array(
+        'id'=>$post['post']['id'],
+    ))?>" class="btn">已&nbsp;读</a></div>
 </div>
 </body>
 </html>

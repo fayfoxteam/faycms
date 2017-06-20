@@ -108,13 +108,14 @@ class Response{
             header("HTTP/1.1 {$code} {$text}", TRUE, $code);
         }
     }
-    
+
     /**
      * 页面跳转
      * @param string $uri
      * @param array $params
+     * @param string $anchor 锚点，仅当$uri非空且不是完整url时有效
      */
-    public static function redirect($uri = null, $params = array()){
+    public static function redirect($uri = null, $params = array(), $anchor = ''){
         if($uri === null){
             //跳转到首页
             header('location:'.UrlHelper::createUrl(null));
@@ -122,7 +123,7 @@ class Response{
             //指定了一个完整的url，跳转到指定url
             header('location:'.$uri);
         }else{
-            header('location:'.UrlHelper::createUrl($uri, $params));
+            header('location:'.UrlHelper::createUrl($uri, $params, $anchor));
         }
         die;
     }

@@ -170,3 +170,9 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 #renmingzhuang-dialog.dideng{background-image:url(../images/arm/renmingzhuang.png);}
 #renmingzhuang-dialog.dideng{padding:54px 43px 7px 70px}
 #renmingzhuang-dialog.dideng .fancybox-close-small{top:9px;right:8px}
+
+#read-dialog .dialog-content{background:url(../images/arm/caozhi-bg.png) no-repeat center center transparent;background-size:100% 100%;padding-top:56px}
+#read-dialog p{font-size:18px;text-align:center;line-height:1.6;}
+#read-dialog .top{margin-bottom:30px}
+#read-dialog .top p{color:#C7000C}
+#read-dialog .bottom p{color:#231915}

@@ -2,7 +2,14 @@
 namespace fay\helpers;
 
 class UrlHelper{
-    public static function createUrl($router = null, $params = array()){
+    /**
+     * 构建站内url
+     * @param null|array $router 若为null，则返回首页，否则根据$base_url构建url
+     * @param array $params 链接参数
+     * @param string $anchor 锚点
+     * @return mixed|string
+     */
+    public static function createUrl($router = null, $params = array(), $anchor = ''){
         $base_url = \F::config()->get('base_url');
         if(!$router){
             return $base_url;
@@ -26,10 +33,15 @@ class UrlHelper{
                 }
             }
             
+            if($anchor && substr($anchor, 0, 1) != '#'){
+                //若指定锚点，且非井号开头，则加上井号
+                $anchor = '#' . $anchor;
+            }
+            
             if($params && $query_string = http_build_query($params)){
-                return $base_url . $router . $ext . '?' . $query_string;
+                return $base_url . $router . $ext . '?' . $query_string . $anchor;
             }else{
-                return $base_url . $router . $ext;
+                return $base_url . $router . $ext . $anchor;
             }
         }
     }

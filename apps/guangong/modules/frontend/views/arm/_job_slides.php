@@ -151,8 +151,10 @@ wx.ready(function(){
 
 $(function(){
     var audio = new Audio("<?php echo $this->appAssets('music/gusheng2.mp3')?>");
+    var taskDoing = false;
     audio.addEventListener('timeupdate', function(){
-        if(audio.currentTime == audio.duration){
+        if(audio.currentTime == audio.duration && !taskDoing){
+            taskDoing = true;
             common.loadFancybox(function(){
                 //记录任务
                 $.ajax({
@@ -162,10 +164,11 @@ $(function(){
                     'dataType': 'json',
                     'cache': false,
                     'success': function(resp){
-                        console.log(resp);
+                        taskDoing = false;
                         $('body').unblock();
                         if(resp.data && resp.data.rank){
                             $('#attendance-dialog').find('.rank-title').text(resp.data.rank.captain + ' ');
+                            $('#attendance-dialog').find('.attendance-count .content').text(resp.data.attendances);
                         }
 
                         $.fancybox.open($('#attendance-dialog').parent().html(), {
@@ -195,13 +198,13 @@ $(function(){
         $('body').block();
     });
 
-    common.loadFancybox(function(){
-        $('#post-dialog-link').fancybox({
-            'beforeLoad': function(instance, slide){
-                if(slide.opts.$orig.attr('data-id') == '0'){
-                    common.toast('恭喜您已经完成所有资料阅读');
-                    return false;
-                }else{
+//    common.loadFancybox(function(){
+//        $('#post-dialog-link').fancybox({
+//            'beforeLoad': function(instance, slide){
+//                if(slide.opts.$orig.attr('data-id') == '0'){
+//                    common.toast('恭喜您已经完成所有资料阅读');
+//                    return false;
+//                }else{
 //                    $('body').block();
 //                    $.ajax({
 //                        'type': 'GET',
@@ -220,10 +223,10 @@ $(function(){
 //                            }
 //                        }
 //                    });
-                }
-            }
-        });
-    });
+//                }
+//            }
+//        });
+//    });
     
     $('#shenfenshibie-form').on('submit', function(){
         if($(this).find('[name="mobile"]').val() == ''){
@@ -243,5 +246,11 @@ $(function(){
             $('#shenfenshibie-form').find('[name="daihao"]').val('<?php echo \guangong\helpers\UserHelper::getCode(\F::app()->current_user)?>')
         }
     });
+    
+    <?php if(F::input()->get('show_read')){?>
+    common.loadFancybox(function() {
+        $.fancybox.open($('#read-dialog').parent().html());
+    });
+    <?php }?>
 });
 </script>

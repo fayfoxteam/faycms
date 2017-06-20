@@ -6,6 +6,7 @@ use cms\services\user\UserService;
 use fay\core\Response;
 use guangong\models\tables\GuangongRanksTable;
 use guangong\models\tables\GuangongUserExtraTable;
+use guangong\services\AttendanceService;
 use guangong\services\TaskService;
 
 class TaskController extends ApiController{
@@ -39,6 +40,7 @@ class TaskController extends ApiController{
                 'data'=>array(
                     'rank'=>$rank,
                     'user'=>UserService::service()->get($this->current_user, 'id,nickname,realname'),
+                    'attendances'=>AttendanceService::service()->getCount(),
                 ),
             ));
         }else if($result){
@@ -46,6 +48,7 @@ class TaskController extends ApiController{
                 'message'=>'任务完成',
                 'data'=>array(
                     'rank'=>$rank,
+                    'attendances'=>AttendanceService::service()->getCount(),
                 ),
             ));
         }else{
@@ -54,6 +57,7 @@ class TaskController extends ApiController{
                 'message'=>'',
                 'data'=>array(
                     'rank'=>$rank,
+                    'attendances'=>AttendanceService::service()->getCount(),
                 ),
             ));
         }

@@ -75,20 +75,6 @@ class PostController extends FrontController{
         ))->check();
 
         $post_id = $this->form()->getData('id');
-        if($this->current_user){
-            //若是登录用户访问此页面，记录阅读
-            if(!GuangongReadLogsTable::model()->fetchRow(array(
-                'user_id = ' . $this->current_user,
-                'post_id = ?'=>$post_id,
-            ))){
-                GuangongReadLogsTable::model()->insert(array(
-                    'user_id'=>$this->current_user,
-                    'post_id'=>$post_id,
-                    'create_time'=>$this->current_time,
-                    'create_date'=>date('Y-m-d'),
-                ));
-            }
-        }
 
         $this->view->renderPartial(null, array(
             'post'=> PostService::service()->get($post_id),

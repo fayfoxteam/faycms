@@ -56,4 +56,18 @@ class PostService extends Service{
         
         return $post ? $post['id'] : '0';
     }
+    
+    public function getReadCount($user_id = null){
+        if($user_id === null){
+            $user_id = \F::app()->current_user;
+        }else if(!UserService::isUserIdExist($user_id)){
+            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
+        }
+        
+        $count = GuangongReadLogsTable::model()->fetchRow(array(
+            'user_id = ?'=>$user_id,
+        ), 'COUNT(*)');
+        
+        return $count['COUNT(*)'];
+    }
 }

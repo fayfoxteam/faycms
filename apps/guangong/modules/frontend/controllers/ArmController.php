@@ -52,9 +52,11 @@ class ArmController extends FrontController{
             
             $sign_up_days = ceil(($this->current_time - $user_extra['sign_up_time']) / 86400);
             $attendances = AttendanceService::service()->getCount();
+            
+            $read_count = PostService::service()->getReadCount();
         }else{
             $user = $user_extra = $defence = $arm = $hour = array();
-            $sign_up_days = $attendances = 0;
+            $sign_up_days = $attendances = $read_count = 0;
         }
         
         $app_config = OptionService::getGroup('oauth:weixin');
@@ -71,6 +73,7 @@ class ArmController extends FrontController{
             'attendances'=>$attendances,
             'next_post'=>PostService::service()->getNextPost(),
             'js_sdk_config'=>$js_sdk->getConfig(array('onMenuShareTimeline')),
+            'read_count'=>$read_count,
         ))->render();
     }
     

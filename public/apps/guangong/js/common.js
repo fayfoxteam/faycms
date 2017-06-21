@@ -199,6 +199,7 @@ var common = {
             this.loadFancybox(function(){
                 $('.rank-dialog-link').fancybox({
                     'afterLoad': function(instance, slide){
+                        $('#rank-dialog').find('.rank-description img').attr('src', '');
                         var rank_id = slide.opts.$orig.attr('data-id');
                         if(rank_id == '0'){
                             return false;

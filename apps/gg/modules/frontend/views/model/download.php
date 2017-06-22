@@ -54,22 +54,6 @@ class <?php echo $class_name?> extends Model
 <?php }?>
 
 <?php
-$int = array();
-$int_unsigned = array();
-$mediumint = array();
-$mediumint_unsigned = array();
-$smallint = array();
-$smallint_unsigned = array();
-$tinyint = array();
-$tinyint_unsigned = array();
-$varchar = array();
-$decimal = array();
-$length = array();
-$float = array();
-$email = array();
-$mobile = array();
-$datetime = array();
-$range_0_1 = array();
 $rules = array();
 
 foreach($fields as $f){

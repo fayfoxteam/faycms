@@ -11,6 +11,8 @@ use fay\core\Loader;
  * @property int $pid Pid
  * @property string $name Name
  * @property int $sort Sort
+ * @property int $left_value Left Value
+ * @property int $right_value Right Value
  * @property int $updated_ip Updated Ip
  * @property string $updated_at 更新时间
  * @property int $created_ip Created Ip
@@ -31,6 +33,7 @@ class GgTemplateCatsTable extends Table{
     public function rules(){
         return array(
             array(array('updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
+            array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('id', 'pid'), 'int', array('min'=>-32768, 'max'=>32767)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>32)),
@@ -44,6 +47,8 @@ class GgTemplateCatsTable extends Table{
             'pid'=>'Pid',
             'name'=>'Name',
             'sort'=>'Sort',
+            'left_value'=>'Left Value',
+            'right_value'=>'Right Value',
             'updated_ip'=>'Updated Ip',
             'updated_at'=>'更新时间',
             'created_ip'=>'Created Ip',

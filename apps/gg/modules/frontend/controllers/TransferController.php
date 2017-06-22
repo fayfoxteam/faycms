@@ -207,6 +207,7 @@ class TransferController extends FrontController{
 
             if($table == 'template_cats'){
                 $new_row['name'] = $row['title'];
+                $new_row['parent_id'] = $row['pid'];
             }
             
             $data[] = $new_row;

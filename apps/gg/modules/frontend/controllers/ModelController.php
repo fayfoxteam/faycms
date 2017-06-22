@@ -2,6 +2,7 @@
 namespace gg\modules\frontend\controllers;
 
 use fay\core\Db;
+use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
 use gg\library\FrontController;
 
@@ -67,23 +68,24 @@ class ModelController extends FrontController{
             'table_comment'=>$table_comment,
         ), -1, true);
 
-        $filename = $class_name . '.php';
-        if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
-            header('Content-Type: "application/x-httpd-php"');
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header("Content-Transfer-Encoding: binary");
-            header('Pragma: public');
-            header("Content-Length: ".strlen($content));
-        }else{
-            header('Content-Type: "application/x-httpd-php"');
-            header('Content-Disposition: attachment; filename="'.$filename.'"');
-            header("Content-Transfer-Encoding: binary");
-            header('Expires: 0');
-            header('Pragma: no-cache');
-            header("Content-Length: ".strlen($content));
-        }
-        echo $content;
+//        $filename = $class_name . '.php';
+//        if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
+//            header('Content-Type: "application/x-httpd-php"');
+//            header('Content-Disposition: attachment; filename="'.$filename.'"');
+//            header('Expires: 0');
+//            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+//            header("Content-Transfer-Encoding: binary");
+//            header('Pragma: public');
+//            header("Content-Length: ".strlen($content));
+//        }else{
+//            header('Content-Type: "application/x-httpd-php"');
+//            header('Content-Disposition: attachment; filename="'.$filename.'"');
+//            header("Content-Transfer-Encoding: binary");
+//            header('Expires: 0');
+//            header('Pragma: no-cache');
+//            header("Content-Length: ".strlen($content));
+//        }
+        
+        echo '<pre>', HtmlHelper::encode($content);
     }
 }

@@ -1,3 +1,4 @@
+
 <?php
 use cms\services\file\FileService;
 use cms\services\FlashService;
@@ -132,6 +133,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
                 <?php }?>
             </ul>
         </nav>
+        <?php if(!empty($subtitle)){?>
         <div class="page-title">
             <div class="title-env">
                 <h1 class="title"><?php
@@ -208,6 +210,7 @@ common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>
                     }?></div>
             </div>
         </div>
+        <?php }?>
         <?php echo FlashService::get();?>
         <?php echo $content?>
     </div>

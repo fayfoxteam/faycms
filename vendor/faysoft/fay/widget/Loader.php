@@ -53,6 +53,21 @@ class Loader{
             }
         }
     }
+
+    /**
+     * 是否为编辑状态
+     * 若为true，会输出一个外层div编辑框
+     * @return bool
+     */
+    protected function isEditing(){
+        if(isset($_SERVER['HTTP_REFERER']) && substr($_SERVER['HTTP_REFERER'], -26) == 'cms/admin/widget/customize' &&
+            \F::session()->get('user.id', null, \F::config()->get('session.namespace').'_admin')
+        ){
+            return true;
+        }
+        
+        return false;
+    }
     
     /**
      * 根据数据库中的别名，实例化对应的widget，进行渲染
@@ -85,14 +100,32 @@ class Loader{
                 echo $content;
             }else{
                 RuntimeHelper::append(__FILE__, __LINE__, "准备渲染小工具: {$widget['alias']}");
-                $this->render($widget['widget_name'], json_decode($widget['config'], true), $ajax, $widget['cache'], $widget['alias'], $index, $action);
+                $editing = $this->isEditing();
+                if($editing){
+                    echo '<div class="edit-widget-container">',
+                        '<a href="javascript:" class="edit-widget-link", data-src="', UrlHelper::createUrl('cms/admin/widget/edit', array('id'=>$widget['id'])),'">',
+                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13.89 3.39l2.71 2.72c.46.46.42 1.24.03 1.64l-8.01 8.02-5.56 1.16 1.16-5.58s7.6-7.63 7.99-8.03c.39-.39 1.22-.39 1.68.07zm-2.73 2.79l-5.59 5.61 1.11 1.11 5.54-5.65zm-2.97 8.23l5.58-5.6-1.07-1.08-5.59 5.6z"></path></svg>',
+                        '</a>';
+                }
+                $this->render(
+                    $widget['widget_name'],
+                    json_decode($widget['config'], true),
+                    $ajax,
+                    $widget['cache'],
+                    $widget['alias'],
+                    $index,
+                    $action
+                );
+                if($editing){
+                    echo '</div>';
+                }
                 RuntimeHelper::append(__FILE__, __LINE__, "小工具: {$widget['alias']}渲染完成");
             }
         }else{
             throw new HttpException('Widget不存在或已被删除');
         }
     }
-    
+
     /**
      * 根据widget name调用index方法，直接渲染一个widget
      * @param string $name 小工具名称
@@ -102,9 +135,16 @@ class Loader{
      * @param string $alias 别名，若直接调用，则别名为空
      * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
      * @param string $action
-     * @throws \fay\core\ErrorException
      */
-    public function render($name, $options = array(), $ajax = false, $cache = -1, $alias = '', $index = null, $action = 'index'){
+    public function render(
+        $name,
+        $options = array(),
+        $ajax = false,
+        $cache = -1,
+        $alias = '',
+        $index = null,
+        $action = 'index'
+    ){
         if($alias && $cache >= 0 && $content = \F::cache()->get('widgets/' . $alias)){
             echo $content;
         }else{

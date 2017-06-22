@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 @font-face {font-family:'Architext';src:url('../../fonts/Architext.eot');src:url('../../fonts/Architext.eot') format('embedded-opentype'), url('../../fonts/Architext.woff') format('woff'), url('../../fonts/Architext.ttf') format('truetype'), url('../../fonts/Architext.svg') format('svg');font-weight:normal;font-style:normal}
-*{box-sizing: border-box}
-*:before,*:after{box-sizing: border-box}
+*{box-sizing:border-box}
+*:before,*:after{box-sizing:border-box}
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend{border:0 none;margin:0;outline:0 none;padding:0}
 article,aside,div,dt,figcaption,footer,form,header,html,map,nav,section,main{display:block}
 
@@ -129,6 +129,10 @@ select option[disabled]{text-decoration:line-through}
 .box-content .misc-pub-section{padding:6px 11px 8px;border-top:1px solid #DFDFDF}
 .box.closed .box-content{display:none}
 .box.holder{border:2px dashed #DFDFDF !important}
+.box.fixed-bottom{position:fixed;z-index:10;width:100%;left:0px;bottom:0;margin-bottom:0;}
+.box.fixed-bottom .box-title{display:none}
+.box.fixed-bottom div{text-align:center}
+.box.fixed-bottom .misc-pub-section{display:none}
 
 /* toast */
 .toast-container{position:fixed;z-index:999999;opacity:0.85}
@@ -324,29 +328,30 @@ select option[disabled]{text-decoration:line-through}
 
 /* 内容主体 */
 .wrapper{display:table;width:100%;height:100%;vertical-align:top;border-collapse:collapse;border-spacing:0;table-layout:fixed}
-.main-content{display:table-cell;position:relative;z-index:1;padding:30px;vertical-align:top;word-break:break-all}
+.main-content{display:table-cell;position:relative;z-index:1;padding:20px;vertical-align:top;word-break:break-all}
+#faycms.mini{padding:20px}
 @media screen and (max-width:768px){
     .wrapper,.main-content{height:auto;display:block}
 }
 
 /* 内容主题-页面标题 */
-.main-content .page-title{background:#f8f8f8;margin:-30px;margin-bottom:30px;padding:20px 0;box-shadow:0 1px 0 rgba(0,1,1,.08), inset 0 1px 0 #ededed}
+.page-title{background:#f8f8f8;margin:-20px;margin-bottom:20px;padding:20px 0;box-shadow:0 1px 0 rgba(0,1,1,.08), inset 0 1px 0 #ededed}
 @media screen and (max-width: 768px) {
-    .main-content .page-title{padding:15px 0}
+    .page-title{padding:15px 0}
 }
-.main-content .page-title .title-env{padding-left:30px}
-.main-content .page-title .title-env h1{font-size:27px;font-weight:normal;float:left;vertical-align:bottom}
+.page-title .title-env{padding-left:30px}
+.page-title .title-env h1{font-size:27px;font-weight:normal;float:left;vertical-align:bottom}
 /* 快捷菜单 */
-.main-content .page-title .quick-link{font-size:14px;margin-left:10px}
-.main-content .page-title .quick-link i{margin-right:5px}
-.main-content .page-title .operate-env{float:right;padding-right:30px}
-.main-content .page-title .operate-env .fa{color:#979898;padding:4px 8px}
-.main-content .page-title .operate-env .fa:hover{color:#646565}
-.main-content .page-title .operate-env .faycms-help-link{transition:all 700ms ease-in-out;transform:rotateY(0deg)}
-.main-content .page-title .operate-env .faycms-help-link:hover{transform:rotateY(360deg)}
+.page-title .quick-link{font-size:14px;margin-left:10px}
+.page-title .quick-link i{margin-right:5px}
+.page-title .operate-env{float:right;padding-right:30px}
+.page-title .operate-env .fa{color:#979898;padding:4px 8px}
+.page-title .operate-env .fa:hover{color:#646565}
+.page-title .operate-env .faycms-help-link{transition:all 700ms ease-in-out;transform:rotateY(0deg)}
+.page-title .operate-env .faycms-help-link:hover{transform:rotateY(360deg)}
 
 /* 顶部导航 */
-.main-content .user-info-navbar{background-color:#fff;margin:-30px;margin-bottom:30px}
+.main-content .user-info-navbar{background-color:#fff;margin:-20px;margin-bottom:20px}
 .user-info-navbar .user-info-menu .fa{font-size:15px}
 .user-info-navbar .user-info-menu > li{position:relative;border:1px solid #fff;border-top:0;border-bottom:0;display:block;float:left}
 .user-info-navbar .user-info-menu > li.hover-line:hover:before,.user-info-navbar .user-info-menu > li.hover-line.open:before{content:'';position:absolute;display:block;height:2px;top:0;left:0;right:0;background:#68b828}

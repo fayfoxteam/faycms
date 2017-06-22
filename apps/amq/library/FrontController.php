@@ -24,5 +24,7 @@ class FrontController extends Controller{
                 'create_time'=>$this->current_time,
             ));
         }
+        
+        $this->view->appendCss($this->view->assets('faycms/css/edit-widget-preview.css'));
     }
 }

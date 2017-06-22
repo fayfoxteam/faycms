@@ -61,6 +61,8 @@ class WidgetController extends AdminController{
         //很多小工具包含代码提交，发送此header防止chrome阻止提交
         header('X-XSS-Protection: 0');
         
+        $this->layout_template = 'main';
+        
         $this->layout->sublink = array(
             'uri'=>array('cms/admin/widgetarea/index'),
             'text'=>'小工具域',
@@ -297,5 +299,9 @@ class WidgetController extends AdminController{
                 Response::json($view_file_content);
             }
         }
+    }
+    
+    public function customize(){
+        $this->view->renderPartial();
     }
 }

@@ -132,6 +132,17 @@ fieldset .form-control.ib{display:inline-block;width:auto}
 .shenfenshibie-container{display:inline-block;margin-top:20px}
 .shenfenshibie-container img{width:100px;height:auto}
 
+#arm-bingzhi{background-image:url(../images/arm/bg-bingzhi.jpg)}
+#arm-bingzhi .bingzhi-container{width:80%;left:10%;top:116px;max-width:300px;background-image:url(../images/arm/caozhi2-bg.png);background-size:100% 100%;padding:60px 0}
+#arm-bingzhi .bingzhi-container img{width:40%}
+#arm-bingzhi .rank-links{width:118px;top:174px;left:50%;margin-left:-60px}
+#arm-bingzhi .rank-links a{height:21px;display:block;margin-bottom:10px}
+@media screen and (max-width:350px){
+    #arm-bingzhi .bingzhi-container{top:80px}
+    #arm-bingzhi .rank-links{top:137px;}
+    #arm-bingzhi .rank-links a{height:17px}
+}
+
 #arm-13 .job-title{top:40px;left:50%;width:244px;margin-left:-140px}
 #arm-13 .jobs{left:5%;width:80%;top:105px}
 #arm-13 .jobs ul li{width:40%;display:inline-block}

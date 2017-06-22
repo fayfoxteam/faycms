@@ -169,6 +169,10 @@ class TransferController extends FrontController{
             if(in_array('thumbnail', $fields) && array_key_exists('thumbnail', $row)){
                 $new_row['thumbnail'] = $this->getFileId($row['thumbnail']);
             }
+
+            if(in_array('mobile_thumbnail', $fields) && array_key_exists('mobile_img', $row)){
+                $new_row['mobile_thumbnail'] = $this->getFileId($row['mobile_img']);
+            }
             
             if(in_array('device_type', $fields) && array_key_exists('device_type', $row)){
                 $new_row['device_type'] = $row['device_type'] == 'mobile' ? 1 : 2;

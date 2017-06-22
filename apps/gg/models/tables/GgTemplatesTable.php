@@ -22,7 +22,7 @@ use fay\core\Loader;
  * @property int $created_ip Created Ip
  * @property string $created_at Created At
  * @property string $deleted_at Deleted At
- * @property string $mobile_img Mobile Img
+ * @property int $mobile_thumbnail Mobile Thumbnail
  * @property int $status 审核状态 0 待审核 1 审核通过 2 审核不通过
  */
 class GgTemplatesTable extends Table{
@@ -38,12 +38,12 @@ class GgTemplatesTable extends Table{
     public function rules(){
         return array(
             array(array('updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-            array(array('thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('thumbnail', 'mobile_thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('id', 'cat_bid', 'cat_sid', 'website_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('position'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('title', 'author'), 'string', array('max'=>32)),
-            array(array('description', 'url', 'mobile_img'), 'string', array('max'=>255)),
+            array(array('description', 'url'), 'string', array('max'=>255)),
         );
     }
 
@@ -64,7 +64,7 @@ class GgTemplatesTable extends Table{
             'created_ip'=>'Created Ip',
             'created_at'=>'Created At',
             'deleted_at'=>'Deleted At',
-            'mobile_img'=>'Mobile Img',
+            'mobile_thumbnail'=>'Mobile Thumbnail',
             'status'=>'审核状态 0 待审核 1 审核通过 2 审核不通过',
         );
     }
@@ -86,7 +86,7 @@ class GgTemplatesTable extends Table{
             'created_ip'=>'intval',
             'created_at'=>'',
             'deleted_at'=>'',
-            'mobile_img'=>'trim',
+            'mobile_thumbnail'=>'intval',
             'status'=>'intval',
         );
     }

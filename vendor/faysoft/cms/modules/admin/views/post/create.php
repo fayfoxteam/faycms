@@ -21,6 +21,15 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
             <div class="mb30 cf"><?php $this->renderPartial('_content')?></div>
         </div>
         <div class="postbox-container-1 dragsort" id="side">
+            <div class="box box-fixed-top hide">
+                <div class="box-content">
+                    <div>
+                        <?php echo F::form()->submitLink('提交', array(
+                            'class'=>'btn',
+                        ))?>
+                    </div>
+                </div>
+            </div>
             <div class="box" id="box-operation">
                 <div class="box-title">
                     <h3>操作</h3>

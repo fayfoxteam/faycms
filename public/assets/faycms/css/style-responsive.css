@@ -134,7 +134,7 @@ select option[disabled]{text-decoration:line-through}
 [class^="box box-fixed-"] div{text-align:center}
 [class^="box box-fixed-"] .misc-pub-section{display:none}
 .box-fixed-top{top:0}
-.box-fixed-bottom{bottom:0}
+.box-fixed-bottom{bottom:-1px}
 
 /* toast */
 .toast-container{position:fixed;z-index:999999;opacity:0.85}

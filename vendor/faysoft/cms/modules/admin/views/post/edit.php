@@ -26,6 +26,24 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
             <div class="mb30"><?php $this->renderPartial('_content')?></div>
         </div>
         <div class="postbox-container-1 dragsort" id="side">
+            <div class="box box-fixed-top hide">
+                <div class="box-content">
+                    <div>
+                        <?php
+                        echo F::form()->submitLink('更新', array(
+                            'class'=>'btn',
+                        ));
+                        if($post['status'] == PostsTable::STATUS_PUBLISHED){
+                            //已发布的文章，展示一个查看链接
+                            echo HtmlHelper::link('查看', LinkHelper::getPostLink($post), array(
+                                'class'=>'btn btn-grey ml5',
+                                'target'=>'_blank',
+                            ));
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
             <div class="box" id="box-operation">
                 <div class="box-title">
                     <h3>操作</h3>

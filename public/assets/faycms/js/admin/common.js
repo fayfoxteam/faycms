@@ -966,6 +966,15 @@ var common = {
             });
         }
     },
+    'fixBox': function(){
+        $(window).scroll(function(){
+            if($('body').get(0).getBoundingClientRect().top < - 400){
+                $('.box-fixed-top.hide').show();
+            }else{
+                $('.box-fixed-top.hide').hide();
+            }
+        });
+    },
     'init': function(){
         this.fancybox();
         this.menu();
@@ -975,7 +984,6 @@ var common = {
         this.datepicker();
         this.batch();
         this.events();
-
         this.fixContent();
         this.validform();
         this.initVisualEditor();
@@ -990,5 +998,6 @@ var common = {
         this.pager();
         this.toggle();
         this.postPreview();
+        this.fixBox();
     }
 };

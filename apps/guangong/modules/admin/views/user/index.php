@@ -1,8 +1,14 @@
 <?php
+use fay\helpers\ArrayHelper;
 use fay\helpers\HtmlHelper;
 use cms\helpers\ListTableHelper;
+use guangong\models\tables\GuangongUserExtraTable;
 
 $cols = F::form('setting')->getData('cols');
+$data = $listview->getData();
+$user_extra = ArrayHelper::column(GuangongUserExtraTable::model()->fetchAll(array(
+    'user_id IN (?)'=> ArrayHelper::column($data, 'id'),
+)), null, 'user_id');
 ?>
 <div class="row">
     <div class="col-12">
@@ -51,86 +57,30 @@ $cols = F::form('setting')->getData('cols');
         <table class="list-table">
             <thead>
                 <tr>
-                    <?php if(in_array('avatar', $cols)){
-                        echo '<th class="w50">头像</th>';
-                    }?>
+                    <th class="w50">头像</th>
                     <th>昵称</th>
-                    <?php if(in_array('roles', $cols)){
-                        echo '<th>角色</th>';
-                    }
-                    if(in_array('mobile', $cols)){
-                        echo '<th>手机</th>';
-                    }
-                    if(in_array('email', $cols)){
-                        echo '<th>邮箱</th>';
-                    }
-                    if(in_array('status', $cols)){
-                        echo '<th>状态</th>';
-                    }
-                    if(in_array('block', $cols)){
-                        echo '<th>阻塞</th>';
-                    }
-                    if(in_array('reg_time', $cols)){
-                        echo '<th>', ListTableHelper::getSortLink('reg_time', '注册时间'), '</th>';
-                    }
-                    if(in_array('reg_ip', $cols)){
-                        echo '<th>注册IP</th>';
-                    }
-                    if(in_array('last_login_time', $cols)){
-                        echo '<th>', ListTableHelper::getSortLink('last_login_time', '最后登陆时间'), '</th>';
-                    }
-                    if(in_array('last_login_ip', $cols)){
-                        echo '<th>最后登陆IP</th>';
-                    }
-                    if(in_array('last_time_online', $cols)){
-                        echo '<th>', ListTableHelper::getSortLink('last_time_online', '最后在线时间'), '</th>';
-                    }
-                    if(in_array('trackid', $cols)){
-                        echo '<th>Trackid</th>';
-                    }?>
+                    <th>手机</th>
+                    <th>缴纳军费</th>
+                    <th>参军日期</th>
+                    <th><?php echo ListTableHelper::getSortLink('reg_time', '注册时间')?></th>
+                    <th><?php echo ListTableHelper::getSortLink('last_login_time', '最后登陆时间')?></th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <?php if(in_array('avatar', $cols)){
-                        echo '<th>头像</th>';
-                    }?>
+                    <th class="w50">头像</th>
                     <th>昵称</th>
-                    <?php if(in_array('roles', $cols)){
-                        echo '<th>角色</th>';
-                    }
-                    if(in_array('mobile', $cols)){
-                        echo '<th>手机</th>';
-                    }
-                    if(in_array('email', $cols)){
-                        echo '<th>邮箱</th>';
-                    }
-                    if(in_array('block', $cols)){
-                        echo '<th>阻塞</th>';
-                    }
-                    if(in_array('reg_time', $cols)){
-                        echo '<th>', ListTableHelper::getSortLink('reg_time', '注册时间'), '</th>';
-                    }
-                    if(in_array('reg_ip', $cols)){
-                        echo '<th>注册IP</th>';
-                    }
-                    if(in_array('last_login_time', $cols)){
-                        echo '<th>', ListTableHelper::getSortLink('last_login_time', '最后登陆时间'), '</th>';
-                    }
-                    if(in_array('last_login_ip', $cols)){
-                        echo '<th>最后登陆IP</th>';
-                    }
-                    if(in_array('last_time_online', $cols)){
-                        echo '<th>', ListTableHelper::getSortLink('last_time_online', '最后在线时间'), '</th>';
-                    }
-                    if(in_array('trackid', $cols)){
-                        echo '<th>Trackid</th>';
-                    }?>
+                    <th>手机</th>
+                    <th>缴纳军费</th>
+                    <th>参军日期</th>
+                    <th><?php echo ListTableHelper::getSortLink('reg_time', '注册时间')?></th>
+                    <th><?php echo ListTableHelper::getSortLink('last_login_time', '最后登陆时间')?></th>
                 </tr>
             </tfoot>
             <tbody><?php
                 $listview->showData(array(
                     'cols'=>$cols,
+                    'user_extra'=>$user_extra,
                 ));
             ?></tbody>
         </table>

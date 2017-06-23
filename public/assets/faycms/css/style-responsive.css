@@ -129,10 +129,12 @@ select option[disabled]{text-decoration:line-through}
 .box-content .misc-pub-section{padding:6px 11px 8px;border-top:1px solid #DFDFDF}
 .box.closed .box-content{display:none}
 .box.holder{border:2px dashed #DFDFDF !important}
-.box.fixed-bottom{position:fixed;z-index:10;width:100%;left:0px;bottom:0;margin-bottom:0;}
-.box.fixed-bottom .box-title{display:none}
-.box.fixed-bottom div{text-align:center}
-.box.fixed-bottom .misc-pub-section{display:none}
+[class^="box box-fixed-"]{position:fixed;z-index:10;width:100%;left:0;margin-bottom:0;}
+[class^="box box-fixed-"] .box-title{display:none}
+[class^="box box-fixed-"] div{text-align:center}
+[class^="box box-fixed-"] .misc-pub-section{display:none}
+.box-fixed-top{top:0}
+.box-fixed-bottom{bottom:0}
 
 /* toast */
 .toast-container{position:fixed;z-index:999999;opacity:0.85}

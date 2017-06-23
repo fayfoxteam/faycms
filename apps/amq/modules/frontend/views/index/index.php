@@ -41,20 +41,3 @@
     <?php F::widget()->load('club-hots')?>
 </div>
 <!--中间部分移动端over-->
-
-
-
-<script src="<?php echo $this->assets('js/fancybox-3.0/dist/jquery.fancybox.min.js')?>"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo $this->assets('js/fancybox-3.0/dist/jquery.fancybox.min.css')?>">
-<script>
-$(function(){
-    $('.edit-widget-link').fancybox({
-        'iframe': {
-            'css': {
-                'max-width': '1000px'
-            },
-            'scrolling': 'yes'
-        }
-    });
-});
-</script>

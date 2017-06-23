@@ -18,6 +18,19 @@ use fay\helpers\HtmlHelper;
             </div>
         <?php }?></div>
         <div class="postbox-container-1">
+            <div class="box box-fixed-top hide">
+                <div class="box-content">
+                    <div><?php
+                        echo F::form('widget')->submitLink('保存', array(
+                            'class'=>'btn',
+                        ));
+                        echo HtmlHelper::link('预览', array('widget/load/'.$widget['alias']), array(
+                            'class'=>'btn btn-grey ml5',
+                            'target'=>'_blank',
+                        ));
+                        ?></div>
+                </div>
+            </div>
             <div class="box">
                 <div class="box-title">
                     <h4>操作</h4>

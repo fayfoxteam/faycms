@@ -61,7 +61,7 @@ $user_extra = ArrayHelper::column(GuangongUserExtraTable::model()->fetchAll(arra
                     <th>昵称</th>
                     <th>手机</th>
                     <th>缴纳军费</th>
-                    <th>参军日期</th>
+                    <th>报名期</th>
                     <th><?php echo ListTableHelper::getSortLink('reg_time', '注册时间')?></th>
                     <th><?php echo ListTableHelper::getSortLink('last_login_time', '最后登陆时间')?></th>
                 </tr>
@@ -72,7 +72,7 @@ $user_extra = ArrayHelper::column(GuangongUserExtraTable::model()->fetchAll(arra
                     <th>昵称</th>
                     <th>手机</th>
                     <th>缴纳军费</th>
-                    <th>参军日期</th>
+                    <th>报名期</th>
                     <th><?php echo ListTableHelper::getSortLink('reg_time', '注册时间')?></th>
                     <th><?php echo ListTableHelper::getSortLink('last_login_time', '最后登陆时间')?></th>
                 </tr>

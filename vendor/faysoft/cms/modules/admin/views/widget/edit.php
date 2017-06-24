@@ -18,7 +18,7 @@ use fay\helpers\HtmlHelper;
             </div>
         <?php }?></div>
         <div class="postbox-container-1">
-            <div class="box">
+            <div class="box operation">
                 <div class="box-title">
                     <h4>操作</h4>
                 </div>

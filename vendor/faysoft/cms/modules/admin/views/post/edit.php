@@ -26,7 +26,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
             <div class="mb30"><?php $this->renderPartial('_content')?></div>
         </div>
         <div class="postbox-container-1 dragsort" id="side">
-            <div class="box" id="box-operation">
+            <div class="box operation" id="box-operation">
                 <div class="box-title">
                     <h3>操作</h3>
                 </div>

@@ -43,6 +43,9 @@ class AdminController extends Controller{
     
     public function __construct(){
         parent::__construct();
+        //可以通过url参数指定仅输出主体部分（没有左侧菜单和顶部导航）
+        $this->layout_template = $this->input->get('layout', 'trim') == 'main' ? 'main' : 'admin';
+        
         //重置session.namespace
         $this->config->set('session.namespace', $this->config->get('session.namespace').'_admin');
         

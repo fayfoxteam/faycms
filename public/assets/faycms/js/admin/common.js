@@ -966,6 +966,52 @@ var common = {
             });
         }
     },
+    /**
+     * 当有一个名为operation的box时，自动固定到顶部或底部
+     */
+    'fixBox': function(){
+        var $operationBox = $('.postbox-container-1').find('.box.operation');
+        var $body = $('body');
+        if($operationBox.length == 1){
+            //box顶部距离页面顶部距离
+            var boxOffsetTop = $operationBox.offset().top;
+            //box底部距离页面顶部距离
+            var boxBottomOffset = boxOffsetTop + $operationBox.height();
+            
+            var onScrolling = function(){
+                if(!$operationBox.hasClass('box-fixed')){
+                    //由于网页元素可能改变，需要重新获取便宜
+                    boxOffsetTop = $operationBox.offset().top;
+                    boxBottomOffset = boxOffsetTop + $operationBox.height();
+                }
+                
+                if(- $body[0].getBoundingClientRect().top > boxBottomOffset){
+                    //box在可见区域上面顶部
+                    if($operationBox.next('.box-fixed-placeholder').length == 0){
+                        //放个div回去占位置，免得下面的box抖动
+                        $operationBox.after('<div class="box-fixed-placeholder" style="height:'+($operationBox.height() + parseInt($operationBox.css('margin-bottom')))+'px;width:1px"></div>')
+                    }
+                    $operationBox.addClass('box-fixed box-fixed-top');
+                }else if(- $body[0].getBoundingClientRect().top + document.documentElement.clientHeight < boxOffsetTop){
+                    //box在可见区域下面，固定到底部
+                    if($operationBox.next('.box-fixed-placeholder').length == 0){
+                        //放个div回去占位置，免得下面的box抖动
+                        $operationBox.after('<div class="box-fixed-placeholder" style="height:'+($operationBox.height() + parseInt($operationBox.css('margin-bottom')))+'px;width:1px"></div>')
+                    }
+                    $operationBox.addClass('box-fixed box-fixed-bottom');
+                }else{
+                    //box在可见区域，取消浮动
+                    $operationBox.removeClass('box-fixed box-fixed-top box-fixed-bottom');
+                    $operationBox.next('.box-fixed-placeholder').remove();
+                }
+            };
+            
+            onScrolling();
+            $(window).scroll(function(){
+                onScrolling();
+            });
+        }
+    },
     'init': function(){
         this.fancybox();
         this.menu();
@@ -975,7 +1021,6 @@ var common = {
         this.datepicker();
         this.batch();
         this.events();
-
         this.fixContent();
         this.validform();
         this.initVisualEditor();
@@ -990,5 +1035,6 @@ var common = {
         this.pager();
         this.toggle();
         this.postPreview();
+        this.fixBox();
     }
 };

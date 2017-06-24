@@ -14,14 +14,14 @@ use fay\helpers\HtmlHelper;
             <?php echo F::form('widget')->inputText('title', array(
                 'class'=>'form-control mw400',
             ))?>
-            <p class="fc-grey">若为空，则显示顶级分类的标题</p>
+            <p class="fc-grey mt5">若为空，则显示顶级分类的标题</p>
         </div>
         <div class="form-field">
             <label class="title bold">默认顶级分类</label>
             <?php echo F::form('widget')->select('top', HtmlHelper::getSelectOptions($cats), array(
                 'class'=>'form-control mw400',
             ))?>
-            <p class="fc-grey">仅显示所选分类的子分类（不包含所选分类本身）</p>
+            <p class="fc-grey mt5">仅显示所选分类的子分类（不包含所选分类本身）</p>
         </div>
         <div class="form-field">
             <label class="title bold">是否体现层级关系</label>
@@ -42,7 +42,7 @@ use fay\helpers\HtmlHelper;
                 <?php echo F::form('widget')->inputText('cat_key', array(
                     'class'=>'form-control mw150',
                 ))?>
-                <p class="fc-grey">
+                <p class="fc-grey mt5">
                     分类字段名（分类ID或者别名）<br>
                     若连接中包含分类字段，则以此分类作文顶级分类。<br>
                     若希望固定显示指定分类的子分类，将此字段留空即可。

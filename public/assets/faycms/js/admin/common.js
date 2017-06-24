@@ -933,6 +933,8 @@ var common = {
                 }else{
                     $(this).addClass('closed').removeClass('opened');
                 }
+                //元素被隐藏后页面大小会有变化，触发一下windows的resize事件
+                $(window).resize();
             }
         });
     },
@@ -980,9 +982,13 @@ var common = {
             
             var onScrolling = function(){
                 if(!$operationBox.hasClass('box-fixed')){
-                    //由于网页元素可能改变，需要重新获取便宜
+                    //由于网页元素可能改变，需要重新获取偏移
                     boxOffsetTop = $operationBox.offset().top;
                     boxBottomOffset = boxOffsetTop + $operationBox.height();
+                }else{
+                    //若box已经悬浮，则获取占位框的偏移
+                    boxOffsetTop = $operationBox.next('.box-fixed-placeholder').offset().top;
+                    boxBottomOffset = boxOffsetTop + $operationBox.next('.box-fixed-placeholder').height();
                 }
                 
                 if(- $body[0].getBoundingClientRect().top > boxBottomOffset){
@@ -1008,6 +1014,8 @@ var common = {
             
             onScrolling();
             $(window).scroll(function(){
+                onScrolling();
+            }).resize(function(){
                 onScrolling();
             });
         }

@@ -19,8 +19,11 @@ class WidgetareaController extends AdminController{
         $this->layout->subtitle = '小工具域';
         
         $this->layout->sublink = array(
-            'uri'=>array('cms/admin/widget/index'),
-            'text'=>'创建小工具',
+            'uri'=>array('cms/admin/widget/customize'),
+            'text'=>'使用实时预览管理',
+            'html_options'=>array(
+                'target'=>'_blank',
+            )
         );
         
         //页面设置

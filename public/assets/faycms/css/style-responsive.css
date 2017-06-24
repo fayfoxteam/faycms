@@ -428,7 +428,7 @@ select option[disabled]{text-decoration:line-through}
 .widget-list .widget-item .operations a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 6px 0 5px}
 .widget-list .widget-item .operations a:last-child{background:0 none}
 .widget-list .widget-item-container{margin:0 22px 0 31px}
-.widget-list .widget-item-container .operations{visibility:hidden}
+.widget-list .widget-item-container .operations{visibility:hidden;display:inline-block;width:116px}
 .widget-list .widget-item:hover .widget-item-container .operations{visibility:visible}
 @media screen and (max-width:1140px){
     .widget-list .widget-item-container .operations{visibility:visible}

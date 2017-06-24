@@ -11,30 +11,30 @@ use fay\helpers\HtmlHelper;
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
+<link type="image/x-icon" href="<?php echo $this->url()?>favicon.ico" rel="shortcut icon" />
 
-    <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
-    <link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/style-responsive.css')?>" />
-    <?php echo $this->getCss()?>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('css/font-awesome.min.css')?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo $this->assets('faycms/css/style-responsive.css')?>" />
+<?php echo $this->getCss()?>
 
-    <script type="text/javascript" src="<?php echo $this->assets('js/jquery-3.2.1.min.js')?>"></script>
-    <script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
-    <!--[if lt IE 9]>
+<script type="text/javascript" src="<?php echo $this->assets('js/jquery-3.2.1.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/system.min.js')?>"></script>
+<!--[if lt IE 9]>
     <script type="text/javascript" src="<?php echo $this->assets('js/html5.js')?>"></script>
-    <![endif]-->
-    <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
-    <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
-    <script>
-        system.base_url = '<?php echo $this->url()?>';
-        system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
-        system.user_id = <?php echo \F::app()->current_user?>;
-        common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>b';
-    </script>
-    <title><?php echo $subtitle?> | <?php echo OptionService::get('site:sitename')?>后台</title>
+<![endif]-->
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
+<script>
+    system.base_url = '<?php echo $this->url()?>';
+    system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
+    system.user_id = <?php echo \F::app()->current_user?>;
+    common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>b';
+</script>
+<title><?php echo $subtitle?> | <?php echo OptionService::get('site:sitename')?>后台</title>
 </head>
 <body id="faycms" class="mini">
 <div class="wrapper">
@@ -102,7 +102,12 @@ use fay\helpers\HtmlHelper;
                         ),
                         'prepend'=>'<h4>设置</h4>',
                     ), $this->renderPartial($_setting_panel, $this->getViewData(), -1, true));
-                }?></div>
+                }
+                echo HtmlHelper::link('', 'javascript:parent.$.fancybox.close()', array(
+                    'class'=>'fa fa-close fa-2x',
+                    'title'=>'关闭',
+                ));
+                ?></div>
         </div>
     </div>
     <?php echo $content?>
@@ -120,6 +125,15 @@ $(function(){
     };
     <?php }?>
     common.init();
+    
+    $('.fa-close').hover(
+        function(){
+            $(this).addClass('fa-rotate-270');
+        },
+        function(){
+            $(this).removeClass('fa-rotate-270');
+        }
+    );
 });
 </script>
 <img src="<?php echo $this->assets('images/throbber.gif')?>" class="hide" />

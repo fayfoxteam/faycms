@@ -1,4 +1,3 @@
-
 <?php
 use cms\services\file\FileService;
 use cms\services\FlashService;
@@ -34,10 +33,10 @@ use fay\helpers\HtmlHelper;
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/fayfox.block.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/common.min.js')?>"></script>
 <script>
-system.base_url = '<?php echo $this->url()?>';
-system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
-system.user_id = <?php echo \F::app()->current_user?>;
-common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>b';
+    system.base_url = '<?php echo $this->url()?>';
+    system.assets_url = '<?php echo \F::config()->get('assets_url')?>';
+    system.user_id = <?php echo \F::app()->current_user?>;
+    common.max_upload_file_size = '<?php echo \F::config()->get('upload.max_size')?>b';
 </script>
 <title><?php echo $subtitle?> | <?php echo OptionService::get('site:sitename')?>后台</title>
 </head>

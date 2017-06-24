@@ -1,7 +1,6 @@
 <?php
 use cms\services\file\FileService;
 use fay\helpers\HtmlHelper;
-
 ?>
 <div class="mb30"><?php echo F::form('widget')->inputText('title', array(
     'id'=>'title',

@@ -128,10 +128,10 @@ $(function(){
     
     $('.fa-close').hover(
         function(){
-            $(this).addClass('fa-rotate-270');
+            $(this).addClass('fa-rotate-180');
         },
         function(){
-            $(this).removeClass('fa-rotate-270');
+            $(this).removeClass('fa-rotate-180');
         }
     );
 });

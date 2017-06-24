@@ -349,8 +349,8 @@ select option[disabled]{text-decoration:line-through}
 /* 快捷菜单 */
 .page-title .quick-link{font-size:14px;margin-left:10px}
 .page-title .quick-link i{margin-right:5px}
-.page-title .operate-env{float:right;padding-right:30px}
-.page-title .operate-env .fa{color:#979898;padding:4px 8px}
+.page-title .operate-env{float:right;padding-right:20px}
+.page-title .operate-env .fa{color:#979898;margin:4px 0 0 16px}
 .page-title .operate-env .fa:hover{color:#646565}
 .page-title .operate-env .faycms-help-link{transition:all 700ms ease-in-out;transform:rotateY(0deg)}
 .page-title .operate-env .faycms-help-link:hover{transform:rotateY(360deg)}

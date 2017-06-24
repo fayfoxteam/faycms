@@ -14,7 +14,7 @@ use fay\helpers\HtmlHelper;
             <?php echo F::form('widget')->inputText('title', array(
                 'class'=>'form-control mw400',
             ))?>
-            <p class="fc-grey">若为空，则显示顶级分类的标题</p>
+            <p class="fc-grey mt5">若为空，则显示顶级分类的标题</p>
         </div>
         <div class="form-field">
             <label class="title bold">分类</label>
@@ -54,7 +54,7 @@ use fay\helpers\HtmlHelper;
             <?php echo F::form('widget')->inputRadio('thumbnail', 0, array(
                 'label'=>'否',
             ), true)?>
-            <p class="fc-grey">若该实例被用于画廊展示，请选择<span class="fc-orange">“是”</span></p>
+            <p class="fc-grey mt5">若该实例被用于画廊展示，请选择<span class="fc-orange">“是”</span></p>
         </div>
         <div class="form-field">
             <label class="title bold">排序规则</label>
@@ -98,15 +98,15 @@ use fay\helpers\HtmlHelper;
                 <?php echo F::form('widget')->inputText('cat_key', array(
                     'class'=>'form-control mw150',
                 ), 'cat')?>
-                <p class="fc-grey">若url中指定分类，则优先级高于后台指定的分类</p>
+                <p class="fc-grey mt5">若url中指定分类，则优先级高于后台指定的分类</p>
             </div>
             <div class="form-field">
                 <label class="title bold">最近访问</label>
                 <p><?php echo F::form('widget')->inputText('last_view_time', array(
-                    'class'=>'form-control mw150',
+                    'class'=>'form-control mw150 ib',
                 ), 0);?>
                 <span class="fc-grey">（单位：天。若为<em class="fc-orange">0</em>，则不限制</span>）</p>
-                <p class="fc-grey">
+                <p class="fc-grey mt5">
                     例如：30天则只有30天内被访问过的文章才会显示，防止过时文章被显示。<br>
                     该数值视网站访问量而定，设置过小可能导致无文章可显示。
                 </p>
@@ -116,7 +116,7 @@ use fay\helpers\HtmlHelper;
                 <?php echo F::form('widget')->inputText('date_format', array(
                     'class'=>'form-control mw150',
                 ), 'pretty')?>
-                <p class="fc-grey">若为空，则不显示时间；若为pretty，则会显示“1天前”这样的时间格式；<br>
+                <p class="fc-grey mt5">若为空，则不显示时间；若为pretty，则会显示“1天前”这样的时间格式；<br>
                     其他格式视为PHP date函数的第一个参数</p>
             </div>
             <div class="form-field">
@@ -132,7 +132,7 @@ use fay\helpers\HtmlHelper;
                     'class'=>'form-control w100 ib',
                 ));
                 ?>
-                <p class="fc-grey">若留空，则返回默认尺寸缩略图。</p>
+                <p class="fc-grey mt5">若留空，则返回默认尺寸缩略图。</p>
             </div>
             <div class="form-field">
                 <label class="title bold">附加字段</label>
@@ -156,7 +156,7 @@ use fay\helpers\HtmlHelper;
                     'label'=>'附加属性',
                 ));
                 ?>
-                <p class="fc-grey">仅勾选模版中用到的字段，可以加快程序效率。</p>
+                <p class="fc-grey mt5">仅勾选模版中用到的字段，可以加快程序效率。</p>
             </div>
             <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>

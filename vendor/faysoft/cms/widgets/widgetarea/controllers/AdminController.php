@@ -1,7 +1,6 @@
 <?php
 namespace cms\widgets\widgetarea\controllers;
 
-use cms\services\FlashService;
 use cms\services\widget\WidgetAreaService;
 use fay\widget\Widget;
 
@@ -25,7 +24,6 @@ class AdminController extends Widget{
         $data = $this->form->getFilteredData();
         
         $this->saveConfig($data);
-        FlashService::set('编辑成功', 'success');
     }
     
     public function rules(){

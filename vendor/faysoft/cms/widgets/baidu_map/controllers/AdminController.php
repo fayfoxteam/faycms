@@ -1,7 +1,6 @@
 <?php
 namespace cms\widgets\baidu_map\controllers;
 
-use cms\services\FlashService;
 use fay\widget\Widget;
 
 class AdminController extends Widget{
@@ -11,7 +10,6 @@ class AdminController extends Widget{
     
     public function onPost(){
         $this->saveConfig($this->form->getFilteredData());
-        FlashService::set('编辑成功', 'success');
     }
     
     public function rules(){

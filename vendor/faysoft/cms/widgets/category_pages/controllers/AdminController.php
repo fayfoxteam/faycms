@@ -2,7 +2,6 @@
 namespace cms\widgets\category_pages\controllers;
 
 use cms\services\CategoryService;
-use cms\services\FlashService;
 use fay\widget\Widget;
 
 class AdminController extends Widget{
@@ -39,8 +38,6 @@ class AdminController extends Widget{
         $data = $this->form->getFilteredData();
         $data['uri'] || $data['uri'] = empty($data['other_uri']) ? 'page/{$id}' : $data['other_uri'];
         $this->saveConfig($data);
-        
-        FlashService::set('编辑成功', 'success');
     }
     
     public function rules(){

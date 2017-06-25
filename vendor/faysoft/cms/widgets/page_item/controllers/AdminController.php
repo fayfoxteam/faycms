@@ -2,7 +2,6 @@
 namespace cms\widgets\page_item\controllers;
 
 use cms\models\tables\PagesTable;
-use cms\services\FlashService;
 use fay\widget\Widget;
 
 class AdminController extends Widget{
@@ -36,8 +35,6 @@ class AdminController extends Widget{
         $data = $this->form->getFilteredData();
         
         $this->saveConfig($data);
-        
-        FlashService::set('编辑成功', 'success');
     }
     
     public function rules(){

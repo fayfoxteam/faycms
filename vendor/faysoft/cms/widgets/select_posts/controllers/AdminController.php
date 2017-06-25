@@ -1,7 +1,6 @@
 <?php
 namespace cms\widgets\select_posts\controllers;
 
-use cms\services\FlashService;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\widget\Widget;
@@ -56,8 +55,6 @@ class AdminController extends Widget{
         }
         
         $this->saveConfig($data);
-        
-        FlashService::set('编辑成功', 'success');
     }
     
     public function rules(){

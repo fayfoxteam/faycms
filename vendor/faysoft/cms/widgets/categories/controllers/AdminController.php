@@ -2,7 +2,6 @@
 namespace cms\widgets\categories\controllers;
 
 use cms\services\CategoryService;
-use cms\services\FlashService;
 use fay\widget\Widget;
 
 class AdminController extends Widget{
@@ -34,7 +33,6 @@ class AdminController extends Widget{
         $data['uri'] || $data['uri'] = $this->input->post('other_uri');
         
         $this->saveConfig($data);
-        FlashService::set('编辑成功', 'success');
     }
     
     public function rules(){

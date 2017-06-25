@@ -112,6 +112,8 @@ class WidgetController extends AdminController{
             }
             $widget = WidgetsTable::model()->find($id);
             \F::cache()->delete($alias);
+
+            Response::notify('success', '编辑成功', false);
         }
         
         $this->view->widget = $widget;

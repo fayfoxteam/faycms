@@ -160,8 +160,9 @@ var uploader = {
             
             uploader.bind('FilesAdded', function(up, files) {
                 uploader.start();
+                var html = '';
                 $.each(files, function(i, data){
-                    $('.file-list').append([
+                    html += [
                         '<div class="dragsort-item" id="file-', data.id, '">',
                             '<a class="dragsort-item-selector"></a>',
                             '<a class="dragsort-rm" href="javascript:;"></a>',
@@ -194,8 +195,9 @@ var uploader = {
                                 '</div>',
                             '</div>',
                         '</div>'
-                    ].join(''));
+                    ].join('');
                 });
+                $('.file-list').prepend(html);
             });
             
             uploader.bind('UploadProgress', function(up, file) {

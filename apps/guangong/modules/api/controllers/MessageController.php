@@ -2,6 +2,7 @@
 namespace guangong\modules\api\controllers;
 
 use cms\library\ApiController;
+use cms\services\OptionService;
 use fay\core\Response;
 use fay\helpers\RequestHelper;
 use guangong\models\tables\GuangongMessagesTable;
@@ -13,7 +14,7 @@ class MessageController extends ApiController{
         $this->checkLogin();
         
         $extra = GuangongUserExtraTable::model()->find($this->current_user, 'military');
-        if($extra['military'] < 99){
+        if($extra['military'] < OptionService::get('guangong:junfei', 1100)){
             Response::notify('error', '请先参军');
         }
         
@@ -21,6 +22,7 @@ class MessageController extends ApiController{
         $this->form()->setModel(GuangongMessagesTable::model())->check();
         
         $type = $this->form()->getData('type');
+        $title = $this->form()->getData('title');
         $content = $this->form()->getData('content');
         
         $message_id = GuangongMessagesTable::model()->insert(array(
@@ -29,12 +31,11 @@ class MessageController extends ApiController{
             'user_id'=>$this->current_user,
             'create_time'=>$this->current_time,
             'ip_int'=>RequestHelper::ip2int($this->ip),
+            'title'=>$title,
         ));
         
         $message = GuangongMessagesTable::model()->find($message_id, 'id,content,create_time');
         
-        Response::json(array(
-            'message'=>$message,
-        ));
+        Response::redirect($this->input->request('redirect'));
     }
 }

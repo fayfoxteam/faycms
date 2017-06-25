@@ -46,6 +46,7 @@ DROP TABLE IF EXISTS `{{$prefix}}guangong_messages`;
 CREATE TABLE `{{$prefix}}guangong_messages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `content` text COMMENT '内容',
   `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '类型',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '留言时间',

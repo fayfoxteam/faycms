@@ -9,6 +9,7 @@ use fay\core\Loader;
  * 
  * @property int $id Id
  * @property int $user_id 用户ID
+ * @property string $title 标题
  * @property string $content 内容
  * @property int $type 类型
  * @property int $create_time 留言时间
@@ -19,9 +20,21 @@ use fay\core\Loader;
  */
 class GuangongMessagesTable extends Table{
     /**
-     * 类型 - 兵谏
+     * 类型 - 兵谏 - 攻城
      */
-    const TYPE_BINGJIAN = 1;
+    const TYPE_BINGJIAN_GONGCHENG = 11;
+    /**
+     * 类型 - 兵谏 - 守城
+     */
+    const TYPE_BINGJIAN_SHOUCHENG = 12;
+    /**
+     * 类型 - 兵谏 - 兵器
+     */
+    const TYPE_BINGJIAN_BINGQI = 13;
+    /**
+     * 类型 - 兵谏 - 服饰
+     */
+    const TYPE_BINGJIAN_FUSHI = 14;
     
     /**
      * 类型 - 公民学者
@@ -48,13 +61,10 @@ class GuangongMessagesTable extends Table{
             array(array('id', 'user_id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('delete_time'), 'range', array('range'=>array(0, 1))),
             array(array('reply_time'), 'datetime'),
+            array(array('title'), 'string', array('max'=>255)),
             
-            array(array('type', 'content'), 'required'),
-            array(array('type'), 'range', array('range'=>array(
-                GuangongMessagesTable::TYPE_BINGJIAN,
-                GuangongMessagesTable::TYPE_GONGMINXUEZHE,
-                GuangongMessagesTable::TYPE_ZHENGYILIANMENG,
-            ))),
+            array(array('type', 'content', 'title'), 'required'),
+            array(array('type'), 'int', array('min'=>1, 'max'=>255)),
         );
     }
 
@@ -62,6 +72,7 @@ class GuangongMessagesTable extends Table{
         return array(
             'id'=>'Id',
             'user_id'=>'用户ID',
+            'title'=>'标题',
             'content'=>'内容',
             'type'=>'类型',
             'create_time'=>'留言时间',
@@ -76,6 +87,7 @@ class GuangongMessagesTable extends Table{
         return array(
             'id'=>'intval',
             'user_id'=>'intval',
+            'title'=>'trim',
             'content'=>'',
             'type'=>'intval',
             'reply'=>'',

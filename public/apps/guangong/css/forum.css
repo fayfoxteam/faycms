@@ -1,4 +1,10 @@
-body{font-family:"微软雅黑";background-color:#F6F6F4;font-size:14px}
+body{font-family:"黑体";background-color:#fff;font-size:14px}
+
+.fc-grey{color:#888889 !important;}
+.btn{padding:8px 24px}
+.btn-red{color:#fff;background-color:#E50012}
+
+.top-return-link{color:#fff;font-size:22px;margin-right:8px;vertical-align:text-bottom}
 
 /* 分页条 */
 .pager{text-align:center;padding-top:1.3571em}
@@ -9,16 +15,14 @@ body{font-family:"微软雅黑";background-color:#F6F6F4;font-size:14px}
 .pager .prev:before{content:"\f104"}
 .pager .next:before{content:"\f105"}
 
-.page-header{background-color:#BC825C;color:#fff}
+.page-header{background-color:#008CD6;color:#fff}
 .header-content{width:280px;margin:0 auto;padding:20px 0 15px}
 .header-content div{float:left}
 .header-logo{margin-right:5px;}
 .header-logo img{width:30px;height:30px;vertical-align:bottom}
 .header-title{font-size:30px;}
 
-.main-content{margin:20px 0 40px}
-
-.messages{padding:0 20px}
+.messages{padding:0 20px;margin:20px 0 40px}
 .messages article{margin-bottom:20px;}
 .messages .author{color:#CD8F56;margin-bottom:2px}
 .messages .author .time{margin-left:6px}
@@ -27,6 +31,12 @@ body{font-family:"微软雅黑";background-color:#F6F6F4;font-size:14px}
 .messages .content{margin-bottom:5px;padding:5px;border:1px solid #C3BFBA;background-color:#fff}
 .messages .reply-content{padding:5px;border:1px solid #C3BFBA;background-color:#fff}
 
+.messages2{margin:0 6px}
+.messages2 a.message-item{border-bottom:2px solid #DCDCDD;padding:10px 4px;color:#231915;display:block;}
+.messages2 .thumbnail{float:left;width:60px;text-align:center;padding-top:10px}
+.messages2 .thumbnail img{width:30px}
+.messages2 .author{margin-bottom:12px}
+
 .reply-container{padding:0 50px;margin-top:40px}
 .reply-container fieldset{margin-bottom:10px;padding-top:10px;border-top:2px solid #A39E9B}
 .reply-container label{color:#CD8F56;font-size:16px;float:left;width:65px;margin-top:2px}
@@ -34,3 +44,15 @@ body{font-family:"微软雅黑";background-color:#F6F6F4;font-size:14px}
 .reply-container #reply-form textarea{width:100%;height:200px;padding:8px 12px;font-size:12px;line-height:1.3}
 .reply-container .submit-container{margin-top:30px;text-align:center}
 .reply-container #reply-form-submit{background-color:#DA251C;color:#fff;font-size:18px;padding:6px 30px;text-align:center}
+
+.bingjian-nav{border-bottom:4px solid #DCDCDD;padding:16px 3px;margin:0 6px}
+.bingjian-nav li{display:inline-block;width:18%;text-align:center;}
+.bingjian-nav li a{color:#3E3938}
+.bingjian-nav li a.crt{color:#E50012}
+
+#message-form{margin:30px 30px}
+#message-form th,#message-form td{color:#008CD6;padding:10px 0}
+#message-form th{padding-right:8px}
+#message-form textarea,#message-form input{border:1px solid #008CD6;width:100%;line-height:1.4}
+#message-form input{height:26px}
+#message-form textarea{height:150px;padding:8px 16px}

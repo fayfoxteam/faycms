@@ -9,7 +9,7 @@
         <span class="time"><?php echo date('Y年m月d日 H:i', $data['create_time'])?></span>
     </div>
     <div class="content">
-        <?php echo \fay\helpers\HtmlHelper::encode($data['content'])?>
+        <?php echo \fay\helpers\HtmlHelper::encode($data['title'])?>
     </div>
     <?php if($data['reply']){?>
         <div class="reply">

@@ -24,7 +24,7 @@ class Sql{
     
     protected $distinct = false;
     
-    protected $countBy = '*';
+    protected $count_by = '*';
     
     public $operators;
     
@@ -203,7 +203,7 @@ class Sql{
      * @return Sql
      */
     public function countBy($by){
-        $this->countBy = $by;
+        $this->count_by = $by;
         return $this;
     }
     
@@ -309,7 +309,7 @@ class Sql{
         //清空params，以免多次调用本函数造成params重复
         $this->params = array();
         
-        $sql = "SELECT COUNT({$this->countBy}) \n";
+        $sql = "SELECT COUNT({$this->count_by}) \n";
         
         //from
         if($this->from){
@@ -382,7 +382,7 @@ class Sql{
         $this->order = array();
         $this->count = null;
         $this->offset = null;
-        $this->countBy = '*';
+        $this->count_by = '*';
         $this->distinct = false;
     }
     

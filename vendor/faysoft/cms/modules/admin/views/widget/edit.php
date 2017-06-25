@@ -3,9 +3,11 @@ use fay\helpers\HtmlHelper;
 
 /**
  * @var $widget_admin fay\widget\Widget
+ * @var $customize bool 是否处于可视化编辑状态
  */
 ?>
 <?php echo F::form('widget')->open()?>
+<?php echo HtmlHelper::inputHidden('customize', empty($customize) ? 0 : 1)?>
 <div class="poststuff">
     <div class="post-body">
         <div class="post-body-content"><?php

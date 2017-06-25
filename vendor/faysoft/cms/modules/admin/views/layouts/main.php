@@ -1,4 +1,5 @@
 <?php
+use cms\services\FlashService;
 use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
 
@@ -110,6 +111,7 @@ use fay\helpers\HtmlHelper;
                 ?></div>
         </div>
     </div>
+    <?php echo FlashService::get();?>
     <?php echo $content?>
 </div>
 <script>

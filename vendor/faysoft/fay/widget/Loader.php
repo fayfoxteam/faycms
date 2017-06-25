@@ -60,8 +60,13 @@ class Loader{
      * @return bool
      */
     public static function isEditing(){
+        $session_namespace = \F::config()->get('session.namespace');
+        if(substr($session_namespace, -6) != '_admin'){
+            //获取后台登录用户，预览的时候获取的是前台登录用户
+            $session_namespace .= '_admin';
+        }
         if(isset($_SERVER['HTTP_REFERER']) && substr($_SERVER['HTTP_REFERER'], -26) == 'cms/admin/widget/customize' &&
-            \F::session()->get('user.id', null, \F::config()->get('session.namespace').'_admin')
+            \F::session()->get('user.id', null, $session_namespace)
         ){
             return true;
         }

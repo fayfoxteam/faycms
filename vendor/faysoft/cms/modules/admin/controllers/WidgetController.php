@@ -13,6 +13,7 @@ use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\LocalFileHelper;
 use fay\helpers\StringHelper;
+use fay\widget\Loader;
 use Michelf\Markdown;
 
 class WidgetController extends AdminController{
@@ -113,7 +114,11 @@ class WidgetController extends AdminController{
             $widget = WidgetsTable::model()->find($id);
             \F::cache()->delete($alias);
 
-            Response::notify('success', '编辑成功', false);
+            if($this->input->post('customize')){
+                die("<script>parent.$.fancybox.close();parent.customize.refreshWidget('{$alias}')</script>");
+            }else{
+                Response::notify('success', '编辑成功', false);
+            }
         }
         
         $this->view->widget = $widget;
@@ -126,6 +131,7 @@ class WidgetController extends AdminController{
         $widget_admin->initConfig(json_decode($widget['config'], true));
         $this->form('widget')->setData($widget_admin->config, true);
         $this->view->widget_admin = $widget_admin;
+        $this->view->customize = Loader::isEditing();
         $this->layout->subtitle = '编辑小工具  - '.$this->view->widget_admin->title;
 
         $this->view->render();

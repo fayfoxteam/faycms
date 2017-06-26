@@ -11,6 +11,7 @@ use fay\core\Service;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 use fay\helpers\LocalFileHelper;
+use fay\helpers\NumberHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
 
@@ -92,7 +93,7 @@ class FileService extends Service{
      * @return string url 返回文件可访问的url，若指定文件不存在且未指定替代图，则返回null
      */
     public static function getUrl($file, $type = self::PIC_ORIGINAL, $options = array()){
-        if(StringHelper::isInt($file)){
+        if(NumberHelper::isInt($file)){
             if($file <= 0){
                 if(isset($options['spare'])){
                     //若指定了默认图，则取默认图
@@ -228,7 +229,7 @@ class FileService extends Service{
      * @return string
      */
     public static function getPath($file, $realpath = true){
-        if(StringHelper::isInt($file)){
+        if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file, 'raw_name,file_ext,file_path');
         }
         if($realpath){
@@ -249,7 +250,7 @@ class FileService extends Service{
      * @return string
      */
     public static function getThumbnailUrl($file, $options = array()){
-        if(StringHelper::isInt($file)){
+        if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file);
         }
         
@@ -299,7 +300,7 @@ class FileService extends Service{
      * @return mixed 图片类型返回缩略图路径；非图片类型没有缩略图，返回false；指定文件不存在返回null
      */
     public static function getThumbnailPath($file, $realpath = true){
-        if(StringHelper::isInt($file)){
+        if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file);
         }
         
@@ -527,7 +528,7 @@ class FileService extends Service{
      * @throws ErrorException
      */
     public function edit($file, $handler, $params){
-        if(StringHelper::isInt($file)){
+        if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file);
         }
         

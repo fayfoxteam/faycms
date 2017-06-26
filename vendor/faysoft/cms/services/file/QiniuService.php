@@ -6,7 +6,7 @@ use cms\services\OptionService;
 use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\StringHelper;
+use fay\helpers\NumberHelper;
 use Qiniu\Auth;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
@@ -37,7 +37,7 @@ class QiniuService extends Service{
                     'message'=>'没有需要上传的文件',
                 );
             }
-        }else if(StringHelper::isInt($file)){
+        }else if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file);
         }
         
@@ -85,7 +85,7 @@ class QiniuService extends Service{
      * @return bool
      */
     public function delete($file){
-        if(StringHelper::isInt($file)){
+        if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file, 'id,raw_name,file_ext,file_path');
         }
         
@@ -116,7 +116,7 @@ class QiniuService extends Service{
      * @return bool|string
      */
     public function getUrl($file, $options = array()){
-        if(StringHelper::isInt($file)){
+        if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file, 'raw_name,file_ext,file_path,is_image,image_width,image_height,qiniu');
         }
         

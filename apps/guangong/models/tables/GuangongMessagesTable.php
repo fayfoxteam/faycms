@@ -42,9 +42,14 @@ class GuangongMessagesTable extends Table{
     const TYPE_GONGMINXUEZHE = 2;
     
     /**
-     * 类型 - 正义联盟
+     * 类型 - 正义联盟 - 自行善举
      */
-    const TYPE_ZHENGYILIANMENG = 3;
+    const TYPE_ZHENGYILIANMENG_ZIXINGSHANJU = 31;
+
+    /**
+     * 类型 - 正义联盟 - 共行善举
+     */
+    const TYPE_ZHENGYILIANMENG_GONGXINGSHANJU = 32;
     
     protected $_name = 'guangong_messages';
     

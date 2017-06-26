@@ -15,8 +15,8 @@ body{font-family:"黑体";background-color:#fff;font-size:14px}
 .pager .prev:before{content:"\f104"}
 .pager .next:before{content:"\f105"}
 
-.page-header{background-color:#008CD6;color:#fff}
-.header-content{width:280px;margin:0 auto;padding:20px 0 15px}
+.page-header{background-color:#B50006;color:#fff}
+.header-content{width:294px;margin:0 auto;padding:20px 0 15px}
 .header-content div{float:left}
 .header-logo{margin-right:5px;}
 .header-logo img{width:30px;height:30px;vertical-align:bottom}
@@ -45,15 +45,15 @@ body{font-family:"黑体";background-color:#fff;font-size:14px}
 .reply-container .submit-container{margin-top:30px;text-align:center}
 .reply-container #reply-form-submit{background-color:#DA251C;color:#fff;font-size:18px;padding:6px 30px;text-align:center}
 
-.bingjian-nav{border-bottom:4px solid #DCDCDD;padding:16px 3px;margin:0 6px}
-.bingjian-nav li{display:inline-block;width:18%;text-align:center;}
-.bingjian-nav li a{color:#3E3938}
-.bingjian-nav li a.crt{color:#E50012}
+.zhengyi-nav{border-bottom:4px solid #DCDCDD;padding:16px 3px;margin:0 6px}
+.zhengyi-nav li{display:inline-block;width:48%;text-align:center;}
+.zhengyi-nav li a{color:#3E3938}
+.zhengyi-nav li a.crt{color:#E50012}
 
 #message-form{margin:30px 30px}
-#message-form th,#message-form td{color:#008CD6;padding:10px 0}
+#message-form th,#message-form td{color:#B50006;padding:10px 0}
 #message-form th{padding-right:8px}
-#message-form textarea,#message-form input{border:1px solid #008CD6;width:100%;line-height:1.4}
+#message-form textarea,#message-form input{border:1px solid #B50006;width:100%;line-height:1.4}
 #message-form input{height:26px}
 #message-form textarea{height:150px;padding:8px 16px}
 

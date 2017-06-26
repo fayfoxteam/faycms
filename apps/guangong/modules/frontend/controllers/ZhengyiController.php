@@ -11,15 +11,15 @@ use guangong\models\tables\GuangongMessagesTable;
 /**
  * 兵谏
  */
-class BingjianController extends FrontController{
+class ZhengyiController extends FrontController{
     public function __construct(){
-        $this->layout_template = 'bingjian';
+        $this->layout_template = 'zhengyi';
         
         parent::__construct();
     }
     
     public function user(){
-        $type = $this->input->get('type', 'intval', GuangongMessagesTable::TYPE_BINGJIAN_GONGCHENG);
+        $type = $this->input->get('type', 'intval', GuangongMessagesTable::TYPE_ZHENGYILIANMENG_ZIXINGSHANJU);
         $user_id = $this->input->get('user_id', 'intval');
         if(!UserService::isUserIdExist($user_id)){
             throw new HttpException('您访问的页面不存在');
@@ -43,7 +43,7 @@ class BingjianController extends FrontController{
     }
     
     public function index(){
-        $type = $this->input->get('type', 'intval', GuangongMessagesTable::TYPE_BINGJIAN_GONGCHENG);
+        $type = $this->input->get('type', 'intval', GuangongMessagesTable::TYPE_ZHENGYILIANMENG_ZIXINGSHANJU);
         
         $sql = new Sql();
         $sql2 = new Sql();
@@ -72,7 +72,7 @@ class BingjianController extends FrontController{
     }
     
     public function jianyan(){
-        $type = $this->input->get('type', 'intval', GuangongMessagesTable::TYPE_BINGJIAN_GONGCHENG);
+        $type = $this->input->get('type', 'intval', GuangongMessagesTable::TYPE_ZHENGYILIANMENG_ZIXINGSHANJU);
 
         $this->view->user = UserService::service()->get($this->current_user, 'nickname,mobile,id');
         $this->view->type = $type;

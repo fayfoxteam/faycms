@@ -3,7 +3,7 @@
  * @var $data array
  */
 ?>
-<a href="<?php echo $this->url('bingjian/item', array(
+<a href="<?php echo $this->url('zhengyi/item', array(
     'id'=>$data['id']
 ))?>" class="message-item cf">
     <div class="author">

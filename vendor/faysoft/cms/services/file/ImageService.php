@@ -511,6 +511,7 @@ class ImageService{
      */
     public function output($mime_type = ''){
         $this->generate($mime_type);
+        die;
     }
 
     /**

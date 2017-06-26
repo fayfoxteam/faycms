@@ -109,7 +109,7 @@ class OptionService extends Service{
      * @return array
      */
     public static function getGroup($name){
-        $options = OptionsTable::model()->fetchAll(array('option_name LIKE ?'=>$name.'%'), 'option_name,option_value');
+        $options = OptionsTable::model()->fetchAll(array('option_name LIKE ?'=>$name.':%'), 'option_name,option_value');
         $return = array();
         foreach($options as $o){
             $return[substr($o['option_name'], strlen($name) + 1)] = $o['option_value'];

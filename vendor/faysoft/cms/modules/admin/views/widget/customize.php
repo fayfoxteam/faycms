@@ -19,7 +19,9 @@ html,body{overflow:hidden;height:100%}
 </style>
 </head>
 <body>
-<iframe src="<?php echo $this->url()?>" id="customize-iframe" name="customize-iframe"></iframe>
+<iframe src="<?php echo $this->url('', array(
+    '_editing'=>1
+))?>" id="customize-iframe" name="customize-iframe"></iframe>
 <script src="<?php echo $this->assets('js/fancybox-3.0/dist/jquery.fancybox.min.js')?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->assets('js/fancybox-3.0/dist/jquery.fancybox.min.css')?>">
 <script>
@@ -49,6 +51,10 @@ var customize = {
             });
         });
     },
+    /**
+     * 刷新一个小工具
+     * @var $alias
+     */
     'refreshWidget': function(alias){
         $.ajax({
             'type': 'GET',
@@ -60,8 +66,24 @@ var customize = {
             }
         });
     },
+    /**
+     * 阻塞a标签跳转，往链接后面加参数后再跳转
+     */
+    'blockLink': function(){
+        $(window.frames['customize-iframe'].document).on('click', 'a', function(){
+            var href = $(this).attr('href');
+            if(href.indexOf('?') > 0){
+                href += '&_editing=1';
+            }else{
+                href += '?_editing=1';
+            }
+            $('#customize-iframe').attr('src', href);
+            return false;
+        });
+    },
     'init': function(){
         this.initIframe();
+        this.blockLink();
     }
 };
 $(function(){

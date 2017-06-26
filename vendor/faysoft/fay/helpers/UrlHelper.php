@@ -11,7 +11,7 @@ class UrlHelper{
      */
     public static function createUrl($router = null, $params = array(), $anchor = ''){
         $base_url = \F::config()->get('base_url');
-        if(!$router){
+        if($router === null){
             return $base_url;
         }else{
             $default_module = \F::config()->get('default_router.module');

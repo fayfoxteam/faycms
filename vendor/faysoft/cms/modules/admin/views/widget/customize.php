@@ -70,13 +70,16 @@ var customize = {
     'blockLink': function(){
         $(window.frames['customize-iframe'].document).on('click', 'a', function(){
             var href = $(this).attr('href');
-            if(href.indexOf('?') > 0){
-                href += '&_editing=1';
-            }else{
-                href += '?_editing=1';
+            if(href.substr(0, <?php echo strlen($this->url())?>) == '<?php echo $this->url()?>'){
+                //对站内跳转做特殊处理
+                if(href.indexOf('?') > 0){
+                    href += '&_editing=1';
+                }else{
+                    href += '?_editing=1';
+                }
+                $('#customize-iframe').attr('src', href);
+                return false;
             }
-            $('#customize-iframe').attr('src', href);
-            return false;
         });
     },
     'showEditLink': function(){

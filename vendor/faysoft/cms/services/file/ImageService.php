@@ -2,7 +2,6 @@
 namespace cms\services\file;
 
 use cms\models\tables\FilesTable;
-use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
 
 class ImageService{
@@ -857,7 +856,7 @@ class ImageService{
     /**
      * 根据文件路径获取图片（可以是本地路径，也可以是url）
      * @param string $file_path
-     * @throws ErrorException
+     * @throws FileErrorException
      */
     protected function loadRemoteFile($file_path){
         $this->file_path = $file_path;
@@ -878,7 +877,7 @@ class ImageService{
                 $this->image = \imagecreatefrompng($file_path);
                 break;
             default:
-                throw new ErrorException('未知图片类型: ' . json_encode($this->metadata));
+                throw new FileErrorException('未知图片类型: ' . json_encode($this->metadata));
                 break;
         }
     }

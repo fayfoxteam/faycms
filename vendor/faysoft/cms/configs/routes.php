@@ -28,6 +28,10 @@ return array(
     '/^file\/qrcode(.*)$/'=>'cms/api/file/qrcode$1',
     '/^file\/download(.*)$/'=>'cms/api/file/download$1',
     
+    //站点地图
+    '/^sitemap.html$/'=>'cms/api/site-map/html',
+    '/^sitemap.xml/'=>'cms/api/site-map/xml',
+    
     '/^redirect(.*)$/'=>'cms/api/redirect/index$1',//页面跳转
     
     '/^install$/'=>'cms/install/index/index',//安装

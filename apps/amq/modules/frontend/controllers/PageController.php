@@ -24,6 +24,10 @@ class PageController extends FrontController{
         if(!$page){
             throw new HttpException('您访问的页面不存在');
         }
+
+        $this->layout->keywords = $page['seo_keywords'];
+        $this->layout->description = $page['seo_description'];
+        $this->layout->title = $page['seo_title'] ? $page['seo_title'] : $page['title'];
         
         $this->view->assign(array(
             'page'=>$page

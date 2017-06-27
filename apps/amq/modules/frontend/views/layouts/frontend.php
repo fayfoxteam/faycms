@@ -15,7 +15,7 @@ use fay\helpers\HtmlHelper;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php if(!empty($title)){
-            echo $title, '_';
+            echo $title, '—';
         }
         echo OptionService::get('site:sitename')?></title>
     <meta content="<?php if(isset($keywords))echo HtmlHelper::encode($keywords);?>" name="keywords" />

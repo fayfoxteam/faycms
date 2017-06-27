@@ -6,7 +6,7 @@ use fay\core\Loader;
 
 /**
  * 附件表
- * 
+ *
  * @property int $id Id
  * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
@@ -15,32 +15,29 @@ use fay\core\Loader;
  * @property string $filepath Filepath
  * @property int $filetype Filetype
  * @property int $filesize Filesize
- * @property int $haslitpic Haslitpic
- * @property int $uploadtime Uploadtime
- * @property int $aid Aid
+ * @property int $qiniu 是否上传至七牛
  * @property string $updated_at 更新时间
  * @property string $created_at 创建时间
  * @property string $deleted_at Deleted At
  */
 class GgAttachmentTable extends Table{
     protected $_name = 'gg_attachment';
-    
+
     /**
      * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     public function rules(){
         return array(
-            array(array('id', 'aid'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('merchant_id', 'website_id', 'cat_id', 'filesize'), 'int', array('min'=>0, 'max'=>16777215)),
-            array(array('haslitpic'), 'int', array('min'=>-128, 'max'=>127)),
+            array(array('qiniu'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('filetype'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title'), 'string', array('max'=>60)),
             array(array('filepath'), 'string', array('max'=>200)),
-            array(array('uploadtime'), 'datetime'),
         );
     }
 
@@ -54,9 +51,7 @@ class GgAttachmentTable extends Table{
             'filepath'=>'Filepath',
             'filetype'=>'Filetype',
             'filesize'=>'Filesize',
-            'haslitpic'=>'Haslitpic',
-            'uploadtime'=>'Uploadtime',
-            'aid'=>'Aid',
+            'qiniu'=>'是否上传至七牛',
             'updated_at'=>'更新时间',
             'created_at'=>'创建时间',
             'deleted_at'=>'Deleted At',
@@ -73,9 +68,7 @@ class GgAttachmentTable extends Table{
             'filepath'=>'trim',
             'filetype'=>'intval',
             'filesize'=>'intval',
-            'haslitpic'=>'intval',
-            'uploadtime'=>'intval',
-            'aid'=>'intval',
+            'qiniu'=>'intval',
             'updated_at'=>'',
             'created_at'=>'',
             'deleted_at'=>'',

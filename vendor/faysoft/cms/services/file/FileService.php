@@ -276,7 +276,7 @@ class FileService extends Service{
             if(substr($file['file_path'], 0, 4) == './..'){
                 //私有文件，不能直接访问文件
                 return UrlHelper::createUrl('file/pic', array(
-                    't'=>2,
+                    't'=>FileService::PIC_THUMBNAIL,
                     'f'=>$file['id'],
                 ));
             }else{

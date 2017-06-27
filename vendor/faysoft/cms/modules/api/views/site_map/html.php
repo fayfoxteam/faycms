@@ -3,6 +3,7 @@ use cms\helpers\LinkHelper;
 use fay\helpers\HtmlHelper;
 
 /**
+ * @var $this \fay\core\View
  * @var $last_post array
  * @var $seo_title string
  * @var $sitename string

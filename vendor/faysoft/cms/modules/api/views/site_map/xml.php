@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var $this \fay\core\View
  * @var $last_post array
  * @var $cat_last_post array
  * @var $cat_map array

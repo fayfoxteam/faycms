@@ -73,14 +73,17 @@ class PageService extends Service{
     /**
      * 根据别名获取单页
      * @param string $alias
+     * @param string $fields
      * @return array|bool
      */
-    public function getByAlias($alias){
+    public function getByAlias($alias, $fields = '*'){
         $page = PagesTable::model()->fetchRow(array(
             'alias = ?'=>$alias,
-        ));
-        
-        $page['thumbnail'] = FileService::get($page['thumbnail']);
+        ), $fields);
+
+        if(isset($page['thumbnail'])){
+            $page['thumbnail'] = FileService::get($page['thumbnail']);
+        }
         
         return $page;
     }
@@ -88,28 +91,32 @@ class PageService extends Service{
     /**
      * 根据ID获取单页
      * @param int $id
+     * @param string $fields
      * @return array|bool
      */
-    public function getById($id){
-        $page = PagesTable::model()->find($id);
+    public function getById($id, $fields = '*'){
+        $page = PagesTable::model()->find($id, $fields);
 
-        $page['thumbnail'] = FileService::get($page['thumbnail']);
+        if(isset($page['thumbnail'])){
+            $page['thumbnail'] = FileService::get($page['thumbnail']);
+        }
 
         return $page;
     }
-    
+
     /**
      * 获取单页
      * @param int|string $page
-     *  - 若为数字，视为单页ID获取；
-     *  - 若为字符串，视为单页别名获取；
+     *  - 若为数字，视为单页ID获取
+     *  - 若为字符串，视为单页别名获取
+     * @param string $fields
      * @return array|bool
      */
-    public function get($page){
+    public function get($page, $fields = '*'){
         if(StringHelper::isInt($page)){
-            return $this->getById($page);
+            return $this->getById($page, $fields);
         }else{
-            return $this->getByAlias($page);
+            return $this->getByAlias($page, $fields);
         }
     }
     
@@ -134,5 +141,27 @@ class PageService extends Service{
     public function getDeletedCount(){
         $result = PagesTable::model()->fetchRow('delete_time > 0', 'COUNT(*)');
         return $result['COUNT(*)'];
+    }
+
+    /**
+     * 根据ID返回别名。
+     * 若指定ID不存在，返回false
+     * @param int $id
+     * @return string|false
+     */
+    public function getAliasByID($id){
+        $page = $this->get($id, 'alias');
+        return $page ? $page['alias'] : false;
+    }
+
+    /**
+     * 根据别名返回ID。
+     * 若指定别名不存在，返回false
+     * @param string $alias
+     * @return string|false
+     */
+    public function getIDByAlias($alias){
+        $page = $this->get($alias, 'id');
+        return $page ? $page['id'] : false;
     }
 }

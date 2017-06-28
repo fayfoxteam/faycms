@@ -43,6 +43,8 @@ class SiteMapController extends ApiController{
         $this->view->posts = $posts;
         
         header('Content-Type:application/xml');
+        $this->config->set('debug', false);
+        
         $this->view->render();
     }
     

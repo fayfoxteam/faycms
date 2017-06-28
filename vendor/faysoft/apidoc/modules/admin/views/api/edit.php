@@ -31,7 +31,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                         ))?>
                         <?php echo \fay\helpers\HtmlHelper::link(
                             '查看',
-                            \apidoc\helpers\LinkHelper::getApiLink(F::form()->getData('id')),
+                            \apidoc\helpers\LinkHelper::generateApiLink(F::form()->getData('id')),
                             array(
                                 'class'=>'btn btn-grey',
                                 'target'=>'_blank'

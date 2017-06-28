@@ -35,7 +35,7 @@ use fay\helpers\HtmlHelper;
                             //对象类型特殊处理
                             echo HtmlHelper::link(
                                 $p['model_name'],
-                                TrackHelper::assembleTrackId(\apidoc\helpers\LinkHelper::getModelLink($p['type']))
+                                TrackHelper::assembleTrackId(\apidoc\helpers\LinkHelper::generateModelLink($p['type']))
                             );
                         }else{
                             echo HtmlHelper::encode($p['model_name']);

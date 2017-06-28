@@ -4,6 +4,7 @@
             <ul class="nav-tabs">
                 <li class="active"><a href="#settings-options">站点参数</a></li>
                 <li><a href="#settings-system">系统参数</a></li>
+                <li><a href="#settings-link">链接格式</a></li>
                 <li><a href="#settings-email">邮箱参数</a></li>
                 <li><a href="#settings-qiniu">七牛参数</a></li>
                 <li><a href="#settings-ucpaas">云之讯参数</a></li>
@@ -14,6 +15,9 @@
                 </div>
                 <div id="settings-system" class="tab-pane p5 hide">
                     <?php $this->renderPartial('_settings_system')?>
+                </div>
+                <div id="settings-link" class="tab-pane p5 hide">
+                    <?php $this->renderPartial('_settings_link')?>
                 </div>
                 <div id="settings-email" class="tab-pane p5 hide">
                     <?php $this->renderPartial('_settings_email')?>

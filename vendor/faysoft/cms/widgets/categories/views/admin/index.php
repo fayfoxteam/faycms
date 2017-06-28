@@ -60,39 +60,6 @@ use fay\helpers\HtmlHelper;
                     当前节点没有子节点，展示当前节点及平级节点（根节点除外）。
                 </p>
             </div>
-            <div class="form-field">
-                <label class="title bold">链接格式</label>
-                <?php
-                    echo HtmlHelper::inputRadio('uri', 'cat/{$id}', !isset($widget->config['uri']) || $widget->config['uri'] == 'cat/{$id}', array(
-                        'label'=>'cat/{$id}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', 'cat/{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat/{$alias}', array(
-                        'label'=>'cat/{$alias}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', 'cat-{$id}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$id}', array(
-                        'label'=>'cat-{$id}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', 'cat-{$alias}', isset($widget->config['uri']) && $widget->config['uri'] == 'cat-{$alias}', array(
-                        'label'=>'cat-{$alias}',
-                    ));
-                    echo HtmlHelper::inputRadio('uri', '', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
-                        'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
-                    )), array(
-                        'label'=>'其它',
-                    ));
-                    echo HtmlHelper::inputText('other_uri', isset($widget->config['uri']) && !in_array($widget->config['uri'], array(
-                        'cat/{$id}', 'cat/{$alias}', 'cat-{$id}', 'cat-{$alias}',
-                    )) ? $widget->config['uri'] : '', array(
-                        'class'=>'form-control mw150 ib',
-                    ));
-                ?>
-                <p class="fc-grey">
-                    <code>{$id}</code>代表“分类ID”。
-                    <code>{$alias}</code>代表“分类别名”。
-                    不要包含base_url部分。<br>
-                    <span class="fc-orange">此配置项是否生效取决于模版代码</span>
-                </p>
-            </div>
             <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>

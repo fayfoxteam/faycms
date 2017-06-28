@@ -15,7 +15,7 @@ $thumbnail = FileService::getUrl($data['thumbnail'], FileService::PIC_RESIZE, ar
 ));
 ?>
 <li>
-    <a href="<?php echo LinkHelper::getPostLink($data)?>">
+    <a href="<?php echo LinkHelper::generatePostLink($data)?>">
         <img src="<?php echo $thumbnail?>" />
         <div class="newslist-text">
             <h5 class="newslist-text-title"><?php

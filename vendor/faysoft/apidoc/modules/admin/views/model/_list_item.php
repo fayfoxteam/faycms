@@ -8,7 +8,7 @@ use fay\helpers\HtmlHelper;
 ?>
 <tr valign="top">
     <td>
-        <strong><?php echo HtmlHelper::link($data['name'], \apidoc\helpers\LinkHelper::getModelLink($data['id']), array(
+        <strong><?php echo HtmlHelper::link($data['name'], \apidoc\helpers\LinkHelper::generateModelLink($data['id']), array(
             'target'=>'_blank'
         ))?></strong>
         <div class="row-actions">

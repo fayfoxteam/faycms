@@ -17,7 +17,7 @@ class LinkHelper{
      * @return string
      * @throws ErrorException
      */
-    public static function getApiLink($api){
+    public static function generateApiLink($api){
         if(NumberHelper::isInt($api)){
             $api = array(
                 'id'=>$api,
@@ -51,7 +51,7 @@ class LinkHelper{
      * @return string
      * @throws ErrorException
      */
-    public static function getModelLink($model){
+    public static function generateModelLink($model){
         if(NumberHelper::isInt($model)){
             $model = array(
                 'id'=>$model,

@@ -49,7 +49,7 @@ class ModelController extends FrontController{
         $this->layout->assign(array(
             'subtitle'=>$model['name'],
             'title'=>$model['description'],
-            'canonical'=>LinkHelper::getModelLink($model['id']),
+            'canonical'=>LinkHelper::generateModelLink($model['id']),
         ));
         
         $sql = new Sql();

@@ -30,7 +30,6 @@ class AdminController extends Widget{
      */
     public function onPost(){
         $data = $this->form->getFilteredData();
-        $data['uri'] || $data['uri'] = $this->input->post('other_uri');
         
         $this->saveConfig($data);
     }
@@ -47,7 +46,6 @@ class AdminController extends Widget{
             'hierarchical'=>'是否体现层级关系',
             'top'=>'顶级分类',
             'title'=>'标题',
-            'uri'=>'链接格式',
             'cat_key'=>'分类字段',
             'show_sibling_when_terminal'=>'无子分类展示平级分类',
         );
@@ -58,7 +56,6 @@ class AdminController extends Widget{
             'hierarchical'=>'intval',
             'top'=>'intval',
             'title'=>'',
-            'uri'=>'trim',
             'template'=>'trim',
             'template_code'=>'trim',
             'cat_key'=>'trim',

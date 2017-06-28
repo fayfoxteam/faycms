@@ -223,7 +223,7 @@ class IndexController extends Widget{
             }
     
             //附加文章链接
-            $p['post']['link'] = LinkHelper::getPostLink($p['post']);
+            $p['post']['link'] = LinkHelper::generatePostLink($p['post']);
         }
         
         return $posts;

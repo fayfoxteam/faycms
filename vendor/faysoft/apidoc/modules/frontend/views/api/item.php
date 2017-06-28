@@ -135,7 +135,7 @@ use Michelf\MarkdownExtra;
                             //对象类型特殊处理
                             echo HtmlHelper::link(
                                 $output['model_name'],
-                                TrackHelper::assembleTrackId(\apidoc\helpers\LinkHelper::getModelLink($output['model_id']))
+                                TrackHelper::assembleTrackId(\apidoc\helpers\LinkHelper::generateModelLink($output['model_id']))
                             );
                         }else{
                             echo HtmlHelper::encode($output['model_name']);

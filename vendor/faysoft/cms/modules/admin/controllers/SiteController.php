@@ -33,6 +33,15 @@ class SiteController extends AdminController{
         
         $this->view->render();
     }
+
+    /**
+     * 系统参数
+     */
+    public function link(){
+        $this->layout->subtitle = '链接格式';
+
+        $this->view->render();
+    }
     
     /**
      * 第三方登录参数

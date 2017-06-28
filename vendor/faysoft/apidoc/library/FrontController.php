@@ -51,7 +51,7 @@ class FrontController extends Controller{
                         'alias'=>'',
                         'title'=>"<span class='router' title='{$a['router']}'>{$a['router']}</span>" . HtmlHelper::encode($a['title']),
                         'css_class'=>'',
-                        'link'=>LinkHelper::getApiLink($a['id']),
+                        'link'=>LinkHelper::generateApiLink($a['id']),
                         'target'=>'',
                         'children'=>array(),
                     );

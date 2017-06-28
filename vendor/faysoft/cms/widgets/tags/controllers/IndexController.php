@@ -44,7 +44,7 @@ class IndexController extends Widget{
         );
         
         //格式化分类链接
-        $tags = $this->setLink($tags);
+        $tags = $this->assembleLink($tags);
         
         return $tags;
     }
@@ -77,7 +77,7 @@ class IndexController extends Widget{
      * @param array $tags
      * @return array
      */
-    private function setLink($tags){
+    private function assembleLink($tags){
         foreach($tags as &$t){
             $t['tag']['link'] = $this->view->url(str_replace(array(
                 '{$id}', '{$title}',

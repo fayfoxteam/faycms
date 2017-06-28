@@ -38,7 +38,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                             ));
                             if($post['status'] == PostsTable::STATUS_PUBLISHED){
                                 //已发布的文章，展示一个查看链接
-                                echo HtmlHelper::link('查看', LinkHelper::getPostLink($post), array(
+                                echo HtmlHelper::link('查看', LinkHelper::generatePostLink($post), array(
                                     'class'=>'btn btn-grey ml5',
                                     'target'=>'_blank',
                                 ));

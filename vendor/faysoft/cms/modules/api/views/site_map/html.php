@@ -128,13 +128,12 @@ use fay\helpers\HtmlHelper;
         <?php foreach($cat_posts as $cat_id => $posts){?>
         <tr valign="top">
             <td class="lbullet">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td class="lpart" colspan="99"><div class="lhead"><?php echo $cat_map[$cat_id]['alias']?>/
-                    <span class="lcount"><?php echo count($posts)?> pages</span></div>
+            <td class="lpart" colspan="99"><div class="lhead"><a href="<?php echo LinkHelper::generateCatLink($cat_map[$cat_id])?>" title="<?php echo HtmlHelper::encode($cat_map[$cat_id]['title'])?>"><?php echo HtmlHelper::encode($cat_map[$cat_id]['title'])?></a>
+                    <span class="lcount"><?php echo count($posts)?> 条记录</span></div>
 
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                    <tr><td class="lpage"><a href="<?php echo $this->url($cat_map[$cat_id]['alias'])?>/" title="<?php echo HtmlHelper::encode($cat_map[$cat_id]['title'])?>"><?php echo HtmlHelper::encode($cat_map[$cat_id]['title'])?></a></td></tr>
                     <?php foreach($posts as $post){?>
-                    <tr><td class="lpage"><a href="<?php echo LinkHelper::getPostLink($post)?>" title="<?php echo HtmlHelper::encode($post['title'])?>"><?php echo HtmlHelper::encode($post['title'])?></a></td></tr>
+                    <tr><td class="lpage"><a href="<?php echo LinkHelper::generatePostLink($post)?>" title="<?php echo HtmlHelper::encode($post['title'])?>"><?php echo HtmlHelper::encode($post['title'])?></a></td></tr>
                     <?php }?>
                 </table>
             </td>

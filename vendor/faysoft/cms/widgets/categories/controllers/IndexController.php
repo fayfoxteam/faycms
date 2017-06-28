@@ -1,6 +1,7 @@
 <?php
 namespace cms\widgets\categories\controllers;
 
+use cms\helpers\LinkHelper;
 use cms\services\CategoryService;
 use fay\widget\Widget;
 
@@ -16,11 +17,6 @@ class IndexController extends Widget{
         if(empty($config['title'])){
             $node = CategoryService::service()->get($config['top'], 'title');
             $config['title'] = $node['title'];
-        }
-        
-        //uri
-        if(empty($config['uri'])){
-            $config['uri'] = 'cat/{$id}';
         }
         
         $config['show_sibling_when_terminal'] = !empty($config['show_sibling_when_terminal']);
@@ -52,7 +48,7 @@ class IndexController extends Widget{
         }
         
         //格式化分类链接
-        $cats = $this->setLink($cats, $this->config['uri']);
+        $cats = $this->assembleLink($cats);
         
         return $cats;
     }
@@ -73,19 +69,14 @@ class IndexController extends Widget{
     /**
      * 为分类列表添加link字段
      * @param array $cats
-     * @param string $uri
      * @return array
      */
-    private function setLink($cats, $uri){
+    private function assembleLink($cats){
         foreach($cats as &$c){
-            $c['link'] = $this->view->url(str_replace(array(
-                '{$id}', '{$alias}',
-            ), array(
-                $c['id'], $c['alias'],
-            ), $uri));
+            $c['link'] = LinkHelper::generateCatLink($c);
             
             if(!empty($c['children'])){
-                $c['children'] = $this->setLink($c['children'], $uri);
+                $c['children'] = $this->assembleLink($c['children']);
             }
         }
         

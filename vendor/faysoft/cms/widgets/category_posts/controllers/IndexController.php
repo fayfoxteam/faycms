@@ -203,7 +203,7 @@ class IndexController extends Widget{
                 $p['post']['format_publish_time'] = '';
             }
     
-            $p['post']['link'] = LinkHelper::getPostLink($p['post']);
+            $p['post']['link'] = LinkHelper::generatePostLink($p['post']);
         }
         
         return $posts;

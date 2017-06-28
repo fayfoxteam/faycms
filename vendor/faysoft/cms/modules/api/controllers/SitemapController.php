@@ -13,6 +13,22 @@ use fay\helpers\ArrayHelper;
  */
 class SiteMapController extends ApiController{
     public function xml(){
+        //系统配置
+        $config = OptionService::getGroup('system:sitemap');
+        $config = array_merge(array(
+            'index:changefreq' => 'always',
+            'index:priority' => '',
+            'index:lastmod' => 'now',
+            'cat:changefreq' => '',
+            'cat:priority' => '',
+            'cat:lastmod' => 'last_post',
+            'post:changefreq' => '',
+            'post:priority' => '',
+            'post:lastmod' => 'update_time',
+            'post_count' => '500',
+        ), $config);
+        $this->view->config = $config;
+        
         //最后一篇文章
         $this->view->last_post = PostsTable::model()->fetchRow(PostsTable::getPublishedConditions(), 'update_time', 'id DESC');
         
@@ -38,7 +54,7 @@ class SiteMapController extends ApiController{
             PostsTable::getPublishedConditions(),
             'id,cat_id,title,publish_time,update_time',
             'id DESC',
-            500
+            $config['post_count']
         );
         $this->view->posts = $posts;
         
@@ -61,7 +77,7 @@ class SiteMapController extends ApiController{
             PostsTable::getPublishedConditions(),
             'id,cat_id,title,publish_time,update_time',
             'id DESC',
-            500
+            OptionService::get('system:sitemap:post_count')
         );
         //根据分类将得到的文章分组
         $cat_posts = array();

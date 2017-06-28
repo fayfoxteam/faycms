@@ -1,7 +1,7 @@
 <?php
 namespace cms\widgets\tags\controllers;
 
-use cms\services\TagService;
+use cms\services\tag\TagService;
 use fay\widget\Widget;
 
 class IndexController extends Widget{

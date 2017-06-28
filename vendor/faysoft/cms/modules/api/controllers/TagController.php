@@ -3,7 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use cms\models\tables\TagCounterTable;
-use cms\services\TagService;
+use cms\services\tag\TagService;
 use fay\core\Response;
 
 /**

@@ -1,9 +1,8 @@
 <?php
-namespace cms\services;
+namespace cms\services\tag;
 
 use cms\models\tables\TagCounterTable;
 use cms\models\tables\TagsTable;
-use cms\services\tag\TagCounterService;
 use fay\common\ListView;
 use fay\core\Loader;
 use fay\core\Service;

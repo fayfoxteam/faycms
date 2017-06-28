@@ -4,7 +4,7 @@ namespace fayfeed\services;
 use cms\models\tables\TagCounterTable;
 use cms\models\tables\TagsTable;
 use cms\services\tag\TagCounterService;
-use cms\services\TagService;
+use cms\services\tag\TagService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;

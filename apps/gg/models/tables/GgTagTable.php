@@ -6,20 +6,22 @@ use fay\core\Loader;
 
 /**
  * 标签表
- * 
+ *
  * @property int $id Id
  * @property string $tag_name 标签名称
+ * @property string $created_at 创建时间
+ * @property string $updated_at 更新时间
  */
 class GgTagTable extends Table{
     protected $_name = 'gg_tag';
-    
+
     /**
      * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     public function rules(){
         return array(
             array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
@@ -31,6 +33,8 @@ class GgTagTable extends Table{
         return array(
             'id'=>'Id',
             'tag_name'=>'标签名称',
+            'created_at'=>'创建时间',
+            'updated_at'=>'更新时间',
         );
     }
 
@@ -38,6 +42,8 @@ class GgTagTable extends Table{
         return array(
             'id'=>'intval',
             'tag_name'=>'trim',
+            'created_at'=>'',
+            'updated_at'=>'',
         );
     }
 }

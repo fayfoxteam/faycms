@@ -127,11 +127,12 @@ class TagService extends Service{
      * @param array $conditions 附加条件（例如编辑标签的时候，判断重复需要传入id != tag_id的条件）
      * @return int|bool 若存在，返回标签ID，若不存在，返回false
      */
-    public static function isTagExist($title, $conditions = array()){
+    public static function isTagExist($title, $except_id = null){
         if($title){
             $tag = TagsTable::model()->fetchRow(array(
                     'title = ?'=>$title,
-                ) + $conditions, 'id');
+                    'id != ?'=>$except_id ? $except_id : false,
+                ), 'id');
             if($tag){
                 return $tag['id'];
             }else{

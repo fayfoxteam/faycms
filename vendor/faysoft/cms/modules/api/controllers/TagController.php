@@ -78,14 +78,10 @@ class TagController extends ApiController{
             'id'=>'ID'
         ))->check();
         
-        $conditions = array();
-        $id = $this->form()->getData('id');
-        if($id){
-            $conditions = array(
-                'id != ?'=>$id,
-            );
-        }
-        if(TagService::isTagExist($this->form()->getData('tag'), $conditions)){
+        if(TagService::isTagExist(
+            $this->form()->getData('tag'),
+            $this->form()->getData('id')
+        )){
             Response::json('', 0, '标签已存在');
         }else{
             Response::json();

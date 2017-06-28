@@ -49,7 +49,7 @@ class GuanwangController extends FrontController{
         
         $post_id = PostService::service()->create(array(
             'title'=>$title,
-            'content'=>$content,
+            'content'=>str_replace('{and}', '&', $content),
             'cat_id'=>$cat_id,
             'status'=>PostsTable::STATUS_DRAFT,
             'thumbnail'=>empty($local_thumbnail['id']) ? 0 : $local_thumbnail['id']

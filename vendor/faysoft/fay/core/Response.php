@@ -292,7 +292,7 @@ class Response{
         $cache_routers = \F::config()->get('*', 'pagecache');
         $cache_routers_keys = array_keys($cache_routers);
         if(in_array($router, $cache_routers_keys)){
-            $filename = md5(json_encode(\F::input()->get(isset($cache_routers[$router]['params']) ? $cache_routers[$router]['params'] : array())));
+            $filename = md5(\F::config()->get('base_url') . json_encode(\F::input()->get(isset($cache_routers[$router]['params']) ? $cache_routers[$router]['params'] : array())));
             $cache_key = 'pages/' . $router . '/' . $filename;
             if(\F::input()->post()){
                 //有post数据的时候，是否更新页面

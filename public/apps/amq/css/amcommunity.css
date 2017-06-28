@@ -777,6 +777,9 @@ h5.resouci{
 	text-indent:28px;
 	line-height: 1.85;
 }
+.amc-article img{
+	width: 93%;
+}
 .article-img{
 	width: 100%;
 	margin:20px 0;

@@ -33,6 +33,7 @@ class ModelController extends FrontController{
         $soft_delete = false;
         $has_timestamps = false;
         $guarded = array();
+        $fillable = array();
         foreach($fields as $field){
             if($field['Field'] == 'deleted_at'){
                 $soft_delete = true;
@@ -47,6 +48,8 @@ class ModelController extends FrontController{
                 'created_at', 'updated_at', 'deleted_at',
             ))){
                 $guarded[] = $field['Field'];
+            }else{
+                $fillable[] = $field['Field'];
             }
         }
 
@@ -64,6 +67,7 @@ class ModelController extends FrontController{
             'table'=>$table_without_prefix,
             'has_timestamps'=>$has_timestamps,
             'guarded'=>$guarded,
+            'fillable'=>$fillable,
             'fields'=>$fields,
             'table_comment'=>$table_comment,
         ), -1, true);

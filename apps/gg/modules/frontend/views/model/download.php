@@ -48,6 +48,10 @@ class <?php echo $class_name?> extends Model
 
     protected $guarded = ['<?php echo implode("', '", $guarded)?>'];
 <?php }?>
+<?php if($fillable){?>
+
+    protected $fillable = ['<?php echo implode("', '", $fillable)?>'];
+<?php }?>
 <?php if(!$has_timestamps){?>
 
     public $timestamps = false;

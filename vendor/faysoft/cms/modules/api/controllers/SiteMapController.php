@@ -3,6 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use cms\models\tables\CategoriesTable;
+use cms\models\tables\PagesTable;
 use cms\models\tables\PostsTable;
 use cms\services\OptionService;
 use fay\core\Sql;
@@ -95,6 +96,12 @@ class SiteMapController extends ApiController{
         }else{
             $this->view->cat_map = array();
         }
+        
+        //静态页
+        $this->view->pages = PagesTable::model()->fetchAll(array(
+            'status'=>PagesTable::STATUS_PUBLISHED,
+            'delete_time = 0',
+        ), 'id,alias,title');
         
         $this->view->render();
     }

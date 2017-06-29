@@ -8,7 +8,6 @@ use fay\core\Loader;
  * 文章表
  *
  * @property int $id Id
- * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
  * @property int $cat_id 文章分类
  * @property string $title 新闻标题
@@ -40,7 +39,7 @@ class GgArticleTable extends Table{
     public function rules(){
         return array(
             array(array('id', 'thumbnail', 'sort', 'import_id'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('merchant_id', 'website_id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('website_id', 'cat_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('title', 'source', 'author'), 'string', array('max'=>50)),
             array(array('source_url', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
             array(array('abstract'), 'string', array('max'=>1000)),
@@ -51,7 +50,6 @@ class GgArticleTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
-            'merchant_id'=>'所属管理员站点（只关联主账号）',
             'website_id'=>'网站ID',
             'cat_id'=>'文章分类',
             'title'=>'新闻标题',
@@ -75,7 +73,6 @@ class GgArticleTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
-            'merchant_id'=>'intval',
             'website_id'=>'intval',
             'cat_id'=>'intval',
             'title'=>'trim',

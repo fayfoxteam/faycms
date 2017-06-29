@@ -673,7 +673,7 @@ class UserService extends Service{
     public static function getUserId($user_id, $check_login = true){
         if($user_id === null){
             $user_id = \F::app()->current_user;
-        }else if($user_id && (!NumberHelper::isInt($user_id) || !UserService::isUserIdExist($user_id))){
+        }else if($user_id && (!NumberHelper::isInt($user_id) || !self::isUserIdExist($user_id))){
             throw new UserErrorException("指定用户ID[{$user_id}]不存在", 'the-given-user-id-is-not-exist');
         }
         

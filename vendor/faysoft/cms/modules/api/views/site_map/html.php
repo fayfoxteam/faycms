@@ -9,6 +9,7 @@ use fay\helpers\HtmlHelper;
  * @var $sitename string
  * @var $cat_map array
  * @var $cat_posts array
+ * @var $pages array
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -120,8 +121,10 @@ use fay\helpers\HtmlHelper;
                     <span class="lcount">1 pages</span></div>
 
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-
-                    <tr><td class="lpage"><a href="<?php echo $this->url()?>" title="<?php echo HtmlHelper::encode($seo_title), '_', HtmlHelper::encode($sitename)?>"><?php echo HtmlHelper::encode($seo_title), '_', HtmlHelper::encode($sitename)?></a></td></tr>
+                    <tr><td class="lpage"><?php echo HtmlHelper::link("{$seo_title}_{$sitename}", $this->url())?></td></tr>
+                    <?php foreach($pages as $page){?>
+                        <tr><td class="lpage"><?php echo HtmlHelper::link($page['title'], LinkHelper::generatePageLink($page))?></td></tr>
+                    <?php }?>
                 </table>
             </td>
         </tr>
@@ -133,7 +136,7 @@ use fay\helpers\HtmlHelper;
 
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <?php foreach($posts as $post){?>
-                    <tr><td class="lpage"><a href="<?php echo LinkHelper::generatePostLink($post)?>" title="<?php echo HtmlHelper::encode($post['title'])?>"><?php echo HtmlHelper::encode($post['title'])?></a></td></tr>
+                    <tr><td class="lpage"><?php echo HtmlHelper::link($post['title'], LinkHelper::generatePostLink($post))?></td></tr>
                     <?php }?>
                 </table>
             </td>

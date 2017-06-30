@@ -1,6 +1,7 @@
 <?php
 namespace cms\widgets\category_pages\controllers;
 
+use cms\helpers\LinkHelper;
 use cms\services\CategoryService;
 use fay\core\Sql;
 use fay\widget\Widget;
@@ -39,11 +40,7 @@ class IndexController extends Widget{
             ->fetchAll();
         
         foreach($pages as &$p){
-            $p['link'] = $this->view->url(str_replace(array(
-                '{$id}', '{$alias}',
-            ), array(
-                $p['id'], $p['alias'],
-            ), $this->config['uri']));
+            $p['link'] = LinkHelper::generatePageLink($p);
         }
         
         return $pages;
@@ -51,6 +48,10 @@ class IndexController extends Widget{
     
     public function index(){
         $pages = $this->getData();
+        
+        if(!$pages && !$this->config['show_empty']){
+            return;
+        }
         
         $this->renderTemplate(array(
             'pages'=>$pages,

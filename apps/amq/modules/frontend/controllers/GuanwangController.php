@@ -58,7 +58,7 @@ class GuanwangController extends FrontController{
         ), 10000);
         
         if($post_id){
-            echo 'sucess';
+            echo 'success';
         }else{
             echo '失败';
         }

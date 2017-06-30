@@ -36,9 +36,9 @@ $first_slice = array_slice($posts, 0, 3);
 <?php
     //从domains widget获取数据，因为运营肯定懒得维护两份广告
     $domains = F::widget()->getData('domains');
-    if(isset($domains['data'][0])){
-        $domain_info = explode('|', $domains['data'][0]['key']);
-        $domain_link = $domains['data'][0]['value'];
+    if(isset($domains['data'][\F::input()->get('page', 'intval', 1) - 1])){
+        $domain_info = explode('|', $domains['data'][\F::input()->get('page', 'intval', 1) - 1]['key']);
+        $domain_link = $domains['data'][\F::input()->get('page', 'intval', 1) - 1]['value'];
 ?>
         <!--推荐域名start-->
         <div class="m-amc-recommend">

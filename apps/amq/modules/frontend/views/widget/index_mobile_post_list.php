@@ -109,7 +109,7 @@ if($second_slice){?>
 <?php }?>
 
 <?php
-$third_slice = array_slice($posts, 5);
+$third_slice = array_slice($posts, 6);
 if($third_slice){?>
 <!--新闻列表start-->
 <ul class="m-amc-newslist">

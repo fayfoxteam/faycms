@@ -112,6 +112,7 @@ if($second_slice){?>
 $third_slice = array_slice($posts, 5);
 if($third_slice){?>
 <!--新闻列表start-->
+<ul class="m-amc-newslist">
 <?php foreach($third_slice as $post){?>
     <li>
         <a href="<?php echo $post['post']['link']?>" class="clearfix">
@@ -130,5 +131,6 @@ if($third_slice){?>
         </a>
     </li>
 <?php }?>
+</ul>
 <!--新闻列表over-->
 <?php }?>

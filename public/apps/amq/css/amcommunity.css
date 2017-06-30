@@ -775,7 +775,7 @@ h5.resouci{
 	color: #666;
 	font-size: 14px;
 	text-indent:28px;
-	line-height: 1.85;
+	line-height: 2;
 }
 .amc-article img{
 	max-width: 93% !important;
@@ -1038,4 +1038,5 @@ h5.resouci{
 }
 
 .pagination{display:none}
+.m-pagination{display:none}
 .fc-red{color:red}

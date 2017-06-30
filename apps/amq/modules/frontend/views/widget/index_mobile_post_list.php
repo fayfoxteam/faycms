@@ -6,7 +6,10 @@
 use cms\services\file\FileService;
 
 $first_slice = array_slice($posts, 0, 3);
-if($first_slice){?>
+?>
+
+<div id="mobile-newslist-container">
+<?php if($first_slice){?>
 <!--新闻列表start-->
 <ul class="m-amc-newslist">
 <?php foreach($first_slice as $post){?>
@@ -134,3 +137,7 @@ if($third_slice){?>
 </ul>
 <!--新闻列表over-->
 <?php }?>
+</div>
+<ul class="m-amc-newslist">
+    <li class="m-loadmore"><a href="javascript:">加载更多...</a></li>
+</ul>

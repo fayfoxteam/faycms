@@ -172,6 +172,7 @@ $(function(){
 <script>
 $(function(){
     $('.loadmore').ajaxPager('.pagination .next', '.newslist-contain');
+    $('.m-loadmore').ajaxPager('.pagination .next', '#mobile-newslist-container');
 });
 </script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>

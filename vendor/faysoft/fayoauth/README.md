@@ -27,19 +27,19 @@ $user->getParams();//获取所有第三方返回的用户字段
 - `ClientAbstract` 用于获取Access Token，state值校验等操作
 - `AccessTokenAbstract` Access Token实例，可通过此实例获取用户信息
 - `OauthService` 由于不同第三方登录参数略有区别，用OauthService来统一调用入口
- * `getAccessToken()` 获取Access Token（AccessTokenAbstract实例）
- * `getUser()` 获取第三方用户信息（返回UserAbstract实例）
- * `getOpenId()` 获取用户openId
+  * `getAccessToken()` 获取Access Token（AccessTokenAbstract实例）
+  * `getUser()` 获取第三方用户信息（返回UserAbstract实例）
+  * `getOpenId()` 获取用户openId
 - `UserAbstract` 第三方返回的用户信息各有不同，用此类来统一用户信息获取方法
- * `getAccessToken()` 获取Access Token值（字符串）
- * `getNickName()` 获取用户昵称
- * `getOpenId()` 获取用户openId
- * `getUnionId()` 获取用户UnionId。目前好像就微信有这个值
- * `getAvatar()` 获取用户头像
- * `getParams()` 获取所有原生第三方用户信息
- * `getParam($name)` 根据原生第三方用户信息字段获取用户信息
- * `__get()` 可以通过魔术方法调用`getParam()`
- * `ArrayAccess` 可以通过数组的方式调用`getParam()`
+  * `getAccessToken()` 获取Access Token值（字符串）
+  * `getNickName()` 获取用户昵称
+  * `getOpenId()` 获取用户openId
+  * `getUnionId()` 获取用户UnionId。目前好像就微信有这个值
+  * `getAvatar()` 获取用户头像
+  * `getParams()` 获取所有原生第三方用户信息
+  * `getParam($name)` 根据原生第三方用户信息字段获取用户信息
+  * `__get()` 可以通过魔术方法调用`getParam()`
+  * `ArrayAccess` 可以通过数组的方式调用`getParam()`
 - `StateManager` 用于管理state
 
 > 总结：`Client`和`AccessToken`类用于实现第三方登录。`OauthService`和`User`类用于统一调用和返回数据格式。

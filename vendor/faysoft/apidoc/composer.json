@@ -1,8 +1,8 @@
 {
-    "name": "faysoft/faycollect",
+    "name": "faysoft/apidoc",
     "type": "library",
-    "description": "Faycms采集模块",
-    "keywords": ["faysoft", "faycms", "faycollect"],
+    "description": "Faycms文档系统",
+    "keywords": ["faysoft", "faycms", "apidoc", "api"],
     "license": "MIT",
     "authors": [
         {
@@ -15,6 +15,6 @@
         "faysoft/cms": "*"
     },
     "autoload": {
-        "psr-4": {"faycollect\\": ""}
+        "psr-4": {"apidoc\\": ""}
     }
 }

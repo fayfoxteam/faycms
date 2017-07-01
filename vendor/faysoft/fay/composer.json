@@ -14,10 +14,7 @@
     "require": {
         "php": ">=5.3.3",
         "ext-mbstring": "*",
-        "ext-gd": "*",
-        "michelf/php-markdown": "*",
-        "qiniu/php-sdk": "*",
-        "gregwar/captcha": "1.*"
+        "ext-gd": "*"
     },
     "autoload": {
         "psr-4": {"fay\\": ""},

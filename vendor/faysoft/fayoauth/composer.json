@@ -1,5 +1,5 @@
 {
-    "name": "faysoft/faypay",
+    "name": "faysoft/fayoauth",
     "type": "library",
     "description": "Faycms第三方登录模块",
     "keywords": ["faysoft", "faycms", "fayoauth", "OAuth"],

@@ -58,25 +58,25 @@ return array(
 支付方式是一个独立的模块。支付方式是独立于交易（Trade）的，可以通过其他方式构造支付参数，发起支付。本系统出于业务逻辑考虑，都是由交易（Trade）模块调起支付。
 
 - `PaymentMethodConfigModel`：支付方式配置信息（在构建支付的时候传入此类实例）
- * `code`：支付方式编码。例如：`weixin:jsapi`（微信支付:jsapi支付）【必选】
- * `sign_type`：签名方式。有些字符方式有这个选项【可选】
- * `app_id`：对应微信支付：公众号ID（`app_id`）；支付宝：合作者身份ID（`partner`）；银联没有这个值
- * `mch_id`：对应微信支付：商户号（`mch_id`）；支付宝：卖家支付宝用户好（`seller_id`）；银联：商户号（`merId`）
- * `key`：商户支付密钥。对应微信支付：商户支付密钥（key）
- * `app_secret`：公众帐号`app_secret`（目前只有微信jsapi支付有这个参数）
+  * `code`：支付方式编码。例如：`weixin:jsapi`（微信支付:jsapi支付）【必选】
+  * `sign_type`：签名方式。有些字符方式有这个选项【可选】
+  * `app_id`：对应微信支付：公众号ID（`app_id`）；支付宝：合作者身份ID（`partner`）；银联没有这个值
+  * `mch_id`：对应微信支付：商户号（`mch_id`）；支付宝：卖家支付宝用户好（`seller_id`）；银联：商户号（`merId`）
+  * `key`：商户支付密钥。对应微信支付：商户支付密钥（key）
+  * `app_secret`：公众帐号`app_secret`（目前只有微信jsapi支付有这个参数）
 - `PaymentTradeModel`：交易信息（在构建支付的时候传入此类实例）
- * `notify_url`：服务器异步通知页面路径。微信和支付宝对应：`notify_url`；银联对应：`backUrl`
- * `return_url`：页面跳转同步通知页面路径（网页支付会有这个地址，app支付一般没有这个地址）。支付宝对应：`return_url`；银联对应：`frontUrl`
- * `out_trade_no`：商户订单号。所有支付方式都有这个字段（但不同的支付方式对格式有一定的要求）。第三方支付方式视为唯一标识，同一个商户订单号不能重复支付。
- * `total_fee`：支付金额（以“分”为单位的整数，如果支付方式需要传入以“元”为单位的值，需要转化）。微信对应：`total_fee`，单位：分；支付宝对应：`total_fee`，单位：元；银联对应：`txnAmt`：单位：分
- * `body`：交易描述。微信支付：简要描述（`body`）；对应支付宝：商品描述（`body`）；银联：订单描述（`orderDesc`）
- * `subject`：交易标题。对应支付宝：订单标题（`subject`）
- * `show_url`：对应支付宝：商品展示网址（`show_url`）
- * `it_b_pay`：对应支付宝：超时时间（`it_b_pay`）
- * `attach`：透传字段。对应微信支付：附加数据（`attach`）；银联：请求方保留域（`reqReserved`）
- * `time_start`：订单生成时间（strtotime能识别的时间格式都行），一般默认为当前时间即可，不需要填写
- * `time_expire`：订单失效时间（strtotime能识别的时间格式都行）
- * `trade_payment_id`：交易支付记录ID（并不属于支付需要用到的字段，但是做微信支付OAuth认证的时候需要做跳转，要用到这个字段）
+  * `notify_url`：服务器异步通知页面路径。微信和支付宝对应：`notify_url`；银联对应：`backUrl`
+  * `return_url`：页面跳转同步通知页面路径（网页支付会有这个地址，app支付一般没有这个地址）。支付宝对应：`return_url`；银联对应：`frontUrl`
+  * `out_trade_no`：商户订单号。所有支付方式都有这个字段（但不同的支付方式对格式有一定的要求）。第三方支付方式视为唯一标识，同一个商户订单号不能重复支付。
+  * `total_fee`：支付金额（以“分”为单位的整数，如果支付方式需要传入以“元”为单位的值，需要转化）。微信对应：`total_fee`，单位：分；支付宝对应：`total_fee`，单位：元；银联对应：`txnAmt`：单位：分
+  * `body`：交易描述。微信支付：简要描述（`body`）；对应支付宝：商品描述（`body`）；银联：订单描述（`orderDesc`）
+  * `subject`：交易标题。对应支付宝：订单标题（`subject`）
+  * `show_url`：对应支付宝：商品展示网址（`show_url`）
+  * `it_b_pay`：对应支付宝：超时时间（`it_b_pay`）
+  * `attach`：透传字段。对应微信支付：附加数据（`attach`）；银联：请求方保留域（`reqReserved`）
+  * `time_start`：订单生成时间（strtotime能识别的时间格式都行），一般默认为当前时间即可，不需要填写
+  * `time_expire`：订单失效时间（strtotime能识别的时间格式都行）
+  * `trade_payment_id`：交易支付记录ID（并不属于支付需要用到的字段，但是做微信支付OAuth认证的时候需要做跳转，要用到这个字段）
 
 
 示例代码：
@@ -125,11 +125,11 @@ PaymentMethodService::service()->buildPay($payment_trade, $payment_config);
 
 - `get()`：根据交易ID，获取`TradeItem`实例
 - `create()`：创建一笔交易。参数含义如下：
- * `$total_fee`：交易金额（单位：分）
- * `$body`：交易描述
- * `$refers`：关联信息。二维数组，每项必须包含`type`和`refer_id`字段
- * `$extra`：键值数组，可选择包含字段：`subject`, `expire_time`, `return_url`, `show_url`
- * `$user_id`：用户ID，若为null，则默认为当前登录用户
+  * `$total_fee`：交易金额（单位：分）
+  * `$body`：交易描述
+  * `$refers`：关联信息。二维数组，每项必须包含`type`和`refer_id`字段
+  * `$extra`：键值数组，可选择包含字段：`subject`, `expire_time`, `return_url`, `show_url`
+  * `$user_id`：用户ID，若为null，则默认为当前登录用户
 
 ### 交易状态模式
 交易状态变更采用状态模式设计。每个状态对应state文件夹下的状态类。状态类均继承自`StateInterface`接口。`StateInterface`接口含以下方法：
@@ -155,9 +155,9 @@ PaymentMethodService::service()->buildPay($payment_trade, $payment_config);
 与数据库打交道的服务类。用于创建、获取交易支付记录。
 
 - `create()`：创建一条交易支付记录
- * `$trade_id`：交易ID
- * `$total_fee`：支付金额（单位：分）
- * `$payment_method_id`：支付方式ID
+  * `$trade_id`：交易ID
+  * `$total_fee`：支付金额（单位：分）
+  * `$payment_method_id`：支付方式ID
 - `get()`：根据支付记录ID，获取一个支付记录实例（`TradePaymentItem`）
 - `getByOutTradeNo()`：根据外部订单号，获取支付记录实例（`TradePaymentItem`）
 

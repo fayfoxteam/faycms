@@ -34,16 +34,12 @@ class PostTagService extends Service{
      * @return array 返回包含文章tag信息的二维数组
      */
     public function get($post_id, $fields = null){
-        $fields || $fields = self::$default_fields;
-        
-        $sql = new Sql();
-        $tags = $sql->from(array('pt'=>'posts_tags'), 'tag_id')
-            ->where(array(
-                'pt.post_id = ?'=>$post_id,
-            ))
-            ->fetchAll();
-        
-        return array_values(TagService::service()->mget(ArrayHelper::column($tags, 'tag_id'), $fields));
+        return array_values(TagService::service()->mget(
+            PostsTagsTable::model()->fetchCol('tag_id', array(
+                'post_id = ?'=>$post_id
+            )),
+            $fields
+        ));
     }
     
     /**
@@ -55,7 +51,7 @@ class PostTagService extends Service{
     public function mget($post_ids, $fields = null){
         $fields = new FieldsHelper(
             $fields ? $fields : self::$default_fields,
-            '',
+            'tags',
             TagsTable::model()->getFields()
         );
         

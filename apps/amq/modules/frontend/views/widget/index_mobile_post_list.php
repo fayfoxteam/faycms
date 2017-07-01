@@ -6,7 +6,10 @@
 use cms\services\file\FileService;
 
 $first_slice = array_slice($posts, 0, 3);
-if($first_slice){?>
+?>
+
+<div id="mobile-newslist-container">
+<?php if($first_slice){?>
 <!--新闻列表start-->
 <ul class="m-amc-newslist">
 <?php foreach($first_slice as $post){?>
@@ -33,9 +36,9 @@ if($first_slice){?>
 <?php
     //从domains widget获取数据，因为运营肯定懒得维护两份广告
     $domains = F::widget()->getData('domains');
-    if(isset($domains['data'][0])){
-        $domain_info = explode('|', $domains['data'][0]['key']);
-        $domain_link = $domains['data'][0]['value'];
+    if(isset($domains['data'][\F::input()->get('page', 'intval', 1) - 1])){
+        $domain_info = explode('|', $domains['data'][\F::input()->get('page', 'intval', 1) - 1]['key']);
+        $domain_link = $domains['data'][\F::input()->get('page', 'intval', 1) - 1]['value'];
 ?>
         <!--推荐域名start-->
         <div class="m-amc-recommend">
@@ -109,9 +112,10 @@ if($second_slice){?>
 <?php }?>
 
 <?php
-$third_slice = array_slice($posts, 5);
+$third_slice = array_slice($posts, 6);
 if($third_slice){?>
 <!--新闻列表start-->
+<ul class="m-amc-newslist">
 <?php foreach($third_slice as $post){?>
     <li>
         <a href="<?php echo $post['post']['link']?>" class="clearfix">
@@ -130,5 +134,10 @@ if($third_slice){?>
         </a>
     </li>
 <?php }?>
+</ul>
 <!--新闻列表over-->
 <?php }?>
+</div>
+<ul class="m-amc-newslist">
+    <li class="m-loadmore"><a href="javascript:">加载更多...</a></li>
+</ul>

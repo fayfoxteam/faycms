@@ -64,18 +64,20 @@ class TagService extends Service{
         
         return array_values($this->mget(ArrayHelper::column($tags, 'id'), $fields));
     }
-    
-    public function mget($ids, $fields){
+
+    /**
+     * @param array $ids 标签ID
+     * @param string|array|FieldsHelper $fields 字段集
+     * @return array
+     */
+    public function mget(array $ids, $fields){
         if(empty($ids)){
             return array();
         }
         
-        //解析$ids
-        is_array($ids) || $ids = explode(',', $ids);
-        
         //解析$fields
-        $fields = new FieldsHelper($fields, 'tag', array(
-            'tag'=>TagsTable::model()->getFields(),
+        $fields = new FieldsHelper($fields, 'tags', array(
+            'tags'=>TagsTable::model()->getFields(),
             'counter'=>TagCounterTable::model()->getFields(),
         ));
         if($fields->tag && $fields->hasField('*')){
@@ -120,12 +122,12 @@ class TagService extends Service{
         
         return $return;
     }
-    
+
     /**
      * 判断一个标签是否存在（禁用的标签也视为存在）
      * @param string $title
-     * @param array $conditions 附加条件（例如编辑标签的时候，判断重复需要传入id != tag_id的条件）
-     * @return int|bool 若存在，返回标签ID，若不存在，返回false
+     * @param null|int $except_id 排除ID（编辑时用到）
+     * @return bool|int 若存在，返回标签ID，若不存在，返回false
      */
     public static function isTagExist($title, $except_id = null){
         if($title){

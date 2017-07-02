@@ -3,7 +3,7 @@ use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
 
 ?>
-<form id="sitemap-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
+<form id="sitemap-form" class="ajax-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">
         <div class="col-6">
             <div class="form-field">
@@ -11,7 +11,7 @@ use fay\helpers\HtmlHelper;
             </div>
             <div class="form-field">
                 <label class="title">展示文章数</label>
-                <?php echo HtmlHelper::inputText('system:sitemap:post_count', OptionService::get('system:sitemap:post_count', 500), array(
+                <?php echo HtmlHelper::inputNumber('system:sitemap:post_count', OptionService::get('system:sitemap:post_count', 500), array(
                     'class'=>'form-control mw200',
                     'data-required'=>'required',
                     'data-rule'=>'int',

@@ -6,7 +6,7 @@ use fay\helpers\HtmlHelper;
  * @var $this \fay\core\View
  */
 ?>
-<form id="watermark-remote-form" class="site-settings-form watermark-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
+<form id="watermark-remote-form" class="ajax-form watermark-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">
         <div class="col-6">
             <div class="form-field">

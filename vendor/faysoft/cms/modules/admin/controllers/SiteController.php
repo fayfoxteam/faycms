@@ -33,16 +33,6 @@ class SiteController extends AdminController{
         
         $this->view->render();
     }
-    
-    /**
-     * 第三方登录参数
-     */
-    public function oauth(){
-        $this->layout->current_directory = 'third-party';
-        $this->layout->subtitle = '第三方登录';
-        
-        $this->view->render();
-    }
 
     /**
      * 水印图设置

@@ -3,7 +3,7 @@ use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
 
 ?>
-<form id="system-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
+<form id="system-form" class="ajax-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">
         <div class="col-6">
             <div class="form-field">
@@ -44,8 +44,11 @@ use fay\helpers\HtmlHelper;
             </div>
             <div class="form-field">
                 <label class="title">输出图片质量</label>
-                <?php echo HtmlHelper::inputText('system:image_quality', OptionService::get('system:image_quality', 75), array(
+                <?php echo HtmlHelper::inputNumber('system:image_quality', OptionService::get('system:image_quality', 75), array(
                     'class'=>'form-control mw200',
+                    'data-label'=>'输出图片质量',
+                    'data-rule'=>'int',
+                    'data-params'=>"{'max':100,'min':30}",
                 ))?>
             </div>
             

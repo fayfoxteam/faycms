@@ -73,4 +73,3 @@
         })
     });
 </script>
-<?php $this->renderPartial('_form_js')?>

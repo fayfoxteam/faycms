@@ -3,7 +3,7 @@ use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
 
 ?>
-<form id="qq-form" class="site-settings-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
+<form id="qq-form" class="ajax-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
     <div class="row">
         <div class="col-12">
             <div class="form-field">

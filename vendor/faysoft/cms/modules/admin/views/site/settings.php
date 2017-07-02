@@ -32,4 +32,3 @@
         </div>
     </div>
 </div>
-<?php $this->renderPartial('_form_js')?>

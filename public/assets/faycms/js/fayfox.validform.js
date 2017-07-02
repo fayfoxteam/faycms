@@ -17,7 +17,7 @@
             //这是一堆验证器
             'validators':{
                 'required':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'message':'{$attribute}不能为空'
                     }, params);
                     
@@ -32,7 +32,7 @@
                     }
                 },
                 'int':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'max':null,
                         'min':null,
                         'tooBig':'{$attribute}必须是不大于{$max}的整数',
@@ -67,7 +67,7 @@
                     return true
                 },
                 'string':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'format':null,//特殊格式
                         'max':null,
                         'min':null,
@@ -138,7 +138,7 @@
                     return true;
                 },
                 'float':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'length':null,
                         'decimal':2,
                         'max':null,
@@ -197,7 +197,7 @@
                     return true;
                 },
                 'range':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'range':[],
                         'not':false,
                         'message':'{$attribute}的取值非法'
@@ -212,7 +212,7 @@
                     return true;
                 },
                 'email':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'pattern':/^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
                         'message':'{$attribute}格式不正确'
                     }, params);
@@ -226,7 +226,7 @@
                     }
                 },
                 'mobile':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'pattern':/^1[0-9]{10}$/,
                         'message':'{$attribute}格式不正确'
                     }, params);
@@ -240,7 +240,7 @@
                     }
                 },
                 'url':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'pattern':/^(http|https):\/\/\w+.*$/,
                         'message':'{$attribute}格式不正确'
                     }, params);
@@ -254,7 +254,7 @@
                     }
                 },
                 'datetime':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'pattern':/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/,
                         'message':'{$attribute}格式不正确'
                     }, params);
@@ -268,7 +268,7 @@
                     }
                 },
                 'chinese':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'pattern':/^[\u4e00-\u9fa5]+$/,
                         'message':'{$attribute}必须是中文'
                     }, params);
@@ -282,7 +282,7 @@
                     }
                 },
                 'idcard':function(value, params, attribute){
-                    var settings = $.validform.merge({
+                    var settings = $.extend({
                         'message':'{$attribute}格式不正确'
                     }, params);
                     
@@ -354,15 +354,6 @@
                 }
                 return msg;
             },
-            //合并两个对象，重复项以second中的值为准
-            'merge':function(first, second){
-                if(typeof(second) == 'object'){
-                    for(var k in second){
-                        first[k] = second[k];
-                    }
-                }
-                return first;
-            },
             /**
              * 相对于jquery的inArray只能作用于数组，且类型必须匹配
              * 这个inArray可以作用于对象，且可以选择是否强制类型匹配
@@ -402,7 +393,7 @@
     });
     $.fn.validform = function(params, rules, labels){
         var validform = function(forms, rules, labels, params){
-            validform.prototype.settings = $.validform.merge({
+            validform.prototype.settings = $.extend({
                 'showAllErrors':true,//若为false，则一碰到验证不通过的就停止检测后面的元素，只显示该元素的错误信息
                 'ignoreHidden':true,//可选项 true|false 默认为true，当为true时对:hidden的表单元素将不做验证;
                 'onError':function(obj, msg, rule){},//单元素验证失败时触发
@@ -421,12 +412,12 @@
             var _this = this;
             
             forms.each(function(){
-                var form = $(this);
-                if(form.data('status')){
+                var $form = $(this);
+                if($form.data('status')){
                     //防止重复绑定验证
                     return true;
                 }
-                form.on('blur', 'select,input,textarea', function(){
+                $form.on('blur', 'select,input,textarea', function(){
                     if($(this).is(':radio') || $(this).is(':checkbox')){
                         //如果是复选框或者单选框，则每次失去焦点必然伴随着值改变，重新验证
                         _this.check($(this));
@@ -442,37 +433,36 @@
                         }
                     }
                 }).on('change', 'select,input,textarea', function(){
-                    if(form.data('status') == 'checking'){
+                    if($form.data('status') == 'checking'){
                         //若是在最后验证ajax的时候，用户又改了某些输入框的值，则不能提交表单
                         //由于ajax验证一般很快，不太会出现这种情况，就不做精细处理了
-                        form.data('status', 'normal');
+                        $form.data('status', 'normal');
                     }
                 }).on('submit', function(){
-                    var status = $(this).data('status');
+                    var status = $form.data('status');
                     if(status == 'normal'){
-                        //验证完成，只是在等待ajax返回的状态下，不再重复做验证
-                        _this.settings.beforeCheck($(this));
-                        var result = _this.checkAll($(this));
+                        _this.settings.beforeCheck($form);
+                        var result = _this.checkAll($form);
                         if(result === false){
                             return false;
                         }else if(result === 'ajax'){
-                            $(this).data('status', 'checking');
+                            $form.data('status', 'checking');
                             return false;
                         }else{
-                            $(this).data('status', 'checked');
+                            $form.data('status', 'checked');
                         }
                     }else if(status == 'checking'){
                         //有ajax验证正在执行
                         return false;
                     }
                     
-                    if(_this.settings.beforeSubmit($(this)) === false){
+                    if(_this.settings.beforeSubmit($form) === false){
                         return false;
                     }
                     
                     if(_this.settings.ajaxSubmit){
-                        var action = $(this).attr('action'),
-                            method = $(this).attr('method');
+                        var action = $form.attr('action'),
+                            method = $form.attr('method');
                         if(!action){
                             action = window.location.href;
                         }
@@ -482,16 +472,17 @@
                         $.ajax({
                             'type': method,
                             'url': action,
-                            'data': $(this).serialize(),
+                            'data': $form.serialize(),
                             'dataType': 'json',
                             'cache': false,
                             'success': function(resp){
-                                _this.settings.afterAjaxSubmit(resp, form);
+                                _this.settings.afterAjaxSubmit(resp, $form);
+                                $form.data('status', 'normal');
                             }
                         });
                         return false;
                     }
-                    $(this).data('status', 'submitted');
+                    $form.data('status', 'submitted');
                 })
                 .data('status', 'normal')
                 .data('ajaxQueue', []);
@@ -523,7 +514,7 @@
                 var attrLabel = obj.attr('data-label'),
                     eleLabel = attrLabel ? attrLabel : (validform.prototype.labels[eleName] ? validform.prototype.labels[eleName] : eleName),
                     value = this.getValue(obj),
-                    isEmpty = (typeof(value) == 'object' && $.isEmptyObject(value)) || (typeof(value) == 'string' && value == '') ? true : false,
+                    isEmpty = !!((typeof(value) == 'object' && $.isEmptyObject(value)) || (typeof(value) == 'string' && value == '')),
                     msg = true,
                     rule = validform.prototype.rules[eleName] ? validform.prototype.rules[eleName] : {},
                     attrRequired = obj.attr('data-required'),

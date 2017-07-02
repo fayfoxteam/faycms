@@ -689,7 +689,9 @@ var common = {
             if(!$(this).parent().hasClass('active')){
                 //如果被点击的tab不是当前tab，则先把当前tab对应div中的poshytip清掉
                 $($(this).parent().siblings('.active').find('a').attr('href')).find('input,select,textarea').each(function(){
-                    $(this).poshytip('hide');
+                    if($(this).data('poshytip')){
+                        $(this).poshytip('hide');
+                    }
                 });
             }
             $($(this).attr('href')).show().siblings().hide();

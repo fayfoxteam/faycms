@@ -3,7 +3,7 @@ use cms\services\OptionService;
 use fay\helpers\HtmlHelper;
 
 ?>
-<form id="ucpaas-form" class="ajax-form" action="<?php echo $this->url('cms/admin/site/set-options')?>">
+<form id="ucpaas-form" class="ajax-form" action="<?php echo $this->url('cms/admin/option/set')?>">
     <div class="row">
         <div class="col-12">
             <div class="form-field">
@@ -11,12 +11,12 @@ use fay\helpers\HtmlHelper;
                 <?php
                     echo HtmlHelper::inputRadio('ucpaas:enabled', '1', OptionService::get('ucpaas:enabled') == '1', array(
                         'label'=>'是',
-                        'data-required'=>'required',
+                        'data-required'=>'请选择是否启用',
                         'data-label'=>'是否启用',
                     ));
                     echo HtmlHelper::inputRadio('ucpaas:enabled', '0', OptionService::get('ucpaas:enabled') === '0', array(
                         'label'=>'否',
-                        'data-required'=>'required',
+                        'data-required'=>'请选择是否启用',
                         'data-label'=>'是否启用',
                     ));
                 ?>

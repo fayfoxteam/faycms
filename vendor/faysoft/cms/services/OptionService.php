@@ -48,7 +48,7 @@ class OptionService extends Service{
     /**
      * 一次性获取多个参数
      * @param string|array $names 允许是逗号分割的字符串，或者数组
-     * @return array 返回以name项作为key的数组，若name不存在则不返回对应的key
+     * @return array 返回以name项作为key的数组，若name不存在则返回null
      */
     public static function mget($names){
         if(is_string($names)){
@@ -100,6 +100,42 @@ class OptionService extends Service{
                 'create_time'=>\F::app()->current_time,
                 'update_time'=>\F::app()->current_time,
             ));
+        }
+    }
+
+    /**
+     * 批量设置系统参数
+     * @param array $data 键值数组
+     */
+    public static function mset($data){
+        $names = array_keys($data);
+        $options = self::mget($names);
+        $new_options = array();
+        foreach($data as $name => $value){
+            if(!$name){
+                continue;
+            }
+            if($options[$name] === null){
+                //新增参数，等后面一起批量插入
+                $new_options[] = array(
+                    'option_name'=>$name,
+                    'option_value'=>$value,
+                    'create_time'=>\F::app()->current_time,
+                    'update_time'=>\F::app()->current_time,
+                );
+            }else if($value != $options[$name]){
+                //更新参数
+                OptionsTable::model()->update(array(
+                    'option_value'=>$value,
+                    'update_time'=>\F::app()->current_time,
+                ), array(
+                    'option_name = ?'=>$name,
+                ));
+            }
+        }
+        
+        if($new_options){
+            OptionsTable::model()->bulkInsert($new_options);
         }
     }
     

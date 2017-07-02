@@ -5,6 +5,7 @@ use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
 use cms\models\tables\OptionsTable;
 use cms\services\FlashService;
+use cms\services\OptionService;
 use fay\common\ListView;
 use fay\core\HttpException;
 use fay\core\Response;
@@ -140,5 +141,15 @@ class OptionController extends AdminController{
             'page_size'=>15,
             'empty_text'=>'<tr><td colspan="3" align="center">无相关记录！</td></tr>',
         ));
+    }
+    
+    public function set(){
+        if($this->input->post()){
+            $data = $this->input->post();
+            unset($data['_submit']);//提交按钮不用保存
+            OptionService::mset($data);
+            Response::notify('success', '保存成功');
+        }
+        Response::notify('error', '无数据提交');
     }
 }

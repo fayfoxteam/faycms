@@ -336,7 +336,7 @@ abstract class TreeModel{
                 'right_value < ' . $parent_node['right_value'],
             ), $fields, 'left_value');
         }
-        return $this->renderTree($nodes);
+        return $this->renderTreeByParent($nodes, $parent);
     }
     
     /**
@@ -414,13 +414,13 @@ abstract class TreeModel{
     /**
      * 根据parent字段来渲染出一个多维数组
      * @param array $nodes
-     * @param int $parent
+     * @param int $parent 若根节点非0，需要指定正确的根节点ID
      * @return array
      */
     public function renderTreeByParent(&$nodes, $parent = 0){
         $tree = array();
         if(empty($nodes)) return $tree;
-        foreach($nodes as $k=>$n){
+        foreach($nodes as $k => $n){
             if($n['parent'] == $parent){
                 $tree[] = $n;
                 unset($nodes[$k]);

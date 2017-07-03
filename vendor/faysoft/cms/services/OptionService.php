@@ -132,6 +132,7 @@ class OptionService extends Service{
                     'option_name = ?'=>$name,
                 ));
             }
+            self::$options[$name] = $value;
         }
         
         if($new_options){

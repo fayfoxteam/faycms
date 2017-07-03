@@ -61,7 +61,7 @@ class AdminController extends Widget{
         return array(
             array(array('file_thumbnail_width', 'file_thumbnail_height', 'post_thumbnail_width', 'post_thumbnail_height'), 'int', array('min'=>0)),
             array(array('start_time', 'end_time'), 'datetime'),
-            array(array('posts'), 'intval', array('min'=>1)),
+            array(array('posts'), 'int', array('min'=>1)),
         );
     }
     

@@ -6,7 +6,7 @@ use fay\core\Loader;
 
 /**
  * Gg coltd sets table model
- * 
+ *
  * @property int $id Id
  * @property string $key Key
  * @property string $value Value
@@ -18,19 +18,18 @@ use fay\core\Loader;
  */
 class GgColtdSetsTable extends Table{
     protected $_name = 'gg_coltd_sets';
-    
+
     /**
      * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     public function rules(){
         return array(
             array(array('id', 'updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
             array(array('key'), 'string', array('max'=>32)),
-            array(array('value'), 'string', array('max'=>255)),
         );
     }
 
@@ -51,7 +50,7 @@ class GgColtdSetsTable extends Table{
         return array(
             'id'=>'intval',
             'key'=>'trim',
-            'value'=>'trim',
+            'value'=>'',
             'updated_ip'=>'intval',
             'updated_at'=>'',
             'created_ip'=>'intval',

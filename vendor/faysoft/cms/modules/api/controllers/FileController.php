@@ -23,6 +23,7 @@ class FileController extends ApiController{
      *  - 2: 缩略图
      *  - 3: 裁剪图
      *  - 4: 缩放图
+     *  - 5：切割
      * @parameter int $x 当$t=3时，裁剪起始x坐标点
      * @parameter int $y 当$t=3时，裁剪起始y坐标点
      * @parameter int $w 当$t=3时，裁剪宽度

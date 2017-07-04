@@ -27,10 +27,11 @@ class QiniuService extends Service{
      */
     public function put($file = 0){
         if(!$file){
-            //若$file_id为0，则尝试去files表获取老的一条weixin_server_id非空的数据
+            //若$file_id为0，则尝试去files表获取最新的一条未上传至七牛，且是本地文件的记录
             $file = FilesTable::model()->fetchRow(array(
-                'qiniu = 0'
-            ), '*', 'id');
+                'qiniu = 0',
+                "weixin_server_id = ''",
+            ), '*', 'id DESC');
             if(!$file){
                 return array(
                     'status'=>0,

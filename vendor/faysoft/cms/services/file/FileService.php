@@ -129,24 +129,7 @@ class FileService extends Service{
         
         switch($type){
             case self::PIC_THUMBNAIL://缩略图
-                if($file['qiniu'] && OptionService::get('qiniu:enabled')){
-                    //若开启了七牛云存储，且文件已上传，则显示七牛路径
-                    return QiniuService::service()->getUrl($file, array(
-                        'dw'=>'100',
-                        'dh'=>'100',
-                    ));
-                }else{
-                    if(substr($file['file_path'], 0, 4) == './..'){
-                        //私有文件，不能直接访问文件
-                        return UrlHelper::createUrl('file/pic', array(
-                            't'=>self::PIC_THUMBNAIL,
-                            'f'=>$file['id'],
-                        ));
-                    }else{
-                        //公共文件，直接返回真实路径
-                        return UrlHelper::createUrl() . ltrim($file['file_path'], './') . $file['raw_name'] . '-100x100' . $file['file_ext'];
-                    }
-                }
+                return self::getThumbnailUrl($file);
             break;
             case self::PIC_CROP://裁剪
                 $img_params = array(

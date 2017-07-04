@@ -8,7 +8,7 @@ use cms\services\file\FileService;
 use cms\services\file\ImageService;
 use fay\core\HttpException;
 use fay\core\Validator;
-use fay\helpers\StringHelper;
+use fay\helpers\NumberHelper;
 use PHPQRCode\QRcode;
 
 /**
@@ -61,7 +61,7 @@ class FileController extends ApiController{
         
         //文件名或文件id号
         $f = $this->input->get('f');
-        if(StringHelper::isInt($f)){
+        if(NumberHelper::isInt($f)){
             if($f == 0){
                 //这里不直接返回图片不存在的提示，因为可能需要缩放，让后面的逻辑去处理
                 $file = false;

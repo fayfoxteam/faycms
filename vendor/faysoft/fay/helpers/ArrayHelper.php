@@ -48,7 +48,7 @@ class ArrayHelper{
                 //是数组
                 if(isset($array2[$k])){
                     //$array2中存在这个key，递归
-                    $array[$k] = self::intersect($a, $array2[$k]);
+                    $array[$k] = static::intersect($a, $array2[$k]);
                 }else{
                     //$array2中不存在这个key，直接unset
                     unset($array[$k]);
@@ -88,7 +88,7 @@ class ArrayHelper{
             }else if(isset($array[$k])){
                 //键非数字，且键存在
                 if(is_array($array[$k])){
-                    $array[$k] = self::merge($array[$k], (array)$v);
+                    $array[$k] = static::merge($array[$k], (array)$v);
                 }else{
                     $array[$k] = $v;
                 }

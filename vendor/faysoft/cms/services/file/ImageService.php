@@ -851,7 +851,7 @@ class ImageService{
      */
     protected function loadLocalFile($file){
         $this->is_local_file = true;
-        $this->loadRemoteFile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+        $this->loadRemoteFile(FileService::getPath($file));
     }
 
     /**

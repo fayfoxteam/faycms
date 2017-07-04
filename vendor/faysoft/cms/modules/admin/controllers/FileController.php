@@ -274,8 +274,9 @@ class FileController extends AdminController{
             }
             
             FilesTable::model()->delete($file_id);
-            @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
-            @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext']);
+            //删除文件（用相对路径去删，因为绝对路径会调用realpath()，当文件不存在的情况下会报错
+            @unlink(FileService::getPath($file, false));
+            @unlink(FileService::getThumbnailPath($file, false));
             Response::notify('success', '删除成功');
         }else{
             Response::notify('error', '参数不完整');
@@ -361,8 +362,9 @@ class FileController extends AdminController{
                         }
                             
                         FilesTable::model()->delete($id);
-                        @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . $file['file_ext']);
-                        @unlink((defined('NO_REWRITE') ? './public/' : '').$file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext']);
+                        //删除文件（用相对路径去删，因为绝对路径会调用realpath()，当文件不存在的情况下会报错
+                        @unlink(FileService::getPath($file, false));
+                        @unlink(FileService::getThumbnailPath($file, false));
                         $affected_rows++;
                     }
                 }
@@ -415,7 +417,7 @@ class FileController extends AdminController{
                 }
                 
                 FilesTable::model()->incr($file_id, 'downloads', 1);
-                $data = file_get_contents((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+                $data = file_get_contents(FileService::getPath($file));
                 if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){
                     header('Content-Type: "'.$file['file_type'].'"');
                     header('Content-Disposition: attachment; filename="'.$filename.'"');
@@ -567,7 +569,7 @@ class FileController extends AdminController{
         if($file !== false){
             //出于性能考虑，这里不会去判断物理文件是否存在（除非服务器挂了，否则肯定存在）
             header('Content-type: '.$file['file_type']);
-            readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].$file['file_ext']);
+            readfile(FileService::getPath($file));
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'default'), 'noimage');
             $spare || $spare = $this->config->get('default', 'noimage');
@@ -579,7 +581,7 @@ class FileController extends AdminController{
     private function _thumbnail($file){
         if($file !== false){
             header('Content-type: '.$file['file_type']);
-            readfile((defined('NO_REWRITE') ? './public/' : '').$file['file_path'].$file['raw_name'].'-100x100' . $file['file_ext']);
+            readfile(FileService::getThumbnailPath($file));
         }else{
             $spare = $this->config->get($this->input->get('s', 'trim', 'thumbnail'), 'noimage');
             $spare || $spare = $this->config->get('thumbnail', 'noimage');

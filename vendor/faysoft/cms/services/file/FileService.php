@@ -232,11 +232,9 @@ class FileService extends Service{
         if(NumberHelper::isInt($file)){
             $file = FilesTable::model()->find($file, 'raw_name,file_ext,file_path');
         }
-        if($realpath){
-            return realpath($file['file_path'] . $file['raw_name'] . $file['file_ext']);
-        }else{
-            return $file['file_path'] . $file['raw_name'] . $file['file_ext'];
-        }
+        
+        $relative_path = (defined('NO_REWRITE') ? './public/' : '') . $file['file_path'] . $file['raw_name'] . $file['file_ext'];
+        return $realpath ? realpath($relative_path) : $relative_path;
     }
     
     /**
@@ -313,14 +311,9 @@ class FileService extends Service{
             //非图片类型返回false
             return false;
         }
-        
-        if($realpath){
-            //返回完整路径
-            return realpath($file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext']);
-        }else{
-            //返回相对路径
-            return $file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext'];
-        }
+
+        $relative_path = (defined('NO_REWRITE') ? './public/' : '') . $file['file_path'] . $file['raw_name'] . '-100x100' . $file['file_ext'];
+        return $realpath ? realpath($relative_path) : $relative_path;
     }
 
     /**

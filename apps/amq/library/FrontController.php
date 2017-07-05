@@ -20,6 +20,7 @@ class FrontController extends Controller{
                 'spider'=>$spider,
                 'url'=>Http::getCurrentUrl(),
                 'user_agent'=>isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+                'http_referer'=>isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '',
                 'ip_int'=>RequestHelper::ip2int($this->ip),
                 'create_time'=>$this->current_time,
             ));

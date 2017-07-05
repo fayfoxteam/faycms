@@ -213,6 +213,9 @@ abstract class GroupTreeModel{
         if($parent !== null){
             if($parent != 0){
                 $parent_node = $this->getModel()->find($parent, $this->group_field);
+                if(!$parent_node){
+                    throw new Exception("指定父节点[{$parent}]不存在");
+                }
                 if($parent_node[$this->group_field] != $node[$this->group_field]){
                     throw new Exception('节点不能在不同归档之间移动');
                 }

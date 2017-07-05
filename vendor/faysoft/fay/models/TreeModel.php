@@ -145,17 +145,24 @@ abstract class TreeModel{
         }
         return $node_id;
     }
-    
+
     /**
      * 修改一个节点
      * @param int $id 节点ID
      * @param array $data 数据
      * @param int $sort 排序值
      * @param int $parent 父节点
+     * @throws Exception
      */
     public function update($id, $data, $sort = null, $parent = null){
         $node = \F::table($this->model)->find($id);
         if($parent !== null){
+            if($parent != 0){
+                $parent_node = \F::table($this->model)->find($parent, 'id');
+                if(!$parent_node){
+                    throw new Exception("指定父节点[{$parent}]不存在");
+                }
+            }
             $data['parent'] = $parent;
         }
         if($sort !== null){

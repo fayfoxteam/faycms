@@ -1,4 +1,5 @@
 var cat = {
+    'getCatUrl': system.url('cms/admin/category/get'),
     'editCat':function(){
         common.loadFancybox(function(){
             $('.edit-cat-link').fancybox({
@@ -10,7 +11,7 @@ var cat = {
                     });
                     $.ajax({
                         type: 'GET',
-                        url: system.url('cms/admin/category/get'),
+                        url: cat.getCatUrl,
                         data: {'id': slide.opts.$orig.attr('data-id')},
                         dataType: 'json',
                         cache: false,

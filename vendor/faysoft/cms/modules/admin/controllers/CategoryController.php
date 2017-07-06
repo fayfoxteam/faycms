@@ -41,7 +41,7 @@ class CategoryController extends AdminController{
                 $data = $this->form()->getFilteredData();
                 empty($data['is_nav']) && $data['is_nav'] = 0;
                 empty($data['file_id']) && $data['file_id'] = 0;
-                empty($data['alias']) && $data['alias'] = $this->getCatAlias($data['title']);
+                empty($data['alias']) && $data['alias'] = $this->generateCatAlias($data['title']);
                 
                 $parent = $this->input->post('parent', 'intval', 0);
                 $sort = $this->input->post('sort', 'intval', 1000);
@@ -70,7 +70,7 @@ class CategoryController extends AdminController{
      * @param int $dep
      * @return string
      */
-    private function getCatAlias($title = '', $spelling = null, $dep = 0){
+    private function generateCatAlias($title = '', $spelling = null, $dep = 0){
         if(!$spelling){
             if($title){
                 if(preg_match('/[^\x00-\x80]/', $title)){//如果包含中文，将中文转成拼音
@@ -94,7 +94,7 @@ class CategoryController extends AdminController{
         $alias = $dep ? $spelling.'-'.$dep : $spelling;
         $cat = CategoriesTable::model()->fetchRow(array('alias = ?'=>$alias), 'id');
         if($cat){
-            return $this->getCatAlias('', $spelling, $dep + 1);
+            return $this->generateCatAlias('', $spelling, $dep + 1);
         }else{
             return $alias;
         }

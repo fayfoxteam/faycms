@@ -20,9 +20,9 @@ use fay\core\Loader;
  * @property int $comments 评论数
  * @property int $views 阅读数
  * @property int $sort 排序值
- * @property string $seo_title Seo Title
- * @property string $seo_keywords Seo Keywords
- * @property string $seo_description Seo Description
+ * @property string $seo_title SEO Title
+ * @property string $seo_keywords SEO Keywords
+ * @property string $seo_description SEO Description
  * @property string $abstract 摘要
  */
 class PagesTable extends Table{
@@ -77,9 +77,9 @@ class PagesTable extends Table{
             'comments'=>'评论数',
             'views'=>'阅读数',
             'sort'=>'排序值',
-            'seo_title'=>'Seo Title',
-            'seo_keywords'=>'Seo Keywords',
-            'seo_description'=>'Seo Description',
+            'seo_title'=>'SEO Title',
+            'seo_keywords'=>'SEO Keywords',
+            'seo_description'=>'SEO Description',
             'abstract'=>'摘要',
         );
     }

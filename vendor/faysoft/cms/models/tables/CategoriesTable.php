@@ -19,9 +19,9 @@ use fay\core\Loader;
  * @property int $left_value Left Value
  * @property int $right_value Right Value
  * @property int $is_system Is System
- * @property string $seo_title Seo Title
- * @property string $seo_keywords Seo Keywords
- * @property string $seo_description Seo Description
+ * @property string $seo_title SEO Title
+ * @property string $seo_keywords SEO Keywords
+ * @property string $seo_description SEO Description
  */
 class CategoriesTable extends Table{
     protected $_name = 'categories';
@@ -63,9 +63,9 @@ class CategoriesTable extends Table{
             'left_value'=>'Left Value',
             'right_value'=>'Right Value',
             'is_system'=>'Is System',
-            'seo_title'=>'Seo Title',
-            'seo_keywords'=>'Seo Keywords',
-            'seo_description'=>'Seo Description',
+            'seo_title'=>'SEO Title',
+            'seo_keywords'=>'SEO Keywords',
+            'seo_description'=>'SEO Description',
         );
     }
 

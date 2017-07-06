@@ -13,9 +13,9 @@ use fay\core\Loader;
  * @property int $user_id 用户ID
  * @property int $create_time 创建时间
  * @property int $status 状态
- * @property string $seo_title Seo Title
- * @property string $seo_keywords Seo Keywords
- * @property string $seo_description Seo Description
+ * @property string $seo_title SEO Title
+ * @property string $seo_keywords SEO Keywords
+ * @property string $seo_description SEO Description
  */
 class TagsTable extends Table{
     /**
@@ -58,9 +58,9 @@ class TagsTable extends Table{
             'user_id'=>'用户ID',
             'create_time'=>'创建时间',
             'status'=>'状态',
-            'seo_title'=>'Seo Title',
-            'seo_keywords'=>'Seo Keywords',
-            'seo_description'=>'Seo Description',
+            'seo_title'=>'SEO Title',
+            'seo_keywords'=>'SEO Keywords',
+            'seo_description'=>'SEO Description',
         );
     }
 

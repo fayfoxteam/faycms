@@ -5,7 +5,7 @@ use fay\core\db\Table;
 use fay\core\Loader;
 use fay\models\GroupTreeModel;
 
-class AppCategoryService extends GroupTreeModel{
+class ApiCategoryService extends GroupTreeModel{
     /**
      * 归档字段
      * @var string

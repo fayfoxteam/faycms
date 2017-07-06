@@ -346,13 +346,9 @@ abstract class GroupTreeModel{
                         'id NOT IN ('.implode(',', $branch_ids).')',
                     ));
                     $diff2 = $right_node['left_value'] - $node['left_value'];
-                    if($diff2 > 0){
-                        //右移
-                        $diff2 = '+'.($diff2);
-                    }
                     $this->getModel()->update(array(
-                        'left_value'=>new Expr('left_value ' . $diff2),
-                        'right_value'=>new Expr('right_value ' . $diff2),
+                        'left_value'=>new Expr('left_value + ' . $diff2),
+                        'right_value'=>new Expr('right_value + ' . $diff2),
                     ), 'id IN ('.implode(',', $branch_ids).')');
                 }else{
                     //不存在右节点，插到最后
@@ -376,13 +372,9 @@ abstract class GroupTreeModel{
                         'id NOT IN ('.implode(',', $branch_ids).')',
                     ));
                     $diff2 = $parent_node['right_value'] - $node['left_value'];
-                    if($diff2 > 0){
-                        //右移
-                        $diff2 = '+'.($diff2);
-                    }
                     $this->getModel()->update(array(
-                        'left_value'=>new Expr('left_value ' . $diff2),
-                        'right_value'=>new Expr('right_value ' . $diff2),
+                        'left_value'=>new Expr('left_value + ' . $diff2),
+                        'right_value'=>new Expr('right_value + ' . $diff2),
                     ), 'id IN ('.implode(',', $branch_ids).')');
                 }
             }

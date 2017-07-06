@@ -6,11 +6,13 @@ use fay\core\Loader;
 
 /**
  * 文章分类
- * 
+ *
  * @property int $id Id
  * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
  * @property int $parent_id 父节点
+ * @property int $left_value Left Value
+ * @property int $right_value Right Value
  * @property string $name 分类名称
  * @property string $remark Remark
  * @property int $sort 排序
@@ -20,17 +22,17 @@ use fay\core\Loader;
  */
 class GgArticleCatTable extends Table{
     protected $_name = 'gg_article_cat';
-    
+
     /**
      * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     public function rules(){
         return array(
-            array(array('id', 'merchant_id', 'website_id', 'parent_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('id', 'merchant_id', 'website_id', 'parent_id', 'left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>50)),
             array(array('remark'), 'string', array('max'=>255)),
@@ -43,6 +45,8 @@ class GgArticleCatTable extends Table{
             'merchant_id'=>'所属管理员站点（只关联主账号）',
             'website_id'=>'网站ID',
             'parent_id'=>'父节点',
+            'left_value'=>'Left Value',
+            'right_value'=>'Right Value',
             'name'=>'分类名称',
             'remark'=>'Remark',
             'sort'=>'排序',

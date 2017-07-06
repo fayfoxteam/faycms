@@ -144,7 +144,7 @@ class Table extends Model{
     /**
      * 递增指定列
      * @param mixed $where
-     * @param string $fields 列名
+     * @param string|array $fields 列名
      * @param int $value 增量（可以是负数）
      * @return int
      */

@@ -328,7 +328,7 @@ class Db{
      * @throws Exception
      */
     public function incr($table, $condition, $fields, $value){
-        if(!is_array($fields)){
+        if(!is_string($fields)){
             $fields = explode(',', $fields);
         }
         $data = array();

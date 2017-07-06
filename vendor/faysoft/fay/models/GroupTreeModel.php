@@ -1,7 +1,6 @@
 <?php
 namespace fay\models;
 
-use fay\core\db\Expr;
 use fay\core\db\Table;
 use fay\core\ErrorException;
 use fay\core\Exception;
@@ -39,6 +38,16 @@ abstract class GroupTreeModel{
     }
 
     /**
+     * 索引全表记录
+     */
+    public function buildAllIndex(){
+        $groups = array_unique($this->getModel()->fetchCol($this->group_field));
+        foreach($groups as $group){
+            $this->buildIndex($group);
+        }
+    }
+
+    /**
      * 索引记录
      * @param int $group_id 归档ID
      * @param int $parent
@@ -50,12 +59,12 @@ abstract class GroupTreeModel{
         $nodes || $nodes = $this->getModel()->fetchAll(array(
             "{$this->group_field} = ?"=>$group_id,
             'parent = ?'=>$parent,
-        ), 'id', 'sort, id ASC');
+        ), 'id', 'sort, id');
         foreach($nodes as $node){
             $children = $this->getModel()->fetchAll(array(
                 "{$this->group_field} = ?"=>$group_id,
                 'parent = ?'=>$node['id'],
-            ), 'id', 'sort, id ASC');
+            ), 'id', 'sort, id');
             if($children){
                 //有孩子，先记录左节点，右节点待定
                 $left = ++$start_num;
@@ -91,7 +100,7 @@ abstract class GroupTreeModel{
                 "{$this->group_field} = ?"=>$group_id,
                 'parent = 0',
                 'sort > ' . $sort,
-            ), 'left_value,right_value', 'sort ASC, id ASC');
+            ), 'left_value,right_value', 'sort, id');
             
             if($right_node){
                 //存在右节点
@@ -240,22 +249,25 @@ abstract class GroupTreeModel{
              */
             $diff = $node['right_value'] - $node['left_value'] + 1;//差值
             //所有后续节点减去差值
-            $this->getModel()->update(array(
-                'left_value'=>new Expr('left_value - ' . $diff),
-                'right_value'=>new Expr('right_value - ' . $diff),
-            ), array(
-                "{$this->group_field} = ?"=>$node[$this->group_field],
-                'right_value > ' . $node['right_value'],
-                'left_value > ' . $node['right_value'],
-            ));
+            $this->getModel()->incr(
+                array(
+                    "{$this->group_field} = ?"=>$node[$this->group_field],
+                    'right_value > ' . $node['right_value'],
+                    'left_value > ' . $node['right_value'],
+                ),
+                array('left_value', 'right_value'),
+                - $diff
+            );
             //所有父节点的右节点减去差值
-            $this->getModel()->update(array(
-                'right_value'=>new Expr('right_value - ' . $diff),
-            ), array(
-                "{$this->group_field} = ?"=>$node[$this->group_field],
-                'right_value > ' . $node['right_value'],
-                'left_value < ' . $node['left_value'],
-            ));
+            $this->getModel()->incr(
+                array(
+                    "{$this->group_field} = ?"=>$node[$this->group_field],
+                    'right_value > ' . $node['right_value'],
+                    'left_value < ' . $node['left_value'],
+                ),
+                'right_value',
+                - $diff
+            );
             /*
              * 将树枝挂载过去
              */
@@ -275,29 +287,34 @@ abstract class GroupTreeModel{
             if($parent_node['right_value'] - $parent_node['left_value'] == 1){
                 //叶子节点，直接挂
                 //所有后续节点加上差值
-                $this->getModel()->update(array(
-                    'left_value'=>new Expr('left_value + ' . $diff),
-                    'right_value'=>new Expr('right_value + ' . $diff),
-                ), array(
-                    "{$this->group_field} = ?"=>$node[$this->group_field],
-                    'right_value > ' . $parent_node['right_value'],
-                    'left_value > ' . $parent_node['right_value'],
-                    'id NOT IN ('.implode(',', $branch_ids).')',
-                ));
+                $this->getModel()->incr(
+                    array(
+                        "{$this->group_field} = ?"=>$node[$this->group_field],
+                        'right_value > ' . $parent_node['right_value'],
+                        'left_value > ' . $parent_node['right_value'],
+                        'id NOT IN ('.implode(',', $branch_ids).')',
+                    ),
+                    array('left_value', 'right_value'),
+                    $diff
+                );
                 //所有父节点的右节点加上差值
-                $this->getModel()->update(array(
-                    'right_value'=>new Expr('right_value + ' . $diff),
-                ), array(
-                    "{$this->group_field} = ?"=>$node[$this->group_field],
-                    'right_value >= ' . $parent_node['right_value'],
-                    'left_value <= ' . $parent_node['left_value'],
-                    'id NOT IN ('.implode(',', $branch_ids).')',
-                ));
+                $this->getModel()->incr(
+                    array(
+                        "{$this->group_field} = ?"=>$node[$this->group_field],
+                        'right_value >= ' . $parent_node['right_value'],
+                        'left_value <= ' . $parent_node['left_value'],
+                        'id NOT IN ('.implode(',', $branch_ids).')',
+                    ),
+                    'right_value',
+                    $diff
+                );
+                
                 $diff2 = $parent_node['right_value'] - $node['left_value'];
-                $this->getModel()->update(array(
-                    'left_value'=>new Expr('left_value + ' . $diff2),
-                    'right_value'=>new Expr('right_value + ' . $diff2),
-                ), 'id IN ('.implode(',', $branch_ids).')');
+                $this->getModel()->incr(
+                    'id IN ('.implode(',', $branch_ids).')',
+                    array('left_value', 'right_value'),
+                    $diff2
+                );
             }else{
                 //若未指定sort，获取源节点的sort值
                 if($sort === null){
@@ -315,67 +332,77 @@ abstract class GroupTreeModel{
                         ),
                     ),
                     'id != ' . $id,
-                ), 'left_value,right_value', 'sort ASC, id ASC');
+                ), 'left_value,right_value', 'sort, id');
                 if($right_node){
                     //存在右节点
                     //所有后续节点及其子节点加上差值
-                    $this->getModel()->update(array(
-                        'left_value'=>new Expr('left_value + ' . $diff),
-                        'right_value'=>new Expr('right_value + ' . $diff),
-                    ), array(
-                        "{$this->group_field} = ?"=>$node[$this->group_field],
-                        'or'=>array(
-                            'and'=>array(
-                                'right_value >= ' . $right_node['right_value'],
-                                'left_value >= ' . $right_node['left_value'],
+                    $this->getModel()->incr(
+                        array(
+                            "{$this->group_field} = ?"=>$node[$this->group_field],
+                            'or'=>array(
+                                'and'=>array(
+                                    'right_value >= ' . $right_node['right_value'],
+                                    'left_value >= ' . $right_node['left_value'],
+                                ),
+                                'AND'=>array(
+                                    'left_value > ' . $right_node['left_value'],
+                                    'right_value < ' . $right_node['right_value'],
+                                )
                             ),
-                            'AND'=>array(
-                                'left_value > ' . $right_node['left_value'],
-                                'right_value < ' . $right_node['right_value'],
-                            )
+                            'id NOT IN ('.implode(',', $branch_ids).')',
                         ),
-                        'id NOT IN ('.implode(',', $branch_ids).')',
-                    ));
+                        array('left_value', 'right_value'),
+                        $diff
+                    );
                     //所有父节点的右节点加上差值
-                    $this->getModel()->update(array(
-                        'right_value'=>new Expr('right_value + ' . $diff),
-                    ), array(
-                        "{$this->group_field} = ?"=>$node[$this->group_field],
-                        'right_value > ' . $right_node['right_value'],
-                        'left_value < ' . $right_node['left_value'],
-                        'id NOT IN ('.implode(',', $branch_ids).')',
-                    ));
+                    $this->getModel()->incr(
+                        array(
+                            "{$this->group_field} = ?"=>$node[$this->group_field],
+                            'right_value > ' . $right_node['right_value'],
+                            'left_value < ' . $right_node['left_value'],
+                            'id NOT IN ('.implode(',', $branch_ids).')',
+                        ),
+                        'right_value',
+                        $diff
+                    );
+                    
                     $diff2 = $right_node['left_value'] - $node['left_value'];
-                    $this->getModel()->update(array(
-                        'left_value'=>new Expr('left_value + ' . $diff2),
-                        'right_value'=>new Expr('right_value + ' . $diff2),
-                    ), 'id IN ('.implode(',', $branch_ids).')');
+                    $this->getModel()->incr(
+                        'id IN ('.implode(',', $branch_ids).')',
+                        array('left_value', 'right_value'),
+                        $diff2
+                    );
                 }else{
                     //不存在右节点，插到最后
                     //所有后续节点加上差值
-                    $this->getModel()->update(array(
-                        'left_value'=>new Expr('left_value + ' . $diff),
-                        'right_value'=>new Expr('right_value + ' . $diff),
-                    ), array(
-                        "{$this->group_field} = ?"=>$node[$this->group_field],
-                        'right_value > ' . $parent_node['right_value'],
-                        'left_value > ' . $parent_node['left_value'],
-                        'id NOT IN ('.implode(',', $branch_ids).')',
-                    ));
+                    $this->getModel()->incr(
+                        array(
+                            "{$this->group_field} = ?"=>$node[$this->group_field],
+                            'right_value > ' . $parent_node['right_value'],
+                            'left_value > ' . $parent_node['left_value'],
+                            'id NOT IN ('.implode(',', $branch_ids).')',
+                        ),
+                        array('left_value', 'right_value'),
+                        $diff
+                    );
                     //所有父节点的右节点加上差值
-                    $this->getModel()->update(array(
-                        'right_value'=>new Expr('right_value + ' . $diff),
-                    ), array(
-                        "{$this->group_field} = ?"=>$node[$this->group_field],
-                        'right_value >= ' . $parent_node['right_value'],
-                        'left_value <= ' . $parent_node['left_value'],
-                        'id NOT IN ('.implode(',', $branch_ids).')',
-                    ));
+                    $this->getModel()->incr(
+                        array(
+                            "{$this->group_field} = ?"=>$node[$this->group_field],
+                            'right_value >= ' . $parent_node['right_value'],
+                            'left_value <= ' . $parent_node['left_value'],
+                            'id NOT IN ('.implode(',', $branch_ids).')',
+                        ),
+                        'right_value',
+                        $diff
+                    );
+                    
                     $diff2 = $parent_node['right_value'] - $node['left_value'];
-                    $this->getModel()->update(array(
-                        'left_value'=>new Expr('left_value + ' . $diff2),
-                        'right_value'=>new Expr('right_value + ' . $diff2),
-                    ), 'id IN ('.implode(',', $branch_ids).')');
+                    $this->getModel()->incr(
+                        'id IN ('.implode(',', $branch_ids).')',
+                        array('left_value', 'right_value'),
+                        $diff2
+                    );
                 }
             }
         }else if($sort !== null && $sort != $node['sort']){
@@ -521,31 +548,35 @@ abstract class GroupTreeModel{
             return false;
         }
         //所有子节点左右值-1
-        $this->getModel()->update(array(
-            'left_value'=>new Expr('left_value - 1'),
-            'right_value'=>new Expr('right_value - 1'),
-        ), array(
-            "{$this->group_field} = ?"=>$node[$this->group_field],
-            'left_value > ' . $node['left_value'],
-            'right_value < ' . $node['right_value'],
-        ));
+        $this->getModel()->incr(
+            array(
+                "{$this->group_field} = ?"=>$node[$this->group_field],
+                'left_value > ' . $node['left_value'],
+                'right_value < ' . $node['right_value'],
+            ),
+            array('left_value', 'right_value'),
+            -1
+        );
         //所有后续节点左右值-2
-        $this->getModel()->update(array(
-            'left_value'=>new Expr('left_value - 2'),
-            'right_value'=>new Expr('right_value - 2'),
-        ), array(
-            "{$this->group_field} = ?"=>$node[$this->group_field],
-            'left_value > ' . $node['right_value'],
-            'right_value > ' . $node['right_value'],
-        ));
+        $this->getModel()->incr(
+            array(
+                "{$this->group_field} = ?"=>$node[$this->group_field],
+                'left_value > ' . $node['right_value'],
+                'right_value > ' . $node['right_value'],
+            ),
+            array('left_value', 'right_value'),
+            -2
+        );
         //所有父节点
-        $this->getModel()->update(array(
-            'right_value'=>new Expr('right_value - 2'),
-        ), array(
-            "{$this->group_field} = ?"=>$node[$this->group_field],
-            'left_value < ' . $node['left_value'],
-            'right_value > ' . $node['right_value'],
-        ));
+        $this->getModel()->incr(
+            array(
+                "{$this->group_field} = ?"=>$node[$this->group_field],
+                'left_value < ' . $node['left_value'],
+                'right_value > ' . $node['right_value'],
+            ),
+            'right_value',
+            -2
+        );
         //删除当前节点
         $this->getModel()->delete($id);
         //将所有父节点为该节点的parent字段指向其parent
@@ -578,22 +609,25 @@ abstract class GroupTreeModel{
         //差值
         $diff = $node['right_value'] - $node['left_value'] + 1;
         //所有后续节点减去差值
-        $this->getModel()->update(array(
-            'left_value'=>new Expr('left_value - ' . $diff),
-            'right_value'=>new Expr('right_value - ' . $diff),
-        ), array(
-            "{$this->group_field} = ?"=>$node[$this->group_field],
-            'left_value > ' . $node['left_value'],
-            'right_value > ' . $node['right_value'],
-        ));
+        $this->getModel()->incr(
+            array(
+                "{$this->group_field} = ?"=>$node[$this->group_field],
+                'left_value > ' . $node['left_value'],
+                'right_value > ' . $node['right_value'],
+            ),
+            array('left_value', 'right_value'),
+            - $diff
+        );
         //所有父节点的右节点减去差值
-        $this->getModel()->update(array(
-            'right_value'=>new Expr('right_value - ' . $diff),
-        ), array(
-            "{$this->group_field} = ?"=>$node[$this->group_field],
-            'left_value < ' . $node['left_value'],
-            'right_value > ' . $node['right_value'],
-        ));
+        $this->getModel()->incr(
+            array(
+                "{$this->group_field} = ?"=>$node[$this->group_field],
+                'left_value < ' . $node['left_value'],
+                'right_value > ' . $node['right_value'],
+            ),
+            'right_value',
+            - $diff
+        );
         return true;
     }
 
@@ -607,14 +641,15 @@ abstract class GroupTreeModel{
         //获取被移动的节点
         if(StringHelper::isInt($node)){
             $node = $this->getModel()->find($node, 'id,left_value,right_value,parent,sort,' . $this->group_field);
-            $this->getModel()->update(array(
-                'sort'=>$sort,
-            ), $node['id']);
         }
         if($node['sort'] == $sort){
             //排序值并未改变
             return;
         }
+        $this->getModel()->update(array(
+            'sort'=>$sort,
+        ), $node['id']);
+        
         //被移动节点原来的左节点（排序值小于该节点 或 ID小于该节点ID）
         $ori_left_node = $this->getModel()->fetchRow(array(
             "{$this->group_field} = ?"=>$node[$this->group_field],
@@ -639,7 +674,7 @@ abstract class GroupTreeModel{
                     'id > ' . $node['id'],
                 ),
             ),
-        ), 'id,sort', 'sort, id ASC');
+        ), 'id,sort', 'sort, id');
         $ori_right_node_sort = isset($ori_right_node['sort']) ? $ori_right_node['sort'] : PHP_INT_MAX;
         if($sort < $ori_left_node_sort || ($sort == $ori_left_node_sort && $node['id'] < $ori_left_node['id'])){//节点左移
             //新位置的右节点
@@ -654,7 +689,7 @@ abstract class GroupTreeModel{
                     ),
                 ),
                 'id != ' . $node['id'],
-            ), 'id,left_value', 'sort ASC, id ASC');
+            ), 'id,left_value', 'sort, id');
             //获取被移动的树枝的所有节点
             $branch_ids = $this->getModel()->fetchCol('id', array(
                 "{$this->group_field} = ?"=>$node[$this->group_field],
@@ -663,21 +698,23 @@ abstract class GroupTreeModel{
             ));
             //修改移动区间内树枝的左右值
             $diff = $node['right_value'] - $node['left_value'] + 1;
-            $this->getModel()->update(array(
-                'left_value'=>new Expr('left_value + ' . $diff),
-                'right_value'=>new Expr('right_value + ' . $diff),
-            ), array(
-                "{$this->group_field} = ?"=>$node[$this->group_field],
-                'left_value >= ' . $right_node['left_value'],
-                'right_value < ' . $node['left_value'],
-                'id NOT IN('.implode(',', $branch_ids).')',
-            ));
+            $this->getModel()->incr(
+                array(
+                    "{$this->group_field} = ?"=>$node[$this->group_field],
+                    'left_value >= ' . $right_node['left_value'],
+                    'right_value < ' . $node['left_value'],
+                    'id NOT IN('.implode(',', $branch_ids).')',
+                ),
+                array('left_value', 'right_value'),
+                $diff
+            );
             //修改被移动树枝的左右值
             $diff = $node['left_value'] - $right_node['left_value'];
-            $this->getModel()->update(array(
-                'left_value'=>new Expr('left_value - ' . $diff),
-                'right_value'=>new Expr('right_value - ' . $diff),
-            ), 'id IN ('.implode(',', $branch_ids).')');
+            $this->getModel()->incr(
+                'id IN ('.implode(',', $branch_ids).')',
+                array('left_value', 'right_value'),
+                - $diff
+            );
         }else if($sort > $ori_right_node_sort || ($sort == $ori_right_node_sort && $node['id'] > $ori_right_node['id'])){//节点右移
             //新位置的左节点
             $left_node = $this->getModel()->fetchRow(array(
@@ -700,21 +737,23 @@ abstract class GroupTreeModel{
             ));
             //修改移动区间内树枝的左右值
             $diff = $node['right_value'] - $node['left_value'] + 1;
-            $this->getModel()->update(array(
-                'left_value'=>new Expr('left_value - ' . $diff),
-                'right_value'=>new Expr('right_value - ' . $diff),
-            ), array(
-                "{$this->group_field} = ?"=>$node[$this->group_field],
-                'left_value > ' . $node['right_value'],
-                'right_value <= ' . $left_node['right_value'],
-                'id NOT IN('.implode(',', $branch_ids).')',
-            ));
+            $this->getModel()->incr(
+                array(
+                    "{$this->group_field} = ?"=>$node[$this->group_field],
+                    'left_value > ' . $node['right_value'],
+                    'right_value <= ' . $left_node['right_value'],
+                    'id NOT IN('.implode(',', $branch_ids).')',
+                ),
+                array('left_value', 'right_value'),
+                - $diff
+            );
             //修改被移动树枝的左右值
             $diff = $left_node['right_value'] - $node['right_value'];
-            $this->getModel()->update(array(
-                'left_value'=>new Expr('left_value + ' . $diff),
-                'right_value'=>new Expr('right_value + ' . $diff),
-            ), 'id IN ('.implode(',', $branch_ids).')');
+            $this->getModel()->incr(
+                'id IN ('.implode(',', $branch_ids).')',
+                array('left_value', 'right_value'),
+                $diff
+            );
         }
     }
     

@@ -38,9 +38,9 @@ abstract class TreeModel{
      * @return int
      */
     public function buildIndex($parent = 0, $start_num = 1, $nodes = array()){
-        $nodes || $nodes = \F::table($this->model)->fetchAll('parent = ' . $parent, 'id', 'sort, id ASC');
+        $nodes || $nodes = \F::table($this->model)->fetchAll('parent = ' . $parent, 'id', 'sort, id');
         foreach($nodes as $node){
-            $children = \F::table($this->model)->fetchAll('parent = ' . $node['id'], 'id', 'sort, id ASC');
+            $children = \F::table($this->model)->fetchAll('parent = ' . $node['id'], 'id', 'sort, id');
             if($children){
                 //有孩子，先记录左节点，右节点待定
                 $left = ++$start_num;
@@ -74,7 +74,7 @@ abstract class TreeModel{
             $right_node = \F::table($this->model)->fetchRow(array(
                 'parent = 0',
                 'sort > ' . $sort,
-            ), 'left_value,right_value', 'sort ASC, id ASC');
+            ), 'left_value,right_value', 'sort, id');
             
             if($right_node){
                 //存在右节点
@@ -250,7 +250,7 @@ abstract class TreeModel{
                         ),
                     ),
                     'id != ' . $id,
-                ), 'left_value,right_value', 'sort ASC, id ASC');
+                ), 'left_value,right_value', 'sort, id');
                 if($right_node){
                     //存在右节点
                     //所有后续节点及其子节点加上差值
@@ -529,14 +529,15 @@ abstract class TreeModel{
         //获取被移动的节点
         if(StringHelper::isInt($node)){
             $node = \F::table($this->model)->find($node, 'id,left_value,right_value,parent,sort');
-            \F::table($this->model)->update(array(
-                'sort'=>$sort,
-            ), $node['id']);
         }
         if($node['sort'] == $sort){
             //排序值并未改变
             return;
         }
+        \F::table($this->model)->update(array(
+            'sort'=>$sort,
+        ), $node['id']);
+        
         //被移动节点原来的左节点（排序值小于该节点 或 ID小于该节点ID）
         $ori_left_node = \F::table($this->model)->fetchRow(array(
             'parent = ' . $node['parent'],
@@ -559,7 +560,7 @@ abstract class TreeModel{
                     'id > ' . $node['id'],
                 ),
             ),
-        ), 'id,sort', 'sort, id ASC');
+        ), 'id,sort', 'sort, id');
         $ori_right_node_sort = isset($ori_right_node['sort']) ? $ori_right_node['sort'] : PHP_INT_MAX;
         if($sort < $ori_left_node_sort || ($sort == $ori_left_node_sort && $node['id'] < $ori_left_node['id'])){//节点左移
             //新位置的右节点
@@ -573,7 +574,7 @@ abstract class TreeModel{
                     ),
                 ),
                 'id != ' . $node['id'],
-            ), 'id,left_value', 'sort ASC, id ASC');
+            ), 'id,left_value', 'sort, id');
             //获取被移动的树枝的所有节点
             $branch_ids = \F::table($this->model)->fetchCol('id', array(
                 'left_value >= ' . $node['left_value'],

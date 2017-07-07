@@ -11,7 +11,7 @@ use fay\core\Loader;
  * @property int $cat_id Cat Id
  * @property string $name Name
  * @property string $content Content
- * @property int $position Position
+ * @property int $sort 排序值
  * @property int $updated_ip Updated Ip
  * @property string $updated_at 更新时间
  * @property int $created_ip Created Ip
@@ -31,7 +31,7 @@ class GgHelpsTable extends Table{
     public function rules(){
         return array(
             array(array('updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-            array(array('id', 'cat_id', 'position'), 'int', array('min'=>0, 'max'=>65535)),
+            array(array('id', 'cat_id', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>255)),
         );
     }
@@ -42,7 +42,7 @@ class GgHelpsTable extends Table{
             'cat_id'=>'Cat Id',
             'name'=>'Name',
             'content'=>'Content',
-            'position'=>'Position',
+            'sort'=>'排序值',
             'updated_ip'=>'Updated Ip',
             'updated_at'=>'更新时间',
             'created_ip'=>'Created Ip',
@@ -57,7 +57,7 @@ class GgHelpsTable extends Table{
             'cat_id'=>'intval',
             'name'=>'trim',
             'content'=>'',
-            'position'=>'intval',
+            'sort'=>'intval',
             'updated_ip'=>'intval',
             'updated_at'=>'',
             'created_ip'=>'intval',

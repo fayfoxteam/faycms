@@ -11,6 +11,9 @@ use fay\core\Loader;
  * @property string $name Name
  * @property string $remark Remark
  * @property int $sort Sort
+ * @property int $parent_id Parent Id
+ * @property int $left_value Left Value
+ * @property int $right_value Right Value
  * @property int $updated_ip Updated Ip
  * @property string $updated_at 更新时间
  * @property int $created_ip Created Ip
@@ -30,7 +33,7 @@ class GgHelpCatsTable extends Table{
     public function rules(){
         return array(
             array(array('updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
-            array(array('id', 'sort'), 'int', array('min'=>0, 'max'=>65535)),
+            array(array('id', 'sort', 'parent_id', 'left_value', 'right_value'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>32)),
             array(array('remark'), 'string', array('max'=>255)),
         );
@@ -42,6 +45,9 @@ class GgHelpCatsTable extends Table{
             'name'=>'Name',
             'remark'=>'Remark',
             'sort'=>'Sort',
+            'parent_id'=>'Parent Id',
+            'left_value'=>'Left Value',
+            'right_value'=>'Right Value',
             'updated_ip'=>'Updated Ip',
             'updated_at'=>'更新时间',
             'created_ip'=>'Created Ip',
@@ -56,6 +62,7 @@ class GgHelpCatsTable extends Table{
             'name'=>'trim',
             'remark'=>'trim',
             'sort'=>'intval',
+            'parent_id'=>'intval',
             'updated_ip'=>'intval',
             'updated_at'=>'',
             'created_ip'=>'intval',

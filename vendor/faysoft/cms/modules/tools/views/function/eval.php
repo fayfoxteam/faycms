@@ -65,9 +65,13 @@ $('#form').submit(function(){
         'data': $('#form').serialize(),
         'cache': false,
         'global': false,
-        'error': function(XMLHttpRequest, textStatus, errorThrown){
+        'error': function(XMLHttpRequest){
+            var resp = $.parseJSON(XMLHttpRequest.responseText);
             $('#eval-result-box').unblock();
-            $('#eval-result').html(errorThrown);
+            $('#eval-result').html([
+                '<p><strong>Code: </strong>', resp.code, '</p>',
+                '<p><strong>Message: </strong>', resp.message, '</p>'
+            ].join(''));
         },
         'success': function(resp){
             $('#eval-result-box').unblock();

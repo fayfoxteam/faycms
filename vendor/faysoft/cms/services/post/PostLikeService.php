@@ -40,7 +40,7 @@ class PostLikeService extends Service{
      * @throws PostException
      */
     public static function add($post_id, $trackid = '', $user_id = null, $sockpuppet = 0){
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         if(!PostService::isPostIdExist($post_id)){
             throw new PostErrorException('文章ID不存在', 'invalid-parameter:post_id-not-exist');
@@ -209,7 +209,7 @@ class PostLikeService extends Service{
      * @throws PostErrorException
      */
     public function getUserLikes($fields, $page = 1, $page_size = 20, $user_id = null){
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         $sql = new Sql();
         $sql->from(array('pl'=>'post_likes'), 'post_id')

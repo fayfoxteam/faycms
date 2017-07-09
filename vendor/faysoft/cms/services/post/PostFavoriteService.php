@@ -40,7 +40,7 @@ class PostFavoriteService extends Service{
      * @throws Exception
      */
     public static function add($post_id, $trackid = '', $user_id = null, $sockpuppet = 0){
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         if(!PostService::isPostIdExist($post_id)){
             throw new Exception('文章ID不存在', 'invalid-parameter:post_id-not-exist');

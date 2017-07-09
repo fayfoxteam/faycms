@@ -33,7 +33,7 @@ class DocShareService extends Service{
      */
     public static function add($doc_id, $type, $trackid = '', $user_id = null, $sockpuppet = 0){
         //不登陆也可以分享
-        $user_id = UserService::getUserId($user_id, false);
+        $user_id = UserService::makeUserID($user_id, false);
 
         if(!DocService::isDocIdExist($doc_id)){
             throw new DocErrorException("指定文档ID[{$doc_id}]不存在", 'the-given-doc-id-is-not-exist');

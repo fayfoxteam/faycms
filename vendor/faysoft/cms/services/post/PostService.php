@@ -138,7 +138,7 @@ class PostService extends Service{
      */
     public function create($post, $extra = array(), $user_id = null){
         //确定作者
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         //验证分类
         if(!empty($post['cat_id']) && !CategoryService::service()->isIdExist($post['cat_id'], '_system_post')){
@@ -918,7 +918,7 @@ class PostService extends Service{
         if(!is_array($post)){
             $post = PostsTable::model()->find($post, 'user_id,cat_id,status');
         }
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         if(!$post){
             throw new PostErrorException('指定文章不存在');

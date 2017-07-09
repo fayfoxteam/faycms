@@ -40,7 +40,7 @@ class DocFavoriteService extends Service{
      * @throws Exception
      */
     public static function add($doc_id, $trackid = '', $user_id = null, $sockpuppet = 0){
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         if(!DocService::isDocIdExist($doc_id)){
             throw new Exception("指定文档ID[{$doc_id}]不存在", 'the-given-doc-id-is-not-exist');
@@ -174,7 +174,7 @@ class DocFavoriteService extends Service{
      * @throws Exception
      */
     public function getList($fields, $page = 1, $page_size = 20, $user_id = null){
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         $sql = new Sql();
         $sql->from(array('df'=>'wiki_doc_favorites'), 'doc_id')

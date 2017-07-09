@@ -109,7 +109,7 @@ class DocService extends Service{
      */
     public function create($doc, $extra, $user_id = null){
         //确定作者
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
 
         //验证分类
         if(!empty($doc['cat_id']) && !CategoryService::service()->isIdExist($doc['cat_id'], '_system_wiki_doc')){

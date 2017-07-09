@@ -670,7 +670,7 @@ class UserService extends Service{
      * @throws UserErrorException
      * @throws UserException
      */
-    public static function getUserId($user_id, $check_login = true){
+    public static function makeUserID($user_id, $check_login = true){
         if($user_id === null){
             $user_id = \F::app()->current_user;
         }else if($user_id && (!NumberHelper::isInt($user_id) || !self::isUserIdExist($user_id))){

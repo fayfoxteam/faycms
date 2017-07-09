@@ -37,7 +37,7 @@ class FeedFavoriteService extends Service{
      * @throws Exception
      */
     public static function add($feed_id, $trackid = '', $user_id = null, $sockpuppet = 0){
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
         
         if(!FeedService::isFeedIdExist($feed_id)){
             throw new Exception('指定的动态ID不存在', 'the-given-feed-id-is-not-exist');

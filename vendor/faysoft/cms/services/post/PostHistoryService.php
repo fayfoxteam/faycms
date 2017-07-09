@@ -29,7 +29,7 @@ class PostHistoryService extends Service{
      * @throws PostErrorException
      */
     public function create($post_id, $user_id = null){
-        $user_id = UserService::getUserId($user_id);
+        $user_id = UserService::makeUserID($user_id);
 
         $post = PostsTable::model()->find($post_id, 'id,title,content,content_type,cat_id,thumbnail,abstract');
         if(!$post){

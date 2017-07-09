@@ -19,7 +19,7 @@ class GuideController extends FrontController{
         $this->layout->title = $cat['title'].' - '.OptionService::get('site:sitename');
 
         $breadcrumb = array();
-        $parent_path = CategoryService::service()->getParentPath($cat, 'fayfox');
+        $parent_path = CategoryService::service()->getParentIds($cat, 'fayfox');
         if($parent_path){
             foreach($parent_path as $p){
                 $breadcrumb[] = array(

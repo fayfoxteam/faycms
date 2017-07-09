@@ -126,7 +126,7 @@ class MenuService extends TreeModel{
      * @param array $menu
      * @return array
      */
-    public function removeDisabledItems(&$menu){
+    protected function removeDisabledItems(&$menu){
         foreach($menu as $k => &$m){
             if(!$m['enabled']){
                 unset($menu[$k]);
@@ -151,7 +151,7 @@ class MenuService extends TreeModel{
      * @param array $menus
      * @return array
      */
-    public function renderLink($menus){
+    protected function renderLink($menus){
         foreach($menus as &$m){
             $m['link'] = str_replace('{$base_url}', \F::config()->get('base_url'), $m['link']);
             if(isset($m['children'])){

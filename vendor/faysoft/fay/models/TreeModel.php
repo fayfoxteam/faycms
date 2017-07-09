@@ -4,7 +4,8 @@ namespace fay\models;
 use fay\core\db\Expr;
 use fay\core\ErrorException;
 use fay\core\Exception;
-use fay\helpers\StringHelper;
+use fay\helpers\ArrayHelper;
+use fay\helpers\NumberHelper;
 
 /**
  * 基于左右值的树操作
@@ -322,16 +323,32 @@ abstract class TreeModel{
      * @return array
      */
     public function getTree($parent = 0, $fields = '*'){
-        if($parent == 0){
-            $nodes = \F::table($this->model)->fetchAll(array(), $fields, 'left_value');
+        if(NumberHelper::isInt($parent)){
+            if($parent == 0){
+                $nodes = \F::table($this->model)->fetchAll(array(), $fields, 'left_value');
+                return $this->renderTreeByParent(
+                    $nodes,
+                    $parent
+                );
+            }
+            $parent_node = \F::table($this->model)->find($parent, 'id,left_value,right_value');
+        }else if(is_array($parent)){
+            if(!isset($parent['id']) || !isset($parent['left_value']) || !isset($parent['right_value'])){
+                throw new ErrorException('指定节点信息不足: ' . serialize($node));
+            }
+            $parent_node = $parent;
         }else{
-            $parent_node = \F::table($this->model)->find($parent, 'left_value,right_value');
-            $nodes = \F::table($this->model)->fetchAll(array(
-                'left_value > ' . $parent_node['left_value'],
-                'right_value < ' . $parent_node['right_value'],
-            ), $fields, 'left_value');
+            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
         }
-        return $this->renderTreeByParent($nodes, $parent);
+        
+        $nodes = \F::table($this->model)->fetchAll(array(
+            'left_value > ' . $parent_node['left_value'],
+            'right_value < ' . $parent_node['right_value'],
+        ), $fields, 'left_value');
+        return $this->renderTreeByParent(
+            $nodes,
+            $parent_node['id']
+        );
     }
     
     /**
@@ -527,7 +544,7 @@ abstract class TreeModel{
     public function sort($node, $sort){
         $sort < 0 && $sort = 0;
         //获取被移动的节点
-        if(StringHelper::isInt($node)){
+        if(NumberHelper::isInt($node)){
             $node = \F::table($this->model)->find($node, 'id,left_value,right_value,parent,sort');
         }
         if($node['sort'] == $sort){
@@ -644,17 +661,17 @@ abstract class TreeModel{
      * @return bool
      */
     public function isChild($node1, $node2){
-        if(!is_array($node1)){
+        if(NumberHelper::isInt($node1)){
             $node1 = \F::table($this->model)->find($node1, 'left_value,right_value');
         }
-        if(!is_array($node2)){
+        if(NumberHelper::isInt($node2)){
             $node2 = \F::table($this->model)->find($node2, 'left_value,right_value');
         }
         
         return $node1['left_value'] >= $node2['left_value'] &&
             $node1['right_value'] <= $node2['right_value'];
     }
-    
+
     /**
      * 获取祖谱
      * 若$root为null，则会一直追溯到根节点，否则追溯到root为止
@@ -662,24 +679,50 @@ abstract class TreeModel{
      *  - 数字:代表分类ID;
      *  - 数组:分类数组（必须包含left_value和right_value字段）
      * @param int|array $node
+     * @param string $fields
      * @param int|array $root
+     * @param bool $with_own
      * @return array
+     * @throws ErrorException
+     * @throws Exception
      */
-    public function getParentPath($node, $root = null){
-        if(!is_array($node)){
+    public function getParentPath($node, $fields = '*', $root = null, $with_own = true){
+        //确定$node
+        if(NumberHelper::isInt($node)){
             $node = \F::table($this->model)->find($node, 'left_value,right_value');
+        }else if(is_array($node)){
+            if(!isset($node['left_value']) || !isset($node['right_value'])){
+                throw new ErrorException('指定节点信息不足: ' . serialize($node));
+            }
+        }else{
+            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
+        }
+        if(!$node){
+            throw new Exception("指定节点[{$node}]不存在");
         }
         
-        if($root && !is_array($root)){
-            $root = \F::table($this->model)->find($root, 'left_value,right_value');
+        //确定$root
+        if($root){
+            if(NumberHelper::isInt($root)){
+                $root = \F::table($this->model)->find($root, 'left_value,right_value');
+                if(!$root){
+                    throw new Exception("指定根节点[{$root}]不存在");
+                }
+            }else if(is_array($root)){
+                if(!isset($root['left_value']) || !isset($root['right_value'])){
+                    throw new ErrorException('指定根节点信息不足: ' . serialize($node));
+                }
+            }else{
+                throw new ErrorException('无法识别的根节点格式: ' . serialize($node));
+            }
         }
         
         return \F::table($this->model)->fetchAll(array(
-            'left_value < ' . $node['left_value'],
-            'right_value > ' . $node['right_value'],
+            'left_value <' . ($with_own ? '= ' : ' ') . $node['left_value'],
+            'right_value >' . ($with_own ? '= ' : ' ') . $node['right_value'],
             'left_value > ?'=>$root ? $root['left_value'] : false,
             'right_value < ?'=>$root ? $root['right_value'] : false,
-        ), '*', 'left_value');
+        ), $fields, 'left_value');
     }
     
     /**
@@ -694,19 +737,125 @@ abstract class TreeModel{
      * @return array
      */
     public function getParentIds($node, $root = null, $with_own = true){
-        if(!is_array($node)){
+        return ArrayHelper::column($this->getParentPath($node, 'id', $root, $with_own), 'id');
+    }
+
+
+    /**
+     * 根据父节点ID，获取其所有子节点，返回二维数组（非树形）
+     * 若不指定父节点，返回整张表
+     * @param int|array $node
+     * @param string $fields
+     * @param string $order
+     * @return array
+     * @throws ErrorException
+     * @throws Exception
+     */
+    public function getChildren($node = 0, $fields = '*', $order = 'sort'){
+        if($node == 0){
+            return \F::table($this->model)->fetchAll(array(), $fields, $order);
+        }else if(NumberHelper::isInt($node)){
             $node = \F::table($this->model)->find($node, 'left_value,right_value');
+            if(!$node){
+                throw new Exception("指定根节点[{$node}]不存在");
+            }
+        }else if(is_array($node) && isset($node['left_value']) && isset($node['right_value'])){
+            //已经是包含所需信息的数组，不需要做任何操作
+        }else{
+            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
         }
         
-        if($root && !is_array($root)){
-            $root = \F::table($this->model)->find($root, 'left_value,right_value');
+        if($node){
+            return \F::table($this->model)->fetchAll(array(
+                'left_value > '.$node['left_value'],
+                'right_value < '.$node['right_value'],
+            ), $fields, $order);
+        }else{
+            return array();
+        }
+    }
+
+    /**
+     * 根据父节点，获取所有子节点的ID，以一维数组方式返回
+     * 若不指定$parent，返回整张表
+     * @param int|string $parent
+     *  - 若为数字，视为分类ID获取分类；
+     *  - 若为字符串，视为分类别名获取分类；
+     * @return array
+     */
+    public function getChildIds($parent = 0){
+        return ArrayHelper::column($this->getChildren($parent, 'id', 'id'), 'id');
+    }
+
+    /**
+     * 判断指定分类是否是叶子节点
+     * @param int|array $node
+     * @return bool
+     * @throws ErrorException
+     * @throws Exception
+     */
+    public function isTerminal($node){
+        if(NumberHelper::isInt($node)){
+            $node = \F::table($this->model)->find($node, 'left_value,right_value');
+            if(!$node){
+                throw new Exception("指定根节点[{$node}]不存在");
+            }
+        }else if(is_array($node) && isset($node['parent'])){
+            //已经是包含所需信息的数组，不需要做任何操作
+        }else{
+            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
         }
         
-        return \F::table($this->model)->fetchCol('id', array(
-            'left_value <' . ($with_own ? '=' : '') . $node['left_value'],
-            'right_value >' . ($with_own ? '=' : '') . $node['right_value'],
-            'left_value >= ?'=>$root ? $root['left_value'] : false,
-            'right_value <= ?'=>$root ? $root['right_value'] : false,
-        ), 'left_value');
+        return ($node['right_value'] - $node['left_value']) == 1;
+    }
+
+    /**
+     * @see CategoryService::isTerminal()
+     * @param int|array $node
+     * @return bool
+     */
+    public function hasChildren($node){
+        return $this->isTerminal($node);
+    }
+
+    /**
+     * 获取指定分类的平级分类
+     * @param int|array $node
+     *  - 若为数字，视为分类ID获取分类
+     *  - 若是数组，必须包含parent字段
+     * @param string $fields
+     * @param string $order
+     * @return array
+     * @throws ErrorException
+     */
+    public function getSibling($node, $fields = '*', $order = 'sort, id'){
+        if(NumberHelper::isInt($node)){
+            $node = \F::table($this->model)->find($node, 'parent');
+        }else if(is_array($node) && isset($node['parent'])){
+            //已经是包含所需信息的数组，不需要做任何操作
+        }else{
+            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
+        }
+        
+        if(!$node){
+            return array();
+        }
+
+        return \F::table($this->model)->fetchAll(array(
+            'parent = ?'=>$node['parent'],
+        ), $fields, $order);
+    }
+
+    /**
+     * 根据父节点，获取其下一级节点
+     * @param int $node 父节点ID或别名
+     * @param string $fields 返回字段
+     * @param string $order 排序规则
+     * @return array
+     */
+    public function getNextLevel($node, $fields = '*', $order = 'sort, id'){
+        return \F::table($this->model)->fetchAll(array(
+            'parent = ?'=>$node,
+        ), $fields, $order);
     }
 }

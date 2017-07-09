@@ -19,7 +19,7 @@ class AdminController extends Widget{
                 array(
                     'id'=>0,
                     'title'=>'不限制',
-                    'children'=>CategoryService::service()->getTreeByParentId($root_node['id']),
+                    'children'=>CategoryService::service()->getTree($root_node['id']),
                 ),
             ),
         ))->render();

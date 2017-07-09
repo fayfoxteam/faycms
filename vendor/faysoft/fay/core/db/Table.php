@@ -158,7 +158,7 @@ class Table extends Model{
     /**
      * 根据主键查找数据
      * @param mixed $primary
-     * @param string $fields
+     * @param string|array $fields
      * @return array|bool
      */
     public function find($primary, $fields = '*'){
@@ -180,7 +180,7 @@ class Table extends Model{
     /**
      * 获取一条记录
      * @param array|string $conditions
-     * @param string $fields 可用 !id 表示除了id外的所有字段
+     * @param string|array $fields 可用 !id 表示除了id外的所有字段
      * @param bool|string $order
      * @param null $offset
      * @param string $style 返回结果集类型，默认为索引数组
@@ -201,7 +201,7 @@ class Table extends Model{
     /**
      * 获取所有数据
      * @param array $conditions
-     * @param string $fields 可用 !id 表示除了id外的所有字段
+     * @param string|array $fields 可用 !id 表示除了id外的所有字段
      * @param bool|string $order
      * @param bool|int $count
      * @param bool|int $offset

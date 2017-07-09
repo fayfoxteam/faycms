@@ -18,7 +18,7 @@ class AdminController extends Widget{
             array(
                 'id'=>$root_node['id'],
                 'title'=>'顶级',
-                'children'=>CategoryService::service()->getTreeByParentId($root_node['id']),
+                'children'=>CategoryService::service()->getTree($root_node['id']),
             ),
         );
         

@@ -31,7 +31,7 @@ class PageController extends FrontController{
         
         $root_cat = CategoryService::service()->getByAlias('_system_post');
         $left_cats = $root_cat;
-        $child_cats = CategoryService::service()->getTreeByParentId($root_cat['id']);
+        $child_cats = CategoryService::service()->getTree($root_cat['id']);
         $left_cats['children'] = $child_cats;
         $this->view->left_cats = $left_cats;
 

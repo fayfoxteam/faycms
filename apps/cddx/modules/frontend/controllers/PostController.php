@@ -38,12 +38,12 @@ class PostController extends FrontController{
         if($cat['right_value'] - $cat['left_value'] == 1){
             //叶子节点
             $parent_cat = CategoryService::service()->get($cat['parent']);
-            $child_cats = CategoryService::service()->getTreeByParentId($cat['parent']);
+            $child_cats = CategoryService::service()->getTree($cat['parent']);
             $left_cats = $parent_cat;
             $left_cats['children'] = $child_cats;
         }else{
             //父节点
-            $child_cats = CategoryService::service()->getTreeByParentId($cat['id']);
+            $child_cats = CategoryService::service()->getTree($cat['id']);
             $left_cats = $cat;
             $left_cats['children'] = $child_cats;
         }
@@ -77,12 +77,12 @@ class PostController extends FrontController{
         if($cat['right_value'] - $cat['left_value'] == 1){
             //叶子节点
             $parent_cat = CategoryService::service()->get($cat['parent']);
-            $child_cats = CategoryService::service()->getTreeByParentId($cat['parent']);
+            $child_cats = CategoryService::service()->getTree($cat['parent']);
             $left_cats = $parent_cat;
             $left_cats['children'] = $child_cats;
         }else{
             //父节点
-            $child_cats = CategoryService::service()->getTreeByParentId($cat['id']);
+            $child_cats = CategoryService::service()->getTree($cat['id']);
             $left_cats = $cat;
             $left_cats['children'] = $child_cats;
         }

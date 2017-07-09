@@ -15,7 +15,7 @@ class StringHelper{
      * 返回4组6位的哈希值
      * 一种生成短连接的算法
      * @param string $input
-     * @return string
+     * @return array
      */
     public static function base62($input){
         $base62 = array(

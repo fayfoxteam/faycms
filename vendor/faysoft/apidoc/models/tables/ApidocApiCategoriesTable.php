@@ -45,6 +45,8 @@ class ApidocApiCategoriesTable extends Table{
             array(array('is_nav', 'is_system'), 'range', array('range'=>array(0, 1))),
             
             array(array('api_id'), 'required', array('on'=>'create')),
+            array(array('alias'), 'string', array('max'=>50, 'format'=>'alias')),
+            array('alias', 'unique', array('table'=>$this->getTableName(), 'field'=>'alias', 'except'=>'id', 'ajax'=>array('apidoc/admin/api-cat/is-alias-not-exist'))),
         );
     }
 
@@ -86,5 +88,18 @@ class ApidocApiCategoriesTable extends Table{
             'seo_keywords'=>'trim',
             'seo_description'=>'trim',
         );
+    }
+
+    public function getNotWritableFields($scene){
+        switch($scene){
+            case 'insert':
+                return array('id');
+                break;
+            case 'update':
+            default:
+                return array(
+                    'id', 'app_id',
+                );
+        }
     }
 }

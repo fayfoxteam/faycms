@@ -323,7 +323,7 @@ class PageController extends AdminController{
     }
     
     public function isAliasNotExist(){
-        if(PagesTable::model()->fetchRow(array(
+        if(PagesTable::model()->has(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){

@@ -436,7 +436,7 @@ class ApiController extends AdminController{
             'router'=>'路由',
         ))->check();
 
-        if(ApidocApisTable::model()->fetchRow(array(
+        if(ApidocApisTable::model()->has(array(
             'router = ?'=>$this->form()->getData('router'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
@@ -461,7 +461,7 @@ class ApiController extends AdminController{
             'api_id'=>'Api Id',
         ))->check();
 
-        if(ApidocApisTable::model()->fetchRow(array(
+        if(ApidocApisTable::model()->has(array(
             'id = ?'=>$this->form()->getData('api_id'),
         ))){
             Response::json();

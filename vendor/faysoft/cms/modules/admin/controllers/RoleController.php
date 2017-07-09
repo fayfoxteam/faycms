@@ -216,7 +216,7 @@ class RoleController extends AdminController{
     }
     
     public function isTitleNotExist(){
-        if(RolesTable::model()->fetchRow(array(
+        if(RolesTable::model()->has(array(
             'title = ?'=>$value = $this->input->request('title', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', 0),
         ))){

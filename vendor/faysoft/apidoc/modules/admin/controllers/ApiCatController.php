@@ -35,6 +35,9 @@ class ApiCatController extends AdminController{
             'default_dep'=>2,
         ));
 
+        \F::form('create')->setModel(ApidocApiCategoriesTable::model());
+        \F::form('edit')->setModel(ApidocApiCategoriesTable::model());
+
         $this->layout->subtitle = 'API分类';
         $this->view->assign(array(
             'app_id'=>$app_id,
@@ -86,6 +89,52 @@ class ApiCatController extends AdminController{
         }
     }
 
+    public function edit(){
+        if($this->input->post()){
+            if($this->form()->setModel(ApidocApiCategoriesTable::model())->check()){
+                $cat_id = $this->input->post('id', 'intval');
+                $data = $this->form()->getFilteredData();
+                empty($data['is_nav']) && $data['is_nav'] = 0;
+                empty($data['file_id']) && $data['file_id'] = 0;
+
+                $parent = $this->input->post('parent', 'intval');
+                $sort = $this->input->post('sort', 'intval');
+
+                ApiCategoryService::service()->update($cat_id, $data, $sort, $parent);
+
+                $cat = ApidocApiCategoriesTable::model()->find($cat_id);
+                Response::notify('success', array(
+                    'message'=>'分类“'.HtmlHelper::encode($cat['title']).'”编辑成功',
+                    'cat'=>$cat,
+                ));
+            }else{
+                Response::notify('error', '参数异常');
+            }
+        }else{
+            Response::notify('error', '请提交数据');
+        }
+    }
+
+    public function remove(){
+        if(ApiCategoryService::service()->remove($this->input->get('id', 'intval'))){
+            Response::notify('success', array(
+                'message'=>'一个分类被移除',
+            ));
+        }else{
+            Response::notify('error', '请提交数据');
+        }
+    }
+
+    public function removeAll(){
+        if(ApiCategoryService::service()->removeAll($this->input->get('id', 'intval'))){
+            Response::notify('success', array(
+                'message'=>'一个分类分支被移除',
+            ));
+        }else{
+            Response::notify('error', '请提交数据');
+        }
+    }
+
     /**
      * 获取唯一的别名（遇到中文会将其转为拼音）
      * @param string $title
@@ -120,6 +169,20 @@ class ApiCatController extends AdminController{
             return $this->generateCatAlias('', $spelling, $dep + 1);
         }else{
             return $alias;
+        }
+    }
+
+    /**
+     * 判断指定别名是否可用
+     */
+    public function isAliasNotExist(){
+        if(ApidocApiCategoriesTable::model()->has(array(
+            'alias = ?'=>$this->input->request('alias', 'trim'),
+            'id != ?'=>$this->input->request('id', 'intval', false),
+        ))){
+            Response::json('', 0, '别名已存在');
+        }else{
+            Response::json('', 1, '别名不存在');
         }
     }
 }

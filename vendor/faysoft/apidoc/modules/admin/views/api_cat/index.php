@@ -11,7 +11,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
         <li class="leaf-container <?php if(!$k)echo 'first';?> <?php echo 'dep-'.$dep?> <?php if($dep + 2 > $open_dep) echo 'close'?>">
             <div class="leaf">
                 <span class="fr options">
-                    <?php if(F::app()->checkPermission('apidoc/admin/api/cat-sort')){?>
+                    <?php if(F::app()->checkPermission('apidoc/admin/api-cat/sort')){?>
                     <span class="w135 block fl">
                     排序：<?php echo HtmlHelper::inputText('sort[]', $c['sort'], array(
                         'data-id'=>$c['id'],
@@ -23,26 +23,26 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
                         echo HtmlHelper::link('查看该分类', array('apidoc/admin/api/index', array(
                             'cat_id'=>$c['id'],
                         )), array(), true);
-                        if(F::app()->checkPermission('apidoc/admin/api/cat-create')){
+                        if(F::app()->checkPermission('apidoc/admin/api-cat/create')){
                             echo HtmlHelper::link('添加子节点', '#create-cat-dialog', array(
                                 'class'=>'create-cat-link',
                                 'data-title'=>HtmlHelper::encode($c['title']),
                                 'data-id'=>$c['id'],
                             ));
                         }
-                        if(F::app()->checkPermission('apidoc/admin/api/cat-edit')){
+                        if(F::app()->checkPermission('apidoc/admin/api-cat/edit')){
                             echo HtmlHelper::link('编辑', '#edit-cat-dialog', array(
                                 'class'=>'edit-cat-link',
                                 'data-id'=>$c['id'],
                             ));
                         }
-                        if(F::app()->checkPermission('apidoc/admin/api/cat-remove')){
-                            echo HtmlHelper::link('删除', array('cms/admin/category/remove', array(
+                        if(F::app()->checkPermission('apidoc/admin/api-cat/remove')){
+                            echo HtmlHelper::link('删除', array('apidoc/admin/api-cat/remove', array(
                                 'id'=>$c['id'],
                             )), array(
                                 'class'=>'remove-link fc-red',
                             ));
-                            echo HtmlHelper::link('删除全部', array('cms/admin/category/remove-all', array(
+                            echo HtmlHelper::link('删除全部', array('apidoc/admin/api-cat/remove-all', array(
                                 'id'=>$c['id'],
                             )), array(
                                 'class'=>'remove-link fc-red',

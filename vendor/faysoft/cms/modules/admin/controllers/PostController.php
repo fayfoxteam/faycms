@@ -829,7 +829,7 @@ class PostController extends AdminController{
      * 验证文章别名是否存在（不排除已删除和未发布的文章）
      */
     public function isAliasNotExist(){
-        if(PostsTable::model()->fetchRow(array(
+        if(PostsTable::model()->has(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){

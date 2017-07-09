@@ -188,7 +188,8 @@ class Table extends Model{
      */
     public function fetchRow($conditions, $fields = '*', $order = false, $offset = null, $style = 'assoc'){
         $sql = new Sql($this->db);
-        $sql->from($this->_name, $this->formatFields($fields))
+        $sql->from($this->_name)
+            ->select($this->formatFields($fields))
             ->where($conditions)
             ->limit(1, $offset);
         if($order){
@@ -233,6 +234,19 @@ class Table extends Model{
         $result = $this->fetchAll($conditions, $col, $order, $count, $offset);
         
         return ArrayHelper::column($result, $col);
+    }
+
+    /**
+     * 判断复合条件的记录是否存在
+     * @param array $conditions
+     * @return bool
+     */
+    public function has($conditions){
+        $sql = new Sql($this->db);
+        return !!$sql->from($this->_name, '')
+            ->select('1')
+            ->where($conditions)
+            ->fetchRow();
     }
     
     /**

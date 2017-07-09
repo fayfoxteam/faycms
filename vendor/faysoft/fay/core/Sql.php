@@ -398,7 +398,7 @@ class Sql{
             }
             foreach($fields as $f){
                 $f_arr = explode(',', $f);
-                if(!empty($table)){
+                if($table){
                     foreach($f_arr as &$fa){
                         if(!preg_match('/^\w+\(.*\).*$/', $fa)){//聚合函数不加前缀
                             $fa = trim($fa);
@@ -450,7 +450,7 @@ class Sql{
     /**
      * 通过不停加后缀空格的方式，使关键词的键名不重名
      * @param string $key
-     * @param string $conditions
+     * @param array $conditions
      * @return string
      */
     private function getConditionKey($key, $conditions){

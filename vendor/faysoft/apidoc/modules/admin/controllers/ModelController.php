@@ -292,7 +292,7 @@ class ModelController extends AdminController{
     }
     
     public function isNameExist(){
-        if(ApidocModelsTable::model()->fetchRow(array(
+        if(ApidocModelsTable::model()->has(array(
             'name = ?'=>$this->input->request('name', 'trim'),
         ))){
             Response::json();

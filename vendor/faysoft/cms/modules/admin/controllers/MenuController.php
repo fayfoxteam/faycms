@@ -93,8 +93,8 @@ class MenuController extends AdminController{
                 $id = $this->input->post('id', 'intval');
                 $data = $this->form()->getFilteredData();
                 
-                $parent = $this->input->post('parent', 'intval', null);
-                $sort = $this->input->post('sort', 'intval', null);
+                $parent = $this->input->post('parent', 'intval');
+                $sort = $this->input->post('sort', 'intval');
                     
                 MenuService::service()->update($id, $data, $sort, $parent);
                 

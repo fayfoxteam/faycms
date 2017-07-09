@@ -102,7 +102,7 @@ class OptionController extends AdminController{
     }
     
     public function isOptionNotExist(){
-        if(OptionsTable::model()->fetchRow(array(
+        if(OptionsTable::model()->has(array(
             'option_name = ?'=>$this->input->request('option_name', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', 0),
         ))){

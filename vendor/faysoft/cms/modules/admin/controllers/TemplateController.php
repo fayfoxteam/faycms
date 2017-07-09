@@ -107,7 +107,7 @@ class TemplateController extends AdminController{
     }
     
     public function isAliasNotExist(){
-        if(TemplatesTable::model()->fetchRow(array(
+        if(TemplatesTable::model()->has(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){

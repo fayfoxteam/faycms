@@ -1,22 +1,21 @@
 <?php
-use cms\models\tables\CategoriesTable;
 use fay\helpers\HtmlHelper;
 
 /**
  * @var $root int
  * @var $cats array
- * @var $group_key string 若是归档树，会有这个变量
- * @var $group_value int 若是归档树，会有这个变量
+ * @var $group_key string 归档字段（若是归档树，会有这个变量）
+ * @var $group_value int 归档值（若是归档树，会有这个变量）
  * @var $get_cat_url string ajax获取分类信息链接
  * @var $create_cat_url string 创建分类表单提交地址
- * @var $update_cat_url string 编辑分类表单提交地址
+ * @var $edit_cat_url string 编辑分类表单提交地址
  */
 ?>
 <div class="hide">
     <div id="edit-cat-dialog" class="dialog">
         <div class="dialog-content w600">
             <h4>编辑分类<em>（当前分类：<span id="edit-cat-title" class="fc-orange"></span>）</em></h4>
-            <?php echo F::form('edit')->open(empty($update_cat_url) ? array('cms/admin/category/edit') : $update_cat_url)?>
+            <?php echo F::form('edit')->open(empty($edit_cat_url) ? array('cms/admin/category/edit') : $edit_cat_url)?>
                 <?php echo HtmlHelper::inputHidden('id')?>
                 <table class="form-table">
                     <tr>
@@ -205,8 +204,6 @@ use fay\helpers\HtmlHelper;
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
-<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/cat.js')?>"></script>
 <script>
 $(function(){

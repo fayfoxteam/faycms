@@ -80,3 +80,11 @@ function showCats($cats, $dep = 0){?>
     'root'=>$root,
     'cats'=>$cats,
 ));?>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
+<script>
+    $(function(){
+        $('.edit-sort').feditsort({
+            'url':system.url('cms/admin/category/sort')
+        });
+    });
+</script>

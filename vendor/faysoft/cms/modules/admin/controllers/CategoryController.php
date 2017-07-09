@@ -108,8 +108,8 @@ class CategoryController extends AdminController{
                 empty($data['is_nav']) && $data['is_nav'] = 0;
                 empty($data['file_id']) && $data['file_id'] = 0;
                 
-                $parent = $this->input->post('parent', 'intval', null);
-                $sort = $this->input->post('sort', 'intval', null);
+                $parent = $this->input->post('parent', 'intval');
+                $sort = $this->input->post('sort', 'intval');
                 
                 CategoryService::service()->update($cat_id, $data, $sort, $parent);
                 
@@ -194,11 +194,14 @@ class CategoryController extends AdminController{
             ),
         ));
     }
-    
+
+    /**
+     * 判断指定别名是否可用
+     */
     public function isAliasNotExist(){
-        if(CategoriesTable::model()->fetchRow(array(
+        if(CategoriesTable::model()->has(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
-            'id != ?'=>$this->input->get('id', 'intval', false),
+            'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
             Response::json('', 0, '别名已存在');
         }else{

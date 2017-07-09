@@ -93,7 +93,7 @@ class AppController extends AdminController{
     }
     
     public function isOptionNotExist(){
-        if(ApidocAppsTable::model()->fetchRow(array(
+        if(ApidocAppsTable::model()->has(array(
             'option_name = ?'=>$this->input->request('option_name', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', 0),
         ))){

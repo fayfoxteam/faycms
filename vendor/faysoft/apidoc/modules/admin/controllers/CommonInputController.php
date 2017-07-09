@@ -137,7 +137,7 @@ class CommonInputController extends AdminController{
             Response::json('', 0, '参数名称不能为空');
         }
 
-        if(ApidocCommonInputsTable::model()->fetchRow(array(
+        if(ApidocCommonInputsTable::model()->has(array(
             'name = ?'=>$name,
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){

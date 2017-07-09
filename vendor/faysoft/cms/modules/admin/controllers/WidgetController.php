@@ -228,7 +228,7 @@ class WidgetController extends AdminController{
      * 判断widget别名是否存在
      */
     public function isAliasNotExist(){
-        if(WidgetsTable::model()->fetchRow(array(
+        if(WidgetsTable::model()->has(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false)
         ))){

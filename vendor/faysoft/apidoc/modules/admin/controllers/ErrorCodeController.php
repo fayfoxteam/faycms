@@ -92,7 +92,7 @@ class ErrorCodeController extends AdminController{
             'code'=>'错误码',
         ))->check();
         
-        if(ApidocErrorCodesTable::model()->fetchRow(array(
+        if(ApidocErrorCodesTable::model()->has(array(
             'code = ?'=>$this->form()->getData('code'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){

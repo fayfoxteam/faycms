@@ -16,9 +16,9 @@ use fay\helpers\HtmlHelper;
  */
 class PropController extends AdminController{
     public function isAliasNotExist(){
-        if(PropsTable::model()->fetchRow(array(
+        if(PropsTable::model()->has(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
-            'id != ?'=>$this->input->get('id', 'intval', false),
+            'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
             Response::json('', 0, '别名已存在');
         }else{

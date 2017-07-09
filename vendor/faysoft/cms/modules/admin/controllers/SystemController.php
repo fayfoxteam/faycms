@@ -9,7 +9,7 @@ use fay\core\Response;
 
 class SystemController extends AdminController{
     public function isMoboleExist(){
-        if(UsersTable::model()->fetchRow(array(
+        if(UsersTable::model()->has(array(
             'mobile = ?'=>$this->input->post('value', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval')
         ))){
@@ -20,7 +20,7 @@ class SystemController extends AdminController{
     }
     
     public function isEmailExist(){
-        if(UsersTable::model()->fetchRow(array(
+        if(UsersTable::model()->has(array(
             'email = ?'=>$this->input->post('value', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval')
         ))){
@@ -31,7 +31,7 @@ class SystemController extends AdminController{
     }
     
     public function isUsernameExist(){
-        if(UsersTable::model()->fetchRow(array(
+        if(UsersTable::model()->has(array(
             'username = ?'=>$this->input->post('value', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval')
         ))){

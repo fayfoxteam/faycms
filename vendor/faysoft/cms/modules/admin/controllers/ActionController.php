@@ -4,6 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
 use cms\models\tables\ActionsTable;
+use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
 use cms\services\FlashService;
 use fay\common\ListView;
@@ -180,6 +181,9 @@ class ActionController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_action');
         $root_node = CategoryService::service()->getByAlias('_system_action', 'id');
         $this->view->root = $root_node['id'];
+
+        \F::form('create')->setModel(CategoriesTable::model());
+        \F::form('edit')->setModel(CategoriesTable::model());
         
         $this->layout->sublink = array(
             'uri'=>'#create-cat-dialog',

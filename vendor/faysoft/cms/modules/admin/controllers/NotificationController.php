@@ -3,6 +3,7 @@ namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
+use cms\models\tables\CategoriesTable;
 use cms\models\tables\RolesTable;
 use cms\models\tables\UserProfileTable;
 use cms\models\tables\UsersNotificationsTable;
@@ -131,6 +132,9 @@ class NotificationController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_notification');
         $root_node = CategoryService::service()->getByAlias('_system_notification', 'id');
         $this->view->root = $root_node['id'];
+
+        \F::form('create')->setModel(CategoriesTable::model());
+        \F::form('edit')->setModel(CategoriesTable::model());
     
         if($this->checkPermission('cms/admin/notification/cat-create')){
             $this->layout->sublink = array(

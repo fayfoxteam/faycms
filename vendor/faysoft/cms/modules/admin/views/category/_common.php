@@ -11,9 +11,6 @@ use fay\helpers\HtmlHelper;
  * @var $create_cat_url string 创建分类表单提交地址
  * @var $update_cat_url string 编辑分类表单提交地址
  */
-
-F::form('create')->setModel(CategoriesTable::model());
-F::form('edit')->setModel(CategoriesTable::model());
 ?>
 <div class="hide">
     <div id="edit-cat-dialog" class="dialog">

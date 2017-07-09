@@ -3,6 +3,7 @@ namespace faywiki\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
+use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
 use cms\services\FlashService;
 use cms\services\post\PostService;
@@ -470,6 +471,9 @@ class DocController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_wiki_doc');
         $root_node = CategoryService::service()->getByAlias('_system_wiki_doc', 'id');
         $this->view->root = $root_node['id'];
+
+        \F::form('create')->setModel(CategoriesTable::model());
+        \F::form('edit')->setModel(CategoriesTable::model());
         
         if($this->checkPermission('faywiki/admin/doc/cat-create')){
             $this->layout->sublink = array(

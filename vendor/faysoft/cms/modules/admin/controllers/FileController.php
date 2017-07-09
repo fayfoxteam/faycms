@@ -4,6 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\forms\SettingForm;
 use cms\models\tables\ActionlogsTable;
+use cms\models\tables\CategoriesTable;
 use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use cms\services\file\FileService;
@@ -452,6 +453,10 @@ class FileController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_file');
         $root_node = CategoryService::service()->getByAlias('_system_file', 'id');
         $this->view->root = $root_node['id'];
+
+        \F::form('create')->setModel(CategoriesTable::model());
+        \F::form('edit')->setModel(CategoriesTable::model());
+        
         if($this->checkPermission('cms/admin/link/cat-create')){
             $this->layout->sublink = array(
                 'uri'=>'#create-cat-dialog',

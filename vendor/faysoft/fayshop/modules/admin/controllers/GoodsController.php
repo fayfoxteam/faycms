@@ -67,6 +67,9 @@ class GoodsController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_goods');
         $root_node = CategoryService::service()->getByAlias('_system_goods', 'id');
         $this->view->root = $root_node['id'];
+
+        \F::form('create')->setModel(CategoriesTable::model());
+        \F::form('edit')->setModel(CategoriesTable::model());
         
         if($this->checkPermission('fayshop/admin/goods/cat-create')){
             $this->layout->sublink = array(

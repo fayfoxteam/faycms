@@ -3,6 +3,7 @@ namespace fayexam\modules\admin\controllers;
 
 use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
+use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
 use fay\common\ListView;
 use fay\core\Response;
@@ -230,6 +231,9 @@ class PaperController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_exam_paper');
         $root_node = CategoryService::service()->getByAlias('_system_exam_paper', 'id');
         $this->view->root = $root_node['id'];
+
+        \F::form('create')->setModel(CategoriesTable::model());
+        \F::form('edit')->setModel(CategoriesTable::model());
         
         if($this->checkPermission('fayexam/admin/paper/cat-create')){
             $this->layout->sublink = array(

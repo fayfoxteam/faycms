@@ -68,7 +68,7 @@ var uploader = {
                         '<img src="', system.url('cms/admin/file/pic', picParams), '" />',
                     '</a>',
                     '<br>',
-                    '<a href="javascript:;" class="remove-', clean_field, '-link', settings.scene, '">', settings.remove_text, '</a>'
+                    '<a href="javascript:;" class="remove-', clean_field, '-link">', settings.remove_text, '</a>'
                 ].join(''));
 
                 $container.find('input').change();//触发一下change事件，有的地方需要监听图片变化
@@ -88,7 +88,7 @@ var uploader = {
         });
         
         //移除缩略图事件
-        $container.on('click', '.remove-' + clean_field + '-link' + settings.scene, function(){
+        $container.on('click', '.remove-' + clean_field + '-link', function(){
             $container.html('<input type="hidden" name="' + settings.field + '" value="0" />');
         });
 

@@ -48,7 +48,7 @@ $clean_field = str_replace(array('[', ']', ':'), '', $field);//字段名称可�
             'data-caption'=>'',
         ));
         echo '<br>', HtmlHelper::link($remove_text, 'javascript:', array(
-            'class'=>"remove-{$clean_field}-link{$scene}"
+            'class'=>"remove-{$clean_field}-link"
         ));
     }
 ?></div>

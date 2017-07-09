@@ -649,11 +649,20 @@
                 //ajax验证
                 var name = obj.attr('name'),
                     attrAjaxParamName = obj.attr('data-ajax-param-name'),
+                    attrAjaxParams = obj.attr('data-ajax-params'),
                     form = $(obj[0].form),
                     ajaxQueue = form.data('ajaxQueue'),
                     ajaxParamName = attrAjaxParamName ? attrAjaxParamName : name,
                     data = {};
                 data[ajaxParamName] = value;
+                if(attrAjaxParams){
+                    //ajax附加参数（比如用于验证唯一时，带上一个当前记录的id）
+                    var ajaxParams = '';
+                    eval('ajaxParams = ' + attrAjaxParams);
+                    if(ajaxParams){
+                        data = $.extend(ajaxParams, data);
+                    }
+                }
                 
                 if(ajaxQueue[name]){
                     ajaxQueue[name].abort();

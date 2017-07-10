@@ -681,7 +681,7 @@ abstract class TreeModel{
      * @param bool $with_own
      * @return array
      */
-    public function getParentPath($node, $fields = '*', $root = null, $with_own = true){
+    public function getParents($node, $fields = '*', $root = null, $with_own = true){
         //确定$node
         if(is_int($node) || is_string($node)){
             $node = $this->getOrFail($node, 'left_value,right_value');
@@ -718,7 +718,7 @@ abstract class TreeModel{
      * @return array
      */
     public function getParentIds($node, $root = null, $with_own = true){
-        return ArrayHelper::column($this->getParentPath($node, 'id', $root, $with_own), 'id');
+        return ArrayHelper::column($this->getParents($node, 'id', $root, $with_own), 'id');
     }
 
 

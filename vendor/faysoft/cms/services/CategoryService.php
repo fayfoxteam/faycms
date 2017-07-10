@@ -2,11 +2,9 @@
 namespace cms\services;
 
 use cms\models\tables\CategoriesTable;
-use fay\core\ErrorException;
 use fay\core\Exception;
 use fay\core\Loader;
 use fay\helpers\FieldsHelper;
-use fay\helpers\NumberHelper;
 use fay\helpers\StringHelper;
 use fay\models\TreeModel;
 
@@ -48,7 +46,6 @@ class CategoryService extends TreeModel{
      *  - 若为字符串，视为分类别名
      *  - 若为数组，则必须包含left_value和right_value
      * @return array|bool
-     * @throws ErrorException
      * @throws Exception
      */
     public function get($cat, $fields = '*', $root = null){
@@ -59,70 +56,25 @@ class CategoryService extends TreeModel{
             $root = $this->getOrFail($root, 'left_value,right_value');
         }
 
+        $conditions = array();
         if(StringHelper::isInt($cat)){
-            return $this->getById($cat, $fields->getFields(), $root);
+            $conditions['id = ?'] = $cat;
         }else if(is_string($cat)){
-            return $this->getByAlias($cat, $fields->getFields(), $root);
+            $conditions['alias = ?'] = $cat;
         }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($cat));
-        }
-    }
-    
-    /**
-     * 根据分类别名获取一个分类信息
-     * @param string $alias
-     * @param string|array $fields
-     * @param int|string|array $root 若指定root，则只搜索root下的分类
-     *  - 若为数字，视为分类ID
-     *  - 若为字符串，视为分类别名
-     *  - 若为数组，则必须包含left_value和right_value
-     * @return array|bool
-     */
-    protected function getByAlias($alias, $fields = '*', $root = null){
-        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
-            //root信息不足，尝试通过get()方法获取
-            $root = $this->getOrFail($root, 'left_value,right_value');
-        }
-        
-        $conditions = array(
-            'alias = ?'=>$alias,
-        );
-        if($root){
-            $conditions['left_value >= ?'] = $root['left_value'];
-            $conditions['right_value <= ?'] = $root['right_value'];
-        }
-        return CategoriesTable::model()->fetchRow($conditions, $fields);
-    }
-    
-    /**
-     * 根据分类ID获取一个分类信息
-     * @param string $id 单个分类ID
-     * @param string|array $fields
-     * @param int|string|array $root 若指定root，则只搜索root下的分类
-     *  - 若为数字，视为分类ID
-     *  - 若为字符串，视为分类别名
-     *  - 若为数组，则必须包含left_value和right_value
-     * @return array|bool
-     */
-    protected function getById($id, $fields = '*', $root = null){
-        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
-            //root信息不足，尝试通过get()方法获取
-            $root = $this->getOrFail($root, 'left_value,right_value');
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($cat));
         }
 
-        $conditions = array(
-            'id = ?'=>$id,
-        );
         if($root){
             $conditions['left_value >= ?'] = $root['left_value'];
             $conditions['right_value <= ?'] = $root['right_value'];
         }
         return CategoriesTable::model()->fetchRow($conditions, $fields);
     }
-    
+
     /**
      * 根据分类ID串获取多个分类信息
-     * @param string $ids 多个分类ID（数组或者逗号分隔），返回数组会与传入id顺序一致并以id为数组键
+     * @param string|array $ids 多个分类ID（数组或者逗号分隔），返回数组会与传入id顺序一致并以id为数组键
      * @param string $fields 可选categories表字段
      * @param int|string|array $root 若指定root，则只搜索root下的分类
      *  - 若为数字，视为分类ID
@@ -131,8 +83,12 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function mget($ids, $fields = '*', $root = null){
-        if(!is_array($ids)){
+        if(is_string($ids)){
             $ids = explode(',', $ids);
+        }
+        
+        if(!is_array($ids)){
+            throw new \InvalidArgumentException('ids参数格式异常: ' . serialize($ids));
         }
         
         $fields = new FieldsHelper($fields, 'category');
@@ -169,155 +125,30 @@ class CategoryService extends TreeModel{
     }
 
     /**
-     * 根据父节点，获取其所有子节点，返回二维数组（非树形）<br>
-     * 若不指定别名，返回整张表
-     * @param int|string $parent 父节点ID或别名
-     *  - 若为数字，视为分类ID获取分类；
-     *  - 若为字符串，视为分类别名获取分类；
-     * @param string $fields
-     * @param string $order
-     * @return array
-     * @throws ErrorException
-     * @throws Exception
-     */
-    public function getChildren($parent = null, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'left_value'){
-        if($parent === null){
-            //为null，则返回节点
-            return parent::getChildren(0, $fields, $order);
-        }else if(NumberHelper::isInt($parent)){
-            //是数字，视为父节点ID
-            return parent::getChildren($parent, $fields, $order);
-        }else if(is_string($parent)){
-            //是字符串，视为别名
-            $node = $this->get($parent, 'left_value,right_value');
-            if(!$node){
-                throw new Exception("指定分类别名[{$parent}]不存在");
-            }
-            return parent::getChildren($node, $fields);
-        }else{
-            throw new ErrorException('无法识别的父节点格式: ' . serialize($parent));
-        }
-    }
-
-    /**
-     * 根据父节点，获取分类树
-     * 若不指定$parent或指定为null，返回整张表
-     * @param int|string $parent 父节点ID或别名
-     *  - 若为数字，视为分类ID获取分类；
-     *  - 若为字符串，视为分类别名获取分类；
-     * @param string $fields
-     * @return array
-     * @throws ErrorException
-     * @throws Exception
-     */
-    public function getTree($parent = 0, $fields = '!seo_title,seo_keywords,seo_description,is_system'){
-        if($parent != '0' && (NumberHelper::isInt($parent) || is_string($parent))){
-            $parent = $this->getOrFail($parent, 'id,left_value,right_value');
-        }
-        
-        return parent::getTree($parent, $fields);
-    }
-
-    /**
      * 根据父节点，获取其下一级节点
      * @param int $cat
+     *  - 若为数字，视为分类ID获取分类
+     *  - 若为字符串，视为分类别名获取分类
      * @param string $fields 返回字段
      * @param string $order 排序规则
      * @return array
-     * @throws ErrorException
      * @throws Exception
-     * @internal param int|string $parent 父节点ID或别名
-     *  - 若为数字，视为分类ID获取分类；
-     *  - 若为字符串，视为分类别名获取分类；
      */
-    public function getNextLevel($cat, $fields = '*', $order = 'sort, id'){
+    public function getNextLevel($cat, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort, id'){
         $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
         
         if(StringHelper::isInt($cat)){
             return parent::getNextLevel($cat, $fields->getFields(), $order);
         }else if(is_string($cat)){
+            //子类中重写此方法是为了用getIdByAlias这个方法，因为这个方法很容易做缓存
             $id = $this->getIdByAlias($cat);
             if(!$id){
                 throw new Exception("指定分类别名[{$cat}]不存在");
             }
             return parent::getNextLevel($id, $fields->getFields(), $order);
         }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($cat));
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($cat));
         }
-    }
-
-    /**
-     * 通过get()方法获取分类，若获取不到，抛出异常
-     * @param int|string $cat
-     * @param string|array $fields
-     * @param null|int|string|array $root
-     * @return array
-     * @throws Exception
-     */
-    public function getOrFail($cat, $fields = '*', $root = null){
-        $result = $this->get($cat, $fields, $root);
-        if(!$result){
-            throw new Exception("指定分类[{$cat}]不存在");
-        }
-        
-        return $result;
-    }
-    
-    /**
-     * 判断$cat1是否为$cat2的子节点（是同一节点也返回true）
-     * @param int|string|array $cat1
-     *  - 若为数字，视为分类ID获取分类；
-     *  - 若为字符串，视为分类别名获取分类；
-     *  - 若是数组，必须包含left_value和right_value
-     * @param int|string|string|array $cat2
-     *  - 若为数字，视为分类ID获取分类；
-     *  - 若为字符串，视为分类别名获取分类；
-     *  - 若是数组，必须包含left_value和right_value
-     * @return bool
-     */
-    public function isChild($cat1, $cat2){
-        //兼容alias获取分类
-        if(StringHelper::isInt($cat1) || is_string($cat1)){
-            $cat1 = $this->getOrFail($cat1, 'left_value,right_value');
-        }
-        if(StringHelper::isInt($cat2) || is_string($cat2)){
-            $cat2 = $this->getOrFail($cat2, 'left_value,right_value');
-        }
-        
-        return parent::isChild($cat1, $cat2);
-    }
-
-    /**
-     * 获取祖谱
-     * 若root为null，则会一直追溯到根节点，否则追溯到root为止
-     * cat和root都可以是：{
-     *  - 数字:代表分类ID;
-     *  - 字符串:分类别名;
-     *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
-     * }
-     * @param int|string|array $cat
-     * @param string|array $fields
-     * @param int|string|array $root
-     * @param bool $with_own 是否包含当前节点返回
-     * @return array
-     */
-    public function getParentPath($cat, $fields = '*', $root = null, $with_own = true){
-        if(StringHelper::isInt($cat) || is_string($cat)){
-            //是数字或字符串，通过当前类的get方法获取左右值信息
-            $cat = $this->getOrFail($cat, 'left_value,right_value');
-        }
-
-        if(StringHelper::isInt($root) || is_string($root)){
-            //是数字或字符串，通过当前类的get方法获取左右值信息
-            $root = $this->getOrFail($root, 'left_value,right_value');
-        }
-        
-        return parent::getParentPath(
-            $cat,
-            '!seo_title,seo_keywords,seo_description,is_system',
-            $root,
-            $with_own
-        );
     }
     
     /**
@@ -394,41 +225,6 @@ class CategoryService extends TreeModel{
      * @return bool
      */
     public function isIdExist($cat_id, $root = null){
-        return !!$this->getById($cat_id, 'id', $root);
-    }
-    
-    /**
-     * 判断指定分类是否是叶子节点
-     * @param int|string $cat
-     * @return bool
-     */
-    public function isTerminal($cat){
-        if(StringHelper::isInt($cat) || is_string($cat)){
-            //是数字或字符串，通过当前类的get方法获取左右值信息
-            $cat = $this->getOrFail($cat, 'left_value,right_value');
-        }
-        
-        return parent::isTerminal($cat);
-    }
-    
-    /**
-     * 获取指定分类的平级分类
-     * @param int|string|array $cat
-     *  - 若为数字，视为分类ID获取分类
-     *  - 若为字符串，视为分类别名获取分类
-     *  - 若是数组，必须包含parent字段
-     * @param string $fields
-     * @param string $order
-     * @return array
-     */
-    public function getSibling($cat, $fields = '*', $order = 'sort, id'){
-        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
-
-        if(StringHelper::isInt($cat) || is_string($cat)){
-            //是数字或字符串，通过当前类的get方法获取左右值信息
-            $cat = $this->getOrFail($cat, 'left_value,right_value');
-        }
-
-        return parent::getSibling($cat, $fields->getFields(), $order);
+        return !!$this->get($cat_id, 'id', $root);
     }
 }

@@ -664,7 +664,7 @@ abstract class TreeModel{
             throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node1));
         }
         
-        if(is_int($node1) || is_string($node1)){
+        if(is_int($node2) || is_string($node2)){
             $node2 = $this->getOrFail($node2, 'left_value,right_value');
         }else if(!isset($node2['left_value']) || !isset($node2['right_value'])){
             throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node2));
@@ -699,7 +699,7 @@ abstract class TreeModel{
             if(is_int($root) || is_string($root)){
                 $root = $this->getOrFail($root, 'left_value,right_value');
             }else if(!isset($root['left_value']) || !isset($root['right_value'])){
-                throw new \InvalidArgumentException('无法识别的根节点格式: ' . serialize($root));
+                throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($root));
             }
         }
         
@@ -726,7 +726,6 @@ abstract class TreeModel{
         return ArrayHelper::column($this->getParents($node, 'id', $root, $with_own), 'id');
     }
 
-
     /**
      * 根据父节点ID，获取其所有子节点，返回二维数组（非树形）
      * 若不指定父节点，返回整张表
@@ -745,8 +744,8 @@ abstract class TreeModel{
         }
         
         return \F::table($this->model)->fetchAll(array(
-            'left_value > '.$node['left_value'],
-            'right_value < '.$node['right_value'],
+            'left_value > ' . $node['left_value'],
+            'right_value < ' . $node['right_value'],
         ), $fields, $order);
     }
 

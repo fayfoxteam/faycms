@@ -691,10 +691,10 @@ abstract class TreeModel{
         
         //确定$root
         if($root){
-            if(is_int($node) || is_string($node)){
+            if(is_int($root) || is_string($root)){
                 $root = $this->getOrFail($root, 'left_value,right_value');
             }else if(!isset($root['left_value']) || !isset($root['right_value'])){
-                throw new \InvalidArgumentException('无法识别的根节点格式: ' . serialize($node));
+                throw new \InvalidArgumentException('无法识别的根节点格式: ' . serialize($root));
             }
         }
         

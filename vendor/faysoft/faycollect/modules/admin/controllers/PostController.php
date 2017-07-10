@@ -52,11 +52,11 @@ class PostController extends AdminController{
             $post_id = PostService::service()->create(
                 array(
                     'title'=>$this->form()->getData('title'),
-                    'content'=>$this->form()->getData('content'),
+                    'content'=>$this->form()->getData('content', ''),
                     'publish_time'=>$this->form()->getData('publish_time'),
-                    'cat_id'=>$this->form()->getData('cat_id'),
+                    'cat_id'=>$this->form()->getData('cat_id', 0),
                     'status'=>$this->form()->getData('status', PostsTable::STATUS_DRAFT),
-                    'thumbnail'=>$this->form()->getData('thumbnail'),
+                    'thumbnail'=>$this->form()->getData('thumbnail', 0),
                     'abstract'=>$this->form()->getData('abstract', ''),
                 ),
                 array(

@@ -69,7 +69,7 @@ class CategoryService extends TreeModel{
             $conditions['left_value >= ?'] = $root['left_value'];
             $conditions['right_value <= ?'] = $root['right_value'];
         }
-        return CategoriesTable::model()->fetchRow($conditions, $fields);
+        return CategoriesTable::model()->fetchRow($conditions, $fields->getFields());
     }
 
     /**

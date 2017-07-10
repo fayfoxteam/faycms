@@ -408,7 +408,7 @@ abstract class TreeModel{
      */
     public function getTree($parent = 0, $fields = '*'){
         if(is_int($parent) || is_string($parent)){
-            if($parent == 0){
+            if(!$parent){
                 $nodes = \F::table($this->model)->fetchAll(array(), $fields, 'left_value');
                 return $this->renderTreeByParent($nodes);
             }
@@ -731,7 +731,7 @@ abstract class TreeModel{
      * @return array
      */
     public function getChildren($node = 0, $fields = '*', $order = 'sort'){
-        if($node == 0){
+        if(!$node){
             return \F::table($this->model)->fetchAll(array(), $fields, $order);
         }else if(is_int($node) || is_string($node)){
             $node = $this->getOrFail($node, 'left_value,right_value');

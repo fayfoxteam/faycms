@@ -317,36 +317,113 @@ abstract class TreeModel{
     }
 
     /**
+     * 删除一个节点，其子节点将被挂载到父节点
+     * @param int $id 节点ID
+     * @return bool
+     */
+    public function remove($id){
+        //获取被删除节点
+        $node = \F::table($this->model)->find($id, 'left_value,right_value,parent');
+        if(!$node){
+            //节点不存在，直接返回false
+            return false;
+        }
+        //所有子节点左右值-1
+        \F::table($this->model)->update(array(
+            'left_value'=>new Expr('left_value - 1'),
+            'right_value'=>new Expr('right_value - 1'),
+        ), array(
+            'left_value > ' . $node['left_value'],
+            'right_value < ' . $node['right_value'],
+        ));
+        //所有后续节点左右值-2
+        \F::table($this->model)->update(array(
+            'left_value'=>new Expr('left_value - 2'),
+            'right_value'=>new Expr('right_value - 2'),
+        ), array(
+            'left_value > ' . $node['right_value'],
+            'right_value > ' . $node['right_value'],
+        ));
+        //所有父节点
+        \F::table($this->model)->update(array(
+            'right_value'=>new Expr('right_value - 2'),
+        ), array(
+            'left_value < ' . $node['left_value'],
+            'right_value > ' . $node['right_value'],
+        ));
+        //删除当前节点
+        \F::table($this->model)->delete($id);
+        //将所有父节点为该节点的parent字段指向其parent
+        \F::table($this->model)->update(array(
+            'parent'=>$node['parent'],
+        ), 'parent = ' . $id);
+
+        return true;
+    }
+
+    /**
+     * 删除一个节点，及其所有子节点
+     * @param int $id 节点ID
+     * @return bool
+     */
+    public function removeAll($id){
+        //获取被删除节点
+        $node = \F::table($this->model)->find($id, 'left_value,right_value,parent');
+        if(!$node){
+            //节点不存在，直接返回false
+            return false;
+        }
+
+        //删除所有树枝节点
+        \F::table($this->model)->delete(array(
+            'left_value >= ' . $node['left_value'],
+            'right_value <= ' . $node['right_value'],
+        ));
+
+        //差值
+        $diff = $node['right_value'] - $node['left_value'] + 1;
+        //所有后续节点减去差值
+        \F::table($this->model)->update(array(
+            'left_value'=>new Expr('left_value - ' . $diff),
+            'right_value'=>new Expr('right_value - ' . $diff),
+        ), array(
+            'left_value > ' . $node['left_value'],
+            'right_value > ' . $node['right_value'],
+        ));
+        //所有父节点的右节点减去差值
+        \F::table($this->model)->update(array(
+            'right_value'=>new Expr('right_value - ' . $diff),
+        ), array(
+            'left_value < ' . $node['left_value'],
+            'right_value > ' . $node['right_value'],
+        ));
+        return true;
+    }
+
+    /**
      * 根据顶层节点ID返回一棵树，但并不包含顶层节点本身
      * @param int $parent
      * @param string $fields
      * @return array
-     * @throws ErrorException
      */
     public function getTree($parent = 0, $fields = '*'){
-        if(NumberHelper::isInt($parent)){
+        if(is_int($parent) || is_string($parent)){
             if($parent == 0){
                 $nodes = \F::table($this->model)->fetchAll(array(), $fields, 'left_value');
-                return $this->renderTreeByParent(
-                    $nodes,
-                    $parent
-                );
+                return $this->renderTreeByParent($nodes);
             }
-            $parent_node = \F::table($this->model)->find($parent, 'id,left_value,right_value');
-        }else if(isset($parent['id']) && isset($parent['left_value']) && isset($parent['right_value'])){
-            //已经是包含所需信息的数组或ArrayAccess
-            $parent_node = $parent;
-        }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($parent));
+            $parent = $this->getOrFail($parent, 'id,left_value,right_value');
+        }else if(!isset($parent['id']) || !isset($parent['left_value']) || !isset($parent['right_value'])){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($parent));
         }
         
         $nodes = \F::table($this->model)->fetchAll(array(
-            'left_value > ' . $parent_node['left_value'],
-            'right_value < ' . $parent_node['right_value'],
+            'left_value > ' . $parent['left_value'],
+            'right_value < ' . $parent['right_value'],
         ), $fields, 'left_value');
         return $this->renderTreeByParent(
             $nodes,
-            $parent_node['id']
+            $parent['id']
         );
     }
     
@@ -450,101 +527,17 @@ abstract class TreeModel{
         }
         return $tree;
     }
-    
-    /**
-     * 删除一个节点，其子节点将被挂载到父节点
-     * @param int $id 节点ID
-     * @return bool
-     */
-    public function remove($id){
-        //获取被删除节点
-        $node = \F::table($this->model)->find($id, 'left_value,right_value,parent');
-        if(!$node){
-            //节点不存在，直接返回false
-            return false;
-        }
-        //所有子节点左右值-1
-        \F::table($this->model)->update(array(
-            'left_value'=>new Expr('left_value - 1'),
-            'right_value'=>new Expr('right_value - 1'),
-        ), array(
-            'left_value > ' . $node['left_value'],
-            'right_value < ' . $node['right_value'],
-        ));
-        //所有后续节点左右值-2
-        \F::table($this->model)->update(array(
-            'left_value'=>new Expr('left_value - 2'),
-            'right_value'=>new Expr('right_value - 2'),
-        ), array(
-            'left_value > ' . $node['right_value'],
-            'right_value > ' . $node['right_value'],
-        ));
-        //所有父节点
-        \F::table($this->model)->update(array(
-            'right_value'=>new Expr('right_value - 2'),
-        ), array(
-            'left_value < ' . $node['left_value'],
-            'right_value > ' . $node['right_value'],
-        ));
-        //删除当前节点
-        \F::table($this->model)->delete($id);
-        //将所有父节点为该节点的parent字段指向其parent
-        \F::table($this->model)->update(array(
-            'parent'=>$node['parent'],
-        ), 'parent = ' . $id);
-        
-        return true;
-    }
-    
-    /**
-     * 删除一个节点，及其所有子节点
-     * @param int $id 节点ID
-     * @return bool
-     */
-    public function removeAll($id){
-        //获取被删除节点
-        $node = \F::table($this->model)->find($id, 'left_value,right_value,parent');
-        if(!$node){
-            //节点不存在，直接返回false
-            return false;
-        }
-        
-        //删除所有树枝节点
-        \F::table($this->model)->delete(array(
-            'left_value >= ' . $node['left_value'],
-            'right_value <= ' . $node['right_value'],
-        ));
-        
-        //差值
-        $diff = $node['right_value'] - $node['left_value'] + 1;
-        //所有后续节点减去差值
-        \F::table($this->model)->update(array(
-            'left_value'=>new Expr('left_value - ' . $diff),
-            'right_value'=>new Expr('right_value - ' . $diff),
-        ), array(
-            'left_value > ' . $node['left_value'],
-            'right_value > ' . $node['right_value'],
-        ));
-        //所有父节点的右节点减去差值
-        \F::table($this->model)->update(array(
-            'right_value'=>new Expr('right_value - ' . $diff),
-        ), array(
-            'left_value < ' . $node['left_value'],
-            'right_value > ' . $node['right_value'],
-        ));
-        return true;
-    }
 
     /**
      * 修改一条记录的sort值，并修改左右值
-     * @param int|array $node
+     * @param mixed $node
      * @param int $sort
      */
     public function sort($node, $sort){
         $sort < 0 && $sort = 0;
         //获取被移动的节点
         if(NumberHelper::isInt($node)){
-            $node = \F::table($this->model)->find($node, 'id,left_value,right_value,parent,sort');
+            $node = $this->getOrFail($node, 'id,left_value,right_value,parent,sort');
         }
         if($node['sort'] == $sort){
             //排序值并未改变
@@ -651,30 +644,25 @@ abstract class TreeModel{
 
     /**
      * 判断$node1是否为$node2的子节点（是同一节点也返回true）
-     * @param int|array $node1
+     * @param mixed $node1
      *  - 若为数字，视为分类ID获取分类；
      *  - 若是数组，必须包含left_value和right_value
      * @param int|string|array $node2
      *  - 若为数字，视为分类ID获取分类；
      *  - 若是数组，必须包含left_value和right_value
      * @return bool
-     * @throws ErrorException
      */
     public function isChild($node1, $node2){
-        if(NumberHelper::isInt($node1)){
-            $node1 = \F::table($this->model)->find($node1, 'left_value,right_value');
-        }else if(isset($node1['left_value']) && isset($node1['right_value'])){
-            //已经是包含所需信息的数组或ArrayAccess
-        }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($node1));
+        if(is_int($node1) || is_string($node1)){
+            $node1 = $this->getOrFail($node1, 'left_value,right_value');
+        }else if(!isset($node1['left_value']) || !isset($node1['right_value'])){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node1));
         }
         
-        if(NumberHelper::isInt($node2)){
-            $node2 = \F::table($this->model)->find($node2, 'left_value,right_value');
-        }else if(isset($node2['left_value']) && isset($node2['right_value'])){
-            //已经是包含所需信息的数组或ArrayAccess
-        }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($node2));
+        if(is_int($node1) || is_string($node1)){
+            $node2 = $this->getOrFail($node2, 'left_value,right_value');
+        }else if(!isset($node2['left_value']) || !isset($node2['right_value'])){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node2));
         }
         
         return $node1['left_value'] >= $node2['left_value'] &&
@@ -687,38 +675,26 @@ abstract class TreeModel{
      * $node和$root都可以是：
      *  - 数字:代表分类ID;
      *  - 数组:分类数组（必须包含left_value和right_value字段）
-     * @param int|array $node
+     * @param mixed $node
      * @param string $fields
-     * @param int|array $root
+     * @param mixed $root
      * @param bool $with_own
      * @return array
-     * @throws ErrorException
-     * @throws Exception
      */
     public function getParentPath($node, $fields = '*', $root = null, $with_own = true){
         //确定$node
-        if(NumberHelper::isInt($node)){
-            $node = \F::table($this->model)->find($node, 'left_value,right_value');
-        }else if(isset($node['left_value']) && isset($node['right_value'])){
-            //已经是包含所需信息的数组或ArrayAccess
-        }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
-        }
-        if(!$node){
-            throw new Exception("指定节点[{$node}]不存在");
+        if(is_int($node) || is_string($node)){
+            $node = $this->getOrFail($node, 'left_value,right_value');
+        }else if(!isset($node['left_value']) || !isset($node['right_value'])){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node));
         }
         
         //确定$root
         if($root){
-            if(NumberHelper::isInt($root)){
-                $root = \F::table($this->model)->find($root, 'left_value,right_value');
-                if(!$root){
-                    throw new Exception("指定根节点[{$root}]不存在");
-                }
-            }else if(isset($root['left_value']) && isset($root['right_value'])){
-                //已经是包含所需信息的数组或ArrayAccess
-            }else{
-                throw new ErrorException('无法识别的根节点格式: ' . serialize($node));
+            if(is_int($node) || is_string($node)){
+                $root = $this->getOrFail($root, 'left_value,right_value');
+            }else if(!isset($root['left_value']) || !isset($root['right_value'])){
+                throw new \InvalidArgumentException('无法识别的根节点格式: ' . serialize($node));
             }
         }
         
@@ -736,8 +712,8 @@ abstract class TreeModel{
      * $node和$root都可以是：
      *  - 数字:代表分类ID;
      *  - 数组:分类数组（节约服务器资源，少一次数据库搜索。必须包含left_value和right_value字段）
-     * @param int|array $node
-     * @param int|array $root
+     * @param mixed $node
+     * @param mixed $root
      * @param bool $with_own 是否包含当前节点返回
      * @return array
      */
@@ -749,35 +725,24 @@ abstract class TreeModel{
     /**
      * 根据父节点ID，获取其所有子节点，返回二维数组（非树形）
      * 若不指定父节点，返回整张表
-     * @param int|array $node
+     * @param mixed $node
      * @param string $fields
      * @param string $order
      * @return array
-     * @throws ErrorException
-     * @throws Exception
      */
     public function getChildren($node = 0, $fields = '*', $order = 'sort'){
         if($node == 0){
             return \F::table($this->model)->fetchAll(array(), $fields, $order);
-        }else if(NumberHelper::isInt($node)){
-            $node = \F::table($this->model)->find($node, 'left_value,right_value');
-            if(!$node){
-                throw new Exception("指定根节点[{$node}]不存在");
-            }
-        }else if(isset($node['left_value']) && isset($node['right_value'])){
-            //已经是包含所需信息的数组或ArrayAccess
-        }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
+        }else if(is_int($node) || is_string($node)){
+            $node = $this->getOrFail($node, 'left_value,right_value');
+        }else if(!isset($node['left_value']) || !isset($node['right_value'])){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node));
         }
         
-        if($node){
-            return \F::table($this->model)->fetchAll(array(
-                'left_value > '.$node['left_value'],
-                'right_value < '.$node['right_value'],
-            ), $fields, $order);
-        }else{
-            return array();
-        }
+        return \F::table($this->model)->fetchAll(array(
+            'left_value > '.$node['left_value'],
+            'right_value < '.$node['right_value'],
+        ), $fields, $order);
     }
 
     /**
@@ -794,21 +759,14 @@ abstract class TreeModel{
 
     /**
      * 判断指定分类是否是叶子节点
-     * @param int|array $node
+     * @param mixed $node
      * @return bool
-     * @throws ErrorException
-     * @throws Exception
      */
     public function isTerminal($node){
-        if(NumberHelper::isInt($node)){
-            $node = \F::table($this->model)->find($node, 'left_value,right_value');
-            if(!$node){
-                throw new Exception("指定根节点[{$node}]不存在");
-            }
-        }else if(isset($node['parent'])){
-            //已经是包含所需信息的数组或ArrayAccess
-        }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
+        if(is_int($node) || is_string($node)){
+            $node = $this->getOrFail($node, 'left_value,right_value');
+        }else if(!isset($node['parent'])){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node));
         }
         
         return ($node['right_value'] - $node['left_value']) == 1;
@@ -816,7 +774,7 @@ abstract class TreeModel{
 
     /**
      * @see CategoryService::isTerminal()
-     * @param int|array $node
+     * @param mixed $node
      * @return bool
      */
     public function hasChildren($node){
@@ -825,21 +783,18 @@ abstract class TreeModel{
 
     /**
      * 获取指定分类的平级分类
-     * @param int|array $node
+     * @param mixed $node
      *  - 若为数字，视为分类ID获取分类
      *  - 若是数组，必须包含parent字段
      * @param string $fields
      * @param string $order
      * @return array
-     * @throws ErrorException
      */
     public function getSibling($node, $fields = '*', $order = 'sort, id'){
-        if(NumberHelper::isInt($node)){
-            $node = \F::table($this->model)->find($node, 'parent');
-        }else if(isset($node['parent'])){
-            //已经是包含所需信息的数组或ArrayAccess
-        }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
+        if(is_int($node) || is_string($node)){
+            $node = $this->getOrFail($node, 'parent');
+        }else if(!isset($node['parent'])){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node));
         }
         
         if(!$node){
@@ -862,5 +817,49 @@ abstract class TreeModel{
         return \F::table($this->model)->fetchAll(array(
             'parent = ?'=>$node,
         ), $fields, $order);
+    }
+
+    /**
+     * 获取一个或多个分类。
+     * @param int|string $cat
+     *  - 若为数字，视为分类ID获取分类（返回一维数组）；
+     *  - 若为字符串，视为分类别名获取分类（返回一维数组）；
+     * @param string|array $fields
+     * @param null|int|string|array $root 若指定root，则只搜索root下的分类
+     *  - 若为数字，视为分类ID
+     *  - 若为字符串，视为分类别名
+     *  - 若为数组，则必须包含left_value和right_value
+     * @return array|bool
+     */
+    public function get($cat, $fields = '*', $root = null){
+        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
+            //root信息不足，尝试通过get()方法获取
+            $root = $this->getOrFail($root, 'left_value,right_value');
+        }
+
+        $conditions = array(
+            'id = ?'=>$cat,
+        );
+        if($root){
+            $conditions['left_value >= ?'] = $root['left_value'];
+            $conditions['right_value <= ?'] = $root['right_value'];
+        }
+        return \F::table($this->model)->fetchRow($conditions, $fields);
+    }
+
+    /**
+     * 根据id搜索记录，若未搜到结果，抛出异常
+     * @param int|string $cat
+     * @param string $fields
+     * @param null|int|string|array $root 若指定root，则只搜索root下的分类
+     * @return array
+     */
+    public function getOrFail($cat, $fields = '*', $root = null){
+        $result = $this->get($cat, $fields, $root);
+        if(!$result){
+            throw new \RuntimeException("指定分类[{$cat}]不存在");
+        }
+
+        return $result;
     }
 }

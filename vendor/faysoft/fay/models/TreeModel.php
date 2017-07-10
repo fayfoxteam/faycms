@@ -5,7 +5,6 @@ use fay\core\db\Expr;
 use fay\core\ErrorException;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
-use fay\helpers\NumberHelper;
 
 /**
  * 基于左右值的树操作
@@ -408,9 +407,15 @@ abstract class TreeModel{
     public function sort($node, $sort){
         $sort < 0 && $sort = 0;
         //获取被移动的节点
-        if(NumberHelper::isInt($node)){
+        if(is_int($node) || is_string($node)){
             $node = $this->getOrFail($node, 'id,left_value,right_value,parent,sort');
+        }else if(!isset($node['id']) ||
+            !isset($node['left_value']) || !isset($node['right_value']) ||
+            !isset($node['parent']) || !isset($node['sort'])
+        ){
+            throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node));
         }
+        
         if($node['sort'] == $sort){
             //排序值并未改变
             return;

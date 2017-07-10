@@ -401,9 +401,123 @@ abstract class TreeModel{
     }
 
     /**
+     * 修改一条记录的sort值，并修改左右值
+     * @param mixed $node
+     * @param int $sort
+     */
+    public function sort($node, $sort){
+        $sort < 0 && $sort = 0;
+        //获取被移动的节点
+        if(NumberHelper::isInt($node)){
+            $node = $this->getOrFail($node, 'id,left_value,right_value,parent,sort');
+        }
+        if($node['sort'] == $sort){
+            //排序值并未改变
+            return;
+        }
+        \F::table($this->model)->update(array(
+            'sort'=>$sort,
+        ), $node['id']);
+
+        //被移动节点原来的左节点（排序值小于该节点 或 ID小于该节点ID）
+        $ori_left_node = \F::table($this->model)->fetchRow(array(
+            'parent = ' . $node['parent'],
+            'or'=>array(
+                'sort < ' . $node['sort'],
+                'and'=>array(
+                    'sort = ' . $node['sort'],
+                    'id < ' . $node['id'],
+                ),
+            ),
+        ), 'id,sort', 'sort DESC, id DESC');
+        $ori_left_node_sort = isset($ori_left_node['sort']) ? $ori_left_node['sort'] : -1;
+        //被移动节点原来的右节点（排序值大于该节点 或 ID大于该节点ID）
+        $ori_right_node = \F::table($this->model)->fetchRow(array(
+            'parent = ' . $node['parent'],
+            'or'=>array(
+                'sort > ' . $node['sort'],
+                'and'=>array(
+                    'sort = ' . $node['sort'],
+                    'id > ' . $node['id'],
+                ),
+            ),
+        ), 'id,sort', 'sort, id');
+        $ori_right_node_sort = isset($ori_right_node['sort']) ? $ori_right_node['sort'] : PHP_INT_MAX;
+        if($sort < $ori_left_node_sort || ($sort == $ori_left_node_sort && $node['id'] < $ori_left_node['id'])){//节点左移
+            //新位置的右节点
+            $right_node = \F::table($this->model)->fetchRow(array(
+                'parent = ' . $node['parent'],
+                'or'=>array(
+                    'sort > ' . $sort,
+                    'and'=>array(
+                        'sort = ' . $sort,
+                        'id > ' . $node['id'],
+                    ),
+                ),
+                'id != ' . $node['id'],
+            ), 'id,left_value', 'sort, id');
+            //获取被移动的树枝的所有节点
+            $branch_ids = \F::table($this->model)->fetchCol('id', array(
+                'left_value >= ' . $node['left_value'],
+                'right_value <= ' . $node['right_value'],
+            ));
+            //修改移动区间内树枝的左右值
+            $diff = $node['right_value'] - $node['left_value'] + 1;
+            \F::table($this->model)->update(array(
+                'left_value'=>new Expr('left_value + ' . $diff),
+                'right_value'=>new Expr('right_value + ' . $diff),
+            ), array(
+                'left_value >= ' . $right_node['left_value'],
+                'right_value < ' . $node['left_value'],
+                'id NOT IN('.implode(',', $branch_ids).')',
+            ));
+            //修改被移动树枝的左右值
+            $diff = $node['left_value'] - $right_node['left_value'];
+            \F::table($this->model)->update(array(
+                'left_value'=>new Expr('left_value - ' . $diff),
+                'right_value'=>new Expr('right_value - ' . $diff),
+            ), 'id IN ('.implode(',', $branch_ids).')');
+        }else if($sort > $ori_right_node_sort || ($sort == $ori_right_node_sort && $node['id'] > $ori_right_node['id'])){//节点右移
+            //新位置的左节点
+            $left_node = \F::table($this->model)->fetchRow(array(
+                'parent = ' . $node['parent'],
+                'or'=>array(
+                    'sort < ' . $sort,
+                    'and'=>array(
+                        'sort = ' . $sort,
+                        'id < ' . $node['id'],
+                    )
+                ),
+                'id != ' . $node['id']
+            ), 'right_value', 'sort DESC, id DESC');
+            //获取被移动的树枝的所有节点
+            $branch_ids = \F::table($this->model)->fetchCol('id', array(
+                'left_value >= ' . $node['left_value'],
+                'right_value <= ' . $node['right_value'],
+            ));
+            //修改移动区间内树枝的左右值
+            $diff = $node['right_value'] - $node['left_value'] + 1;
+            \F::table($this->model)->update(array(
+                'left_value'=>new Expr('left_value - ' . $diff),
+                'right_value'=>new Expr('right_value - ' . $diff),
+            ), array(
+                'left_value > ' . $node['right_value'],
+                'right_value <= ' . $left_node['right_value'],
+                'id NOT IN('.implode(',', $branch_ids).')',
+            ));
+            //修改被移动树枝的左右值
+            $diff = $left_node['right_value'] - $node['right_value'];
+            \F::table($this->model)->update(array(
+                'left_value'=>new Expr('left_value + ' . $diff),
+                'right_value'=>new Expr('right_value + ' . $diff),
+            ), 'id IN ('.implode(',', $branch_ids).')');
+        }
+    }
+
+    /**
      * 根据顶层节点ID返回一棵树，但并不包含顶层节点本身
      * @param int $parent
-     * @param string $fields
+     * @param string|array $fields
      * @return array
      */
     public function getTree($parent = 0, $fields = '*'){
@@ -529,120 +643,6 @@ abstract class TreeModel{
     }
 
     /**
-     * 修改一条记录的sort值，并修改左右值
-     * @param mixed $node
-     * @param int $sort
-     */
-    public function sort($node, $sort){
-        $sort < 0 && $sort = 0;
-        //获取被移动的节点
-        if(NumberHelper::isInt($node)){
-            $node = $this->getOrFail($node, 'id,left_value,right_value,parent,sort');
-        }
-        if($node['sort'] == $sort){
-            //排序值并未改变
-            return;
-        }
-        \F::table($this->model)->update(array(
-            'sort'=>$sort,
-        ), $node['id']);
-        
-        //被移动节点原来的左节点（排序值小于该节点 或 ID小于该节点ID）
-        $ori_left_node = \F::table($this->model)->fetchRow(array(
-            'parent = ' . $node['parent'],
-            'or'=>array(
-                'sort < ' . $node['sort'],
-                'and'=>array(
-                    'sort = ' . $node['sort'],
-                    'id < ' . $node['id'],
-                ),
-            ),
-        ), 'id,sort', 'sort DESC, id DESC');
-        $ori_left_node_sort = isset($ori_left_node['sort']) ? $ori_left_node['sort'] : -1;
-        //被移动节点原来的右节点（排序值大于该节点 或 ID大于该节点ID）
-        $ori_right_node = \F::table($this->model)->fetchRow(array(
-            'parent = ' . $node['parent'],
-            'or'=>array(
-                'sort > ' . $node['sort'],
-                'and'=>array(
-                    'sort = ' . $node['sort'],
-                    'id > ' . $node['id'],
-                ),
-            ),
-        ), 'id,sort', 'sort, id');
-        $ori_right_node_sort = isset($ori_right_node['sort']) ? $ori_right_node['sort'] : PHP_INT_MAX;
-        if($sort < $ori_left_node_sort || ($sort == $ori_left_node_sort && $node['id'] < $ori_left_node['id'])){//节点左移
-            //新位置的右节点
-            $right_node = \F::table($this->model)->fetchRow(array(
-                'parent = ' . $node['parent'],
-                'or'=>array(
-                    'sort > ' . $sort,
-                    'and'=>array(
-                        'sort = ' . $sort,
-                        'id > ' . $node['id'],
-                    ),
-                ),
-                'id != ' . $node['id'],
-            ), 'id,left_value', 'sort, id');
-            //获取被移动的树枝的所有节点
-            $branch_ids = \F::table($this->model)->fetchCol('id', array(
-                'left_value >= ' . $node['left_value'],
-                'right_value <= ' . $node['right_value'],
-            ));
-            //修改移动区间内树枝的左右值
-            $diff = $node['right_value'] - $node['left_value'] + 1;
-            \F::table($this->model)->update(array(
-                'left_value'=>new Expr('left_value + ' . $diff),
-                'right_value'=>new Expr('right_value + ' . $diff),
-            ), array(
-                'left_value >= ' . $right_node['left_value'],
-                'right_value < ' . $node['left_value'],
-                'id NOT IN('.implode(',', $branch_ids).')',
-            ));
-            //修改被移动树枝的左右值
-            $diff = $node['left_value'] - $right_node['left_value'];
-            \F::table($this->model)->update(array(
-                'left_value'=>new Expr('left_value - ' . $diff),
-                'right_value'=>new Expr('right_value - ' . $diff),
-            ), 'id IN ('.implode(',', $branch_ids).')');
-        }else if($sort > $ori_right_node_sort || ($sort == $ori_right_node_sort && $node['id'] > $ori_right_node['id'])){//节点右移
-            //新位置的左节点
-            $left_node = \F::table($this->model)->fetchRow(array(
-                'parent = ' . $node['parent'],
-                'or'=>array(
-                    'sort < ' . $sort,
-                    'and'=>array(
-                        'sort = ' . $sort,
-                        'id < ' . $node['id'],
-                    )
-                ),
-                'id != ' . $node['id']
-            ), 'right_value', 'sort DESC, id DESC');
-            //获取被移动的树枝的所有节点
-            $branch_ids = \F::table($this->model)->fetchCol('id', array(
-                'left_value >= ' . $node['left_value'],
-                'right_value <= ' . $node['right_value'],
-            ));
-            //修改移动区间内树枝的左右值
-            $diff = $node['right_value'] - $node['left_value'] + 1;
-            \F::table($this->model)->update(array(
-                'left_value'=>new Expr('left_value - ' . $diff),
-                'right_value'=>new Expr('right_value - ' . $diff),
-            ), array(
-                'left_value > ' . $node['right_value'],
-                'right_value <= ' . $left_node['right_value'],
-                'id NOT IN('.implode(',', $branch_ids).')',
-            ));
-            //修改被移动树枝的左右值
-            $diff = $left_node['right_value'] - $node['right_value'];
-            \F::table($this->model)->update(array(
-                'left_value'=>new Expr('left_value + ' . $diff),
-                'right_value'=>new Expr('right_value + ' . $diff),
-            ), 'id IN ('.implode(',', $branch_ids).')');
-        }
-    }
-
-    /**
      * 判断$node1是否为$node2的子节点（是同一节点也返回true）
      * @param mixed $node1
      *  - 若为数字，视为分类ID获取分类；
@@ -676,7 +676,7 @@ abstract class TreeModel{
      *  - 数字:代表分类ID;
      *  - 数组:分类数组（必须包含left_value和right_value字段）
      * @param mixed $node
-     * @param string $fields
+     * @param string|array $fields
      * @param mixed $root
      * @param bool $with_own
      * @return array
@@ -726,7 +726,7 @@ abstract class TreeModel{
      * 根据父节点ID，获取其所有子节点，返回二维数组（非树形）
      * 若不指定父节点，返回整张表
      * @param mixed $node
-     * @param string $fields
+     * @param string|array $fields
      * @param string $order
      * @return array
      */
@@ -786,7 +786,7 @@ abstract class TreeModel{
      * @param mixed $node
      *  - 若为数字，视为分类ID获取分类
      *  - 若是数组，必须包含parent字段
-     * @param string $fields
+     * @param string|array $fields
      * @param string $order
      * @return array
      */
@@ -809,7 +809,7 @@ abstract class TreeModel{
     /**
      * 根据父节点，获取其下一级节点
      * @param int $node 父节点ID或别名
-     * @param string $fields 返回字段
+     * @param string|array $fields 返回字段
      * @param string $order 排序规则
      * @return array
      */
@@ -821,24 +821,19 @@ abstract class TreeModel{
 
     /**
      * 获取一个或多个分类。
-     * @param int|string $cat
-     *  - 若为数字，视为分类ID获取分类（返回一维数组）；
-     *  - 若为字符串，视为分类别名获取分类（返回一维数组）；
+     * @param int|string $node
      * @param string|array $fields
-     * @param null|int|string|array $root 若指定root，则只搜索root下的分类
-     *  - 若为数字，视为分类ID
-     *  - 若为字符串，视为分类别名
-     *  - 若为数组，则必须包含left_value和right_value
+     * @param mixed $root 若指定root，则只搜索root下的分类
      * @return array|bool
      */
-    public function get($cat, $fields = '*', $root = null){
+    public function get($node, $fields = '*', $root = null){
         if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
             //root信息不足，尝试通过get()方法获取
             $root = $this->getOrFail($root, 'left_value,right_value');
         }
 
         $conditions = array(
-            'id = ?'=>$cat,
+            'id = ?'=>$node,
         );
         if($root){
             $conditions['left_value >= ?'] = $root['left_value'];
@@ -849,15 +844,15 @@ abstract class TreeModel{
 
     /**
      * 根据id搜索记录，若未搜到结果，抛出异常
-     * @param int|string $cat
-     * @param string $fields
-     * @param null|int|string|array $root 若指定root，则只搜索root下的分类
+     * @param int|string $node
+     * @param string|array $fields
+     * @param mixed $root 若指定root，则只搜索root下的分类
      * @return array
      */
-    public function getOrFail($cat, $fields = '*', $root = null){
-        $result = $this->get($cat, $fields, $root);
+    public function getOrFail($node, $fields = '*', $root = null){
+        $result = $this->get($node, $fields, $root);
         if(!$result){
-            throw new \RuntimeException("指定分类[{$cat}]不存在");
+            throw new \RuntimeException("指定节点[{$node}]不存在");
         }
 
         return $result;

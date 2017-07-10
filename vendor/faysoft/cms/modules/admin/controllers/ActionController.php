@@ -179,7 +179,7 @@ class ActionController extends AdminController{
         FlashService::set('如果您不清楚它的是干嘛用的，请不要随意修改，后果可能很严重！', 'warning');
         
         $this->view->cats = CategoryService::service()->getTree('_system_action');
-        $root_node = CategoryService::service()->getByAlias('_system_action', 'id');
+        $root_node = CategoryService::service()->get('_system_action', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

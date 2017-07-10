@@ -315,12 +315,13 @@ abstract class TreeModel{
             $this->sort($node, $sort);
         }
     }
-    
+
     /**
      * 根据顶层节点ID返回一棵树，但并不包含顶层节点本身
      * @param int $parent
      * @param string $fields
      * @return array
+     * @throws ErrorException
      */
     public function getTree($parent = 0, $fields = '*'){
         if(NumberHelper::isInt($parent)){
@@ -332,13 +333,11 @@ abstract class TreeModel{
                 );
             }
             $parent_node = \F::table($this->model)->find($parent, 'id,left_value,right_value');
-        }else if(is_array($parent)){
-            if(!isset($parent['id']) || !isset($parent['left_value']) || !isset($parent['right_value'])){
-                throw new ErrorException('指定节点信息不足: ' . serialize($node));
-            }
+        }else if(isset($parent['id']) && isset($parent['left_value']) && isset($parent['right_value'])){
+            //已经是包含所需信息的数组或ArrayAccess
             $parent_node = $parent;
         }else{
-            throw new ErrorException('无法识别的节点格式: ' . serialize($node));
+            throw new ErrorException('无法识别的节点格式: ' . serialize($parent));
         }
         
         $nodes = \F::table($this->model)->fetchAll(array(
@@ -649,7 +648,7 @@ abstract class TreeModel{
             ), 'id IN ('.implode(',', $branch_ids).')');
         }
     }
-    
+
     /**
      * 判断$node1是否为$node2的子节点（是同一节点也返回true）
      * @param int|array $node1
@@ -659,13 +658,23 @@ abstract class TreeModel{
      *  - 若为数字，视为分类ID获取分类；
      *  - 若是数组，必须包含left_value和right_value
      * @return bool
+     * @throws ErrorException
      */
     public function isChild($node1, $node2){
         if(NumberHelper::isInt($node1)){
             $node1 = \F::table($this->model)->find($node1, 'left_value,right_value');
+        }else if(isset($node1['left_value']) && isset($node1['right_value'])){
+            //已经是包含所需信息的数组或ArrayAccess
+        }else{
+            throw new ErrorException('无法识别的节点格式: ' . serialize($node1));
         }
+        
         if(NumberHelper::isInt($node2)){
             $node2 = \F::table($this->model)->find($node2, 'left_value,right_value');
+        }else if(isset($node2['left_value']) && isset($node2['right_value'])){
+            //已经是包含所需信息的数组或ArrayAccess
+        }else{
+            throw new ErrorException('无法识别的节点格式: ' . serialize($node2));
         }
         
         return $node1['left_value'] >= $node2['left_value'] &&
@@ -690,10 +699,8 @@ abstract class TreeModel{
         //确定$node
         if(NumberHelper::isInt($node)){
             $node = \F::table($this->model)->find($node, 'left_value,right_value');
-        }else if(is_array($node)){
-            if(!isset($node['left_value']) || !isset($node['right_value'])){
-                throw new ErrorException('指定节点信息不足: ' . serialize($node));
-            }
+        }else if(isset($node['left_value']) && isset($node['right_value'])){
+            //已经是包含所需信息的数组或ArrayAccess
         }else{
             throw new ErrorException('无法识别的节点格式: ' . serialize($node));
         }
@@ -708,10 +715,8 @@ abstract class TreeModel{
                 if(!$root){
                     throw new Exception("指定根节点[{$root}]不存在");
                 }
-            }else if(is_array($root)){
-                if(!isset($root['left_value']) || !isset($root['right_value'])){
-                    throw new ErrorException('指定根节点信息不足: ' . serialize($node));
-                }
+            }else if(isset($root['left_value']) && isset($root['right_value'])){
+                //已经是包含所需信息的数组或ArrayAccess
             }else{
                 throw new ErrorException('无法识别的根节点格式: ' . serialize($node));
             }
@@ -759,8 +764,8 @@ abstract class TreeModel{
             if(!$node){
                 throw new Exception("指定根节点[{$node}]不存在");
             }
-        }else if(is_array($node) && isset($node['left_value']) && isset($node['right_value'])){
-            //已经是包含所需信息的数组，不需要做任何操作
+        }else if(isset($node['left_value']) && isset($node['right_value'])){
+            //已经是包含所需信息的数组或ArrayAccess
         }else{
             throw new ErrorException('无法识别的节点格式: ' . serialize($node));
         }
@@ -800,8 +805,8 @@ abstract class TreeModel{
             if(!$node){
                 throw new Exception("指定根节点[{$node}]不存在");
             }
-        }else if(is_array($node) && isset($node['parent'])){
-            //已经是包含所需信息的数组，不需要做任何操作
+        }else if(isset($node['parent'])){
+            //已经是包含所需信息的数组或ArrayAccess
         }else{
             throw new ErrorException('无法识别的节点格式: ' . serialize($node));
         }
@@ -831,8 +836,8 @@ abstract class TreeModel{
     public function getSibling($node, $fields = '*', $order = 'sort, id'){
         if(NumberHelper::isInt($node)){
             $node = \F::table($this->model)->find($node, 'parent');
-        }else if(is_array($node) && isset($node['parent'])){
-            //已经是包含所需信息的数组，不需要做任何操作
+        }else if(isset($node['parent'])){
+            //已经是包含所需信息的数组或ArrayAccess
         }else{
             throw new ErrorException('无法识别的节点格式: ' . serialize($node));
         }

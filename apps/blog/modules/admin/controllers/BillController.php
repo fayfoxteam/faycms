@@ -119,7 +119,7 @@ class BillController extends AdminController{
 
         $this->layout->subtitle = '记账分类';
         $this->view->cats = CategoryService::service()->getTree('_system_bill');
-        $root_node = CategoryService::service()->getByAlias('_system_bill', 'id');
+        $root_node = CategoryService::service()->get('_system_bill', 'id');
         $this->view->root = $root_node['id'];
         
         $this->view->render();

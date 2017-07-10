@@ -339,7 +339,7 @@ class QuestionController extends AdminController{
     public function cat(){
         $this->layout->subtitle = '试题分类';
         $this->view->cats = CategoryService::service()->getTree('_system_exam_question');
-        $root_node = CategoryService::service()->getByAlias('_system_exam_question', 'id');
+        $root_node = CategoryService::service()->get('_system_exam_question', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

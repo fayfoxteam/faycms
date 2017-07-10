@@ -36,26 +36,52 @@ class CategoryService extends TreeModel{
     public static function service(){
         return Loader::singleton(__CLASS__);
     }
+
+    /**
+     * 获取一个或多个分类。
+     * @param int|string $cat
+     *  - 若为数字，视为分类ID获取分类（返回一维数组）；
+     *  - 若为字符串，视为分类别名获取分类（返回一维数组）；
+     * @param string|array $fields
+     * @param null|int|string|array $root 若指定root，则只搜索root下的分类
+     *  - 若为数字，视为分类ID
+     *  - 若为字符串，视为分类别名
+     *  - 若为数组，则必须包含left_value和right_value
+     * @return array|bool
+     * @throws ErrorException
+     * @throws Exception
+     */
+    public function get($cat, $fields = '*', $root = null){
+        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
+
+        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
+            //root信息不足，尝试通过get()方法获取
+            $root = $this->getOrFail($root, 'left_value,right_value');
+        }
+
+        if(StringHelper::isInt($cat)){
+            return $this->getById($cat, $fields->getFields(), $root);
+        }else if(is_string($cat)){
+            return $this->getByAlias($cat, $fields->getFields(), $root);
+        }else{
+            throw new ErrorException('无法识别的节点格式: ' . serialize($cat));
+        }
+    }
     
     /**
      * 根据分类别名获取一个分类信息
      * @param string $alias
-     * @param string $fields
+     * @param string|array $fields
      * @param int|string|array $root 若指定root，则只搜索root下的分类
      *  - 若为数字，视为分类ID
      *  - 若为字符串，视为分类别名
      *  - 若为数组，则必须包含left_value和right_value
      * @return array|bool
      */
-    public function getByAlias($alias, $fields = '*', $root = null){
-        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
-        
-        if($root !== null && !is_array($root)){
-            if(StringHelper::isInt($root)){
-                $root = $this->getById($root, 'left_value,right_value');
-            }else{
-                $root = $this->getByAlias($root, 'left_value,right_value');
-            }
+    protected function getByAlias($alias, $fields = '*', $root = null){
+        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
+            //root信息不足，尝试通过get()方法获取
+            $root = $this->getOrFail($root, 'left_value,right_value');
         }
         
         $conditions = array(
@@ -65,30 +91,25 @@ class CategoryService extends TreeModel{
             $conditions['left_value >= ?'] = $root['left_value'];
             $conditions['right_value <= ?'] = $root['right_value'];
         }
-        return CategoriesTable::model()->fetchRow($conditions, $fields->getFields());
+        return CategoriesTable::model()->fetchRow($conditions, $fields);
     }
     
     /**
      * 根据分类ID获取一个分类信息
      * @param string $id 单个分类ID
-     * @param string $fields
+     * @param string|array $fields
      * @param int|string|array $root 若指定root，则只搜索root下的分类
      *  - 若为数字，视为分类ID
      *  - 若为字符串，视为分类别名
      *  - 若为数组，则必须包含left_value和right_value
      * @return array|bool
      */
-    public function getById($id, $fields = '*', $root = null){
-        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
-        
-        if($root !== null && !is_array($root)){
-            if(StringHelper::isInt($root)){
-                $root = $this->getById($root, 'left_value,right_value');
-            }else{
-                $root = $this->getByAlias($root, 'left_value,right_value');
-            }
+    protected function getById($id, $fields = '*', $root = null){
+        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
+            //root信息不足，尝试通过get()方法获取
+            $root = $this->getOrFail($root, 'left_value,right_value');
         }
-        
+
         $conditions = array(
             'id = ?'=>$id,
         );
@@ -96,7 +117,7 @@ class CategoryService extends TreeModel{
             $conditions['left_value >= ?'] = $root['left_value'];
             $conditions['right_value <= ?'] = $root['right_value'];
         }
-        return CategoriesTable::model()->fetchRow($conditions, $fields->getFields());
+        return CategoriesTable::model()->fetchRow($conditions, $fields);
     }
     
     /**
@@ -123,12 +144,9 @@ class CategoryService extends TreeModel{
             $table_fields[] = 'id';
             $remove_id = true;
         }
-        if($root !== null && !is_array($root)){
-            if(StringHelper::isInt($root)){
-                $root = $this->getById($root, 'left_value,right_value');
-            }else{
-                $root = $this->getByAlias($root, 'left_value,right_value');
-            }
+        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
+            //root信息不足，尝试通过get()方法获取
+            $root = $this->getOrFail($root, 'left_value,right_value');
         }
         
         $conditions = array(
@@ -227,36 +245,6 @@ class CategoryService extends TreeModel{
             throw new ErrorException('无法识别的节点格式: ' . serialize($cat));
         }
     }
-    
-    /**
-     * 获取一个或多个分类。
-     * @param int|string $cat
-     *  - 若为数字，视为分类ID获取分类（返回一维数组）；
-     *  - 若为字符串，视为分类别名获取分类（返回一维数组）；
-     * @param string|array $fields
-     * @param null|int|string|array $root 若指定root，则只搜索root下的分类
-     *  - 若为数字，视为分类ID
-     *  - 若为字符串，视为分类别名
-     *  - 若为数组，则必须包含left_value和right_value
-     * @return array|bool
-     */
-    public function get($cat, $fields = '*', $root = null){
-        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
-        
-        if($root !== null && !is_array($root)){
-            if(StringHelper::isInt($root)){
-                $root = $this->getById($root, 'left_value,right_value');
-            }else{
-                $root = $this->getByAlias($root, 'left_value,right_value');
-            }
-        }
-        
-        if(StringHelper::isInt($cat)){
-            return $this->getById($cat, $fields->getFields(), $root);
-        }else{
-            return $this->getByAlias($cat, $fields->getFields(), $root);
-        }
-    }
 
     /**
      * 通过get()方法获取分类，若获取不到，抛出异常
@@ -288,10 +276,11 @@ class CategoryService extends TreeModel{
      * @return bool
      */
     public function isChild($cat1, $cat2){
-        if(!is_array($cat1)){
+        //兼容alias获取分类
+        if(StringHelper::isInt($cat1) || is_string($cat1)){
             $cat1 = $this->getOrFail($cat1, 'left_value,right_value');
         }
-        if(!is_array($cat2)){
+        if(StringHelper::isInt($cat2) || is_string($cat2)){
             $cat2 = $this->getOrFail($cat2, 'left_value,right_value');
         }
         
@@ -399,11 +388,12 @@ class CategoryService extends TreeModel{
     }
     
     /**
+     * 判断指定id是否存在，可限制根节点
      * @param int $cat_id
-     * @param int|string|array $root 若指定root，则只搜索root下的分类
+     * @param null|int|string|array $root 若指定root，则只搜索root下的分类
      * @return bool
      */
-    public function isIdExist($cat_id, $root){
+    public function isIdExist($cat_id, $root = null){
         return !!$this->getById($cat_id, 'id', $root);
     }
     

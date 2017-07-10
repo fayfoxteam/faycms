@@ -30,7 +30,7 @@ class MaterialController extends FrontController{
         }else if($params['cat_1']){
             $cat = CategoryService::service()->get($params['cat_1']);
         }else{
-            $cat = CategoryService::service()->getByAlias('_material', '*');
+            $cat = CategoryService::service()->get('_material', '*');
         }
         $this->view->cat = $cat;
         $this->layout->title = $cat['seo_title'];

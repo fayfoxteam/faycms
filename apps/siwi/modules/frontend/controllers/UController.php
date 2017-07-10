@@ -50,7 +50,7 @@ class UController extends FrontController{
         $sql = new Sql();
         
         //素材
-        $cat_work = CategoryService::service()->getByAlias('_material', 'left_value,right_value');
+        $cat_work = CategoryService::service()->get('_material', 'left_value,right_value');
         $this->view->works = $sql->from(array('p'=>'posts'), 'id,title,abstract,publish_time,thumbnail,comments,user_id,cat_id')
             ->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'nickname')
             ->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id', 'title AS cat_title, parent AS parent_cat_id')
@@ -68,7 +68,7 @@ class UController extends FrontController{
         ;
         
         //博文
-        $cat_blog = CategoryService::service()->getByAlias('_blog', 'left_value,right_value');
+        $cat_blog = CategoryService::service()->get('_blog', 'left_value,right_value');
         $this->view->posts = $sql->from(array('p'=>'posts'), 'id,title,abstract,publish_time,thumbnail,comments,user_id')
             ->joinLeft(array('u'=>'users'), 'p.user_id = u.id', 'nickname')
             ->joinLeft(array('c'=>'categories'), 'p.cat_id = c.id')

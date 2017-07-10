@@ -69,7 +69,7 @@ class PostController extends FrontController{
     }
     
     public function index(){
-        $cat_post = CategoryService::service()->getByAlias('post', 'left_value,right_value');
+        $cat_post = CategoryService::service()->get('post', 'left_value,right_value');
         
         $submenu = array(
             array(

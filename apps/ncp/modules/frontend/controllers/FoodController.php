@@ -43,7 +43,7 @@ class FoodController extends FrontController{
             if($cat_id = $this->form()->getData('cat_id', 0)){
                 $cat = CategoryService::service()->get($cat_id);
             }else{
-                $cat = CategoryService::service()->getByAlias('food');
+                $cat = CategoryService::service()->get('food');
             }
             $this->layout->title = $cat['title'];
             $this->layout->keywords = $cat['seo_keywords'];
@@ -135,9 +135,9 @@ class FoodController extends FrontController{
         
         $area = PostService::service()->getPropValueByAlias('area', $id);
 
-        $travel_cat = CategoryService::service()->getByAlias('travel', 'id,left_value,right_value');//旅游分类根目录
-        $product_cat = CategoryService::service()->getByAlias('product', 'id,left_value,right_value');//产品分类根目录
-        $food_cat = CategoryService::service()->getByAlias('food', 'id,left_value,right_value');//食品分类根目录
+        $travel_cat = CategoryService::service()->get('travel', 'id,left_value,right_value');//旅游分类根目录
+        $product_cat = CategoryService::service()->get('product', 'id,left_value,right_value');//产品分类根目录
+        $food_cat = CategoryService::service()->get('food', 'id,left_value,right_value');//食品分类根目录
         
         $this->view->assign(array(
             'post'=>$post,

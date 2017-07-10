@@ -6,7 +6,7 @@ use cms\services\CategoryService;
 
 class TourRoute{
     public function addBox($params){
-        $travel_cat = CategoryService::service()->getByAlias('travel', 'id');
+        $travel_cat = CategoryService::service()->get('travel', 'id');
         if(CategoryService::service()->isChild($params['cat_id'], $travel_cat['id'])){
             \F::app()->addBox(array(
                 'name'=>'tour-route',
@@ -16,7 +16,7 @@ class TourRoute{
     }
     
     public function setRoutes($params){
-        $travel_cat = CategoryService::service()->getByAlias('travel', 'id');
+        $travel_cat = CategoryService::service()->get('travel', 'id');
         if(CategoryService::service()->isChild($params['cat_id'], $travel_cat['id'])){
             //验证规则
             \F::form()->setModel(Table_TourRouteTable::model());

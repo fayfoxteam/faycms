@@ -39,7 +39,7 @@ class Recommend extends Model{
             }else if(is_numeric($cat)){
                 $cat = CategoryService::service()->get($cat);
             }else{
-                $cat = CategoryService::service()->getByAlias($cat);
+                $cat = CategoryService::service()->get($cat);
             }
             $sql->where(array(
                 'c.left_value >= '.$cat['left_value'],
@@ -83,7 +83,7 @@ class Recommend extends Model{
                 }else if(is_numeric($cat)){
                     $cat = CategoryService::service()->get($cat);
                 }else{
-                    $cat = CategoryService::service()->getByAlias($cat);
+                    $cat = CategoryService::service()->get($cat);
                 }
                 $sql->where(array(
                     'c.left_value >= '.$cat['left_value'],

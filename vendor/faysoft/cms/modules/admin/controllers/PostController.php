@@ -448,7 +448,7 @@ class PostController extends AdminController{
         
         //若分类已被删除，将文章归为根分类
         if(!$cat){
-            $cat = CategoryService::service()->getByAlias('_system_post', 'id,title');
+            $cat = CategoryService::service()->get('_system_post', 'id,title');
             PostsTable::model()->update(array(
                 'cat_id'=>$cat['id'],
             ), $post_id);
@@ -701,7 +701,7 @@ class PostController extends AdminController{
         
         $this->layout->subtitle = '文章分类';
         $this->view->cats = CategoryService::service()->getTree('_system_post');
-        $root_node = CategoryService::service()->getByAlias('_system_post', 'id');
+        $root_node = CategoryService::service()->get('_system_post', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

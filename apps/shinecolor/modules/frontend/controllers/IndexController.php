@@ -23,7 +23,7 @@ class IndexController extends FrontController{
         
         $this->view->news = \cms\services\post\PostCategoryService::service()->getPosts('news', 7, 'id,title,publish_time', true);
         
-        $cat_product = CategoryService::service()->getByAlias('product');
+        $cat_product = CategoryService::service()->get('product');
         $this->view->products = PostsTable::model()->fetchAll(array(
             'cat_id = '.$cat_product['id'],
         ), 'id,title,thumbnail', 'is_top DESC, sort DESC, publish_time DESC');

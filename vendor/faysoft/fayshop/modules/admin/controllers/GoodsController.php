@@ -65,7 +65,7 @@ class GoodsController extends AdminController{
         
         $this->layout->subtitle = '商品分类';
         $this->view->cats = CategoryService::service()->getTree('_system_goods');
-        $root_node = CategoryService::service()->getByAlias('_system_goods', 'id');
+        $root_node = CategoryService::service()->get('_system_goods', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

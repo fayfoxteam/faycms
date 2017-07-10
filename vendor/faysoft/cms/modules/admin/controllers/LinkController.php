@@ -166,7 +166,7 @@ class LinkController extends AdminController{
     
         $this->layout->subtitle = '友情链接分类';
         $this->view->cats = CategoryService::service()->getTree('_system_link');
-        $root_node = CategoryService::service()->getByAlias('_system_link', 'id');
+        $root_node = CategoryService::service()->get('_system_link', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

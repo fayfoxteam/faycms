@@ -17,7 +17,7 @@ class TeamController extends FrontController{
         $this->layout->current_directory = 'team';
         
         //团队
-        $cat_team = CategoryService::service()->getByAlias('team', '*');
+        $cat_team = CategoryService::service()->get('team', '*');
         //SEO
         $this->layout->title = $cat_team['seo_title'];
         $this->layout->keywords = $cat_team['seo_keywords'];

@@ -10,7 +10,7 @@ class IndexController extends Widget{
     public function initConfig($config){
         //root node
         if(empty($config['top'])){
-            $root_node = CategoryService::service()->getByAlias('_system_page', 'id');
+            $root_node = CategoryService::service()->get('_system_page', 'id');
             $config['top'] = $root_node['id'];
         }
         

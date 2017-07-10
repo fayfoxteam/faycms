@@ -30,7 +30,7 @@ class BlogController extends FrontController{
         }else if($params['cat_1']){
             $cat = CategoryService::service()->get($params['cat_1']);
         }else{
-            $cat = CategoryService::service()->getByAlias('_blog', '*');
+            $cat = CategoryService::service()->get('_blog', '*');
         }
         $this->view->cat = $cat;
         $this->layout->title = $cat['seo_title'];

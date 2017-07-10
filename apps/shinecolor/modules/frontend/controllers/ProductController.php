@@ -33,7 +33,7 @@ class ProductController extends FrontController{
     }
     
     public function index(){
-        $cat_product = CategoryService::service()->getByAlias('product');
+        $cat_product = CategoryService::service()->get('product');
 
         $this->layout->title = $cat_product['seo_title'];
         $this->layout->keywords = $cat_product['seo_keywords'];

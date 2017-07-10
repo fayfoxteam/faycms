@@ -16,7 +16,7 @@ $menu = MenuService::service()->getTree('_jxsj_top');
             </li>
             <?php
                 //静态页面
-                $cat_about = CategoryService::service()->getByAlias('about', 'title');
+                $cat_about = CategoryService::service()->get('about', 'title');
                 $pages = PageService::service()->getByCatAlias('about', 5);
                 echo '<li class="nav-i">', HtmlHelper::link($cat_about['title'], 'javascript:;', array(
                     'class'=>'nav-p',

@@ -13,7 +13,7 @@ class AdminController extends Widget{
     }
     
     public function index(){
-        $root_node = CategoryService::service()->getByAlias('_system_post', 'id');
+        $root_node = CategoryService::service()->get('_system_post', 'id');
         $this->view->cats = array(
             array(
                 'id'=>$root_node['id'],

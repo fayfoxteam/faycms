@@ -46,12 +46,12 @@ class IndexController extends FrontController{
         if($this->input->get('type')){
             if($this->input->get('type') == 'post'){
                 $reload = $this->view->url('post');
-                $cat = CategoryService::service()->getByAlias('_blog');
+                $cat = CategoryService::service()->get('_blog');
                 $this->layout->title = '博文';
                 $this->layout->current_directory = 'blog';
             }else if($this->input->get('type') == 'work'){
                 $reload = $this->view->url('work');
-                $cat = CategoryService::service()->getByAlias('_work');
+                $cat = CategoryService::service()->get('_work');
                 $this->layout->title = '作品';
                 $this->layout->current_directory = 'work';
             }
@@ -72,7 +72,7 @@ class IndexController extends FrontController{
             $this->layout->canonical = $reload;
         }
         
-        $this->view->work_cat = CategoryService::service()->getByAlias('_work');
+        $this->view->work_cat = CategoryService::service()->get('_work');
         
         $this->view->render();
     }

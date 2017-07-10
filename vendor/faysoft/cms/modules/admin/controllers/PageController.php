@@ -302,7 +302,7 @@ class PageController extends AdminController{
     
         $this->layout->subtitle = '页面分类';
         $this->view->cats = CategoryService::service()->getTree('_system_page');
-        $root_node = CategoryService::service()->getByAlias('_system_page', 'id');
+        $root_node = CategoryService::service()->get('_system_page', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

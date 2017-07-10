@@ -451,7 +451,7 @@ class FileController extends AdminController{
         $this->layout->current_directory = 'file';
         $this->layout->subtitle = '文件分类';
         $this->view->cats = CategoryService::service()->getTree('_system_file');
-        $root_node = CategoryService::service()->getByAlias('_system_file', 'id');
+        $root_node = CategoryService::service()->get('_system_file', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

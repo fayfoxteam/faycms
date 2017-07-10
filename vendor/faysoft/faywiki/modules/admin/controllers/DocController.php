@@ -300,7 +300,7 @@ class DocController extends AdminController{
         
         //若分类已被删除，将文档归为根分类
         if(!$cat){
-            $cat = CategoryService::service()->getByAlias('_system_wiki_doc', 'id,title');
+            $cat = CategoryService::service()->get('_system_wiki_doc', 'id,title');
             WikiDocsTable::model()->update(array(
                 'cat_id'=>$cat['id'],
             ), $doc_id);
@@ -469,7 +469,7 @@ class DocController extends AdminController{
         
         $this->layout->subtitle = '文档分类';
         $this->view->cats = CategoryService::service()->getTree('_system_wiki_doc');
-        $root_node = CategoryService::service()->getByAlias('_system_wiki_doc', 'id');
+        $root_node = CategoryService::service()->get('_system_wiki_doc', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

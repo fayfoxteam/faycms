@@ -23,7 +23,7 @@ class NewsController extends FrontController{
     
     public function index(){
         $cat_alias = $this->input->get('alias', 'news');
-        $cat = CategoryService::service()->getByAlias($cat_alias, '*');
+        $cat = CategoryService::service()->get($cat_alias, '*');
         
         if(!$cat){
             throw new HttpException('404页面不存在');

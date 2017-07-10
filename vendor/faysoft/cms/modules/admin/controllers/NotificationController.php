@@ -130,7 +130,7 @@ class NotificationController extends AdminController{
     public function cat(){
         $this->layout->subtitle = '消息分类';
         $this->view->cats = CategoryService::service()->getTree('_system_notification');
-        $root_node = CategoryService::service()->getByAlias('_system_notification', 'id');
+        $root_node = CategoryService::service()->get('_system_notification', 'id');
         $this->view->root = $root_node['id'];
 
         \F::form('create')->setModel(CategoriesTable::model());

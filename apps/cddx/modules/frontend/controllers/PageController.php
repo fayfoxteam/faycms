@@ -29,7 +29,7 @@ class PageController extends FrontController{
         $this->layout->keywords = $page['seo_keywords'] ? $page['seo_keywords'] : $page['title'];
         $this->layout->description = $page['seo_description'] ? $page['seo_description'] : $page['abstract'];
         
-        $root_cat = CategoryService::service()->getByAlias('_system_post');
+        $root_cat = CategoryService::service()->get('_system_post');
         $left_cats = $root_cat;
         $child_cats = CategoryService::service()->getTree($root_cat['id']);
         $left_cats['children'] = $child_cats;

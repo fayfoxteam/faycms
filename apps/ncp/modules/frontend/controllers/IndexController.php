@@ -28,9 +28,9 @@ class IndexController extends FrontController{
         $foods = array();
         $products = array();
 
-        $travel_cat = CategoryService::service()->getByAlias('travel');
-        $food_cat = CategoryService::service()->getByAlias('food');
-        $product_cat = CategoryService::service()->getByAlias('product');
+        $travel_cat = CategoryService::service()->get('travel');
+        $food_cat = CategoryService::service()->get('food');
+        $product_cat = CategoryService::service()->get('product');
         
         $prop_area = PropService::service()->getIdByAlias('area');
         

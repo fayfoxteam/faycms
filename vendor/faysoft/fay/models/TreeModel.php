@@ -5,6 +5,7 @@ use fay\core\db\Expr;
 use fay\core\ErrorException;
 use fay\core\Exception;
 use fay\helpers\ArrayHelper;
+use fay\helpers\FieldsHelper;
 
 /**
  * 基于左右值的树操作
@@ -526,23 +527,33 @@ abstract class TreeModel{
      * @return array
      */
     public function getTree($parent = 0, $fields = '*'){
+        $fields = new FieldsHelper($fields, '', \F::table($this->model)->getFields());
         if(is_int($parent) || is_string($parent)){
             if(!$parent){
-                $nodes = \F::table($this->model)->fetchAll(array(), $fields, 'left_value');
-                return $this->renderTreeByParent($nodes);
+                $nodes = \F::table($this->model)->fetchAll(
+                    array(),
+                    array_merge($fields->getFields(), array('parent', 'left_value', 'right_value')),
+                    'left_value'
+                );
+                return $this->renderTreeByParent($nodes, 0, $fields->getFields());
             }
             $parent = $this->getOrFail($parent, 'id,left_value,right_value');
         }else if(!isset($parent['id']) || !isset($parent['left_value']) || !isset($parent['right_value'])){
             throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($parent));
         }
         
-        $nodes = \F::table($this->model)->fetchAll(array(
-            'left_value > ' . $parent['left_value'],
-            'right_value < ' . $parent['right_value'],
-        ), $fields, 'left_value');
+        $nodes = \F::table($this->model)->fetchAll(
+            array(
+                'left_value > ' . $parent['left_value'],
+                'right_value < ' . $parent['right_value'],
+            ),
+            array_merge($fields->getFields(), array('parent', 'left_value', 'right_value')),
+            'left_value'
+        );
         return $this->renderTreeByParent(
             $nodes,
-            $parent['id']
+            $parent['id'],
+            $fields->getFields()
         );
     }
     
@@ -618,14 +629,15 @@ abstract class TreeModel{
         }
         return $tree;
     }
-    
+
     /**
      * 根据parent字段来渲染出一个多维数组
      * @param array $nodes
      * @param int $parent 若根节点非0，需要指定正确的根节点ID
+     * @param array $fields 过滤字段
      * @return array
      */
-    public function renderTreeByParent(&$nodes, $parent = 0){
+    public function renderTreeByParent(&$nodes, $parent = 0, $fields = array()){
         $tree = array();
         if(empty($nodes)){
             return $tree;
@@ -639,9 +651,16 @@ abstract class TreeModel{
         foreach($tree as &$t){
             if($t['right_value'] - $t['left_value'] != 1){
                 //非叶子
-                $t['children'] = $this->renderTreeByParent($nodes, $t['id']);
+                $t['children'] = $this->renderTreeByParent($nodes, $t['id'], $fields);
             }else{
                 $t['children'] = array();
+            }
+
+            //过滤掉未指定返回的索引字段
+            foreach(array('parent', 'left_value', 'right_value') as $field){
+                if(!in_array($field, $fields)){
+                    unset($t[$field]);
+                }
             }
         }
         return $tree;

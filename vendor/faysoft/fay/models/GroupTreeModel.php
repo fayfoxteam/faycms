@@ -654,7 +654,7 @@ abstract class GroupTreeModel{
                 ), $fields, 'left_value');
                 return $this->renderTreeByParent($nodes);
             }
-            $parent = $this->getOrFail($parent, 'id,left_value,right_value');
+            $parent = $this->getOrFail($parent, 'id,left_value,right_value', $group_id);
         }else if(!isset($parent['id']) || !isset($parent['left_value']) || !isset($parent['right_value'])){
             throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($parent));
         }
@@ -815,7 +815,7 @@ abstract class GroupTreeModel{
         //确定$node
         if(is_int($node) || is_string($node)){
             $node = $this->getOrFail($node, array('left_value', 'right_value', $this->group_field));
-        }else if(!isset($node['left_value']) || !isset($node['right_value'])){
+        }else if(!isset($node['left_value']) || !isset($node['right_value']) || !isset($node[$this->group_field])){
             throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($node));
         }
 
@@ -823,8 +823,10 @@ abstract class GroupTreeModel{
         if($root){
             if(is_int($root) || is_string($root)){
                 $root = $this->getOrFail($root, array('left_value', 'right_value', $this->group_field));
-                
-            }else if(!isset($root['left_value']) || !isset($root['right_value'])){
+                if($node[$this->group_field] != $root[$this->group_field]){
+                    throw new \InvalidArgumentException('指定节点与根节点不属于同一个归档');
+                }
+            }else if(!isset($root['left_value']) || !isset($root['right_value']) || !isset($root[$this->group_field])){
                 throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($root));
             }
         }

@@ -6,6 +6,7 @@ use apidoc\models\tables\ApidocApisTable;
 use apidoc\models\tables\ApidocInputsTable;
 use apidoc\models\tables\ApidocModelsTable;
 use apidoc\models\tables\ApidocOutputsTable;
+use apidoc\services\ApiCategoryService;
 use cms\library\AdminController;
 use cms\services\CategoryService;
 use cms\services\SettingService;
@@ -151,6 +152,11 @@ class ApiController extends AdminController{
 
         //启用的编辑框
         $_setting_key = 'admin_api_boxes';
+        
+        $cat = ApiCategoryService::service()->getOrFail(
+            $this->input->get('cat_id', 'intval'),
+            'id,app_id'
+        );
 
         if($this->input->post() && $this->form()->check()){
             $data = ApidocApisTable::model()->fillData($this->input->post(), true, 'insert');
@@ -202,7 +208,7 @@ class ApiController extends AdminController{
         }
         
         //分类树
-        $this->view->cats = CategoryService::service()->getTree('_system_api');
+        $this->view->cats = ApiCategoryService::service()->getTree($cat['app_id']);
         
         //可配置信息
         $_box_sort_settings = SettingService::service()->get('admin_api_box_sort');

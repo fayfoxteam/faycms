@@ -9,15 +9,14 @@ use fay\models\TreeModel;
 
 class MenuService extends TreeModel{
     /**
-     * @see Tree::$model
-     */
-    protected $model = 'cms\models\tables\MenusTable';
-    
-    /**
      * @return $this
      */
     public static function service(){
         return Loader::singleton(__CLASS__);
+    }
+
+    protected function getModel(){
+        return MenusTable::model();
     }
 
     /**

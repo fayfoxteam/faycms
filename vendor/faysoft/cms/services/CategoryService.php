@@ -10,11 +10,6 @@ use fay\models\TreeModel;
 
 class CategoryService extends TreeModel{
     /**
-     * @see Tree::$model
-     */
-    protected $model = 'cms\models\tables\CategoriesTable';
-
-    /**
      * id与别名对应关系
      * 相当于是缓存
      * @var array
@@ -33,6 +28,10 @@ class CategoryService extends TreeModel{
      */
     public static function service(){
         return Loader::singleton(__CLASS__);
+    }
+    
+    protected function getModel(){
+        return CategoriesTable::model();
     }
 
     /**

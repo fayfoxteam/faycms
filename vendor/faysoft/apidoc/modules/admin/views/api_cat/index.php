@@ -5,6 +5,11 @@ use fay\helpers\HtmlHelper;
  * @var $app_id int
  */
 
+/**
+ * @param array $cats
+ * @param int $dep
+ * @param int $open_dep
+ */
 function showCats($cats, $dep = 0, $open_dep = 2){?>
     <ul class="tree">
     <?php foreach($cats as $k=>$c){?>
@@ -13,7 +18,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
                 <span class="fr options">
                     <?php if(F::app()->checkPermission('apidoc/admin/api-cat/sort')){?>
                     <span class="w135 block fl">
-                    排序：<?php echo HtmlHelper::inputText('sort[]', $c['sort'], array(
+                    排序：<?php echo HtmlHelper::inputNumber('sort[]', $c['sort'], array(
                         'data-id'=>$c['id'],
                         'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
                     ))?>
@@ -95,3 +100,11 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
     'create_cat_url'=>array('apidoc/admin/api-cat/create'),
     'edit_cat_url'=>array('apidoc/admin/api-cat/edit'),
 ));?>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
+<script>
+    $(function(){
+        $('.edit-sort').feditsort({
+            'url':system.url('apidoc/admin/api-cat/sort')
+        });
+    });
+</script>

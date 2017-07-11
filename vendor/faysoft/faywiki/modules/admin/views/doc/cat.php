@@ -20,7 +20,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
                 <span class="fr options">
                     <?php if(F::app()->checkPermission('faywiki/admin/doc/cat-sort')){?>
                     <span class="w135 block fl">
-                    排序：<?php echo HtmlHelper::inputText('sort[]', $c['sort'], array(
+                    排序：<?php echo HtmlHelper::inputNumber('sort[]', $c['sort'], array(
                         'data-id'=>$c['id'],
                         'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
                     ))?>

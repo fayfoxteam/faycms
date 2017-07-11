@@ -185,4 +185,17 @@ class ApiCatController extends AdminController{
             Response::json('', 1, '别名不存在');
         }
     }
+
+    public function sort(){
+        $id = $this->input->get('id', 'intval');
+        ApiCategoryService::service()->sort($id, $this->input->get('sort', 'intval'));
+
+        $node = ApidocApiCategoriesTable::model()->find($id, 'sort,title');
+        Response::notify('success', array(
+            'data'=>array(
+                'sort'=>$node['sort'],
+            ),
+            'message'=>"分类{$node['title']}的排序值被修改为{$node['sort']}",
+        ));
+    }
 }

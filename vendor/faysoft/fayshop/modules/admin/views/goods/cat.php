@@ -9,7 +9,7 @@ function showCats($cats, $dep = 0){?>
                 <span class="fr options">
                     <?php if(F::app()->checkPermission('fayshop/admin/goods/cat-sort')){?>
                     <span class="w135 block fl">
-                    排序：<?php echo HtmlHelper::inputText('sort[]', $c['sort'], array(
+                    排序：<?php echo HtmlHelper::inputNumber('sort[]', $c['sort'], array(
                         'data-id'=>$c['id'],
                         'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
                     ))?>

@@ -3,6 +3,10 @@ use apidoc\helpers\ApiHelper;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $data array
+ * @var $http_methods array
+ */
 ?>
 <tr valign="top">
     <td>
@@ -19,10 +23,13 @@ use fay\helpers\HtmlHelper;
         ?></div>
     </td>
     <?php if(in_array('router', $cols)){?>
-    <td><?php echo $data['router']?></td>
+        <td><?php echo $data['router']?></td>
     <?php }?>
     <?php if(in_array('status', $cols)){?>
-    <td><?php echo ApiHelper::getStatus($data['status'])?></td>
+        <td><?php echo ApiHelper::getStatus($data['status'])?></td>
+    <?php }?>
+    <?php if(in_array('app', $cols)){?>
+        <td><?php echo $data['app_name']?></td>
     <?php }?>
     <?php if(in_array('category', $cols)){?>
     <td><?php echo $data['cat_title']?></td>

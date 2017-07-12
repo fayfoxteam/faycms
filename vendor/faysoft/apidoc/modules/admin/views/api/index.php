@@ -3,6 +3,12 @@ use apidoc\models\tables\ApidocApisTable;
 use cms\helpers\ListTableHelper;
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $apps array
+ * @var $status_counts array
+ * @var $listview \fay\common\ListView
+ */
+
 $cols = F::form('setting')->getData('cols', array());
 ?>
 <div class="row">
@@ -23,9 +29,9 @@ $cols = F::form('setting')->getData('cols', array());
                     'class'=>'form-control w200',
                 )),
                 '&nbsp;',
-                F::form('search')->select('cat_id', array(
-                    ''=>'--分类--',
-                ) + HtmlHelper::getSelectOptions($cats, 'id', 'title'), array(
+                F::form('search')->select('app_id', array(
+                    ''=>'--APP--',
+                ) + HtmlHelper::getSelectOptions($apps, 'id', 'name'), array(
                     'class'=>'form-control',
                 ));
             ?></div>
@@ -85,31 +91,34 @@ $cols = F::form('setting')->getData('cols', array());
                 <tr>
                     <th>标题</th>
                     <?php if(in_array('router', $cols)){?>
-                    <th>路由</th>
+                        <th>路由</th>
                     <?php }?>
                     <?php if(in_array('status', $cols)){?>
-                    <th class="w90">状态</th>
+                        <th class="w90">状态</th>
+                    <?php }?>
+                    <?php if(in_array('app', $cols)){?>
+                        <th>APP</th>
                     <?php }?>
                     <?php if(in_array('category', $cols)){?>
-                    <th>分类</th>
+                        <th>分类</th>
                     <?php }?>
                     <?php if(in_array('http_method', $cols)){?>
-                    <th>请求方式</th>
+                        <th>请求方式</th>
                     <?php }?>
                     <?php if(in_array('need_login', $cols)){?>
-                    <th>是否需要登录</th>
+                        <th>是否需要登录</th>
                     <?php }?>
                     <?php if(in_array('user', $cols)){?>
-                    <th>作者</th>
+                        <th>作者</th>
                     <?php }?>
                     <?php if(in_array('since', $cols)){?>
-                    <th>自从</th>
+                        <th>自从</th>
                     <?php }?>
                     <?php if(in_array('update_time', $cols)){?>
-                    <th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
+                        <th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
                     <?php }?>
                     <?php if(in_array('create_time', $cols)){?>
-                    <th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
+                        <th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
                     <?php }?>
                 </tr>
             </thead>
@@ -117,31 +126,34 @@ $cols = F::form('setting')->getData('cols', array());
                 <tr>
                     <th>标题</th>
                     <?php if(in_array('router', $cols)){?>
-                    <th>路由</th>
+                        <th>路由</th>
                     <?php }?>
                     <?php if(in_array('status', $cols)){?>
-                    <th>状态</th>
+                        <th>状态</th>
+                    <?php }?>
+                    <?php if(in_array('app', $cols)){?>
+                        <th>APP</th>
                     <?php }?>
                     <?php if(in_array('category', $cols)){?>
-                    <th>分类</th>
+                        <th>分类</th>
                     <?php }?>
                     <?php if(in_array('http_method', $cols)){?>
-                    <th>请求方式</th>
+                        <th>请求方式</th>
                     <?php }?>
                     <?php if(in_array('need_login', $cols)){?>
-                    <th>是否需要登录</th>
+                        <th>是否需要登录</th>
                     <?php }?>
                     <?php if(in_array('user', $cols)){?>
-                    <th>作者</th>
+                        <th>作者</th>
                     <?php }?>
                     <?php if(in_array('since', $cols)){?>
-                    <th>自从</th>
+                        <th>自从</th>
                     <?php }?>
                     <?php if(in_array('update_time', $cols)){?>
-                    <th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
+                        <th><?php echo ListTableHelper::getSortLink('update_time', '更新时间')?></th>
                     <?php }?>
                     <?php if(in_array('create_time', $cols)){?>
-                    <th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
+                        <th><?php echo ListTableHelper::getSortLink('create_time', '创建时间')?></th>
                     <?php }?>
                 </tr>
             </tfoot>

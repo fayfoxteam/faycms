@@ -3,6 +3,7 @@ namespace apidoc\modules\admin\controllers;
 
 use apidoc\models\tables\ApidocApiErrorCodesTable;
 use apidoc\models\tables\ApidocApisTable;
+use apidoc\models\tables\ApidocAppsTable;
 use apidoc\models\tables\ApidocInputsTable;
 use apidoc\models\tables\ApidocModelsTable;
 use apidoc\models\tables\ApidocOutputsTable;
@@ -75,7 +76,8 @@ class ApiController extends AdminController{
         $this->view->enabled_boxes = $this->getEnabledBoxes('admin_api_boxes');
         
         $sql = new Sql();
-        $sql->from(array('a'=>'apidoc_apis'));
+        $sql->from(array('a'=>'apidoc_apis'))
+            ->joinLeft(array('app'=>ApidocAppsTable::model()->getTableName()), 'a.app_id = app.id', 'name AS app_name');
         
         if(in_array('category', $_settings['cols'])){
             $sql->joinLeft(array('c'=>'categories'), 'a.cat_id = c.id', 'title AS cat_title');
@@ -83,6 +85,11 @@ class ApiController extends AdminController{
         
         if(in_array('user', $_settings['cols'])){
             $sql->joinLeft(array('u'=>'users'), 'a.user_id = u.id', 'username,nickname,realname');
+        }
+        
+        //根据APP查找
+        if($this->input->get('app_id')){
+            $sql->where('a.app_id = ?', $this->input->get('app_id', 'intval'));
         }
         
         //根据分类搜索
@@ -135,6 +142,8 @@ class ApiController extends AdminController{
         
         //查找api分类
         $this->view->cats = CategoryService::service()->getTree('_system_api');
+        //app列表
+        $this->view->apps = ApidocAppsTable::model()->fetchAll(array(), 'id,name');
         
         $this->view->render();
     }

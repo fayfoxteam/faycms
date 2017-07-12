@@ -9,6 +9,9 @@
         echo F::form('setting')->inputCheckbox('cols[]', 'status', array(
             'label'=>'状态',
         ));
+        echo F::form('setting')->inputCheckbox('cols[]', 'app', array(
+            'label'=>'APP',
+        ));
         echo F::form('setting')->inputCheckbox('cols[]', 'category', array(
             'label'=>'分类',
         ));

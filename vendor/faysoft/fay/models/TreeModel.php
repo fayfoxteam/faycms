@@ -735,7 +735,7 @@ abstract class TreeModel{
      * @param bool $with_own 是否包含当前节点返回
      * @return array
      */
-    public function getParentIds($node, $root = null, $with_own = true){
+    public function getParentIDs($node, $root = null, $with_own = true){
         return ArrayHelper::column($this->getParents($node, 'id', $root, $with_own), 'id');
     }
 
@@ -747,7 +747,7 @@ abstract class TreeModel{
      * @param string $order
      * @return array
      */
-    public function getChildren($node = 0, $fields = '*', $order = 'sort'){
+    public function getChildren($node = 0, $fields = '*', $order = 'sort, id'){
         if(!$node){
             return $this->getModel()->fetchAll(array(), $fields, $order);
         }else if(is_int($node) || is_string($node)){
@@ -770,7 +770,7 @@ abstract class TreeModel{
      *  - 若为字符串，视为分类别名获取分类；
      * @return array
      */
-    public function getChildIds($parent = 0){
+    public function getChildrenIDs($parent = 0){
         return ArrayHelper::column($this->getChildren($parent, 'id', 'id'), 'id');
     }
 

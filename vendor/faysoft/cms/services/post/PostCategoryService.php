@@ -387,7 +387,7 @@ class PostCategoryService extends Service{
      */
     public function resetPostCount(){
         //获取所有文章分类ID
-        $cats = CategoryService::service()->getChildIds('_system_post');
+        $cats = CategoryService::service()->getChildrenIDs('_system_post');
         
         //先清零
         CategoriesTable::model()->update(array(

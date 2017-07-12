@@ -9,7 +9,7 @@ use cms\models\tables\PostsTable;
 class IndexController extends Widget{
     
     public function index($options){
-        $cat_ids = CategoryService::service()->getChildIds('_blog');
+        $cat_ids = CategoryService::service()->getChildrenIDs('_blog');
 
         $sql = new Sql();
         $this->view->posts = $sql->from(array('p'=>'posts'), 'id,title,user_id,comments,thumbnail')

@@ -293,7 +293,7 @@ class PostController extends AdminController{
         if($cat_id){
             if($this->input->get('with_child')){
                 //包含子分类搜索
-                $cats = CategoryService::service()->getChildIds($cat_id);
+                $cats = CategoryService::service()->getChildrenIDs($cat_id);
                 if($this->input->get('with_slave')){
                     $orWhere = array(
                         'p.cat_id = ?'=>$cat_id,
@@ -844,7 +844,7 @@ class PostController extends AdminController{
      */
     public function search(){
         if($cat_id = $this->input->request('cat_id', 'intval')){
-            $cats = CategoryService::service()->getChildIds($cat_id);
+            $cats = CategoryService::service()->getChildrenIDs($cat_id);
             $cats[] = $cat_id;
         }
         $posts = PostsTable::model()->fetchAll(array(
@@ -930,7 +930,7 @@ class PostController extends AdminController{
         if($cat_id){
             if(!!$this->form()->getData('subclassification')){
                 //包含子分类
-                $limit_cat_children = CategoryService::service()->getChildIds($cat_id);
+                $limit_cat_children = CategoryService::service()->getChildrenIDs($cat_id);
                 $limit_cat_children[] = $cat_id;//加上父节点
                 $sql->where(array('cat_id IN (?)'=>$limit_cat_children));
             }else{

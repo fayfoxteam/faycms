@@ -19,7 +19,7 @@ class GuideController extends FrontController{
         $this->layout->title = $cat['title'].' - '.OptionService::get('site:sitename');
 
         $breadcrumb = array();
-        $parent_path = CategoryService::service()->getParentIds($cat, 'fayfox');
+        $parent_path = CategoryService::service()->getParentIDs($cat, 'fayfox');
         if($parent_path){
             foreach($parent_path as $p){
                 $breadcrumb[] = array(
@@ -34,14 +34,14 @@ class GuideController extends FrontController{
             //叶子节点
             $this->view->assign(array(
                 'cat'=>$cat,
-                'posts'=>\cms\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+                'posts'=>\cms\services\post\PostCategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
             ))->render('posts');
         }else{
             //非叶子
             $this->view->assign(array(
                 'cat'=>$cat,
-                'cats'=>CategoryService::service()->getNextLevelByParentId($cat['id']),
-                'posts'=>\cms\services\post\CategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
+                'cats'=>CategoryService::service()->getNextLevel($cat['id']),
+                'posts'=>\cms\services\post\PostCategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
             ))->render('cats');
         }
     }

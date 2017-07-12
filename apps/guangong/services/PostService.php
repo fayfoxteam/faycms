@@ -46,7 +46,7 @@ class PostService extends Service{
         
         //获取文献分类及其子分类所有ID
         $root_cat = CategoryService::service()->get('arm-info');
-        $cat_ids = CategoryService::service()->getChildIds('arm-info');
+        $cat_ids = CategoryService::service()->getChildrenIDs('arm-info');
         $cat_ids[] = $root_cat['id'];
         
         $post = PostsTable::model()->fetchRow(array(

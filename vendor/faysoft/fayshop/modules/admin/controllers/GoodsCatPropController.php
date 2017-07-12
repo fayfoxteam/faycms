@@ -230,7 +230,7 @@ class GoodsCatPropController extends AdminController{
         $sql->from('goods_cat_props')
             ->where(array(
                 'delete_time = 0',
-                'cat_id IN ('.implode(',', CategoryService::service()->getParentIds($cat_id)).')',
+                'cat_id IN ('.implode(',', CategoryService::service()->getParentIDs($cat_id)).')',
             ))
             ->order('sort, id DESC');
         $listview = new ListView($sql, array(

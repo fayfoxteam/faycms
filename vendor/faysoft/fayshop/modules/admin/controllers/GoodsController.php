@@ -219,7 +219,7 @@ class GoodsController extends AdminController{
         }
         $this->form()->setData($this->input->post());
         
-        $parentIds = CategoryService::service()->getParentIds($cat['id']);
+        $parentIds = CategoryService::service()->getParentIDs($cat['id']);
         //props
         $props = ShopGoodsCatPropsTable::model()->fetchAll(array(
             'cat_id IN ('.implode(',', $parentIds).')',
@@ -574,7 +574,7 @@ class GoodsController extends AdminController{
         //获取分类
         $cat = CategoriesTable::model()->find($goods['cat_id'], 'id,title');
         
-        $parentIds = CategoryService::service()->getParentIds($cat['id']);
+        $parentIds = CategoryService::service()->getParentIDs($cat['id']);
         //props
         $props = ShopGoodsCatPropsTable::model()->fetchAll(array(
             'cat_id IN ('.implode(',', $parentIds).')',

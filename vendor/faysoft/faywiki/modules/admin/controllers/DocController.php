@@ -213,7 +213,7 @@ class DocController extends AdminController{
         if($cat_id){
             if($this->input->get('with_child')){
                 //包含子分类搜索
-                $cats = CategoryService::service()->getChildIds($cat_id);
+                $cats = CategoryService::service()->getChildrenIDs($cat_id);
                 //根据文档分类搜索
                 $orWhere = array(
                     'd.cat_id = ?'=>$cat_id,

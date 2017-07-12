@@ -85,7 +85,7 @@ class PostPropService extends Service implements PropUsageInterface{
             }
             $cat_id = $cat_id[0];
         }
-        return CategoryService::service()->getParentIds($cat_id, '_system_post', false);
+        return CategoryService::service()->getParentIDs($cat_id, '_system_post', false);
     }
 
     /**
@@ -152,7 +152,7 @@ class PostPropService extends Service implements PropUsageInterface{
      * @return array
      */
     public function getPropsByCatId($cat_id){
-        $parents = CategoryService::service()->getParentIds($cat_id, '_system_post', false);
+        $parents = CategoryService::service()->getParentIDs($cat_id, '_system_post', false);
         
         return PropService::service()->getPropsByUsage(array($cat_id), PropsTable::USAGE_POST_CAT, $parents);
     }

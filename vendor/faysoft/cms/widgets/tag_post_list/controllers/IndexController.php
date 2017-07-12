@@ -194,7 +194,7 @@ class IndexController extends Widget{
             ->order($this->getOrder())
         ;
         if($this->config['cat_id']){
-            $cat_ids = CategoryService::service()->getChildIds($this->config['cat_id']);
+            $cat_ids = CategoryService::service()->getChildrenIDs($this->config['cat_id']);
             $cat_ids[] = $this->config['cat_id'];
             $sql->where('p.cat_id IN (?)', $cat_ids);
         }

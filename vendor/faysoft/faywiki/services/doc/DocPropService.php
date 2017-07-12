@@ -84,7 +84,7 @@ class DocPropService extends Service implements PropUsageInterface{
             }
             $cat_id = $cat_id[0];
         }
-        return CategoryService::service()->getParentIds($cat_id, '_system_wiki_doc', false);
+        return CategoryService::service()->getParentIDs($cat_id, '_system_wiki_doc', false);
     }
 
     /**
@@ -151,7 +151,7 @@ class DocPropService extends Service implements PropUsageInterface{
      * @return array
      */
     public function getPropsByCatId($cat_id){
-        $parents = CategoryService::service()->getParentIds($cat_id, '_system_wiki_doc', false);
+        $parents = CategoryService::service()->getParentIDs($cat_id, '_system_wiki_doc', false);
 
         return PropService::service()->getPropsByUsage(array($cat_id), PropsTable::USAGE_WIKI_DOC, $parents);
     }

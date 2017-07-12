@@ -186,7 +186,7 @@ class IndexController extends Widget{
             }
             if($this->config['subclassification']){
                 //包含子分类
-                $limit_cat_children = CategoryService::service()->getChildIds($cat['id']);
+                $limit_cat_children = CategoryService::service()->getChildrenIDs($cat['id']);
                 $limit_cat_children[] = $cat['id'];//加上父节点
                 $sql->where(array('cat_id IN (?)'=>$limit_cat_children));
             }else{

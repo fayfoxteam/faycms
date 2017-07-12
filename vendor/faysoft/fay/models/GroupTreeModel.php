@@ -870,7 +870,7 @@ abstract class GroupTreeModel{
      * @param bool $with_own 是否包含当前节点返回
      * @return array
      */
-    public function getParentIds($node, $root = null, $with_own = true){
+    public function getParentIDs($node, $root = null, $with_own = true){
         return ArrayHelper::column($this->getParents($node, 'id', $root, $with_own), 'id');
     }
 
@@ -883,7 +883,7 @@ abstract class GroupTreeModel{
      * @param string $order
      * @return array
      */
-    public function getChildren($group_id, $node = 0, $fields = '*', $order = 'sort'){
+    public function getChildren($group_id, $node = 0, $fields = '*', $order = 'sort, id'){
         if(!$node){
             return $this->getModel()->fetchAll(array(
                 $this->group_field=>$group_id,
@@ -912,7 +912,7 @@ abstract class GroupTreeModel{
      *  - 若为字符串，视为分类别名获取分类；
      * @return array
      */
-    public function getChildIds($parent = 0){
+    public function getChildrenIDs($parent = 0){
         return ArrayHelper::column($this->getChildren($parent, 'id', 'id'), 'id');
     }
 

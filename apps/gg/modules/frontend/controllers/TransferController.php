@@ -57,6 +57,9 @@ class TransferController extends FrontController{
             $table = array_shift($table);
             if(strpos($table, 'gg_') === 0){
                 $table_name = substr($table, 3);
+                if(!file_exists(APPLICATION_PATH . 'models\tables\Gg'.StringHelper::underscore2case($table_name).'Table.php')){
+                    continue;
+                }
                 $fields = \F::table('gg\models\tables\Gg'.StringHelper::underscore2case($table_name).'Table')->getFields();
                 
                 $gg_tables[] = array(

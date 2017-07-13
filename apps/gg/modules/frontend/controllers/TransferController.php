@@ -212,6 +212,10 @@ class TransferController extends FrontController{
                 $new_row['name'] = $row['title'];
                 $new_row['parent_id'] = $row['pid'];
             }
+
+            if($table == 'tag'){
+                $new_row['name'] = $row['tag_name'];
+            }
             
             $data[] = $new_row;
         }

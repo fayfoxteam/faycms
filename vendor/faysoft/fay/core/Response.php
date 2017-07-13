@@ -221,10 +221,6 @@ class Response{
      * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
      */
     public static function json($data = '', $status = 1, $message = '', $code = ''){
-        if(!RequestHelper::isIE()){
-            //IE浏览器不发送此header，否则IE会弹出下载
-            header('Content-Type:application/json; charset=utf-8');
-        }
         if(\F::config()->get('debug')){
             $sqls = Db::getInstance()->getSqlLogs();
             $sql_formats = array();

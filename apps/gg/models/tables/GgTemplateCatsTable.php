@@ -8,7 +8,7 @@ use fay\core\Loader;
  * Gg template cats table model
  *
  * @property int $id Id
- * @property int $pid Pid
+ * @property int $parent_id 父节点
  * @property string $name Name
  * @property int $sort Sort
  * @property int $left_value Left Value
@@ -34,7 +34,7 @@ class GgTemplateCatsTable extends Table{
         return array(
             array(array('updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
             array(array('left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
-            array(array('id', 'pid'), 'int', array('min'=>-32768, 'max'=>32767)),
+            array(array('id', 'parent_id'), 'int', array('min'=>-32768, 'max'=>32767)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>32)),
             array(array('is_show'), 'range', array('range'=>array(0, 1))),
@@ -44,7 +44,7 @@ class GgTemplateCatsTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
-            'pid'=>'Pid',
+            'parent_id'=>'父节点',
             'name'=>'Name',
             'sort'=>'Sort',
             'left_value'=>'Left Value',
@@ -61,7 +61,7 @@ class GgTemplateCatsTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
-            'pid'=>'intval',
+            'parent_id'=>'intval',
             'name'=>'trim',
             'sort'=>'intval',
             'updated_ip'=>'intval',

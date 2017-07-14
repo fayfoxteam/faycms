@@ -593,7 +593,7 @@ var common = {
                 });
                 
                 var config = {
-                    'height':$visualEditor.height()
+                    'height': $visualEditor.height()
                 };
                 if(common.filebrowserImageUploadUrl){
                     config.filebrowserImageUploadUrl = common.filebrowserImageUploadUrl;
@@ -604,10 +604,10 @@ var common = {
                 if($visualEditor.hasClass('visual-simple') || parseInt($(window).width()) < 743){
                     //简化模式
                     config.toolbar = [
-                          ['Source'],
+                        ['Source'],
                         ['TextColor','BGColor'],
                         ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'],
-                          ['Image','Table']
+                        ['Image','Table']
                       ];
                     //简化模式回车设为br而非p
                     config.enterMode = CKEDITOR.ENTER_BR;

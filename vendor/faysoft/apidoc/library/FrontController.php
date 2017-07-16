@@ -3,7 +3,7 @@ namespace apidoc\library;
 
 use apidoc\helpers\LinkHelper;
 use apidoc\models\tables\ApidocApisTable;
-use cms\services\CategoryService;
+use apidoc\services\ApiCategoryService;
 use fay\core\Controller;
 use fay\helpers\HtmlHelper;
 
@@ -13,6 +13,8 @@ class FrontController extends Controller{
     public $_left_menu = array();
     
     public $_top_nav = array();
+    
+    public $app_id;
     
     public function __construct(){
         parent::__construct();
@@ -24,12 +26,16 @@ class FrontController extends Controller{
             'api_id'=>0,
         ));
         
+        $this->app_id = $this->getAppID();
+        
         $this->_left_menu = $this->getLeftMenu();
     }
     
     private function getLeftMenu(){
-        $api_cats = CategoryService::service()->getNextLevel('_system_api', array('id', 'alias', 'title', 'description'));
-        $apis = ApidocApisTable::model()->fetchAll(array(), 'id,title,router,cat_id', 'cat_id');
+        $api_cats = ApiCategoryService::service()->getTree($this->app_id, 0, array('id', 'alias', 'title', 'description'));
+        $apis = ApidocApisTable::model()->fetchAll(array(
+            'app_id = ' . $this->app_id,
+        ), 'id,title,router,cat_id', 'cat_id');
         $menus = array();
         foreach($api_cats as $c){
             $menu = array(
@@ -65,5 +71,9 @@ class FrontController extends Controller{
         }
         
         return $menus;
+    }
+    
+    private function getAppID(){
+        return '1';
     }
 }

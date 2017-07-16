@@ -1,6 +1,7 @@
 <?php
 namespace apidoc\modules\admin\controllers;
 
+use apidoc\models\tables\ApidocApiCategoriesTable;
 use apidoc\models\tables\ApidocApiErrorCodesTable;
 use apidoc\models\tables\ApidocApisTable;
 use apidoc\models\tables\ApidocAppsTable;
@@ -92,7 +93,7 @@ class ApiController extends AdminController{
             ->joinLeft(array('app'=>ApidocAppsTable::model()->getTableName()), 'a.app_id = app.id', 'name AS app_name');
         
         if(in_array('category', $_settings['cols'])){
-            $sql->joinLeft(array('c'=>'categories'), 'a.cat_id = c.id', 'title AS cat_title');
+            $sql->joinLeft(array('c'=>ApidocApiCategoriesTable::model()->getTableName()), 'a.cat_id = c.id', 'title AS cat_title');
         }
         
         if(in_array('user', $_settings['cols'])){

@@ -132,4 +132,24 @@ class AppController extends AdminController{
             'app'=>$app
         ));
     }
+
+    /**
+     * 保存排序信息
+     */
+    public function sort(){
+        $this->form()->setRule(array(
+            array('sort', 'int', array('min'=>1))
+        ));
+        $sort = $this->input->post('sort', 'intval');
+
+        $i = 0;
+        foreach($sort as $s){
+            $i++;
+            ApidocAppsTable::model()->update(array(
+                'sort'=>$i,
+            ), $s);
+        }
+
+        Response::notify('success', '排序保存成功');
+    }
 }

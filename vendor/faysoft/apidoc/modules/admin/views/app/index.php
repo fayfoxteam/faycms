@@ -1,5 +1,4 @@
 <?php
-use apidoc\models\tables\ApidocInputsTable;
 use fay\helpers\HtmlHelper;
 
 /**
@@ -18,26 +17,7 @@ use fay\helpers\HtmlHelper;
                         <strong class="mr5">名称：</strong><?php
                             echo HtmlHelper::encode($app['name'])
                         ?>
-                        <div class="mt5"><?php
-                            echo HtmlHelper::link(
-                                '编辑',
-                                'javascript:',
-                                array(
-                                    'data-id'=>$app['id'],
-                                    'data-src'=>'#edit-app-dialog',
-                                    'class'=>'edit-app-link',
-                                ),
-                                true
-                            );
-                            echo HtmlHelper::link(
-                                '删除',
-                                'javascript:',
-                                array(
-                                    'data-id'=>$app['id'],
-                                    'class'=>'fc-red remove-app-link',
-                                ),
-                                true
-                            );
+                        <div class="mt5 separate-actions"><?php
                             echo HtmlHelper::link(
                                 '查看API',
                                 array('apidoc/admin/api/index',
@@ -47,8 +27,18 @@ use fay\helpers\HtmlHelper;
                                 ),
                                 array(),
                                 true
-                            );
-                            echo HtmlHelper::link(
+                            ),
+                            HtmlHelper::link(
+                                '新增API',
+                                array('apidoc/admin/api/create',
+                                    array(
+                                        'app_id'=>$app['id']
+                                    )
+                                ),
+                                array(),
+                                true
+                            ),
+                            HtmlHelper::link(
                                 '查看分类',
                                 array('apidoc/admin/api-cat/index',
                                     array(
@@ -56,6 +46,25 @@ use fay\helpers\HtmlHelper;
                                     )
                                 ),
                                 array(),
+                                true
+                            ),
+                            HtmlHelper::link(
+                                '编辑',
+                                'javascript:',
+                                array(
+                                    'data-id'=>$app['id'],
+                                    'data-src'=>'#edit-app-dialog',
+                                    'class'=>'edit-app-link',
+                                ),
+                                true
+                            ),
+                            HtmlHelper::link(
+                                '删除',
+                                'javascript:',
+                                array(
+                                    'data-id'=>$app['id'],
+                                    'class'=>'fc-red remove-app-link',
+                                ),
                                 true
                             );
                         ?></div>

@@ -2,6 +2,10 @@
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 use cms\services\file\FileService;
+
+/**
+ * @var $data array
+ */
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
     <td><?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
@@ -23,7 +27,7 @@ use cms\services\file\FileService;
             else
                 echo '&nbsp;';?>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php
                 echo HtmlHelper::link('查看', array('cms/admin/user/item', array(
                     'id'=>$data['id'],

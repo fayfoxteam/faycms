@@ -9,7 +9,7 @@ use fay\helpers\HtmlHelper;
                 ' - ',
                 HtmlHelper::encode($data['title']);
         ?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <a href="<?php echo $this->url('cms/admin/action/edit', array('id'=>$data['id']) + F::input()->get())?>">编辑</a>
             <a href="<?php echo $this->url('cms/admin/action/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>
         </div>

@@ -46,7 +46,7 @@ $full_file_path = FileService::getUrl($data);
                 'data-type'=>'image',
             ))?>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
         <?php
             if($data['is_image'] == 1){
                 echo HtmlHelper::link('查看', $full_file_path, array(
@@ -72,7 +72,7 @@ $full_file_path = FileService::getUrl($data);
     <td>
         <div class="qiniu-status qiniu-uploaded <?php if(!$data['qiniu']){echo 'hide';}?>">
             <span class="fc-green">已上传</span>
-            <div class="row-actions"><?php
+            <div class="row-actions separate-actions"><?php
                 echo HtmlHelper::link('查看', QiniuService::service()->getUrl($data), array(
                     'target'=>'_blank',
                     'class'=>'show-qiniu-file',
@@ -88,7 +88,7 @@ $full_file_path = FileService::getUrl($data);
         </div>
         <div class="qiniu-status qiniu-not-upload <?php if($data['qiniu']){echo 'hide';}?>">
             <span class="fc-orange">未上传</span>
-            <div class="row-actions"><?php
+            <div class="row-actions separate-actions"><?php
                 echo HtmlHelper::link('上传', array('cms/admin/qiniu/put', array(
                     'id'=>$data['id'],
                 )), array(

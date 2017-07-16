@@ -8,7 +8,7 @@ use fay\helpers\HtmlHelper;
 <tr valign="top" id="tag-<?php echo $data['id']?>">
     <td>
         <strong><?php echo HtmlHelper::encode($data['title'])?></strong>
-        <div class="row-actions"><?php
+        <div class="row-actions separate-actions"><?php
             echo HtmlHelper::link('查看文章', array('cms/admin/post/index', array(
                 'tag_id'=>$data['id'],
             )));

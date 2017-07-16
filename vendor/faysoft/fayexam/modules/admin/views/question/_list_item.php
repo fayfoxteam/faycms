@@ -10,7 +10,7 @@ use fayexam\models\tables\ExamQuestionsTable;
     ));?></td>
     <td>
         <strong><?php echo strip_tags($data['question'], '<u>')?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php 
                 echo HtmlHelper::link('编辑', array('fayexam/admin/question/edit', array(
                     'id'=>$data['id'],

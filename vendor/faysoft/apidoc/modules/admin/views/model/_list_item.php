@@ -11,7 +11,7 @@ use fay\helpers\HtmlHelper;
         <strong><?php echo HtmlHelper::link($data['name'], \apidoc\helpers\LinkHelper::generateModelLink($data['id']), array(
             'target'=>'_blank'
         ))?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php 
                 echo HtmlHelper::link('编辑', array('apidoc/admin/model/edit', array(
                     'id'=>$data['id'],

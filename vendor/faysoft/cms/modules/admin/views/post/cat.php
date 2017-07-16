@@ -17,7 +17,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
     <?php foreach($cats as $k=>$c){?>
         <li class="leaf-container <?php if(!$k)echo 'first';?> <?php echo 'dep-'.$dep?> <?php if($dep + 2 > $open_dep) echo 'close'?>">
             <div class="leaf">
-                <span class="fr options">
+                <span class="fr separate-actions">
                     <?php if(F::app()->checkPermission('cms/admin/post/cat-sort')){?>
                     <span class="w135 block fl">
                     排序：<?php echo HtmlHelper::inputNumber('sort[]', $c['sort'], array(

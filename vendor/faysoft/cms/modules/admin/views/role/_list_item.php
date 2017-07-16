@@ -8,7 +8,7 @@ use fay\helpers\HtmlHelper;
         <strong>
             <?php echo $data['title']?>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
         <?php 
             //非管理员用户没有权限
             echo HtmlHelper::link('编辑', array('cms/admin/role/edit', array(

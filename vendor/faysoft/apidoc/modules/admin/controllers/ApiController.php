@@ -13,6 +13,7 @@ use cms\services\CategoryService;
 use cms\services\SettingService;
 use fay\common\ListView;
 use fay\core\ErrorException;
+use fay\core\HttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -31,7 +32,6 @@ class ApiController extends AdminController{
         array('name'=>'outputs', 'title'=>'响应参数'),
         array('name'=>'error_code', 'title'=>'错误码'),
         array('name'=>'sample_response', 'title'=>'响应示例'),
-        array('name'=>'app', 'title'=>'所属应用'),
     );
     
     /**
@@ -53,16 +53,28 @@ class ApiController extends AdminController{
     
     public function index(){
         $this->layout->subtitle = 'API列表';
-        
+
         $cat_id = $this->input->get('cat_id', 'intval', 0);
-        
+
         if($this->checkPermission('apidoc/admin/api/create')){
-            $this->layout->sublink = array(
-                'uri'=>array('apidoc/admin/api/create', array(
-                    'cat_id'=>$cat_id
-                )),
-                'text'=>'新增API',
-            );
+            if($cat_id){
+                $this->layout->sublink = array(
+                    'uri'=>array('apidoc/admin/api/create', array(
+                        'cat_id'=>$cat_id
+                    )),
+                    'text'=>'新增API',
+                );
+            }else{
+                $this->layout->sublink = array(
+                    'uri'=>'javascript:',
+                    'html_options'=>array(
+                        'class'=>'create-api-link',
+                        'data-fancybox'=>null,
+                        'data-src'=>'#select-app-dialog',
+                    ),
+                    'text'=>'新增API',
+                );
+            }
         }
         
         //页面设置
@@ -149,7 +161,28 @@ class ApiController extends AdminController{
     }
     
     public function create(){
-        $this->layout->subtitle = '新增API';
+        if($this->input->get('cat_id')){
+            $cat = ApiCategoryService::service()->getOrFail(
+                $this->input->get('cat_id', 'intval'),
+                'id,app_id'
+            );
+            $app = ApidocAppsTable::model()->find($cat['app_id'], 'id,name');
+            if(!$app){
+                throw new HttpException('APP不存在');
+            }
+            $app_id = $app['id'];
+        }else if($this->input->get('app_id')){
+            $app = ApidocAppsTable::model()->find($this->input->get('app_id', 'intval'), 'id,name');
+            if(!$app){
+                throw new HttpException('APP不存在');
+            }
+            $app_id = $app['id'];
+        }else{
+            throw new HttpException('无法确定APP');
+        }
+
+        
+        $this->layout->subtitle = '新增API - 所属应用：' . $app['name'];
         if($this->checkPermission('apidoc/admin/api/index')){
             $this->layout->sublink = array(
                 'uri'=>array('apidoc/admin/api/index'),
@@ -162,11 +195,6 @@ class ApiController extends AdminController{
         //启用的编辑框
         $_setting_key = 'admin_api_boxes';
         
-        $cat = ApiCategoryService::service()->getOrFail(
-            $this->input->get('cat_id', 'intval'),
-            'id,app_id'
-        );
-
         if($this->input->post() && $this->form()->check()){
             $data = ApidocApisTable::model()->fillData($this->input->post(), true, 'insert');
             $data['create_time'] = $this->current_time;
@@ -217,7 +245,7 @@ class ApiController extends AdminController{
         }
         
         //分类树
-        $this->view->cats = ApiCategoryService::service()->getTree($cat['app_id']);
+        $this->view->cats = ApiCategoryService::service()->getTree($app_id);
         
         //可配置信息
         $_box_sort_settings = SettingService::service()->get('admin_api_box_sort');
@@ -396,7 +424,7 @@ class ApiController extends AdminController{
         $this->view->inputs = ApidocInputsTable::model()->fetchAll('api_id = '.$api_id, '*', 'required DESC, name ASC');
 
         //分类树
-        $this->view->cats = CategoryService::service()->getTree('_system_api');
+        $this->view->cats = ApiCategoryService::service()->getTree($api['app_id']);
 
         //可配置信息
         $_box_sort_settings = SettingService::service()->get('admin_api_box_sort');

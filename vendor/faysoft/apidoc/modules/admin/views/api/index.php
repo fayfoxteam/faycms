@@ -167,3 +167,27 @@ $cols = F::form('setting')->getData('cols', array());
 <div class="row">
     <div class="col-12"><?php $listview->showPager()?></div>
 </div>
+<div class="hide">
+    <div id="select-app-dialog" class="dialog">
+        <div class="dialog-content w240">
+            <h4>新增API</h4>
+            <form id="select-app-form" action="<?php echo $this->url('apidoc/admin/api/create')?>" method="get">
+                <div class="form-field">
+                    <label class="title bold">请选择应用</label>
+                    <?php echo HtmlHelper::select(
+                        'app_id',
+                        HtmlHelper::getSelectOptions($apps, 'id', 'name'),
+                        '',
+                        array(
+                            'class'=>'form-control',
+                        )
+                    )?>
+                </div>
+                <div class="form-field">
+                    <a href="javascript:" class="btn" id="select-app-form-submit">创建</a>
+                    <a href="javascript:" class="btn btn-grey fancybox-close">取消</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

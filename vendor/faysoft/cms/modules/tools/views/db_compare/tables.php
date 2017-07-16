@@ -20,7 +20,7 @@ use fay\helpers\HtmlHelper;
             <?php if(in_array($t, $left_tables)){?>
             <tr class="lt-<?php echo $t;?>">
                 <td class="<?php echo in_array($t, $right_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
-                    <span class="fr row-actions pt0"><?php
+                    <span class="fr row-actions separate-actions pt0"><?php
                         if(in_array($t, $right_tables)){
                             echo HtmlHelper::link('<i class="fa fa-exchange"></i>', array('cms/tools/db-compare/table', array(
                                 'name'=>$t,
@@ -64,7 +64,7 @@ use fay\helpers\HtmlHelper;
             <?php if(in_array($t, $right_tables)){?>
                 <tr class="rt-<?php echo $t;?>">
                     <td class="<?php echo in_array($t, $left_tables) ? (in_array($t, $diff_tables) ? 'bl-red' : 'pl11') : 'bl-yellow';?>">
-                        <span class="fr row-actions pt0"><?php
+                        <span class="fr row-actions separate-actions pt0"><?php
                             if(in_array($t, $left_tables)){
                                 echo HtmlHelper::link('<i class="fa fa-exchange"></i>', array('cms/tools/db-compare/table', array(
                                     'name'=>$t,

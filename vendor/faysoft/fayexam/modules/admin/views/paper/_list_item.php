@@ -4,11 +4,14 @@ use fay\helpers\HtmlHelper;
 use fay\helpers\StringHelper;
 use fayexam\models\tables\ExamPapersTable;
 
+/**
+ * @var $data array
+ */
 ?>
 <tr valign="top">
     <td>
         <strong><?php echo HtmlHelper::encode($data['title'])?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php 
                 echo HtmlHelper::link('编辑', array('fayexam/admin/paper/edit', array(
                     'id'=>$data['id'],

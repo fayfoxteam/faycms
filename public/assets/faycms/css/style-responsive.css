@@ -83,6 +83,9 @@ input,textarea,select{font-family:inherit;font-size:inherit;*font-size:100%;font
 .bg-green{background-color:#9DD30B !important}
 .bg-green:hover{background-color:#8DBD0A !important}
 
+.separate-actions a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px}
+.separate-actions a:last-child{background:none}
+
 /* 下拉菜单 */
 .dropdown-container a.dropdown{top:1px;z-index:5}
 .dropdown-container .dropdown-menu{position:absolute;z-index:3;min-width:160px;border:1px solid #ddd;background-color:#fff;right:-1px;left:auto;display:none;box-shadow:0 6px 12px rgba(0, 0, 0, 0.175);-webkit-box-shadow:0 6px 12px rgba(0, 0, 0, 0.175)}
@@ -172,8 +175,6 @@ select option[disabled]{text-decoration:line-through}
 .list-table tr td{box-shadow:inset 0 -1px 0 rgba(0,0,0,.1);background-color:#fff;padding:5px 7px;vertical-align:top}
 .list-table tr.alternate td{background-color:#fcfcfc}
 .list-table tr .row-actions{padding-top:3px;visibility:hidden}
-.list-table tr .row-actions a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 9px 0 5px}
-.list-table tr .row-actions a:last-child{background:0 none}
 .list-table tr.hover .row-actions,.list-table tr:hover .row-actions{visibility:visible}
 .list-table tr.hover td,.list-table tr:hover td{background-color:#f5f5f5}
 .list-table .sorting-indicator{display:block;float:left;height:10px;line-height:10px;margin-left:3px;margin-top:6px;width:10px;visibility:hidden;font-family:FontAwesome}
@@ -386,7 +387,7 @@ select option[disabled]{text-decoration:line-through}
 .tree-container{background-color:#fff;padding:30px 9px 30px 0}
 .tree{margin-left:10px}
 .tree .leaf-container{margin-left:10px;white-space:nowrap;background:url(images/tree/L4.gif) repeat-y scroll 0 0 transparent}
-.tree .leaf-container .options{padding-right:10px;margin-left:150px}
+.tree .leaf-container .separate-actions{padding-right:10px;margin-left:150px}
 .leaf-title{padding-left:22px;cursor:pointer;display:inline-block}
 .leaf-title.parent{background:url(images/tree/M1.gif) repeat-y scroll -1px 5px transparent}
 .tree .leaf-container.close >.leaf > .leaf-title.parent{background:url(images/tree/P1.gif) repeat-y scroll -1px 5px transparent}
@@ -395,14 +396,12 @@ select option[disabled]{text-decoration:line-through}
 .leaf-title i.fa{margin-right:4px}
 .leaf:hover{background-color:#f1f1f1}
 .leaf{height:34px;line-height:32px;transition:all 0.2s linear 0s}
-.leaf .options .form-control{padding-top:4px;padding-bottom:4px;line-height:1;vertical-align: inherit}
-.leaf .options a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 5px}
-.leaf .options a:last-child{background:0 none}
+.leaf .separate-actions .form-control{padding-top:4px;padding-bottom:4px;line-height:1;vertical-align: inherit}
 .leaf a.hover-link{visibility:hidden}
 .tree-container .leaf.hover a.hover-link,.tree-container .leaf:hover a.hover-link{visibility:visible}
 .leaf a.hover-link .icon-pencil{margin-right:0}
 @media screen and (max-width:768px){
-    .leaf .options{display:none}
+    .leaf .separate-actions{display:none}
     .leaf a.hover-link{visibility:visible}
 }
 
@@ -425,13 +424,11 @@ select option[disabled]{text-decoration:line-through}
 .widget-list .widget-item.holder[data-placeholder="true"]{background-color:#fff;border:2px dashed #DFDFDF !important}
 .widget-list .widget-item.holder[data-droptarget="true"]{height:2px !important;border:0 none;padding:0;margin:0;box-shadow:none}
 .widget-list .widget-item.selected{border-color:#66afe9 !important;box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6) !important}
-.widget-list .widget-item .operations a{background:url(images/cut-off-line.png) no-repeat scroll right 5px transparent;padding:0 6px 0 5px}
-.widget-list .widget-item .operations a:last-child{background:0 none}
 .widget-list .widget-item-container{margin:0 22px 0 31px}
-.widget-list .widget-item-container .operations{visibility:hidden;display:inline-block;width:116px}
-.widget-list .widget-item:hover .widget-item-container .operations{visibility:visible}
+.widget-list .widget-item-container .separate-actions{visibility:hidden;display:inline-block}
+.widget-list .widget-item:hover .widget-item-container .separate-actions{visibility:visible}
 @media screen and (max-width:1140px){
-    .widget-list .widget-item-container .operations{visibility:visible}
+    .widget-list .widget-item-container .separate-actions{visibility:visible}
 }
 .toggle i{transition:all 0.1s linear 0s}
 .toggle.closed i.fa-caret-down{transform:rotate(-90deg)}
@@ -523,8 +520,6 @@ select option[disabled]{text-decoration:line-through}
 #chat-dialog .reply-container textarea{width:95%;margin:0 auto;display:block;height:80px}
 #chat-dialog .cdi-options{visibility:hidden}
 #chat-dialog .cd-item:hover .cdi-options{visibility:visible}
-#chat-dialog .cdi-options a{background:url("images/cut-off-line.png") no-repeat scroll right 5px transparent;padding:0 9px 0 5px}
-#chat-dialog .cdi-options a:last-child{background:0 none}
 #chat-dialog .cdi-line{position:absolute;background:#379BE9;width:2px;height:100%;left:70px;top:0;visibility:hidden}
 #chat-dialog .cd-item:hover .cdi-line{visibility:visible}
 #chat-dialog .cdi-options i{margin-right:1px}

@@ -139,10 +139,9 @@ INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_system`) VA
 -- 后台菜单
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5000', '100', 'apidoc-api', 'API', 'fa fa-mobile', 'javascript:');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5001', '5000', '', 'API列表', '', 'apidoc/admin/api/index');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5002', '5000', '', '新增API', '', 'apidoc/admin/api/create');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5003', '5000', '', 'API分类', '', 'apidoc/admin/api/cat');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5006', '5000', '', '错误码管理', '', 'apidoc/admin/error-code/index');
-INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5007', '5000', '', '公共请求参数', '', 'apidoc/admin/common-input/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5002', '5000', '', 'APP列表', '', 'apidoc/admin/app/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5003', '5000', '', '错误码管理', '', 'apidoc/admin/error-code/index');
+INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5004', '5000', '', '公共请求参数', '', 'apidoc/admin/common-input/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5100', '100', 'apidoc-model', '数据模型', 'fa fa-cubes', 'javascript:');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5101', '5100', '', '数据模型列表', '', 'apidoc/admin/model/index');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5102', '5100', '', '新增数据模型', '', 'apidoc/admin/model/create');

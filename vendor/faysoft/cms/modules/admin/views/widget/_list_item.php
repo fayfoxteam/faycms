@@ -11,7 +11,7 @@ $widget = F::widget()->get($data['widget_name'], 'Admin');
         <strong><?php
             echo $data['description'] ? HtmlHelper::encode($data['description']) : '&nbsp';
         ?></strong>
-        <div class="row-actions"><?php
+        <div class="row-actions separate-actions"><?php
             echo HtmlHelper::link('编辑', array('cms/admin/widget/edit', array(
                 'id'=>$data['id'],
             )), array(), true);

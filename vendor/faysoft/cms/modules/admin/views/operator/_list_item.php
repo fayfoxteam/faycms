@@ -28,7 +28,7 @@ use fay\helpers\HtmlHelper;
             else
                 echo '&nbsp;';?>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php
                 echo HtmlHelper::link('查看', array('cms/admin/operator/item', array(
                     'id'=>$data['id'],

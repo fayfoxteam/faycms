@@ -8,7 +8,7 @@ use fay\helpers\HtmlHelper;
         <?php if($data['alias']){?>
             <em class="fc-grey">[ <?php echo $data['alias']?> ]</em>
         <?php }?>
-        <div class="row-actions"><?php
+        <div class="row-actions separate-actions"><?php
             echo HtmlHelper::link('编辑', array('cms/admin/prop/edit', array(
                     'id'=>$data['id'],
                 )), array(), true);

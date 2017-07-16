@@ -11,7 +11,7 @@ use fay\helpers\HtmlHelper;
 <tr valign="top">
     <td>
         <strong><?php echo HtmlHelper::encode($data['title'])?></strong>
-        <div class="row-actions"><?php
+        <div class="row-actions separate-actions"><?php
             echo HtmlHelper::link('编辑', array('apidoc/admin/api/edit', array(
                 'id'=>$data['id'],
             )), array(), true),

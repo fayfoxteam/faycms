@@ -51,7 +51,7 @@ use fay\helpers\HtmlHelper;
                             ));
                         ?>
                         <strong><?php echo HtmlHelper::encode($input['name'])?></strong>
-                        <div class="row-actions"><?php
+                        <div class="row-actions separate-actions"><?php
                             echo HtmlHelper::link('编辑', '#edit-input-parameter-dialog', array(
                                 'class'=>'edit-input-parameter-link',
                             ));

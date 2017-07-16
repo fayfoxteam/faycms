@@ -5,7 +5,7 @@ use fay\helpers\HtmlHelper;
 <tr>
     <td>
         <strong><?php echo HtmlHelper::encode($data['alias'])?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php echo HtmlHelper::link('编辑', array('cms/admin/template/edit', array('id'=>$data['id'])))?>
             <?php echo HtmlHelper::link('删除', array('cms/admin/template/delete', array('id'=>$data['id'])), array(
                 'class'=>'fc-red remove-link',

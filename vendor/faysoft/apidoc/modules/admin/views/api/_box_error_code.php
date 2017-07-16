@@ -34,7 +34,7 @@ use fay\helpers\HtmlHelper;
                                 'class'=>'form-control error-code',
                             )
                         )?>
-                        <div class="row-actions"><?php
+                        <div class="row-actions separate-actions"><?php
                             echo HtmlHelper::link('删除', 'javascript:', array(
                                 'class'=>'fc-red remove-error-code-link',
                             ));

@@ -39,7 +39,7 @@ $editable = F::app()->checkPermission('fayshop/admin/goods/edit');
                 echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', 'javascript:;');
             }
         ?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php echo HtmlHelper::link('编辑', array('fayshop/admin/goods/edit', array('id'=>$data['id'])))?>
             <?php echo HtmlHelper::link('查看', array('goods/item', array('id'=>$data['id'])), array(
                 'target'=>'_blank',

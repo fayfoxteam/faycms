@@ -11,7 +11,7 @@ use fay\helpers\HtmlHelper;
         <strong>
             <a class="row-title" title="<?php echo $data['description']?>" href="<?php echo $data['url']?>" target="_blank"><?php echo $data['title']?></a>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <a href="<?php echo $this->url('cms/admin/link/edit', array('id'=>$data['id']))?>">编辑</a>
             <a href="<?php echo $data['url']?>" target="_blank">访问</a>
             <a href="<?php echo $this->url('cms/admin/link/remove', array('id'=>$data['id']) + F::input()->get())?>" class="fc-red remove-link">永久删除</a>

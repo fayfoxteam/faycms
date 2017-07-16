@@ -6,7 +6,7 @@ use fay\helpers\HtmlHelper;
 <tr valign="top">
     <td>
         <strong><?php echo HtmlHelper::encode($data['paper_title'])?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php
                 echo HtmlHelper::link('查看', array('fayexam/admin/exam/item', array(
                     'id'=>$data['id'],

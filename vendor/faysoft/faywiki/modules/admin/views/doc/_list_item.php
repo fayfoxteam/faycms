@@ -55,7 +55,7 @@ use fay\helpers\HtmlHelper;
                 echo HtmlHelper::link($data['title'] ? $data['title'] : '--无标题--', 'javascript:');
             }
         ?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
         <?php
             if($data['delete_time'] == 0){
                 echo HtmlHelper::link('编辑', array('faywiki/admin/doc/edit', array(

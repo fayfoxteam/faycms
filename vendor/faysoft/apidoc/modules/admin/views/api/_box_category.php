@@ -2,6 +2,9 @@
 use cms\services\CategoryService;
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $cats array
+ */
 ?>
 <div class="box" id="box-category" data-name="category">
     <div class="box-title">

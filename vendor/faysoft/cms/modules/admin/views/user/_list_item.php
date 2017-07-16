@@ -5,6 +5,10 @@ use cms\services\user\UserRoleService;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $data array
+ * @var $iplocation IpLocation
+ */
 ?>
 <tr valign="top" id="user-<?php echo $data['id']?>">
     <?php if(in_array('avatar', $cols)){?>
@@ -28,7 +32,7 @@ use fay\helpers\HtmlHelper;
             else
                 echo '&nbsp;';?>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php
                 echo HtmlHelper::link('查看', array('cms/admin/user/item', array(
                     'id'=>$data['id'],

@@ -13,9 +13,9 @@ use fay\helpers\HtmlHelper;
         <?php }else{?>
         <sup class="bg-green title-sup" title="自有属性">自有</sup>
         <?php }?>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php if($data['cat_id'] == F::form()->getData('cat_id')){?>
-            <div class="row-actions">
+            <div class="row-actions separate-actions">
                 <?php echo HtmlHelper::link('编辑', array('fayshop/admin/goods-cat-prop/edit', array(
                     'id'=>$data['id'],
                 ) + F::input()->get()))?>

@@ -17,7 +17,7 @@ $widget_instance = F::widget()->get($widget['widget_name'], 'Admin');
         ), $widget['description'] ? $widget['description'] : '无描述'), ' - ', HtmlHelper::tag('span', array(
             'title'=>'小工具实例别名',
         ), $widget['alias'])?></strong>
-        <span class="operations"><?php
+        <span class="separate-actions"><?php
             echo HtmlHelper::link('编辑', array('cms/admin/widget/edit', array(
                 'id'=>$widget['id'],
             )), array(), true);
@@ -42,7 +42,7 @@ $widget_instance = F::widget()->get($widget['widget_name'], 'Admin');
             'title'=>'小工具名称',
             'class'=>'fc-grey',
         ), ' （'.$widget_instance->title.'）')?>
-        <span class="operations"><?php
+        <span class="separate-actions"><?php
             echo HtmlHelper::link('编辑', array('cms/admin/widget/edit', array(
                 'id'=>$widget['id'],
             )), array(), true);

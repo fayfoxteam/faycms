@@ -6,7 +6,7 @@ use fay\helpers\HtmlHelper;
 <tr>
     <td>
         <?php echo $data['sn']?>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php echo HtmlHelper::link('永久删除', array('cms/admin/voucher/remove', array(
                 'id'=>$data['id'],
             )), array(

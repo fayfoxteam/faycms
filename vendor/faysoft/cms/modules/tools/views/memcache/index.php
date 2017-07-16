@@ -29,7 +29,7 @@ use fay\helpers\HtmlHelper;
                 <tr>
                     <td>
                         <span><?php echo $key?></span>
-                        <div class="row-actions">
+                        <div class="row-actions separate-actions">
                             <?php echo HtmlHelper::link('Delete', array('cms/tools/memcache/delete', array(
                                 'key'=>$key,
                             )), array(

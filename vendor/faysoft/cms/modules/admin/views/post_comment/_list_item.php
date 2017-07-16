@@ -15,7 +15,7 @@ use fay\helpers\StringHelper;
     <?php }?>
     <td>
         <?php echo HtmlHelper::encode($data['content'])?>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php if(!$data['delete_time']){
                 if($data['status'] == PostCommentsTable::STATUS_PENDING){
                     echo HtmlHelper::link('批准', array('cms/admin/post-comment/approve', array(

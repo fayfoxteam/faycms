@@ -3,10 +3,8 @@ namespace apidoc\modules\admin\controllers;
 
 use apidoc\models\tables\ApidocAppsTable;
 use cms\library\AdminController;
-use fay\common\ListView;
-use fay\core\HttpException;
 use fay\core\Response;
-use fay\core\Sql;
+use fay\helpers\ArrayHelper;
 
 class AppController extends AdminController{
     public function __construct(){
@@ -36,43 +34,52 @@ class AppController extends AdminController{
     }
     
     public function edit(){
-        $this->layout->subtitle = '编辑应用';
-        $this->layout->sublink = array(
-            'uri'=>array('apidoc/admin/app/index', array('page'=>$this->input->get('page', 'intval', 1))),
-            'text'=>'添加应用',
-        );
-        $option_id = $this->input->get('id', 'intval');
-        $this->form()->setModel(ApidocAppsTable::model());
-        if($this->input->post() && $this->form()->check()){
-            $data = $this->form()->getFilteredData();
-            $data['update_time'] = $this->current_time;
-            ApidocAppsTable::model()->update($data, array('id = ?'=>$option_id));
-            
-            Response::notify('success', '一个应用被编辑', false);
+        $app_id = $this->input->request('id', 'intval');
+
+        if(!$app_id){
+            Response::notify('error', '未指定APP ID');
         }
-        
-        if($option = ApidocAppsTable::model()->find($option_id)){
-            $this->form()->setData($option);
-            $this->view->option = $option;
-            
-            $this->_setListview();
-            
-            $this->view->render();
+
+        $app = ApidocAppsTable::model()->find($app_id);
+        if(!$app){
+            Response::notify('error', "指定APP ID[{$app_id}]不存在");
+        }
+
+        $this->form()->setModel(ApidocAppsTable::model());
+        if($this->input->post()){
+            if($this->form()->check()){
+                $data = $this->form()->getFilteredData();
+                if(ArrayHelper::equal($data, $app)){
+                    Response::notify('success', '没有字段被修改');
+                }
+                $data['update_time'] = $this->current_time;
+                ApidocAppsTable::model()->update($data, $app_id);
+
+                Response::notify('success', '一个APP被编辑');
+            }else{
+                Response::goback();
+            }
         }else{
-            throw new HttpException('无效的ID');
+            Response::notify('error', array(
+                'message'=>'不完整的请求',
+            ));
         }
     }
     
     public function index(){
-        $this->layout->subtitle = '添加应用';
-        
-        $this->_setListview();
-        
-        $this->form()->setModel(ApidocAppsTable::model());
-        
-        $this->view->render();
+        $this->layout->subtitle = 'APP 管理';
+
+        $this->form('create')->setModel(ApidocAppsTable::model());
+        $this->form('edit')->setModel(ApidocAppsTable::model());
+
+        $this->view->assign(array(
+            'apps'=>ApidocAppsTable::model()->fetchAll(array(), '*', 'sort')
+        ))->render();
     }
-    
+
+    /**
+     * 删除应用（物理删除）
+     */
     public function remove(){
         $option_id = $this->input->get('id', 'intval');
         
@@ -91,10 +98,13 @@ class AppController extends AdminController{
             'message'=>'一个应用被永久删除',
         ), array('apidoc/admin/app/index', $this->input->get()));
     }
-    
-    public function isOptionNotExist(){
+
+    /**
+     * 判断应用名是否存在
+     */
+    public function isNameNotExist(){
         if(ApidocAppsTable::model()->has(array(
-            'option_name = ?'=>$this->input->request('option_name', 'trim'),
+            'name = ?'=>$this->input->request('name', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', 0),
         ))){
             Response::json('', 0, '应用名已存在');
@@ -102,35 +112,24 @@ class AppController extends AdminController{
             Response::json();
         }
     }
-    
-    /**
-     * 设置右侧列表
-     */
-    private function _setListview(){
-        //搜索条件验证，异常数据直接返回404
-        $this->form('search')->setScene('final')->setRules(array(
-            array('orderby', 'range', array(
-                'range'=>ApidocAppsTable::model()->getFields(),
-            )),
-            array('order', 'range', array(
-                'range'=>array('asc', 'desc'),
-            )),
-        ))->check();
-        
-        $sql = new Sql();
-        $sql->from(ApidocAppsTable::model()->getTableName());
 
-        if($this->input->get('orderby')){
-            $this->view->orderby = $this->input->get('orderby');
-            $this->view->order = $this->input->get('order') == 'asc' ? 'ASC' : 'DESC';
-            $sql->order("{$this->view->orderby} {$this->view->order}");
-        }else{
-            $sql->order('id DESC');
+    /**
+     * 获取一个APP
+     */
+    public function get(){
+        $app_id = $this->input->get('id', 'intval');
+
+        if(!$app_id){
+            Response::notify('error', '未指定APP ID');
         }
-        
-        $this->view->listview = new ListView($sql, array(
-            'page_size'=>15,
-            'empty_text'=>'<tr><td colspan="3" align="center">无相关记录！</td></tr>',
+
+        $app = ApidocAppsTable::model()->find($app_id);
+        if(!$app){
+            Response::notify('error', "指定APP ID[{$app_id}]不存在");
+        }
+
+        Response::json(array(
+            'app'=>$app
         ));
     }
 }

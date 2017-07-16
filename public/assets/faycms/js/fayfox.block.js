@@ -21,10 +21,10 @@ jQuery.fn.extend({
                 var html = $('<div class="fblock">').css({
                     'width':parseInt(width) + parseInt(padding_left) + parseInt(padding_right),
                     'height':parseInt(height) + parseInt(padding_top) + parseInt(padding_bottom),
-                    'position':$(this)[0].tagName == 'BODY' ? 'fixed' : 'absolute',
+                    'position':$(this)[0].tagName === 'BODY' ? 'fixed' : 'absolute',
                     'left':parseInt(offset.left) + parseInt(border_left),
                     'top':parseInt(offset.top) + parseInt(border_top),
-                    'z-index':typeof(options.zindex) == 'undefined' ? 500 : options.zindex
+                    'z-index':typeof(options.zindex) === 'undefined' ? 500 : options.zindex
                 })
                     .append('<div class="fn-block"></div>')
                     .append('<img src="' + system.assets('images/ajax-loading.gif') + '" class="fn-block-loading-img" />');
@@ -34,13 +34,13 @@ jQuery.fn.extend({
         });
     },
     'unblock':function(options){
-        if(options == 'clear'){
+        if(options === 'clear'){
             //删除所有覆盖层
             $(".fblock").remove();
         }else{
             this.each(function(){
-                if(typeof($(this).data('fblock')) != 'undefined'){
-                    if(options == 'immediately'){
+                if(typeof($(this).data('fblock')) !== 'undefined'){
+                    if(options === 'immediately'){
                         $(this).data('fblock').remove();
                         $(this).removeData('fblock');
                     }else{
@@ -52,4 +52,4 @@ jQuery.fn.extend({
             });
         }
     }
-})
+});

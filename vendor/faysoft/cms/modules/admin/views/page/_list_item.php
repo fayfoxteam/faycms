@@ -14,7 +14,7 @@ use fay\helpers\HtmlHelper;
                 'target'=>'_blank',
             ))?>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
         <?php if($data['delete_time'] == 0){
             echo HtmlHelper::link('编辑', array('cms/admin/page/edit', array(
                 'id'=>$data['id'],

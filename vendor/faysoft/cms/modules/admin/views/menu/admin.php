@@ -6,7 +6,7 @@ function showCats($tree, $dep = 0){?>
     <?php foreach($tree as $k=>$node){?>
         <li class="leaf-container <?php if(!$k)echo 'first';?>">
             <div class="leaf">
-                <span class="fr options">
+                <span class="fr separate-actions">
                     <span class="w115 block fl">
                     排序：<?php echo HtmlHelper::inputNumber('sort[]', $node['sort'], array(
                         'size'=>3,

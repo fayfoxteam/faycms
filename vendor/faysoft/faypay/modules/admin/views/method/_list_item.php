@@ -11,7 +11,7 @@ use fay\helpers\HtmlHelper;
         <strong>
             <?php echo HtmlHelper::link($data['name'], array('faypay/admin/method/edit', array('id'=>$data['id'])))?>
         </strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <a href="<?php echo $this->url('faypay/admin/method/edit', array('id'=>$data['id']))?>">编辑</a>
             <a href="<?php echo $this->url('faypay/admin/method/delete', array('id'=>$data['id']))?>" class="fc-red">删除</a>
         </div>

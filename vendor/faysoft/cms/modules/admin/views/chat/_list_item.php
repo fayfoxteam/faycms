@@ -5,6 +5,9 @@ use cms\services\MessageService;
 use fay\helpers\DateHelper;
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $data array
+ */
 ?>
 <li class="chat-item" id="chat-<?php echo $data['id']?>">
     <?php echo HtmlHelper::link(HtmlHelper::img($data['avatar'], FileService::PIC_THUMBNAIL, array(
@@ -47,9 +50,9 @@ use fay\helpers\HtmlHelper;
                 <i class="fa fa-reply"></i>
                 <span>回复</span>(<em><?php echo MessageService::service()->getReplyCount($data['id'])?></em>)&nbsp;
             </a>
-            <span class="ci-options"><?php
+            <span class="ci-options separate-actions"><?php
             if(F::app()->checkPermission('cms/admin/chat/approve')){
-                echo HtmlHelper::link('<span>批准</span>&nbsp;|&nbsp;', 'javascript:;', array(
+                echo HtmlHelper::link('<span>批准</span>', 'javascript:;', array(
                     'data-id'=>$data['id'],
                     'class'=>'fc-green approve-link'.($data['status'] == MessagesTable::STATUS_APPROVED ? ' hide' : ''),
                     'encode'=>false,
@@ -57,7 +60,7 @@ use fay\helpers\HtmlHelper;
                 ));
             }
             if(F::app()->checkPermission('cms/admin/chat/unapprove')){
-                echo HtmlHelper::link('<span>驳回</span>&nbsp;|&nbsp;', 'javascript:;', array(
+                echo HtmlHelper::link('<span>驳回</span>', 'javascript:;', array(
                     'data-id'=>$data['id'],
                     'class'=>'fc-orange unapprove-link'.($data['status'] == MessagesTable::STATUS_UNAPPROVED ? ' hide' : ''),
                     'encode'=>false,
@@ -65,7 +68,7 @@ use fay\helpers\HtmlHelper;
                 ));
             }
             if(F::app()->checkPermission('cms/admin/chat/delete')){
-                echo HtmlHelper::link('<span>回收站</span>&nbsp;|&nbsp;', 'javascript:;', array(
+                echo HtmlHelper::link('<span>回收站</span>', 'javascript:;', array(
                     'data-id'=>$data['id'],
                     'class'=>'fc-red delete-link',
                     'encode'=>false,

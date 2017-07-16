@@ -11,7 +11,7 @@ use fay\helpers\StringHelper;
 ?>
 <tr valign="top" id="link-<?php echo $data['id']?>">
     <td><strong><?php echo $data['code']?></strong>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php echo HtmlHelper::link('快速查看', 'javascript:', array(
                 'class'=>'quick-view',
                 'data-id'=>$data['id'],

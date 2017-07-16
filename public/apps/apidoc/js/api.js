@@ -92,7 +92,7 @@ var api = {
 								'<input type="hidden" name="inputs[', timestamp, '][sample]" value="', sample, '" class="input-sample" />',
 								'<input type="hidden" name="inputs[', timestamp, '][since]" value="', since, '" class="input-since" />',
 								'<strong>', system.encode(name), '</strong>',
-								'<div class="row-actions">',
+								'<div class="row-actions separate-actions">',
 									'<a href="#edit-input-parameter-dialog" class="edit-input-parameter-link">编辑</a>',
 									'<a href="javascript:;" class="fc-red remove-input-parameter-link">删除</a>',
 								'</div>',

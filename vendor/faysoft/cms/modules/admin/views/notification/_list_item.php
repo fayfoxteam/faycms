@@ -19,7 +19,7 @@ use fay\helpers\HtmlHelper;
             <?php echo DateHelper::niceShort($data['publish_time'])?>
         </abbr></span>
         <p><?php echo $data['content']?></p>
-        <div class="row-actions">
+        <div class="row-actions separate-actions">
             <?php
             if($data['read']){
                 echo HtmlHelper::link('标记为未读', array('cms/admin/notification/set-read', array(

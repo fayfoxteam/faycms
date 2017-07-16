@@ -32,7 +32,7 @@ foreach($widget_areas as $wa){
                 <tr>
                     <td>
                         <strong><?php echo $w->title?></strong>
-                        <div class="row-actions"><?php echo HtmlHelper::link('创建实例', '#create-instance-dialog', array(
+                        <div class="row-actions separate-actions"><?php echo HtmlHelper::link('创建实例', '#create-instance-dialog', array(
                             'title'=>$w->title,
                             'class'=>'create-instance-link',
                             'data-name'=>$w->name

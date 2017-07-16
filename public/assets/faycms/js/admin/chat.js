@@ -74,7 +74,7 @@ var chat = {
                 '<span class="cdi-status">', chat.status[data.message.status], '</span>',
             '</div>',
             '<div class="cdi-content">', system.encode(data.message.content), '</div>',
-            '<div class="cdi-options">',
+            '<div class="cdi-options separate-options">',
             (function(){
                 return chat.permissions.approve ?
                     ['<a href="javascript:;" class="reply-link" data-id="', data.message.id, '" data-username="', data.user.user[chat.display_name], '">',

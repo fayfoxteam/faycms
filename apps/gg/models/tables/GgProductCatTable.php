@@ -6,7 +6,7 @@ use fay\core\Loader;
 
 /**
  * 商品分类表
- * 
+ *
  * @property int $id Id
  * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
@@ -14,23 +14,25 @@ use fay\core\Loader;
  * @property string $name 分类名称
  * @property string $remark Remark
  * @property int $sort 排序
+ * @property int $left_value Left Value
+ * @property int $right_value Right Value
  * @property string $updated_at 更新时间
  * @property string $created_at 创建时间
  * @property string $deleted_at 删除时间
  */
 class GgProductCatTable extends Table{
     protected $_name = 'gg_product_cat';
-    
+
     /**
      * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     public function rules(){
         return array(
-            array(array('id', 'merchant_id', 'website_id', 'parent_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('id', 'merchant_id', 'website_id', 'parent_id', 'left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>50)),
             array(array('remark'), 'string', array('max'=>255)),
@@ -46,6 +48,8 @@ class GgProductCatTable extends Table{
             'name'=>'分类名称',
             'remark'=>'Remark',
             'sort'=>'排序',
+            'left_value'=>'Left Value',
+            'right_value'=>'Right Value',
             'updated_at'=>'更新时间',
             'created_at'=>'创建时间',
             'deleted_at'=>'删除时间',

@@ -201,6 +201,8 @@ class TransferController extends FrontController{
                     $new_row['type'] = 3;
                 }else if($row['type'] == 'article_detail'){
                     $new_row['type'] = 4;
+                }else if($row['type'] == 'goods_detail'){
+                    $new_row['type'] = 5;
                 }
             }
 

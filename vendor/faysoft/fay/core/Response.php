@@ -2,7 +2,6 @@
 namespace fay\core;
 
 use cms\services\FlashService;
-use fay\helpers\RequestHelper;
 use fay\helpers\SqlHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;

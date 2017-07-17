@@ -55,8 +55,30 @@ class Bootstrap{
         RuntimeHelper::append(__FILE__, __LINE__, '控制器被实例化');
         //触发事件
         \F::event()->trigger('after_controller_constructor');
-        $controller->{$file['action']}();
+        $content = $controller->{$file['action']}();
         RuntimeHelper::append(__FILE__, __LINE__, '控制器方式执行完毕');
+
+        //触发事件
+        \F::event()->trigger('before_response', array(
+            'content'=>$content,
+        ));
+        $this->response($content);
+    }
+
+    /**
+     * 输出返回
+     * @param mixed $content
+     */
+    private function response($content){
+        if(is_string($content)){
+            Response::send($content);
+        }else if(is_array($content) || is_object($content)){
+            Response::json($content);
+            //自动输出debug信息
+            if(\F::config()->get('debug')){
+                echo \F::app()->view->renderPartial('common/_debug');
+            }
+        }
     }
     
     /**

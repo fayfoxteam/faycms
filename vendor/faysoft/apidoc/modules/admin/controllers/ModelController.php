@@ -39,7 +39,7 @@ class ModelController extends AdminController{
     
     public function __construct(){
         parent::__construct();
-        $this->layout->current_directory = 'api';
+        $this->layout->current_directory = 'apidoc-model';
     }
     
     public function index(){

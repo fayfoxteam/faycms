@@ -11,8 +11,12 @@ use fay\helpers\NumberHelper;
 use fay\helpers\PinyinHelper;
 
 class ApiCatController extends AdminController{
+    public function __construct(){
+        parent::__construct();
+        $this->layout->current_directory = 'apidoc-api';
+    }
+    
     public function index(){
-        $this->layout->current_directory = 'api';
         if($this->checkPermission('apidoc/admin/api-cat/create')){
             $this->layout->sublink = array(
                 'uri'=>'#create-cat-dialog',

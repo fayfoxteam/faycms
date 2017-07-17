@@ -2,6 +2,7 @@
 namespace apidoc\library;
 
 use apidoc\helpers\LinkHelper;
+use apidoc\helpers\TrackHelper;
 use apidoc\models\tables\ApidocApisTable;
 use apidoc\services\ApiCategoryService;
 use fay\core\Controller;
@@ -74,6 +75,30 @@ class FrontController extends Controller{
     }
     
     private function getAppID(){
-        return '1';
+        if($this->input->get('api_id')){
+            //若指定了API，则返回API对应的APP
+            $api = ApidocApisTable::model()->find($this->input->get('api_id', 'intval'), 'app_id');
+            if($api){
+                return $api['app_id'];
+            }
+        }
+        
+        $api_id = TrackHelper::getApiId();
+        if($api_id){
+            //若在trackid中包含api_id，则根据此api_id获取app_id
+            $api = ApidocApisTable::model()->find($api_id, 'app_id');
+            if($api){
+                return $api['app_id'];
+            }
+        }
+        
+        if($this->input->get('model_id')){
+            //@todo 若指定了Model，返回Model第一个关联的APP
+            
+        }
+        
+        //默认返回无需登录的第一个APP
+        $api = ApidocApisTable::model()->fetchRow('need_login = 0', 'id', 'sort, id DESC');
+        return $api['app_id'];
     }
 }

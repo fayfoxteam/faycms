@@ -4,9 +4,12 @@ namespace apidoc\library;
 use apidoc\helpers\LinkHelper;
 use apidoc\helpers\TrackHelper;
 use apidoc\models\tables\ApidocApisTable;
+use apidoc\models\tables\ApidocAppsTable;
+use apidoc\models\tables\ApidocOutputsTable;
 use apidoc\services\ApiCategoryService;
 use fay\core\Controller;
 use fay\helpers\HtmlHelper;
+use fay\helpers\NumberHelper;
 
 class FrontController extends Controller{
     public $layout_template = 'apidoc/frontend/layouts/frontend';
@@ -20,14 +23,17 @@ class FrontController extends Controller{
     public function __construct(){
         parent::__construct();
         
+        $this->app_id = $this->getAppID();
+        
+        $app = ApidocAppsTable::model()->find($this->app_id, 'id,name');
+
         $this->layout->assign(array(
+            'app'=>$app,
             'current_directory'=>'',
             'title'=>'',
             'subtitle'=>'',
             'api_id'=>0,
         ));
-        
-        $this->app_id = $this->getAppID();
         
         $this->_left_menu = $this->getLeftMenu();
     }
@@ -75,30 +81,54 @@ class FrontController extends Controller{
     }
     
     private function getAppID(){
+        //若在连接中明确指定APP ID，直接返回
+        if($this->input->get('app_id')){
+            $app = ApidocAppsTable::model()->find($this->input->get('app_id', 'intval'), 'id');
+            if($app){
+                return $app['id'];
+            }
+        }
+        
+        //若指定了API，则返回API对应的APP
         if($this->input->get('api_id')){
-            //若指定了API，则返回API对应的APP
             $api = ApidocApisTable::model()->find($this->input->get('api_id', 'intval'), 'app_id');
             if($api){
                 return $api['app_id'];
             }
         }
-        
+
+        //若在trackid中包含api_id，则根据此api_id获取app_id
         $api_id = TrackHelper::getApiId();
         if($api_id){
-            //若在trackid中包含api_id，则根据此api_id获取app_id
             $api = ApidocApisTable::model()->find($api_id, 'app_id');
             if($api){
                 return $api['app_id'];
             }
         }
         
+        if(isset($_COOKIE['apidoc_app_id']) && NumberHelper::isInt($_COOKIE['apidoc_app_id'])){
+            $app = ApidocAppsTable::model()->find($_COOKIE['apidoc_app_id'], 'id');
+            if($app){
+                return $app['id'];
+            }
+        }
+
+        //若指定了Model，获取第一个与此model关联的api（若model不是与api直接关联，则无视）
         if($this->input->get('model_id')){
-            //@todo 若指定了Model，返回Model第一个关联的APP
+            $output = ApidocOutputsTable::model()->fetchRow(array(
+                'model_id = ?'=>$this->input->get('model_id', 'intval')
+            ), 'api_id', 'id');
             
+            if($output){
+                $api = ApidocApisTable::model()->find($output['api_id'], 'app_id');
+                if($api){
+                    return $api['app_id'];
+                }
+            }
         }
         
         //默认返回无需登录的第一个APP
-        $api = ApidocApisTable::model()->fetchRow('need_login = 0', 'id', 'sort, id DESC');
-        return $api['app_id'];
+        $app = ApidocAppsTable::model()->fetchRow('need_login = 0', 'id', 'sort, id DESC');
+        return $app['id'];
     }
 }

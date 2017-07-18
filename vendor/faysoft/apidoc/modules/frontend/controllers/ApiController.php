@@ -7,10 +7,6 @@ use apidoc\services\ApiService;
 use fay\core\HttpException;
 
 class ApiController extends FrontController{
-    public function __construct(){
-        parent::__construct();
-    }
-    
     public function item(){
         //表单验证
         $this->form()->setRules(array(

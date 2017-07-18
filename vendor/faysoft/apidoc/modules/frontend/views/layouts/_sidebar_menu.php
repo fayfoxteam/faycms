@@ -2,6 +2,9 @@
 use apidoc\helpers\MenuHelper;
 use fay\helpers\HtmlHelper;
 
+/**
+ * @var $app array
+ */
 ?>
 <div class="sidebar-menu <?php if(!F::config()->get('debug'))echo ' fixed';
 ?>" id="sidebar-menu">
@@ -9,7 +12,9 @@ use fay\helpers\HtmlHelper;
         <header class="logo-env">
             <div class="logo">
                 <?php
-                    echo HtmlHelper::link(\cms\services\OptionService::get('site:sitename'), array('apidoc/frontend/index/index'), array(
+                    echo HtmlHelper::link($app['name'], array('apidoc/frontend/index/index', array(
+                        'app_id'=>$app['id'],
+                    )), array(
                         'class'=>'logo-expanded',
                     ));
                 ?>

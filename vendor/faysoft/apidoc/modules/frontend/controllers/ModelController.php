@@ -11,10 +11,6 @@ use fay\core\HttpException;
 use fay\core\Sql;
 
 class ModelController extends FrontController{
-    public function __construct(){
-        parent::__construct();
-    }
-    
     public function item(){
         //表单验证
         $this->form()->setRules(array(

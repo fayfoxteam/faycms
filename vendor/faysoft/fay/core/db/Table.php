@@ -188,7 +188,7 @@ class Table extends Model{
      */
     public function fetchRow($conditions, $fields = '*', $order = false, $offset = null, $style = 'assoc'){
         $sql = new Sql($this->db);
-        $sql->from($this->_name)
+        $sql->from($this->_name, '')
             ->select($this->formatFields($fields))
             ->where($conditions)
             ->limit(1, $offset);

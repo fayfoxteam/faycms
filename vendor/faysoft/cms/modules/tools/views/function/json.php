@@ -78,7 +78,7 @@ $(function(){
                     },
                     'dataType': 'json',
                     'cache': false,
-                    'error': function(XMLHttpRequest, textStatus, errorThrown){
+                    'error': function(){
                         common.alert('PHP代码语法错误');
                     },
                     'success': function(resp){
@@ -100,7 +100,6 @@ $(function(){
                     'dataType': 'json',
                     'cache': false,
                     'success': function(resp){
-                        console.log(resp)
                         if(resp.status){
                             toolsJson.formatterEditor.setValue('<\?php \r\n' + resp.data.code + ';');
                             toolsJson.formatterEditor.session.setMode('ace/mode/php');

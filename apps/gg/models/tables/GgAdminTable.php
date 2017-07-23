@@ -6,10 +6,9 @@ use fay\core\Loader;
 
 /**
  * 后台管理员账号表
- * 
+ *
  * @property int $id Id
  * @property string $name 登陆名称
- * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
  * @property int $role_id 角色ID
  * @property string $passwd 登陆密码
@@ -29,19 +28,19 @@ use fay\core\Loader;
  */
 class GgAdminTable extends Table{
     protected $_name = 'gg_admin';
-    
+
     /**
      * @return $this
      */
     public static function model(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     public function rules(){
         return array(
             array(array('login_ip', 'updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
             array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('merchant_id', 'website_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('website_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('role_id'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('name', 'real_name'), 'string', array('max'=>32)),
@@ -56,7 +55,6 @@ class GgAdminTable extends Table{
         return array(
             'id'=>'Id',
             'name'=>'登陆名称',
-            'merchant_id'=>'所属管理员站点（只关联主账号）',
             'website_id'=>'网站ID',
             'role_id'=>'角色ID',
             'passwd'=>'登陆密码',
@@ -80,7 +78,6 @@ class GgAdminTable extends Table{
         return array(
             'id'=>'intval',
             'name'=>'trim',
-            'merchant_id'=>'intval',
             'website_id'=>'intval',
             'role_id'=>'intval',
             'passwd'=>'trim',

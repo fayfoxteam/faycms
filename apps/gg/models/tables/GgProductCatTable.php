@@ -8,7 +8,6 @@ use fay\core\Loader;
  * 商品分类表
  *
  * @property int $id Id
- * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
  * @property int $parent_id 父节点
  * @property string $name 分类名称
@@ -32,7 +31,7 @@ class GgProductCatTable extends Table{
 
     public function rules(){
         return array(
-            array(array('id', 'merchant_id', 'website_id', 'parent_id', 'left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('id', 'website_id', 'parent_id', 'left_value', 'right_value'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('sort'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('name'), 'string', array('max'=>50)),
             array(array('remark'), 'string', array('max'=>255)),
@@ -42,7 +41,6 @@ class GgProductCatTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
-            'merchant_id'=>'所属管理员站点（只关联主账号）',
             'website_id'=>'网站ID',
             'parent_id'=>'父节点',
             'name'=>'分类名称',
@@ -59,7 +57,6 @@ class GgProductCatTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
-            'merchant_id'=>'intval',
             'website_id'=>'intval',
             'parent_id'=>'intval',
             'name'=>'trim',

@@ -8,7 +8,6 @@ use fay\core\Loader;
  * 附件表
  *
  * @property int $id Id
- * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
  * @property int $cat_id Cat Id
  * @property string $title 原文件名
@@ -37,7 +36,7 @@ class GgAttachmentTable extends Table{
     public function rules(){
         return array(
             array(array('id'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('merchant_id', 'website_id', 'cat_id', 'filesize', 'image_width', 'image_height'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('website_id', 'cat_id', 'filesize', 'image_width', 'image_height'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('qiniu'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('filetype'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title'), 'string', array('max'=>60)),
@@ -50,7 +49,6 @@ class GgAttachmentTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
-            'merchant_id'=>'所属管理员站点（只关联主账号）',
             'website_id'=>'网站ID',
             'cat_id'=>'Cat Id',
             'title'=>'原文件名',
@@ -71,7 +69,6 @@ class GgAttachmentTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
-            'merchant_id'=>'intval',
             'website_id'=>'intval',
             'cat_id'=>'intval',
             'title'=>'trim',

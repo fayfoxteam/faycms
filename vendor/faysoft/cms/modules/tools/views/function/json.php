@@ -71,16 +71,17 @@ $(function(){
                     code = code.replace(/^<\?php(.*)/, '');
                 }
                 $.ajax({
-                    type: 'POST',
-                    url: system.url('cms/tools/function/json-encode'),
-                    data: {
+                    'type': 'POST',
+                    'url': system.url('cms/tools/function/json-encode'),
+                    'data': {
                         'code': code
                     },
-                    cache: false,
-                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                    'dataType': 'json',
+                    'cache': false,
+                    'error': function(){
                         common.alert('PHP代码语法错误');
                     },
-                    success: function(resp){
+                    'success': function(resp){
                         if(resp.status){
                             toolsJson.formatterEditor.setValue(resp.data.code);
                             toolsJson.formatterEditor.session.setMode('ace/mode/json');
@@ -91,13 +92,14 @@ $(function(){
                 });
             }).on('click', '#php-json-decode-link', function(){
                 $.ajax({
-                    type: 'POST',
-                    url: system.url('cms/tools/function/json-decode'),
-                    data: {
+                    'type': 'POST',
+                    'url': system.url('cms/tools/function/json-decode'),
+                    'data': {
                         'code': toolsJson.formatterEditor.getValue()
                     },
-                    cache: false,
-                    success: function(resp){
+                    'dataType': 'json',
+                    'cache': false,
+                    'success': function(resp){
                         if(resp.status){
                             toolsJson.formatterEditor.setValue('<\?php \r\n' + resp.data.code + ';');
                             toolsJson.formatterEditor.session.setMode('ace/mode/php');

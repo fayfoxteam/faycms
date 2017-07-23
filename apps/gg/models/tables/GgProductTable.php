@@ -8,7 +8,6 @@ use fay\core\Loader;
  * 商品表
  *
  * @property int $id Id
- * @property int $merchant_id 所属管理员站点（只关联主账号）
  * @property int $website_id 网站ID
  * @property int $cat_id 分类ID
  * @property string $title 商品标题
@@ -39,7 +38,7 @@ class GgProductTable extends Table{
     public function rules(){
         return array(
             array(array('id', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('merchant_id', 'website_id', 'cat_id', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('website_id', 'cat_id', 'sort'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('price_type'), 'int', array('min'=>0, 'max'=>255)),
             array(array('title', 'seo_title', 'seo_keywords', 'seo_description'), 'string', array('max'=>255)),
             array(array('price'), 'float', array('length'=>10, 'decimal'=>2)),
@@ -50,7 +49,6 @@ class GgProductTable extends Table{
     public function labels(){
         return array(
             'id'=>'Id',
-            'merchant_id'=>'所属管理员站点（只关联主账号）',
             'website_id'=>'网站ID',
             'cat_id'=>'分类ID',
             'title'=>'商品标题',
@@ -73,7 +71,6 @@ class GgProductTable extends Table{
     public function filters(){
         return array(
             'id'=>'intval',
-            'merchant_id'=>'intval',
             'website_id'=>'intval',
             'cat_id'=>'intval',
             'title'=>'trim',

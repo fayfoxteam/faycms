@@ -10,14 +10,20 @@ use fay\helpers\HtmlHelper;
 ?>" id="sidebar-menu">
     <div class="sidebar-menu-inner">
         <header class="logo-env">
-            <div class="logo">
+            <div class="dropdown-container open">
                 <?php
                     echo HtmlHelper::link($app['name'], array('apidoc/frontend/index/index', array(
                         'app_id'=>$app['id'],
                     )), array(
-                        'class'=>'logo-expanded',
+                        'class'=>'logo',
                     ));
                 ?>
+                <a href="javascript:" class="switch-apps"><i class="fa fa-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="">asdf</a></li>
+                    <li><a href="">asdf</a></li>
+                    <li><a href="">asdf</a></li>
+                </ul>
             </div>
             
             <div class="mobile-menu-toggle">

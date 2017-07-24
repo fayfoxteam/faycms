@@ -25,10 +25,12 @@ class FrontController extends Controller{
         
         $this->app_id = $this->getAppID();
         
-        $app = ApidocAppsTable::model()->find($this->app_id, 'id,name');
-
         $this->layout->assign(array(
-            'app'=>$app,
+            'current_app'=>ApidocAppsTable::model()->find($this->app_id, 'id,name'),
+            'apps'=>ApidocAppsTable::model()->fetchAll(array(
+                'enabled = ?'=>1,
+                'need_login = ?'=>$this->current_user ? false : 0,//是否登录可见
+            ), 'id,name', 'sort'),
             'current_directory'=>'',
             'title'=>'',
             'subtitle'=>'',

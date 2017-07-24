@@ -1,4 +1,5 @@
 @CHARSET "UTF-8";
+@font-face {font-family:'Architext';src:url('../../../assets/fonts/Architext.eot');src:url('../../../assets/fonts/Architext.eot') format('embedded-opentype'), url('../../../assets/fonts/Architext.woff') format('woff'), url('../../../assets/fonts/Architext.ttf') format('truetype'), url('../../../assets/fonts/Architext.svg') format('svg');font-weight:normal;font-style:normal}
 *{box-sizing: border-box}
 *:before,*:after{box-sizing: border-box}
 *:focus{outline:none}*
@@ -68,15 +69,17 @@ code{background-color:#f7f7f7;font-size:.85em;padding:.2em .5em}
 .sidebar-menu.fixed .sidebar-menu-inner{position:fixed;left:0;top:0;bottom:0;overflow:hidden;width:inherit}
 
 /* 导航栏上的logo */
-.sidebar-menu .logo-env a.logo{color:#fff;font-size:30px;font-weight:bold;line-height:30px}
+.sidebar-menu .logo-env a.logo{color:#fff;font-family:Architext;font-size:30px;font-weight:bold;line-height:30px}
 .sidebar-menu .logo-env a:hover{text-decoration:none}
-.sidebar-menu .logo-env .switch-apps{font-size:14px;margin-left:5px;color:#fff;position:relative;top:-7px;padding:12px 14px}
+.sidebar-menu .logo-env .switch-apps{font-size:14px;line-height:30px;color:#fff;position:relative;padding:0 14px;transition:all 0s linear 0s;display:block}
 .sidebar-menu .logo-env .open .switch-apps{background-color:#131415}
 .sidebar-menu .logo-env .toggle-mobile-menu{display:none}
 .sidebar-menu .sidebar-menu-inner .logo-env{margin-bottom:0;padding:18px 30px;border-bottom:1px solid #313437}
+.sidebar-menu .dropdown-container{display:inline-block;vertical-align:top}
 
+.dropdown-container{position:relative}
 .dropdown-container a.dropdown{top:1px;z-index:5}
-.dropdown-container .dropdown-menu{position:absolute;z-index:3;min-width:160px;padding:6px 0;background-color:#131415;left:40px;display:none}
+.dropdown-container .dropdown-menu{position:absolute;z-index:3;min-width:160px;padding:6px 0;background-color:#131415;display:none}
 .dropdown-container .dropdown-menu > li{position:relative;padding:0 20px}
 .dropdown-container .dropdown-menu > li a{color:#979898;padding:5px 0;border-bottom:1px solid #323435;display:block;font-weight:normal;font-size:14px}
 .dropdown-container .dropdown-menu > li a:hover,.dropdown-container .dropdown-menu > li a.crt{color:#fff}

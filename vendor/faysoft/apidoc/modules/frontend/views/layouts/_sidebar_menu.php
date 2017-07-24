@@ -3,28 +3,35 @@ use apidoc\helpers\MenuHelper;
 use fay\helpers\HtmlHelper;
 
 /**
- * @var $app array
+ * @var $current_app array 当前APP
+ * @var $apps array 所有APP
  */
 ?>
 <div class="sidebar-menu <?php if(!F::config()->get('debug'))echo ' fixed';
 ?>" id="sidebar-menu">
     <div class="sidebar-menu-inner">
         <header class="logo-env">
-            <div class="dropdown-container open">
-                <?php
-                    echo HtmlHelper::link($app['name'], array('apidoc/frontend/index/index', array(
-                        'app_id'=>$app['id'],
-                    )), array(
-                        'class'=>'logo',
-                    ));
-                ?>
-                <a href="javascript:" class="switch-apps"><i class="fa fa-caret-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="">asdf</a></li>
-                    <li><a href="">asdf</a></li>
-                    <li><a href="">asdf</a></li>
-                </ul>
-            </div>
+            <?php
+                echo HtmlHelper::link($current_app['name'], array('apidoc/frontend/index/index', array(
+                    'app_id'=>$current_app['id'],
+                )), array(
+                    'class'=>'logo',
+                ));
+            ?>
+            <?php if(isset($apps[1])){?>
+                <div class="dropdown-container">
+                    <a href="javascript:" class="switch-apps" title="切换应用"><i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                    <?php foreach($apps as $app){?>
+                        <li><?php echo HtmlHelper::link($app['name'], array('apidoc/frontend/index/index', array(
+                            'app_id'=>$app['id'],
+                        )), array(
+                            'class'=>$app['id'] == $current_app['id'] ? 'crt' : ''
+                        ))?></li>
+                    <?php }?>
+                    </ul>
+                </div>
+            <?php }?>
             
             <div class="mobile-menu-toggle">
                 <a href="javascript:" class="toggle-mobile-menu">

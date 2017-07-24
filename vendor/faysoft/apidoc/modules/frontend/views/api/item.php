@@ -45,39 +45,37 @@ use Michelf\MarkdownExtra;
         </div>
     </div>
 </div>
+<?php if($api['inputs']){?>
 <div class="panel">
     <div class="panel-header closed">
         <h2><i class="fa fa-caret-down"></i>公共请求参数</h2>
     </div>
     <div class="panel-body hide">
-        <?php if($api['inputs']){?>
-            <table>
-                <thead>
+        <table>
+            <thead>
+            <tr>
+                <th width="22%">名称</th>
+                <th width="15%">类型</th>
+                <th width="10%">是否必须</th>
+                <th width="12%">示例值</th>
+                <th width="36%">描述</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($common_inputs as $input){?>
                 <tr>
-                    <th width="22%">名称</th>
-                    <th width="15%">类型</th>
-                    <th width="10%">是否必须</th>
-                    <th width="12%">示例值</th>
-                    <th width="36%">描述</th>
+                    <td><?php echo HtmlHelper::encode($input['name'])?></td>
+                    <td><?php echo ApiHelper::getInputType($input['type'])?></td>
+                    <td><?php echo ApiHelper::getRequired($input['required'])?></td>
+                    <td><?php echo SampleHelper::render($input['sample'])?></td>
+                    <td><?php echo MarkdownExtra::defaultTransform($input['description'])?></td>
                 </tr>
-                </thead>
-                <tbody>
-                <?php foreach($common_inputs as $input){?>
-                    <tr>
-                        <td><?php echo HtmlHelper::encode($input['name'])?></td>
-                        <td><?php echo ApiHelper::getInputType($input['type'])?></td>
-                        <td><?php echo ApiHelper::getRequired($input['required'])?></td>
-                        <td><?php echo SampleHelper::render($input['sample'])?></td>
-                        <td><?php echo MarkdownExtra::defaultTransform($input['description'])?></td>
-                    </tr>
-                <?php }?>
-                </tbody>
-            </table>
-        <?php }else{?>
-            <span>无</span>
-        <?php }?>
+            <?php }?>
+            </tbody>
+        </table>
     </div>
 </div>
+<?php }?>
 <div class="panel">
     <div class="panel-header">
         <h2><i class="fa fa-caret-down"></i>请求参数</h2>

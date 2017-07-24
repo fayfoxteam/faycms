@@ -100,6 +100,8 @@ CREATE TABLE `{{$prefix}}apidoc_apps` (
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '应用名称',
   `description` varchar(500) NOT NULL DEFAULT '' COMMENT '应用描述',
   `need_login` tinyint(1) NOT NULL DEFAULT '0' COMMENT '仅登录用户可见',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序值',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)

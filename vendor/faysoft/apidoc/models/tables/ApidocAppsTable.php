@@ -11,6 +11,7 @@ use fay\core\Loader;
  * @property string $name 应用名称
  * @property string $description 应用描述
  * @property int $need_login 仅登录用户可见
+ * @property int $enabled 是否启用
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
  */
@@ -30,7 +31,7 @@ class ApidocAppsTable extends Table{
             array(array('name'), 'string', array('max'=>30)),
             array(array('description'), 'string', array('max'=>500)),
             
-            array('need_login', 'range', array('range'=>array('0', '1'))),
+            array(array('need_login', 'enabled'), 'range', array('range'=>array('0', '1'))),
         );
     }
 
@@ -40,6 +41,7 @@ class ApidocAppsTable extends Table{
             'name'=>'应用名称',
             'description'=>'应用描述',
             'need_login'=>'仅登录用户可见',
+            'enabled'=>'是否启用',
             'create_time'=>'创建时间',
             'update_time'=>'更新时间',
         );
@@ -51,6 +53,7 @@ class ApidocAppsTable extends Table{
             'name'=>'trim',
             'description'=>'trim',
             'need_login'=>'intval',
+            'enabled'=>'intval',
         );
     }
 }

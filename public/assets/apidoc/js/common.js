@@ -1,11 +1,12 @@
 var common = {
     'menu': function(){
+        var $sidebarMenu = $('#sidebar-menu');
         $('#main-menu').on('click', '.has-sub > a', function(){
             //非顶级菜单，或非缩起状态，或者屏幕很小（本来是大的，菜单缩起后变小）,或者IE8（因为IE8下折叠没效果）
-            if($(this).parent().parent().parent().hasClass('has-sub') || !$('#sidebar-menu').hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version == '8.0')){
-                var slideElapse = 300;//滑动效果持续
-                $li = $(this).parent();//父级li
-                $ul = $(this).next('ul');//子菜单的ul
+            if($(this).parent().parent().parent().hasClass('has-sub') || !$sidebarMenu.hasClass('collapsed') || $(window).width() < 768 || ($.browser.msie && $.browser.version === '8.0')){
+                var slideElapse = 300,//滑动效果持续
+                $li = $(this).parent(),//父级li
+                $ul = $(this).next('ul'),//子菜单的ul
                 $_li = $ul.children('li');//子菜单的li
                 if($li.hasClass('expanded')){
                     //关闭
@@ -40,6 +41,12 @@ var common = {
                 return false;
             }
         });
+
+        $sidebarMenu.on('mouseover', '.switch-apps', function(){
+            $(this).parent().addClass('open');
+        }).on('mouseleave', '.dropdown-container', function(){
+            $(this).removeClass('open');
+        });
         
         //小屏幕下打开关闭上面的菜单
         $('.toggle-mobile-menu').on('click', function(){
@@ -48,30 +55,30 @@ var common = {
         
         //打开缩起左侧菜单
         $('.toggle-sidebar').on('click', function(){
-            $('#sidebar-menu').toggleClass('collapsed');
+            $sidebarMenu.toggleClass('collapsed');
             $(window).resize();
             $.ajax({
                 type: 'POST',
                 url: system.url('cms/admin/system/setting'),
                 data: {
                     '_key': 'admin_sidebar_class',
-                    'class':$('#sidebar-menu').hasClass('collapsed') ? 'collapsed' : ''
+                    'class':$sidebarMenu.hasClass('collapsed') ? 'collapsed' : ''
                 }
             });
         });
         
         //左侧菜单固定
-        if($('.sidebar-menu').hasClass('fixed') && !($.browser.msie && $.browser.version < 9)){
+        if($sidebarMenu.hasClass('fixed') && !($.browser.msie && $.browser.version < 9)){
             //插件不支持IE8
             system.getCss(system.assets('js/perfect-scrollbar/css/perfect-scrollbar.min.css'), function(){
                 system.getScript(system.assets('js/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js'), function(){
-                    if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
+                    if(parseInt($(window).width()) > 768 && !$sidebarMenu.hasClass('collapsed')){
                         $('.sidebar-menu-inner').perfectScrollbar({
                             'wheelPropagation': true
                         });
                     }
                     $(window).resize(function(){
-                        if(parseInt($(window).width()) > 768 && !$('.sidebar-menu').hasClass('collapsed')){
+                        if(parseInt($(window).width()) > 768 && !$sidebarMenu.hasClass('collapsed')){
                             $('.sidebar-menu-inner').perfectScrollbar({
                                 'wheelPropagation': true
                             });
@@ -83,7 +90,7 @@ var common = {
             });
         }else{
             //ie8的情况下移除fixed
-            $('.sidebar-menu').removeClass('fixed');
+            $sidebarMenu.removeClass('fixed');
         }
     },
     'fixContent': function(){
@@ -156,7 +163,7 @@ var common = {
         type = type || 'success';
         system.getScript(system.assets('faycms/js/fayfox.toast.js'), function(){
             message = '<p>' + message + '</p>';
-            if(type == 'success'){
+            if(type === 'success'){
                 //成功的提醒5秒后自动消失，不出现关闭按钮，点击则直接消失
                 $.toast(message, type, {
                     'timeOut': 5000,
@@ -164,13 +171,13 @@ var common = {
                     'click': 'fadeOut',
                     'positionClass': 'toast-top-right'
                 });
-            }else if(type == 'error'){
+            }else if(type === 'error'){
                 //报错，也在右上角，显示关闭按钮，不消失
                 $.toast(message, type, {
                     'timeOut': 0,
                     'positionClass': 'toast-top-right'
                 });
-            }else if(type == 'alert'){
+            }else if(type === 'alert'){
                 //单页报错，在底部中间出现，红色背景，不显示关闭按钮，点击消失，延迟5秒消失
                 $.toast(message, type, {
                     'closeButton': false,
@@ -198,7 +205,7 @@ var common = {
             if (pKey)
                 r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
             if (pVal)
-                r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+                r = r + (pVal[0] === '"' ? str : val) + pVal + '</span>';
             return r + (pEnd || '');
         },
         'prettyPrint': function(obj) {

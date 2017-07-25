@@ -23,56 +23,56 @@ use fay\helpers\HtmlHelper;
         ?></div>
     </td>
     <?php if(in_array('router', $cols)){?>
-        <td><?php echo $data['router']?></td>
+        <td><?php echo HtmlHelper::encode($data['router'])?></td>
     <?php }?>
     <?php if(in_array('status', $cols)){?>
         <td><?php echo ApiHelper::getStatus($data['status'])?></td>
     <?php }?>
     <?php if(in_array('app', $cols)){?>
-        <td><?php echo $data['app_name']?></td>
+        <td><?php echo HtmlHelper::encode($data['app_name'])?></td>
     <?php }?>
     <?php if(in_array('category', $cols)){?>
-    <td><?php echo $data['cat_title']?></td>
+        <td><?php echo HtmlHelper::encode($data['cat_title'])?></td>
     <?php }?>
     <?php if(in_array('http_method', $cols)){?>
-    <td><?php echo $http_methods[$data['http_method']]?></td>
+        <td><?php echo $http_methods[$data['http_method']]?></td>
     <?php }?>
     <?php if(in_array('need_login', $cols)){?>
-    <td><?php echo $data['need_login'] ? '是' : '否'?></td>
+        <td><?php echo $data['need_login'] ? '是' : '否'?></td>
     <?php }?>
     <?php if(in_array('user', $cols)){?>
-    <td><?php
-        echo HtmlHelper::link($data[F::form('setting')->getData('display_name', 'nickname')], array(
-            'apidoc/admin/api/index', array(
-                'keywords_field'=>'user_id',
-                'keywords'=>$data['user_id'],
-            ),
-        ));
-    ?></td>
+        <td><?php
+            echo HtmlHelper::link($data[F::form('setting')->getData('display_name', 'nickname')], array(
+                'apidoc/admin/api/index', array(
+                    'keywords_field'=>'user_id',
+                    'keywords'=>$data['user_id'],
+                ),
+            ));
+        ?></td>
     <?php }?>
     <?php if(in_array('since', $cols)){?>
-    <td><?php echo $data['since']?></td>
+        <td><?php echo HtmlHelper::encode($data['since'])?></td>
     <?php }?>
     <?php if(in_array('create_time', $cols)){?>
-    <td>
-        <abbr class="time" title="<?php echo DateHelper::format($data['create_time'])?>">
-            <?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
-                echo DateHelper::niceShort($data['create_time']);
-            }else{
-                echo DateHelper::format($data['create_time']);
-            }?>
-        </abbr>
-    </td>
+        <td>
+            <abbr class="time" title="<?php echo DateHelper::format($data['create_time'])?>">
+                <?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
+                    echo DateHelper::niceShort($data['create_time']);
+                }else{
+                    echo DateHelper::format($data['create_time']);
+                }?>
+            </abbr>
+        </td>
     <?php }?>
     <?php if(in_array('update_time', $cols)){?>
-    <td>
-        <abbr class="time" title="<?php echo DateHelper::format($data['update_time'])?>">
-            <?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
-                echo DateHelper::niceShort($data['update_time']);
-            }else{
-                echo DateHelper::format($data['update_time']);
-            }?>
-        </abbr>
-    </td>
+        <td>
+            <abbr class="time" title="<?php echo DateHelper::format($data['update_time'])?>">
+                <?php if(F::form('setting')->getData('display_time', 'short') == 'short'){
+                    echo DateHelper::niceShort($data['update_time']);
+                }else{
+                    echo DateHelper::format($data['update_time']);
+                }?>
+            </abbr>
+        </td>
     <?php }?>
 </tr>

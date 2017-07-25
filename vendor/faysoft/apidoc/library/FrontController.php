@@ -108,8 +108,8 @@ class FrontController extends Controller{
             }
         }
         
-        if(isset($_COOKIE['apidoc_app_id']) && NumberHelper::isInt($_COOKIE['apidoc_app_id'])){
-            $app = ApidocAppsTable::model()->find($_COOKIE['apidoc_app_id'], 'id');
+        if(\F::cookie()->get('apidoc_current_app')){
+            $app = ApidocAppsTable::model()->find(\F::cookie()->get('apidoc_current_app', 'intval'), 'id');
             if($app){
                 return $app['id'];
             }

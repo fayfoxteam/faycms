@@ -70,7 +70,7 @@ foreach($fields as $f){
     }else if(strpos($f['Field'], 'is_') === 0){
         $rules[$f['Field']][] = 'in:0,1';
     }else if(strpos($f['Type'], 'int') === 0 && !in_array($f['Field'], array('created_at', 'updated_at', 'deleted_at', 'created_ip', 'updated_ip'))){//int
-        $rules[$f['Field']][] = 'numeric';
+        $rules[$f['Field']][] = 'integer';
         if(strpos($f['Type'], 'unsigned') === false){
             $rules[$f['Field']][] = 'min:-2147483648';
             $rules[$f['Field']][] = 'max:2147483647';
@@ -79,7 +79,7 @@ foreach($fields as $f){
             $rules[$f['Field']][] = 'max:4294967295';
         }
     }else if(strpos($f['Type'], 'mediumint') === 0){//mediumint
-        $rules[$f['Field']][] = 'numeric';
+        $rules[$f['Field']][] = 'integer';
         if(strpos($f['Type'], 'unsigned') === false){
             $rules[$f['Field']][] = 'min:-8388608';
             $rules[$f['Field']][] = 'max:8388607';
@@ -88,7 +88,7 @@ foreach($fields as $f){
             $rules[$f['Field']][] = 'max:16777215';
         }
     }else if(strpos($f['Type'], 'smallint') === 0){//smallint
-        $rules[$f['Field']][] = 'numeric';
+        $rules[$f['Field']][] = 'integer';
         if(strpos($f['Type'], 'unsigned') === false){
             $rules[$f['Field']][] = 'min:-32768';
             $rules[$f['Field']][] = 'max:32767';
@@ -97,7 +97,7 @@ foreach($fields as $f){
             $rules[$f['Field']][] = 'max:65535';
         }
     }else if(strpos($f['Type'], 'tinyint') === 0){//tinyint
-        $rules[$f['Field']][] = 'numeric';
+        $rules[$f['Field']][] = 'integer';
         if(strpos($f['Type'], 'unsigned') === false){
             $rules[$f['Field']][] = 'min:-128';
             $rules[$f['Field']][] = 'max:127';

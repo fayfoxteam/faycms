@@ -9,7 +9,6 @@ use apidoc\models\tables\ApidocOutputsTable;
 use apidoc\services\ApiCategoryService;
 use fay\core\Controller;
 use fay\helpers\HtmlHelper;
-use fay\helpers\NumberHelper;
 
 class FrontController extends Controller{
     public $layout_template = 'apidoc/frontend/layouts/frontend';

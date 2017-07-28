@@ -27,7 +27,11 @@ class LinkHelper{
             throw new ErrorException('必须传入接口id或包含接口id的数组');
         }
 
-        $uri = OptionService::get('apidoc:api_uri', 'apidoc/frontend/api/item?api_id={$id}');
+        $uri = \F::config()->get('api', 'links');
+        if($uri instanceof \Closure){
+            //若是匿名函数，直接返回函数结果
+            return $uri($api);
+        }
 
         preg_match_all('/{\$([\w:]+)}/', $uri, $matches);
         if(empty($matches)){
@@ -61,7 +65,11 @@ class LinkHelper{
             throw new ErrorException('必须传入模型id或包含模型id的数组');
         }
 
-        $uri = OptionService::get('apidoc:model_uri', 'apidoc/frontend/model/item?model_id={$id}');
+        $uri = \F::config()->get('model', 'links');
+        if($uri instanceof \Closure){
+            //若是匿名函数，直接返回函数结果
+            return $uri($model);
+        }
 
         preg_match_all('/{\$([\w:]+)}/', $uri, $matches);
         if(empty($matches)){

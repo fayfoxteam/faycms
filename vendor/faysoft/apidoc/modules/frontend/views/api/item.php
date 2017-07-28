@@ -45,7 +45,7 @@ use Michelf\MarkdownExtra;
         </div>
     </div>
 </div>
-<?php if($api['inputs']){?>
+<?php if($common_inputs){?>
 <div class="panel">
     <div class="panel-header closed">
         <h2><i class="fa fa-caret-down"></i>公共请求参数</h2>

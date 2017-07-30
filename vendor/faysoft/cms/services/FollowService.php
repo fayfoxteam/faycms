@@ -11,7 +11,6 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
-use fay\helpers\RequestHelper;
 
 /**
  * 关注服务
@@ -67,7 +66,7 @@ class FollowService extends Service{
             'fans_id'=>$fan_id,
             'user_id'=>$user_id,
             'create_time'=>\F::app()->current_time,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
             'relation'=>$isFollow ? FollowsTable::RELATION_BOTH : FollowsTable::RELATION_SINGLE,
             'sockpuppet'=>$sockpuppet,
             'trackid'=>$trackid,

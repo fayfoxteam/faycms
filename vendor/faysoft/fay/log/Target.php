@@ -2,7 +2,7 @@
 namespace fay\log;
 
 use fay\core\ErrorException;
-use fay\helpers\RequestHelper;
+use fay\core\Request;
 
 abstract class Target{
     /**
@@ -45,7 +45,7 @@ abstract class Target{
     
     /**
      * 过滤掉该容器不记录的日志，并将记录写入容器
-     * @param string $messages
+     * @param array $messages
      */
     public function collect($messages){
         $messages = $this->filterMessages($messages);
@@ -136,7 +136,7 @@ abstract class Target{
             $text = var_export($text, true);
         }
         
-        $ip = RequestHelper::getIP();
+        $ip = Request::getUserIP();
         //并不是所有情况下都能获取到用户ID，所以这只是个参考
         $user = empty(\F::app()->current_user) ? 'no login' : 'user:' . \F::app()->current_user;
         

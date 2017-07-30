@@ -1,7 +1,7 @@
 <?php
 namespace fayoauth\services\weixin;
 
-use fay\core\Http;
+use fay\core\Request;
 use fay\helpers\HttpHelper;
 use fay\helpers\StringHelper;
 use fayoauth\services\ClientAbstract;
@@ -30,7 +30,7 @@ class WeixinClient extends ClientAbstract{
         
         return HttpHelper::combineURL(self::AUTHORIZE_URL, array(
             'appid'=>$this->app_id,
-            'redirect_uri'=>$this->redirect_uri ?: Http::getCurrentUrl(),
+            'redirect_uri'=>$this->redirect_uri ?: Request::getCurrentUrl(),
             'response_type'=>'code',
             'scope'=>$this->scope ?: 'snsapi_base',
             'state'=>$this->state

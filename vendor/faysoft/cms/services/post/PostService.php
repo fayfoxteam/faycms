@@ -24,7 +24,6 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
-use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
 
 /**
@@ -180,7 +179,7 @@ class PostService extends Service{
         //扩展信息
         $post_extra = array(
             'post_id'=>$post_id,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
         );
         if(isset($extra['extra'])){
             $post_extra = $post_extra + $extra['extra'];

@@ -8,7 +8,6 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldsHelper;
-use fay\helpers\RequestHelper;
 use fayfeed\models\tables\FeedExtraTable;
 use fayfeed\models\tables\FeedFavoritesTable;
 use fayfeed\models\tables\FeedLikesTable;
@@ -108,7 +107,7 @@ class FeedService extends Service{
         //扩展表
         $feed_extra = array(
             'feed_id'=>$feed_id,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
         );
         if(isset($extra['extra'])){
             $feed_extra = $feed_extra + $extra['extra'];

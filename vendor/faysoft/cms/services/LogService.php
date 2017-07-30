@@ -4,7 +4,6 @@ namespace cms\services;
 use cms\models\tables\LogsTable;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\RequestHelper;
 
 class LogService extends Service{
     /**
@@ -28,7 +27,7 @@ class LogService extends Service{
             'user_id'=>isset(\F::app()->current_user) ? \F::app()->current_user : 0,
             'create_time'=>\F::app()->current_time,
             'create_date'=>date('Y-m-d'),
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
             'user_agent'=>isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
         ));
     }

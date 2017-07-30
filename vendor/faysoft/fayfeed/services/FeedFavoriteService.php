@@ -6,7 +6,6 @@ use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
-use fay\helpers\RequestHelper;
 use fayfeed\models\tables\FeedFavoritesTable;
 use fayfeed\models\tables\FeedMetaTable;
 
@@ -53,7 +52,7 @@ class FeedFavoriteService extends Service{
             'trackid'=>$trackid,
             'sockpuppet'=>$sockpuppet,
             'create_time'=>\F::app()->current_time,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
         ));
         
         //动态收藏数+1

@@ -5,8 +5,8 @@ use cms\library\InstallController;
 use cms\services\CategoryService;
 use cms\services\MenuService;
 use fay\core\Db;
+use fay\core\Request;
 use fay\core\Response;
-use fay\helpers\RequestHelper;
 
 class DbController extends InstallController{
     
@@ -26,7 +26,7 @@ class DbController extends InstallController{
         $this->db->exec($sql, true);
         
         //安装日志
-        file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "]\r\ntables-completed");
+        file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', date('Y-m-d H:i:s [') . Request::getUserIP() . "]\r\ntables-completed");
         
         Response::json(array(
             '_token'=>$this->getToken(),
@@ -147,7 +147,7 @@ class DbController extends InstallController{
         
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nindex-tree-tables-completed", FILE_APPEND);
-        file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . RequestHelper::getIP() . "]\r\ndatabase-completed", FILE_APPEND);
+        file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getUserIP() . "]\r\ndatabase-completed", FILE_APPEND);
         
         Response::json(array(
             '_token'=>$this->getToken(),

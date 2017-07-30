@@ -8,7 +8,6 @@ use fay\core\Exception;
 use fay\core\Loader;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
-use fay\helpers\RequestHelper;
 use fay\models\MultiTreeModel;
 use fayfeed\models\tables\FeedCommentsTable;
 use fayfeed\models\tables\FeedMetaTable;
@@ -73,7 +72,7 @@ class FeedCommentService extends MultiTreeModel{
             'sockpuppet'=>$sockpuppet,
             'create_time'=>\F::app()->current_time,
             'update_time'=>\F::app()->current_time,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
         )), $parent);
         
         //更新动态评论数

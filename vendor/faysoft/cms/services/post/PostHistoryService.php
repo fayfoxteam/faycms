@@ -8,7 +8,6 @@ use cms\services\user\UserService;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
-use fay\helpers\RequestHelper;
 
 /**
  * 文章历史
@@ -59,7 +58,7 @@ class PostHistoryService extends Service{
 
         $data['user_id'] = $user_id;
         $data['create_time'] = \F::app()->current_time;
-        $data['ip_int'] = RequestHelper::ip2int(\F::app()->ip);
+        $data['ip_int'] = \F::app()->ip_int;
 
         return PostHistoriesTable::model()->insert($data, true);
     }

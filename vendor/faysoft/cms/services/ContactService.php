@@ -4,7 +4,6 @@ namespace cms\services;
 use cms\models\tables\ContactsTable;
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\RequestHelper;
 
 class ContactService extends Service{
     /**
@@ -31,8 +30,8 @@ class ContactService extends Service{
         
         //附加默认字段
         $data = array_merge($data, array(
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
-            'show_ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
+            'show_ip_int'=>\F::app()->ip_int,
             'create_time'=>\F::app()->current_time,
             'publish_time'=>\F::app()->current_time,
             'is_show'=>$is_show,

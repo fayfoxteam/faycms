@@ -1,7 +1,7 @@
 <?php
 namespace valentine\modules\frontend\controllers;
 
-use fay\core\Http;
+use fay\core\Request;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\NumberHelper;
@@ -162,7 +162,7 @@ class TeamController extends FrontController{
         //活动结束时间
         $this->view->end_time = OptionService::get('end_time');
         
-        if(Http::isAjax()){
+        if(Request::isAjax()){
             $this->view->renderPartial('ajax_list', $this->view->getViewData());
         }else{
             $this->view->render();
@@ -304,7 +304,7 @@ class TeamController extends FrontController{
     public function download(){
         $app_config = OptionService::getGroup('oauth:weixin');
         
-        $signature = JsSDK::signature(Http::getCurrentUrl(), $app_config['app_id'], $app_config['app_secret']);
+        $signature = JsSDK::signature(Request::getCurrentUrl(), $app_config['app_id'], $app_config['app_secret']);
         
         $this->view->assign(array(
             'signature'=>$signature,

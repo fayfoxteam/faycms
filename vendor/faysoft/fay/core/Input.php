@@ -123,7 +123,7 @@ class Input{
     }
     
     public function isAjaxRequest(){
-        return Http::isAjax();
+        return Request::isAjax();
     }
     
     /**

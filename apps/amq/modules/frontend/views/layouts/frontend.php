@@ -53,7 +53,7 @@ use fay\helpers\HtmlHelper;
     var _service = 'p';
     var _backurl = "";
     var _ssourl = '<?php echo $this->url('api/oauth/am', array(
-        'redirect'=>\fay\core\Http::getCurrentUrl(),
+        'redirect'=>\fay\core\Request::getCurrentUrl(),
     ))?>';
     var _loginpanel = true;
 

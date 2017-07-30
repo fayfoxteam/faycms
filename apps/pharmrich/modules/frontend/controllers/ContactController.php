@@ -6,7 +6,6 @@ use cms\models\tables\PagesTable;
 use pharmrich\models\forms\LeaveMessage;
 use fay\core\Response;
 use cms\models\tables\ContactsTable;
-use fay\helpers\RequestHelper;
 
 class ContactController extends FrontController{
     public function __construct(){
@@ -39,8 +38,8 @@ class ContactController extends FrontController{
                     'email'=>$this->form()->getData('email'),
                     'title'=>$this->form()->getData('subject'),
                     'content'=>$this->form()->getData('message'),
-                    'ip_int'=>RequestHelper::ip2int($this->ip),
-                    'show_ip_int'=>RequestHelper::ip2int($this->ip),
+                    'ip_int'=>$this->ip_int,
+                    'show_ip_int'=>$this->ip_int,
                     'create_time'=>$this->current_time,
                     'publish_time'=>$this->current_time,
                 ));

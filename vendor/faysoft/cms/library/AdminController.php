@@ -9,12 +9,11 @@ use cms\services\MenuService;
 use cms\services\SettingService;
 use cms\services\user\UserService;
 use fay\core\Controller;
-use fay\core\Http;
 use fay\core\HttpException;
+use fay\core\Request;
 use fay\core\Response;
 use fay\core\Uri;
 use fay\helpers\ArrayHelper;
-use fay\helpers\RequestHelper;
 
 class AdminController extends Controller{
     public $layout_template = 'admin';
@@ -78,7 +77,7 @@ class AdminController extends Controller{
     public function onFormError($form){
         $errors = $form->getErrors();
         
-        if($form->getScene() == 'final' || Http::isAjax()){
+        if($form->getScene() == 'final' || Request::isAjax()){
             //final类型的场景，直接抛异常中断直行（一般是列表页参数错误）
             throw new HttpException($errors[0]['message'], 404);
         }else{
@@ -98,7 +97,7 @@ class AdminController extends Controller{
         ActionlogsTable::model()->insert(array(
             'user_id'=>$this->current_user,
             'create_time'=>$this->current_time,
-            'ip_int'=>RequestHelper::ip2int($this->ip),
+            'ip_int'=>$this->ip_int,
             'type'=>$type,
             'note'=>$note,
             'refer'=>is_array($refer) ? implode(',', $refer) : $refer,

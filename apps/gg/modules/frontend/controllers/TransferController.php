@@ -2,7 +2,7 @@
 namespace gg\modules\frontend\controllers;
 
 use cms\library\Db;
-use fay\helpers\RequestHelper;
+use fay\helpers\IPHelper;
 use fay\helpers\StringHelper;
 use gg\library\FrontController;
 
@@ -101,23 +101,23 @@ class TransferController extends FrontController{
         foreach($rows as $row){
             $new_row = \F::table('gg\models\tables\Gg'.StringHelper::underscore2case($table).'Table')->fillData($row);
             if(in_array('updated_ip', $fields)){
-                $new_row['updated_ip'] = RequestHelper::ip2int($row['updated_ip']);
+                $new_row['updated_ip'] = IPHelper::ip2int($row['updated_ip']);
                 $new_row['updated_ip'] || $new_row['updated_ip'] = 0;
             }
             if(in_array('created_ip', $fields)){
-                $new_row['created_ip'] = RequestHelper::ip2int($row['created_ip']);
+                $new_row['created_ip'] = IPHelper::ip2int($row['created_ip']);
                 $new_row['created_ip'] || $new_row['created_ip'] = 0;
             }
             if(in_array('login_ip', $fields) && array_key_exists('logined_ip', $row)){
-                $new_row['login_ip'] = RequestHelper::ip2int($row['logined_ip']);
+                $new_row['login_ip'] = IPHelper::ip2int($row['logined_ip']);
                 $new_row['login_ip'] || $new_row['login_ip'] = 0;
             }
             if(in_array('login_ip', $fields) && array_key_exists('login_ip', $row)){
-                $new_row['login_ip'] = RequestHelper::ip2int($row['login_ip']);
+                $new_row['login_ip'] = IPHelper::ip2int($row['login_ip']);
                 $new_row['login_ip'] || $new_row['login_ip'] = 0;
             }
             if(in_array('read_ip', $fields) && array_key_exists('readed_ip', $row)){
-                $new_row['read_ip'] = RequestHelper::ip2int($row['readed_ip']);
+                $new_row['read_ip'] = IPHelper::ip2int($row['readed_ip']);
                 $new_row['read_ip'] || $new_row['read_ip'] = 0;
             }
 

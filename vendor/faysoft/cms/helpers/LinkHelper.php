@@ -3,7 +3,6 @@ namespace cms\helpers;
 
 use cms\models\tables\PostsTable;
 use cms\services\CategoryService;
-use cms\services\OptionService;
 use cms\services\PageService;
 use fay\core\ErrorException;
 use fay\helpers\NumberHelper;

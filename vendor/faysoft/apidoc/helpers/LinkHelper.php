@@ -1,7 +1,6 @@
 <?php 
 namespace apidoc\helpers;
 
-use cms\services\OptionService;
 use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
 use fay\helpers\UrlHelper;

@@ -5,7 +5,7 @@ use cms\library\ApiController;
 use cms\models\tables\AnalystMacsTable;
 use cms\models\tables\AnalystVisitsTable;
 use cms\services\AnalystService;
-use fay\helpers\RequestHelper;
+use fay\helpers\DeviceHelper;
 use fay\helpers\StringHelper;
 
 /**
@@ -31,7 +31,7 @@ class AnalystController extends ApiController{
                 setcookie('fmac', $fmac, $this->current_time + 3600 * 24 * 365, '/', $this->config->get('tld'));
                 
                 //获取搜索引擎信息
-                $se = RequestHelper::getSearchEngine($refer);
+                $se = DeviceHelper::getSearchEngine($refer);
                 $mac_id = AnalystMacsTable::model()->insert(array(
                     'user_agent'=>$_SERVER['HTTP_USER_AGENT'],
                     'browser'=>$this->input->get('b'),
@@ -39,7 +39,7 @@ class AnalystController extends ApiController{
                     'shell'=>$this->input->get('s'),
                     'shell_version'=>$this->input->get('sv'),
                     'os'=>$this->input->get('os'),
-                    'ip_int'=>RequestHelper::ip2int($this->ip),
+                    'ip_int'=>$this->ip_int,
                     'screen_width'=>$this->input->get('sw', 'intval'),
                     'screen_height'=>$this->input->get('sh', 'intval'),
                     'url'=>$url,
@@ -56,7 +56,7 @@ class AnalystController extends ApiController{
                 
                 AnalystVisitsTable::model()->insert(array(
                     'mac'=>$mac_id,
-                    'ip_int'=>RequestHelper::ip2int($this->ip),
+                    'ip_int'=>$this->ip_int,
                     'refer'=>$refer,
                     'url'=>$url,
                     'trackid'=>$trackid,
@@ -86,7 +86,7 @@ class AnalystController extends ApiController{
                     }else{
                         AnalystVisitsTable::model()->insert(array(
                             'mac'=>$mac_id,
-                            'ip_int'=>RequestHelper::ip2int($this->ip),
+                            'ip_int'=>$this->ip_int,
                             'refer'=>$refer,
                             'url'=>$url,
                             'trackid'=>$trackid,

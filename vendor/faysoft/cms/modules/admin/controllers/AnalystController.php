@@ -8,7 +8,7 @@ use fay\common\ListView;
 use fay\core\Loader;
 use fay\core\Sql;
 use fay\helpers\DateHelper;
-use fay\helpers\RequestHelper;
+use fay\helpers\IPHelper;
 
 class AnalystController extends AdminController{
     public function __construct(){
@@ -110,7 +110,7 @@ class AnalystController extends AdminController{
         }
         if($this->input->get('ip')){
             $sql->where(array(
-                'ip_int = ?'=>RequestHelper::ip2int($this->input->get('ip', 'trim')),
+                'ip_int = ?'=>IPHelper::ip2int($this->input->get('ip', 'trim')),
             ));
         }
         if($this->input->get('site')){

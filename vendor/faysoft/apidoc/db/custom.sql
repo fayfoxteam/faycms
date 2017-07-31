@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_apis`;
 CREATE TABLE `{{$prefix}}apidoc_apis` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `app_id` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT 'App ID',
+  `app_id` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT 'App ID',
   `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
   `router` varchar(100) NOT NULL DEFAULT '' COMMENT '路由',
   `description` text NOT NULL COMMENT '描述',
@@ -17,6 +17,27 @@ CREATE TABLE `{{$prefix}}apidoc_apis` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `api_id-router` (`app_id`,`router`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='接口';
+
+DROP TABLE IF EXISTS `{{$prefix}}apidoc_api_categories`;
+CREATE TABLE `{{$prefix}}apidoc_api_categories` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `app_id` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '标题',
+  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '别名',
+  `file_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '插图',
+  `parent` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '父节点',
+  `sort` smallint(5) unsigned NOT NULL DEFAULT '1000' COMMENT '排序值',
+  `description` varchar(500) NOT NULL DEFAULT '' COMMENT '描述',
+  `is_nav` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否导航栏显示',
+  `count` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '记录数',
+  `left_value` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `right_value` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `is_system` tinyint(1) NOT NULL DEFAULT '0',
+  `seo_title` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Title',
+  `seo_keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Keywords',
+  `seo_description` varchar(255) NOT NULL DEFAULT '' COMMENT 'SEO Description',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET={{$charset}};
 
 DROP TABLE IF EXISTS `{{$prefix}}apidoc_inputs`;
 CREATE TABLE `{{$prefix}}apidoc_inputs` (
@@ -134,10 +155,6 @@ CREATE TABLE `{{$prefix}}apidoc_error_codes` (
   UNIQUE KEY `code` (`code`)
 ) ENGINE=MyISAM DEFAULT CHARSET={{$charset}} COMMENT='错误码';
 
-
--- API分类
-INSERT INTO `{{$prefix}}categories` (`title`, `alias`, `parent`, `is_system`) VALUES ('API分类', '_system_api', '0', '1');
-
 -- 后台菜单
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5000', '100', 'apidoc-api', 'API', 'fa fa-mobile', 'javascript:');
 INSERT INTO `{{$prefix}}menus` (`id`, `parent`, `alias`, `title`, `css_class`, `link`) VALUES ('5001', '5000', '', 'API列表', '', 'apidoc/admin/api/index');
@@ -165,5 +182,5 @@ INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) V
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('14', 'Url', '\"http://www.faycms.com\"', '网址');
 INSERT INTO `{{$prefix}}apidoc_models` (`id`, `name`, `sample`, `description`) VALUES ('15', 'Map', '{\"1\":\"已关注\",\"2\":\"未关注\"}', '键值JSON');
 
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('apidoc:api_uri', 'apidoc/frontend/api/item?api_id={$id}', '{{$time}}', '{{$time}}', '1');
-INSERT INTO `{{$prefix}}options` (`option_name`, `option_value`, `create_time`, `update_time`, `is_system`) VALUES ('apidoc:model_uri', 'apidoc/frontend/model/item?model_id={$id}', '{{$time}}', '{{$time}}', '1');
+-- 初始化一个应用
+INSERT INTO `{{$prefix}}apidoc_apps` (`id`, `name`, `description`, `need_login`, `enabled`, `sort`, `create_time`, `update_time`) VALUES ('1', 'faycms', '', '0', '1', '0', '{{$time}}', '{{$time}}');

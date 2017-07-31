@@ -2,7 +2,7 @@
 namespace cms\services\wechat\jssdk;
 
 use fay\caching\Cache;
-use fay\core\Http;
+use fay\core\Request;
 use fay\helpers\StringHelper;
 
 class JsSDK{
@@ -32,7 +32,7 @@ class JsSDK{
      * @return array
      */
     public function signature($url = null, Cache $cache = null){
-        $url || $url = Http::getCurrentUrl();
+        $url || $url = Request::getCurrentUrl();
         $nonce = StringHelper::random();
         
         $ticket = new Ticket($this->app_id, $this->app_secret, $cache);

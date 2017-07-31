@@ -1,5 +1,5 @@
 <?php
-use fay\helpers\RequestHelper;
+use fay\helpers\IPHelper;
 
 ?>
 <form method="post" id="form">
@@ -61,7 +61,7 @@ use fay\helpers\RequestHelper;
                     <div style="min-height:239px"><?php if(F::app()->input->post('ips')){
                         $ips = explode("\r\n", F::app()->input->post('ips'));
                         foreach($ips as $i){
-                            echo RequestHelper::ip2int($i), ' - ', $iplocation->getCountryAndArea($i), '<br>';
+                            echo IPHelper::ip2int($i), ' - ', $iplocation->getCountryAndArea($i), '<br>';
                         }
                     }?></div>
                 </div>

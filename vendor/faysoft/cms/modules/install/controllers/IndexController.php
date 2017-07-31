@@ -8,9 +8,9 @@ use cms\services\OptionService;
 use cms\services\user\UserService;
 use fay\core\Db;
 use fay\core\Exception;
+use fay\core\Request;
 use fay\core\Response;
 use fay\helpers\LocalFileHelper;
-use fay\helpers\RequestHelper;
 
 class IndexController extends InstallController{
     public function __construct(){
@@ -137,7 +137,7 @@ class IndexController extends InstallController{
                 ), 1);
                 OptionService::set('site:sitename', $this->input->post('site:sitename', 'trim'));
                 
-                file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed", FILE_APPEND);
+                file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getUserIP() . "] \r\ninstallation-completed", FILE_APPEND);
                 
                 Response::redirect('a');
             }

@@ -2,8 +2,8 @@
 namespace guangong\library;
 
 use fay\core\Controller;
-use fay\core\Http;
-use fay\helpers\RequestHelper;
+use fay\core\Request;
+use fay\helpers\DeviceHelper;
 use cms\models\tables\SpiderLogsTable;
 use fayoauth\models\tables\OauthUserConnectsTable;
 use fayoauth\services\OauthAppService;
@@ -21,12 +21,12 @@ class FrontController extends Controller{
         //设置当前用户id
         $this->current_user = \F::session()->get('user.id', 0);
         
-        if($spider = RequestHelper::isSpider()){//如果是蜘蛛，记录蜘蛛日志
+        if($spider = DeviceHelper::getSpider()){//如果是蜘蛛，记录蜘蛛日志
             SpiderLogsTable::model()->insert(array(
                 'spider'=>$spider,
-                'url'=>Http::getCurrentUrl(),
+                'url'=>Request::getCurrentUrl(),
                 'user_agent'=>isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
-                'ip_int'=>RequestHelper::ip2int($this->ip),
+                'ip_int'=>$this->ip_int,
                 'create_time'=>$this->current_time,
             ));
         }

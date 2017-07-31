@@ -1,10 +1,10 @@
 <?php
-use fay\helpers\RequestHelper;
+use fay\helpers\DeviceHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\HtmlHelper;
 use cms\services\OptionService;
 
-$browser = RequestHelper::getBrowser();
+$browser = DeviceHelper::getBrowser();
 if($browser[0] == 'msie' && $browser[1] == '6.0'){
     $postfix = '-IE6';
 }else{

@@ -87,13 +87,13 @@ use fay\helpers\HtmlHelper;
             <?php echo F::form('create')->open(array('apidoc/admin/app/create'))?>
                 <table class="form-table">
                     <tr>
-                        <th class="adaption">名称<em class="require">*</em></th>
+                        <th class="adaption">名称<em class="fc-red">*</em></th>
                         <td><?php echo F::form('create')->inputText('name', array(
                                 'class'=>'form-control',
                             ))?></td>
                     </tr>
                     <tr>
-                        <th class="adaption">登录可见<em class="require">*</em></th>
+                        <th class="adaption">登录可见<em class="fc-red">*</em></th>
                         <td><?php
                             echo F::form('edit')->inputRadio('need_login', 1, array(
                                 'label'=>'是',
@@ -133,13 +133,13 @@ use fay\helpers\HtmlHelper;
             <input type="hidden" name="id" id="edit-app-id">
             <table class="form-table">
                 <tr>
-                    <th class="adaption">名称<em class="require">*</em></th>
+                    <th class="adaption">名称<em class="fc-red">*</em></th>
                     <td><?php echo F::form('edit')->inputText('name', array(
                         'class'=>'form-control',
                     ))?></td>
                 </tr>
                 <tr>
-                    <th class="adaption">登录可见<em class="require">*</em></th>
+                    <th class="adaption">登录可见<em class="fc-red">*</em></th>
                     <td><?php
                         echo F::form('edit')->inputRadio('need_login', 1, array(
                             'label'=>'是',

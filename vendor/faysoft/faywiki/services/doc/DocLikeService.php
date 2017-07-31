@@ -7,7 +7,6 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
-use fay\helpers\RequestHelper;
 use faywiki\models\tables\WikiDocLikesTable;
 use faywiki\models\tables\WikiDocMetaTable;
 use faywiki\models\tables\WikiDocsTable;
@@ -56,7 +55,7 @@ class DocLikeService extends Service{
             'trackid'=>$trackid,
             'sockpuppet'=>$sockpuppet,
             'create_time'=>\F::app()->current_time,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
         ));
         
         //文档点赞数+1

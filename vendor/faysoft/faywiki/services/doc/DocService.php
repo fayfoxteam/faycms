@@ -11,7 +11,6 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
-use fay\helpers\RequestHelper;
 use faywiki\models\tables\PropsTable;
 use faywiki\models\tables\WikiDocExtraTable;
 use faywiki\models\tables\WikiDocFavoritesTable;
@@ -134,7 +133,7 @@ class DocService extends Service{
         //扩展信息
         $doc_extra = array(
             'doc_id'=>$doc_id,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
         );
         if(isset($extra['extra'])){
             $doc_extra = $doc_extra + $extra['extra'];

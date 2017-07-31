@@ -153,7 +153,7 @@ class Response{
                 'message'=>$data,
             );
         }
-        if(Http::isAjax()){
+        if(Request::isAjax()){
             Response::json(
                 isset($data['data']) ? $data['data'] : '',
                 $status == 'success' ? 1 : 0,

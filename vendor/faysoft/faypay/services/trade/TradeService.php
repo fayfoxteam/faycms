@@ -4,7 +4,6 @@ namespace faypay\services\trade;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\NumberHelper;
-use fay\helpers\RequestHelper;
 use faypay\models\tables\TradeRefersTable;
 use faypay\models\tables\TradesTable;
 
@@ -70,7 +69,7 @@ class TradeService extends Service{
             'show_url'=>isset($extra['show_url']) ? $extra['show_url'] : '',
             //系统自动填写
             'create_time'=>\F::app()->current_time,
-            'create_ip'=>RequestHelper::ip2int(\F::app()->ip),
+            'create_ip'=>\F::app()->ip_int,
             //默认值
             'paid_fee'=>0,
             'trade_payment_id'=>0,

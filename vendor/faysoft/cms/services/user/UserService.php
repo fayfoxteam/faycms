@@ -18,7 +18,6 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\FieldsHelper;
 use fay\helpers\NumberHelper;
-use fay\helpers\RequestHelper;
 
 /**
  * 用户服务
@@ -118,7 +117,7 @@ class UserService extends Service{
         
         //更新用户最后登录信息
         UserProfileTable::model()->update(array(
-            'last_login_ip'=>RequestHelper::ip2int(\F::app()->ip),
+            'last_login_ip'=>\F::app()->ip_int,
             'last_login_time'=>\F::app()->current_time,
             'last_time_online'=>\F::app()->current_time,
             'login_times'=>new Expr('login_times + 1'),
@@ -128,7 +127,7 @@ class UserService extends Service{
         UserLoginsTable::model()->insert(array(
             'user_id'=>$user['user']['id'],
             'login_time'=>\F::app()->current_time,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
             'mac'=>AnalystService::service()->getMacId(),
             'session'=>session_id(),
         ));
@@ -197,7 +196,7 @@ class UserService extends Service{
         $user_profile = array(
             'user_id'=>$user_id,
             'reg_time'=>\F::app()->current_time,
-            'reg_ip'=>RequestHelper::ip2int(RequestHelper::getIP()),
+            'reg_ip'=>\F::app()->ip_int,
         );
         if(isset($extra['profile'])){
             $user_profile = $user_profile + $extra['profile'];

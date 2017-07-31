@@ -3,7 +3,6 @@ namespace faypay\services\trade;
 
 use fay\core\Loader;
 use fay\core\Service;
-use fay\helpers\RequestHelper;
 use faypay\models\tables\TradePaymentsTable;
 
 class TradePaymentService extends Service{
@@ -33,7 +32,7 @@ class TradePaymentService extends Service{
             'payment_method_id'=>$payment_method_id,
             'create_time'=>\F::app()->current_time,
             'status'=>TradePaymentsTable::STATUS_WAIT_PAY,
-            'create_ip'=>RequestHelper::ip2int(\F::app()->ip),
+            'create_ip'=>\F::app()->ip_int,
             'trade_no'=>'',
             'payer_account'=>'',
             'pay_time'=>0,

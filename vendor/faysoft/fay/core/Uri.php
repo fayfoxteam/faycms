@@ -72,7 +72,7 @@ class Uri{
             }
         }else{
             //未设置$base_url，系统猜测一个
-            $base_url = Http::getBaseUrl();
+            $base_url = Request::getBaseUrl();
             \F::config()->set('base_url', $base_url);
         }
         
@@ -153,7 +153,7 @@ class Uri{
         //以冒号作为router和参数之间的分割，一般用于url重写出来的，正常的参数还是放在问号后面比较好
         $parse_request = explode(':', $request, 2);
         $request = $parse_request[0];
-        $params_uri = isset($parse_request[1]) ? $parse_request[1] : array();
+        $params_uri = isset($parse_request[1]) ? $parse_request[1] : '';
         
         $request_arr = explode('/', $request);
         $request_arr_count = count($request_arr);

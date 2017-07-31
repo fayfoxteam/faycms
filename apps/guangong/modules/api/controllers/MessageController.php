@@ -4,7 +4,6 @@ namespace guangong\modules\api\controllers;
 use cms\library\ApiController;
 use cms\services\OptionService;
 use fay\core\Response;
-use fay\helpers\RequestHelper;
 use guangong\models\tables\GuangongMessagesTable;
 use guangong\models\tables\GuangongUserExtraTable;
 
@@ -30,7 +29,7 @@ class MessageController extends ApiController{
             'content'=>$content,
             'user_id'=>$this->current_user,
             'create_time'=>$this->current_time,
-            'ip_int'=>RequestHelper::ip2int($this->ip),
+            'ip_int'=>$this->ip_int,
             'title'=>$title,
         ));
         

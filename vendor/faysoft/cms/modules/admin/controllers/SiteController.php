@@ -2,8 +2,6 @@
 namespace cms\modules\admin\controllers;
 
 use cms\library\AdminController;
-use cms\services\OptionService;
-use fay\core\Response;
 
 class SiteController extends AdminController{
     public function __construct(){

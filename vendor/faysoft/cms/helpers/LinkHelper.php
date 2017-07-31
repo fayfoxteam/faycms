@@ -3,7 +3,6 @@ namespace cms\helpers;
 
 use cms\models\tables\PostsTable;
 use cms\services\CategoryService;
-use cms\services\OptionService;
 use cms\services\PageService;
 use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
@@ -21,12 +20,6 @@ class LinkHelper{
      * @throws ErrorException
      */
     public static function generatePostLink($post){
-        $uri = \F::config()->get('post', 'links');
-        if($uri instanceof \Closure){
-            //若是匿名函数，直接返回函数结果
-            return $uri($post);
-        }
-        
         if(NumberHelper::isInt($post)){
             $post = array(
                 'id'=>$post,
@@ -34,6 +27,12 @@ class LinkHelper{
         }
         if(!isset($post['id'])){
             throw new ErrorException('必须传入文章id或包含文章id的数组');
+        }
+
+        $uri = \F::config()->get('post', 'links');
+        if($uri instanceof \Closure){
+            //若是匿名函数，直接返回函数结果
+            return $uri($post);
         }
         
         preg_match_all('/{\$([\w:]+)}/', $uri, $matches);

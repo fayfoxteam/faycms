@@ -1,7 +1,7 @@
 <?php
 namespace fayoauth\services\qq;
 
-use fay\core\Http;
+use fay\core\Request;
 use fay\helpers\HttpHelper;
 use fay\helpers\StringHelper;
 use fayoauth\services\ClientAbstract;
@@ -30,7 +30,7 @@ class QQClient extends ClientAbstract{
         
         return HttpHelper::combineURL(self::AUTHORIZE_URL, array(
             'client_id'=>$this->app_id,
-            'redirect_uri'=>$this->redirect_uri ?: Http::getCurrentUrl(),
+            'redirect_uri'=>$this->redirect_uri ?: Request::getCurrentUrl(),
             'response_type'=>'code',
             'scope'=>$this->scope ?: 'get_user_info',
             'state'=>$this->state
@@ -57,7 +57,7 @@ class QQClient extends ClientAbstract{
             'client_secret'=>$this->app_secret,
             'code'=>$code,
             'grant_type'=>'authorization_code',
-            'redirect_uri'=>$this->redirect_uri ?: Http::getCurrentUrl(),//与获取code时传入的redirect_uri保持一致
+            'redirect_uri'=>$this->redirect_uri ?: Request::getCurrentUrl(),//与获取code时传入的redirect_uri保持一致
         ));
         
         if($response['errcode'] != 0){

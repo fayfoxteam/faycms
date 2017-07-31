@@ -10,9 +10,10 @@ use cms\models\tables\UsersTable;
 use cms\services\CategoryService;
 use cms\services\FlashService;
 use cms\services\MenuService;
+use fay\core\Request;
 use fay\core\Response;
+use fay\helpers\IPHelper;
 use fay\helpers\LocalFileHelper;
-use fay\helpers\RequestHelper;
 use fay\helpers\StringHelper;
 
 class ApplicationController extends ToolsController{
@@ -124,7 +125,7 @@ class ApplicationController extends ToolsController{
                 $this->db->insert('user_profile', array(
                     'user_id'=>$user_id,
                     'reg_time'=>$this->current_time,
-                    'reg_ip'=>RequestHelper::ip2int(RequestHelper::getIP()),
+                    'reg_ip'=>IPHelper::ip2int(Request::getUserIP()),
                     'trackid'=>'tools_create',
                 ));
                 
@@ -138,7 +139,7 @@ class ApplicationController extends ToolsController{
                     'option_value'=>$this->input->post('sitename'),
                 ));
                 
-                LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . RequestHelper::getIP() . "] \r\ninstallation-completed");
+                LocalFileHelper::createFile(BASEPATH.'..'.DS.'apps/'.$app_name.'/runtimes/installed.lock', date('Y-m-d H:i:s [') . Request::getUserIP() . "] \r\ninstallation-completed");
             }
         }
         

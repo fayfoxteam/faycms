@@ -10,7 +10,6 @@ use fay\core\HttpException;
 use fay\core\Loader;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
-use fay\helpers\RequestHelper;
 use fay\models\MultiTreeModel;
 
 class PostCommentService extends MultiTreeModel{
@@ -104,7 +103,7 @@ class PostCommentService extends MultiTreeModel{
             'sockpuppet'=>$sockpuppet,
             'create_time'=>\F::app()->current_time,
             'update_time'=>\F::app()->current_time,
-            'ip_int'=>RequestHelper::ip2int(\F::app()->ip),
+            'ip_int'=>\F::app()->ip_int,
         )), $parent);
         
         //更新文章评论数

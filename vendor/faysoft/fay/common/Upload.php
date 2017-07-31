@@ -63,25 +63,25 @@ class Upload{
             $error = (!isset($file['error'])) ? 4 : $file['error'];
 
             switch($error){
-                case 1:    // UPLOAD_ERR_INI_SIZE
+                case UPLOAD_ERR_INI_SIZE:
                     $this->setErrorMsg('上传的文件超过了 php.ini 中 upload_max_filesize 选项限制的值');
                     break;
-                case 2: // UPLOAD_ERR_FORM_SIZE
+                case UPLOAD_ERR_FORM_SIZE:
                     $this->setErrorMsg('上传文件的大小超过了 HTML 表单中 MAX_FILE_SIZE 选项指定的值');
                     break;
-                case 3: // UPLOAD_ERR_PARTIAL
+                case UPLOAD_ERR_PARTIAL:
                     $this->setErrorMsg('文件只有部分被上传');
                     break;
-                case 4: // UPLOAD_ERR_NO_FILE
+                case UPLOAD_ERR_NO_FILE:
                     $this->setErrorMsg('没有文件被上传');
                     break;
-                case 6: // UPLOAD_ERR_NO_TMP_DIR
+                case UPLOAD_ERR_NO_TMP_DIR:
                     $this->setErrorMsg('找不到临时文件夹');
                     break;
-                case 7: // UPLOAD_ERR_CANT_WRITE
+                case UPLOAD_ERR_CANT_WRITE:
                     $this->setErrorMsg('文件写入失败');
                     break;
-                case 8: // UPLOAD_ERR_EXTENSION
+                case UPLOAD_ERR_EXTENSION:
                     $this->setErrorMsg('upload_stopped_by_extension');
                     break;
                 default :   $this->setErrorMsg('没有文件被上传');

@@ -49,8 +49,8 @@ class UniqueValidator extends Validator{
             ->where(array(
                 "`{$field}` = ?"=>$value,
             ) + $this->conditions);
-        if($this->except && \F::app()->input->request($this->except)){
-            $sql->where(array("{$this->except} != ?"=>\F::app()->input->request($this->except)));
+        if($this->except && \F::input()->request($this->except)){
+            $sql->where(array("{$this->except} != ?"=>\F::input()->request($this->except)));
         }
         $result = $sql->fetchRow();
         if($result){

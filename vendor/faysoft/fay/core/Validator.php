@@ -100,11 +100,11 @@ class Validator{
         if(is_array($source)){
             $data = $source;
         }else if($source == 'post'){
-            $data = \F::app()->input->post();
+            $data = \F::input()->post();
         }else if($source == 'get'){
-            $data = \F::app()->input->get();
+            $data = \F::input()->get();
         }else{
-            $data = \F::app()->input->request();
+            $data = \F::input()->request();
         }
         
         $this->setLabels($labels);

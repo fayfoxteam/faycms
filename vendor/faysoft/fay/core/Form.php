@@ -450,7 +450,7 @@ class Form{
                     if(isset($r[2]['ajax'])){
                         $params = isset($r[2]['ajax'][1]) ? $r[2]['ajax'][1] : array();
                         if(isset($r[2]['except'])){
-                            $params[$r[2]['except']] = \F::app()->input->request($r[2]['except']);
+                            $params[$r[2]['except']] = \F::input()->request($r[2]['except']);
                         }
                         $js_rules[$field]['ajax'] = UrlHelper::createUrl($r[2]['ajax'][0], $params);
                     }

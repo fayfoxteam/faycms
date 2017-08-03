@@ -50,14 +50,14 @@ $cols = F::form('setting')->getData('cols', array());
 <div class="row">
     <div class="col-12">
         <ul class="subsubsub">
-            <li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
+            <li class="all <?php if(F::input()->get('status') === null && F::input()->get('deleted') === null)echo 'sel';?>">
                 <a href="<?php echo $this->url('cms/admin/post-comment/index')?>">全部</a>
                 <span class="fc-grey">(<span id="all-post-comments-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
-            <li class="publish <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+            <li class="publish <?php if(F::input()->get('status', 'intval') === PostCommentsTable::STATUS_PENDING && F::input()->get('deleted') != 1)echo 'sel';?>">
                 <?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_PENDING, 0, false), array('cms/admin/post-comment/index', array(
                     'status'=>PostCommentsTable::STATUS_PENDING,
                 )));?>
@@ -66,7 +66,7 @@ $cols = F::form('setting')->getData('cols', array());
                 </span>)</span>
                 |
             </li>
-            <li class="draft <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+            <li class="draft <?php if(F::input()->get('status', 'intval') === PostCommentsTable::STATUS_APPROVED && F::input()->get('deleted') != 1)echo 'sel';?>">
                 <?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_APPROVED, 0, false), array('cms/admin/post-comment/index', array(
                     'status'=>PostCommentsTable::STATUS_APPROVED,
                 )));?>
@@ -75,7 +75,7 @@ $cols = F::form('setting')->getData('cols', array());
                 </span>)</span>
                 |
             </li>
-            <li class="draft <?php if(F::app()->input->get('status', 'intval') === PostCommentsTable::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+            <li class="draft <?php if(F::input()->get('status', 'intval') === PostCommentsTable::STATUS_UNAPPROVED && F::input()->get('deleted') != 1)echo 'sel';?>">
                 <?php echo HtmlHelper::link(PostCommentHelper::getStatus(PostCommentsTable::STATUS_UNAPPROVED, 0, false), array('cms/admin/post-comment/index', array(
                     'status'=>PostCommentsTable::STATUS_UNAPPROVED,
                 )));?>
@@ -84,7 +84,7 @@ $cols = F::form('setting')->getData('cols', array());
                 </span>)</span>
                 |
             </li>
-            <li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
+            <li class="trash <?php if(F::input()->get('deleted') == 1)echo 'sel';?>">
                 <?php echo HtmlHelper::link(PostCommentHelper::getStatus(0, 1, false), array('cms/admin/post-comment/index', array(
                     'delete_time'=>\F::app()->current_time,
                 )));?>
@@ -98,7 +98,7 @@ $cols = F::form('setting')->getData('cols', array());
 <form method="post" action="<?php echo $this->url('cms/admin/post-comment/batch')?>" id="batch-form" class="form-inline">
     <div class="row">
         <div class="col-5"><?php
-            if(F::app()->input->get('deleted')){
+            if(F::input()->get('deleted')){
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
                     'undelete'=>F::app()->checkPermission('cms/admin/post-comment/undelete') ? '还原' : false,
@@ -183,7 +183,7 @@ $cols = F::form('setting')->getData('cols', array());
     <div class="row">
         <div class="col-7 fr"><?php $listview->showPager()?></div>
         <div class="col-5"><?php
-            if(F::app()->input->get('deleted')){
+            if(F::input()->get('deleted')){
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
                     'undelete'=>F::app()->checkPermission('cms/admin/post-comment/undelete') ? '还原' : false,

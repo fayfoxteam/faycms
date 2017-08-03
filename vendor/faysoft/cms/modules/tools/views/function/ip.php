@@ -31,8 +31,8 @@ use fay\helpers\IPHelper;
             <div class="box">
                 <div class="box-title"><h3>Result</h3></div>
                 <div class="box-content">
-                    <div style="min-height:239px"><?php if(F::app()->input->post('ip_ints')){
-                        $ip_ints = explode("\r\n", F::app()->input->post('ip_ints'));
+                    <div style="min-height:239px"><?php if(F::input()->post('ip_ints')){
+                        $ip_ints = explode("\r\n", F::input()->post('ip_ints'));
                         foreach($ip_ints as $i){
                             echo $ip = long2ip(intval($i)), ' - ', $iplocation->getCountryAndArea($ip), '<br>';
                         }
@@ -58,8 +58,8 @@ use fay\helpers\IPHelper;
             <div class="box">
                 <div class="box-title"><h3>Result</h3></div>
                 <div class="box-content">
-                    <div style="min-height:239px"><?php if(F::app()->input->post('ips')){
-                        $ips = explode("\r\n", F::app()->input->post('ips'));
+                    <div style="min-height:239px"><?php if(F::input()->post('ips')){
+                        $ips = explode("\r\n", F::input()->post('ips'));
                         foreach($ips as $i){
                             echo IPHelper::ip2int($i), ' - ', $iplocation->getCountryAndArea($i), '<br>';
                         }

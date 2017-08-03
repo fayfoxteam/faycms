@@ -53,40 +53,40 @@ $cols = F::form('setting')->getData('cols', array());
 <div class="row">
     <div class="col-12">
         <ul class="subsubsub fl">
-            <li class="all <?php if(F::app()->input->get('status') === null && F::app()->input->get('deleted') === null)echo 'sel';?>">
+            <li class="all <?php if(F::input()->get('status') === null && F::input()->get('deleted') === null)echo 'sel';?>">
                 <a href="<?php echo $this->url('fayfeed/admin/feed/index')?>">全部</a>
                 <span class="fc-grey">(<span id="all-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
-            <li class="pending <?php if(F::app()->input->get('status') == FeedsTable::STATUS_PENDING && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+            <li class="pending <?php if(F::input()->get('status') == FeedsTable::STATUS_PENDING && F::input()->get('deleted') != 1)echo 'sel';?>">
                 <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_PENDING))?>">待审核</a>
                 <span class="fc-grey">(<span id="pending-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
-            <li class="approved <?php if(F::app()->input->get('status') == FeedsTable::STATUS_APPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+            <li class="approved <?php if(F::input()->get('status') == FeedsTable::STATUS_APPROVED && F::input()->get('deleted') != 1)echo 'sel';?>">
                 <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_APPROVED))?>">通过审核</a>
                 <span class="fc-grey">(<span id="approved-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
-            <li class="unapproved <?php if(F::app()->input->get('status') == FeedsTable::STATUS_UNAPPROVED && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+            <li class="unapproved <?php if(F::input()->get('status') == FeedsTable::STATUS_UNAPPROVED && F::input()->get('deleted') != 1)echo 'sel';?>">
                 <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_UNAPPROVED))?>">未通过审核</a>
                 <span class="fc-grey">(<span id="unapproved-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
                 </span>)</span>
                 |
             </li>
-            <li class="draft <?php if(F::app()->input->get('status', 'intval') === FeedsTable::STATUS_DRAFT && F::app()->input->get('deleted') != 1)echo 'sel';?>">
+            <li class="draft <?php if(F::input()->get('status', 'intval') === FeedsTable::STATUS_DRAFT && F::input()->get('deleted') != 1)echo 'sel';?>">
                 <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('status'=>FeedsTable::STATUS_DRAFT))?>">草稿</a>
                 <span class="fc-grey">(<span id="draft-feed-count"><img src="<?php echo $this->assets('images/throbber.gif')?>" /></span>)</span>
                 |
             </li>
-            <li class="trash <?php if(F::app()->input->get('deleted') == 1)echo 'sel';?>">
+            <li class="trash <?php if(F::input()->get('deleted') == 1)echo 'sel';?>">
                 <a href="<?php echo $this->url('fayfeed/admin/feed/index', array('deleted'=>1))?>">回收站</a>
                 <span class="fc-grey">(<span id="deleted-feed-count">
                     <img src="<?php echo $this->assets('images/throbber.gif')?>" />
@@ -98,7 +98,7 @@ $cols = F::form('setting')->getData('cols', array());
 <form method="post" action="<?php echo $this->url('fayfeed/admin/feed/batch')?>" id="batch-form" class="form-inline">
     <div class="row">
         <div class="col-5"><?php
-            if(F::app()->input->get('deleted')){
+            if(F::input()->get('deleted')){
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
                     'undelete'=>F::app()->checkPermission('fayfeed/admin/feed/undelete') ? '还原' : false,
@@ -223,7 +223,7 @@ $cols = F::form('setting')->getData('cols', array());
     <div class="row">
         <div class="col-7 fr"><?php $listview->showPager()?></div>
         <div class="col-5"><?php
-            if(F::app()->input->get('deleted')){
+            if(F::input()->get('deleted')){
                 echo HtmlHelper::select('', array(
                     ''=>'批量操作',
                     'undelete'=>F::app()->checkPermission('fayfeed/admin/feed/undelete') ? '还原' : false,

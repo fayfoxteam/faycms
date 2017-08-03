@@ -40,9 +40,9 @@ use fay\helpers\HtmlHelper;
                 <a href="<?php echo $this->url('cms/admin/analyst/pv', array(
                     'start_time'=>date('Y-m-d 00:00:00', $today),
                     'end_time'=>'',
-                    'site'=>F::app()->input->get('site'),
-                    'trackid'=>F::app()->input->get('trackid'),
-                    'ip'=>F::app()->input->get('ip'),
+                    'site'=>F::input()->get('site'),
+                    'trackid'=>F::input()->get('trackid'),
+                    'ip'=>F::input()->get('ip'),
                 ))?>">今天</a>
                 |
             </li>
@@ -50,9 +50,9 @@ use fay\helpers\HtmlHelper;
                 <a href="<?php echo $this->url('cms/admin/analyst/pv', array(
                     'start_time'=>date('Y-m-d 00:00:00', $yesterday),
                     'end_time'=>date('Y-m-d 00:00:00', $today),
-                    'site'=>F::app()->input->get('site'),
-                    'trackid'=>F::app()->input->get('trackid'),
-                    'ip'=>F::app()->input->get('ip'),
+                    'site'=>F::input()->get('site'),
+                    'trackid'=>F::input()->get('trackid'),
+                    'ip'=>F::input()->get('ip'),
                 ))?>">昨天</a>
                 |
             </li>
@@ -60,9 +60,9 @@ use fay\helpers\HtmlHelper;
                 <a href="<?php echo $this->url('cms/admin/analyst/pv', array(
                     'start_time'=>date('Y-m-d 00:00:00', $week),
                     'end_time'=>'',
-                    'site'=>F::app()->input->get('site'),
-                    'trackid'=>F::app()->input->get('trackid'),
-                    'ip'=>F::app()->input->get('ip'),
+                    'site'=>F::input()->get('site'),
+                    'trackid'=>F::input()->get('trackid'),
+                    'ip'=>F::input()->get('ip'),
                 ))?>">最近7天</a>
                 |
             </li>
@@ -70,9 +70,9 @@ use fay\helpers\HtmlHelper;
                 <a href="<?php echo $this->url('cms/admin/analyst/pv', array(
                     'start_time'=>date('Y-m-d 00:00:00', $month),
                     'end_time'=>'',
-                    'site'=>F::app()->input->get('site'),
-                    'trackid'=>F::app()->input->get('trackid'),
-                    'ip'=>F::app()->input->get('ip'),
+                    'site'=>F::input()->get('site'),
+                    'trackid'=>F::input()->get('trackid'),
+                    'ip'=>F::input()->get('ip'),
                 ))?>">最近30天</a>
             </li>
         </ul>

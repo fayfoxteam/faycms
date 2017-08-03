@@ -11,47 +11,22 @@ use fay\helpers\StringHelper;
  */
 class Controller{
     /**
-     * 检查过被阻止的路由
-     */
-    protected $_denied_routers = array();
-    
-    /**
-     * 随机token，用于防止重复请求（并不一定用到）
-     */
-    private $token;
-    
-    /**
-     * @var \fay\core\Input
-     */
-    public $input;
-    
-    /**
-     * @var \fay\core\Config
-     */
-    public $config;
-    
-    /**
      * 模板文件
      * @var string
      */
     public $layout_template;
-    
+
     /**
      * 当前时间时间戳
      * @var int
      */
     public $current_time = 0;
-    
+
     /**
      * 当前登录用户ID
      */
     public $current_user = 0;
-    
-    /**
-     * @var Controller
-     */
-    private static $_instance;
-    
+
     /**
      * 当前用户IP
      * @var string
@@ -63,6 +38,31 @@ class Controller{
      * @var int
      */
     public $ip_int = 0;
+    
+    /**
+     * 检查过被阻止的路由
+     */
+    protected $_denied_routers = array();
+    
+    /**
+     * @var \fay\core\Input
+     */
+    protected $input;
+    
+    /**
+     * @var \fay\core\Config
+     */
+    protected $config;
+
+    /**
+     * 随机token，用于防止重复请求（并不一定用到）
+     */
+    private $token;
+    
+    /**
+     * @var Controller
+     */
+    private static $_instance;
     
     public function __construct(){
         $this->input = Input::getInstance();

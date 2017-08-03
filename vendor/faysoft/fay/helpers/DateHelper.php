@@ -136,7 +136,7 @@ class DateHelper{
             if(!empty($format)){
                 return date($format, $timestamp);
             }else{
-                $config_date = \F::app()->config->get('date');
+                $config_date = \F::config()->get('date');
                 $format = $config_date['format'];
                 return date($format, $timestamp);
             }

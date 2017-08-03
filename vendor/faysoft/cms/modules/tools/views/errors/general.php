@@ -27,7 +27,7 @@ p, pre, code, .track-table{margin:12px 15px 12px 15px;}
     <div id="container">
         <h1><?php echo $heading?></h1>
         <div class="content"><?php echo $message?></div>
-        <?php if(F::app()->config->get('environment') == 'development'){
+        <?php if(F::input()->get('environment') == 'development'){
             BacktraceHelper::render(isset($_backtrace) ? $_backtrace : null);
         }?>
     </div>

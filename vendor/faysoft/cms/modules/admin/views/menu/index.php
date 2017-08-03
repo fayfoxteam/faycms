@@ -7,12 +7,12 @@ function showCats($tree, $dep = 0){?>
         <li class="leaf-container <?php if(!$k)echo 'first';?>">
             <div class="leaf">
                 <span class="fr separate-actions">
-                    <span class="w115 block fl">
+                    <span class="w135 block fl">
                     排序：<?php echo HtmlHelper::inputNumber('sort[]', $node['sort'], array(
                         'size'=>3,
                         'maxlength'=>3,
                         'data-id'=>$node['id'],
-                        'class'=>"form-control w50 edit-sort node-sort-{$node['id']}",
+                        'class'=>"form-control w70 edit-sort node-sort-{$node['id']}",
                     ))?>
                     </span>
                     <?php

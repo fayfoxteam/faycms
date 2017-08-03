@@ -5,12 +5,13 @@ jQuery.fn.extend({
         };
         defaults = $.extend(defaults, options);
         var o = this;
-        $(o).keydown(function(event){
-            if((event.keyCode >= 48 && event.keyCode <= 57) || //大键盘0-9
+        $(o).on('keydown blur', function(event){
+            if(event.type === 'blur' ||
+                ((event.keyCode >= 48 && event.keyCode <= 57) || //大键盘0-9
                 (event.keyCode >= 96 && event.keyCode <= 105) || //小键盘0-9
                 (event.keyCode >= 37 && event.keyCode <= 40) || //方向键
                 event.keyCode === 8 || //退格键
-                event.keyCode === 46){//Delete
+                event.keyCode === 46)){//Delete
                 
                 clearTimeout($(this).data('timeout'));
                 $(this).next('img').remove();

@@ -83,10 +83,10 @@ class FieldsHelper{
 
         if($current_section_fields){
             if(!in_array('*', $allow_fields) && in_array('*', $this->fields)){
-                //当前字段中有型号，允许的字段中没有星号，则将当前字段替换为允许的字段
+                //当前字段中有星号，允许的字段中没有星号，则将当前字段替换为允许的字段
                 $this->fields = $current_section_fields;
             }else if(in_array('*', $allow_fields)){
-                //允许的字段中有型号，则不做过滤
+                //允许的字段中有星号，则不做过滤
             }else{
                 //两边都没星号，取交集
                 $this->fields = array_intersect($this->fields, $current_section_fields);

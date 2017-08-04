@@ -27,9 +27,9 @@ class CompareValidator extends Validator{
         if($this->compare_value !== null){
             $compare_value = $this->compare_value;
         }else if($this->compare_attribute !== null){
-            $compare_value = \F::app()->input->request($this->compare_attribute);
+            $compare_value = \F::input()->request($this->compare_attribute);
         }else{
-            $compare_value = \F::app()->input->request($this->_field.'_repeat');
+            $compare_value = \F::input()->request($this->_field.'_repeat');
         }
         
         if($this->compareValues($this->operator, $value, $compare_value)){

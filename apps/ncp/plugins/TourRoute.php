@@ -31,7 +31,7 @@ class TourRoute{
     }
     
     public function save($params){
-        if($routes = \F::app()->input->post('route', 'trim')){
+        if($routes = \F::input()->post('route', 'trim')){
             $i = 0;
             foreach($routes as $k => $v){
                 if(is_numeric($k)){

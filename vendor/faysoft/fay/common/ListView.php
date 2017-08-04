@@ -72,7 +72,7 @@ class ListView{
     
     public function init(){
         if($this->current_page === null){
-            $this->current_page = \F::app()->input->get($this->page_key, 'intval', 1);
+            $this->current_page = \F::input()->get($this->page_key, 'intval', 1);
         }
         
         if($this->total_records === null){

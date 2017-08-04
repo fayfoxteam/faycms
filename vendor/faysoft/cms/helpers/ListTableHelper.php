@@ -14,18 +14,18 @@ class ListTableHelper{
     public static function getSortLink($field, $label){
         $text = "<span class='fl'>{$label}</span><span class='sorting-indicator'></span>";
 
-        $class = \F::app()->input->get('order') == 'desc' ? 'sortable desc' : 'sortable asc';
-        if(\F::app()->input->get('orderby') == $field){
+        $class = \F::input()->get('order') == 'desc' ? 'sortable desc' : 'sortable asc';
+        if(\F::input()->get('orderby') == $field){
             $class .= ' sorted';
         }
         return HtmlHelper::link($text, array(Uri::getInstance()->router, array(
             'orderby'=>$field,
-            'order'=>\F::app()->input->get('order') == 'desc' ? 'asc' : 'desc',
+            'order'=>\F::input()->get('order') == 'desc' ? 'asc' : 'desc',
             'page'=>1,
-        )+\F::app()->input->get()), array(
+        )+\F::input()->get()), array(
             'class'=>$class,
             'encode'=>false,
-            'title'=>\F::app()->input->get('order') == 'desc' ? '点击升序' : '点击降序',
+            'title'=>\F::input()->get('order') == 'desc' ? '点击升序' : '点击降序',
         ));
     }
 }

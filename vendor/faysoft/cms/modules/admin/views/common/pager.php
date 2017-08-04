@@ -9,7 +9,7 @@ use fay\helpers\HtmlHelper;
 <div class="pager">
 <?php
 if($listview->total_pages > 1){
-    $gets = F::app()->input->get();
+    $gets = F::input()->get();
     unset($gets[$listview->page_key]);
 ?>
     <span class="summary"><?php echo $listview->total_records?>条记录</span>

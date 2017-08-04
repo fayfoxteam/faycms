@@ -84,7 +84,7 @@ class DeviceHelper{
         }
 
         $user_agent = strtolower($user_agent);
-        $spiders = \F::app()->config->getFile('spiders');
+        $spiders = \F::input()->getFile('spiders');
         foreach($spiders as $val) {
             $str = strtolower($val);
             if (strpos($user_agent, $str) !== false) {

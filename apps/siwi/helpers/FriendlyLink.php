@@ -30,8 +30,8 @@ class FriendlyLink{
         $labels = array(
             'cat_1', 'cat_2', 'time', 'placeholder_1', 'placeholder_2', 'page',
         );
-        if(\F::app()->input->get('params')){
-            $params = explode('-', \F::app()->input->get('params'));
+        if(\F::input()->get('params')){
+            $params = explode('-', \F::input()->get('params'));
         }else{
             $params = array(0, 0, 0, 0, 0, 0);
         }

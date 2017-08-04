@@ -64,7 +64,7 @@ $cols = F::form('setting')->getData('cols', array());
 <div class="row">
     <div class="col-5">
         <ul class="subsubsub fl">
-            <li class="<?php if(F::app()->input->get('status') == null)echo 'sel';?>">
+            <li class="<?php if(F::input()->get('status') == null)echo 'sel';?>">
                 <a href="<?php echo $this->url('apidoc/admin/api/index')?>">全部</a>
                 <span class="fc-grey">(<span id="api-count-0"><?php
                     echo array_sum($status_counts);
@@ -72,7 +72,7 @@ $cols = F::form('setting')->getData('cols', array());
             </li>
             <?php $status = ApidocApisTable::getStatus();?>
             <?php foreach($status as $k => $s){?>
-                <li <?php if(F::app()->input->get('status') == $k)echo 'class="sel"';?>>
+                <li <?php if(F::input()->get('status') == $k)echo 'class="sel"';?>>
                     |
                     <a href="<?php echo $this->url('apidoc/admin/api/index', array('status'=>$k))?>"><?php echo $s?></a>
                     <span class="fc-grey">(<span id="api-count-<?php echo $k?>"><?php

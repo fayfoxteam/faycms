@@ -9,7 +9,7 @@ $cats = CategoryService::service()->getTree('__root__');
         <form action="<?php echo $this->url('search/index')?>">
             <span><?php echo date('Y年m月d日')?></span>
             <span class="sep">|</span>
-            <span><?php echo HtmlHelper::inputText('q', F::app()->input->get('q', 'trim'), array(
+            <span><?php echo HtmlHelper::inputText('q', F::input()->get('q', 'trim'), array(
                 'placeholder'=>'请输入关键词',
             ))?></span>
             <input type="submit" value="搜索" style="width:50px;height:20px;">

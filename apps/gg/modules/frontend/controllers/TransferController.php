@@ -219,6 +219,33 @@ class TransferController extends FrontController{
                 $new_row['name'] = $row['tag_name'];
             }
             
+            if($table == 'website'){
+                //这张表被拆表了
+                $info_row = \F::table('gg\models\tables\GgWebsiteInfoTable')->fillData($row);
+                $info_row['website_id'] = $row['id'];
+                
+                foreach($info_row as &$r){
+                    if(!$r){
+                        $r = '';
+                    }
+                }
+                $info_row['company_logo'] = $this->getFileId($row['company_logo']);
+                
+                $this->to_db->insert('website_info', $info_row);
+                
+                $contact_row = \F::table('gg\models\tables\GgWebsiteContactTable')->fillData($row);
+                $contact_row['website_id'] = $row['id'];
+
+                foreach($contact_row as &$c){
+                    if(!$c){
+                        $c = '';
+                    }
+                }
+                $contact_row['qrcode'] = $this->getFileId($row['qrcode']);
+                
+                $this->to_db->insert('website_contact', $contact_row);
+            }
+            
             $data[] = $new_row;
         }
         //dd($data);
@@ -245,6 +272,7 @@ class TransferController extends FrontController{
         
         //存了完整url，替换前面的域名部分
         $file = preg_replace('/^http:\/\/\d+\.guanwang\.co\.ltd/', '', $file);
+        $file = preg_replace('/^http:\/\/\d+\.gw\.co\.ltd/', '', $file);
         
         //不知道为什么有的完整链接后面还有缩略图标识
         $file = preg_replace('/\.thumb_360\.png$/', '', $file);

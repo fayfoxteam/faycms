@@ -52,7 +52,7 @@ class TeamController extends FrontController{
             ->fetchAll();
         ;
     
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -94,6 +94,6 @@ class TeamController extends FrontController{
         );
         $this->layout->current_directory = 'team';
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

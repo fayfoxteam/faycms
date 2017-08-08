@@ -22,7 +22,7 @@ class PostController extends FrontController{
         $this->layout->description = $post['post']['seo_description'];
         
         $this->view->post = $post;
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

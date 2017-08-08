@@ -16,6 +16,6 @@ class CatController extends FrontController{
             'page_title'=>$cat['title'],
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

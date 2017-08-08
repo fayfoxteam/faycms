@@ -21,9 +21,9 @@ class PaymentController extends FrontController{
         if($this->input->get('status') == 'success'){
             $user_count = UsersTable::model()->fetchRow(array(), 'COUNT(*)');
             $this->view->user_count = $user_count['COUNT(*)'];
-            $this->view->render();
+            return $this->view->render();
         }else{
-            $this->view->render('cancel');
+            return $this->view->render('cancel');
         }
     }
 }

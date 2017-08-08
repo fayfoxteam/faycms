@@ -34,7 +34,7 @@ class ChatController extends FrontController{
         ));
         $this->view->listview = $listview;            
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){

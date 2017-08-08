@@ -34,7 +34,7 @@ class VoucherController extends AdminController{
         
         $this->view->cats = CategoryService::service()->getNextLevel('_system_voucher');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function index(){
@@ -62,7 +62,7 @@ class VoucherController extends AdminController{
         $this->view->listview = new ListView($sql);
 
         $this->view->cats = CategoryService::service()->getNextLevel('_system_voucher');
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){

@@ -25,7 +25,7 @@ class IndexController extends FrontController{
         $this->view->case_2 = PagesTable::model()->fetchRow("alias = 'case-2'", 'id,title,abstract');
         $this->view->case_3 = PagesTable::model()->fetchRow("alias = 'case-3'", 'id,title,abstract');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

@@ -19,7 +19,7 @@ class LoginController extends FrontController{
                     header('location:'.base64_decode($this->input->get('redirect')));
                     die;
                 }else{
-                    Response::redirect('user/exam');
+                    $this->response->redirect('user/exam');
                 }
             }else{
                 if($this->input->get('redirect')){
@@ -33,6 +33,6 @@ class LoginController extends FrontController{
         }
         
         $this->layout_template = null;
-        $this->view->render();
+        return $this->view->render();
     }
 }

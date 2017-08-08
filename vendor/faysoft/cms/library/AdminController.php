@@ -11,7 +11,6 @@ use cms\services\user\UserService;
 use fay\core\Controller;
 use fay\core\HttpException;
 use fay\core\Request;
-use fay\core\Response;
 use fay\core\Uri;
 use fay\helpers\ArrayHelper;
 
@@ -53,7 +52,10 @@ class AdminController extends Controller{
         
         //验证session中是否有值
         if(!UserService::service()->isAdmin()){
-            Response::redirect('cms/admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
+            $this->response->redirect(
+                'cms/admin/login/index',
+                array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get())))
+            );
         }
         $this->layout->current_directory = '';
         $this->layout->subtitle = '';

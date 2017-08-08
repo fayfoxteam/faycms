@@ -33,7 +33,7 @@ class LinkController extends AdminController{
         }
         
         $this->view->cats = CategoryService::service()->getTree('_system_link');
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -68,7 +68,7 @@ class LinkController extends AdminController{
             );
             
             $this->view->cats = CategoryService::service()->getTree('_system_link');
-            $this->view->render();
+            return $this->view->render();
         }
     }
     
@@ -129,7 +129,7 @@ class LinkController extends AdminController{
         
         $this->view->cats = CategoryService::service()->getTree('_system_link');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function remove(){
@@ -184,6 +184,6 @@ class LinkController extends AdminController{
             );
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

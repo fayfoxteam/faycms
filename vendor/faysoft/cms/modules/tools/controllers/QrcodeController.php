@@ -12,6 +12,6 @@ class QrcodeController extends ToolsController{
     public function index(){
         $this->layout->subtitle = 'Qrcode';
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

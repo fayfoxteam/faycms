@@ -90,7 +90,7 @@ class ArmController extends FrontController{
         }else{
             $this->view->defence = array();
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -108,7 +108,7 @@ class ArmController extends FrontController{
         }else{
             $this->view->arm = array();
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -123,7 +123,7 @@ class ArmController extends FrontController{
         }else{
             $this->view->hour = array();
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -133,7 +133,7 @@ class ArmController extends FrontController{
         $this->layout->title = '录军籍';
         
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -143,6 +143,6 @@ class ArmController extends FrontController{
         $this->layout->title = '履军职';
         
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

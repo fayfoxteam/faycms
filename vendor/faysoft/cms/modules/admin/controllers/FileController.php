@@ -264,7 +264,7 @@ class FileController extends AdminController{
         //获取文件类目树
         $this->view->cats = CategoryService::service()->getTree('_system_file');
         $this->layout->subtitle = '上传文件';
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function remove(){
@@ -345,7 +345,7 @@ class FileController extends AdminController{
             'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 3).'" align="center">无相关记录！</td></tr>',
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function batch(){
@@ -469,7 +469,7 @@ class FileController extends AdminController{
             );
         }
 
-        $this->view->render();
+        return $this->view->render();
     }
 
     public function pic(){

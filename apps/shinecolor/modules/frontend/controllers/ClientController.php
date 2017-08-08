@@ -30,6 +30,6 @@ class ClientController extends FrontController{
             ),
         );
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

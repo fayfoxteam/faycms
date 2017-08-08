@@ -15,6 +15,6 @@ class FriendlinkController extends FrontController{
         
         $this->view->listview = new ListView($sql);
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

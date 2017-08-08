@@ -76,7 +76,7 @@ class AnalystController extends AdminController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function views(){
@@ -134,7 +134,7 @@ class AnalystController extends AdminController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function pv(){
@@ -235,7 +235,7 @@ class AnalystController extends AdminController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function spiderlog(){
@@ -285,6 +285,6 @@ class AnalystController extends AdminController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

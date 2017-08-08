@@ -28,7 +28,7 @@ class IndexController extends FrontController{
             'cat_id = '.$cat_product['id'],
         ), 'id,title,thumbnail', 'is_top DESC, sort DESC, publish_time DESC');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

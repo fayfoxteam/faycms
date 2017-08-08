@@ -19,7 +19,7 @@ class AnalystSiteController extends AdminController{
         $this->_setListview();
         
         $this->form()->setModel(AnalystSitesTable::model());
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -57,7 +57,7 @@ class AnalystSiteController extends AdminController{
         
         $this->_setListview();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){

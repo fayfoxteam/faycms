@@ -137,7 +137,7 @@ class DocController extends AdminController{
         
         $this->layout->_help_panel = '_help';
         
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**
@@ -276,7 +276,7 @@ class DocController extends AdminController{
         //查找文档分类
         $this->view->cats = CategoryService::service()->getTree('_system_wiki_doc');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -387,7 +387,7 @@ class DocController extends AdminController{
             'enabled_boxes'=>$enabled_boxes,
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -487,7 +487,7 @@ class DocController extends AdminController{
             );
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function batch(){

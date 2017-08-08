@@ -13,12 +13,12 @@ class ProductController extends FrontController{
     
     public function index(){
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
         $this->view->cats = CategoryService::service()->getChildren('product');
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

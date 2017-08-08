@@ -116,7 +116,7 @@ class UserController extends AdminController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -160,7 +160,7 @@ class UserController extends AdminController{
             'delete_time = 0',
         ), 'id,title');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     
@@ -203,7 +203,7 @@ class UserController extends AdminController{
         ), 'id,title');
         
         $this->view->prop_set = UserPropService::service()->getPropSet($user_id);
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -225,7 +225,7 @@ class UserController extends AdminController{
             );
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function getPropPanel(){

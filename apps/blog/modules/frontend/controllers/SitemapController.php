@@ -16,7 +16,7 @@ class SitemapController extends FrontController{
         );
         
         $this->view->cats = CategoryService::service()->getNextLevel('_system_post');
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function html(){

@@ -52,6 +52,6 @@ class ProfileController extends AdminController{
         ), 'id,title');
         
         $this->view->prop_set = UserPropService::service()->getPropSet($user_id);
-        $this->view->render();
+        return $this->view->render();
     }
 }

@@ -29,7 +29,7 @@ class AdminController extends Widget{
             $this->view->posts = array();
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

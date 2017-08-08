@@ -27,7 +27,7 @@ class GMessageController extends AdminController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function reply(){

@@ -5,6 +5,7 @@ use cms\library\ApiController;
 use cms\models\tables\PostsTable;
 use cms\services\post\PostCommentService;
 use fay\core\HttpException;
+use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
@@ -304,7 +305,7 @@ class PostCommentController extends ApiController{
             }
         }
         
-        Response::json($result);
+        return new JsonResponse($result);
     }
     
     /**
@@ -347,7 +348,7 @@ class PostCommentController extends ApiController{
             $this->allowed_fields
         );
         
-        Response::json(PostCommentService::service()->getTree(
+        return new JsonResponse(PostCommentService::service()->getTree(
             $this->form()->getData('post_id'),
             $this->form()->getData('page_size', 20),
             $this->form()->getData('page', 1),
@@ -395,7 +396,7 @@ class PostCommentController extends ApiController{
             $this->allowed_fields
         );
         
-        Response::json(PostCommentService::service()->getChats(
+        return new JsonResponse(PostCommentService::service()->getChats(
             $this->form()->getData('post_id'),
             $this->form()->getData('page_size', 20),
             $this->form()->getData('page', 1),
@@ -438,7 +439,7 @@ class PostCommentController extends ApiController{
         }
         
         if($comment){
-            Response::json($comment);
+            return new JsonResponse($comment);
         }else{
             throw new HttpException('评论ID不存在');
         }

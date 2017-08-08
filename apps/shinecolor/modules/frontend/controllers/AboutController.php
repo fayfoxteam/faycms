@@ -36,7 +36,7 @@ class AboutController extends FrontController{
             ->order('p.sort')
             ->fetchAll();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

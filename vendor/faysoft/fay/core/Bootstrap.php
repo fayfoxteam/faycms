@@ -50,7 +50,10 @@ class Bootstrap{
         
         $file = $this->getControllerAndAction($uri);
         RuntimeHelper::append(__FILE__, __LINE__, '获取控制器名称');
-        
+
+        /**
+         * @var $controller Controller
+         */
         $controller = new $file['controller'];
         RuntimeHelper::append(__FILE__, __LINE__, '控制器被实例化');
         //触发事件
@@ -58,27 +61,55 @@ class Bootstrap{
         $content = $controller->{$file['action']}();
         RuntimeHelper::append(__FILE__, __LINE__, '控制器方式执行完毕');
 
-        //触发事件
-        \F::event()->trigger('before_response', array(
-            'content'=>$content,
-        ));
-        $this->response($content);
+        $this->response($controller->response, $content);
     }
 
     /**
      * 输出返回
+     * @param Response $response
      * @param mixed $content
      */
-    private function response($content){
-        if(is_string($content)){
-            Response::send($content);
-        }else if(is_array($content) || is_object($content)){
-            Response::json($content);
-            //自动输出debug信息
-            if(\F::config()->get('debug')){
-                echo \F::app()->view->renderPartial('common/_debug');
+    private function response($response, $content){
+        if($content){
+            //若未指定返回格式，则根据$content类型猜测一个格式
+            if(!$response->getFormat()){
+                if(is_string($content)){
+                    //若是字符串，默认为HTML
+                    $response->setFormat(Response::FORMAT_HTML);
+                }else{
+                    if(\F::input()->get('callback')){
+                        //若非字符串，有callback参数，则默认为jsonp
+                        $response->setFormat(Response::FORMAT_JSONP);
+                    }else{
+                        //默认为json
+                        $response->setFormat(Response::FORMAT_JSON);
+                    }
+                }
+            }
+            
+            //设置响应内容
+            if(in_array($response->getFormat(), array(
+                Response::FORMAT_JSON, Response::FORMAT_JSONP
+            ))){
+                if(is_object($content) && $content instanceof JsonResponse){
+                    $response->setStatusCode($content->getHttpCode());
+                    $response->setData(array(
+                        'callback'=>$content->getCallback(),
+                        'data'=>$content->toArray(),
+                    ));
+                    if($content->getCallback()){
+                        $response->setFormat(Response::FORMAT_JSONP);
+                    }
+                }else{
+                    $response->setData($content);
+                }
+            }else{
+                $response->setContent($content);
             }
         }
+        
+        //发送响应
+        $response->send();
     }
     
     /**

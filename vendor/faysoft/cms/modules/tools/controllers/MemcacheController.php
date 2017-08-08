@@ -26,7 +26,7 @@ class MemcacheController extends ToolsController{
         $first_slab = current($slabs);
         $this->view->slabs = $first_slab ? $first_slab : array();
     
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){

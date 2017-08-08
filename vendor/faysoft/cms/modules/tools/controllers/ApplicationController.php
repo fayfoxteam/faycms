@@ -33,7 +33,7 @@ class ApplicationController extends ToolsController{
     public function index(){
         $this->layout->subtitle = 'Application List';
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -143,7 +143,7 @@ class ApplicationController extends ToolsController{
             }
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function isAppNotExist(){

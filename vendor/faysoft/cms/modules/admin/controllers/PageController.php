@@ -84,7 +84,7 @@ class PageController extends AdminController{
             'enabled_boxes'=>$enabled_boxes,
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function index(){
@@ -187,7 +187,7 @@ class PageController extends AdminController{
         //所有分类
         $this->view->cats = CategoryService::service()->getTree('_system_page');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -243,7 +243,7 @@ class PageController extends AdminController{
             throw new HttpException('无效的页面ID');
         }
 
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){
@@ -319,7 +319,7 @@ class PageController extends AdminController{
                 ),
             );
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function isAliasNotExist(){

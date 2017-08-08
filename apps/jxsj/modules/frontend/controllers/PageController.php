@@ -22,7 +22,7 @@ class PageController extends FrontController{
         $this->layout->description = $page['seo_description'];
         
         $this->view->page = $page;
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

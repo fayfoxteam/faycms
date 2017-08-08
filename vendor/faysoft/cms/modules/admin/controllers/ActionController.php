@@ -29,7 +29,7 @@ class ActionController extends AdminController{
             ->setRule(array('parent_router', 'ajax', array('url'=>array('cms/admin/action/is-router-exist'))))
             ->setLabels(array('parent_router'=>'父级路由'))
         ;
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -108,7 +108,7 @@ class ActionController extends AdminController{
         $this->form()->setData($action);
         
         $this->_setListview();
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function remove(){
@@ -195,6 +195,6 @@ class ActionController extends AdminController{
             ),
         );
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

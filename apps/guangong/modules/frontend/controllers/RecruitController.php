@@ -49,12 +49,12 @@ class RecruitController extends FrontController{
             'access_token'=>$access_token->getToken(),
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function step1(){
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function step2(){
@@ -64,7 +64,7 @@ class RecruitController extends FrontController{
 //            'js_sdk_config'=>$js_sdk->getConfig(array()),
 //        ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function step3(){
@@ -80,11 +80,11 @@ class RecruitController extends FrontController{
         
         $this->form()->setModel(SignUpForm::model());
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function step4(){
         $this->view->user = UserService::service()->get($this->current_user, 'id,mobile');
-        $this->view->render();
+        return $this->view->render();
     }
 }

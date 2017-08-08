@@ -24,6 +24,6 @@ class IndexController extends Widget{
             ->limit(6)
             ->fetchAll()
         ;
-        $this->view->render();
+        return $this->view->render();
     }
 }

@@ -17,7 +17,7 @@ class GroupController extends FrontController{
         $this->form()->setModel(CreateGroupForm::model());
         
         $this->view->user_extra = GuangongUserExtraTable::model()->find($this->current_user);
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

@@ -39,7 +39,7 @@ class GoodsCatPropController extends AdminController{
         $this->layout->subtitle = HtmlHelper::encode($cat['title']) . ' - 分类属性';
         
         $this->_setListview($cat_id);
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -191,7 +191,7 @@ class GoodsCatPropController extends AdminController{
         
         $this->_setListview($prop['cat_id']);
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function sort(){

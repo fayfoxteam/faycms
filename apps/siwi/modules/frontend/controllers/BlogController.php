@@ -79,7 +79,7 @@ class BlogController extends FrontController{
         
         $this->view->cat_tree = CategoryService::service()->getTree('_blog');
     
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -129,6 +129,6 @@ class BlogController extends FrontController{
         ));
         
         $this->layout->canonical = $this->view->url('blog/'.$post['id']);
-        $this->view->render();
+        return $this->view->render();
     }
 }

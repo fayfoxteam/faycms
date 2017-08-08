@@ -91,7 +91,7 @@ class WorkController extends UserController{
         }
         $this->view->cats = CategoryService::service()->getNextLevel('_work');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -251,6 +251,6 @@ class WorkController extends UserController{
         $this->form()->setData(array('video'=>PostService::service()->getPropValueByAlias('siwi_work_video', $post['id'])));
         
         $this->view->cats = CategoryService::service()->getNextLevel('_work');
-        $this->view->render();
+        return $this->view->render();
     }
 }

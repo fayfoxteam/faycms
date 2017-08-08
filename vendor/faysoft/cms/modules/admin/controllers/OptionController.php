@@ -63,7 +63,7 @@ class OptionController extends AdminController{
             
             $this->_setListview();
             
-            $this->view->render();
+            return $this->view->render();
         }else{
             throw new HttpException('无效的ID');
         }
@@ -77,7 +77,7 @@ class OptionController extends AdminController{
         
         $this->form()->setModel(OptionsTable::model());
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function remove(){

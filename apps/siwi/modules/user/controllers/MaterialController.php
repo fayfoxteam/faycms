@@ -70,7 +70,7 @@ class MaterialController extends UserController{
         
         $this->view->cats = CategoryService::service()->getNextLevel('_material');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -161,6 +161,6 @@ class MaterialController extends UserController{
         $this->form()->setData(array('file'=>isset($file['file_id']) ? $file['file_id'] : ''));
         
         $this->view->cats = CategoryService::service()->getNextLevel('_material');
-        $this->view->render();
+        return $this->view->render();
     }
 }

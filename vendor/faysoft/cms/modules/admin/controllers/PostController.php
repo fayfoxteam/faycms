@@ -215,7 +215,7 @@ class PostController extends AdminController{
         
         $this->layout->_help_panel = '_help';
         
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**
@@ -419,7 +419,7 @@ class PostController extends AdminController{
         //查找文章分类
         $this->view->cats = CategoryService::service()->getTree('_system_post');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -614,7 +614,7 @@ class PostController extends AdminController{
             'enabled_boxes'=>$enabled_boxes,
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -719,7 +719,7 @@ class PostController extends AdminController{
             );
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function batch(){

@@ -26,10 +26,10 @@ class PostController extends FrontController{
             'subtitle'=>$cat['description'],
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
-        $this->view->render();
+        return $this->view->render();
     }
 }

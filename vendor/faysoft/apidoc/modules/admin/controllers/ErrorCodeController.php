@@ -22,7 +22,7 @@ class ErrorCodeController extends AdminController{
         $this->form()->setModel(ApidocErrorCodesTable::model());
 
         $this->_setListview();
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -74,7 +74,7 @@ class ErrorCodeController extends AdminController{
 
 
         $this->_setListview();
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

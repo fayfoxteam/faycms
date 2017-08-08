@@ -37,11 +37,11 @@ class TestController extends AdminController{
     }
     
     public function jsvalid(){
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function jsvalidForms(){
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function phpvalid(){
@@ -74,7 +74,7 @@ class TestController extends AdminController{
             }
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function tag(){
@@ -220,7 +220,7 @@ class TestController extends AdminController{
     
     public function debug(){
         $this->layout_template = null;
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function in(){

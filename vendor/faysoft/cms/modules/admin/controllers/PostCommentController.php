@@ -70,7 +70,7 @@ class PostCommentController extends AdminController{
         ));
         $this->view->listview = $listview;
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

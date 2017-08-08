@@ -64,7 +64,7 @@ class ProductController extends FrontController{
             'page_size'=>9,
             'reload'=>$this->view->url('product'),
         ));
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -95,6 +95,6 @@ class ProductController extends FrontController{
         
         $this->view->post = $post;
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

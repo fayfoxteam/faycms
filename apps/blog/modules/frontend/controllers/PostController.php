@@ -40,6 +40,6 @@ class PostController extends FrontController{
         
         $this->layout->canonical = $this->view->url('post/'.$post['post']['id']);
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

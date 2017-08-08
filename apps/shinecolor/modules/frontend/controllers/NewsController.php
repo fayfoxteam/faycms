@@ -76,7 +76,7 @@ class NewsController extends FrontController{
             'page_size'=>10,
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -110,6 +110,6 @@ class NewsController extends FrontController{
         
         $this->view->post = $post;
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

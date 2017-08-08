@@ -27,7 +27,7 @@ class ResetController extends AdminController{
             Response::json('', 1, '执行成功');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -41,7 +41,7 @@ class ResetController extends AdminController{
             Response::json('', 1, '执行成功');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -56,7 +56,7 @@ class ResetController extends AdminController{
             Response::json('', 1, '执行成功');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -71,7 +71,7 @@ class ResetController extends AdminController{
             Response::json('', 1, '执行成功');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -86,6 +86,6 @@ class ResetController extends AdminController{
             Response::json('', 1, '执行成功');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

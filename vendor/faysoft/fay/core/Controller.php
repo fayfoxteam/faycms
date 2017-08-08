@@ -38,6 +38,11 @@ class Controller{
      * @var int
      */
     public $ip_int = 0;
+
+    /**
+     * @var Response
+     */
+    public $response;
     
     /**
      * 检查过被阻止的路由
@@ -68,6 +73,7 @@ class Controller{
         $this->input = Input::getInstance();
         $this->config = Config::getInstance();
         $this->current_time = time();
+        $this->response = new Response();
         //当前用户IP
         $this->ip = Request::getUserIP();
         $this->ip_int = IPHelper::ip2int($this->ip);

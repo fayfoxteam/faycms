@@ -4,6 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\models\tables\TagCounterTable;
 use cms\services\tag\TagService;
+use fay\core\JsonResponse;
 use fay\core\Response;
 
 /**
@@ -52,7 +53,7 @@ class TagController extends ApiController{
                 $order = "tc.{$type} DESC";
         }
         
-        Response::json(TagService::service()->getList(
+        return new JsonResponse(TagService::service()->getList(
             $order,
             $this->form()->getData('page_size', 20),
             $this->form()->getData('page', 1)
@@ -82,9 +83,9 @@ class TagController extends ApiController{
             $this->form()->getData('tag'),
             $this->form()->getData('id')
         )){
-            Response::json('', 0, '标签已存在');
+            return new JsonResponse('', 0, '标签已存在');
         }else{
-            Response::json();
+            return new JsonResponse();
         }
     }
     
@@ -104,9 +105,9 @@ class TagController extends ApiController{
         ))->check();
         
         if(TagService::isTagExist($this->form()->getData('tag'))){
-            Response::json();
+            return new JsonResponse();
         }else{
-            Response::json('', 0, '标签不存在');
+            return new JsonResponse('', 0, '标签不存在');
         }
     }
 }

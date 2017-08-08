@@ -25,7 +25,7 @@ class AppController extends AdminController{
         $this->_setListview();
     
         $this->form()->setModel(OauthAppsTable::model());
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -73,7 +73,7 @@ class AppController extends AdminController{
             throw new HttpException('指定App ID不存在');
         }
         $this->form()->setData($app);
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

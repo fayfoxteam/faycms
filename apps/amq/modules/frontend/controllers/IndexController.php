@@ -16,7 +16,7 @@ class IndexController extends FrontController{
     }
     
     public function index(){
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

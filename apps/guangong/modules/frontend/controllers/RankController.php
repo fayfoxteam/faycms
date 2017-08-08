@@ -22,6 +22,6 @@ class RankController extends FrontController{
         }
         
         $this->view->ranks = $ranks;
-        $this->view->render();
+        return $this->view->render();
     }
 }

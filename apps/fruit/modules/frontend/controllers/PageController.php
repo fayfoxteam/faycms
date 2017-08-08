@@ -24,6 +24,6 @@ class PageController extends FrontController{
             throw new HttpException('您请求的页面不存在');
         }
 
-        $this->view->render();
+        return $this->view->render();
     }
 }

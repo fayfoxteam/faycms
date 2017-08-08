@@ -22,7 +22,7 @@ class LoginController extends FrontController{
                     header('location:'.base64_decode($this->input->get('redirect')));
                     die;
                 }else{
-                    Response::redirect('user');
+                    $this->response->redirect('user');
                 }
             }else{
                 $this->form()->setData(array(
@@ -33,7 +33,7 @@ class LoginController extends FrontController{
         }
         
         $this->layout_template = null;
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function mini(){
@@ -59,7 +59,7 @@ class LoginController extends FrontController{
             }
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function forgotPassword(){
@@ -96,7 +96,7 @@ class LoginController extends FrontController{
             FlashService::set('邮件发送成功，请登陆您的邮箱查看！', 'success');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function active(){
@@ -139,7 +139,7 @@ class LoginController extends FrontController{
             throw new HttpException('异常的访问参数');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
 
 }

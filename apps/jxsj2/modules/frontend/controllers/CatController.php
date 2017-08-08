@@ -40,7 +40,7 @@ class CatController extends FrontController{
             'item_view'=>$cat['description'] == 'gallery' ? '_gallery_item' : '_list_item',
         ));
                 
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

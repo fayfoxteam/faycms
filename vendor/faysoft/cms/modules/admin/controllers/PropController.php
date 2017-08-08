@@ -33,7 +33,7 @@ class PropController extends AdminController{
         $this->form()->setModel(PropsTable::model());
 
         $this->_setListview();
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -89,7 +89,7 @@ class PropController extends AdminController{
 
 
         $this->_setListview();
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**

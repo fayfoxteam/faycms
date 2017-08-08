@@ -13,11 +13,11 @@ class IndexController extends Widget{
             )
         ), 'id,code,create_time,type', 'id DESC', 20);
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function placeholder(){
         
-        $this->view->render('placeholder');
+        return $this->view->render('placeholder');
     }
 }

@@ -71,7 +71,7 @@ class ModelController extends AdminController{
         
         $this->form()->setModel(ApidocOutputsTable::model());
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -148,7 +148,7 @@ class ModelController extends AdminController{
                 'model'=>'类型',
             ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -261,7 +261,7 @@ class ModelController extends AdminController{
             ->order('mp.sort')
             ->fetchAll();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function remove(){

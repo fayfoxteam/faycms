@@ -31,7 +31,7 @@ class DatabaseController extends ToolsController{
         
         $this->view->apps = $this->getApps();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function dd(){
@@ -68,7 +68,7 @@ class DatabaseController extends ToolsController{
         
         $this->view->apps = $this->getApps();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function getModel(){
@@ -218,7 +218,7 @@ class DatabaseController extends ToolsController{
         }
         
         $this->view->ddls = implode("\n\n", $ddls);
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -268,7 +268,7 @@ class DatabaseController extends ToolsController{
         }
         $this->view->insert = $insert;
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function sql(){
@@ -283,6 +283,6 @@ class DatabaseController extends ToolsController{
             $this->db->execute($sql);
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

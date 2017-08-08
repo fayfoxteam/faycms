@@ -15,7 +15,7 @@ class FunctionController extends ToolsController{
         $this->layout->subtitle = 'unserialize';
         
         $this->view->result = unserialize($this->input->post('key'));
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function evalAction(){
@@ -25,32 +25,32 @@ class FunctionController extends ToolsController{
         
         $this->layout->subtitle = 'eval';
         $this->view->key = $this->input->post('key');
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function json(){
         $this->layout->subtitle = 'JSON';
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function url(){
         $this->layout->subtitle = 'urldecode';
         
         $this->view->result = urldecode($this->input->post('key'));
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function date(){
         $this->layout->subtitle = 'date';
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function string(){
         $this->layout->subtitle = 'string';
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function ip(){
@@ -60,7 +60,7 @@ class FunctionController extends ToolsController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function doEval(){

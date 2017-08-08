@@ -21,6 +21,6 @@ class TagController extends FrontController{
             'subtitle'=>'',
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

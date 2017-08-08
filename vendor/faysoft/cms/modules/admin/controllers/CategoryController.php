@@ -31,7 +31,7 @@ class CategoryController extends AdminController{
                 'data-id'=>0,
             ),
         );
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){

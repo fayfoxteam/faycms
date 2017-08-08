@@ -59,6 +59,6 @@ class PageController extends FrontController{
         );
         $this->layout->banner = $page['alias'].'-banner.jpg';
         $this->layout->current_directory = $page['alias'];
-        $this->view->render();
+        return $this->view->render();
     }
 }

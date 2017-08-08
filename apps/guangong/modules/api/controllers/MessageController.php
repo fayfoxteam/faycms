@@ -35,6 +35,6 @@ class MessageController extends ApiController{
         
         $message = GuangongMessagesTable::model()->find($message_id, 'id,content,create_time');
         
-        Response::redirect($this->input->request('redirect'));
+        $this->response->redirect($this->input->request('redirect'));
     }
 }

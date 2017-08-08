@@ -65,7 +65,7 @@ class PostController extends FrontController{
             ),
         );
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function index(){
@@ -135,6 +135,6 @@ class PostController extends FrontController{
         $this->layout->breadcrumbs = $breadcrumbs;
         $this->layout->banner = 'news-banner.jpg';
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

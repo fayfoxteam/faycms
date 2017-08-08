@@ -4,6 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\UserController;
 use cms\services\post\PostFavoriteService;
 use cms\services\post\PostService;
+use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
@@ -106,6 +107,6 @@ class PostFavoriteController extends UserController{
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20)
         );
-        Response::json($favorites);
+        return new JsonResponse($favorites);
     }
 }

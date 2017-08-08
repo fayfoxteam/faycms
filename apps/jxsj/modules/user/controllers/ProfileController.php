@@ -27,7 +27,7 @@ class ProfileController extends UserController{
         $this->layout->current_directory = 'profile';
         $user = UsersTable::model()->find(\F::session()->get('user.id'));
         $this->form()->setData($user);
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function password(){
@@ -57,6 +57,6 @@ class ProfileController extends UserController{
         
         $this->layout->current_directory = 'password';
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

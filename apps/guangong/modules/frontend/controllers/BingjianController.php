@@ -39,7 +39,7 @@ class BingjianController extends FrontController{
             'page_size'=>200,
         ));
         $this->view->type = $type;
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function index(){
@@ -68,7 +68,7 @@ class BingjianController extends FrontController{
             'count_sql'=>$count_sql
         ));
         $this->view->type = $type;
-        $this->view->render('index2');
+        return $this->view->render('index2');
     }
     
     public function jianyan(){
@@ -76,7 +76,7 @@ class BingjianController extends FrontController{
 
         $this->view->user = UserService::service()->get($this->current_user, 'nickname,mobile,id');
         $this->view->type = $type;
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -86,6 +86,6 @@ class BingjianController extends FrontController{
         }
         
         $this->view->message = GuangongMessagesTable::model()->find($id);
-        $this->view->render();
+        return $this->view->render();
     }
 }

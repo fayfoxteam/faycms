@@ -66,7 +66,7 @@ class PaperController extends AdminController{
         //分类树
         $this->view->cats = CategoryService::service()->getTree('_system_exam_paper');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -115,7 +115,7 @@ class PaperController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_exam_paper');
         $this->view->question_cats = CategoryService::service()->getTree('_system_exam_question');
         
-        $this->view->render('edit');
+        return $this->view->render('edit');
     }
     
     public function edit(){
@@ -201,7 +201,7 @@ class PaperController extends AdminController{
         $this->view->cats = CategoryService::service()->getTree('_system_exam_paper');
         $this->view->question_cats = CategoryService::service()->getTree('_system_exam_question');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){
@@ -247,7 +247,7 @@ class PaperController extends AdminController{
             );
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

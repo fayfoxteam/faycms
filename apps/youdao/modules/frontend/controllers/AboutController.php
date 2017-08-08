@@ -46,7 +46,7 @@ class AboutController extends FrontController{
         );
         $this->layout->subtitle = $page['title'];
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function abstractModel(){

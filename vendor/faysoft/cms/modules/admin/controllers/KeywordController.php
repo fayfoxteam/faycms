@@ -20,7 +20,7 @@ class KeywordController extends AdminController{
         $this->_setListview();
         
         $this->form()->setModel(KeywordsTable::model());
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -64,7 +64,7 @@ class KeywordController extends AdminController{
             
             $this->_setListview();
             
-            $this->view->render();
+            return $this->view->render();
         }else{
             throw new HttpException('无效的ID', 500);
         }

@@ -111,7 +111,7 @@ class FeedController extends AdminController{
             'enabled_boxes'=>$enabled_boxes,
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -221,7 +221,7 @@ class FeedController extends AdminController{
             'enabled_boxes'=>$enabled_boxes,
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function index(){
@@ -302,7 +302,7 @@ class FeedController extends AdminController{
             'empty_text'=>'<tr><td colspan="'.(count($this->form('setting')->getData('cols')) + 2).'" align="center">无相关记录！</td></tr>',
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

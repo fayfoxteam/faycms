@@ -25,7 +25,7 @@ class ContactController extends FrontController{
         
         $this->form()->setModel(LeaveMessage::model());
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function send(){

@@ -20,7 +20,7 @@ class IndexController extends FrontController{
         
         $this->view->about = PageService::service()->getByAlias('about');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

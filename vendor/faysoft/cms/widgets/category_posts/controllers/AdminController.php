@@ -22,7 +22,7 @@ class AdminController extends Widget{
             ),
         );
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

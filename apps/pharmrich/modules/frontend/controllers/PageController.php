@@ -6,6 +6,6 @@ use pharmrich\library\FrontController;
 class PageController extends FrontController{
     public function item(){
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

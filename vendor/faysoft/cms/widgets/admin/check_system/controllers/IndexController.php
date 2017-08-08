@@ -17,6 +17,6 @@ class IndexController extends Widget{
         $mysql_version = $this->db->fetchRow('SELECT VERSION() AS version');
         $this->view->mysql_version = $mysql_version['version'];
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

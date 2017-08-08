@@ -3,6 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use cms\models\tables\RegionsTable;
+use fay\core\JsonResponse;
 use fay\core\Response;
 
 /**
@@ -37,7 +38,7 @@ class RegionController extends ApiController{
             'parent_id = ?'=>$id
         ), 'id,name');
         
-        Response::json(array(
+        return new JsonResponse(array(
             'regions'=>$regions,
         ));
     }

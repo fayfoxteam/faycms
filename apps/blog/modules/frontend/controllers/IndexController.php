@@ -74,7 +74,7 @@ class IndexController extends FrontController{
         
         $this->view->work_cat = CategoryService::service()->get('_work');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

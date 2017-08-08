@@ -3,6 +3,7 @@ namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
 use fay\core\HttpException;
+use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\StringHelper;
 
@@ -99,7 +100,7 @@ class WidgetController extends ApiController{
         if($this->input->get('callback')){
             Response::jsonp($this->input->get('callback'), $data);
         }else{
-            Response::json($data);
+            return new JsonResponse($data);
         }
     }
 }

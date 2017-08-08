@@ -70,7 +70,7 @@ class ContactController extends AdminController{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function setRead(){
@@ -206,6 +206,6 @@ class ContactController extends AdminController{
         $contact['show_ip_int'] = long2ip($contact['show_ip_int']);
         $this->form()->setData($contact);
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

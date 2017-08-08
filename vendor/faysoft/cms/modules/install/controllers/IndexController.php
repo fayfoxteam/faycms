@@ -9,7 +9,6 @@ use cms\services\user\UserService;
 use fay\core\Db;
 use fay\core\Exception;
 use fay\core\Request;
-use fay\core\Response;
 use fay\helpers\LocalFileHelper;
 
 class IndexController extends InstallController{
@@ -19,7 +18,7 @@ class IndexController extends InstallController{
     }
     
     public function index(){
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function checkSystem(){
@@ -30,7 +29,7 @@ class IndexController extends InstallController{
             throw new Exception('程序已完成安装，若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
         }else if($is_installed == 'database-completed'){
             //数据库已初始化，跳转至设置超级管理员界面
-            Response::redirect('cms/install/index/settings', array(
+            $this->response->redirect('cms/install/index/settings', array(
                 '_token'=>$this->getToken(),
             ));
         }else{
@@ -78,7 +77,7 @@ class IndexController extends InstallController{
             );
             
             $this->view->extensions = get_loaded_extensions();
-            $this->view->render();
+            return $this->view->render();
         }
     }
     
@@ -86,7 +85,7 @@ class IndexController extends InstallController{
         try{
             $this->checkToken();
         }catch(Exception $e){
-            Response::redirect('cms/install/index/index');
+            $this->response->redirect('cms/install/index/index');
         }
         
         //检测安装进度
@@ -97,12 +96,12 @@ class IndexController extends InstallController{
             throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
         }else if($is_installed == 'database-completed'){
             //数据库安装完成，跳转到用户设置界面
-            Response::redirect('cms/install/index/settings', array(
+            $this->response->redirect('cms/install/index/settings', array(
                 '_token'=>$this->getToken(),
             ));
         }else{
             //其它情况下（例如数据库创建了一半）重新创建数据库
-            $this->view->render();
+            return $this->view->render();
         }
     }
     
@@ -110,7 +109,7 @@ class IndexController extends InstallController{
         try{
             $this->checkToken();
         }catch(Exception $e){
-            Response::redirect('cms/install/index/index');
+            $this->response->redirect('cms/install/index/index');
         }
         
         //检测安装进度
@@ -139,12 +138,12 @@ class IndexController extends InstallController{
                 
                 file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getUserIP() . "] \r\ninstallation-completed", FILE_APPEND);
                 
-                Response::redirect('a');
+                $this->response->redirect('a');
             }
-            $this->view->render();
+            return $this->view->render();
         }else{
             //其它状态（可能是数据库装一半断掉了）重新安装
-            Response::redirect('cms/install/index/index');
+            $this->response->redirect('cms/install/index/index');
         }
     }
     

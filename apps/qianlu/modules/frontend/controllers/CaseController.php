@@ -35,7 +35,7 @@ class CaseController extends FrontController{
             'delete_time = 0',
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
 
     public function item(){
@@ -77,6 +77,6 @@ class CaseController extends FrontController{
             ),
         );
     
-        $this->view->render();
+        return $this->view->render();
     }
 }

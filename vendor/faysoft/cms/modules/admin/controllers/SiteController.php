@@ -15,7 +15,7 @@ class SiteController extends AdminController{
     public function settings(){
         $this->layout->subtitle = '系统设置';
         
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**
@@ -24,7 +24,7 @@ class SiteController extends AdminController{
     public function watermark(){
         $this->layout->subtitle = '图片水印';
         
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**
@@ -34,7 +34,7 @@ class SiteController extends AdminController{
         $this->layout->current_directory = 'third-party';
         $this->layout->subtitle = '云存储';
 
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**
@@ -44,6 +44,6 @@ class SiteController extends AdminController{
         $this->layout->current_directory = 'third-party';
         $this->layout->subtitle = '短信运营商';
 
-        $this->view->render();
+        return $this->view->render();
     }
 }

@@ -47,7 +47,7 @@ class BillController extends AdminController{
         
         $this->form()->setModel(BillsTable::model());
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -122,6 +122,6 @@ class BillController extends AdminController{
         $root_node = CategoryService::service()->get('_system_bill', 'id');
         $this->view->root = $root_node['id'];
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

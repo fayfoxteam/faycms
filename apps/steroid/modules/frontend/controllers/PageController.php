@@ -9,6 +9,6 @@ class PageController extends FrontController{
     public $layout_template = 'post';
     
     public function item(){
-        $this->view->render();
+        return $this->view->render();
     }
 }

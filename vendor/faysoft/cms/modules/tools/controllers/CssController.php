@@ -20,7 +20,7 @@ class CssController extends ToolsController{
         $buffer = str_replace("}", "}\r\n", $buffer);
         $this->view->after_compress = $buffer;
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

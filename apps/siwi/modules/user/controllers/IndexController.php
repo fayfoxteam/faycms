@@ -17,7 +17,7 @@ class IndexController extends UserController{
     public function index(){
         
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

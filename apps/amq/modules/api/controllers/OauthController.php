@@ -24,6 +24,6 @@ class OauthController extends ApiController{
 
         UserService::service()->login($user_id);
 
-        Response::redirect($this->input->get('redirect', 'trim'));
+        $this->response->redirect($this->input->get('redirect', 'trim'));
     }
 }

@@ -11,10 +11,10 @@ class NewsController extends FrontController{
     }
     
     public function index(){
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
-        $this->view->render();
+        return $this->view->render();
     }
 }

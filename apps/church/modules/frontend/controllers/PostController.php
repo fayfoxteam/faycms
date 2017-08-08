@@ -20,10 +20,10 @@ class PostController extends FrontController{
         
         $this->view->cat = $cat;
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
-        $this->view->render();
+        return $this->view->render();
     }
 }

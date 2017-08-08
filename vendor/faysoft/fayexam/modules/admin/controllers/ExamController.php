@@ -57,7 +57,7 @@ class ExamController extends AdminController{
             'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -80,7 +80,7 @@ class ExamController extends AdminController{
         ;
         $this->view->user = UsersTable::model()->find($exam['user_id'], 'username,nickname');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function setScore(){

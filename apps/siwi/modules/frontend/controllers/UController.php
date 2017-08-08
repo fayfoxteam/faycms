@@ -98,7 +98,7 @@ class UController extends FrontController{
         $this->view->listview = new ListView($sql, array(
             'item_view'=>'_message_list_item',
         ));
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

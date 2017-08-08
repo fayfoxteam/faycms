@@ -94,16 +94,15 @@ class View{
      *渲染一个视图
      * @param string $view 视图文件
      * @param string $layout 模板文件目录
-     * @param bool $return
      * @return null|string
      * @throws Exception
      */
-    public function render($view = null, $layout = null, $return = false){
+    public function render($view = null, $layout = null){
         RuntimeHelper::append(__FILE__, __LINE__, '准备渲染视图');
         //触发事件
         \F::event()->trigger('before_render');
         
-        $content = $this->renderPartial($view, $this->getViewData(), -1, true);
+        $content = $this->renderPartial($view, $this->getViewData());
         RuntimeHelper::append(__FILE__, __LINE__, '视图渲染完成');
 
         if($layout === null){
@@ -121,20 +120,10 @@ class View{
                 $this->getViewData(),
                 \F::app()->layout->getLayoutData(),
                 array('content'=>$content)
-            ), -1, true);
+            ));
         }
         
-        if($return){
-            return $content;
-        }else{
-            Response::send($content);
-            //自动输出debug信息
-            if(\F::config()->get('debug')){
-                $this->renderPartial('common/_debug');
-            }
-            
-            return null;
-        }
+        return $content;
     }
     
     /**
@@ -142,11 +131,10 @@ class View{
      * @param string $view
      * @param array $view_data 传参（此函数不调用全局的传参，只认传入的参数）
      * @param int $cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
-     * @param bool $return 若为true，则不输出而是返回渲染结果
      * @return NULL|string
      * @throws ErrorException
      */
-    public function renderPartial($view = null, $view_data = array(), $cache = -1, $return = false){
+    public function renderPartial($view = null, $view_data = array(), $cache = -1){
         RuntimeHelper::append(__FILE__, __LINE__, '开始渲染视图: ' . $view);
         $uri = Uri::getInstance();
         $module = isset($uri->module) ? $uri->module : \F::config()->get('default_router.module');
@@ -193,12 +181,7 @@ class View{
             $cache_key = "partial/{$module}/{$controller}/{$action}";
             $content = \F::cache()->get($cache_key);
             if($content){
-                if($return){
-                    return $content;
-                }else{
-                    echo $content;
-                    return null;
-                }
+                return $content;
             }
         }
         
@@ -243,12 +226,7 @@ class View{
             \F::cache()->set($cache_key, $content, $cache);
         }
         
-        if($return){
-            return $content;
-        }else{
-            echo $content;
-            return null;
-        }
+        return $content;
     }
     
     /**

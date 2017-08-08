@@ -23,8 +23,8 @@ class HttpException extends \Exception{
      * @return string 返回一个状态码描述
      */
     public function getLevel(){
-        if (isset(Response::$httpStatuses[$this->status_code])) {
-            return Response::$httpStatuses[$this->status_code];
+        if (isset(Response::$http_statuses[$this->status_code])) {
+            return Response::$http_statuses[$this->status_code];
         } else {
             return 'Error';
         }

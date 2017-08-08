@@ -17,7 +17,7 @@ class ContactController extends FrontController{
         $this->layout->keywords = $page['seo_keywords'];
         $this->layout->description = $page['seo_description'];
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function markmessage(){

@@ -41,6 +41,6 @@ class SystemController extends FrontController{
     
     public function getHeader(){
         $this->layout_template = '_header';
-        $this->view->render();
+        return $this->view->render();
     }
 }

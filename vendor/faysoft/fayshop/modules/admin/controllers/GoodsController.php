@@ -82,7 +82,7 @@ class GoodsController extends AdminController{
                 ),
             );
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -255,7 +255,7 @@ class GoodsController extends AdminController{
             'enabled_boxes'=>$enabled_boxes,
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function index(){
@@ -308,7 +308,7 @@ class GoodsController extends AdminController{
         ));
 
         $this->view->cats = CategoryService::service()->getTree('_system_goods');
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -613,7 +613,7 @@ class GoodsController extends AdminController{
         $this->view->goods = $goods;
         $this->form()->setData($goods);
 
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){

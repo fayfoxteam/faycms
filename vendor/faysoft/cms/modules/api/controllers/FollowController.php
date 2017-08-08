@@ -4,6 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\services\FollowService;
 use fay\core\HttpException;
+use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
@@ -203,7 +204,7 @@ class FollowController extends ApiController{
             $fields,
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20));
-        Response::json($fans);
+        return new JsonResponse($fans);
     }
     
     /**
@@ -249,6 +250,6 @@ class FollowController extends ApiController{
             $fields,
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20));
-        Response::json($follows);
+        return new JsonResponse($follows);
     }
 }

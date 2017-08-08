@@ -17,12 +17,12 @@ class InputController extends ToolsController{
             'uri'=>array('cms/tools/input/clearsession'),
             'text'=>'清除SESSION',
         );
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function cookie(){
         $this->layout->subtitle = 'COOKIE';
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function server(){
@@ -30,7 +30,7 @@ class InputController extends ToolsController{
         $this->isLogin();
         
         $this->layout->subtitle = 'SERVER';
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function get(){
@@ -41,7 +41,7 @@ class InputController extends ToolsController{
                 '$_GET'=>$_GET,
             ));
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function post(){
@@ -53,7 +53,7 @@ class InputController extends ToolsController{
                 'php://input'=>file_get_contents('php://input', 'r'),
             ));
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function clearsession(){

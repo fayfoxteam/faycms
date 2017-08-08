@@ -7,10 +7,25 @@ use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
 
 class Response{
+    const FORMAT_RAW = 'raw';
+    const FORMAT_HTML = 'html';
+    const FORMAT_JSON = 'json';
+    const FORMAT_JSONP = 'jsonp';
+
+    /**
+     * 事件 - 发送前
+     */
+    const EVENT_BEFORE_SEND = 'response_before_send';
+    
+    /**
+     * 事件 - 发送后
+     */
+    const EVENT_AFTER_SEND = 'response_after_send';
+    
     /**
      * HTTP状态码
      */
-    public static $httpStatuses = array(
+    public static $http_statuses = array(
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing',
@@ -55,6 +70,7 @@ class Response{
         416 => 'Requested range unsatisfiable',
         417 => 'Expectation failed',
         418 => 'I\'m a teapot',
+        421 => 'Misdirected Request',
         422 => 'Unprocessable entity',
         423 => 'Locked',
         424 => 'Method failure',
@@ -67,7 +83,7 @@ class Response{
         450 => 'Blocked by Windows Parental Controls',
         500 => 'Internal Server Error',
         501 => 'Not Implemented',
-        502 => 'Bad Gateway ou Proxy Error',
+        502 => 'Bad Gateway or Proxy Error',
         503 => 'Service Unavailable',
         504 => 'Gateway Time-out',
         505 => 'HTTP Version not supported',
@@ -77,6 +93,257 @@ class Response{
         510 => 'Not Extended',
         511 => 'Network Authentication Required',
     );
+
+    /**
+     * @var int HTTP状态码
+     */
+    protected $status_code = 200;
+
+    /**
+     * @var int HTTP状态码
+     */
+    protected $status_text = 'OK';
+
+    /**
+     * 返回数据格式
+     */
+    protected $format;
+
+    /**
+     * 当format为json或jsonp时候，$data为源数据，$content为json_encode后的数据
+     */
+    protected $data;
+
+    /**
+     * 返回数据
+     */
+    protected $content;
+
+    /**
+     * HTTP头
+     */
+    protected $headers = array();
+    
+    /**
+     * @var bool 是否已发送
+     */
+    protected $is_sent = false;
+
+    /**
+     * @var string HTTP版本
+     */
+    protected $version;
+
+    public function __construct(){
+        if($this->version === null){
+            if(Request::getServer('SERVER_PROTOCOL') === 'HTTP/1.0'){
+                $this->version = '1.0';
+            }else{
+                $this->version = '1.1';
+            }
+        }
+    }
+
+    /**
+     * Sets the response status code.
+     * This method will set the corresponding status text if `$text` is null.
+     * @param int $code the status code
+     * @param string $text the status text. If not set, it will be set automatically based on the status code.
+     */
+    public function setStatusCode($code, $text = null){
+        if($code === null){
+            $code = 200;
+        }
+        
+        if($code < 100 || $code >= 600){
+            throw new \InvalidArgumentException("非法的HTTP状态码[{$code}]");
+        }
+        
+        $this->status_code = $code;
+        if($text === null){
+            $this->status_text = isset(static::$http_statuses[$this->status_code]) ? static::$http_statuses[$this->status_code] : '';
+        } else {
+            $this->status_text = $text;
+        }
+    }
+
+    /**
+     * 设置返回数据格式
+     * @param string $format
+     * @return $this
+     * @throws ErrorException
+     */
+    public function setFormat($format){
+        if($format != self::FORMAT_HTML &&
+            $format != self::FORMAT_JSON &&
+            $format != self::FORMAT_JSONP &&
+            $format != self::FORMAT_RAW
+        ){
+            throw new ErrorException("非法的返回格式[{$format}]");
+        }
+        
+        $this->format = $format;
+        return $this;
+    }
+
+    /**
+     * 获取format
+     * @return string
+     */
+    public function getFormat(){
+        return $this->format;
+    }
+
+    /**
+     * 当返回为json或jsonp时
+     * @param mixed $data
+     * @return $this
+     */
+    public function setData($data){
+        $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * 设置返回文本
+     * @param string $content
+     * @return $this
+     */
+    public function setContent($content){
+        $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * 清空类
+     */
+    public function clear(){
+        $this->headers = array();
+        $this->status_code = 200;
+        $this->status_text = 'OK';
+        $this->content = null;
+        $this->is_sent = false;
+    }
+
+    /**
+     * 页面跳转
+     * @param string $uri
+     * @param array $params
+     * @param string $anchor 锚点，仅当$uri非空且不是完整url时有效
+     * @param int $status_code HTTP状态码
+     * @return $this
+     */
+    public function redirect($uri = null, $params = array(), $anchor = '', $status_code = 302){
+        if($uri === null){
+            //跳转到首页
+            $this->setHeader('location', UrlHelper::createUrl());
+        }else if(preg_match('/^(http|https):\/\/\w+.*$/', $uri)){
+            //指定了一个完整的url，跳转到指定url
+            $this->setHeader('location', $uri);
+        }else{
+            $this->setHeader('location', UrlHelper::createUrl($uri, $params, $anchor));
+        }
+        
+        $this->setStatusCode($status_code);
+        
+        return $this;
+    }
+
+    /**
+     * 设置HTTP头
+     * @param string $name
+     * @param string $value
+     * @return $this
+     */
+    public function setHeader($name, $value){
+        $this->headers[strtolower($name)] = $value;
+        return $this;
+    }
+
+    /**
+     * 输出响应
+     */
+    public function send(){
+        if($this->is_sent){
+            return;
+        }
+        
+        \F::event()->trigger(self::EVENT_BEFORE_SEND, array(
+            'response'=>$this,
+        ));
+        $this->prepare();
+        $this->sendHeaders();
+        $this->sendContent();
+        \F::event()->trigger(self::EVENT_AFTER_SEND, array(
+            'response'=>$this,
+        ));
+        $this->is_sent = true;
+    }
+
+    /**
+     * 发送前的格式化工作
+     */
+    protected function prepare(){
+        if($this->format == self::FORMAT_JSON){
+            $this->setHeader('Content-Type', 'application/json; charset=utf-8');
+            $this->content = json_encode($this->data);
+        }else if($this->format == self::FORMAT_JSONP){
+            $this->setHeader('Content-Type', 'application/javascript; charset=utf-8');
+            $this->content = $this->data['callback'] . '(' . json_encode($this->data['data']) . ');';
+        }
+    }
+
+    /**
+     * 发送HTTP头
+     */
+    protected function sendHeaders(){
+        foreach($this->headers as $name => $value) {
+            $name = str_replace(' ', '-', ucwords(str_replace('-', ' ', $name)));
+            header("$name: $value");
+        }
+        
+        header("HTTP/{$this->version} {$this->status_code} {$this->status_text}");
+    }
+
+    /**
+     * 发送内容（若配置有缓存，则会自动设置缓存）
+     */
+    protected function sendContent(){
+        $router = Uri::getInstance()->router;
+
+        //根据router设置缓存
+        $cache_routers = \F::config()->get('*', 'pagecache');
+        $cache_routers_keys = array_keys($cache_routers);
+        if(in_array($router, $cache_routers_keys)){
+            $filename = md5(\F::config()->get('base_url') . json_encode(\F::input()->get(isset($cache_routers[$router]['params']) ? $cache_routers[$router]['params'] : array())));
+            $cache_key = 'pages/' . $router . '/' . $filename;
+            if(\F::input()->post()){
+                //有post数据的时候，是否更新页面
+                if(isset($cache_routers[$router]['on_post'])){
+                    if($cache_routers[$router]['on_post'] == 'rebuild'){//刷新缓存
+                        \F::cache()->set($cache_key, $this->content, $cache_routers[$router]['ttl']);
+                    }else if($cache_routers[$router]['on_post'] == 'remove'){//删除缓存
+                        \F::cache()->delete($cache_key);
+                    }
+                }
+            }else{
+                //没post数据的时候，直接重新生成页面缓存
+                \F::cache()->set($cache_key, $this->content, $cache_routers[$router]['ttl']);
+            }
+        }
+        
+        echo $this->content;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      * 发送一个http头
@@ -89,8 +356,8 @@ class Response{
             throw new HttpException('Status codes must be numeric', 500);
         }
 
-        if (isset(self::$httpStatuses[$code]) AND $text == ''){
-            $text = self::$httpStatuses[$code];
+        if (isset(self::$http_statuses[$code]) AND $text == ''){
+            $text = self::$http_statuses[$code];
         }
 
         if ($text == ''){
@@ -114,7 +381,7 @@ class Response{
      * @param array $params
      * @param string $anchor 锚点，仅当$uri非空且不是完整url时有效
      */
-    public static function redirect($uri = null, $params = array(), $anchor = ''){
+    public static function redirect2($uri = null, $params = array(), $anchor = ''){
         if($uri === null){
             //跳转到首页
             header('location:'.UrlHelper::createUrl(null));
@@ -271,7 +538,7 @@ class Response{
      * 向浏览器输出
      * @param string $content
      */
-    public static function send($content){
+    public static function send2($content){
         $router = Uri::getInstance()->router;
         
         //根据router设置缓存

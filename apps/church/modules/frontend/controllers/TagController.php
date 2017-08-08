@@ -18,6 +18,6 @@ class TagController extends FrontController{
             'page_title'=>$tag['title'],
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

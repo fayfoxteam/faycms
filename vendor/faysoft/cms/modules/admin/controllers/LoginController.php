@@ -7,7 +7,6 @@ use cms\services\user\UserPasswordService;
 use cms\services\user\UserService;
 use fay\core\Controller;
 use fay\core\Loader;
-use fay\core\Response;
 
 class LoginController extends Controller{
     public function __construct(){
@@ -41,7 +40,7 @@ class LoginController extends Controller{
                     header('location:'.base64_decode($this->input->get('redirect')));
                     die;
                 }else{
-                    Response::redirect('cms/admin/index/index');
+                    $this->response->redirect('cms/admin/index/index');
                 }
             }else{
                 LogService::set('admin:action:login.fail', array(
@@ -57,11 +56,13 @@ class LoginController extends Controller{
         Loader::vendor('IpLocation/IpLocation.class');
         $this->view->iplocation = new \IpLocation();
         
-        $this->view->render('index');
+        return $this->view->render('index');
     }
     
     public function logout(){
         UserService::service()->logout();
-        Response::redirect('cms/admin/login/index');
+        
+        $this->response->redirect('cms/admin/login/index')
+            ->send();
     }
 }

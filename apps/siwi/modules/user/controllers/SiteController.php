@@ -86,7 +86,7 @@ class SiteController extends UserController{
         }
         $this->view->cats = CategoryService::service()->getNextLevel('_site');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -237,6 +237,6 @@ class SiteController extends UserController{
         $this->view->files = $files;
         
         $this->view->cats = CategoryService::service()->getNextLevel('_site');
-        $this->view->render();
+        return $this->view->render();
     }
 }

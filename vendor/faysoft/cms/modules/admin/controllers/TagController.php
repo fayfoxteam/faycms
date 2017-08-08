@@ -24,7 +24,7 @@ class TagController extends AdminController{
         
         $this->form()->setModel(TagsTable::model());
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -87,7 +87,7 @@ class TagController extends AdminController{
             
             $this->_setListview();
             
-            $this->view->render();
+            return $this->view->render();
         }else{
             throw new HttpException('无效的ID');
         }

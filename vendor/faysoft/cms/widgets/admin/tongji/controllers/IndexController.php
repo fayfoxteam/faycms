@@ -20,11 +20,11 @@ class IndexController extends Widget{
         }
         $this->view->yesterday = $yesterday_analyst;
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function placeholder(){
         
-        $this->view->render('placeholder');
+        return $this->view->render('placeholder');
     }
 }

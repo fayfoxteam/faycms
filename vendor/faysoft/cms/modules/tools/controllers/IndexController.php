@@ -8,6 +8,6 @@ class IndexController extends ToolsController{
     public function index(){
         $this->layout->subtitle = 'Tools';
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

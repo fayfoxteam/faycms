@@ -32,7 +32,7 @@ class MenuController extends AdminController{
                 ),
             );
         }
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -175,6 +175,6 @@ class MenuController extends AdminController{
                 ),
             );
         }
-        $this->view->render();
+        return $this->view->render();
     }
 }

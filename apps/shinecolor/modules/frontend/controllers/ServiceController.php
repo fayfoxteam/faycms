@@ -54,6 +54,6 @@ class ServiceController extends FrontController{
                 'label'=>HtmlHelper::encode($page['title']),
             ),
         );
-        $this->view->render();
+        return $this->view->render();
     }
 }

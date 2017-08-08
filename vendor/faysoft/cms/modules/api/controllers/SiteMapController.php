@@ -62,7 +62,7 @@ class SiteMapController extends ApiController{
         header('Content-Type:application/xml');
         $this->config->set('debug', false);
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function html(){
@@ -103,6 +103,6 @@ class SiteMapController extends ApiController{
             'delete_time = 0',
         ), 'id,alias,title');
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

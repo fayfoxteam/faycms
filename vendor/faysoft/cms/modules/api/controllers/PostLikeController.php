@@ -5,6 +5,7 @@ use cms\library\ApiController;
 use cms\services\post\PostLikeService;
 use cms\services\post\PostService;
 use cms\services\user\UserService;
+use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
@@ -127,7 +128,7 @@ class PostLikeController extends ApiController{
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20)
         );
-        Response::json($likes);
+        return new JsonResponse($likes);
     }
     
     /**
@@ -168,6 +169,6 @@ class PostLikeController extends ApiController{
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20)
         );
-        Response::json($likes);
+        return new JsonResponse($likes);
     }
 }

@@ -18,11 +18,11 @@ class IndexController extends Widget{
             ))
             ->group('u.id')
             ->fetchAll();
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function placeholder(){
         
-        $this->view->render('placeholder');
+        return $this->view->render('placeholder');
     }
 }

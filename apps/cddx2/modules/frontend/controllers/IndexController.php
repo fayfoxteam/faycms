@@ -19,7 +19,7 @@ class IndexController extends FrontController{
     public function index(){
         $this->view->menus = MenuService::service()->getTree('_user_menu');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

@@ -35,7 +35,7 @@ class NotificationController extends AdminController{
         }
         $this->view->notification_cats = CategoryService::service()->getNextLevel('_system_notification');
         $this->view->roles = RolesTable::model()->fetchAll('delete_time = 0');
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function my(){
@@ -58,7 +58,7 @@ class NotificationController extends AdminController{
             'empty_text'=>'<tr><td colspan="4" align="center">无相关记录！</td></tr>',
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){
@@ -148,7 +148,7 @@ class NotificationController extends AdminController{
             );
         }
     
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function setRead(){

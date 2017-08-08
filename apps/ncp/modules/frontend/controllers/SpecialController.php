@@ -61,7 +61,7 @@ class SpecialController extends FrontController{
         $product_cat = CategoryService::service()->get('product', 'id,left_value,right_value');//产品分类根目录
         $this->view->right_posts = RecommendTable::model()->getByCatAndArea($product_cat, 6, OptionService::get('site:right_recommend_days'));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){

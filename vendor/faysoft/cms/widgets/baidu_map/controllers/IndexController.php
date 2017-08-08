@@ -10,6 +10,6 @@ class IndexController extends Widget{
             throw new ErrorException('百度地图小工具未配置');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

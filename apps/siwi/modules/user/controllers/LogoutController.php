@@ -9,6 +9,6 @@ class LogoutController extends UserController{
     public function index(){
         UserService::service()->logout();
         
-        Response::redirect('index');
+        $this->response->redirect('index');
     }
 }

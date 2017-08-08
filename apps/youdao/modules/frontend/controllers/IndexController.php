@@ -36,7 +36,7 @@ class IndexController extends FrontController{
             ->limit(5)
             ->fetchAll();
             
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

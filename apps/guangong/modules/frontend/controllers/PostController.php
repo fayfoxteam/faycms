@@ -56,7 +56,7 @@ class PostController extends FrontController{
         ;
 
         $this->view->posts = $posts;
-        $this->view->render();
+        return $this->view->render();
     }
 
     public function item2(){

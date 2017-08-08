@@ -47,6 +47,6 @@ class RegisterController extends FrontController{
         $this->layout_template = 'dialog';
         $this->layout->subtitle = 'SIGN UP';
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

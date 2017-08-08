@@ -15,13 +15,13 @@ class IndexController extends Widget{
             }
         }
         $this->view->options = $options;
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function change(){
         if($this->input->post('app')){
             setcookie('__app', $this->input->post('app'), null, '/');
-            Response::redirect('cms/admin/index/index');
+            $this->response->redirect('cms/admin/index/index');
         }
     }
 }

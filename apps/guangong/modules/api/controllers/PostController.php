@@ -79,6 +79,6 @@ class PostController extends \cms\modules\api\controllers\PostController{
             }
         }
         
-        Response::redirect('arm', array('show_read'=>1), '12');
+        $this->response->redirect('arm', array('show_read'=>1), '12');
     }
 }

@@ -158,7 +158,7 @@ class ApiController extends AdminController{
         //app列表
         $this->view->apps = ApidocAppsTable::model()->fetchAll(array(), 'id,name');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -271,7 +271,7 @@ class ApiController extends AdminController{
                 'model_name'=>'模型名称',
             ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -462,7 +462,7 @@ class ApiController extends AdminController{
         $this->view->error_codes = ApidocApiErrorCodesTable::model()->fetchAll(array(
             'api_id = ?'=>$api_id,
         ));
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**

@@ -31,7 +31,7 @@ class PaymentController extends \faypay\modules\api\controllers\PaymentControlle
         );
         
         //跳转去支付
-        Response::redirect('api/payment/pay', array(
+        $this->response->redirect('api/payment/pay', array(
             'trade_id'=>$trade_id,
             'payment_id'=>1,//这个系统，写死就好了
         ));

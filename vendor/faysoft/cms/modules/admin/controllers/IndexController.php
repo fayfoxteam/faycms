@@ -41,6 +41,6 @@ class IndexController extends AdminController{
             $this->view->_settings['dashboard-right'] = array_slice($this->view->enabled_boxes, $half);
         }
         
-        $this->view->render('index');
+        return $this->view->render();
     }
 }

@@ -25,6 +25,6 @@ class FeedbackController extends FrontController{
             'page_size'=>10,
             'empty_text'=>'',
         ));
-        $this->view->render();
+        return $this->view->render();
     }
 }

@@ -21,7 +21,7 @@ class ExamController extends UserController{
             'reload'=>$this->view->url('user/exam'),
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -41,6 +41,6 @@ class ExamController extends UserController{
             ->fetchAll()
         ;
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

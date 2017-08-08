@@ -80,7 +80,7 @@ class MaterialController extends FrontController{
         
         $this->view->cat_tree = CategoryService::service()->getTree('_material');
     
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -130,6 +130,6 @@ class MaterialController extends FrontController{
         ));
         
         $this->layout->canonical = $this->view->url('material/'.$post['id']);
-        $this->view->render();
+        return $this->view->render();
     }
 }

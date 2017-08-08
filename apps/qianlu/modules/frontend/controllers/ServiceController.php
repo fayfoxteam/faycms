@@ -68,6 +68,6 @@ class ServiceController extends FrontController{
         $this->view->post = $post;
         
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

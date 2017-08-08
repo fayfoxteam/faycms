@@ -57,7 +57,7 @@ class ContactController extends FrontController{
         $this->layout->keywords = OptionService::get('site:seo_contact_keywords');
         $this->layout->description = OptionService::get('site:seo_contact_description');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function markmessage(){

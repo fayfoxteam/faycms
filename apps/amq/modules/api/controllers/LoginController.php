@@ -2,7 +2,6 @@
 namespace amq\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\Response;
 
 class LoginController extends ApiController{
     public function logout(){
@@ -10,6 +9,6 @@ class LoginController extends ApiController{
         session_destroy();
         
         //跳转到首页
-        Response::redirect();
+        $this->response->redirect();
     }
 }

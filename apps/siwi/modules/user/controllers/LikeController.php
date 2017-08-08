@@ -19,7 +19,7 @@ class LikeController extends UserController{
     public function index(){
         
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function add(){

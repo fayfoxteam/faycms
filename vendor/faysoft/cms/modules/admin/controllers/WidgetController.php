@@ -55,7 +55,7 @@ class WidgetController extends AdminController{
         //小工具域列表
         $this->view->widget_areas = WidgetAreaService::service()->getAll();
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -134,7 +134,7 @@ class WidgetController extends AdminController{
         $this->view->customize = Loader::isEditing();
         $this->layout->subtitle = '编辑小工具  - '.$this->view->widget_admin->title;
 
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -205,7 +205,7 @@ class WidgetController extends AdminController{
             'empty_text'=>'<tr><td colspan="5" align="center">无相关记录！</td></tr>',
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
 
     /**

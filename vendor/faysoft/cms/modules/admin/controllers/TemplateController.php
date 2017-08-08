@@ -24,7 +24,7 @@ class TemplateController extends AdminController{
         ;
         $this->view->listview = new ListView($sql);
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){
@@ -77,7 +77,7 @@ class TemplateController extends AdminController{
         
         $this->view->template = TemplatesTable::model()->find($id);
         $this->form()->setData($this->view->template);
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -103,7 +103,7 @@ class TemplateController extends AdminController{
             )));
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function isAliasNotExist(){

@@ -21,6 +21,6 @@ class YsiteController extends AdminController{
             FlashService::set('更新成功', 'success');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

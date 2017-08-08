@@ -103,7 +103,7 @@ class OperatorController extends AdminController{
         
         $this->view->listview = new ListView($sql);
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -154,7 +154,7 @@ class OperatorController extends AdminController{
             $this->view->prop_set = array();
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -199,7 +199,7 @@ class OperatorController extends AdminController{
         ), 'id,title');    
         
         $this->view->prop_set = UserPropService::service()->getPropSet($user_id);
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -221,6 +221,6 @@ class OperatorController extends AdminController{
             );
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

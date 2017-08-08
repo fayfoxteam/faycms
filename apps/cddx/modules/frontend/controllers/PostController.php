@@ -55,7 +55,7 @@ class PostController extends FrontController{
         $this->layout->keywords = $cat['seo_keywords'] ? $cat['seo_keywords'] : $cat['title'];
         $this->layout->description = $cat['seo_description'] ? $cat['seo_description'] : $cat['description'];
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){

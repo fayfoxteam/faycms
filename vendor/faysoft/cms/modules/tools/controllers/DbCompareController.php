@@ -141,10 +141,10 @@ class DbCompareController extends ToolsController{
         }
         
         if(\F::session()->get('dbcompare')){
-            Response::redirect('cms/tools/db-compare/tables');
+            $this->response->redirect('cms/tools/db-compare/tables');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -152,7 +152,7 @@ class DbCompareController extends ToolsController{
      */
     public function clear(){
         \F::session()->remove('dbcompare');
-        Response::redirect('cms/tools/db-compare/index');
+        $this->response->redirect('cms/tools/db-compare/index');
     }
     
     /**
@@ -206,7 +206,7 @@ class DbCompareController extends ToolsController{
         //右侧数据库和左侧数据库表的“合集”
         $this->view->all_tables = $this->merge($this->view->right_tables, $this->view->left_tables);
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -243,7 +243,7 @@ class DbCompareController extends ToolsController{
         
         $this->view->all_fields = $this->merge($left_fields_simple, $right_fields_simple);
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

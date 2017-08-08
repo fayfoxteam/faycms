@@ -87,7 +87,7 @@ class TeamController extends FrontController{
         
         if($this->input->get('code')){
             //若是微信登录跳转后的页面，再跳一次，分享出去的链接有问题
-            Response::redirect('team/list', array(
+            $this->response->redirect('team/list', array(
                 'type'=>$type,
             ));
         }
@@ -165,7 +165,7 @@ class TeamController extends FrontController{
         if(Request::isAjax()){
             $this->view->renderPartial('ajax_list', $this->view->getViewData());
         }else{
-            $this->view->render();
+            return $this->view->render();
         }
     }
     
@@ -270,7 +270,7 @@ class TeamController extends FrontController{
             }
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

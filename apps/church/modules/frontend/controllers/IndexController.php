@@ -18,7 +18,7 @@ class IndexController extends FrontController{
     public function index(){
         $this->layout->page_title = 'Faycms';
         
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

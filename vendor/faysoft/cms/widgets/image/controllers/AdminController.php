@@ -14,7 +14,7 @@ class AdminController extends Widget{
     }
     
     public function index(){
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

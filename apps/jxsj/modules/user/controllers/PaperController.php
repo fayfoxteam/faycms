@@ -31,7 +31,7 @@ class PaperController extends UserController{
             'reload'=>$this->view->url('user/paper'),
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function item(){
@@ -62,7 +62,7 @@ class PaperController extends UserController{
             ),
         ));
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -87,7 +87,7 @@ class PaperController extends UserController{
             $paper_id=>false,
         ));
         
-        Response::redirect('user/exam/item', array(
+        $this->response->redirect('user/exam/item', array(
             'id'=>$exam_id,
         ));
     }

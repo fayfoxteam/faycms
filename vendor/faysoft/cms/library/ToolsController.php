@@ -6,7 +6,6 @@ use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
 use fay\core\Controller;
 use fay\core\HttpException;
-use fay\core\Response;
 use fay\core\Uri;
 use fay\helpers\LocalFileHelper;
 
@@ -57,7 +56,7 @@ class ToolsController extends Controller{
         
         //验证session中是否有值
         if(!UserService::service()->isAdmin()){
-            Response::redirect('cms/admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
+            $this->response->redirect('cms/admin/login/index', array('redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get()))));
         }
         
         if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){

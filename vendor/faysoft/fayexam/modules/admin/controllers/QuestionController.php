@@ -70,7 +70,7 @@ class QuestionController extends AdminController{
 
         //分类树
         $this->view->cats = CategoryService::service()->getTree('_system_exam_question');
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -144,7 +144,7 @@ class QuestionController extends AdminController{
         //分类树
         $this->view->cats = CategoryService::service()->getTree('_system_exam_question');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -311,7 +311,7 @@ class QuestionController extends AdminController{
             FlashService::set('已参与考试的试题不能改变试题类型且不可删除已被用户选过的选项', 'warning');
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){
@@ -357,7 +357,7 @@ class QuestionController extends AdminController{
             );
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function get(){

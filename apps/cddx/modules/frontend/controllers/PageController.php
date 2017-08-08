@@ -35,6 +35,6 @@ class PageController extends FrontController{
         $left_cats['children'] = $child_cats;
         $this->view->left_cats = $left_cats;
 
-        $this->view->render();
+        return $this->view->render();
     }
 }

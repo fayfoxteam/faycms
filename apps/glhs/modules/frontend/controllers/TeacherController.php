@@ -14,6 +14,6 @@ class TeacherController extends FrontController{
         //师资力量文章
         $this->view->teachers = \cms\services\post\CategoryService::service()->getPosts('teacher', 6, 'id,title,thumbnail');
         
-        $this->view->render();
+        return $this->view->render();
     }
 }

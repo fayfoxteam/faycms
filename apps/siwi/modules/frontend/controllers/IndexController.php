@@ -38,7 +38,7 @@ class IndexController extends FrontController{
         
         //由于widget在layout中，所以widget调用的时候无法引入css文件，故在此处提前引入
         $this->view->appendCss($this->view->url().'css/jquery.camera.css');
-        $this->view->render();
+        return $this->view->render();
     }
     
 }

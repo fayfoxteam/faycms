@@ -36,7 +36,7 @@ class RoleController extends AdminController{
         $listview = new ListView($sql);
         $listview->page_size = 15;
         $this->view->listview = $listview;
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function create(){
@@ -88,7 +88,7 @@ class RoleController extends AdminController{
         $this->view->actions = $actions_group;
         $this->view->cats = CategoryService::service()->getTree('_system_post');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -184,7 +184,7 @@ class RoleController extends AdminController{
         ));
         $this->view->cats = CategoryService::service()->getTree('_system_post');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function delete(){

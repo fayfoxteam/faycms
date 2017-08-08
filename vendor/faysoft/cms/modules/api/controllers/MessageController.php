@@ -6,6 +6,7 @@ use cms\models\tables\PostsTable;
 use cms\services\MessageService;
 use cms\services\user\UserService;
 use fay\core\HttpException;
+use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
@@ -299,7 +300,7 @@ class MessageController extends ApiController{
             }
         }
         
-        Response::json($result);
+        return new JsonResponse($result);
     }
     
     /**
@@ -339,7 +340,7 @@ class MessageController extends ApiController{
             $this->allowed_fields
         );
         
-        Response::json(MessageService::service()->getTree(
+        return new JsonResponse(MessageService::service()->getTree(
             $this->form()->getData('to_user_id'),
             $this->form()->getData('page_size', 20),
             $this->form()->getData('page', 1),
@@ -384,7 +385,7 @@ class MessageController extends ApiController{
             $this->allowed_fields
         );
         
-        Response::json(MessageService::service()->getChats(
+        return new JsonResponse(MessageService::service()->getChats(
             $this->form()->getData('to_user_id'),
             $this->form()->getData('page_size', 20),
             $this->form()->getData('page', 1),
@@ -424,7 +425,7 @@ class MessageController extends ApiController{
         }
         
         if($message){
-            Response::json($message);
+            return new JsonResponse($message);
         }else{
             throw new HttpException('留言ID不存在');
         }

@@ -40,7 +40,7 @@ class MethodController extends AdminController{
         ));
         $this->view->listview = $listview;
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -72,7 +72,7 @@ class MethodController extends AdminController{
             ));
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**
@@ -120,7 +120,7 @@ class MethodController extends AdminController{
             ));
         }
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     /**

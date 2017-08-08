@@ -10,7 +10,7 @@ class IndexController extends Controller{
     public function index(){
         
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function pic(){

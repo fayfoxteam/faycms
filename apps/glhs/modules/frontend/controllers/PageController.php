@@ -31,7 +31,7 @@ class PageController extends FrontController{
                 $this->layout->keywords = $page['seo_keywords'];
                 $this->layout->description = $page['seo_description'];
                 $this->layout->current_directory = $page['alias'];
-                $this->view->render();
+                return $this->view->render();
             }else{
                 throw new HttpException('别名不存在');
             }

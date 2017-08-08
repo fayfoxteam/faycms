@@ -76,7 +76,7 @@ class PostController extends UserController{
         }
         $this->view->cats = CategoryService::service()->getNextLevel('_blog');
         
-        $this->view->render();
+        return $this->view->render();
     }
     
     public function edit(){
@@ -176,6 +176,6 @@ class PostController extends UserController{
         $this->form()->setData(array('video'=>PostService::service()->getPropValueByAlias('siwi_blog_video', $post['id'])));
         
         $this->view->cats = CategoryService::service()->getNextLevel('_blog');
-        $this->view->render();
+        return $this->view->render();
     }
 }

@@ -17,7 +17,7 @@ class UserController extends FrontController{
         
         //验证session中是否有值
         if(!\F::session()->get('user.id')){
-            Response::redirect('login', array(
+            $this->response->redirect('login', array(
                 'redirect'=>base64_encode($this->view->url(Uri::getInstance()->router, $this->input->get())),
             ), false);
         }

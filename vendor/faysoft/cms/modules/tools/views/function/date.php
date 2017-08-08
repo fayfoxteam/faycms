@@ -71,6 +71,7 @@ $(function(){
         'strtotime': function(){
             $.ajax({
                 type: 'POST',
+                dataType: 'json',
                 url: system.url('cms/tools/function/strtotime'),
                 data: {
                     'dates': $('[name="dates"]').val()
@@ -92,6 +93,7 @@ $(function(){
         'datetime': function(){
             $.ajax({
                 type: 'POST',
+                dataType: 'json',
                 url: system.url('cms/tools/function/datetime'),
                 data: {
                     'timestamps': $('[name="timestamps"]').val()

@@ -9,7 +9,6 @@ use fay\core\Loader;
  *
  * @property int $id Id
  * @property int $cat_bid Cat Bid
- * @property int $cat_sid Cat Sid
  * @property int $website_id 网站ID
  * @property string $title Title
  * @property string $description Description
@@ -39,7 +38,7 @@ class GgTemplatesTable extends Table{
         return array(
             array(array('updated_ip', 'created_ip'), 'int', array('min'=>-2147483648, 'max'=>2147483647)),
             array(array('thumbnail', 'mobile_thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
-            array(array('id', 'cat_bid', 'cat_sid', 'website_id'), 'int', array('min'=>0, 'max'=>16777215)),
+            array(array('id', 'cat_bid', 'website_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('position'), 'int', array('min'=>0, 'max'=>65535)),
             array(array('status'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('title', 'author'), 'string', array('max'=>32)),
@@ -51,7 +50,6 @@ class GgTemplatesTable extends Table{
         return array(
             'id'=>'Id',
             'cat_bid'=>'Cat Bid',
-            'cat_sid'=>'Cat Sid',
             'website_id'=>'网站ID',
             'title'=>'Title',
             'description'=>'Description',
@@ -73,7 +71,6 @@ class GgTemplatesTable extends Table{
         return array(
             'id'=>'intval',
             'cat_bid'=>'intval',
-            'cat_sid'=>'intval',
             'website_id'=>'intval',
             'title'=>'trim',
             'description'=>'trim',

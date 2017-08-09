@@ -17,6 +17,7 @@ use cms\services\post\PostService;
 use cms\services\SettingService;
 use fay\common\ListView;
 use fay\core\HttpException;
+use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
@@ -851,7 +852,8 @@ class PostController extends AdminController{
             'title LIKE ?'=>'%'.$this->input->request('key', false).'%',
             'cat_id IN (?)'=>isset($cats) ? $cats : false,
         ), 'id,title', 'id DESC', 20);
-        Response::json($posts);
+        
+        return new JsonResponse($posts);
     }
     
     /**
@@ -870,7 +872,7 @@ class PostController extends AdminController{
             $data['reviewed'] = PostService::service()->getCount(PostsTable::STATUS_REVIEWED);
         }
         
-        Response::json($data);
+        return new JsonResponse($data);
     }
 
     /**

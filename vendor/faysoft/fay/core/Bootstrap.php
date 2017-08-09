@@ -93,12 +93,15 @@ class Bootstrap{
             ))){
                 if(is_object($content) && $content instanceof JsonResponse){
                     $response->setStatusCode($content->getHttpCode());
-                    $response->setData(array(
-                        'callback'=>$content->getCallback(),
-                        'data'=>$content->toArray(),
-                    ));
+                    
                     if($content->getCallback()){
-                        $response->setFormat(Response::FORMAT_JSONP);
+                        $response->setFormat(Response::FORMAT_JSONP)
+                            ->setData(array(
+                                'callback'=>$content->getCallback(),
+                                'data'=>$content->toArray(),
+                            ));
+                    }else{
+                        $response->setData($content->toArray());
                     }
                 }else{
                     $response->setData($content);

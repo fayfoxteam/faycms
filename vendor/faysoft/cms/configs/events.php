@@ -59,4 +59,52 @@
  *     }
  * }
  */
-return array();
+return array(
+    \fay\core\Response::EVENT_BEFORE_SEND => array(
+        array(
+            /**
+             * 若开启debug，则在返回中插入debug信息
+             */
+            'handler'=>function($data){
+                /**
+                 * @var $response \fay\core\Response
+                 */
+                $response = isset($data['response']) ? $data['response'] : \F::app()->response;
+                if(\F::config()->get('debug')){
+                    $format = $response->getFormat();
+                    if(in_array($format, array(\fay\core\Response::FORMAT_JSON, \fay\core\Response::FORMAT_JSONP))){
+                        //若是JSON，在返回结构中追加_debug信息
+                        $data = $response->getData();
+                        if(isset($data['status'])){
+                            //认为是系统标准返回JSON格式，附加debug信息
+                            $sqls = \fay\core\Db::getInstance()->getSqlLogs();
+                            $sql_formats = array();
+                            $sql_time = 0;
+                            foreach($sqls as &$s){
+                                $sql_formats[] = array(
+                                    'time'=>\fay\helpers\StringHelper::money($s[2] * 1000).'ms',
+                                    'sql'=>\fay\helpers\SqlHelper::bind($s[0], $s[1]),
+                                );
+                                $sql_time += $s[2];
+                            }
+                            
+                            $data['_debug'] = array(
+                                'sqls'=>$sql_formats,
+                                'sql_time'=>\fay\helpers\StringHelper::money($sql_time * 1000).'ms',
+                                'php_time'=>\fay\helpers\StringHelper::money((microtime(true) - START) * 1000).'ms',
+                                'memory'=>round(memory_get_usage()/1024, 2).'KB',
+                            );
+                            
+                            $response->setData($data);
+                        }
+                    }else if($format == \fay\core\Response::FORMAT_HTML){
+                        //若是html，在默认追加debug信息
+                        $html = $response->getContent();
+                        $html .= \F::app()->view->renderPartial('common/_debug');
+                        $response->setContent($html);
+                    }
+                }
+            },
+        )
+    )
+);

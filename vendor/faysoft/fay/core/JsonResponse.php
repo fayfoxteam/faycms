@@ -75,7 +75,7 @@ class JsonResponse{
     /**
      * @return int
      */
-    public function getStatus(): int{
+    public function getStatus(){
         return $this->status;
     }
 
@@ -83,7 +83,7 @@ class JsonResponse{
      * @param int $status
      * @return $this
      */
-    public function setStatus(int $status){
+    public function setStatus($status){
         $this->status = $status ? 1 : 0;
         return $this;
     }
@@ -91,7 +91,7 @@ class JsonResponse{
     /**
      * @return string
      */
-    public function getMessage(): string{
+    public function getMessage(){
         return $this->message;
     }
 
@@ -107,7 +107,7 @@ class JsonResponse{
     /**
      * @return string
      */
-    public function getCode(): string{
+    public function getCode(){
         return $this->code;
     }
 
@@ -123,7 +123,7 @@ class JsonResponse{
     /**
      * @return string
      */
-    public function getData(): string{
+    public function getData(){
         return $this->data;
     }
 

@@ -205,6 +205,13 @@ class Response{
     }
 
     /**
+     * @return mixed
+     */
+    public function getData(){
+        return $this->data;
+    }
+
+    /**
      * 设置返回文本
      * @param string $content
      * @return $this
@@ -212,6 +219,13 @@ class Response{
     public function setContent($content){
         $this->content = $content;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(){
+        return $this->content;
     }
 
     /**
@@ -275,7 +289,8 @@ class Response{
         $this->sendHeaders();
         $this->sendContent();
         \F::event()->trigger(self::EVENT_AFTER_SEND, array(
-            'response'=>$this,
+            'respo
+            nse'=>$this,
         ));
         $this->is_sent = true;
     }

@@ -21,7 +21,8 @@ class IndexController extends Widget{
     public function change(){
         if($this->input->post('app')){
             setcookie('__app', $this->input->post('app'), null, '/');
-            $this->response->redirect('cms/admin/index/index');
+            \F::app()->response->redirect('cms/admin/index/index')
+                ->send();
         }
     }
 }

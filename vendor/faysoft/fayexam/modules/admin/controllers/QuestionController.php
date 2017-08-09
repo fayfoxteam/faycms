@@ -436,7 +436,7 @@ class QuestionController extends AdminController{
             $d['question'] = strip_tags($d['question'], '<u>');
         }
         
-        echo Response::json(array(
+        Response::json(array(
             'questions'=>$data,
             'pager'=>$listview->getPager(),
         ));

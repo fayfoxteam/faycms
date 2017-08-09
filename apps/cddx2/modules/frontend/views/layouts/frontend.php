@@ -28,10 +28,10 @@ system.user_id = '<?php echo \F::app()->current_user?>';
 </script>
 </head>
 <body>
-<?php $this->renderPartial('layouts/_header')?>
+<?php echo $this->renderPartial('layouts/_header')?>
 <div class="w1000 g-con">
     <?php echo $content?>
 </div>
-<?php $this->renderPartial('layouts/_footer')?>
+<?php echo $this->renderPartial('layouts/_footer')?>
 </body>
 </html>

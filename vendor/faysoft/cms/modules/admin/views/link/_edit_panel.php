@@ -63,7 +63,7 @@ use fay\helpers\HtmlHelper;
 <?php }?>
 <div class="form-field">
     <label class="title bold">Logo</label>
-    <?php $this->renderPartial('file/_upload_image', array(
+    <?php echo $this->renderPartial('file/_upload_image', array(
         'field'=>'logo',
         'cat'=>'link',
         'label'=>'Logo',

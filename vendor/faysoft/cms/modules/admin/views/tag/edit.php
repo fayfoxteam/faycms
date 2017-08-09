@@ -6,14 +6,14 @@
 <div class="row">
     <div class="col-6">
         <?php echo F::form()->open(array('cms/admin/tag/edit', F::input()->get()))?>
-            <?php $this->renderPartial('_edit_panel');?>
+            <?php echo $this->renderPartial('_edit_panel');?>
             <div class="form-field">
                 <a href="javascript:" class="btn" id="form-submit">编辑标签</a>
             </div>
         <?php echo F::form()->close()?>
     </div>
     <div class="col-6">
-        <?php $this->renderPartial('_right', array(
+        <?php echo $this->renderPartial('_right', array(
             'listview'=>$listview
         ));?>
     </div>

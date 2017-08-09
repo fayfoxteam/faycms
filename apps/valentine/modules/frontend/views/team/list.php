@@ -71,7 +71,7 @@ $this->appendCss($this->assets('css/font-awesome.min.css'));
 </div>
 <div class="vote-list">
     <?php foreach($teams as $data){
-        $this->renderPartial('_list_item', array(
+        echo $this->renderPartial('_list_item', array(
             'data'=>$data,
             'end_time'=>$end_time,
             'access_token'=>$access_token,

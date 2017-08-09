@@ -11,7 +11,7 @@ echo F::form()->open();
                 'class'=>'form-control bigtxt',
                 'placeholder'=>'试卷名称',
             ))?></div>
-            <?php $this->renderPartial('_box_description')?>
+            <?php echo $this->renderPartial('_box_description')?>
         </div>
         <div class="postbox-container-1">
             <div class="box" id="box-operation">
@@ -29,18 +29,18 @@ echo F::form()->open();
                     </div>
                 </div>
             </div>
-            <?php $this->renderPartial('_box_category', $this->getViewData())?>
-            <?php $this->renderPartial('_box_total_score', $this->getViewData())?>
-            <?php $this->renderPartial('_box_repeatedly', $this->getViewData())?>
-            <?php $this->renderPartial('_box_time_slot', $this->getViewData())?>
+            <?php echo $this->renderPartial('_box_category', $this->getViewData())?>
+            <?php echo $this->renderPartial('_box_total_score', $this->getViewData())?>
+            <?php echo $this->renderPartial('_box_repeatedly', $this->getViewData())?>
+            <?php echo $this->renderPartial('_box_time_slot', $this->getViewData())?>
         </div>
         <div class="postbox-container-2">
-            <?php $this->renderPartial('_box_questions', $this->getViewData())?>
+            <?php echo $this->renderPartial('_box_questions', $this->getViewData())?>
         </div>
     </div>
 </div>
 <?php echo F::form()->close()?>
-<?php $this->renderPartial('_dialog', array(
+<?php echo $this->renderPartial('_dialog', array(
     'question_cats'=>$question_cats,
 ))?>
 <script src="<?php echo $this->assets('fayexam/js/paper.js')?>"></script>

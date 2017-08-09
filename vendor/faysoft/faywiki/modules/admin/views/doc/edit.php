@@ -94,9 +94,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                         $k = array_search($box, $boxes_cp);
                         if($k !== false){
                             if(isset(F::app()->boxes[$k]['view'])){
-                                $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
+                                echo $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
                             }else{
-                                $this->renderPartial('_box_'.$box, $this->getViewData());
+                                echo $this->renderPartial('_box_'.$box, $this->getViewData());
                             }
                             unset($boxes_cp[$k]);
                         }
@@ -110,9 +110,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                     $k = array_search($box, $boxes_cp);
                     if($k !== false){
                         if(isset(F::app()->boxes[$k]['view'])){
-                            $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
+                            echo $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
                         }else{
-                            $this->renderPartial('_box_'.$box, $this->getViewData());
+                            echo $this->renderPartial('_box_'.$box, $this->getViewData());
                         }
                         unset($boxes_cp[$k]);
                     }
@@ -122,9 +122,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
             //最后多出来的都放最后面
             foreach($boxes_cp as $box){
                 if(isset(F::app()->boxes[$k]['view'])){
-                    $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
+                    echo $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
                 }else{
-                    $this->renderPartial('_box_'.$box, $this->getViewData());
+                    echo $this->renderPartial('_box_'.$box, $this->getViewData());
                 }
             }
         ?></div>

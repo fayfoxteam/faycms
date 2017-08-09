@@ -91,7 +91,7 @@ function showCats($cats, $dep = 0, $open_dep = 2){?>
         </div>
     </div>
 </div>
-<?php $this->renderPartial('cms/admin/category/_common', array(
+<?php echo $this->renderPartial('cms/admin/category/_common', array(
     'root'=>0,
     'cats'=>$cats,
     'group_key'=>'app_id',

@@ -6,7 +6,7 @@
             </ul>
             <div class="tab-content">
                 <div id="storage-qiniu" class="tab-pane p5">
-                    <?php $this->renderPartial('_storage_qiniu')?>
+                    <?php echo $this->renderPartial('_storage_qiniu')?>
                 </div>
             </div>
         </div>

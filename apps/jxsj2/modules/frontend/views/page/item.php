@@ -6,7 +6,7 @@ use fay\helpers\HtmlHelper;
 </div>
 <div class="w1000 clearfix bg-white">
     <div class="w230 fl">
-        <?php //$this->renderPartial('common/_login_panel')?>
+        <?php //echo $this->renderPartial('common/_login_panel')?>
         <?php \F::widget()->load('newest-posts')?>
         <?php \F::widget()->load('friendlinks')?>
     </div>

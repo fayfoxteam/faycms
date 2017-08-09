@@ -58,4 +58,4 @@ function showCats($cats, $dep = 0){?>
     <div class="clear"></div>
 </div>
 
-<?php $this->renderPartial('admin/category/_common');?>
+<?php echo $this->renderPartial('admin/category/_common');?>

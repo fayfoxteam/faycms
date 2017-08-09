@@ -6,7 +6,7 @@
         <h4>缩略图</h4>
     </div>
     <div class="box-content">
-        <?php $this->renderPartial('file/_upload_image', array(
+        <?php echo $this->renderPartial('file/_upload_image', array(
             'cat'=>'page',
         ))?>
     </div>

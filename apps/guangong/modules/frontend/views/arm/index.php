@@ -39,18 +39,18 @@ $this->appendCss($this->appAssets('css/arm.css'));
             </div>
         </div>
         <?php
-            $this->renderPartial('_defence_slides', array(
+            echo $this->renderPartial('_defence_slides', array(
                 'defence'=>$defence,
                 'user_extra'=>$user_extra,
             ));
-            $this->renderPartial('_arm_slides', array(
+            echo $this->renderPartial('_arm_slides', array(
                 'arm'=>$arm
             ));
-            $this->renderPartial('_hour_slides', array(
+            echo $this->renderPartial('_hour_slides', array(
                 'hour'=>$hour
             ));
-            $this->renderPartial('_info_slides');
-            $this->renderPartial('_job_slides', array(
+            echo $this->renderPartial('_info_slides');
+            echo $this->renderPartial('_job_slides', array(
                 'user'=>$user,
                 'next_post'=>$next_post,
                 'js_sdk_config'=>$js_sdk_config,
@@ -58,26 +58,26 @@ $this->appendCss($this->appAssets('css/arm.css'));
         ?>
     </div>
 </div>
-<?php $this->renderPartial('_js')?>
+<?php echo $this->renderPartial('_js')?>
 <?php
-    $this->renderPartial('_arm_dialog', array(
+    echo $this->renderPartial('_arm_dialog', array(
         'arm'=>$arm
     ));
-    $this->renderPartial('_hour_dialog', array(
+    echo $this->renderPartial('_hour_dialog', array(
         'hour'=>$hour
     ));
-    $this->renderPartial('_rank_dialog');
-    $this->renderPartial('_defence_dialog', array(
+    echo $this->renderPartial('_rank_dialog');
+    echo $this->renderPartial('_defence_dialog', array(
         'defence'=>$defence,
     ));
-    $this->renderPartial('_attendance_dialog', array(
+    echo $this->renderPartial('_attendance_dialog', array(
         'user'=>$user,
         'attendances'=>$attendances,
         'sign_up_days'=>$sign_up_days,
     ));
-    $this->renderPartial('_read_dialog', array(
+    echo $this->renderPartial('_read_dialog', array(
         'read_count'=>$read_count,
     ));
-    $this->renderPartial('_post_dialog');
-    $this->renderPartial('_unregister_dialog');
+    echo $this->renderPartial('_post_dialog');
+    echo $this->renderPartial('_unregister_dialog');
 ?>

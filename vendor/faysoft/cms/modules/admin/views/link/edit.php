@@ -1,5 +1,5 @@
 <?php echo F::form()->open()?>
-    <?php $this->renderPartial('_edit_panel', array(
+    <?php echo $this->renderPartial('_edit_panel', array(
         'cats'=>$cats,
     ))?>
     <div class="form-field">

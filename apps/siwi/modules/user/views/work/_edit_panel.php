@@ -4,23 +4,23 @@ use fay\helpers\HtmlHelper;
 <div class="clearfix">
     <div class="half-left">
     <?php
-        $this->renderPartial('editor/_field_title');
-        $this->renderPartial('editor/_field_cat');
-        $this->renderPartial('editor/_field_tags');
-        $this->renderPartial('editor/_field_copyright');
+        echo $this->renderPartial('editor/_field_title');
+        echo $this->renderPartial('editor/_field_cat');
+        echo $this->renderPartial('editor/_field_tags');
+        echo $this->renderPartial('editor/_field_copyright');
     ?>
     </div>
     <div class="half-right">
         <?php
-        $this->renderPartial('editor/_field_video');
-        $this->renderPartial('editor/_field_file');
-        $this->renderPartial('editor/_field_abstract');
+        echo $this->renderPartial('editor/_field_video');
+        echo $this->renderPartial('editor/_field_file');
+        echo $this->renderPartial('editor/_field_abstract');
     ?>
     </div>
 </div>
 <div class="clearfix">
     <div class="gold-left">
-        <?php $this->renderPartial('editor/_field_thumbnail');?>
+        <?php echo $this->renderPartial('editor/_field_thumbnail');?>
     </div>
     <div class="gold-right">
         <fieldset class="form-field">

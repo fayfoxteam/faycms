@@ -79,7 +79,7 @@ function showCats($cats, $dep = 0){?>
     </div>
 </div>
 
-<?php $this->renderPartial('category/_common', array(
+<?php echo $this->renderPartial('category/_common', array(
     'root'=>$root,
     'cats'=>$cats,
 ));?>

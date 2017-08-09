@@ -26,7 +26,7 @@
         <?php echo F::form()->close()?>
     </div>
     <div class="col-7">
-        <?php $this->renderPartial('_right', array(
+        <?php echo $this->renderPartial('_right', array(
             'listview'=>$listview,
         ));?>
     </div>

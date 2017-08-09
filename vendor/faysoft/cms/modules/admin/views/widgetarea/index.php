@@ -23,7 +23,7 @@ $show_alias = F::form('setting')->getData('show_alias', 0);
             <?php
             if(isset($relate_widget_map[$wa['id']])){
                 foreach($relate_widget_map[$wa['id']] as $relate_widget_id){
-                    $this->renderPartial('_widget_item', array(
+                    echo $this->renderPartial('_widget_item', array(
                         'widget'=>$widget_map[$relate_widget_id],
                         'show_alias'=>$show_alias,
                         'widget_area_id'=>$wa['id'],
@@ -42,7 +42,7 @@ $show_alias = F::form('setting')->getData('show_alias', 0);
                 if(in_array($widget['id'], $relate_widget_ids)){
                     continue;
                 }
-                $this->renderPartial('_widget_item', array(
+                echo $this->renderPartial('_widget_item', array(
                     'widget'=>$widget,
                     'show_alias'=>$show_alias,
                     'widget_area_id'=>0,

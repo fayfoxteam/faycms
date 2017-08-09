@@ -67,7 +67,7 @@ use fay\helpers\HtmlHelper;
                     </tr>
                     <tr>
                         <th valign="top" class="adaption">插图</th>
-                        <td><?php $this->renderPartial('file/_upload_image', array(
+                        <td><?php echo $this->renderPartial('file/_upload_image', array(
                             'cat'=>'cat',
                             'field'=>'file_id',
                             'preview_image_width'=>'thumbnail',
@@ -162,7 +162,7 @@ use fay\helpers\HtmlHelper;
                     </tr>
                     <tr>
                         <th valign="top" class="adaption">插图</th>
-                        <td><?php $this->renderPartial('file/_upload_image', array(
+                        <td><?php echo $this->renderPartial('file/_upload_image', array(
                             'cat'=>'cat',
                             'field'=>'file_id',
                             'preview_image_width'=>'thumbnail',

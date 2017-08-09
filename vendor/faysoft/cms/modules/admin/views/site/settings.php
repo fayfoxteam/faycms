@@ -9,16 +9,16 @@
             </ul>
             <div class="tab-content">
                 <div id="settings-options" class="tab-pane p5">
-                    <?php $this->renderPartial('_settings_options')?>
+                    <?php echo $this->renderPartial('_settings_options')?>
                 </div>
                 <div id="settings-system" class="tab-pane p5 hide">
-                    <?php $this->renderPartial('_settings_system')?>
+                    <?php echo $this->renderPartial('_settings_system')?>
                 </div>
                 <div id="settings-sitemap" class="tab-pane p5 hide">
-                    <?php $this->renderPartial('_settings_sitemap')?>
+                    <?php echo $this->renderPartial('_settings_sitemap')?>
                 </div>
                 <div id="settings-email" class="tab-pane p5 hide">
-                    <?php $this->renderPartial('_settings_email')?>
+                    <?php echo $this->renderPartial('_settings_email')?>
                 </div>
             </div>
         </div>

@@ -62,13 +62,13 @@ $col_left_count = floor($action_cat_count / 2);
             </ul>
             <div class="tab-content">
                 <div id="action-panel" class="tab-pane p5">
-                    <?php $this->renderPartial('_action_panel', array(
+                    <?php echo $this->renderPartial('_action_panel', array(
                         'col_left_count'=>$col_left_count,
                         'actions'=>$actions,
                     ))?>
                 </div>
                 <div id="cats-panel" class="tab-pane p5">
-                    <?php $this->renderPartial('_cat_panel', array(
+                    <?php echo $this->renderPartial('_cat_panel', array(
                         'cats'=>$cats,
                     ))?>
                 </div>

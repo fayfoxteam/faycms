@@ -9,7 +9,7 @@
         <h4>附加属性</h4>
     </div>
     <div class="box-content">
-    <?php $this->renderPartial('prop/_edit', array(
+    <?php echo $this->renderPartial('prop/_edit', array(
         'prop_set'=>$prop_set,
     ))?>
     </div>

@@ -64,7 +64,7 @@ function showCats($cats, $dep = 0){?>
         </div>
     </div>
 </div>
-<?php $this->renderPartial('cms/admin/category/_common');?>
+<?php echo $this->renderPartial('cms/admin/category/_common');?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
 <script>
     $(function(){

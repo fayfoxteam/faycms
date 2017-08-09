@@ -6,13 +6,13 @@
 <?php echo F::form()->open()?>
 <div class="row">
     <div class="col-6">
-        <?php $this->renderPartial('_edit_panel', array(
+        <?php echo $this->renderPartial('_edit_panel', array(
             'roles'=>$roles,
             'user'=>$user,
         ))?>
     </div>
     <div class="col-6" id="prop-panel">
-        <?php $this->renderPartial('prop/_edit', array(
+        <?php echo $this->renderPartial('prop/_edit', array(
             'prop_set'=>$prop_set,
         ))?>
     </div>

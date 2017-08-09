@@ -66,7 +66,7 @@ class PostController extends ApiController{
         
         $post = PostService::service()->get($id, $fields, $cat);
         if($post){
-            return return Response::json($post);
+            return Response::json($post);
         }else{
             throw new HttpException('您访问的页面不存在');
         }

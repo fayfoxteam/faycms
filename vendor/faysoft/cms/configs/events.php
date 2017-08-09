@@ -80,7 +80,7 @@ return array(
                             $sqls = \fay\core\Db::getInstance()->getSqlLogs();
                             $sql_formats = array();
                             $sql_time = 0;
-                            foreach($sqls as &$s){
+                            foreach($sqls as $s){
                                 $sql_formats[] = array(
                                     'time'=>\fay\helpers\StringHelper::money($s[2] * 1000).'ms',
                                     'sql'=>\fay\helpers\SqlHelper::bind($s[0], $s[1]),

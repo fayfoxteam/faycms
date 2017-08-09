@@ -8,7 +8,7 @@ echo F::form()->open();
 <div class="poststuff">
     <div class="post-body">
         <div class="post-body-content">
-            <?php $this->renderPartial('_box_question')?>
+            <?php echo $this->renderPartial('_box_question')?>
             <div class="box" id="box-answers">
                 <div class="box-title">
                     <h4>答案</h4>
@@ -84,12 +84,12 @@ echo F::form()->open();
                     </div>
                 </div>
             </div>
-            <?php $this->renderPartial('_box_type')?>
-            <?php $this->renderPartial('_box_category', array(
+            <?php echo $this->renderPartial('_box_type')?>
+            <?php echo $this->renderPartial('_box_category', array(
                 'cats'=>$cats,
             ))?>
-            <?php $this->renderPartial('_box_score')?>
-            <?php $this->renderPartial('_box_sort')?>
+            <?php echo $this->renderPartial('_box_score')?>
+            <?php echo $this->renderPartial('_box_sort')?>
         </div>
     </div>
 </div>

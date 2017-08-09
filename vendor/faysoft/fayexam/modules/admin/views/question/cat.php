@@ -64,4 +64,4 @@ function showCats($cats, $dep = 0){?>
         </div>
     </div>
 </div>
-<?php $this->renderPartial('cms/admin/category/_common');?>
+<?php echo $this->renderPartial('cms/admin/category/_common');?>

@@ -46,7 +46,7 @@
         </div>
     </div>
 </div>
-<?php $this->renderPartial('_js')?>
+<?php echo $this->renderPartial('_js')?>
 <script>
 $('#jiangjunmiling-link').on('click', function(){
     if($('#recruit-42').find('[name="mobile"]').val() == ''){

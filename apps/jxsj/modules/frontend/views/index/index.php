@@ -12,8 +12,8 @@ use cms\services\file\FileService;
 <div class="g-con">
     <div class="w1000 clearfix bg-white">
         <div class="w300 fr">
-            <?php $this->renderPartial('common/_login_panel')?>
-            <?php //$this->renderPartial('common/_contact')?>
+            <?php echo $this->renderPartial('common/_login_panel')?>
+            <?php //echo $this->renderPartial('common/_contact')?>
             <?php //F::widget()->load('friendlinks')?>
             <div class="box" id="quick-guide">
                 <div class="box-title">

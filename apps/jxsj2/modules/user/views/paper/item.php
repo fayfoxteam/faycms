@@ -17,25 +17,25 @@ use fay\helpers\HtmlHelper;
                     <?php foreach($paper['questions'] as $index => $eq){
                         switch($eq['type']){
                             case ExamQuestionsTable::TYPE_SINGLE_ANSWER:
-                                $this->renderPartial('_question_single_answer', array(
+                                echo $this->renderPartial('_question_single_answer', array(
                                     'index'=>$index,
                                     'question'=>$eq,
                                 ));
                             break;
                             case ExamQuestionsTable::TYPE_TRUE_OR_FALSE:
-                                $this->renderPartial('_question_true_or_false', array(
+                                echo $this->renderPartial('_question_true_or_false', array(
                                     'index'=>$index,
                                     'question'=>$eq,
                                 ));
                             break;
                             case ExamQuestionsTable::TYPE_MULTIPLE_ANSWERS:
-                                $this->renderPartial('_question_multiple_answer', array(
+                                echo $this->renderPartial('_question_multiple_answer', array(
                                     'index'=>$index,
                                     'question'=>$eq,
                                 ));
                             break;
                             case ExamQuestionsTable::TYPE_INPUT:
-                                $this->renderPartial('_question_input', array(
+                                echo $this->renderPartial('_question_input', array(
                                     'index'=>$index,
                                     'question'=>$eq,
                                 ));

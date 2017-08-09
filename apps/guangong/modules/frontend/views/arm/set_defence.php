@@ -7,7 +7,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 ?>
 <div class="swiper-container">
     <div class="swiper-wrapper">
-        <?php $this->renderPartial('_steps')?>
+        <?php echo $this->renderPartial('_steps')?>
         <div class="swiper-slide" id="arm-3">
             <div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
             <div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
@@ -36,7 +36,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
                 <p>关羽军团所募兵员驻守防区采取随机分配的原则，由手机摇一摇自行确定，分别驻守南郡（湖北荆州）、武陵郡（湖南常德）、零陵郡（湖南永州）防区</p>
             </div>
         </div>
-        <?php $this->renderPartial('_steps')?>
+        <?php echo $this->renderPartial('_steps')?>
     </div>
 </div>
-<?php $this->renderPartial('_js')?>
+<?php echo $this->renderPartial('_js')?>

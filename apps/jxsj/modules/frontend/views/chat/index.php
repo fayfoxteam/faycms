@@ -13,7 +13,7 @@ use fay\helpers\HtmlHelper;
             'order'=>'publish_time',
             'template'=>'frontend/widget/category_posts',
         ));
-        $this->renderPartial('common/_login_panel')?>
+        echo $this->renderPartial('common/_login_panel')?>
     </div>
     <div class="ml240">
         <div class="box fr wp100">

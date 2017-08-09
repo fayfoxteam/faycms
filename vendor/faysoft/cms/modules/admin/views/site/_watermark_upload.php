@@ -56,7 +56,7 @@ use fay\helpers\HtmlHelper;
             <div class="watermark-form-image-panel <?php if($type == 'text') echo 'hide'?>">
                 <div class="form-field">
                     <label class="title bold">水印图片</label>
-                    <?php $this->renderPartial('file/_upload_image', array(
+                    <?php echo $this->renderPartial('file/_upload_image', array(
                         'field'=>'watermark:upload:image',
                         'label'=>'水印图片',
                         'remove_text'=>'',

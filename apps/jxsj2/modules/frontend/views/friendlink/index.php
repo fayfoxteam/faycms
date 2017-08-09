@@ -10,7 +10,7 @@
             'order'=>'views',
             'template'=>'frontend/widget/category_posts',
         ));
-        //$this->renderPartial('common/_login_panel')?>
+        //echo $this->renderPartial('common/_login_panel')?>
     </div>
     <div class="ml240">
         <div class="box category-post">

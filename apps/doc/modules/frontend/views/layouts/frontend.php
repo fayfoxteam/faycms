@@ -25,7 +25,7 @@ system.base_url = '<?php echo $this->url()?>';
 </head>
 <body>
 <div class="wrapper">
-    <?php $this->renderPartial('layouts/_sidebar_menu')?>
+    <?php echo $this->renderPartial('layouts/_sidebar_menu')?>
     <div class="main-content">
         <div class="cf main-title">
             <h1 class="fl"><?php echo isset($page_title) ? $page_title : ''?></h1>
@@ -41,7 +41,7 @@ system.base_url = '<?php echo $this->url()?>';
             <?php }?>
         </div>
         <div class="main-content-inner"><?php echo $content?></div>
-        <?php $this->renderPartial('layouts/_footer')?>
+        <?php echo $this->renderPartial('layouts/_footer')?>
     </div>
 </div>
 <script type="text/javascript" src="<?php echo $this->appAssets('js/common.js')?>"></script>

@@ -17,21 +17,21 @@ $this->appendCss($this->assets('css/font-awesome.css'));
         <div class="swiper-slide" id="recruit-2">
             <div class="layer text"><img src="<?php echo $this->appAssets('images/recruit/2.png')?>"></div>
         </div>
-        <?php $this->renderPartial('_steps')?>
-        <?php $this->renderPartial('_step1')?>
-        <?php $this->renderPartial('_step2')?>
-        <?php $this->renderPartial('_step3', array(
+        <?php echo $this->renderPartial('_steps')?>
+        <?php echo $this->renderPartial('_step1')?>
+        <?php echo $this->renderPartial('_step2')?>
+        <?php echo $this->renderPartial('_step3', array(
             'user'=>$user,
             'user_extra'=>$user_extra,
             'states'=>$states,
             'js_sdk_config'=>$js_sdk_config,
             'access_token'=>$access_token,
         ))?>
-        <?php $this->renderPartial('_step4', array(
+        <?php echo $this->renderPartial('_step4', array(
             'user'=>$user,
             'arm'=>$arm,
             'user_extra'=>$user_extra,
         ))?>
     </div>
 </div>
-<?php $this->renderPartial('_js')?>
+<?php echo $this->renderPartial('_js')?>

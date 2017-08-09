@@ -23,5 +23,5 @@ $this->appendCss($this->appAssets('css/ranks.css'));
     </div>
 </div>
 <?php
-$this->renderPartial('arm/_rank_dialog');
+echo $this->renderPartial('arm/_rank_dialog');
 ?>

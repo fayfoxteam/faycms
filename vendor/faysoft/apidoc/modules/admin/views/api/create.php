@@ -17,7 +17,7 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                 'class'=>'form-control bigtxt',
                 'placeholder'=>'在此键入标题',
             ))?></div>
-            <div class="mb30 cf"><?php $this->renderPartial('_description')?></div>
+            <div class="mb30 cf"><?php echo $this->renderPartial('_description')?></div>
         </div>
         <div class="postbox-container-1 dragsort" id="side">
             <div class="box operation" id="box-operation">
@@ -46,9 +46,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                         $k = array_search($box, $boxes_cp);
                         if($k !== false){
                             if(isset(F::app()->boxes[$k]['view'])){
-                                $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
+                                echo $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
                             }else{
-                                $this->renderPartial('_box_'.$box, $this->getViewData());
+                                echo $this->renderPartial('_box_'.$box, $this->getViewData());
                             }
                             unset($boxes_cp[$k]);
                         }
@@ -62,9 +62,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
                     $k = array_search($box, $boxes_cp);
                     if($k !== false){
                         if(isset(F::app()->boxes[$k]['view'])){
-                            $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
+                            echo $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
                         }else{
-                            $this->renderPartial('_box_'.$box, $this->getViewData());
+                            echo $this->renderPartial('_box_'.$box, $this->getViewData());
                         }
                         unset($boxes_cp[$k]);
                     }
@@ -74,9 +74,9 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
             //最后多出来的都放最后面
             foreach($boxes_cp as $k=>$box){
                 if(isset(F::app()->boxes[$k]['view'])){
-                    $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
+                    echo $this->renderPartial(F::app()->boxes[$k]['view'], $this->getViewData());
                 }else{
-                    $this->renderPartial('_box_'.$box, $this->getViewData());
+                    echo $this->renderPartial('_box_'.$box, $this->getViewData());
                 }
             }
         ?></div>
@@ -87,13 +87,13 @@ $boxes_cp = $enabled_boxes;//复制一份出来，因为后面会不停的被uns
 //这几个dialog不能放到box里去，因为存在form嵌套问题
 //输入参数编辑窗
 if(in_array('inputs', $enabled_boxes)){
-    $this->renderPartial('_add_input_parameter_dialog');
-    $this->renderPartial('_edit_input_parameter_dialog');
+    echo $this->renderPartial('_add_input_parameter_dialog');
+    echo $this->renderPartial('_edit_input_parameter_dialog');
 }
 //输出参数编辑窗
 if(in_array('outputs', $enabled_boxes)){
-    $this->renderPartial('_add_output_dialog');
-    $this->renderPartial('_edit_output_dialog');
+    echo $this->renderPartial('_add_output_dialog');
+    echo $this->renderPartial('_edit_output_dialog');
 }
 ?>
 <script type="text/javascript" src="<?php echo $this->assets('apidoc/js/api.js')?>"></script>

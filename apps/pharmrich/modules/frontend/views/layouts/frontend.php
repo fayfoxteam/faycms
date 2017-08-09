@@ -41,11 +41,11 @@ $(function(){
 <title><?php if(!empty($title))echo $title . ' | '?><?php echo OptionService::get('site:sitename')?></title>
 </head>
 <body>
-<?php $this->renderPartial('layouts/_header', array(
+<?php echo $this->renderPartial('layouts/_header', array(
     'current_header_menu'=>$current_header_menu,
 ));?>
 <?php echo $content?>
-<?php $this->renderPartial('layouts/_footer');?>
+<?php echo $this->renderPartial('layouts/_footer');?>
 <script type="text/javascript" src="<?php echo $this->assets('faycms/js/analyst.min.js')?>"></script>
 <script>_fa.init();</script>
 

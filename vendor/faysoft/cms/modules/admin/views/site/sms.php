@@ -6,7 +6,7 @@
             </ul>
             <div class="tab-content">
                 <div id="sms-ucpaas" class="tab-pane p5">
-                    <?php $this->renderPartial('_sms_ucpaas')?>
+                    <?php echo $this->renderPartial('_sms_ucpaas')?>
                 </div>
             </div>
         </div>

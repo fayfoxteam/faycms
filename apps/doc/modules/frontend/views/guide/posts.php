@@ -12,7 +12,7 @@ if(count($posts) > 2){
         ));
     }
     
-    $this->renderPartial('_panel', array(
+    echo $this->renderPartial('_panel', array(
         'title'=>'目录',
         'body'=>'<ul>'.$panel_body.'</ul>',
     ));
@@ -28,7 +28,7 @@ foreach($posts as $p){
             }
         }
     }
-    $this->renderPartial('_panel', array(
+    echo $this->renderPartial('_panel', array(
         'id'=>$p['id'],
         'title'=>$p['title'],
         'body'=>Post::formatContent($p),

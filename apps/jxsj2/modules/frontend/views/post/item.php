@@ -17,7 +17,7 @@ use cms\services\file\FileService;
             'template'=>'frontend/widget/category_posts',
         ));
         //登录框
-        //$this->renderPartial('common/_login_panel')?>
+        //echo $this->renderPartial('common/_login_panel')?>
     </div>
     <div class="ml240">
         <div class="box" id="post-item">

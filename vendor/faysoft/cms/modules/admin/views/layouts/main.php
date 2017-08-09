@@ -64,7 +64,7 @@ use fay\helpers\HtmlHelper;
                             'class'=>'dialog hide',
                         ),
                         'prepend'=>'<h4>帮助</h4>',
-                    ), $this->renderPartial($_help_panel, $this->getViewData(), -1, true));
+                    ), $this->renderPartial($_help_panel, $this->getViewData(), -1));
                 }
                 //帮助文本，用于插件等不方便直接利用view文件构建帮助弹出的场景
                 if(isset($_help_content)){
@@ -102,7 +102,7 @@ use fay\helpers\HtmlHelper;
                             'class'=>'dialog hide',
                         ),
                         'prepend'=>'<h4>设置</h4>',
-                    ), $this->renderPartial($_setting_panel, $this->getViewData(), -1, true));
+                    ), $this->renderPartial($_setting_panel, $this->getViewData(), -1));
                 }
                 echo HtmlHelper::link('', 'javascript:parent.$.fancybox.close()', array(
                     'class'=>'fa fa-close fa-2x',

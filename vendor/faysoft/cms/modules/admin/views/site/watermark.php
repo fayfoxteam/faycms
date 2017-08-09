@@ -7,10 +7,10 @@
             </ul>
             <div class="tab-content">
                 <div id="settings-options" class="tab-pane p5">
-                    <?php $this->renderPartial('_watermark_upload')?>
+                    <?php echo $this->renderPartial('_watermark_upload')?>
                 </div>
                 <div id="settings-system" class="tab-pane p5 hide">
-                    <?php $this->renderPartial('_watermark_remote')?>
+                    <?php echo $this->renderPartial('_watermark_remote')?>
                 </div>
             </div>
         </div>

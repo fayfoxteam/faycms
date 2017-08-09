@@ -3,7 +3,7 @@ use cms\services\post\PostService;
 use fay\helpers\HtmlHelper;
 
 foreach($posts as $p){
-    $this->renderPartial('_panel', array(
+    echo $this->renderPartial('_panel', array(
         'id'=>$p['id'],
         'title'=>$p['title'],
         'body'=>Post::formatContent($p),

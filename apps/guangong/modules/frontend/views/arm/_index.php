@@ -10,7 +10,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
             <div class="layer index-title"><img src="<?php echo $this->appAssets('images/arm/index-title.png')?>"></div>
             <div class="layer index-description"><img src="<?php echo $this->appAssets('images/arm/index-description.png')?>"></div>
         </div>
-        <?php $this->renderPartial('_steps')?>
+        <?php echo $this->renderPartial('_steps')?>
     </div>
 </div>
-<?php $this->renderPartial('_js')?>
+<?php echo $this->renderPartial('_js')?>

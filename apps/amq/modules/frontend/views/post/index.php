@@ -10,7 +10,7 @@
     <!--右边内容start-->
     <div class="amc-aside hidden-xs" id="startBottom">
         <!--搜索框start-->
-        <?php $this->renderPartial('common/search_form')?>
+        <?php echo $this->renderPartial('common/search_form')?>
         <!--搜索框over-->
 
         <div class="amc-fix fix-bottom">

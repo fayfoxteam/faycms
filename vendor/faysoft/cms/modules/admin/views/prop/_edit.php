@@ -114,7 +114,7 @@ use fay\helpers\HtmlHelper;
                 ));
                 break;
             case PropsTable::ELEMENT_IMAGE:
-                $this->renderPartial('file/_upload_image', array(
+                echo $this->renderPartial('file/_upload_image', array(
                     'label'=>'图片',
                     'field'=>"props[{$prop['id']}]",
                     'field_value'=>empty($prop['value']) ? 0 : $prop['value'],

@@ -7,7 +7,7 @@
 <?php echo F::form()->open();?>
 <div class="row">
     <div class="col-6">
-        <?php $this->renderPartial('_edit_panel', array(
+        <?php echo $this->renderPartial('_edit_panel', array(
             'roles'=>$roles,
             'user'=>empty($user) ? array() : $user,
         ))?>

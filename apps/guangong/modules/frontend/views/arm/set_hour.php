@@ -7,7 +7,7 @@ $this->appendCss($this->appAssets('css/arm.css'));
 ?>
 <div class="swiper-container">
     <div class="swiper-wrapper">
-        <?php $this->renderPartial('_steps')?>
+        <?php echo $this->renderPartial('_steps')?>
         <div class="swiper-slide" id="arm-7">
             <div class="layer brand"><img src="<?php echo $this->appAssets('images/arm/brand.png')?>"></div>
             <div class="layer dadao"><img src="<?php echo $this->appAssets('images/arm/dadao.png')?>"></div>
@@ -35,10 +35,10 @@ $this->appendCss($this->appAssets('css/arm.css'));
                 <p>根据古历每天分为十二个时辰，手机摇一摇自行确定时间。按规则每天报到，具体上岗时间可自行随时掌握，按规坚持方可有效晋升军职。</p>
             </div>
         </div>
-        <?php $this->renderPartial('_steps')?>
+        <?php echo $this->renderPartial('_steps')?>
     </div>
 </div>
-<?php $this->renderPartial('_js')?>
+<?php echo $this->renderPartial('_js')?>
 <?php if($hour){?>
 <div class="hide">
     <div id="hour-dialog" class="dialog">

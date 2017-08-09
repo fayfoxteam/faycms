@@ -72,7 +72,7 @@ class AppController extends AdminController{
         $this->form('create')->setModel(ApidocAppsTable::model());
         $this->form('edit')->setModel(ApidocAppsTable::model());
 
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'apps'=>ApidocAppsTable::model()->fetchAll(array(), '*', 'sort')
         ))->render();
     }

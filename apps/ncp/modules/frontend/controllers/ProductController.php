@@ -90,7 +90,7 @@ class ProductController extends FrontController{
                 $this->layout->title .= '-'.$month['title'];
             }
             
-            $this->view->assign(array(
+            return $this->view->assign(array(
                 'areas'=>$areas,
                 'monthes'=>$monthes,
                 'cats'=>CategoryService::service()->getChildren('product'),
@@ -129,7 +129,7 @@ class ProductController extends FrontController{
         $travel_cat = CategoryService::service()->get('travel', 'id,left_value,right_value');//旅游分类根目录
         $product_cat = CategoryService::service()->get('product', 'id,left_value,right_value');//产品分类根目录
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'post'=>$post,
             'area'=>$area,
             'buy_link'=>PostService::service()->getPropValueByAlias('product_buy_link', $id),

@@ -32,13 +32,13 @@ class GuideController extends FrontController{
         
         if($cat['right_value'] - $cat['left_value'] == 1){
             //叶子节点
-            $this->view->assign(array(
+            return $this->view->assign(array(
                 'cat'=>$cat,
                 'posts'=>\cms\services\post\PostCategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
             ))->render('posts');
         }else{
             //非叶子
-            $this->view->assign(array(
+            return $this->view->assign(array(
                 'cat'=>$cat,
                 'cats'=>CategoryService::service()->getNextLevel($cat['id']),
                 'posts'=>\cms\services\post\PostCategoryService::service()->getPosts($cat, 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),

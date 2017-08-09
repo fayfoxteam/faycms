@@ -87,7 +87,7 @@ class PostController extends FrontController{
             $left_cats['children'] = $child_cats;
         }
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'left_cats'=>$left_cats,
             'post'=>$post,
         ))->render();

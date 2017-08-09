@@ -21,7 +21,7 @@ class SearchController extends FrontController{
             ->where(array('p.title LIKE ?'=>'%'.$keywords.'%'))
             ->order('id DESC');
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'listview'=>new ListView($sql),
             'keywords'=>$keywords,
         ))->render();

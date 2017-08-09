@@ -29,7 +29,7 @@ class PageController extends FrontController{
         $this->layout->description = $page['seo_description'];
         $this->layout->title = $page['seo_title'] ? $page['seo_title'] : $page['title'];
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'page'=>$page
         ))->render();
     }

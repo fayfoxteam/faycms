@@ -22,7 +22,7 @@ class ContactController extends FrontController{
             'description'=>$page['seo_description'],
         ));
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'page'=>$page,
         ))->render();
     }

@@ -79,7 +79,7 @@ class SpecialController extends FrontController{
         $this->layout->keywords = $post['seo_keywords'];
         $this->layout->description = $post['seo_description'];
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'post'=>$post,
         ))->render();
     }

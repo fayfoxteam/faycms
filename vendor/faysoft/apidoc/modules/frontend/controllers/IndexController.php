@@ -16,7 +16,7 @@ class IndexController extends FrontController{
             'canonical'=>$this->view->url(),
         ));
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'models'=>ApidocModelsTable::model()->fetchAll('id < 1000', 'name,description,sample', 'id')
         ))->render('apidoc/frontend/index/index');
     }

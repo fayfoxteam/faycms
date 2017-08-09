@@ -44,7 +44,7 @@ class ChatController extends AdminController{
             $sql->where('m.delete_time = 0');
         }
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'listview'=>new ListView($sql, array(
                 'page_size'=>!empty($_settings['page_size']) ? $_settings['page_size'] : 20,
             )),

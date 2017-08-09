@@ -14,7 +14,7 @@ class AdminController extends Widget{
     
     public function index(){
         $root_node = CategoryService::service()->get('_system_post', 'id');
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'cats'=>array(
                 array(
                     'id'=>0,

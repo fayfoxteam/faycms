@@ -100,7 +100,7 @@ class TravelController extends FrontController{
                 $this->layout->title .= '-'.$keywords;
             }
             
-            $this->view->assign(array(
+            return $this->view->assign(array(
                 'areas'=>$areas,
                 'monthes'=>$monthes,
                 'cats'=>CategoryService::service()->getChildren('travel'),
@@ -139,7 +139,7 @@ class TravelController extends FrontController{
         $product_cat = CategoryService::service()->get('product', 'id,left_value,right_value');//产品分类根目录
         $travel_cat = CategoryService::service()->get('travel', 'id,left_value,right_value');//旅游分类根目录
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'post'=>$post,
             'area'=>$area,
             'routes'=>TourRouteTable::model()->fetchAll('post_id = '.$post['id']),

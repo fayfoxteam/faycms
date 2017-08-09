@@ -24,7 +24,7 @@ class TeamController extends FrontController{
         
         $js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage', 'downloadImage')),
         ))->render();
     }
@@ -306,7 +306,7 @@ class TeamController extends FrontController{
         
         $signature = JsSDK::signature(Request::getCurrentUrl(), $app_config['app_id'], $app_config['app_secret']);
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'signature'=>$signature,
         ))->render();
     }

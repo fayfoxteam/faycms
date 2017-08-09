@@ -66,7 +66,7 @@ class PropUsageController extends AdminController{
             $relation_props = array();
         }
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'props'=>$props,
             'relation_props'=>$relation_props,
             'usage_model'=>$usage_model,

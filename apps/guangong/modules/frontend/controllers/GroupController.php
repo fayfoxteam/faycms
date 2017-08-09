@@ -39,7 +39,7 @@ class GroupController extends FrontController{
         ))->check();
         
         $group = GuangongUserGroupsTable::model()->find($this->form()->getData('group_id'));
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'group'=>$group,
         ))->render();
     }
@@ -63,7 +63,7 @@ class GroupController extends FrontController{
         ))->check();
         
         $group = GuangongUserGroupsTable::model()->find($this->form()->getData('group_id'));
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'group'=>$group,
         ))->render();
     }
@@ -72,7 +72,7 @@ class GroupController extends FrontController{
      * 兰谱
      */
     public function step4(){
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'groups'=>GuangongUserGroupsTable::model()->fetchAll(array(
                 'user_id = ' . $this->current_user,
             ))
@@ -117,7 +117,7 @@ class GroupController extends FrontController{
             $format_users[] = $user;
         }
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'group'=>GuangongUserGroupsTable::model()->find($group_id),
             'users'=>$format_users,
         ))->render();

@@ -23,7 +23,7 @@ class IndexController extends FrontController{
         $cat_news = CategoryService::service()->get('news');
         $news = PostCategoryService::service()->getPosts($cat_news, 6, 'id,title,abstract,publish_time', true);
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'about'=>$page_about,
             'cat_news'=>$cat_news,
             'news'=>$news,

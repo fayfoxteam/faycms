@@ -20,7 +20,7 @@ class IndexController extends FrontController{
         ;
         $this->view->last_modified_cats = $sql->fetchAll();
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'posts'=>\cms\services\post\CategoryService::service()->getPosts('fayfox', 0, 'id,title,content,content_type', false, 'is_top DESC, sort, publish_time ASC'),
         ))->render();
     }

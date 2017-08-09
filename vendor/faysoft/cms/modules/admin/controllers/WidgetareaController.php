@@ -42,7 +42,7 @@ class WidgetareaController extends AdminController{
             $relate_widget_ids[] = $rw['widget_id'];
         }
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             //小工具域
             'widget_areas'=>WidgetAreaService::service()->getAll(),
             //所有小工具数据

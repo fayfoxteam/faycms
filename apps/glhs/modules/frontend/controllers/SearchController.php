@@ -20,7 +20,7 @@ class SearchController extends FrontController{
                 'p.title LIKE ?'=>'%'.$keywords.'%',
             ))
             ->order('p.is_top DESC, p.sort DESC, p.publish_time DESC');
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'listview'=>new ListView($sql, array(
                 'reload'=>$this->view->url('search/'.$keywords),
                 'page_size'=>10,

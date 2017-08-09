@@ -45,7 +45,7 @@ class IndexController extends FrontController{
             $products[] = PostService::service()->getByProp($prop_area, $a['id'], 7, $product_cat['id']);
         }
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'areas'=>$areas,
             'travels'=>$travels,
             'foods'=>$foods,

@@ -63,7 +63,7 @@ class ArmController extends FrontController{
         
         $js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'user'=>$user,
             'user_extra'=>$user_extra,
             'defence'=>$defence,

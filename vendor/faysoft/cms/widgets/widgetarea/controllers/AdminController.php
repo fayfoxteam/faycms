@@ -15,7 +15,7 @@ class AdminController extends Widget{
     public function index(){
         $widget_areas = WidgetAreaService::service()->getAll();
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'widget_areas'=>$widget_areas,
         ))->render();
     }

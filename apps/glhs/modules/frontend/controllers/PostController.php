@@ -37,7 +37,7 @@ class PostController extends FrontController{
                 'p.publish_time < '.$this->current_time,
             ))
             ->order('is_top DESC, sort DESC, publish_time DESC');
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'cat'=>$cat,
             'listview'=>new ListView($sql, array(
                 'reload'=>$this->view->url($cat['alias']),

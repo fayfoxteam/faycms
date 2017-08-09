@@ -50,7 +50,7 @@ class ModelController extends FrontController{
         
         $sql = new Sql();
         //View
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'model'=>$model,
             'properties'=>$sql->from(array('mp'=>'apidoc_model_props'), array('name', 'sample', 'description', 'type', 'is_array'))
                 ->joinLeft(array('m'=>'apidoc_models'), 'mp.type = m.id', array('name AS model_name'))

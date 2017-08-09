@@ -43,7 +43,7 @@ class ApiCatController extends AdminController{
         \F::form('edit')->setModel(ApidocApiCategoriesTable::model());
 
         $this->layout->subtitle = 'API分类';
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'app_id'=>$app_id,
             'cats'=>ApiCategoryService::service()->getTree($app_id),
         ))->render();

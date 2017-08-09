@@ -21,7 +21,7 @@ class SearchController extends FrontController{
                 'pager_view'=>'widget/next_pager',
             ));
             
-            $this->view->assign(array(
+            return $this->view->assign(array(
                 'keywords'=>$keywords,
                 'listview'=>$listview,
             ))->render();

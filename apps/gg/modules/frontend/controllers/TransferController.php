@@ -69,7 +69,7 @@ class TransferController extends FrontController{
             }
         }
 
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'tables'=>$gg_tables,
         ))->render();
     }

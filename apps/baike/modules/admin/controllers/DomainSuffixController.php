@@ -18,7 +18,7 @@ class DomainSuffixController extends AdminController{
         $this->form('create')->setModel(BaikeDomainSuffixesTable::model());
         $this->form('edit')->setModel(BaikeDomainSuffixesTable::model());
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'domain_suffixes'=>BaikeDomainSuffixesTable::model()->fetchAll(array(), '*', 'sort')
         ))->render();
     }

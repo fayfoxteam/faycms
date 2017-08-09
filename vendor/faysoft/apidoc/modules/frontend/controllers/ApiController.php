@@ -35,7 +35,7 @@ class ApiController extends FrontController{
             'canonical'=>$this->view->url('api/'.$api['api']['id']),
         ));
         
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'common_inputs'=>ApidocCommonInputsTable::model()->fetchAll(array(), '!create_time,update_time', 'sort'),
             'api'=>$api
         ))->render('apidoc/frontend/api/item');

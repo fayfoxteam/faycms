@@ -44,7 +44,7 @@ class RecruitController extends FrontController{
         $js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
         
         $access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'js_sdk_config'=>$js_sdk->getConfig(array('chooseImage', 'uploadImage')),
             'access_token'=>$access_token->getToken(),
         ));
@@ -60,7 +60,7 @@ class RecruitController extends FrontController{
     public function step2(){
 //        $app_config = OptionService::getGroup('oauth:weixin');
 //        $js_sdk = new JsSDK($app_config['app_id'], $app_config['app_secret']);
-//        $this->view->assign(array(
+//        return $this->view->assign(array(
 //            'js_sdk_config'=>$js_sdk->getConfig(array()),
 //        ));
         

@@ -21,7 +21,7 @@ class CommonInputController extends AdminController{
         $this->form('create')->setModel(ApidocCommonInputsTable::model());
         $this->form('edit')->setModel(ApidocCommonInputsTable::model());
 
-        $this->view->assign(array(
+        return $this->view->assign(array(
             'common_inputs'=>ApidocCommonInputsTable::model()->fetchAll(array(), '*', 'sort')
         ))->render();
     }

@@ -30,6 +30,6 @@ class RankController extends ApiController{
         
         $rank['description_picture'] = FileService::get($rank['description_picture']);
         
-        Response::json($rank);
+        return Response::json($rank);
     }
 }

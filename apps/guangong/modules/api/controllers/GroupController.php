@@ -228,7 +228,7 @@ class GroupController extends ApiController{
             );
         }
         
-        Response::json(array(
+        return Response::json(array(
             'groups'=>$format_groups,
             'pager'=>$listview->getPager(),
         ));

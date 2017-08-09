@@ -81,6 +81,6 @@ class WordController extends ApiController{
             Response::notify('error', '您不属于指定结义成员，无法查看密语');
         }
         
-        Response::json($word['words']);
+        return Response::json($word['words']);
     }
 }

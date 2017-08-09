@@ -94,7 +94,7 @@ class UserController extends \cms\modules\api\controllers\UserController{
             }
         }
         
-        Response::json(array(
+        return Response::json(array(
             'user'=>$user,
             'extra'=>$user_extra,
             'code'=>UserHelper::getCode($this->current_user),

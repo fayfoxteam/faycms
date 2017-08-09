@@ -77,7 +77,7 @@ class PostCommentController extends AdminController{
      * 返回各状态下的文章评论数
      */
     public function getCounts(){
-        Response::json(array(
+        return Response::json(array(
             'all'=>PostCommentService::service()->getCount(),
             'approved'=>PostCommentService::service()->getCount(PostCommentsTable::STATUS_APPROVED),
             'unapproved'=>PostCommentService::service()->getCount(PostCommentsTable::STATUS_UNAPPROVED),

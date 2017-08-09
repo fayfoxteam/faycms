@@ -99,9 +99,9 @@ class AppController extends AdminController{
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '该路由已存在');
+            return Response::json('', 0, '该路由已存在');
         }else{
-            Response::json('', 1, '路由不存在');
+            return Response::json('', 1, '路由不存在');
         }
     }
     
@@ -109,9 +109,9 @@ class AppController extends AdminController{
         if(OauthAppsTable::model()->fetchRow(array(
             'alias = ?'=>$this->input->request('alias', 'trim'),
         ))){
-            Response::json('', 1, '路由已存在');
+            return Response::json('', 1, '路由已存在');
         }else{
-            Response::json('', 0, '路由不存在');
+            return Response::json('', 0, '路由不存在');
         }
     }
     

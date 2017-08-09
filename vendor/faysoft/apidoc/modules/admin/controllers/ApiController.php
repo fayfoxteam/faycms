@@ -484,9 +484,9 @@ class ApiController extends AdminController{
             'router = ?'=>$this->form()->getData('router'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '接口路由已存在');
+            return Response::json('', 0, '接口路由已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
 
@@ -508,9 +508,9 @@ class ApiController extends AdminController{
         if(ApidocApisTable::model()->has(array(
             'id = ?'=>$this->form()->getData('api_id'),
         ))){
-            Response::json();
+            return Response::json();
         }else{
-            Response::json('', 0, 'Api Id不存在');
+            return Response::json('', 0, 'Api Id不存在');
         }
     }
 }

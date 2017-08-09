@@ -106,9 +106,9 @@ class OptionController extends AdminController{
             'option_name = ?'=>$this->input->request('option_name', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', 0),
         ))){
-            Response::json('', 0, '参数名已存在');
+            return Response::json('', 0, '参数名已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
     

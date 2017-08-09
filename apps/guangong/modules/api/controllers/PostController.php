@@ -40,7 +40,7 @@ class PostController extends \cms\modules\api\controllers\PostController{
 //            }
 //        }
         
-        Response::json(
+        return Response::json(
             PostService::service()->get($post_id, 'title,content')
         );
     }

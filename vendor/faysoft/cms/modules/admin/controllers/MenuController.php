@@ -136,7 +136,7 @@ class MenuController extends AdminController{
             'left_value > '.$menu['left_value'],
             'right_value < '.$menu['right_value'],
         ));
-        Response::json(array(
+        return Response::json(array(
             'menu'=>$menu,
             'children'=>$children,
         ));

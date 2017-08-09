@@ -24,7 +24,7 @@ class ResetController extends AdminController{
         
         if(Request::isPost()){
             CategoryService::service()->buildIndex();
-            Response::json('', 1, '执行成功');
+            return Response::json('', 1, '执行成功');
         }
         
         return $this->view->render();
@@ -38,7 +38,7 @@ class ResetController extends AdminController{
         
         if(Request::isPost()){
             MenuService::service()->buildIndex();
-            Response::json('', 1, '执行成功');
+            return Response::json('', 1, '执行成功');
         }
         
         return $this->view->render();
@@ -53,7 +53,7 @@ class ResetController extends AdminController{
         
         if(Request::isPost()){
             PostCategoryService::service()->resetPostCount();
-            Response::json('', 1, '执行成功');
+            return Response::json('', 1, '执行成功');
         }
         
         return $this->view->render();
@@ -68,7 +68,7 @@ class ResetController extends AdminController{
         
         if(Request::isPost()){
             PostTagService::service()->resetPostCount();
-            Response::json('', 1, '执行成功');
+            return Response::json('', 1, '执行成功');
         }
         
         return $this->view->render();
@@ -83,7 +83,7 @@ class ResetController extends AdminController{
         
         if(Request::isPost()){
             PostUserCounterService::service()->resetCount();
-            Response::json('', 1, '执行成功');
+            return Response::json('', 1, '执行成功');
         }
         
         return $this->view->render();

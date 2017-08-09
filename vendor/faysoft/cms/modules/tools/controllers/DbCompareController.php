@@ -262,7 +262,7 @@ class DbCompareController extends ToolsController{
         
         $ddl = $db_obj->fetchRow("SHOW CREATE TABLE {$this->db_config[$db]['prefix']}{$name}");
         
-        Response::json(array(
+        return Response::json(array(
             'fields'=>$db_obj->fetchAll("SHOW FULL FIELDS FROM {$this->db_config[$db]['prefix']}{$name}"),
             'ddl'=>$ddl['Create Table'],
         ));
@@ -288,7 +288,7 @@ class DbCompareController extends ToolsController{
             $right_fields_simple[] = $f['Field'];
         }
         
-        Response::json(array(
+        return Response::json(array(
             'common'=>array_values(array_intersect($left_fields_simple, $right_fields_simple)),
             'left'=>array_values(array_diff($left_fields_simple, $right_fields_simple)),
             'right'=>array_values(array_diff($right_fields_simple, $left_fields_simple)),

@@ -318,7 +318,7 @@ class FeedController extends AdminController{
             'deleted'=>FeedService::service()->getDeletedCount(),
         );
         
-        Response::json($data);
+        return Response::json($data);
     }
     
     /**

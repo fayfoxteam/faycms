@@ -78,14 +78,14 @@ class FunctionController extends ToolsController{
         if($code){
             $arr = json_decode($this->input->request('code'), true);
             if($arr === null && strtolower($code) != 'null'){
-                Response::json('', 0, 'JSON格式异常');
+                return Response::json('', 0, 'JSON格式异常');
             }else{
-                Response::json(array(
+                return Response::json(array(
                     'code'=>var_export($arr, true)
                 ));
             }
         }else{
-            Response::json(array(
+            return Response::json(array(
                 'code'=>null,
             ));
         }
@@ -102,12 +102,12 @@ class FunctionController extends ToolsController{
         
         $array = $this->input->request('code');
         if(version_compare(phpversion(), '5.4.0', '>=')){
-            Response::json(array(
+            return Response::json(array(
                 'code'=>json_encode(eval('return '.$array.';'), JSON_UNESCAPED_UNICODE),
             ));
         }else{
             //低版本php不做复杂处理，直接返回unicode后的中文
-            Response::json(array(
+            return Response::json(array(
                 'code'=>json_encode(eval('return '.$array.';'))
             ));
         }
@@ -129,7 +129,7 @@ class FunctionController extends ToolsController{
             }
         }
         
-        Response::json(array(
+        return Response::json(array(
             'dates'=>implode("\r\n", $dates),
         ));
     }
@@ -146,7 +146,7 @@ class FunctionController extends ToolsController{
             }
         }
         
-        Response::json(array(
+        return Response::json(array(
             'timestamps'=>implode("\r\n", $timestamps),
         ));
     }

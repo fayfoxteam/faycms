@@ -75,9 +75,9 @@ class KeywordController extends AdminController{
             'keyword = ?'=>$this->input->request('keyword', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '关键词已存在');
+            return Response::json('', 0, '关键词已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
     

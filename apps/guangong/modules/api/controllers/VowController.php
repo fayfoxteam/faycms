@@ -16,7 +16,7 @@ class VowController extends ApiController{
             'enabled = 1',
         ), 'content', 'sort');
         
-        Response::json(ArrayHelper::column($vows, 'content'));
+        return Response::json(ArrayHelper::column($vows, 'content'));
     }
     
     /**

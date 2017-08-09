@@ -232,9 +232,9 @@ class WidgetController extends AdminController{
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false)
         ))){
-            Response::json('', 0, '别名已存在');
+            return Response::json('', 0, '别名已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
 
@@ -295,14 +295,14 @@ class WidgetController extends AdminController{
                 throw new HttpException('widget不存在或已被删除');
             }
             
-            Response::json($widgetInstance->getDefaultTemplate());
+            return Response::json($widgetInstance->getDefaultTemplate());
         }else{
             //返回view文件内容
             $view_file_content = WidgetHelper::getViewByRouter($view);
             if($view_file_content === false){
-                Response::json('', 0, "找不到view文件[{$view}]");
+                return Response::json('', 0, "找不到view文件[{$view}]");
             }else{
-                Response::json($view_file_content);
+                return Response::json($view_file_content);
             }
         }
     }

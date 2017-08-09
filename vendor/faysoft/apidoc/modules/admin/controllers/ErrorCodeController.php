@@ -96,9 +96,9 @@ class ErrorCodeController extends AdminController{
             'code = ?'=>$this->form()->getData('code'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '错误码已存在');
+            return Response::json('', 0, '错误码已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
 
@@ -135,7 +135,7 @@ class ErrorCodeController extends AdminController{
             }
         }
 
-        Response::json($error_codes);
+        return Response::json($error_codes);
     }
 
     /**

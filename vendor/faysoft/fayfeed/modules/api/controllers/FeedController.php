@@ -116,7 +116,7 @@ class FeedController extends ApiController{
         
         $feed = FeedService::service()->get($feed_id, $fields, true);
         if($feed){
-            Response::json($feed);
+            return Response::json($feed);
         }else{
             throw new HttpException('您访问的页面不存在');
         }

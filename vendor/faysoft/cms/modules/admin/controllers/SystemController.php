@@ -13,9 +13,9 @@ class SystemController extends AdminController{
             'mobile = ?'=>$this->input->post('value', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval')
         ))){
-            Response::json('', 0, '该手机号码已被注册');
+            return Response::json('', 0, '该手机号码已被注册');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
     
@@ -24,9 +24,9 @@ class SystemController extends AdminController{
             'email = ?'=>$this->input->post('value', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval')
         ))){
-            Response::json('', 0, '该邮箱已被注册');
+            return Response::json('', 0, '该邮箱已被注册');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
     
@@ -35,9 +35,9 @@ class SystemController extends AdminController{
             'username = ?'=>$this->input->post('value', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval')
         ))){
-            Response::json('', 0, '该用户名已被注册');
+            return Response::json('', 0, '该用户名已被注册');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
     

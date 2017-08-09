@@ -49,7 +49,7 @@ class PostHistoryController extends AdminController{
             unset($history['user_id']);
         }
         
-        Response::json(array(
+        return Response::json(array(
             'histories'=>$histories
         ));
     }

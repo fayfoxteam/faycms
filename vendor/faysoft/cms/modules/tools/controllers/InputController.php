@@ -36,7 +36,7 @@ class InputController extends ToolsController{
     public function get(){
         $this->layout->subtitle = 'GET';
         if($this->input->isAjaxRequest()){
-            Response::json(array(
+            return Response::json(array(
                 'F::input()->get()'=>$this->input->get(),
                 '$_GET'=>$_GET,
             ));
@@ -47,7 +47,7 @@ class InputController extends ToolsController{
     public function post(){
         $this->layout->subtitle = 'POST';
         if($this->input->isAjaxRequest()){
-            Response::json(array(
+            return Response::json(array(
                 'F::input()->post()'=>$this->input->post(),
                 '$_POST'=>$_POST,
                 'php://input'=>file_get_contents('php://input', 'r'),

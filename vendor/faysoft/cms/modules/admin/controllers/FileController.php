@@ -83,9 +83,9 @@ class FileController extends AdminController{
             }
         }else{
             if($result['status']){
-                Response::json($data);
+                return Response::json($data);
             }else{
-                Response::json(new \stdClass(), 0, '上传失败：'.implode("\r\n", $data));
+                return Response::json(new \stdClass(), 0, '上传失败：'.implode("\r\n", $data));
             }
         }
     }
@@ -165,7 +165,7 @@ class FileController extends AdminController{
         
         $data = $this->afterUpload($data);
         
-        Response::json($data);
+        return Response::json($data);
     }
     
     /**
@@ -222,7 +222,7 @@ class FileController extends AdminController{
                 ));
             }
         }else{
-            Response::json($data);
+            return Response::json($data);
         }
     }
     

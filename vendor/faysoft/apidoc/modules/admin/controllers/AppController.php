@@ -107,9 +107,9 @@ class AppController extends AdminController{
             'name = ?'=>$this->input->request('name', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', 0),
         ))){
-            Response::json('', 0, '应用名已存在');
+            return Response::json('', 0, '应用名已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
 
@@ -128,7 +128,7 @@ class AppController extends AdminController{
             Response::notify('error', "指定APP ID[{$app_id}]不存在");
         }
 
-        Response::json(array(
+        return Response::json(array(
             'app'=>$app
         ));
     }

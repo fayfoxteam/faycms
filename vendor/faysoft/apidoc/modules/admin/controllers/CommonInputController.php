@@ -123,7 +123,7 @@ class CommonInputController extends AdminController{
             Response::notify('error', "指定公共请求参数ID[{$common_input_id}]不存在");
         }
 
-        Response::json(array(
+        return Response::json(array(
             'common_input'=>$common_input
         ));
     }
@@ -134,16 +134,16 @@ class CommonInputController extends AdminController{
     public function isNameNotExist(){
         $name = $this->input->request('name', 'trim');
         if(!$name){
-            Response::json('', 0, '参数名称不能为空');
+            return Response::json('', 0, '参数名称不能为空');
         }
 
         if(ApidocCommonInputsTable::model()->has(array(
             'name = ?'=>$name,
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '参数名称已存在');
+            return Response::json('', 0, '参数名称已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
 

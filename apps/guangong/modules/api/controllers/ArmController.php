@@ -28,7 +28,7 @@ class ArmController extends ApiController{
             );
         }
         
-        Response::json($arms);
+        return Response::json($arms);
     }
     
     /**

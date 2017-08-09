@@ -2,8 +2,6 @@
 namespace fay\core;
 
 use cms\services\FlashService;
-use fay\helpers\SqlHelper;
-use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
 
 class Response{
@@ -436,7 +434,7 @@ class Response{
             );
         }
         if(Request::isAjax()){
-            Response::json(
+            return Response::json(
                 isset($data['data']) ? $data['data'] : '',
                 $status == 'success' ? 1 : 0,
                 isset($data['message']) ? $data['message'] : '',
@@ -491,92 +489,25 @@ class Response{
      * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
      * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
      * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
+     * @return JsonResponse
      */
     public static function json($data = '', $status = 1, $message = '', $code = ''){
-        if(\F::config()->get('debug')){
-            $sqls = Db::getInstance()->getSqlLogs();
-            $sql_formats = array();
-            $sql_time = 0;
-            foreach($sqls as &$s){
-                $sql_formats[] = array(
-                    'time'=>StringHelper::money($s[2] * 1000).'ms',
-                    'sql'=>SqlHelper::bind($s[0], $s[1]),
-                );
-                $sql_time += $s[2];
-            }
-            $content = json_encode(array(
-                'status'=>$status == 0 ? 0 : 1,
-                'data'=>$data,
-                'code'=>$code,
-                'message'=>$message,
-                'debug'=>array(
-                    'sqls'=>$sql_formats,
-                    'sql_time'=>StringHelper::money($sql_time * 1000).'ms',
-                    'php_time'=>StringHelper::money((microtime(true) - START) * 1000).'ms',
-                    'memory'=>round(memory_get_usage()/1024, 2).'KB',
-                ),
-            ));
-        }else{
-            $content = json_encode(array(
-                'status'=>$status == 0 ? 0 : 1,
-                'data'=>$data,
-                'code'=>$code,
-                'message'=>$message,
-            ));
-        }
-        self::send($content);
-        die;
+        return new JsonResponse($data, $status, $message, $code);
     }
 
     /**
      * 返回jsonp
      * @param string $func jsonp请求的回调函数名，在调用的地方，从请求中获取，例如jquery发送的请求：$func = $this->input->get('callback');！
-     * @param mixed $content 内容部分
+     * @param mixed $data 内容部分
      * @param int $status 1代表成功，0代表失败。（无其它状态，错误描述放$error_code）
      * @param string $message 错误描述。人类可读的描述，一般用于弹窗报错，例如：用户名不能为空！
      * @param string $code 错误码。用有意义的英文描述组成，但不是给人看的，是给程序确定错误用的。例如：username:can-not-be-empty
+     * @return JsonResponse
      */
-    public static function jsonp($func, $content, $status = 1, $message = '', $code = ''){
-        // 返回JSON数据格式到客户端 包含状态信息
-        header('Content-Type:application/javascript; charset=utf-8');
-        $content = $func.'('.json_encode(array(
-            'status'=>$status == 0 ? 0 : 1,
-            'content'=>$content,
-            'code'=>$code,
-            'message'=>$message
-        )).');';
-        self::send($content);
-        die;
-    }
-    
-    /**
-     * 向浏览器输出
-     * @param string $content
-     */
-    public static function send2($content){
-        $router = Uri::getInstance()->router;
+    public static function jsonp($func, $data, $status = 1, $message = '', $code = ''){
+        $json_response = new JsonResponse($data, $status, $message, $code);
+        $json_response->setCallback($func);
         
-        //根据router设置缓存
-        $cache_routers = \F::config()->get('*', 'pagecache');
-        $cache_routers_keys = array_keys($cache_routers);
-        if(in_array($router, $cache_routers_keys)){
-            $filename = md5(\F::config()->get('base_url') . json_encode(\F::input()->get(isset($cache_routers[$router]['params']) ? $cache_routers[$router]['params'] : array())));
-            $cache_key = 'pages/' . $router . '/' . $filename;
-            if(\F::input()->post()){
-                //有post数据的时候，是否更新页面
-                if(isset($cache_routers[$router]['on_post'])){
-                    if($cache_routers[$router]['on_post'] == 'rebuild'){//刷新缓存
-                        \F::cache()->set($cache_key, $content, $cache_routers[$router]['ttl']);
-                    }else if($cache_routers[$router]['on_post'] == 'remove'){//删除缓存
-                        \F::cache()->delete($cache_key);
-                    }
-                }
-            }else{
-                //没post数据的时候，直接重新生成页面缓存
-                \F::cache()->set($cache_key, $content, $cache_routers[$router]['ttl']);
-            }
-        }
-        
-        echo $content;
+        return $json_response;
     }
 }

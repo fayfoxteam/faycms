@@ -111,6 +111,6 @@ class FeedFavoriteController extends UserController{
             $this->form()->getData('page_size', 20)
         );
         
-        Response::json($favorites);
+        return Response::json($favorites);
     }
 }

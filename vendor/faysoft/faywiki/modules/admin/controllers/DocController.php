@@ -605,7 +605,7 @@ class DocController extends AdminController{
             'deleted'=>DocService::service()->getDeletedCount(),
         );
         
-        Response::json($data);
+        return Response::json($data);
     }
 
     /**
@@ -622,11 +622,11 @@ class DocController extends AdminController{
                 'class'=>'form-control'
             ));
         }else if($format == 'tree'){
-            Response::json(array(
+            return Response::json(array(
                 'cats'=>CategoryService::service()->getTree('_system_wiki_doc'),
             ));
         }else if($format == 'list'){
-            Response::json(array(
+            return Response::json(array(
                 'cats'=>CategoryService::service()->getChildren('_system_wiki_doc'),
             ));
         }

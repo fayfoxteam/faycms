@@ -155,9 +155,9 @@ class ErrorHandler{
         
         if(\F::input()->isAjaxRequest()){
             if($exception instanceof HttpException && $exception->status_code == 404){
-                Response::json('', 0, $exception->getMessage(), !empty($exception->description) ? $exception->description : 'http_error:404:not_found');
+                return Response::json('', 0, $exception->getMessage(), !empty($exception->description) ? $exception->description : 'http_error:404:not_found');
             }else{
-                Response::json('', 0, $exception->getMessage(), !empty($exception->description) ? $exception->description : 'http_error:500:internal_server_error');
+                return Response::json('', 0, $exception->getMessage(), !empty($exception->description) ? $exception->description : 'http_error:500:internal_server_error');
             }
         }else{
             $this->app->view->renderPartial('errors/debug', array(
@@ -188,7 +188,7 @@ class ErrorHandler{
         $this->clearOutput();
         
         if(\F::input()->isAjaxRequest()){
-            Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:404:not_found');
+            return Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:404:not_found');
         }else{
             $this->app->view->renderPartial('errors/404', array(
                 'message'=>$exception->getMessage(),
@@ -207,7 +207,7 @@ class ErrorHandler{
         
         if(\F::config()->get('environment') == 'production'){
             if(\F::input()->isAjaxRequest()){
-                Response::json(
+                return Response::json(
                     '',
                     0,
                     $exception instanceof db\Exception ? '数据库错误' : $exception->getMessage(),
@@ -220,7 +220,7 @@ class ErrorHandler{
             }
         }else{
             if(\F::input()->isAjaxRequest()){
-                Response::json(
+                return Response::json(
                     '',
                     0,
                     $exception->getMessage(),

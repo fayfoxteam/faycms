@@ -217,9 +217,9 @@ class GoodsCatPropController extends AdminController{
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '别名已存在');
+            return Response::json('', 0, '别名已存在');
         }else{
-            Response::json('', 1, '别名不存在');
+            return Response::json('', 1, '别名不存在');
         }
     }
     /**

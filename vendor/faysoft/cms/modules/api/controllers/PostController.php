@@ -4,7 +4,6 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\services\post\PostService;
 use fay\core\HttpException;
-use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 
@@ -67,7 +66,7 @@ class PostController extends ApiController{
         
         $post = PostService::service()->get($id, $fields, $cat);
         if($post){
-            return new JsonResponse($post);
+            return return Response::json($post);
         }else{
             throw new HttpException('您访问的页面不存在');
         }

@@ -28,7 +28,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', date('Y-m-d H:i:s [') . Request::getUserIP() . "]\r\ntables-completed");
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -42,7 +42,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\ncities-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -56,7 +56,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nregions-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -70,7 +70,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\ncategoties-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -84,7 +84,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nactions-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -98,7 +98,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nmenus-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -112,7 +112,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nsystem-data-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -133,7 +133,7 @@ class DbController extends InstallController{
         //安装日志
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\ncustom-data-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }
@@ -149,7 +149,7 @@ class DbController extends InstallController{
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\nindex-tree-tables-completed", FILE_APPEND);
         file_put_contents(APPLICATION_PATH . 'runtimes/installed.lock', "\r\n" . date('Y-m-d H:i:s [') . Request::getUserIP() . "]\r\ndatabase-completed", FILE_APPEND);
         
-        Response::json(array(
+        return Response::json(array(
             '_token'=>$this->getToken(),
         ));
     }

@@ -130,7 +130,7 @@ class FeedLikeController extends ApiController{
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20)
         );
-        Response::json($likes);
+        return Response::json($likes);
     }
     
     /**
@@ -168,6 +168,6 @@ class FeedLikeController extends ApiController{
             $this->form()->getData('page', 1),
             $this->form()->getData('page_size', 20)
         );
-        Response::json($likes);
+        return Response::json($likes);
     }
 }

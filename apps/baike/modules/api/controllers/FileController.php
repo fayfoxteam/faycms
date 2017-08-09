@@ -65,7 +65,7 @@ class FileController extends ApiController{
                 ));
             }
         }else{
-            Response::json($data);
+            return Response::json($data);
         }
     }
 

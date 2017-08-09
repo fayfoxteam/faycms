@@ -288,16 +288,16 @@ class ModelController extends AdminController{
             );
         }
         
-        Response::json($modelMap);
+        return Response::json($modelMap);
     }
     
     public function isNameExist(){
         if(ApidocModelsTable::model()->has(array(
             'name = ?'=>$this->input->request('name', 'trim'),
         ))){
-            Response::json();
+            return Response::json();
         }else{
-            Response::json('', 0, '模型不存在');
+            return Response::json('', 0, '模型不存在');
         }
     }
 }

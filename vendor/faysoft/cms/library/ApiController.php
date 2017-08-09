@@ -27,7 +27,7 @@ class ApiController extends Controller{
      */
     protected function checkLogin(){
         if(!$this->isLogin()){
-            Response::json('', 0, '请先登录', 'login-request');
+            return Response::json('', 0, '请先登录', 'login-request');
         }
     }
     

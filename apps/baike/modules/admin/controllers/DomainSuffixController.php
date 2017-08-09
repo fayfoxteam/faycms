@@ -120,7 +120,7 @@ class DomainSuffixController extends AdminController{
             Response::notify('error', "指定域名后缀ID[{$domain_suffix_id}]不存在");
         }
 
-        Response::json(array(
+        return Response::json(array(
             'domain_suffix'=>$domain_suffix
         ));
     }
@@ -131,7 +131,7 @@ class DomainSuffixController extends AdminController{
     public function isSuffixNotExist(){
         $suffix = $this->input->request('suffix', 'trim');
         if(!$suffix){
-            Response::json('', 0, '域名后缀不能为空');
+            return Response::json('', 0, '域名后缀不能为空');
         }
         
         if(substr($suffix, 0, 1) != '.'){
@@ -143,9 +143,9 @@ class DomainSuffixController extends AdminController{
             'suffix = ?'=>$suffix,
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '域名后缀已存在');
+            return Response::json('', 0, '域名后缀已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
 

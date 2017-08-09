@@ -20,9 +20,9 @@ class PropController extends AdminController{
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '别名已存在');
+            return Response::json('', 0, '别名已存在');
         }else{
-            Response::json('', 1, '别名不存在');
+            return Response::json('', 1, '别名不存在');
         }
     }
     
@@ -148,7 +148,7 @@ class PropController extends AdminController{
             $data[$key]['element_name'] = $element::getName();
         }
 
-        Response::json(array(
+        return Response::json(array(
             'props'=>$data,
             'pager'=>$listview->getPager(),
         ));
@@ -177,7 +177,7 @@ class PropController extends AdminController{
         $element = ItemPropService::$elementMap[$prop['element']];
         $prop['element_name'] = $element::getName();
         
-        Response::json(array(
+        return Response::json(array(
             'prop'=>$prop,
         ));
     }

@@ -18,7 +18,7 @@ class HourController extends ApiController{
             'id'
         );
         
-        Response::json($hours);
+        return Response::json($hours);
     }
     
     /**
@@ -74,6 +74,6 @@ class HourController extends ApiController{
             Response::notify('error', '指定时辰不存在');
         }
         
-        Response::json($hour);
+        return Response::json($hour);
     }
 }

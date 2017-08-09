@@ -834,9 +834,9 @@ class PostController extends AdminController{
             'alias = ?'=>$this->input->request('alias', 'trim'),
             'id != ?'=>$this->input->request('id', 'intval', false),
         ))){
-            Response::json('', 0, '别名已存在');
+            return Response::json('', 0, '别名已存在');
         }else{
-            Response::json();
+            return Response::json();
         }
     }
     
@@ -975,7 +975,7 @@ class PostController extends AdminController{
             'page_size'=>$this->form()->getData('page_size', 10),
         ));
 
-        Response::json(array(
+        return Response::json(array(
             'posts'=>$listview->getData(),
             'pager'=>$listview->getPager(),
         ));
@@ -995,11 +995,11 @@ class PostController extends AdminController{
                 'class'=>'form-control'
             ));
         }else if($format == 'tree'){
-            Response::json(array(
+            return Response::json(array(
                 'cats'=>CategoryService::service()->getTree('_system_post'),
             ));
         }else if($format == 'list'){
-            Response::json(array(
+            return Response::json(array(
                 'cats'=>CategoryService::service()->getChildren('_system_post'),
             ));
         }

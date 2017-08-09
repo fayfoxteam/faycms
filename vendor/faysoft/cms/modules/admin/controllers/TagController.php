@@ -155,6 +155,6 @@ class TagController extends AdminController{
             'title LIKE ?'=>'%'.$this->input->get('key', false).'%'
         ), 'id,title', 'sort', 20);
         
-        Response::json($tags);
+        return Response::json($tags);
     }
 }

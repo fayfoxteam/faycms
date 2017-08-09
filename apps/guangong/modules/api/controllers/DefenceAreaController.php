@@ -29,7 +29,7 @@ class DefenceAreaController extends ApiController{
             );
         }
         
-        Response::json($areas);
+        return Response::json($areas);
     }
     
     /**

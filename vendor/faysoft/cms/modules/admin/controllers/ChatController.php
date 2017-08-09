@@ -76,7 +76,7 @@ class ChatController extends AdminController{
             ->fetchAll()
         ;
         
-        Response::json(array(
+        return Response::json(array(
             'root'=>$root,
             'replies'=>$replies,
         ));

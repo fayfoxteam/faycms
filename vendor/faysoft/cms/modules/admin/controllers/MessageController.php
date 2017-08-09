@@ -157,7 +157,7 @@ class MessageController extends AdminController{
         $id = $this->form()->getData('id');
         
         if($this->input->isAjaxRequest()){
-            Response::json(array(
+            return Response::json(array(
                 'message'=>MessageService::service()->get($id, array(
                     'message'=>array(
                         'id', 'content', 'parent', 'create_time',

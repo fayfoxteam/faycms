@@ -29,7 +29,7 @@ class FileController extends \cms\modules\api\controllers\FileController{
         $client_name = $this->form()->getData('client_name');
         
         $data = FileService::service()->uploadFromUrl($url, $cat, true, $client_name);
-        Response::json($data);
+        return Response::json($data);
     }
     
     public function test(){

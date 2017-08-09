@@ -88,10 +88,10 @@ class IndexController extends Widget{
     public function getData(){
         $type = $this->input->get('t');
         if(!in_array($type, array('pv', 'uv', 'ip', 'new_visitors'))){
-            Response::json('', 0, '参数异常');
+            return Response::json('', 0, '参数异常');
         }
         $analyst = $this->getAnalyst($type);
-        Response::json(array(
+        return Response::json(array(
             'today'=>$analyst['today'],
             'yesterday'=>$analyst['yesterday'],
             'today_total'=>$analyst['today_total'],

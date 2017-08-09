@@ -152,10 +152,10 @@ class ApplicationController extends ToolsController{
         $apps = LocalFileHelper::getFileList(APPLICATION_PATH.'..');
         foreach($apps as $app){
             if($value == $app['name']){
-                Response::json('', 0, '项目名已存在');
+                return Response::json('', 0, '项目名已存在');
             }
         }
-        Response::json();
+        return Response::json();
     }
     
     private function createTables($prefix, $charset){

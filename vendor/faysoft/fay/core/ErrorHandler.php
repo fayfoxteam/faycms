@@ -23,83 +23,11 @@ class ErrorHandler{
     
     /**
      * 处理未捕获的异常
-     * @param ErrorException|Exception|HttpException $exception
+     * @param Exception $exception
      */
     public function handleException($exception){
-        if($exception instanceof HttpException){//http错误，一般都是404
-            //错误日志
-            if($exception->status_code == 404){//如文章不存在等
-                \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_access');
-            }else{//如用户参数异常，报500
-                \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
-            }
-            
-            //自定义Http异常
-            Response::setStatusHeader($exception->status_code);
-            //404, 500等http错误
-            if(\F::config()->get('environment') == 'production'){
-                if($exception->status_code == 404){
-                    $this->render404($exception);
-                }else{
-                    $this->render500($exception);
-                }
-            }else{
-                //环境非production，显示debug页面
-                $this->renderDebug($exception);
-            }
-        }else if($exception instanceof db\Exception){//业务逻辑报错
-            //错误日志
-            \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
-            
-            //自定义Http异常
-            Response::setStatusHeader(500);
-            
-            //自定义异常
-            if(\F::config()->get('environment') == 'production'){
-                $this->render500($exception);
-            }else{
-                $this->renderDebug($exception);
-            }
-        }else if($exception instanceof ErrorException){//php报错
-            //错误日志
-            \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
-            
-            //自定义Http异常
-            Response::setStatusHeader(500);
-            
-            //自定义异常
-            if(\F::config()->get('environment') == 'production'){
-                $this->render500($exception);
-            }else{
-                $this->renderDebug($exception);
-            }
-        }else if($exception instanceof Exception){//业务逻辑报错
-            //错误日志
-            \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
-            
-            //自定义Http异常
-            Response::setStatusHeader(500);
-            
-            //自定义异常
-            if(\F::config()->get('environment') == 'production'){
-                $this->render500($exception);
-            }else{
-                $this->renderDebug($exception);
-            }
-        }else{//默认为php报错
-            //错误日志
-            \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
-            
-            //自定义Http异常
-            Response::setStatusHeader(500);
-            
-            //其它（php或者其他一些类库）抛出的异常
-            if(\F::config()->get('environment') == 'production'){
-                $this->render500($exception);
-            }else{
-                $this->renderDebug($exception);
-            }
-        }
+        $this->reportException($exception);
+        $this->renderException($exception);
     }
     
     /**
@@ -144,6 +72,42 @@ class ErrorHandler{
             }
             die;
         }
+    }
+
+    /**
+     * 输出异常
+     * @param \Exception $exception
+     */
+    protected function renderException($exception){
+        if(\F::config()->get('environment') == 'production'){
+            
+        }else{
+            $response = new Response();
+            $response->setData(array(
+                'status'=>0,
+                'data'=>'',
+                'message'=>$exception->getMessage(),
+                'code'=>'',
+            ))
+                ->setStatusCode(isset($exception->status_code) ? $exception->status_code : 500)
+                ->setContent($this->app->view->renderPartial('errors/debug', array(
+                    'exception'=>$exception,
+                )))
+            ;
+            if(Request::isAjax()){
+                $response->setFormat(Response::FORMAT_JSON);
+            }
+            
+            $response->send();
+        }
+    }
+
+    /**
+     * 记录异常
+     * @param \Exception $exception
+     */
+    protected function reportException($exception){
+        \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
     }
     
     /**

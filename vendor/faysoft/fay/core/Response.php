@@ -147,6 +147,7 @@ class Response{
      * This method will set the corresponding status text if `$text` is null.
      * @param int $code the status code
      * @param string $text the status text. If not set, it will be set automatically based on the status code.
+     * @return $this
      */
     public function setStatusCode($code, $text = null){
         if($code === null){
@@ -163,6 +164,7 @@ class Response{
         } else {
             $this->status_text = $text;
         }
+        return $this;
     }
 
     /**

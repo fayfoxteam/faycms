@@ -165,11 +165,11 @@ abstract class Widget{
         
         if(empty($this->config['template'])){
             //未指定模版，渲染默认模版
-            return $this->view->render('template');
+            $this->view->render('template');
         }else{
             if(preg_match('/^[\w_-]+(\/[\w_-]+)+$/', $this->config['template'])){
                 //指定的是项目内的路径
-                \F::app()->view->renderPartial($this->config['template'], $this->view->getViewData());
+                echo \F::app()->view->renderPartial($this->config['template'], $this->view->getViewData());
             }else{
                 //直接eval源码
                 \F::app()->view->evalCode($this->config['template'], array_merge(array(

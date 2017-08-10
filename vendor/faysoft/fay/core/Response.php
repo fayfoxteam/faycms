@@ -512,4 +512,15 @@ class Response{
         
         return $json_response;
     }
+
+    /**
+     * 清除所有未输出的缓冲区
+     */
+    public function clearOutput(){
+        for ($level = ob_get_level(); $level > 0; --$level) {
+            if (!@ob_end_clean()) {
+                ob_clean();
+            }
+        }
+    }
 }

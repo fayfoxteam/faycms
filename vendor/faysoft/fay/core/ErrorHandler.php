@@ -4,11 +4,14 @@ namespace fay\core;
 use fay\log\Logger;
 
 class ErrorHandler{
-    public $app;
+    /**
+     * @var View
+     */
+    protected $view;
     
     public function __construct(){
-        $this->app = \F::app();
-        $this->app || $this->app = new Controller();
+        $app = \F::app();
+        $this->view = $app ? $app->view : new View();
     }
     
     /**
@@ -23,7 +26,7 @@ class ErrorHandler{
     
     /**
      * 处理未捕获的异常
-     * @param Exception $exception
+     * @param Exception|ErrorException $exception
      */
     public function handleException($exception){
         $this->reportException($exception);
@@ -42,13 +45,30 @@ class ErrorHandler{
             //例如@屏蔽报错的时候，error_reporting()会返回0
             return;
         }
-        
-        $exception = new ErrorException($message, '', $code, $file, $line, $code);
-        
-        //错误日志
-        \F::logger()->log((string)$exception, Logger::LEVEL_WARNING, 'php_error');
-        
-        $this->renderPHPError($exception);
+
+        $levels = array(
+            E_ERROR => 'PHP Fatal Error',
+            E_PARSE => 'PHP Parse Error',
+            E_CORE_ERROR => 'PHP Core Error',
+            E_COMPILE_ERROR => 'PHP Compile Error',
+            E_USER_ERROR => 'PHP User Error',
+            E_WARNING => 'PHP Warning',
+            E_CORE_WARNING => 'PHP Core Warning',
+            E_COMPILE_WARNING => 'PHP Compile Warning',
+            E_USER_WARNING => 'PHP User Warning',
+            E_STRICT => 'PHP Strict Warning',
+            E_NOTICE => 'PHP Notice',
+            E_RECOVERABLE_ERROR => 'PHP Recoverable Error',
+            E_DEPRECATED => 'PHP Deprecated Warning',
+        );
+
+        //这里都是些notice之类的报错，直接输出
+        echo $this->view->renderPartial('errors/php', array(
+            'level'=>isset($levels[$code]) ? $levels[$code] : 'Error',
+            'message'=>$message,
+            'file'=>$file,
+            'line'=>$line,
+        ));
     }
     
     /**
@@ -56,21 +76,10 @@ class ErrorHandler{
      */
     public function handleFatalError(){
         $error = error_get_last();
-        
-        if(ErrorException::isFatalError($error)){
-            Response::setStatusHeader(500);
-            
+        if($error && in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING))){
+            //致命错误，当成异常处理
             $exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
-            //错误日志
-            \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'php_error');
-            \F::logger()->flush();
-            
-            if(\F::config()->get('environment') == 'production'){
-                $this->render500($exception);
-            }else{
-                $this->renderDebug($exception);
-            }
-            die;
+            $this->handleException($exception);
         }
     }
 
@@ -79,18 +88,37 @@ class ErrorHandler{
      * @param \Exception $exception
      */
     protected function renderException($exception){
+        //清空缓冲区
+        $response = new Response();
+        $response->clearOutput();
         if(\F::config()->get('environment') == 'production'){
-            
+            //线上环境
+            $response->setData(array(
+                'status'=>0,
+                'data'=>'',
+                'message'=>$exception instanceof db\Exception ? '数据库错误' : $exception->getMessage(),
+                'code'=>$exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error',
+            ))
+                ->setStatusCode(isset($exception->status_code) ? $exception->status_code : 500)
+                ->setContent($this->view->renderPartial('errors/500', array(
+                    'exception'=>$exception,
+                )))
+            ;
+            if(Request::isAjax()){
+                $response->setFormat(Response::FORMAT_JSON);
+            }
+
+            $response->send();
         }else{
-            $response = new Response();
+            //开发环境
             $response->setData(array(
                 'status'=>0,
                 'data'=>'',
                 'message'=>$exception->getMessage(),
-                'code'=>'',
+                'code'=>$exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error',
             ))
                 ->setStatusCode(isset($exception->status_code) ? $exception->status_code : 500)
-                ->setContent($this->app->view->renderPartial('errors/debug', array(
+                ->setContent($this->view->renderPartial('errors/debug', array(
                     'exception'=>$exception,
                 )))
             ;
@@ -108,106 +136,5 @@ class ErrorHandler{
      */
     protected function reportException($exception){
         \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
-    }
-    
-    /**
-     * @param ErrorException $exception
-     */
-    protected function renderDebug($exception){
-        //清空缓冲区
-        $this->clearOutput();
-        
-        if(\F::input()->isAjaxRequest()){
-            if($exception instanceof HttpException && $exception->status_code == 404){
-                return Response::json('', 0, $exception->getMessage(), !empty($exception->description) ? $exception->description : 'http_error:404:not_found');
-            }else{
-                return Response::json('', 0, $exception->getMessage(), !empty($exception->description) ? $exception->description : 'http_error:500:internal_server_error');
-            }
-        }else{
-            $this->app->view->renderPartial('errors/debug', array(
-                'exception'=>$exception,
-            ));
-        }
-        die;
-    }
-
-    /**
-     * @param ErrorException $exception
-     */
-    protected function renderPHPError($exception){
-        $this->app->view->renderPartial('errors/php', array(
-            'level'=>$exception->getLevel(),
-            'message'=>$exception->getMessage(),
-            'file'=>$exception->getFile(),
-            'line'=>$exception->getLine(),
-        ));
-    }
-    
-    /**
-     * 显示404页面（不包含错误信息）
-     * @param HttpException $exception
-     */
-    protected function render404($exception){
-        //清空缓冲区
-        $this->clearOutput();
-        
-        if(\F::input()->isAjaxRequest()){
-            return Response::json('', 0, $exception->getMessage(), $exception->description ? $exception->description : 'http_error:404:not_found');
-        }else{
-            $this->app->view->renderPartial('errors/404', array(
-                'message'=>$exception->getMessage(),
-            ));
-        }
-        die;
-    }
-    
-    /**
-     * 显示500页面（不包含错误信息）
-     * @param ErrorException $exception
-     */
-    protected function render500($exception){
-        //清空缓冲区
-        $this->clearOutput();
-        
-        if(\F::config()->get('environment') == 'production'){
-            if(\F::input()->isAjaxRequest()){
-                return Response::json(
-                    '',
-                    0,
-                    $exception instanceof db\Exception ? '数据库错误' : $exception->getMessage(),
-                    $exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error'
-                );
-            }else{
-                $this->app->view->renderPartial('errors/500', array(
-                    'message'=>$exception instanceof db\Exception ? '数据库错误' : $exception->getMessage(),
-                ));
-            }
-        }else{
-            if(\F::input()->isAjaxRequest()){
-                return Response::json(
-                    '',
-                    0,
-                    $exception->getMessage(),
-                    $exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error'
-                );
-            }else{
-                $this->app->view->renderPartial('errors/500', array(
-                    'message'=>$exception->getMessage(),
-                ));
-            }
-        }
-        die;
-    }
-    
-    /**
-     * 清楚所有未输出的缓冲区
-     */
-    public function clearOutput()
-    {
-        for ($level = ob_get_level(); $level > 0; --$level) {
-            if (!@ob_end_clean()) {
-                ob_clean();
-            }
-        }
     }
 }

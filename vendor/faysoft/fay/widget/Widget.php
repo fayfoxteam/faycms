@@ -83,7 +83,7 @@ abstract class Widget{
         include_once 'View.php';
         $this->view = new View($this->name);
         //将Controller实例传递给view
-        return $this->view->assign(array('widget'=>$this));
+        $this->view->assign(array('widget'=>$this));
         $this->input = Input::getInstance();
         $this->db = Db::getInstance();
         $this->form = $this->form('widget');

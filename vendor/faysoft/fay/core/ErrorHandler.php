@@ -46,25 +46,9 @@ class ErrorHandler{
             return;
         }
 
-        $levels = array(
-            E_ERROR => 'PHP Fatal Error',
-            E_PARSE => 'PHP Parse Error',
-            E_CORE_ERROR => 'PHP Core Error',
-            E_COMPILE_ERROR => 'PHP Compile Error',
-            E_USER_ERROR => 'PHP User Error',
-            E_WARNING => 'PHP Warning',
-            E_CORE_WARNING => 'PHP Core Warning',
-            E_COMPILE_WARNING => 'PHP Compile Warning',
-            E_USER_WARNING => 'PHP User Warning',
-            E_STRICT => 'PHP Strict Warning',
-            E_NOTICE => 'PHP Notice',
-            E_RECOVERABLE_ERROR => 'PHP Recoverable Error',
-            E_DEPRECATED => 'PHP Deprecated Warning',
-        );
-
         //这里都是些notice之类的报错，直接输出
         echo $this->view->renderPartial('errors/php', array(
-            'level'=>isset($levels[$code]) ? $levels[$code] : 'Error',
+            'level'=>self::getErrorLevel($code),
             'message'=>$message,
             'file'=>$file,
             'line'=>$line,
@@ -115,7 +99,7 @@ class ErrorHandler{
                 'status'=>0,
                 'data'=>'',
                 'message'=>$exception->getMessage(),
-                'code'=>$exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error',
+                'code'=>'',
             ))
                 ->setStatusCode(isset($exception->status_code) ? $exception->status_code : 500)
                 ->setContent($this->view->renderPartial('errors/debug', array(
@@ -136,5 +120,28 @@ class ErrorHandler{
      */
     protected function reportException($exception){
         \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+    }
+
+    /**
+     * 获取错误级别描述
+     */
+    public static function getErrorLevel($code){
+        $levels = array(
+            E_ERROR => 'PHP Fatal Error',
+            E_PARSE => 'PHP Parse Error',
+            E_CORE_ERROR => 'PHP Core Error',
+            E_COMPILE_ERROR => 'PHP Compile Error',
+            E_USER_ERROR => 'PHP User Error',
+            E_WARNING => 'PHP Warning',
+            E_CORE_WARNING => 'PHP Core Warning',
+            E_COMPILE_WARNING => 'PHP Compile Warning',
+            E_USER_WARNING => 'PHP User Warning',
+            E_STRICT => 'PHP Strict Warning',
+            E_NOTICE => 'PHP Notice',
+            E_RECOVERABLE_ERROR => 'PHP Recoverable Error',
+            E_DEPRECATED => 'PHP Deprecated Warning',
+        );
+        
+        return isset($levels[$code]) ? $levels[$code] : 'Error';
     }
 }

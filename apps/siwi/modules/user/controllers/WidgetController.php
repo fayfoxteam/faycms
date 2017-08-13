@@ -1,8 +1,8 @@
 <?php
 namespace siwi\modules\user\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use siwi\library\UserController;
 use fay\helpers\StringHelper;
 

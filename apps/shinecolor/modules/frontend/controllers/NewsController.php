@@ -1,7 +1,7 @@
 <?php
 namespace shinecolor\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use shinecolor\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;

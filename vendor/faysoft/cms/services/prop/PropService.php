@@ -4,7 +4,7 @@ namespace cms\services\prop;
 use cms\models\tables\PropOptionsTable;
 use cms\models\tables\PropsTable;
 use cms\models\tables\PropsUsagesTable;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;

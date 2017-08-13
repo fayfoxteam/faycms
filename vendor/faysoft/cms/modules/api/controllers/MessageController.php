@@ -5,7 +5,7 @@ use cms\library\ApiController;
 use cms\models\tables\PostsTable;
 use cms\services\MessageService;
 use cms\services\user\UserService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;

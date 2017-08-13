@@ -1,7 +1,7 @@
 <?php
 namespace steroid\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use steroid\library\FrontController;
 use cms\services\CategoryService;
 

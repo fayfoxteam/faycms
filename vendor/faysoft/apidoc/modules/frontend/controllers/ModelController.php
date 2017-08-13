@@ -7,7 +7,7 @@ use apidoc\library\FrontController;
 use apidoc\models\tables\ApidocApisTable;
 use apidoc\models\tables\ApidocModelsTable;
 use cms\services\CategoryService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 
 class ModelController extends FrontController{

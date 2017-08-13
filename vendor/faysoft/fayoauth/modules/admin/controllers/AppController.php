@@ -4,7 +4,7 @@ namespace fayoauth\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\services\FlashService;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fayoauth\models\tables\OauthAppsTable;

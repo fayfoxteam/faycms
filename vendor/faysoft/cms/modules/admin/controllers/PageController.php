@@ -10,7 +10,7 @@ use cms\services\CategoryService;
 use cms\services\PageService;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;

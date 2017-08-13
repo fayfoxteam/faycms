@@ -1,8 +1,8 @@
 <?php
 namespace youdao\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use youdao\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;

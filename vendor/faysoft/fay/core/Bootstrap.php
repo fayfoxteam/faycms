@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\helpers\RuntimeHelper;
 
 class Bootstrap{

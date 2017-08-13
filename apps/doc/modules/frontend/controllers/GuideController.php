@@ -3,7 +3,7 @@ namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
 use cms\services\CategoryService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use cms\services\OptionService;
 
 class GuideController extends FrontController{

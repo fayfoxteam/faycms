@@ -2,8 +2,8 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use cms\services\post\PostService;
 use fay\helpers\StringHelper;
 

@@ -4,7 +4,7 @@ namespace apidoc\modules\frontend\controllers;
 use apidoc\library\FrontController;
 use apidoc\models\tables\ApidocCommonInputsTable;
 use apidoc\services\ApiService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 
 class ApiController extends FrontController{
     public function item(){

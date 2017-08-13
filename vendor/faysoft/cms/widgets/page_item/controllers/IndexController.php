@@ -3,7 +3,7 @@ namespace cms\widgets\page_item\controllers;
 
 use cms\models\tables\PagesTable;
 use cms\services\PageService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\widget\Widget;
 
 class IndexController extends Widget{

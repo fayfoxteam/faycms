@@ -1,7 +1,7 @@
 <?php
 namespace siwi\modules\frontend\controllers;
 
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use siwi\library\FrontController;
 use fay\helpers\StringHelper;
 use cms\models\tables\UsersTable;

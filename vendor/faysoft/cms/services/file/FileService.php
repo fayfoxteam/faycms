@@ -5,7 +5,7 @@ use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use cms\services\OptionService;
 use fay\common\Upload;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;

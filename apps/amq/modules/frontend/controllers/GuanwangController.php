@@ -5,7 +5,7 @@ use amq\library\FrontController;
 use cms\models\tables\PostsTable;
 use cms\services\file\RemoteFileService;
 use cms\services\post\PostService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 
 class GuanwangController extends FrontController{
     private $type_cat_map = array(

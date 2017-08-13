@@ -3,7 +3,7 @@ namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use cms\services\CategoryService;
 
 class PageController extends FrontController{

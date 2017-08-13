@@ -2,7 +2,7 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 use fayfeed\models\tables\FeedsTable;

@@ -4,7 +4,7 @@ namespace blog\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\UsersTable;
 use cms\services\CategoryService;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use fay\core\Sql;
 use fay\common\ListView;
 use blog\models\tables\Bills;

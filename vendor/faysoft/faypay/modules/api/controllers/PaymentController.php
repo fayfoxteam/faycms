@@ -2,7 +2,7 @@
 namespace faypay\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\exceptions\AccessDeniedHttpException;
+use fay\exceptions\AccessDeniedHttpException;
 use faypay\models\tables\PaymentsTable;
 use faypay\services\methods\PaymentMethodService;
 use faypay\services\trade\TradeItem;

@@ -2,7 +2,7 @@
 namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use cms\services\CategoryService;

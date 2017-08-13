@@ -1,5 +1,5 @@
 <?php
-namespace fay\core\exceptions;
+namespace fay\exceptions;
 
 use fay\core\Response;
 

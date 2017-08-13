@@ -5,7 +5,7 @@ use cms\models\tables\CategoriesTable;
 use cms\models\tables\PostsTable;
 use cms\services\CategoryService;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
 use qianlu\library\FrontController;

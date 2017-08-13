@@ -6,7 +6,7 @@ use cms\models\tables\ActionlogsTable;
 use cms\models\tables\ContactsTable;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Loader;
 use fay\core\Response;
 use fay\core\Sql;

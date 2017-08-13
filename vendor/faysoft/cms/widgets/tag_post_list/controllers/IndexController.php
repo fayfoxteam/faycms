@@ -7,7 +7,7 @@ use cms\models\tables\TagsTable;
 use cms\services\CategoryService;
 use cms\services\post\PostService;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\DateHelper;

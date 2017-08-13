@@ -9,7 +9,7 @@ use cms\services\FlashService;
 use cms\services\SettingService;
 use cms\services\shop\ShopGoodsService;
 use fay\common\ListView;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\DateHelper;

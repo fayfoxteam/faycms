@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\models\tables\UsersTable;
 use cms\services\user\UserService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\JsonResponse;
 use fay\core\Response;
 

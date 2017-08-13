@@ -3,7 +3,7 @@ namespace fay\widget;
 
 use cms\models\tables\WidgetsTable;
 use cms\services\widget\WidgetAreaService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\helpers\RuntimeHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;

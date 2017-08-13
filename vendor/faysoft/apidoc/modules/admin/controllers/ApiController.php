@@ -13,7 +13,7 @@ use cms\library\AdminController;
 use cms\services\CategoryService;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\exceptions\RecordNotFoundException;
+use fay\exceptions\RecordNotFoundException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;

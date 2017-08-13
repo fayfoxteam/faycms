@@ -1,8 +1,8 @@
 <?php
 namespace siwi\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use siwi\library\FrontController;
 use cms\models\tables\UsersTable;
 use cms\services\EmailService;

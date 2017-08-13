@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\PropsUsagesTable;
 use cms\services\prop\PropService;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;

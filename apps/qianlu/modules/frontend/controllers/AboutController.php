@@ -1,7 +1,7 @@
 <?php
 namespace qianlu\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use qianlu\library\FrontController;
 use cms\models\tables\PagesTable;
 use cms\services\OptionService;

@@ -3,8 +3,8 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use fay\core\Validator;
 
 class PageController extends FrontController{

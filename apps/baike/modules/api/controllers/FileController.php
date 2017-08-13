@@ -4,8 +4,8 @@ namespace baike\modules\api\controllers;
 use baike\library\ApiController;
 use cms\services\CategoryService;
 use cms\services\file\FileService;
-use fay\core\exceptions\RecordNotFoundException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\RecordNotFoundException;
+use fay\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Validator;
 

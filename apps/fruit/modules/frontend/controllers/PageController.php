@@ -1,7 +1,7 @@
 <?php
 namespace fruit\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fruit\library\FrontController;
 use cms\models\tables\PagesTable;
 

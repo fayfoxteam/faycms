@@ -3,7 +3,7 @@ namespace guangong\modules\frontend\controllers;
 
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongMessagesTable;

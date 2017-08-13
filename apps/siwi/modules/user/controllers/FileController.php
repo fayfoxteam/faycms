@@ -1,7 +1,7 @@
 <?php
 namespace siwi\modules\user\controllers;
 
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use siwi\library\UserController;
 use cms\models\tables\FilesTable;
 use cms\services\file\FileService;

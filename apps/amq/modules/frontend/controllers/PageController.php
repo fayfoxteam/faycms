@@ -3,7 +3,7 @@ namespace amq\modules\frontend\controllers;
 
 use amq\library\FrontController;
 use cms\services\PageService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 
 class PageController extends FrontController{
     public function __construct(){

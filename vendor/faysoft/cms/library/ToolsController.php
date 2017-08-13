@@ -5,7 +5,7 @@ use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
 use fay\core\Controller;
-use fay\core\exceptions\AccessDeniedHttpException;
+use fay\exceptions\AccessDeniedHttpException;
 use fay\core\Uri;
 use fay\helpers\LocalFileHelper;
 

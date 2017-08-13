@@ -1,8 +1,8 @@
 <?php
 namespace shinecolor\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use shinecolor\library\FrontController;
 use cms\models\tables\PagesTable;
 use fay\helpers\HtmlHelper;

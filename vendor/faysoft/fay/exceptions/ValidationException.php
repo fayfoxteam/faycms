@@ -1,5 +1,5 @@
 <?php
-namespace fay\core\exceptions;
+namespace fay\exceptions;
 
 /**
  * 表单数据格式异常

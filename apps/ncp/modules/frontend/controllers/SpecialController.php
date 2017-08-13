@@ -1,7 +1,7 @@
 <?php
 namespace ncp\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use ncp\library\FrontController;
 use cms\models\tables\PostsTable;
 use fay\core\Sql;

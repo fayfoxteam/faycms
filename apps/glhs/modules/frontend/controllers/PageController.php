@@ -1,8 +1,8 @@
 <?php
 namespace glhs\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use glhs\library\FrontController;
 use fay\core\Validator;
 use cms\services\PageService;

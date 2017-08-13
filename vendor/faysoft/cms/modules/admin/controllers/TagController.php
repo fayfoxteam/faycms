@@ -7,7 +7,7 @@ use cms\models\tables\PostsTagsTable;
 use cms\models\tables\TagCounterTable;
 use cms\models\tables\TagsTable;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 

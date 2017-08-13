@@ -10,7 +10,7 @@ use cms\services\user\UserPropService;
 use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use fay\core\Loader;
 use fay\core\Response;
 use fay\core\Sql;

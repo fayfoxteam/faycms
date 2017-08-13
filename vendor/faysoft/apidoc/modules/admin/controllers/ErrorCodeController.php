@@ -4,8 +4,8 @@ namespace apidoc\modules\admin\controllers;
 use apidoc\models\tables\ApidocErrorCodesTable;
 use cms\library\AdminController;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\NotFoundHttpException;
+use fay\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 

@@ -3,7 +3,7 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use cms\services\OptionService;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;

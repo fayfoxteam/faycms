@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\KeywordsTable;
 use fay\common\ListView;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 

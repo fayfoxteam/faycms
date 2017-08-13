@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\models\tables\PostsTable;
 use cms\services\post\PostCommentService;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;

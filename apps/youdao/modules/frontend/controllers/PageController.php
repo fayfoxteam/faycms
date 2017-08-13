@@ -1,7 +1,7 @@
 <?php
 namespace youdao\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use youdao\library\FrontController;
 use cms\models\tables\PagesTable;
 

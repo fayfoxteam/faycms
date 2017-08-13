@@ -2,7 +2,7 @@
 namespace cddx2\modules\frontend\controllers;
 
 use cddx2\library\FrontController;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use cms\services\CategoryService;
 
 class PostController extends FrontController{

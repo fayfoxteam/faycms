@@ -4,7 +4,7 @@ namespace cms\widgets\post_item\controllers;
 use cms\models\tables\PostMetaTable;
 use cms\services\post\PostService;
 use fay\core\db\Expr;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
 

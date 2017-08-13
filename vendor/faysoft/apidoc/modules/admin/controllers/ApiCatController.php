@@ -4,7 +4,7 @@ namespace apidoc\modules\admin\controllers;
 use apidoc\models\tables\ApidocApiCategoriesTable;
 use apidoc\services\ApiCategoryService;
 use cms\library\AdminController;
-use fay\core\exceptions\ValidationException;
+use fay\exceptions\ValidationException;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\helpers\NumberHelper;

@@ -1,7 +1,7 @@
 <?php
 namespace jxsj\modules\frontend\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use jxsj\library\FrontController;
 use cms\services\PageService;
 use cms\models\tables\PagesTable;

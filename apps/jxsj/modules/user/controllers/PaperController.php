@@ -1,7 +1,7 @@
 <?php
 namespace jxsj\modules\user\controllers;
 
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use jxsj\library\UserController;
 use fayexam\services\ExamService;
 use fay\core\Response;

@@ -2,7 +2,7 @@
 namespace church\modules\frontend\controllers;
 
 use church\library\FrontController;
-use fay\core\exceptions\NotFoundHttpException;
+use fay\exceptions\NotFoundHttpException;
 use cms\services\CategoryService;
 
 class CatController extends FrontController{

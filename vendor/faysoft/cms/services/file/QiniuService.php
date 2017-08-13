@@ -3,7 +3,6 @@ namespace cms\services\file;
 
 use cms\models\tables\FilesTable;
 use cms\services\OptionService;
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\NumberHelper;
@@ -23,7 +22,7 @@ class QiniuService extends Service{
      * 根据本地文件ID，将本地文件上传至七牛云空间
      * @param int $file 文件ID，若为0，则获取最老的未上传到七牛的文件
      * @return array
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function put($file = 0){
         if(!$file){
@@ -44,7 +43,7 @@ class QiniuService extends Service{
         
         $qiniu_config = OptionService::getGroup('qiniu');
         if(!$qiniu_config['accessKey'] || !$qiniu_config['secretKey'] || !$qiniu_config['bucket']){
-            throw new ErrorException('尝试上传文件到七牛，但七牛参数未配置');
+            throw new \ErrorException('尝试上传文件到七牛，但七牛参数未配置');
         }
         
         // 构建鉴权对象

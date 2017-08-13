@@ -42,7 +42,6 @@ class AmClient extends ClientAbstract{
      * @param null $state
      * @return AmAccessToken
      * @throws OAuthException
-     * @throws \fay\core\ErrorException
      */
     public function getAccessToken($code, $state = null){
         $state || $state = \F::input()->get('state');
@@ -56,7 +55,7 @@ class AmClient extends ClientAbstract{
             'client_secret'=>$this->app_secret,
             'code'=>$code,
             'grant_type'=>'authorization_code',
-            'redirect_uri'=>$this->redirect_uri ?: HTTP_USER_AGENT::getCurrentUrl(),
+            'redirect_uri'=>$this->redirect_uri ?: Request::getCurrentUrl(),
         ));
         
         if(!isset($response['access_token'])){

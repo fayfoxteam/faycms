@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\PropsUsagesTable;
 use cms\services\prop\PropService;
-use fay\core\HttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -18,10 +18,10 @@ class PropUsageController extends AdminController{
         $usage_id = $this->input->get('usage_id', 'intval');
 
         if(!$usage_type){
-            throw new HttpException('usage_type参数不能为空');
+            throw new ValidationException('usage_type参数不能为空');
         }
         if(!$usage_id){
-            throw new HttpException('usage_id参数不能为空');
+            throw new ValidationException('usage_id参数不能为空');
         }
         
         $this->form()->setRules(array(

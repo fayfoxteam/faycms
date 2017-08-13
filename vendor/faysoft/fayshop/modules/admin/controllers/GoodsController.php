@@ -9,7 +9,7 @@ use cms\services\FlashService;
 use cms\services\SettingService;
 use cms\services\shop\ShopGoodsService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\DateHelper;
@@ -90,7 +90,7 @@ class GoodsController extends AdminController{
         $cat = CategoryService::service()->get($this->input->get('cat_id', 'intval'), 'id,title');
         
         if(!$cat){
-            throw new HttpException('未指定商品分类或指定分类不存在');
+            throw new ValidationException('未指定商品分类或指定分类不存在');
         }
         
         $this->layout->subtitle = '添加商品 - 所属分类：'.$cat['title'];

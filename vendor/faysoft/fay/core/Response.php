@@ -171,7 +171,7 @@ class Response{
      * 设置返回数据格式
      * @param string $format
      * @return $this
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function setFormat($format){
         if($format != self::FORMAT_HTML &&
@@ -179,7 +179,7 @@ class Response{
             $format != self::FORMAT_JSONP &&
             $format != self::FORMAT_RAW
         ){
-            throw new ErrorException("非法的返回格式[{$format}]");
+            throw new \ErrorException("非法的返回格式[{$format}]");
         }
         
         $this->format = $format;
@@ -364,11 +364,11 @@ class Response{
      * 发送一个http头
      * @param int $code
      * @param string $text
-     * @throws HttpException
+     * @throws \ErrorException
      */
     public static function setStatusHeader($code = 200, $text = ''){
         if ($code == '' OR ! is_numeric($code)){
-            throw new HttpException('Status codes must be numeric', 500);
+            throw new \ErrorException('Status codes must be numeric', 500);
         }
 
         if (isset(self::$http_statuses[$code]) AND $text == ''){
@@ -376,7 +376,7 @@ class Response{
         }
 
         if ($text == ''){
-            throw new HttpException('No status text available.  Please check your status code number or supply your own message text.', 500);
+            throw new \ErrorException('No status text available.  Please check your status code number or supply your own message text.', 500);
         }
 
         $server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
@@ -428,6 +428,7 @@ class Response{
      * @param string $status 状态success, error
      * @param array|string $data
      * @param bool|array $redirect 跳转地址，若为true且是浏览器访问，则返回上一页。若为false，则不会跳转。若非布尔型，则视为跳转地址进行跳转
+     * @return JsonResponse
      */
     public static function notify($status = 'error', $data = array(), $redirect = true){
         if(!is_array($data)){

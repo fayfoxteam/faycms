@@ -3,8 +3,6 @@ namespace fayfeed\services;
 
 use cms\services\OptionService;
 use cms\services\user\UserService;
-use fay\core\ErrorException;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
@@ -45,22 +43,22 @@ class FeedCommentService extends MultiTreeModel{
      * @param int $user_id 用户ID，若不指定，默认为当前登录用户ID
      * @param int $sockpuppet 马甲信息，若是真实用户，传入0，默认为0
      * @return int
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function create($feed_id, $content, $parent = 0, $status = FeedCommentsTable::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
-        $user_id === null && $user_id = \F::app()->current_user;
+        $user_id = UserService::makeUserID($user_id);
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            throw new Exception('动态ID不存在', 'feed_id-not-exist');
+            throw new FeedNotExistException('动态ID不存在');
         }
         
         if($parent){
             $parent_comment = FeedCommentsTable::model()->find($parent, 'feed_id,delete_time');
             if(!$parent_comment || $parent_comment['delete_time']){
-                throw new Exception('父节点不存在', 'parent-not-exist');
+                throw new \RuntimeException('父节点不存在', 'parent-not-exist');
             }
             if($parent_comment['feed_id'] != $feed_id){
-                throw new Exception('被评论动态ID与指定父节点动态ID不一致', 'feed_id-and-parent-not-match');
+                throw new \RuntimeException('被评论动态ID与指定父节点动态ID不一致', 'feed_id-and-parent-not-match');
             }
         }
         
@@ -94,15 +92,15 @@ class FeedCommentService extends MultiTreeModel{
      * 软删除一条评论
      * 软删除不会修改parent标识，因为删除的东西随时都有可能会被恢复，而parent如果变了是无法被恢复的。
      * @param int $comment_id 评论ID
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function delete($comment_id){
         $comment = FeedCommentsTable::model()->find($comment_id, 'delete_time,feed_id,status,sockpuppet');
         if(!$comment){
-            throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
+            throw new \RuntimeException('指定评论ID不存在', 'comment_id-is-not-exist');
         }
         if($comment['delete_time']){
-            throw new Exception('评论已删除', 'comment-already-deleted');
+            throw new \RuntimeException('评论已删除', 'comment-already-deleted');
         }
         
         //软删除不需要动树结构，只要把deleted字段标记一下即可
@@ -159,15 +157,15 @@ class FeedCommentService extends MultiTreeModel{
     /**
      * 从回收站恢复一条评论
      * @param int $comment_id 评论ID
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function undelete($comment_id){
         $comment = FeedCommentsTable::model()->find($comment_id, 'delete_time,feed_id,status,sockpuppet');
         if(!$comment){
-            throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
+            throw new \RuntimeException('指定评论ID不存在', 'comment_id-is-not-exist');
         }
         if(!$comment['delete_time']){
-            throw new Exception('指定评论ID不在回收站中', 'comment-not-in-recycle-bin');
+            throw new \RuntimeException('指定评论ID不在回收站中', 'comment-not-in-recycle-bin');
         }
         
         //还原不需要动树结构，只是把deleted字段标记一下即可
@@ -225,12 +223,12 @@ class FeedCommentService extends MultiTreeModel{
      * 删除一条评论及所有回复该评论的评论
      * @param int $comment_id 评论ID
      * @return array
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function deleteAll($comment_id){
         $comment = FeedCommentsTable::model()->find($comment_id, 'left_value,right_value,root');
         if(!$comment){
-            throw new Exception('指定评论ID不存在');
+            throw new \RuntimeException('指定评论ID不存在');
         }
         
         //获取所有待删除节点
@@ -269,12 +267,12 @@ class FeedCommentService extends MultiTreeModel{
      * 永久删除一条评论
      * @param int $comment_id 评论ID
      * @return bool
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function remove($comment_id){
         $comment = FeedCommentsTable::model()->find($comment_id, '!content');
         if(!$comment){
-            throw new Exception('指定评论ID不存在');
+            throw new \RuntimeException('指定评论ID不存在');
         }
         
         //触发事件，这个不能用after，记录都没了就没法找了
@@ -296,12 +294,12 @@ class FeedCommentService extends MultiTreeModel{
      * 物理删除一条评论及所有回复该评论的评论
      * @param int $comment_id 评论ID
      * @return array
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function removeAll($comment_id){
         $comment = FeedCommentsTable::model()->find($comment_id, '!content');
         if(!$comment){
-            throw new Exception('指定评论ID不存在');
+            throw new \RuntimeException('指定评论ID不存在');
         }
         
         //获取所有待删除节点
@@ -336,18 +334,18 @@ class FeedCommentService extends MultiTreeModel{
      * 通过审核
      * @param int $comment_id 评论ID
      * @return bool
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function approve($comment_id){
         $comment = FeedCommentsTable::model()->find($comment_id, '!content');
         if(!$comment){
-            throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
+            throw new \RuntimeException('指定评论ID不存在', 'comment_id-is-not-exist');
         }
         if($comment['delete_time']){
-            throw new Exception('评论已删除', 'comment-deleted');
+            throw new \RuntimeException('评论已删除', 'comment-deleted');
         }
         if($comment['status'] == FeedCommentsTable::STATUS_APPROVED){
-            throw new Exception('已通过审核，请勿重复操作', 'already-approved');
+            throw new \RuntimeException('已通过审核，请勿重复操作', 'already-approved');
         }
         
         $this->setStatus($comment_id, FeedCommentsTable::STATUS_APPROVED);
@@ -397,18 +395,18 @@ class FeedCommentService extends MultiTreeModel{
      * 不通过审核
      * @param int $comment_id 评论ID
      * @return bool
-     * @throws Exception
+     * @throws \RuntimeException
      */
     public function disapprove($comment_id){
         $comment = FeedCommentsTable::model()->find($comment_id, '!content');
         if(!$comment){
-            throw new Exception('指定评论ID不存在', 'comment_id-is-not-exist');
+            throw new \RuntimeException('指定评论ID不存在', 'comment_id-is-not-exist');
         }
         if($comment['delete_time']){
-            throw new Exception('评论已删除', 'comment-is-deleted');
+            throw new \RuntimeException('评论已删除', 'comment-is-deleted');
         }
         if($comment['status'] == FeedCommentsTable::STATUS_UNAPPROVED){
-            throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
+            throw new \RuntimeException('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
         }
         
         $this->setStatus($comment_id, FeedCommentsTable::STATUS_UNAPPROVED);
@@ -586,7 +584,6 @@ class FeedCommentService extends MultiTreeModel{
      * @param string $action 操作
      * @param int $user_id 用户ID，若为空，则默认为当前登录用户
      * @return bool
-     * @throws ErrorException
      */
     public function checkPermission($comment, $action = 'delete', $user_id = null){
         if(!is_array($comment)){
@@ -595,7 +592,7 @@ class FeedCommentService extends MultiTreeModel{
         $user_id || $user_id = \F::app()->current_user;
         
         if(empty($comment['user_id'])){
-            throw new ErrorException('指定动态评论不存在');
+            throw new \UnexpectedValueException('指定动态评论不存在');
         }
         
         if($comment['user_id'] == $user_id){

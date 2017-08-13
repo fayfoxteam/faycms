@@ -4,7 +4,7 @@ namespace cms\widgets\post_item\controllers;
 use cms\models\tables\PostMetaTable;
 use cms\services\post\PostService;
 use fay\core\db\Expr;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\helpers\FieldsHelper;
 use fay\widget\Widget;
 
@@ -87,13 +87,13 @@ class IndexController extends Widget{
             );
             
             if(!$post){
-                throw new HttpException('您访问的页面不存在');
+                throw new NotFoundHttpException('您访问的页面不存在');
             }
         }else{
             //未传入ID字段或未设置ID字段名
             $post = PostService::service()->get($this->config['default_post_id'], $fields);
             if(!$post){
-                throw new HttpException('您访问的页面不存在');
+                throw new NotFoundHttpException('您访问的页面不存在');
             }
         }
         

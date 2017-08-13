@@ -1,13 +1,13 @@
 <?php
 namespace ncp\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use ncp\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use cms\services\post\PostService;
-use fay\core\HttpException;
 use fay\models\PropModel;
 use fay\helpers\ArrayHelper;
 use cms\models\tables\PropValuesTable;
@@ -114,7 +114,7 @@ class FoodController extends FrontController{
             ))->render();
             
         }else{
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
     }
     
@@ -122,7 +122,7 @@ class FoodController extends FrontController{
         $id = $this->input->get('id', 'intval');
         
         if(!$id || !$post = PostService::service()->get($id, '', 'food', true)){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         PostsTable::model()->update(array(
             'last_view_time'=>$this->current_time,
@@ -143,11 +143,11 @@ class FoodController extends FrontController{
             'post'=>$post,
             'area'=>$area,
             'buy_link'=>PostService::service()->getPropValueByAlias('food_buy_link', $id),
-            'routes'=>TourRouteTable::model()->fetchAll('post_id = '.$post['id']),
-            'travel_posts'=>RecommendTable::model()->getByCatAndArea($travel_cat, 9, OptionService::get('site:content_recommend_days'), $area['id']),
-            'product_posts'=>RecommendTable::model()->getByCatAndArea($product_cat, 9, OptionService::get('site:content_recommend_days'), $area['id']),
-            'right_posts'=>RecommendTable::model()->getByCatAndArea($food_cat, 6, OptionService::get('site:right_recommend_days'), 0, $id),
-            'right_top_posts'=>RecommendTable::model()->getByCatAndArea($product_cat, 2, OptionService::get('site:right_top_recommend_days')),
+            'routes'=>TourRoute::model()->fetchAll('post_id = '.$post['id']),
+            'travel_posts'=>Recommend::model()->getByCatAndArea($travel_cat, 9, OptionService::get('site:content_recommend_days'), $area['id']),
+            'product_posts'=>Recommend::model()->getByCatAndArea($product_cat, 9, OptionService::get('site:content_recommend_days'), $area['id']),
+            'right_posts'=>Recommend::model()->getByCatAndArea($food_cat, 6, OptionService::get('site:right_recommend_days'), 0, $id),
+            'right_top_posts'=>Recommend::model()->getByCatAndArea($product_cat, 2, OptionService::get('site:right_top_recommend_days')),
         ))->render();
     }
 }

@@ -9,7 +9,10 @@ use cms\services\MenuService;
 use cms\services\SettingService;
 use cms\services\user\UserService;
 use fay\core\Controller;
-use fay\core\HttpException;
+use fay\core\exceptions\AccessDeniedHttpException;
+use fay\core\exceptions\HttpException;
+use fay\core\exceptions\ValidationException;
+use fay\core\Form;
 use fay\core\Request;
 use fay\core\Uri;
 use fay\helpers\ArrayHelper;
@@ -62,7 +65,7 @@ class AdminController extends Controller{
 
         //权限判断
         if(!$this->checkPermission(Uri::getInstance()->router)){
-            throw new HttpException('您无权限做此操作', 403);
+            throw new AccessDeniedHttpException('您无权限做此操作');
         }
         
         if(!$this->input->isAjaxRequest()){
@@ -76,12 +79,12 @@ class AdminController extends Controller{
      * @param \fay\core\Form $form
      * @throws HttpException
      */
-    public function onFormError($form){
+    public function onFormError(Form $form){
         $errors = $form->getErrors();
         
         if($form->getScene() == 'final' || Request::isAjax()){
             //final类型的场景，直接抛异常中断直行（一般是列表页参数错误）
-            throw new HttpException($errors[0]['message'], 404);
+            throw new ValidationException($errors[0]['message']);
         }else{
             foreach($errors as $e){
                 FlashService::set($e['message']);
@@ -233,7 +236,6 @@ class AdminController extends Controller{
      * @param array $default 默认值
      * @param array $data 附加数据（函数内部会通过$key获取用户设置，有些特殊设置需要处理后传入，可以在这个参数传入）
      * @return array|null
-     * @throws \fay\core\Exception
      */
     public function settingForm($key, $panel, $default = array(), $data = array()){
         $this->layout->_setting_panel = $panel;

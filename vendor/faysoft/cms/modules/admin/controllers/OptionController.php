@@ -7,7 +7,7 @@ use cms\models\tables\OptionsTable;
 use cms\services\FlashService;
 use cms\services\OptionService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 
@@ -65,7 +65,7 @@ class OptionController extends AdminController{
             
             return $this->view->render();
         }else{
-            throw new HttpException('无效的ID');
+            throw new NotFoundHttpException('无效的ID');
         }
     }
     

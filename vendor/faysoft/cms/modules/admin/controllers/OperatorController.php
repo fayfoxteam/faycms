@@ -10,7 +10,8 @@ use cms\services\user\UserPropService;
 use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\AccessDeniedHttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Loader;
 use fay\core\Response;
 use fay\core\Sql;
@@ -162,7 +163,7 @@ class OperatorController extends AdminController{
         $user_id = $this->input->request('id', 'intval');
         
         if(UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN, $user_id) && !UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){
-            throw new HttpException('您无权编辑超级管理员账户', '403');
+            throw new AccessDeniedHttpException('您无权编辑超级管理员账户');
         }
         
         $this->form()->setScene('edit')
@@ -206,7 +207,7 @@ class OperatorController extends AdminController{
         if($id = $this->input->get('id', 'intval')){
             $this->view->user = UserService::service()->get($id, 'user.*,props.*,roles.title,profile.*');
         }else{
-            throw new HttpException('参数不完整', 500);
+            throw new ValidationException('参数不完整');
         }
         
         $this->layout->subtitle = "管理员 - {$this->view->user['user']['username']}";

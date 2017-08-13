@@ -2,7 +2,7 @@
 namespace faypay\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\HttpException;
+use fay\core\exceptions\AccessDeniedHttpException;
 use faypay\models\tables\PaymentsTable;
 use faypay\services\methods\PaymentMethodService;
 use faypay\services\trade\TradeItem;
@@ -37,7 +37,7 @@ class PaymentController extends ApiController{
         
         $trade = new TradeItem($this->form()->getData('trade_id'));
         if($trade->user_id != \F::app()->current_user){
-            throw new HttpException('您不能给该笔交易付款', 403);
+            throw new AccessDeniedHttpException('您不能给该笔交易付款');
         }
         
         $trade->pay($this->form()->getData('payment_id'));

@@ -28,8 +28,8 @@ class AmAccessToken extends AccessTokenAbstract{
         
         if(!isset($response['UserId'])){
             throw new OAuthException(
-                isset($response['error']) ? $response['error'] : '爱名OAuth拉去用户信息失败',
-                isset($response['errorcode']) ? $response['errorcode'] : json_encode($response)
+                isset($response['error']) ? $response['error'] : '爱名OAuth拉去用户信息失败' .
+                '[' . isset($response['errorcode']) ? $response['errorcode'] : json_encode($response) . ']'
             );
         }
         
@@ -42,20 +42,7 @@ class AmAccessToken extends AccessTokenAbstract{
      * @throws OAuthException
      */
     public function refresh(){
-        $response = HttpHelper::getJson(self::REFRESH_TOKEN_URL, array(
-            'appid'=>$this->app_id,
-            'grant_type'=>'refresh_token',
-            'refresh_token'=>$this->params['refresh_token'],
-        ));
         
-        if(isset($response['errcode'])){
-            throw new OAuthException($response['errmsg'], $response['errcode']);
-        }
-        
-        //更新access_token信息
-        $this->params = $response;
-        
-        return $this;
     }
     
     /**

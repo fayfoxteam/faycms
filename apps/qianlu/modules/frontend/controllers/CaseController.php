@@ -1,10 +1,10 @@
 <?php
 namespace qianlu\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use qianlu\library\FrontController;
 use cms\models\tables\PostsTable;
 use fay\helpers\StringHelper;
-use fay\core\HttpException;
 
 class CaseController extends FrontController{
     public $layout_template = 'inner';
@@ -52,7 +52,7 @@ class CaseController extends FrontController{
             $this->layout->keywords = $post['seo_keywords'] ? $post['seo_keywords'] : $post['title'];
             $this->layout->description = $post['seo_description'] ? $post['seo_description'] : $post['abstract'];
         }else{
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
     
         $this->layout->subtitle = '成功案例';

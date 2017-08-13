@@ -7,7 +7,6 @@ use apidoc\models\tables\ApidocOutputsTable;
 use cms\library\AdminController;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\ErrorException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\StringHelper;
@@ -103,7 +102,7 @@ class ModelController extends AdminController{
                     'name = ?'=>$p['type_name'],
                 ), 'id');
                 if(!$type_model){
-                    throw new ErrorException('指定属性类型不存在', $p['type_name']);
+                    throw new \InvalidArgumentException("指定属性类型不存在[{$p['type_name']}]");
                 }
                 
                 $prop = ApidocModelPropsTable::model()->fillData($p, true, 'insert');
@@ -197,7 +196,7 @@ class ModelController extends AdminController{
                     'name = ?'=>$p['type_name'],
                 ), 'id');
                 if(!$type_model){
-                    throw new ErrorException('指定属性类型不存在', $p['type_name']);
+                    throw new \InvalidArgumentException("指定属性类型不存在[{$p['type_name']}]");
                 }
                 
                 if(in_array($prop_id, $old_prop_ids)){

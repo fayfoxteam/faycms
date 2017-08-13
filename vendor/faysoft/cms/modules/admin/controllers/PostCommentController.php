@@ -6,7 +6,6 @@ use cms\models\tables\ActionlogsTable;
 use cms\models\tables\PostCommentsTable;
 use cms\services\post\PostCommentService;
 use fay\common\ListView;
-use fay\core\Exception;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
@@ -103,13 +102,13 @@ class PostCommentController extends AdminController{
                 ),
                 'message'=>'一条评论通过审核',
             ));
-        }catch(Exception $e){
+        }catch(\Exception $e){
             Response::notify('error', array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>$e->getMessage(),
-                'code'=>$e->getDescription(),
+                'code'=>'',
             ));
         }
     }
@@ -131,13 +130,13 @@ class PostCommentController extends AdminController{
                 ),
                 'message'=>'一条评论未通过审核',
             ));
-        }catch(Exception $e){
+        }catch(\Exception $e){
             Response::notify('error', array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>$e->getMessage(),
-                'code'=>$e->getDescription(),
+                'code'=>'',
             ));
         }
     }
@@ -161,13 +160,13 @@ class PostCommentController extends AdminController{
                     'id'=>$id,
                 )))
             ));
-        }catch(Exception $e){
+        }catch(\Exception $e){
             Response::notify('error', array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>$e->getMessage(),
-                'code'=>$e->getDescription(),
+                'code'=>'',
             ));
         }
     }
@@ -191,13 +190,13 @@ class PostCommentController extends AdminController{
                     'id'=>$id,
                 ))),
             ));
-        }catch(Exception $e){
+        }catch(\Exception $e){
             Response::notify('error', array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>$e->getMessage(),
-                'code'=>$e->getDescription(),
+                'code'=>'',
             ));
         }
     }
@@ -219,13 +218,13 @@ class PostCommentController extends AdminController{
                 ),
                 'message'=>'一条留言被永久删除',
             ));
-        }catch(Exception $e){
+        }catch(\Exception $e){
             Response::notify('error', array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>$e->getMessage(),
-                'code'=>$e->getDescription(),
+                'code'=>'',
             ));
         }
     }

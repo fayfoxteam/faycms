@@ -3,8 +3,7 @@ namespace fay\widget;
 
 use cms\models\tables\WidgetsTable;
 use cms\services\widget\WidgetAreaService;
-use fay\core\Exception;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\helpers\RuntimeHelper;
 use fay\helpers\StringHelper;
 use fay\helpers\UrlHelper;
@@ -62,7 +61,7 @@ class Loader{
     public static function isEditing(){
         return !!\F::input()->request('_editing');
     }
-    
+
     /**
      * 根据数据库中的别名，实例化对应的widget，进行渲染
      * @param int|string|array $widget
@@ -72,8 +71,7 @@ class Loader{
      * @param string $index 若为小工具域调用，则此参数为本小工具在小工具域中的位置
      * @param bool $ajax 是否ajax调用，若为null，默认采用widgets表设置。若存在启用缓存，则不会走ajax。
      * @param string $action
-     * @throws HttpException
-     * @throws \fay\core\ErrorException
+     * @throws NotFoundHttpException
      */
     public function load($widget, $index = null, $ajax = null, $action = 'index'){
         if(!is_array($widget)){
@@ -117,7 +115,7 @@ class Loader{
                 RuntimeHelper::append(__FILE__, __LINE__, "小工具: {$widget['alias']}渲染完成");
             }
         }else{
-            throw new HttpException('Widget不存在或已被删除');
+            throw new NotFoundHttpException('Widget不存在或已被删除');
         }
     }
 
@@ -219,11 +217,12 @@ class Loader{
             }
         }
     }
-    
+
     /**
      * 返回小工具参数
      * @param string $alias 小工具实例别名
-     * @throws HttpException
+     * @return array
+     * @throws NotFoundHttpException
      */
     public function getData($alias){
         $widget_config = WidgetsTable::model()->fetchRow(array(
@@ -231,7 +230,7 @@ class Loader{
         ));
         
         if(!$widget_config){
-            throw new HttpException('Widget不存在或已被删除');
+            throw new NotFoundHttpException('Widget不存在或已被删除');
         }
         
         if($widget_config['enabled']){
@@ -240,22 +239,22 @@ class Loader{
             //初始化配置
             $widget_obj->initConfig(json_decode($widget_config['config'], true));
             if($widget_obj == null){
-                throw new HttpException('Widget不存在或已被删除');
+                throw new NotFoundHttpException('Widget不存在或已被删除');
             }
             if(method_exists($widget_obj, 'getData')){
                 return $widget_obj->getData();
             }else{
-                throw new HttpException('小工具未实现获取数据方法');
+                return array();
             }
         }else{
-            throw new HttpException('小工具未启用');
+            throw new NotFoundHttpException('小工具未启用');
         }
     }
-    
+
     /**
      * 渲染一个小工具域
-     * @param string $alias 小工具域别名
-     * @throws Exception
+     * @param string $key
+     * @internal param string $alias 小工具域别名
      */
     public function area($key){
         $widgets = WidgetAreaService::service()->getWidgets($key);

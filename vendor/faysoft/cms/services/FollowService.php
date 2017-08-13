@@ -3,9 +3,9 @@ namespace cms\services;
 
 use cms\models\tables\FollowsTable;
 use cms\models\tables\UserCounterTable;
+use cms\services\user\UserNotExistException;
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
@@ -40,25 +40,24 @@ class FollowService extends Service{
      * @param null|int $fan_id 粉丝，默认为当前登陆用户
      * @param int $sockpuppet 马甲信息
      * @return int
-     * @throws Exception
      */
     public static function add($user_id, $trackid = '', $fan_id = null, $sockpuppet = 0){
         if($fan_id === null){
             $fan_id = \F::app()->current_user;
         }else if(!UserService::isUserIdExist($fan_id)){
-            throw new Exception('指定粉丝ID不存在', 'the-given-fans-id-is-not-exist');
+            throw new UserNotExistException('指定粉丝ID不存在');
         }
         
         if($user_id == $fan_id){
-            throw new Exception('粉丝和用户ID不能相同', 'can-not-follow-yourself');
+            throw new \RuntimeException('粉丝和用户ID不能相同');
         }
         
         if(!UserService::isUserIdExist($user_id)){
-            throw new Exception("关注的用户ID[{$user_id}]不存在", 'the-given-fans-id-is-not-exist');
+            throw new UserNotExistException("关注的用户ID[{$user_id}]不存在");
         }
         
         if(self::isFollow($user_id, $fan_id)){
-            throw new Exception('已关注，不能重复关注', 'already-followed');
+            throw new \RuntimeException('已关注，不能重复关注');
         }
         
         $isFollow = self::isFollow($fan_id, $user_id);
@@ -102,13 +101,9 @@ class FollowService extends Service{
      * @param int $user_id 取消关注的人
      * @param null|int $fan_id 粉丝，默认为当前登录用户
      * @return bool
-     * @throws Exception
      */
     public static function remove($user_id, $fan_id = null){
-        $fan_id || $fan_id = \F::app()->current_user;
-        if(!$fan_id){
-            throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
-        }
+        $fan_id = UserService::makeUserID($fan_id);
         
         if(self::isFollow($user_id, $fan_id)){//是关注状态，执行取消关注
             //删除关注关系
@@ -150,13 +145,9 @@ class FollowService extends Service{
      * @param int $user_id 被关注的人ID
      * @param string $fan_id 粉丝ID，默认为当前登录用户
      * @return int 0-未关注;1-单向关注;2-双向关注
-     * @throws Exception
      */
     public static function isFollow($user_id, $fan_id = null){
-        $fan_id || $fan_id = \F::app()->current_user;
-        if(!$fan_id){
-            throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
-        }
+        $fan_id = UserService::makeUserID($fan_id);
         
         $follow = FollowsTable::model()->find(array($fan_id, $user_id), 'relation');
         if($follow){
@@ -171,13 +162,9 @@ class FollowService extends Service{
      * @param array $user_ids 由用户ID组成的一维数组
      * @param string $fan_id 粉丝ID，默认为当前登录用户
      * @return array 根据传入的$user_ids为数组的键，对应值为:0-未关注;1-单向关注;2-双向关注
-     * @throws Exception
      */
     public static function mIsFollow($user_ids, $fan_id = null){
-        $fan_id || $fan_id = \F::app()->current_user;
-        if(!$fan_id){
-            throw new Exception('未能获取到粉丝ID', 'can-not-find-a-effective-fans-id');
-        }
+        $fan_id = UserService::makeUserID($fan_id);
         
         $follows = FollowsTable::model()->fetchAll(array(
             'fans_id = ?'=>$fan_id,

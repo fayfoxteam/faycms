@@ -1,6 +1,7 @@
 <?php
 namespace fay\core;
 
+use fay\core\exceptions\NotFoundHttpException;
 use fay\helpers\RuntimeHelper;
 
 class Bootstrap{
@@ -27,7 +28,7 @@ class Bootstrap{
         
         if(!$uri->router){
             //路由解析失败
-            throw new HttpException('Routing format illegal');
+            throw new NotFoundHttpException('非法的路由');
         }
         
         //根据router来读取缓存
@@ -114,12 +115,12 @@ class Bootstrap{
         //发送响应
         $response->send();
     }
-    
+
     /**
      * 查找对应的controller文件和action方法
      * @param Uri $uri
      * @return array
-     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     private function getControllerAndAction($uri){
         //包名指定的是app
@@ -167,7 +168,7 @@ class Bootstrap{
             }
             
             if($found_controllers){
-                throw new HttpException("Found the following controllers, but no Action {$uri->action} found among them.", 404, implode("\n", $found_controllers));
+                throw new NotFoundHttpException("Found the following controllers, but no Action {$uri->action} found among them.\n" . implode("\n", $found_controllers));
             }
         }
         
@@ -187,11 +188,11 @@ class Bootstrap{
                     'action'=>$uri->action.'Action',
                 );
             }else{
-                throw new HttpException("Action \"{$uri->action}\" Not Found IN Controller \"{$class_name}\"");
+                throw new NotFoundHttpException("Action \"{$uri->action}\" Not Found IN Controller \"{$class_name}\"");
             }
         }
         
         //访问地址不存在
-        throw new HttpException("Controller \"{$uri->controller}\" Not Found");
+        throw new NotFoundHttpException("Controller \"{$uri->controller}\" Not Found");
     }
 }

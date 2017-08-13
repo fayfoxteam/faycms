@@ -354,7 +354,6 @@ class PostTagService extends Service{
      * @param string $order 排序条件
      * @param bool $conditions 附加条件
      * @return array
-     * @throws \fay\core\ErrorException
      */
     public function getPosts($tag_id, $limit = 10, $fields = 'id,title,publish_time,thumbnail', $order = 'is_top DESC, sort DESC, publish_time DESC', $conditions = false){
         $sql = new Sql();

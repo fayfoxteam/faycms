@@ -1,9 +1,10 @@
 <?php
 namespace glhs\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use glhs\library\FrontController;
 use fay\core\Validator;
-use fay\core\HttpException;
 use cms\services\PageService;
 
 class PageController extends FrontController{
@@ -33,10 +34,10 @@ class PageController extends FrontController{
                 $this->layout->current_directory = $page['alias'];
                 return $this->view->render();
             }else{
-                throw new HttpException('别名不存在');
+                throw new NotFoundHttpException('别名不存在');
             }
         }else{
-            throw new HttpException('参数异常', 500);
+            throw new ValidationException('参数异常', 500);
         }
     }
 }

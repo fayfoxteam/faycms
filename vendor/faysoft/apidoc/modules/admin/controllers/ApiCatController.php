@@ -4,7 +4,7 @@ namespace apidoc\modules\admin\controllers;
 use apidoc\models\tables\ApidocApiCategoriesTable;
 use apidoc\services\ApiCategoryService;
 use cms\library\AdminController;
-use fay\core\HttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Response;
 use fay\helpers\HtmlHelper;
 use fay\helpers\NumberHelper;
@@ -31,7 +31,7 @@ class ApiCatController extends AdminController{
         
         $app_id = $this->input->get('app_id', 'intval');
         if(!$app_id){
-            throw new HttpException('app_id参数不能为空');
+            throw new ValidationException('app_id参数不能为空');
         }
 
         //页面设置

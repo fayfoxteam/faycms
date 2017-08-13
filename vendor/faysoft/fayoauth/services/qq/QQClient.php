@@ -43,7 +43,6 @@ class QQClient extends ClientAbstract{
      * @param null $state
      * @return QQAccessToken
      * @throws OAuthException
-     * @throws \fay\core\ErrorException
      */
     public function getAccessToken($code, $state = null){
         $state || $state = \F::input()->get('state');

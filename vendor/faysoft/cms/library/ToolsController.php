@@ -5,7 +5,7 @@ use cms\models\tables\RolesTable;
 use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
 use fay\core\Controller;
-use fay\core\HttpException;
+use fay\core\exceptions\AccessDeniedHttpException;
 use fay\core\Uri;
 use fay\helpers\LocalFileHelper;
 
@@ -34,7 +34,7 @@ class ToolsController extends Controller{
     
     public function __construct(){
         if(!\F::config()->get('enable_tools')){
-            throw new HttpException('系统禁用了Tools，可在configs/main.php中开启', 403);
+            throw new AccessDeniedHttpException('系统禁用了Tools，可在configs/main.php中开启');
         }
         parent::__construct();
         //重置session.namespace
@@ -48,7 +48,6 @@ class ToolsController extends Controller{
     
     /**
      * 验证仅超级管理员可访问
-     * @throws \fay\core\HttpException
      */
     public function isLogin(){
         //设置当前用户id
@@ -60,7 +59,7 @@ class ToolsController extends Controller{
         }
         
         if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN)){
-            throw new HttpException('仅超级管理员可访问此模块', 403);
+            throw new AccessDeniedHttpException('仅超级管理员可访问此模块');
         }
     }
     

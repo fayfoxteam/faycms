@@ -1,8 +1,7 @@
 <?php
 namespace guangong\services;
 
-use fay\core\ErrorException;
-use fay\core\Exception;
+use cms\services\user\UserNotExistException;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\services\user\UserService;
@@ -20,14 +19,13 @@ class AttendanceService extends Service{
      * 出勤（完成所有当日任务，算一次出勤）
      * @param null|int $user_id 用户ID，默认为当前登录用户ID
      * @return bool
-     * @throws ErrorException
-     * @throws Exception
+     * @throws \Exception
      */
     public function attend($user_id = null){
         if($user_id === null){
             $user_id = \F::app()->current_user;
         }else if(!UserService::isUserIdExist($user_id)){
-            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
+            throw new UserNotExistException('指定用户ID不存在');
         }
         
         //获取最后一条出勤记录
@@ -44,7 +42,7 @@ class AttendanceService extends Service{
         if($last_attendance){
             //曾经出勤过
             if($last_attendance['create_date'] == date('Y-m-d', \F::app()->current_time)){
-                throw new Exception('您今天已经出勤过了，欢迎明天继续', 'already-attended');
+                throw new \Exception('您今天已经出勤过了，欢迎明天继续');
             }
             
             if($last_attendance['create_date'] == date('Y-m-d', \F::app()->current_time - 86400)){
@@ -68,13 +66,12 @@ class AttendanceService extends Service{
     /**
      * 获取总出勤次数
      * @param null|int $user_id
-     * @throws ErrorException
      */
     public function getCount($user_id = null){
         if($user_id === null){
             $user_id = \F::app()->current_user;
         }else if(!UserService::isUserIdExist($user_id)){
-            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
+            throw new UserNotExistException('指定用户ID不存在');
         }
         
         $attendances = GuangongAttendancesTable::model()->fetchRow(array(

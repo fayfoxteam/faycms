@@ -3,7 +3,7 @@ namespace doc\modules\frontend\controllers;
 
 use doc\library\FrontController;
 use cms\services\CategoryService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use cms\services\OptionService;
 
 class GuideController extends FrontController{
@@ -12,7 +12,7 @@ class GuideController extends FrontController{
         $cat = CategoryService::service()->get($cat, '*', 'fayfox');
         
         if(empty($cat)){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         
         $this->layout->page_title = $cat['description'] ? "{$cat['title']}（{$cat['description']}）" : $cat['title'];

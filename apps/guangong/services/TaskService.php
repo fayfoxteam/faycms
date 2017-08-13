@@ -1,8 +1,6 @@
 <?php
 namespace guangong\services;
 
-use fay\core\ErrorException;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\services\user\UserService;
@@ -16,25 +14,20 @@ class TaskService extends Service{
     public static function service(){
         return Loader::singleton(__CLASS__);
     }
-    
+
     /**
      * 完成一个任务
      * @param int $task_id 任务ID
      * @param null|int $user_id
      * @return bool
-     * @throws ErrorException
-     * @throws Exception
+     * @throws \Exception
      */
     public function done($task_id, $user_id = null){
-        if(!$user_id){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $task = GuangongTasksTable::model()->find($task_id, 'enabled');
         if(!$task['enabled']){
-            throw new Exception('任务未开启');
+            throw new \Exception('任务未开启');
         }
         
         $user_task = GuangongUserTasksTable::model()->fetchRow(array(
@@ -65,14 +58,9 @@ class TaskService extends Service{
      * 完成任务后调用，判断用户是否已经完成当日所有任务
      * @param null|int $user_id
      * @return bool
-     * @throws ErrorException
      */
     private function afterDone($user_id = null){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         //获取所有开启的任务
         $task_ids = GuangongTasksTable::model()->fetchCol('id', array(

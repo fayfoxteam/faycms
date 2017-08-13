@@ -7,7 +7,7 @@ use cms\models\tables\TagsTable;
 use cms\services\CategoryService;
 use cms\services\post\PostService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\DateHelper;
@@ -159,12 +159,11 @@ class IndexController extends Widget{
         
         return $fields;
     }
-    
+
     /**
      * 获取ListView对象
      * @return ListView
-     * @throws HttpException
-     * @throws \fay\core\ErrorException
+     * @throws NotFoundHttpException
      */
     private function getListView(){
         //获取标签
@@ -175,7 +174,7 @@ class IndexController extends Widget{
                 'title = ?'=>$this->input->get($this->config['tag_title_key'])
             ), 'id');
             if(!$tag){
-                throw new HttpException('您访问的页面不存在');
+                throw new NotFoundHttpException('您访问的页面不存在');
             }
             $tag_id = $tag['id'];
         }else{
@@ -183,7 +182,7 @@ class IndexController extends Widget{
         }
         
         if(empty($tag_id)){
-            throw new HttpException('您访问的页面不存在');
+            throw new NotFoundHttpException('您访问的页面不存在');
         }
         
         $sql = new Sql();

@@ -1,10 +1,10 @@
 <?php
 namespace siwi\modules\user\controllers;
 
+use fay\core\exceptions\ValidationException;
 use siwi\library\UserController;
 use cms\models\tables\FilesTable;
 use cms\services\file\FileService;
-use fay\core\HttpException;
 use cms\services\CategoryService;
 
 class FileController extends UserController{
@@ -23,7 +23,7 @@ class FileController extends UserController{
         }else if($target == 'avatar'){
             $cat_id = CategoryService::service()->getIdByAlias($target);
         }else{
-            throw new HttpException('参数异常', 500);
+            throw new ValidationException('参数异常', 500);
         }
         
         $private = !!$this->input->get('p');

@@ -8,7 +8,7 @@ use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
 use cms\services\FlashService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 
@@ -99,7 +99,7 @@ class ActionController extends AdminController{
 
         $action = ActionsTable::model()->find($action_id);
         if(!$action){
-            throw new HttpException("指定权限ID[{$action_id}]不存在");
+            throw new NotFoundHttpException("指定权限ID[{$action_id}]不存在");
         }
         if($action['parent']){
             $parent_action = ActionsTable::model()->find($action['parent'], 'router');

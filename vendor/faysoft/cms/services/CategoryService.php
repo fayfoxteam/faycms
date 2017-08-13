@@ -2,7 +2,6 @@
 namespace cms\services;
 
 use cms\models\tables\CategoriesTable;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\helpers\FieldsHelper;
 use fay\helpers\StringHelper;
@@ -45,7 +44,6 @@ class CategoryService extends TreeModel{
      *  - 若为字符串，视为分类别名
      *  - 若为数组，则必须包含left_value和right_value
      * @return array|bool
-     * @throws Exception
      */
     public function get($cat, $fields = '*', $root = null){
         $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
@@ -131,7 +129,6 @@ class CategoryService extends TreeModel{
      * @param string $fields 返回字段
      * @param string $order 排序规则
      * @return array
-     * @throws Exception
      */
     public function getNextLevel($cat, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort, id'){
         $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
@@ -142,7 +139,7 @@ class CategoryService extends TreeModel{
             //子类中重写此方法是为了用getIdByAlias这个方法，因为这个方法很容易做缓存
             $id = $this->getIdByAlias($cat);
             if(!$id){
-                throw new Exception("指定分类别名[{$cat}]不存在");
+                throw new \UnexpectedValueException("指定分类别名[{$cat}]不存在");
             }
             return parent::getNextLevel($id, $fields->getFields(), $order);
         }else{

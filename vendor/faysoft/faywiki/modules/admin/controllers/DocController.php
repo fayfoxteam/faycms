@@ -9,7 +9,9 @@ use cms\services\FlashService;
 use cms\services\post\PostService;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\AccessDeniedHttpException;
+use fay\core\exceptions\RecordNotFoundException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
@@ -57,7 +59,7 @@ class DocController extends AdminController{
         $cat = CategoryService::service()->get($cat_id, 'title', '_system_wiki_doc');
         
         if(!$cat){
-            throw new HttpException('所选分类不存在');
+            throw new RecordNotFoundException("所选分类[{$cat_id}]不存在");
         }
         
         //触发事件（可以定制一些box以扩展文档功能）
@@ -287,13 +289,13 @@ class DocController extends AdminController{
         
         $doc_id = $this->input->get('id', 'intval');
         if(empty($doc_id)){
-            throw new HttpException('参数不完整', 500);
+            throw new ValidationException('id参数不能为空');
         }
         
         //原文档部分信息
         $doc = WikiDocsTable::model()->find($doc_id, 'cat_id,status');
         if(!$doc){
-            throw new HttpException('无效的文档ID');
+            throw new RecordNotFoundException("无效的文档ID[{$doc_id}]");
         }
         
         $cat = CategoryService::service()->get($doc['cat_id'], 'title');
@@ -498,7 +500,7 @@ class DocController extends AdminController{
             case 'set-published':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, WikiDocsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文档');
                     }
                 }
                 
@@ -510,7 +512,7 @@ class DocController extends AdminController{
             case 'set-draft':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, WikiDocsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文档');
                     }
                 }
                 
@@ -522,7 +524,7 @@ class DocController extends AdminController{
             case 'set-pending':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, WikiDocsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文档');
                     }
                 }
                 
@@ -534,7 +536,7 @@ class DocController extends AdminController{
             case 'set-reviewed':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, WikiDocsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文档');
                     }
                 }
                 
@@ -546,7 +548,7 @@ class DocController extends AdminController{
             case 'delete':
                 foreach($ids as $id){
                     if(!PostService::checkDeletePermission($id)){
-                        throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文档');
                     }
                 }
                 
@@ -558,7 +560,7 @@ class DocController extends AdminController{
             case 'undelete':
                 foreach($ids as $id){
                     if(!PostService::checkUndeletePermission($id)){
-                        throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文档');
                     }
                 }
                 
@@ -570,7 +572,7 @@ class DocController extends AdminController{
             case 'remove':
                 foreach($ids as $id){
                     if(!PostService::checkRemovePermission($id)){
-                        throw new HttpException('您无权限编辑该文档', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文档');
                     }
                 }
                 

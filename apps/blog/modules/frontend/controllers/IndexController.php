@@ -3,11 +3,11 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use cms\services\OptionService;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use cms\services\CategoryService;
-use fay\core\HttpException;
 
 class IndexController extends FrontController{
     public function __construct(){
@@ -32,7 +32,7 @@ class IndexController extends FrontController{
         if($this->input->get('cat')){
             $cat = CategoryService::service()->get($this->input->get('cat', 'intval'));
             if(!$cat){
-                throw new HttpException('分类不存在');
+                throw new NotFoundHttpException('分类不存在');
             }
             $sql->where(array(
                 'c.left_value >= '.$cat['left_value'],

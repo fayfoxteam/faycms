@@ -5,7 +5,6 @@ use cms\services\user\UserOauthService;
 use fay\helpers\UrlHelper;
 use faypay\models\PaymentMethodConfigModel;
 use faypay\models\PaymentTradeModel;
-use faypay\services\methods\PaymentMethodException;
 use faypay\services\methods\PaymentMethodInterface;
 use faypay\services\trade\TradePaymentService;
 
@@ -14,7 +13,6 @@ class WeixinPayment implements PaymentMethodInterface{
      * jsapi支付方式
      * @param PaymentTradeModel $trade
      * @param PaymentMethodConfigModel$config
-     * @throws PaymentMethodException
      * @throws \WxPayException
      */
     public function jsapi(PaymentTradeModel $trade, PaymentMethodConfigModel $config){

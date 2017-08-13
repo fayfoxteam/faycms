@@ -6,7 +6,6 @@ use cms\models\tables\PostMetaTable;
 use cms\models\tables\PostsTable;
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
@@ -36,17 +35,16 @@ class PostFavoriteService extends Service{
      * @param string $trackid
      * @param int $user_id 用户ID，默认为当前登录用户
      * @param int $sockpuppet
-     * @throws Exception
      */
     public static function add($post_id, $trackid = '', $user_id = null, $sockpuppet = 0){
         $user_id = UserService::makeUserID($user_id);
         
         if(!PostService::isPostIdExist($post_id)){
-            throw new Exception('文章ID不存在', 'invalid-parameter:post_id-not-exist');
+            throw new PostNotExistException('文章ID不存在');
         }
         
         if(self::isFavorited($post_id, $user_id)){
-            throw new Exception('已收藏，不能重复收藏', 'already-favorited');
+            throw new \RuntimeException('已收藏，不能重复收藏');
         }
         
         PostFavoritesTable::model()->insert(array(
@@ -75,13 +73,9 @@ class PostFavoriteService extends Service{
      * @param int $post_id 文章ID
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws Exception
      */
     public static function remove($post_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $favorite = PostFavoritesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
@@ -118,13 +112,9 @@ class PostFavoriteService extends Service{
      * @param int $post_id 文章ID
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws Exception
      */
     public static function isFavorited($post_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         return !!PostFavoritesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
@@ -137,13 +127,9 @@ class PostFavoriteService extends Service{
      * @param array $post_ids 由文章ID组成的一维数组
      * @param int|null $user_id 用户ID，默认为当前登录用户
      * @return array
-     * @throws Exception
      */
     public static function mIsFavorited($post_ids, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         if(!is_array($post_ids)){
             $post_ids = explode(',', str_replace(' ', '', $post_ids));
@@ -170,13 +156,9 @@ class PostFavoriteService extends Service{
      * @param int $page_size
      * @param int|null $user_id 用户ID，默认为当前登录用户
      * @return array
-     * @throws Exception
      */
     public function getList($fields, $page = 1, $page_size = 20, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $sql = new Sql();
         $sql->from(array('pf'=>'post_favorites'), 'post_id')

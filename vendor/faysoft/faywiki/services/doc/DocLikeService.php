@@ -1,6 +1,7 @@
 <?php
 namespace faywiki\services\doc;
 
+use cms\services\user\FeedNotExistException;
 use cms\services\user\UserService;
 use fay\common\ListView;
 use fay\core\Loader;
@@ -42,11 +43,11 @@ class DocLikeService extends Service{
         $user_id = UserService::makeUserID($user_id);
         
         if(!DocService::isDocIdExist($doc_id)){
-            throw new DocErrorException("指定文档ID[{$doc_id}]不存在", 'the-given-doc-id-is-not-exist');
+            throw new FeedNotExistException("指定文档ID[{$doc_id}]不存在");
         }
         
         if(self::isLiked($doc_id, $user_id)){
-            throw new DocException('已赞过，不能重复点赞', 'already-liked');
+            throw new DocException('已赞过，不能重复点赞');
         }
         
         WikiDocLikesTable::model()->insert(array(
@@ -79,10 +80,7 @@ class DocLikeService extends Service{
      * @throws DocErrorException
      */
     public static function remove($doc_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new DocErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $like = WikiDocLikesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
@@ -121,10 +119,7 @@ class DocLikeService extends Service{
      * @throws DocErrorException
      */
     public static function isLiked($doc_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new DocErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         return !!WikiDocLikesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
@@ -140,10 +135,7 @@ class DocLikeService extends Service{
      * @throws DocErrorException
      */
     public static function mIsLiked($doc_ids, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new DocErrorException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         if(!is_array($doc_ids)){
             $doc_ids = explode(',', str_replace(' ', '', $doc_ids));

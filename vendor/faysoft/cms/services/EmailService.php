@@ -1,7 +1,6 @@
 <?php
 namespace cms\services;
 
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 
@@ -19,14 +18,14 @@ class EmailService extends Service{
      * @param string $subject 邮件标题
      * @param string $body 邮件内容
      * @return bool|string
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public static function send($address, $subject, $body){
         $config = OptionService::getGroup('email');
         if($config['enabled'] === null || empty($config['Host']) ||
             empty($config['Username']) || empty($config['Password']) ||
             empty($config['Port'])){
-            throw new ErrorException('Email参数未配置');
+            throw new \ErrorException('Email参数未配置');
         }else if(!$config['enabled']){
             return true;
         }

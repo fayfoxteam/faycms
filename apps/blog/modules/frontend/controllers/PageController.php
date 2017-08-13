@@ -3,8 +3,9 @@ namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
 use cms\models\tables\PagesTable;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Validator;
-use fay\core\HttpException;
 
 class PageController extends FrontController{
     public function __construct(){
@@ -35,10 +36,10 @@ class PageController extends FrontController{
                 $this->layout->current_directory = $page['alias'];
                 return $this->view->render();
             }else{
-                throw new HttpException('别名不存在');
+                throw new NotFoundHttpException('别名不存在');
             }
         }else{
-            throw new HttpException('参数异常', 500);
+            throw new ValidationException('参数异常', 500);
         }
     }
 }

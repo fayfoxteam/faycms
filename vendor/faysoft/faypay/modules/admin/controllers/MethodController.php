@@ -4,8 +4,7 @@ namespace faypay\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\ActionlogsTable;
 use fay\common\ListView;
-use fay\core\ErrorException;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
@@ -19,8 +18,6 @@ class MethodController extends AdminController{
     
     /**
      * 支付方式列表
-     * @throws ErrorException
-     * @throws \fay\core\Exception
      */
     public function index(){
         $this->layout->subtitle = '支付方式';
@@ -45,7 +42,6 @@ class MethodController extends AdminController{
     
     /**
      * 添加支付方式
-     * @throws \fay\core\Exception
      */
     public function create(){
         $this->layout->subtitle = '添加支付方式';
@@ -106,7 +102,7 @@ class MethodController extends AdminController{
         $payment = PaymentsTable::model()->find($id);
         
         if(!$payment){
-            throw new HttpException('无效的支付方式ID');
+            throw new NotFoundHttpException('无效的支付方式ID');
         }
         
         $this->view->payment = $payment;
@@ -130,7 +126,7 @@ class MethodController extends AdminController{
         $payment = PaymentsTable::model()->find($this->input->get('id', 'intval'), 'id');
         
         if(!$payment){
-            throw new HttpException('无效的支付方式ID');
+            throw new NotFoundHttpException('无效的支付方式ID');
         }
         
         PaymentsTable::model()->update(array(
@@ -152,7 +148,7 @@ class MethodController extends AdminController{
         $payment = PaymentsTable::model()->find($this->input->get('id', 'intval'), 'id');
         
         if(!$payment){
-            throw new HttpException('无效的支付方式ID');
+            throw new NotFoundHttpException('无效的支付方式ID');
         }
         
         PaymentsTable::model()->update(array(
@@ -175,7 +171,7 @@ class MethodController extends AdminController{
         if(file_exists($setting_file)){
             include $setting_file;
         }else{
-            throw new ErrorException('支付方式配置面板文件丢失');
+            throw new \ErrorException('支付方式配置面板文件丢失');
         }
     }
 }

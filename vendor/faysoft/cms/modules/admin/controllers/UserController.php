@@ -10,7 +10,7 @@ use cms\services\user\UserPropService;
 use cms\services\user\UserRoleService;
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Loader;
 use fay\core\Response;
 use fay\core\Sql;
@@ -210,7 +210,7 @@ class UserController extends AdminController{
         if($id = $this->input->get('id', 'intval')){
             $this->view->user = UserService::service()->get($id, 'user.*,props.*,roles.title,profile.*');
         }else{
-            throw new HttpException('参数不完整', 500);
+            throw new ValidationException('参数不完整');
         }
         
         $this->layout->subtitle = "用户 - {$this->view->user['user']['username']}";

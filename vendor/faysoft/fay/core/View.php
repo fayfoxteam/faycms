@@ -95,7 +95,6 @@ class View{
      * @param string $view 视图文件
      * @param string $layout 模板文件目录
      * @return null|string
-     * @throws Exception
      */
     public function render($view = null, $layout = null){
         RuntimeHelper::append(__FILE__, __LINE__, '准备渲染视图');
@@ -131,8 +130,8 @@ class View{
      * @param string $view
      * @param array $view_data 传参（此函数不调用全局的传参，只认传入的参数）
      * @param int $cache 局部缓存，大于0表示过期时间；等于0表示永不过期；小于0表示不缓存
-     * @return NULL|string
-     * @throws ErrorException
+     * @return null|string
+     * @throws \ErrorException
      */
     public function renderPartial($view = null, $view_data = array(), $cache = -1){
         RuntimeHelper::append(__FILE__, __LINE__, '开始渲染视图: ' . $view);
@@ -216,7 +215,7 @@ class View{
         }
         
         if(empty($view_path)){
-            throw new ErrorException('视图文件不存在', 'Relative Path: '.$view_relative_path);
+            throw new \ErrorException('视图文件不存在', 'Relative Path: '.$view_relative_path);
         }else{
             $content = $this->obOutput($view_path, $view_data);
         }

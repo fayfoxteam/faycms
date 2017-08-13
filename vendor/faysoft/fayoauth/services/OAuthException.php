@@ -1,8 +1,6 @@
 <?php
 namespace fayoauth\services;
 
-use fay\core\ErrorException;
-
-class OAuthException extends ErrorException{
+class OAuthException extends \RuntimeException{
     
 }

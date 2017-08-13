@@ -58,14 +58,14 @@ class Sql{
                 $alias = $a;
             }else{
                 if($t instanceof Sql){
-                    throw new ErrorException('子查询必须设置别名');
+                    throw new \ErrorException('子查询必须设置别名');
                 }
                 $alias = $t;
             }
             $short_name = $t;
         }else{
             if($table instanceof Sql){
-                throw new ErrorException('子查询必须设置别名');
+                throw new \ErrorException('子查询必须设置别名');
             }
             $short_name = $table;
             $alias = $table;

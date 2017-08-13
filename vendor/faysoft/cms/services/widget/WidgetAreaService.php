@@ -3,7 +3,6 @@ namespace cms\services\widget;
 
 use cms\models\tables\WidgetAreasTable;
 use cms\models\tables\WidgetAreasWidgetsTable;
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
@@ -22,7 +21,6 @@ class WidgetAreaService extends Service{
      * @param int|string $key
      * @param string|array $fields
      * @return array
-     * @throws ErrorException
      */
     public function get($key, $fields = '*'){
         if(NumberHelper::isInt($key)){
@@ -32,11 +30,11 @@ class WidgetAreaService extends Service{
                 'alias = ?'=>$key,
             ), $fields);
         }else{
-            throw new ErrorException('指定小工具标识['.json_encode($key).'无法识别');
+            throw new \InvalidArgumentException('指定小工具标识['.json_encode($key).'无法识别');
         }
         
         if(!$widget){
-            throw new ErrorException("指定小工具域ID或别名[{$key}]不存在");
+            throw new \UnexpectedValueException("指定小工具域ID或别名[{$key}]不存在");
         }
         
         return $widget;
@@ -54,6 +52,7 @@ class WidgetAreaService extends Service{
     /**
      * 获取一个小工具域下的所有小工具记录
      * @param int|string $id
+     * @param bool $only_enabled
      * @return array
      */
     public function getWidgets($id, $only_enabled = true){
@@ -75,11 +74,10 @@ class WidgetAreaService extends Service{
      * 创建小工具
      * @param array $data
      * @return int
-     * @throws ErrorException
      */
     public function create($data){
         if(empty($data['alias'])){
-            throw new ErrorException('小工具域别名不能为空');
+            throw new \InvalidArgumentException('小工具域别名不能为空');
         }
         
         return WidgetAreasTable::model()->insert($data, true);
@@ -89,11 +87,10 @@ class WidgetAreaService extends Service{
      * @param int|string $id $id 小工具域id或别名
      * @param array $data
      * @return int
-     * @throws ErrorException
      */
     public function update($id, $data){
         if(empty($data['alias'])){
-            throw new ErrorException('小工具域别名不能为空');
+            throw new \InvalidArgumentException('小工具域别名不能为空');
         }
         
         $widget_area = $this->get($id, 'id');
@@ -105,7 +102,6 @@ class WidgetAreaService extends Service{
      * 物理删除一个小工具域
      * @param int|string $id 小工具域id或别名
      * @return int
-     * @throws ErrorException
      */
     public function remove($id){
         $widget_area = $this->get($id, 'id');
@@ -117,7 +113,6 @@ class WidgetAreaService extends Service{
      * 关联小工具
      * @param int $id 小工具域id或别名
      * @param array $widgets 小工具ID一维数组
-     * @throws ErrorException
      */
     public function relateWidget($id, $widgets){
         $widget_area = $this->get($id, 'id');

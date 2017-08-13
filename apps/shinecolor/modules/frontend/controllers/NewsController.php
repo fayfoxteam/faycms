@@ -1,6 +1,7 @@
 <?php
 namespace shinecolor\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use shinecolor\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;
@@ -8,7 +9,6 @@ use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use cms\services\post\PostService;
 use fay\helpers\HtmlHelper;
-use fay\core\HttpException;
 
 class NewsController extends FrontController{
     public function __construct(){
@@ -26,7 +26,7 @@ class NewsController extends FrontController{
         $cat = CategoryService::service()->get($cat_alias, '*');
         
         if(!$cat){
-            throw new HttpException('404页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         
         if($cat['alias'] == 'news'){
@@ -84,7 +84,7 @@ class NewsController extends FrontController{
         $post = PostService::service()->get($id);
         
         if(!$post){
-            throw new HttpException('404页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         
         $this->view->children = CategoryService::service()->getChildren('news');

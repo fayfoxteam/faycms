@@ -3,7 +3,6 @@ namespace fayfeed\services;
 
 use cms\models\tables\UserCounterTable;
 use cms\services\user\UserService;
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
@@ -551,7 +550,6 @@ class FeedService extends Service{
      *  - 若是数字，视为动态ID，会根据ID搜索数据库
      * @param string $user_id 用户ID，若为空，则默认为当前登录用户
      * @return bool
-     * @throws ErrorException
      */
     public function checkDeletePermission($feed, $user_id = null){
         if(!is_array($feed)){
@@ -560,7 +558,7 @@ class FeedService extends Service{
         $user_id || $user_id = \F::app()->current_user;
         
         if(empty($feed['user_id'])){
-            throw new ErrorException('指定动态不存在');
+            throw new FeedNotExistException('指定动态不存在');
         }
         
         if($feed['user_id'] == $user_id){

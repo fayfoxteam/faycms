@@ -3,7 +3,6 @@ namespace cms\services\prop\elements;
 
 use cms\services\prop\PropUsageInterface;
 use fay\core\db\Table;
-use fay\core\ErrorException;
 
 abstract class ElementAbstract{
     /**
@@ -26,10 +25,10 @@ abstract class ElementAbstract{
 
     /**
      * 获取表单元素名称
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public static function getName(){
-        throw new ErrorException('请在子类中定义名称');
+        throw new \ErrorException('请在子类中定义名称');
     }
     
     /**

@@ -133,7 +133,7 @@ class Controller{
     /**
      * 检查token防重复提交，每次校验都会重新生成一个token
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     protected function checkToken(){
         $token = $this->input->request('_token');
@@ -142,7 +142,7 @@ class Controller{
         if($token && $token == $last_token){
             return true;
         }else{
-            throw new Exception('Token校验失败');
+            throw new \Exception('Token校验失败');
         }
     }
     

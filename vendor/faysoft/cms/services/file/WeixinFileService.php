@@ -5,8 +5,6 @@ use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use cms\services\OptionService;
 use cms\services\wechat\core\AccessToken;
-use fay\core\ErrorException;
-use fay\core\HttpException;
 use fay\core\Loader;
 use fay\core\Service;
 
@@ -29,13 +27,10 @@ class WeixinFileService extends Service{
      * @param int $cat_id
      * @param string $client_name
      * @return int
-     * @throws ErrorException
      */
     public static function add($server_id, $cat_id = 0, $client_name = ''){
-        if($cat_id){
-            if(!CategoryService::service()->get($cat_id, 'id', '_system_file')){
-                throw new ErrorException('cms\services\file\WeixinFileService::addFile传入$cat_id不存在');
-            }
+        if($cat_id && !CategoryService::service()->isIdExist($cat_id, '_system_file')){
+            throw new \InvalidArgumentException("指定分类ID[{$cat_id}]不存在");
         }
         
         return FilesTable::model()->insert(array(
@@ -53,7 +48,6 @@ class WeixinFileService extends Service{
      * 目前不支持并发，后台跑一个服务就好了，并发会导致重复下载
      * @param int $file_id
      * @return int
-     * @throws HttpException
      */
     public static function download($file_id = 0){
         if(!$file_id){
@@ -96,13 +90,12 @@ class WeixinFileService extends Service{
      * 根据server_id获取可访问的微信服务器图片地址
      * @param $server_id
      * @return string
-     * @throws ErrorException
      */
     public static function getUrl($server_id){
         //获取Access Token
         $app_config = OptionService::getGroup('oauth:weixin');
         if(!$app_config['app_id'] || !$app_config['app_secret']){
-            throw new ErrorException('尝试获取微信图片url，但微信公众号参数未设置');
+            throw new \RuntimeException('尝试获取微信图片url，但微信公众号参数未设置');
         }
         
         $access_token = new AccessToken($app_config['app_id'], $app_config['app_secret']);

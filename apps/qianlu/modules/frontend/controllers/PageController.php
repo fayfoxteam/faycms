@@ -1,9 +1,9 @@
 <?php
 namespace qianlu\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use qianlu\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\core\HttpException;
 
 class PageController extends FrontController{
     public $layout_template = 'inner';
@@ -23,7 +23,7 @@ class PageController extends FrontController{
             PagesTable::model()->incr($page['id'], 'views', 1);
             $this->view->page = $page;
         }else{
-            throw new HttpException('您请求的页面不存在');
+            throw new NotFoundHttpException('您请求的页面不存在');
         }
 
         $this->layout->submenu = array(

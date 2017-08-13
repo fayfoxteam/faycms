@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\models\tables\PostsTable;
 use cms\services\post\PostCommentService;
-use fay\core\HttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
@@ -441,7 +441,7 @@ class PostCommentController extends ApiController{
         if($comment){
             return new JsonResponse($comment);
         }else{
-            throw new HttpException('评论ID不存在');
+            throw new ValidationException('评论ID不存在');
         }
     }
 }

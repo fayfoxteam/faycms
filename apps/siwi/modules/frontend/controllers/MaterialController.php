@@ -1,6 +1,7 @@
 <?php
 namespace siwi\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use siwi\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;
@@ -8,7 +9,6 @@ use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use cms\services\post\PostService;
 use cms\models\tables\MessagesTable;
-use fay\core\HttpException;
 use siwi\helpers\FriendlyLink;
 
 class MaterialController extends FrontController{
@@ -89,7 +89,7 @@ class MaterialController extends FrontController{
         $post = PostService::service()->get($id, 'nav,user');
         
         if(!$post){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         PostsTable::model()->incr($post['id'], 'views', 1);//阅读数
         $this->view->post = $post;

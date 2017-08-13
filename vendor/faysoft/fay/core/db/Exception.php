@@ -1,9 +1,7 @@
 <?php
 namespace fay\core\db;
 
-use fay\core\ErrorException;
-
-class Exception extends ErrorException{
+class Exception extends \ErrorException{
     /**
      * @var string
      */

@@ -12,7 +12,6 @@ use cms\services\prop\ItemPropService;
 use cms\services\prop\PropService;
 use cms\services\prop\PropUsageInterface;
 use fay\core\db\Table;
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 
@@ -45,12 +44,11 @@ class  UserPropService extends Service implements PropUsageInterface{
      * 例如：用途是文章分类属性，则根据分类Id，获取分类标题
      * @param int $id
      * @return string
-     * @throws ErrorException
      */
     public function getUsageItemTitle($id){
         $role = RolesTable::model()->find($id, 'title');
         if(!$role){
-            throw new ErrorException("指定角色ID[{$id}]不存在");
+            throw new \UnexpectedValueException("指定角色ID[{$id}]不存在");
         }
         return $role['title'];
     }
@@ -82,7 +80,6 @@ class  UserPropService extends Service implements PropUsageInterface{
      *  此类表必须包含3个字段：refer, prop_id, content
      *  其中content字段类型分别为：int(10), varchar(255), text
      * @return Table
-     * @throws ErrorException
      */
     public function getModel($data_type){
         switch($data_type){
@@ -95,7 +92,7 @@ class  UserPropService extends Service implements PropUsageInterface{
             case 'text':
                 return UserPropTextTable::model();
             default:
-                throw new ErrorException("不支持的数据类型[{$data_type}]");
+                throw new \InvalidArgumentException("不支持的数据类型[{$data_type}]");
         }
     }
 

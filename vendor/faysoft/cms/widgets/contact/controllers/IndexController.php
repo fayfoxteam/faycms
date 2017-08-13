@@ -44,7 +44,6 @@ class IndexController extends Widget{
     
     /**
      * 初始化表单验证
-     * @throws \fay\core\Exception
      */
     private function initForm(){
         $this->form('widget_contact')->setData($this->input->post());

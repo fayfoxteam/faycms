@@ -4,7 +4,6 @@ namespace fay\models;
 use cms\services\user\UserService;
 use fay\common\ListView;
 use fay\core\db\Expr;
-use fay\core\ErrorException;
 use fay\core\Model;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -45,13 +44,13 @@ abstract class MultiTreeModel extends Model{
     
     public function __construct(){
         if(!$this->model){
-            throw new ErrorException(__CLASS__ . '::$model属性未指定');
+            throw new \ErrorException(__CLASS__ . '::$model属性未指定');
         }
         if(!$this->foreign_key){
-            throw new ErrorException(__CLASS__ . '::$foreign_key属性未指定');
+            throw new \ErrorException(__CLASS__ . '::$foreign_key属性未指定');
         }
         if(!$this->field_key){
-            throw new ErrorException(__CLASS__ . '::$field_key属性未指定');
+            throw new \ErrorException(__CLASS__ . '::$field_key属性未指定');
         }
     }
     
@@ -121,7 +120,6 @@ abstract class MultiTreeModel extends Model{
      * 物理删除，其子节点会挂到其父节点上
      * @param int|array $node 节点ID或包含id,left_value,right_value,parent,root节点信息的数组
      * @return bool
-     * @throws ErrorException
      */
     protected function _remove($node){
         //获取被删除节点
@@ -129,7 +127,7 @@ abstract class MultiTreeModel extends Model{
             $node = \F::table($this->model)->find($node, 'id,left_value,right_value,parent,root');
         }
         if(!$node){
-            throw new ErrorException('节点不存在', 'node-not-exist');
+            throw new \InvalidArgumentException('节点不存在');
         }
         
         if($node['right_value'] - $node['left_value'] == 1){
@@ -203,7 +201,6 @@ abstract class MultiTreeModel extends Model{
      * 删除一个节点，及其所有子节点
      * @param int|array $node 节点ID或包含id,left_value,right_value,root节点信息的数组
      * @return bool
-     * @throws ErrorException
      */
     protected function _removeAll($node){
         //获取被删除节点
@@ -211,7 +208,7 @@ abstract class MultiTreeModel extends Model{
             $node = \F::table($this->model)->find($node, 'id,left_value,right_value,root');
         }
         if(!$node){
-            throw new ErrorException('节点不存在', 'node-not-exist');
+            throw new \InvalidArgumentException('节点不存在', 'node-not-exist');
         }
         
         //删除所有树枝节点
@@ -643,16 +640,15 @@ abstract class MultiTreeModel extends Model{
      * @param array $join_conditions
      * @param string $order 排序方式（ASC, DESC可选）
      * @return array
-     * @throws ErrorException
      */
     protected function _getChildrenList($parent_id, $count = 10, $page = 1, $fields = '*', $conditions = array(), $join_conditions = array(), $order = 'ASC'){
         if(!$parent_id){
-            throw new ErrorException('父节点不能为空');
+            throw new \InvalidArgumentException('父节点不能为空');
         }
         
         $node = \F::table($this->model)->find($parent_id, 'root,left_value,right_value');
         if(!$node){
-            throw new ErrorException('指定父节点不存在');
+            throw new \InvalidArgumentException('指定父节点不存在');
         }
         
         //解析$fields

@@ -2,7 +2,6 @@
 namespace cms\services\wechat\core;
 
 use fay\caching\Cache;
-use fay\core\ErrorException;
 use fay\helpers\HttpHelper;
 
 /**
@@ -81,7 +80,7 @@ class AccessToken{
         ));
         
         if(empty($token['access_token'])){
-            throw new ErrorException('获取微信AccessToken失败，返回：' . json_encode($token, JSON_UNESCAPED_UNICODE));
+            throw new \ErrorException('获取微信AccessToken失败，返回：' . json_encode($token, JSON_UNESCAPED_UNICODE));
         }
         
         return $token;

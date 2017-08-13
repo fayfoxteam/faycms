@@ -1,15 +1,14 @@
 <?php
 namespace ncp\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use ncp\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use cms\services\post\PostService;
-use fay\core\HttpException;
 use fay\core\db\Expr;
-use ncp\models\Recommend;
 use cms\services\OptionService;
 
 class NewsController extends FrontController{
@@ -61,7 +60,7 @@ class NewsController extends FrontController{
             return $this->view->render();
             
         }else{
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
     }
     
@@ -69,7 +68,7 @@ class NewsController extends FrontController{
         $id = $this->input->get('id', 'intval');
         
         if(!$id || !$post = PostService::service()->get($id, 'nav.id,nav.title', 'news')){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         PostsTable::model()->update(array(
             'last_view_time'=>$this->current_time,

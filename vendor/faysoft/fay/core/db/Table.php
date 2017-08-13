@@ -113,7 +113,6 @@ class Table extends Model{
      * @param bool $fill 若为true，则会与$except字段配合进行字段过滤，排除不存在的字段和except中指定的字段
      * @param string $except 当$fill为true时，指定不更新某些字段
      * @return int|null
-     * @throws \fay\core\Exception
      */
     public function update($data, $where, $fill = false, $except = 'update'){
         if(StringHelper::isInt($where)){

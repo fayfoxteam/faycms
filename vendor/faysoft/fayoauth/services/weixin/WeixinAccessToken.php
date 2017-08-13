@@ -39,7 +39,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
         ));
         
         if(isset($response['errcode'])){
-            throw new OAuthException($response['errmsg'], $response['errcode']);
+            throw new OAuthException("{$response['errmsg']}[{$response['errcode']}]");
         }
         
         return new WeixinUser($response, $this);
@@ -58,7 +58,7 @@ class WeixinAccessToken extends AccessTokenAbstract{
         ));
         
         if(isset($response['errcode'])){
-            throw new OAuthException($response['errmsg'], $response['errcode']);
+            throw new OAuthException("{$response['errmsg']}[{$response['errcode']}]");
         }
         
         //更新access_token信息

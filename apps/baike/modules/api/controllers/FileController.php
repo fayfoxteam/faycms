@@ -4,7 +4,8 @@ namespace baike\modules\api\controllers;
 use baike\library\ApiController;
 use cms\services\CategoryService;
 use cms\services\file\FileService;
-use fay\core\HttpException;
+use fay\core\exceptions\RecordNotFoundException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Validator;
 
@@ -21,7 +22,7 @@ class FileController extends ApiController{
         ));
 
         if($check !== true){
-            throw new HttpException('参数异常');
+            throw new ValidationException('参数异常');
         }
 
         set_time_limit(0);
@@ -30,7 +31,7 @@ class FileController extends ApiController{
         if($cat){
             $cat = CategoryService::service()->get('_system_file_' . $cat, 'id,alias');
             if(!$cat){
-                throw new HttpException('指定的文件分类不存在');
+                throw new RecordNotFoundException('指定的文件分类不存在');
             }
         }else{
             $cat = 0;

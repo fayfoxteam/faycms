@@ -1,7 +1,6 @@
 <?php
 namespace fay\validators;
 
-use fay\core\ErrorException;
 use fay\core\Sql;
 use fay\core\Validator;
 
@@ -40,7 +39,7 @@ class ExistValidator extends Validator{
         $field = $this->field ? $this->field : $this->_field;
         
         if(!$this->table){
-            throw new ErrorException('fay\validators\Exist验证器必须指定table参数');
+            throw new \ErrorException('fay\validators\Exist验证器必须指定table参数');
         }
         
         $sql = new Sql();

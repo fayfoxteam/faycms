@@ -1,8 +1,6 @@
 <?php
 namespace fay\helpers;
 
-use fay\core\ErrorException;
-
 class HttpHelper{
     
     /**
@@ -46,13 +44,13 @@ class HttpHelper{
         $combined = self::combineURL($url, $values);
         return self::getContents($combined);
     }
-    
+
     /**
      * get方式请求json，解析成数组后返回（若服务端返回非json类型，会抛出一个异常）
      * @param string $url
      * @param array $values
      * @return mixed
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public static function getJson($url, $values = array()){
         $response = trim(self::get($url, $values));
@@ -64,7 +62,7 @@ class HttpHelper{
         
         $response_json = json_decode($response, true);
         if(!$response_json){
-            throw new ErrorException('请求JSON数据格式异常', self::combineURL($url, $values) . ": [{$response}]");
+            throw new \ErrorException('请求JSON数据格式异常。' . self::combineURL($url, $values) . ": [{$response}]");
         }
         
         return $response_json;
@@ -126,7 +124,7 @@ class HttpHelper{
      * @param $url
      * @param $values
      * @return mixed|null
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public static function postJson($url, $values){
         $response = trim(self::post($url, $values));
@@ -138,7 +136,7 @@ class HttpHelper{
 
         $response_json = json_decode($response, true);
         if(!$response_json){
-            throw new ErrorException('请求JSON数据格式异常', "[url={$url}[" . json_encode($values) . ']' . $response);
+            throw new \ErrorException('请求JSON数据格式异常。' . "[url={$url}[" . json_encode($values) . ']' . $response);
         }
 
         return $response_json;

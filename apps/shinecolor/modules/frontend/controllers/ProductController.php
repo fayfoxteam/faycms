@@ -1,6 +1,7 @@
 <?php
 namespace shinecolor\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use shinecolor\library\FrontController;
 use fay\core\Sql;
 use cms\services\CategoryService;
@@ -8,7 +9,6 @@ use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use cms\services\post\PostService;
 use fay\helpers\HtmlHelper;
-use fay\core\HttpException;
 
 class ProductController extends FrontController{
     public function __construct(){
@@ -72,7 +72,7 @@ class ProductController extends FrontController{
         $post = PostService::service()->get($id);
         
         if(!$post){
-            throw new HttpException('文章不存在');
+            throw new NotFoundHttpException('文章不存在');
         }
         
         $this->layout->breadcrumbs = array(

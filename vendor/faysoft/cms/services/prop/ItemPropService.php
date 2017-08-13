@@ -3,7 +3,6 @@ namespace cms\services\prop;
 
 use cms\models\tables\PropsTable;
 use cms\services\prop\elements\ElementAbstract;
-use fay\core\ErrorException;
 use fay\helpers\ArrayHelper;
 
 /**
@@ -119,12 +118,11 @@ class ItemPropService{
      * （不能直接根据$data的键来判断，因为值被置空的时候，可能键不存在）
      * @param array $data 属性值
      * @param array $title_alias 自定义属性名称
-     * @throws ErrorException
      */
     public function updatePropSet(array $props, array $data, $title_alias = array()){
         foreach($props as $prop){
             if(!isset($prop['id']) || !isset($prop['element'])){
-                throw new ErrorException('数据格式异常');
+                throw new \InvalidArgumentException('数据格式异常');
             }
             $this->getElement($prop['element'])->set(
                 $this->relation_id,
@@ -177,12 +175,11 @@ class ItemPropService{
      *  - 当$value是数字的时候，仅做插入（已存在则无操作）操作，
      *  - 当$value是数组的时候，将影响原有的属性值（不存在则删除，已存在则无操作）
      * @return bool
-     * @throws ErrorException
      */
     public function setValue($prop_key, $value){
         $prop = PropService::service()->get($prop_key);
         if(!$prop){
-            throw new ErrorException("指定属性[{$prop}]不存在");
+            throw new \UnexpectedValueException("指定属性[{$prop}]不存在");
         }
         
         $this->getElement($prop['element'])->set($this->relation_id, $prop['id'], $value);
@@ -193,12 +190,11 @@ class ItemPropService{
      * 获取一个用户属性值
      * @param string|int $prop_key 属性ID或别名
      * @return mixed
-     * @throws ErrorException
      */
     public function getValue($prop_key){
         $prop = PropService::service()->get($prop_key);
         if(!$prop){
-            throw new ErrorException("指定属性[{$prop}]不存在");
+            throw new \UnexpectedValueException("指定属性[{$prop}]不存在");
         }
         
         return $this->getElement($prop['element'])->get($this->relation_id, $prop['id']);

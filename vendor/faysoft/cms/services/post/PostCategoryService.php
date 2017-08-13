@@ -435,7 +435,6 @@ class PostCategoryService extends Service{
      *   若包含$posts.post.id字段，则以此字段作为文章ID
      *   若不包含$posts.post.id，则以$posts的键作为文章ID
      * @param null|string $fields 字段（categories表字段）
-     * @throws PostErrorException
      */
     public function assembleSecondaryCats(&$posts, $fields = null){
         //获取所有文章ID

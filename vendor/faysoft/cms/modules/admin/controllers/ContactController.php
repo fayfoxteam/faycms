@@ -6,7 +6,7 @@ use cms\models\tables\ActionlogsTable;
 use cms\models\tables\ContactsTable;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Loader;
 use fay\core\Response;
 use fay\core\Sql;
@@ -196,7 +196,7 @@ class ContactController extends AdminController{
         //获取留言
         $contact = ContactsTable::model()->find($id);
         if(!$contact){
-            throw new HttpException('指定留言ID不存在');
+            throw new NotFoundHttpException('指定留言ID不存在');
         }
         
         //格式化数据

@@ -3,8 +3,6 @@ namespace cms\services\user;
 
 use cms\models\tables\UsersTable;
 use cms\services\file\FileService;
-use fay\core\ErrorException;
-use fay\core\HttpException;
 use fay\core\Loader;
 use fay\core\Service;
 use fayoauth\models\tables\OauthUserConnectsTable;
@@ -94,8 +92,6 @@ class UserOauthService extends Service{
      * 从远程将头像下载到本地后，返回本地文件ID
      * @param string $avatar_url 远程头像url
      * @return int
-     * @throws ErrorException
-     * @throws HttpException
      */
     public function getLocalAvatar($avatar_url){
         if($avatar_url){
@@ -118,10 +114,7 @@ class UserOauthService extends Service{
      * @throws OAuthException
      */
     public function getOpenId($app_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new OAuthException('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $oauth_app_id = OauthAppService::service()->getIdByAppId($app_id);
         if(!$oauth_app_id){

@@ -1,8 +1,9 @@
 <?php
 namespace glhs\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use glhs\library\FrontController;
-use fay\core\HttpException;
 use cms\services\post\PostService;
 use fay\core\Validator;
 use cms\services\CategoryService;
@@ -16,12 +17,12 @@ class PostController extends FrontController{
         if($validator->check(array(
             array('alias', 'required'),
         )) !== true){
-            throw new HttpException('异常的请求', 404);
+            throw new ValidationException('异常的请求');
         }
         
         $cat = CategoryService::service()->get($this->input->get('alias'));
         if(!$cat){
-            throw new HttpException('文章不存在', 404);
+            throw new NotFoundHttpException('文章不存在');
         }
 
         $this->layout->title = $cat['title'];
@@ -52,14 +53,14 @@ class PostController extends FrontController{
             array(array('id', 'cat'), 'required'),
             array(array('id'), 'numeric'),
         )) !== true){
-            throw new HttpException('异常的请求', 404);
+            throw new ValidationException('异常的请求');
         }
         
         $cat = CategoryService::service()->get($this->input->get('cat'));
         
         $post = PostService::service()->get($this->input->get('id', 'intval'), 'nav.id,nav.title', $cat);
         if(!$post){
-            throw new HttpException('文章不存在', 404);
+            throw new NotFoundHttpException('文章不存在');
         }
         $this->view->post = $post;
         

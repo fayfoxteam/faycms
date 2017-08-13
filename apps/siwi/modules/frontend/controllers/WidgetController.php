@@ -1,9 +1,10 @@
 <?php
 namespace siwi\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use siwi\library\FrontController;
 use fay\helpers\StringHelper;
-use fay\core\HttpException;
 
 class WidgetController extends FrontController{
     //加载一个widget
@@ -17,7 +18,7 @@ class WidgetController extends FrontController{
                         'message'=>'Widget不存在或已被删除',
                     ));
                 }else{
-                    throw new HttpException('Widget不存在或已被删除');
+                    throw new NotFoundHttpException('Widget不存在或已被删除');
                 }
             }
             $action = StringHelper::hyphen2case($this->input->get('action', 'trim', 'index'), false);
@@ -32,7 +33,7 @@ class WidgetController extends FrontController{
                         'message'=>'Widget方法不存在',
                     ));
                 }else{
-                    throw new HttpException('Widget方法不存在');
+                    throw new NotFoundHttpException('Widget方法不存在');
                 }
             }
         }else{
@@ -42,7 +43,7 @@ class WidgetController extends FrontController{
                     'message'=>'不完整的请求',
                 ));
             }else{
-                throw new HttpException('不完整的请求', 500);
+                throw new ValidationException('不完整的请求', 500);
             }
         }
     }

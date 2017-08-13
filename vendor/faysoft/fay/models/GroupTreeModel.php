@@ -2,8 +2,6 @@
 namespace fay\models;
 
 use fay\core\db\Table;
-use fay\core\ErrorException;
-use fay\core\Exception;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
 
@@ -34,7 +32,7 @@ abstract class GroupTreeModel{
     
     public function __construct(){
         if(!$this->group_field){
-            throw new ErrorException(__CLASS__ . '::$group_field属性未指定');
+            throw new \ErrorException(__CLASS__ . '::$group_field属性未指定');
         }
     }
 
@@ -92,7 +90,6 @@ abstract class GroupTreeModel{
      * @param int $sort 排序值
      * @param array $data 其它参数
      * @return int 节点ID
-     * @throws Exception
      */
     public function create($group_id, $parent, $sort, $data){
         if($parent == 0){
@@ -138,10 +135,10 @@ abstract class GroupTreeModel{
         }else{
             $parent_node = $this->getModel()->find($parent, 'left_value,right_value,'.$this->group_field);
             if(!$parent_node){
-                throw new Exception('父节点不存在， 参数异常');
+                throw new \UnexpectedValueException('父节点不存在， 参数异常');
             }
             if($parent_node[$this->group_field] != $group_id){
-                throw new Exception('父节点归档ID与指定归档ID不一致');
+                throw new \UnexpectedValueException('父节点归档ID与指定归档ID不一致');
             }
             
             if($parent_node['right_value'] - $parent_node['left_value'] == 1){
@@ -216,7 +213,6 @@ abstract class GroupTreeModel{
      * @param array $data 数据
      * @param int $sort 排序值
      * @param int $parent 父节点
-     * @throws Exception
      */
     public function update($id, $data, $sort = null, $parent = null){
         $node = $this->getModel()->find($id);
@@ -224,10 +220,10 @@ abstract class GroupTreeModel{
             if($parent != 0){
                 $parent_node = $this->getModel()->find($parent, $this->group_field);
                 if(!$parent_node){
-                    throw new Exception("指定父节点[{$parent}]不存在");
+                    throw new \UnexpectedValueException("指定父节点[{$parent}]不存在");
                 }
                 if($parent_node[$this->group_field] != $node[$this->group_field]){
-                    throw new Exception('节点不能在不同归档之间移动');
+                    throw new \UnexpectedValueException('节点不能在不同归档之间移动');
                 }
             }
             $data['parent'] = $parent;

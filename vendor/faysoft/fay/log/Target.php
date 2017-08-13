@@ -1,7 +1,6 @@
 <?php
 namespace fay\log;
 
-use fay\core\ErrorException;
 use fay\core\Request;
 
 abstract class Target{
@@ -64,7 +63,6 @@ abstract class Target{
     /**
      * 设置当前日志容器会记录的日志等级
      * @param int $levels
-     * @throws ErrorException
      */
     public function setLevels($levels){
         static $levelMap = array(
@@ -78,7 +76,7 @@ abstract class Target{
                 if (isset($levelMap[$level])) {
                     $this->_levels |= $levelMap[$level];
                 } else {
-                    throw new ErrorException("指定的日志等级不存在: $level");
+                    throw new \UnexpectedValueException("指定的日志等级不存在: $level");
                 }
             }
         } else {

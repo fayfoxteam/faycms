@@ -1,7 +1,6 @@
 <?php
 namespace fay\log;
 
-use fay\core\ErrorException;
 use fay\helpers\LocalFileHelper;
 
 class FileTarget extends Target{
@@ -19,11 +18,11 @@ class FileTarget extends Target{
      * 目录权限。若置顶的logFile在二级目录下，且此目录不存在，则会尝试创建，并通过chmod命令指定为此权限级别。
      */
     public $dirMode = 0775;
-    
+
     /**
      * 将日志写入文件
      * @param array $messages
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function export($messages){
         if(!$messages){
@@ -39,7 +38,7 @@ class FileTarget extends Target{
         
         $text = implode("\n", array_map(array($this, 'formatMessage'), $messages)) . "\n";
         if (($fp = @fopen($this->logFile, 'a')) === false) {
-            throw new ErrorException("日志文件写入失败: {$this->logFile}");
+            throw new \ErrorException("日志文件写入失败: {$this->logFile}");
         }
         @flock($fp, LOCK_EX);
         @fwrite($fp, $text);

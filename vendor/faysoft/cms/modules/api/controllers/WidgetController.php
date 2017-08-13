@@ -2,8 +2,7 @@
 namespace cms\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\HttpException;
-use fay\core\JsonResponse;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\helpers\StringHelper;
 
@@ -13,7 +12,6 @@ use fay\helpers\StringHelper;
 class WidgetController extends ApiController{
     /**
      * 根据widget name及其他传入参数，渲染一个widget
-     * @throws HttpException
      * @parameter string $name 小工具名称
      */
     public function render(){
@@ -34,7 +32,7 @@ class WidgetController extends ApiController{
         
         $widget_obj = \F::widget()->get($this->form()->getData('name'));
         if($widget_obj == null){
-            throw new HttpException('Widget不存在或已被删除');
+            throw new NotFoundHttpException('Widget不存在或已被删除');
         }
         
         $widget_obj->_index = $this->form()->getData('_index');
@@ -46,13 +44,12 @@ class WidgetController extends ApiController{
         }else if(method_exists($widget_obj, $action.'Action')){
             $widget_obj->{$action.'Action'}($this->input->request());
         }else{
-            throw new HttpException('Widget方法不存在');
+            throw new NotFoundHttpException('Widget方法不存在');
         }
     }
     
     /**
      * 根据别名渲染一个widget
-     * @throws HttpException
      * @parameter param string $alias 小工具别名
      */
     public function load(){
@@ -80,7 +77,6 @@ class WidgetController extends ApiController{
     
     /**
      * 获取widget实例参数，需要widget实现IndexController::getData()方法
-     * @throws HttpException
      * @parameter param string $alias 小工具别名
      */
     public function data(){
@@ -100,7 +96,7 @@ class WidgetController extends ApiController{
         if($this->input->get('callback')){
             return Response::jsonp($this->input->get('callback'), $data);
         }else{
-            return new JsonResponse($data);
+            return Response::json($data);
         }
     }
 }

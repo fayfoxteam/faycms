@@ -4,7 +4,7 @@ namespace cms\modules\api\controllers;
 use cms\library\ApiController;
 use cms\models\tables\UsersTable;
 use cms\services\user\UserService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\JsonResponse;
 use fay\core\Response;
 
@@ -138,9 +138,9 @@ class UserController extends ApiController{
         
         $user = UserService::service()->get($id, $fields);
         if($user){
-            return new JsonResponse($user);
+            Response::json($user);
         }else{
-            throw new HttpException('指定用户不存在');
+            throw new NotFoundHttpException('指定用户不存在');
         }
     }
 }

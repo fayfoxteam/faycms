@@ -6,7 +6,7 @@ use cms\models\tables\PostsTable;
 use cms\services\CategoryService;
 use cms\services\post\PostService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\DateHelper;
@@ -155,12 +155,11 @@ class IndexController extends Widget{
         
         return $fields;
     }
-    
+
     /**
      * 获取ListView对象
      * @return ListView
-     * @throws HttpException
-     * @throws \fay\core\ErrorException
+     * @throws NotFoundHttpException
      */
     private function getListView(){
         $sql = new Sql();
@@ -176,7 +175,7 @@ class IndexController extends Widget{
         if(!empty($input_cat)){
             $cat = CategoryService::service()->get($input_cat, '*', '_system_post');
             if(!$cat){
-                throw new HttpException('您访问的页面不存在');
+                throw new NotFoundHttpException('您访问的页面不存在');
             }else if($cat['alias'] != '_system_post'){
                 \F::app()->layout->assign(array(
                     'title'=>empty($cat['seo_title']) ? $cat['title'] : $cat['seo_title'],

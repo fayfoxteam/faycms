@@ -506,7 +506,6 @@ class DocService extends Service{
      * @param bool $index_key 是否用文档ID作为键返回，默认为false
      * @return array
      * @throws DocErrorException
-     * @throws \fay\core\ErrorException
      */
     public function mget($doc_ids, $fields = '*', $only_published = true, $index_key = false){
         if(!$doc_ids){

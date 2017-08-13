@@ -2,8 +2,6 @@
 namespace fay\common;
 
 use fay\core\Db;
-use fay\core\ErrorException;
-use fay\core\Exception;
 use fay\core\Sql;
 use fay\helpers\UrlHelper;
 
@@ -202,13 +200,13 @@ class ListView{
             $result = $this->db->fetchRow($this->count_sql);
             return intval(array_shift($result));
         }else{
-            throw new ErrorException('无法识别的count_sql');
+            throw new \InvalidArgumentException('无法识别的count_sql');
         }
     }
     
     public function setSql($sql){
         if(!$sql instanceof Sql){
-            throw new Exception('ListView::setSql方法传入的参数必须是Sql类实例');
+            throw new \InvalidArgumentException('ListView::setSql方法传入的参数必须是Sql类实例');
         }
         $this->sql = $sql;
     }

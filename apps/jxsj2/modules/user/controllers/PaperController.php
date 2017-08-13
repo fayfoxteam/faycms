@@ -1,6 +1,7 @@
 <?php
 namespace jxsj2\modules\user\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use jxsj2\library\UserController;
 use cms\services\ExamService;
 use fay\core\Response;
@@ -9,7 +10,6 @@ use fay\common\ListView;
 use cms\models\tables\ExamPapersTable;
 use fay\helpers\StringHelper;
 use cms\models\tables\ExamExamsTable;
-use fay\core\HttpException;
 
 class PaperController extends UserController{
     public function index(){
@@ -37,7 +37,7 @@ class PaperController extends UserController{
     public function item(){
         $id = $this->input->get('id', 'intval');
         if(!$id){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         
         $this->view->paper = ExamService::service()->getPaper($id);

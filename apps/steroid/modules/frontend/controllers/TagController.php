@@ -1,8 +1,8 @@
 <?php
 namespace steroid\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use steroid\library\FrontController;
-use fay\core\HttpException;
 use cms\models\tables\TagsTable;
 
 class TagController extends FrontController{
@@ -13,7 +13,7 @@ class TagController extends FrontController{
         if(!$tag_title || !$tag = TagsTable::model()->fetchRow(array(
                 'title = ?'=>$tag_title
             ))){
-            throw new HttpException('您请求的页面不存在');
+            throw new NotFoundHttpException('您请求的页面不存在');
         }
         
         $this->layout->assign(array(

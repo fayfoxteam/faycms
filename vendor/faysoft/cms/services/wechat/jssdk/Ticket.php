@@ -3,7 +3,6 @@ namespace cms\services\wechat\jssdk;
 
 use cms\services\wechat\core\AccessToken;
 use fay\caching\Cache;
-use fay\core\ErrorException;
 use fay\helpers\HttpHelper;
 
 /**
@@ -81,7 +80,7 @@ class Ticket{
         ));
         
         if(empty($ticket['ticket'])){
-            throw new ErrorException('获取微信Ticket失败，返回：' . json_encode($ticket, JSON_UNESCAPED_UNICODE));
+            throw new \ErrorException('获取微信Ticket失败，返回：' . json_encode($ticket, JSON_UNESCAPED_UNICODE));
         }
         
         return $ticket;

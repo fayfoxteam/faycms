@@ -1,19 +1,17 @@
 <?php
 namespace ncp\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use ncp\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
 use cms\services\post\PostService;
-use fay\core\HttpException;
 use fay\models\PropModel;
 use fay\helpers\ArrayHelper;
 use cms\models\tables\PropValuesTable;
 use fay\core\db\Expr;
-use ncp\models\tables\TourRoute;
-use ncp\models\Recommend;
 use cms\services\OptionService;
 
 class TravelController extends FrontController{
@@ -114,7 +112,7 @@ class TravelController extends FrontController{
             ))->render();
             
         }else{
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
     }
     
@@ -122,7 +120,7 @@ class TravelController extends FrontController{
         $id = $this->input->get('id', 'intval');
         
         if(!$id || !$post = PostService::service()->get($id, '', 'travel', true)){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         PostsTable::model()->update(array(
             'last_view_time'=>$this->current_time,

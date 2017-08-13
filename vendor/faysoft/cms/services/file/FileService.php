@@ -5,7 +5,7 @@ use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use cms\services\OptionService;
 use fay\common\Upload;
-use fay\core\ErrorException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
@@ -306,7 +306,6 @@ class FileService extends Service{
      * @param null|array $allowed_types 允许的文件类型，若为null，则根据config文件配置
      * @param null|bool $auto_orientate 是否自动判断并旋转jpg图片角度，若为null，则根据config文件配置
      * @return array
-     * @throws ErrorException
      */
     public function upload($cat = 0, $private = false, $allowed_types = null, $auto_orientate = null){
         if($cat){
@@ -315,7 +314,7 @@ class FileService extends Service{
             }
             
             if(!$cat){
-                throw new ErrorException('cms\services\file\FileService::upload传入$cat不存在');
+                throw new \UnexpectedValueException('指定分类不存在');
             }
         }else{
             $cat = array(
@@ -501,7 +500,7 @@ class FileService extends Service{
      *  - $params['w'] 裁剪时宽度
      *  - $params['h'] 裁剪时高度
      * @return array|bool|int
-     * @throws ErrorException
+     * @throws ValidationException
      */
     public function edit($file, $handler, $params){
         if(NumberHelper::isInt($file)){
@@ -545,7 +544,7 @@ class FileService extends Service{
                 break;
             case 'crop':
                 if(!$params['x'] || !$params['y'] || !$params['w'] || !$params['h']){
-                    throw new ErrorException('cms\services\file\FileService::edit方法crop处理缺少必要参数');
+                    throw new ValidationException('crop处理缺少必要参数');
                 }
 
                 if($params['dw'] == 0){

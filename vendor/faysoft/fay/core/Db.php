@@ -75,7 +75,7 @@ class Db{
             try {
                 $this->_conn = new \PDO($dsn, $this->_user, $this->_pwd);
             }catch(\PDOException $e){
-                throw new ErrorException($e->getMessage(), '数据库链接失败，请确认configs/main.php中数据库配置正确');
+                throw new Exception($e->getMessage(), '数据库链接失败，请确认configs/main.php中数据库配置正确');
             }
             $this->_conn->exec("SET NAMES {$this->_charset}");
         }
@@ -325,7 +325,6 @@ class Db{
      * @param string|array $fields 字段（可以是多个，多个字段以一维数组方式传入）
      * @param $value
      * @return int
-     * @throws Exception
      */
     public function incr($table, $condition, $fields, $value){
         if(is_string($fields)){

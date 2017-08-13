@@ -7,7 +7,7 @@ use cms\models\tables\PostsTagsTable;
 use cms\models\tables\TagCounterTable;
 use cms\models\tables\TagsTable;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 
@@ -89,7 +89,7 @@ class TagController extends AdminController{
             
             return $this->view->render();
         }else{
-            throw new HttpException('无效的ID');
+            throw new NotFoundHttpException('无效的ID');
         }
     }
     

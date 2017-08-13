@@ -7,7 +7,7 @@ use apidoc\library\FrontController;
 use apidoc\models\tables\ApidocApisTable;
 use apidoc\models\tables\ApidocModelsTable;
 use cms\services\CategoryService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 
 class ModelController extends FrontController{
@@ -38,7 +38,7 @@ class ModelController extends FrontController{
         $model_id = $this->form()->getData('model_id');
         $model = ApidocModelsTable::model()->find($model_id);
         if(!$model || $model['id'] < 1000){
-            throw new HttpException('您访问的页面不存在');
+            throw new NotFoundHttpException('您访问的页面不存在');
         }
         
         //Layout 参数

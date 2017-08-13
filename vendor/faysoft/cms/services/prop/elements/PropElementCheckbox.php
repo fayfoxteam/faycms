@@ -1,7 +1,6 @@
 <?php
 namespace cms\services\prop\elements;
 
-use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
 
 /**
@@ -132,7 +131,6 @@ class PropElementCheckbox extends ElementAbstract{
      * 格式化属性值
      * @param mixed $value
      * @return array
-     * @throws ErrorException
      */
     private function formatValue($value){
         if(!$value){
@@ -144,7 +142,7 @@ class PropElementCheckbox extends ElementAbstract{
         }else if(is_string($value)){
             $value = explode(',', str_replace(' ', '', $value));
         }else if(!is_array($value)){
-            throw new ErrorException('$value数据格式异常');
+            throw new \InvalidArgumentException('$value数据格式异常');
         }
         
         return $value;

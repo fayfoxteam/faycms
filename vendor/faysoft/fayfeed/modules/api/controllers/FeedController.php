@@ -2,7 +2,7 @@
 namespace fayfeed\modules\api\controllers;
 
 use cms\library\ApiController;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
 use fayfeed\models\tables\FeedsTable;
@@ -118,7 +118,7 @@ class FeedController extends ApiController{
         if($feed){
             return Response::json($feed);
         }else{
-            throw new HttpException('您访问的页面不存在');
+            throw new NotFoundHttpException('您访问的页面不存在');
         }
     }
     

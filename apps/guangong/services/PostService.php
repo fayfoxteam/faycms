@@ -1,7 +1,6 @@
 <?php
 namespace guangong\services;
 
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\models\tables\PostsTable;
@@ -21,14 +20,9 @@ class PostService extends Service{
      * 获取用户下一篇可读文献
      * @param null|int $user_id
      * @return int
-     * @throws ErrorException
      */
     public function getNextPost($user_id = null){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         //尝试获取今天阅读的文献
         $today_read_post = GuangongReadLogsTable::model()->fetchRow(array(
@@ -58,11 +52,7 @@ class PostService extends Service{
     }
     
     public function getReadCount($user_id = null){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $count = GuangongReadLogsTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,

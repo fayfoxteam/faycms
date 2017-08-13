@@ -1,10 +1,10 @@
 <?php
 namespace qianlu\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use qianlu\library\FrontController;
 use cms\models\tables\PagesTable;
 use cms\services\OptionService;
-use fay\core\HttpException;
 
 class AboutController extends FrontController{
     public $layout_template = 'inner';
@@ -12,7 +12,7 @@ class AboutController extends FrontController{
     public function index(){
         $page = PagesTable::model()->fetchRow(array('alias = ?'=>$this->input->get('alias', 'trim', 'about')));
         if(!$page){
-            throw new HttpException('您请求的页面不存在');
+            throw new NotFoundHttpException('您请求的页面不存在');
         }
         $this->view->page = $page;
         //SEO

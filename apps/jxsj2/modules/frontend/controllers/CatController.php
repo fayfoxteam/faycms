@@ -1,19 +1,19 @@
 <?php
 namespace jxsj2\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use jxsj2\library\FrontController;
 use cms\services\CategoryService;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
 use fay\common\ListView;
-use fay\core\HttpException;
 
 class CatController extends FrontController{
     public function index(){
         $cat = CategoryService::service()->get($this->input->get('id', 'intval'));
         
         if(!$cat){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         
         $this->layout->title = $cat['seo_title'] ? $cat['seo_title'] : $cat['title'];

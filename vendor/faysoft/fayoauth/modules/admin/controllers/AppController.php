@@ -4,7 +4,7 @@ namespace fayoauth\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\services\FlashService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fayoauth\models\tables\OauthAppsTable;
@@ -52,7 +52,7 @@ class AppController extends AdminController{
     
     /**
      * 编辑
-     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     public function edit(){
         $this->layout->subtitle = '编辑APP';
@@ -70,7 +70,7 @@ class AppController extends AdminController{
     
         $app = OauthAppsTable::model()->find($id);
         if(!$app){
-            throw new HttpException('指定App ID不存在');
+            throw new NotFoundHttpException("指定AppID[{$id}]不存在");
         }
         $this->form()->setData($app);
         return $this->view->render();

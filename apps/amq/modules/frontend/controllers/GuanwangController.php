@@ -5,7 +5,7 @@ use amq\library\FrontController;
 use cms\models\tables\PostsTable;
 use cms\services\file\RemoteFileService;
 use cms\services\post\PostService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 
 class GuanwangController extends FrontController{
     private $type_cat_map = array(
@@ -21,7 +21,7 @@ class GuanwangController extends FrontController{
      */
     public function article_add(){
         if($this->input->request('token') != '7cb46c0fc4cc7d78aced3fa6f096457f'){
-            throw new HttpException('您请求的页面不存在');
+            throw new NotFoundHttpException('您请求的页面不存在');
         }
         
         $title = $this->input->request('title');

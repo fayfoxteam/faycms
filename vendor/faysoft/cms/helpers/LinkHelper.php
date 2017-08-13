@@ -4,7 +4,6 @@ namespace cms\helpers;
 use cms\models\tables\PostsTable;
 use cms\services\CategoryService;
 use cms\services\PageService;
-use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
 use fay\helpers\UrlHelper;
 
@@ -17,7 +16,7 @@ class LinkHelper{
      * 支持变量有{$id}, {$cat_id}, {$date:xx}, {$cat_alias}
      * @param array|int $post
      * @return string
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public static function generatePostLink($post){
         if(NumberHelper::isInt($post)){
@@ -26,7 +25,7 @@ class LinkHelper{
             );
         }
         if(!isset($post['id'])){
-            throw new ErrorException('必须传入文章id或包含文章id的数组');
+            throw new \InvalidArgumentException('必须传入文章id或包含文章id的数组');
         }
 
         $uri = \F::config()->get('post', 'links');
@@ -37,7 +36,7 @@ class LinkHelper{
         
         preg_match_all('/{\$([\w:]+)}/', $uri, $matches);
         if(empty($matches)){
-            throw new ErrorException('系统未设置uri或uri未包含任何变量，无法生成文章链接');
+            throw new \ErrorException('系统未设置uri或uri未包含任何变量，无法生成文章链接');
         }
     
         foreach($matches[1] as $param){
@@ -63,7 +62,7 @@ class LinkHelper{
                 }
                 $uri = str_replace('{$' . $param . '}', date(substr($param, 5), $post['publish_time']), $uri);
             }else{
-                throw new ErrorException('系统设置的uri包含无法识别的变量，生成文章链接失败');
+                throw new \ErrorException('系统设置的uri包含无法识别的变量，生成文章链接失败');
             }
         }
         
@@ -75,7 +74,7 @@ class LinkHelper{
      * 支持变量有{$id}, {$alias}
      * @param array|int $cat
      * @return string
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public static function generateCatLink($cat){
         $uri = \F::config()->get('cat', 'links');
@@ -90,12 +89,12 @@ class LinkHelper{
             );
         }
         if(!isset($cat['id'])){
-            throw new ErrorException('必须传入分类id或包含分类id的数组');
+            throw new \InvalidArgumentException('必须传入分类id或包含分类id的数组');
         }
         
         preg_match_all('/{\$([\w:]+)}/', $uri, $matches);
         if(empty($matches)){
-            throw new ErrorException('系统未设置uri或uri未包含任何变量，无法生成分类链接');
+            throw new \ErrorException('系统未设置uri或uri未包含任何变量，无法生成分类链接');
         }
 
         foreach($matches[1] as $param){
@@ -108,7 +107,7 @@ class LinkHelper{
                 }
                 $uri = str_replace('{$alias}', $cat['alias'], $uri);
             }else{
-                throw new ErrorException('系统设置的uri包含无法识别的变量，生成分类链接失败');
+                throw new \ErrorException('系统设置的uri包含无法识别的变量，生成分类链接失败');
             }
         }
 
@@ -120,7 +119,7 @@ class LinkHelper{
      * 支持变量有{$id}, {$alias}
      * @param array|int $page
      * @return string
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public static function generatePageLink($page){
         $uri = \F::config()->get('page', 'links');
@@ -139,12 +138,12 @@ class LinkHelper{
             );
         }
         if(empty($page['id']) && empty($page['alias'])){
-            throw new ErrorException('未包含可用参数，无法生成页面链接');
+            throw new \InvalidArgumentException('未包含可用参数，无法生成页面链接');
         }
         
         preg_match_all('/{\$([\w:]+)}/', $uri, $matches);
         if(empty($matches)){
-            throw new ErrorException('系统未设置uri或uri未包含任何变量，无法生成页面链接');
+            throw new \ErrorException('系统未设置uri或uri未包含任何变量，无法生成页面链接');
         }
 
         foreach($matches[1] as $param){
@@ -161,7 +160,7 @@ class LinkHelper{
                 }
                 $uri = str_replace('{$alias}', $page['alias'], $uri);
             }else{
-                throw new ErrorException('系统设置的uri包含无法识别的变量，生成页面链接失败');
+                throw new \ErrorException('系统设置的uri包含无法识别的变量，生成页面链接失败');
             }
         }
 

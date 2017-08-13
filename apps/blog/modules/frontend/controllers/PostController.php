@@ -2,7 +2,8 @@
 namespace blog\modules\frontend\controllers;
 
 use blog\library\FrontController;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use cms\services\post\PostService;
 use fay\helpers\StringHelper;
 
@@ -20,12 +21,12 @@ class PostController extends FrontController{
     public function item(){
         //auth request
         if(!$this->input->get('id') || !StringHelper::isInt($this->input->get('id'))){
-            throw new HttpException('异常的请求');
+            throw new ValidationException('异常的请求');
         }
         
         $post = PostService::service()->get($this->input->get('id', 'intval'), 'extra.*,nav.*,categories.*,category.*');
         if(!$post){
-            throw new HttpException('文章不存在', 404);
+            throw new NotFoundHttpException('文章不存在', 404);
         }
         $this->view->post = $post;
         

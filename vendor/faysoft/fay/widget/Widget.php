@@ -158,7 +158,6 @@ abstract class Widget{
     /**
      * 渲染模版
      * @param array $data
-     * @throws \fay\core\ErrorException
      */
     protected function renderTemplate($data = array()){
         $this->view->assign($data);

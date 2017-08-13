@@ -3,7 +3,7 @@ namespace amq\modules\frontend\controllers;
 
 use amq\library\FrontController;
 use cms\services\PageService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 
 class PageController extends FrontController{
     public function __construct(){
@@ -22,7 +22,7 @@ class PageController extends FrontController{
         
         $page = PageService::service()->get($this->form()->getData('page'));
         if(!$page){
-            throw new HttpException('您访问的页面不存在');
+            throw new NotFoundHttpException('您访问的页面不存在');
         }
 
         $this->layout->keywords = $page['seo_keywords'];

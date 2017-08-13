@@ -10,7 +10,7 @@ use cms\services\CategoryService;
 use cms\services\PageService;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
@@ -240,7 +240,7 @@ class PageController extends AdminController{
             $this->view->page = $page;
             $this->form()->setData($page);
         }else{
-            throw new HttpException('无效的页面ID');
+            throw new NotFoundHttpException('无效的页面ID');
         }
 
         return $this->view->render();

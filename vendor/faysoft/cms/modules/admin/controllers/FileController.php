@@ -15,7 +15,9 @@ use cms\services\file\WeixinFileService;
 use cms\services\OptionService;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\RecordNotFoundException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\core\Validator;
@@ -38,7 +40,7 @@ class FileController extends AdminController{
         ));
         
         if($check !== true){
-            throw new HttpException('参数异常');
+            throw new ValidationException('参数异常');
         }
         
         set_time_limit(0);
@@ -47,7 +49,7 @@ class FileController extends AdminController{
         if($cat){
             $cat = CategoryService::service()->get('_system_file_' . $cat, 'id,alias');
             if(!$cat){
-                throw new HttpException('指定的文件分类不存在');
+                throw new RecordNotFoundException('指定的文件分类不存在');
             }
         }else{
             $cat = 0;
@@ -98,7 +100,7 @@ class FileController extends AdminController{
         ));
         
         if($check !== true){
-            throw new HttpException('参数异常', 500);
+            throw new ValidationException('参数异常', 500);
         }
         
         set_time_limit(0);
@@ -107,7 +109,7 @@ class FileController extends AdminController{
         if($cat){
             $cat = CategoryService::service()->get('_system_file_' . $cat, 'id,alias');
             if(!$cat){
-                throw new HttpException('指定的文件分类不存在');
+                throw new RecordNotFoundException('指定的文件分类不存在');
             }
         }else{
             $cat = array(
@@ -121,7 +123,7 @@ class FileController extends AdminController{
         
         $file = @imagecreatefromstring(base64_decode($this->input->post('file')));
         if(!$file){
-            throw new HttpException('上传文件格式错误', 500);
+            throw new ValidationException('上传文件格式错误', 500);
         }
 
         if($cat['alias']){
@@ -178,7 +180,7 @@ class FileController extends AdminController{
         ));
         
         if($check !== true){
-            throw new HttpException('参数异常');
+            throw new ValidationException('参数异常');
         }
         
         set_time_limit(0);
@@ -187,7 +189,7 @@ class FileController extends AdminController{
         if($cat){
             $cat = CategoryService::service()->get('_system_file_' . $cat, 'id,alias');
             if(!$cat){
-                throw new HttpException('指定的文件分类不存在');
+                throw new RecordNotFoundException('指定的文件分类不存在');
             }
         }else{
             $cat = 0;
@@ -437,10 +439,10 @@ class FileController extends AdminController{
                 }
                 die($data);
             }else{
-                throw new HttpException('文件不存在');
+                throw new NotFoundHttpException('文件不存在');
             }
         }else{
-            throw new HttpException('参数不正确', 500);
+            throw new ValidationException('参数不正确', 500);
         }
     }
 
@@ -605,7 +607,7 @@ class FileController extends AdminController{
         //选中部分的高度
         $h = $this->input->get('h', 'intval');
         if(!$w || !$h){
-            throw new HttpException('不完整的请求', 500);
+            throw new ValidationException('不完整的请求', 500);
         }
         
         //输出宽度

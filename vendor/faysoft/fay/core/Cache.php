@@ -24,7 +24,7 @@ class Cache{
      * @param string $key
      * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
      * @return mixed
-     * @throws \fay\core\ErrorException
+     * @throws \ErrorException
      */
     public function get($key, $driver = null){
         $driver || $driver = \F::config()->get('default_cache_driver');
@@ -32,7 +32,7 @@ class Cache{
         if(empty($driver)){
             return null;
         }else if(!isset(self::$map[$driver])){
-            throw new ErrorException("{$driver} 缓存方式未注册");
+            throw new \ErrorException("{$driver} 缓存方式未注册");
         }
         
         if(empty(self::$drivers[$driver])){
@@ -47,7 +47,7 @@ class Cache{
      * @param array $keys  一维数组的方式传入多个key
      * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
      * @return null
-     * @throws \fay\core\ErrorException
+     * @throws \ErrorException
      */
     public function mget($keys, $driver = null){
         $driver || $driver = \F::config()->get('default_cache_driver');
@@ -55,7 +55,7 @@ class Cache{
         if(empty($driver)){
             return null;
         }else if(!isset(self::$map[$driver])){
-            throw new ErrorException("{$driver} 缓存方式未注册");
+            throw new \ErrorException("{$driver} 缓存方式未注册");
         }
         
         if(empty(self::$drivers[$driver])){
@@ -71,7 +71,7 @@ class Cache{
      * @param mixed $value
      * @param int $duration 缓存过期时间（单位：秒）
      * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
-     * @throws \fay\core\ErrorException
+     * @throws \ErrorException
      * @return bool
      */
     public function set($key, $value, $duration = 0, $driver = null){
@@ -80,7 +80,7 @@ class Cache{
         if(empty($driver)){
             return false;
         }else if(!isset(self::$map[$driver])){
-            throw new ErrorException("{$driver} 缓存方式未注册");
+            throw new \ErrorException("{$driver} 缓存方式未注册");
         }
         
         if(empty(self::$drivers[$driver])){
@@ -95,7 +95,7 @@ class Cache{
      * @param mixed $data
      * @param int $duration 缓存过期时间（单位：秒）
      * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
-     * @throws \fay\core\ErrorException
+     * @throws \ErrorException
      * @return bool
      */
     public function mset($data, $duration = 0, $driver = null){
@@ -104,7 +104,7 @@ class Cache{
         if(empty($driver)){
             return false;
         }else if(!isset(self::$map[$driver])){
-            throw new ErrorException("{$driver} 缓存方式未注册");
+            throw new \ErrorException("{$driver} 缓存方式未注册");
         }
         
         if(empty(self::$drivers[$driver])){
@@ -118,7 +118,7 @@ class Cache{
      * 删除一个缓存
      * @param mixed $key
      * @param string $driver 缓存驱动，若为null，则默认为main.php中配置的缓存方式
-     * @throws \fay\core\ErrorException
+     * @throws \ErrorException
      * @return bool
      */
     public function delete($key, $driver = null){
@@ -127,7 +127,7 @@ class Cache{
         if(empty($driver)){
             return false;
         }else if(!isset(self::$map[$driver])){
-            throw new ErrorException("{$driver} 缓存方式未注册");
+            throw new \ErrorException("{$driver} 缓存方式未注册");
         }
         
         if(empty(self::$drivers[$driver])){
@@ -136,13 +136,13 @@ class Cache{
         
         return self::$drivers[$driver]->delete($key);
     }
-    
+
     /**
      * 清空缓存
      * @param string $prefix 如果缓存机制支持，且prefix不为null，可以删除key以prefix开头的缓存
      * @param null|string $driver
      * @return bool
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function flush($prefix = null, $driver = null){
         $driver || $driver = \F::config()->get('default_cache_driver');
@@ -150,7 +150,7 @@ class Cache{
         if(empty($driver)){
             return false;
         }else if(!isset(self::$map[$driver])){
-            throw new ErrorException("{$driver} 缓存方式未注册");
+            throw new \ErrorException("{$driver} 缓存方式未注册");
         }
         
         if(empty(self::$drivers[$driver])){
@@ -172,8 +172,8 @@ class Cache{
     /**
      * 获取一个缓存实例
      * @param string $driver 缓存方式
-     * @throws \fay\core\ErrorException
-     * @return \fay\caching\Cache
+     * @throws \ErrorException
+     * @return \fay\caching\Cache|false
      */
     public function getDriver($driver = null){
         $driver || $driver = \F::config()->get('default_cache_driver');
@@ -181,7 +181,7 @@ class Cache{
         if(empty($driver)){
             return false;
         }else if(!isset(self::$map[$driver])){
-            throw new ErrorException("{$driver} 缓存方式未注册");
+            throw new \ErrorException("{$driver} 缓存方式未注册");
         }
         
         if(empty(self::$drivers[$driver])){

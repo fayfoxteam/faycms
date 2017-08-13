@@ -1,10 +1,10 @@
 <?php
 namespace siwi\modules\frontend\controllers;
 
+use fay\core\exceptions\ValidationException;
 use siwi\library\FrontController;
 use fay\helpers\StringHelper;
 use cms\models\tables\UsersTable;
-use fay\core\HttpException;
 use fay\core\Validator;
 
 class RegisterController extends FrontController{
@@ -40,7 +40,7 @@ class RegisterController extends FrontController{
                 
                 //UserService::service()->login($username, $this->input->post('password'));
             }else{
-                throw new HttpException('参数异常', 500);
+                throw new ValidationException('参数异常');
             }
             
         }

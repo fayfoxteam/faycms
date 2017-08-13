@@ -4,8 +4,7 @@ namespace cms\services\prop;
 use cms\models\tables\PropOptionsTable;
 use cms\models\tables\PropsTable;
 use cms\models\tables\PropsUsagesTable;
-use fay\core\ErrorException;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
@@ -41,7 +40,7 @@ class PropService extends Service{
      * 单例获取一个用途类实例
      * @param $usage_type
      * @return PropUsageInterface
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function getUsageModel($usage_type){
         if(isset(self::$usage_type_map[$usage_type])){
@@ -50,10 +49,10 @@ class PropService extends Service{
             }else if(self::$usage_type_map[$usage_type] instanceof PropUsageInterface){
                 return self::$usage_type_map[$usage_type];
             }else{
-                throw new ErrorException('无法识别的用途实例值[' . self::$usage_type_map[$usage_type] . ']');
+                throw new \ErrorException('无法识别的用途实例值[' . self::$usage_type_map[$usage_type] . ']');
             }
         }else{
-            throw new ErrorException("未注册的用途类型[{$usage_type}]");
+            throw new \ErrorException("未注册的用途类型[{$usage_type}]");
         }
     }
 
@@ -62,11 +61,11 @@ class PropService extends Service{
      * @param array $prop 至少包含title, alias, type字段
      * @param array $values
      * @return int|null
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function create($prop, $values = array()){
         if(empty($prop['title']) || empty($prop['usage_type'])){
-            throw new ErrorException(__CLASS__ . '::' . __METHOD__ . '() $prop参数异常: ' . json_encode($prop));
+            throw new \ErrorException(__CLASS__ . '::' . __METHOD__ . '() $prop参数异常: ' . json_encode($prop));
         }
         $prop_id = PropsTable::model()->insert(array(
             'title'=>$prop['title'],
@@ -99,11 +98,11 @@ class PropService extends Service{
      * @param int $prop_id 属性ID
      * @param array $prop 属性参数
      * @param array $values 属性值
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function update($prop_id, $prop, array $values = array()){
         if(empty($prop['title'])){
-            throw new ErrorException(__CLASS__ . '::' . __METHOD__ . '() $prop[title]不能为空');
+            throw new \ErrorException(__CLASS__ . '::' . __METHOD__ . '() $prop[title]不能为空');
         }
         PropsTable::model()->update($prop, $prop_id, true);
 
@@ -142,12 +141,12 @@ class PropService extends Service{
     /**
      * 删除自定义属性
      * @param int $id
-     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     public function delete($id){
         $prop = PropsTable::model()->find($id, 'delete_time');
         if(!$prop || $prop['delete_time']){
-            throw new HttpException("指定属性ID[{$id}]不存在或已删除", 404, 'prop_id-is-not-exist');
+            throw new NotFoundHttpException("指定属性ID[{$id}]不存在或已删除");
         }
         
         PropsTable::model()->update(array(
@@ -158,12 +157,12 @@ class PropService extends Service{
     /**
      * 还原自定义属性
      * @param int $id
-     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     public function undelete($id){
         $prop = PropsTable::model()->find($id, 'delete_time');
         if(!$prop || !$prop['delete_time']){
-            throw new HttpException("指定属性ID[{$id}]不存在或未删除", 404, 'prop_id-is-not-exist');
+            throw new NotFoundHttpException("指定属性ID[{$id}]不存在或未删除");
         }
         
         PropsTable::model()->update(array(
@@ -248,7 +247,7 @@ class PropService extends Service{
      * 根据属性别名，获取属性ID
      * @param string $alias
      * @return int
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function getIdByAlias($alias){
         $prop = PropsTable::model()->fetchRow(array(
@@ -256,7 +255,7 @@ class PropService extends Service{
         ), 'id');
 
         if(!$prop){
-            throw new ErrorException("指定属性别名[{$alias}]不存在");
+            throw new \ErrorException("指定属性别名[{$alias}]不存在");
         };
         
         return $prop['id'];

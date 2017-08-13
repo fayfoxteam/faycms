@@ -2,7 +2,7 @@
 namespace cddx2\modules\frontend\controllers;
 
 use cddx2\library\FrontController;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use cms\services\CategoryService;
 
 class PostController extends FrontController{
@@ -11,7 +11,7 @@ class PostController extends FrontController{
         
         //获取分类
         if(!$cat_id || !$cat = CategoryService::service()->get($cat_id)){
-            throw new HttpException('您请求的页面不存在');
+            throw new NotFoundHttpException('您请求的页面不存在');
         }
         
         $this->view->cat = $cat;

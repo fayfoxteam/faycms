@@ -1,13 +1,13 @@
 <?php
 namespace faypay\services\trade\payment_state;
 
-use fay\core\Exception;
 use fay\helpers\UrlHelper;
 use faypay\models\PaymentMethodConfigModel;
 use faypay\models\PaymentTradeModel;
 use faypay\models\tables\TradePaymentsTable;
 use faypay\models\tables\TradesTable;
 use faypay\services\methods\PaymentMethodService;
+use faypay\services\trade\TradeErrorException;
 use faypay\services\trade\TradeException;
 use faypay\services\trade\TradePaymentItem;
 use faypay\services\trade\TradePaymentService;
@@ -56,7 +56,7 @@ class CreateTradePayment implements PaymentStateInterface{
      * @param int $paid_fee 第三方回调时传过来的实付金额（传进来的时候要确保单位已经转换为“分”）
      * @param int $pay_time 支付时间时间戳
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function onPaid(TradePaymentItem $trade_payment, $trade_no, $payer_account, $paid_fee, $pay_time = 0){
         //能获取到准确支付时间的话，以支付时间为准，若不能获取到准确支付时间，默认为异步通知时间
@@ -91,9 +91,9 @@ class CreateTradePayment implements PaymentStateInterface{
             \F::db()->commit();
             
             $trade_payment->setState(new PaidTradePayment());
-        }catch(Exception $e){
+        }catch(\Exception $e){
             \F::db()->rollBack();
-            throw $e;
+            throw new TradeErrorException('支付确认异常', E_USER_ERROR, 1, __FILE__, __LINE__, $e);
         }
         
         //触发支付成功事件

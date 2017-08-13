@@ -4,12 +4,12 @@ namespace blog\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\UsersTable;
 use cms\services\CategoryService;
+use fay\core\exceptions\ValidationException;
 use fay\core\Sql;
 use fay\common\ListView;
 use blog\models\tables\Bills;
 use fay\helpers\HtmlHelper;
 use fay\core\Response;
-use fay\core\HttpException;
 
 class BillController extends AdminController{
     public function __construct(){
@@ -89,7 +89,7 @@ class BillController extends AdminController{
             }
             
         }else{
-            throw new HttpException('参数异常');
+            throw new ValidationException('参数异常');
         }
     }
     

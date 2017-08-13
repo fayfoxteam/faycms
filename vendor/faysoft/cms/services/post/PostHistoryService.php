@@ -25,14 +25,13 @@ class PostHistoryService extends Service{
      * @param int $post_id 文章ID
      * @param null|int $user_id
      * @return int
-     * @throws PostErrorException
      */
     public function create($post_id, $user_id = null){
         $user_id = UserService::makeUserID($user_id);
 
         $post = PostsTable::model()->find($post_id, 'id,title,content,content_type,cat_id,thumbnail,abstract');
         if(!$post){
-            throw new PostErrorException("指定文章ID[{$post_id}]不存在", 'the-given-post-id-is-not-exist');
+            throw new PostNotExistException("指定文章ID[{$post_id}]不存在");
         }
 
         $data = array(
@@ -100,7 +99,6 @@ class PostHistoryService extends Service{
      * 比较给出的文章内容与上一次历史记录是否完全一致
      * @param array $post 可能会包含多余字段，多余字段不参与比较
      * @return bool
-     * @throws PostErrorException
      */
     public function equalLastRecord($post){
         $last_history = $this->getLastHistory($post['post_id'], '!id,user_id,create_time,ip_int');
@@ -172,7 +170,7 @@ class PostHistoryService extends Service{
     public function revert($history_id){
         $history = PostHistoriesTable::model()->find($history_id);
         if(!$history){
-            throw new PostErrorException("指定文章历史ID[{$history_id}]不存在", 'the-given-history-id-is-not-exist');
+            throw new PostErrorException("指定文章历史ID[{$history_id}]不存在");
         }
 
         $extra = array();
@@ -205,7 +203,7 @@ class PostHistoryService extends Service{
     public function getPreviewHistory($history_id, $fields = '*'){
         $history = PostHistoriesTable::model()->find($history_id, 'id,post_id');
         if(!$history){
-            throw new PostErrorException("指定文章历史ID[{$history_id}]不存在", 'the-given-history-id-is-not-exist');
+            throw new PostErrorException("指定文章历史ID[{$history_id}]不存在");
         }
 
         return PostHistoriesTable::model()->fetchRow(array(

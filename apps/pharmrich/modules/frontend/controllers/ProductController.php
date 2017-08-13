@@ -1,8 +1,8 @@
 <?php
 namespace pharmrich\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use pharmrich\library\FrontController;
-use fay\core\HttpException;
 use cms\services\CategoryService;
 
 class ProductController extends FrontController{
@@ -18,7 +18,7 @@ class ProductController extends FrontController{
         if($cat_alias){
             $cat = CategoryService::service()->get($cat_alias);
             if(!$cat){
-                throw new HttpException('您请求的页面不存在');
+                throw new NotFoundHttpException('您请求的页面不存在');
             }
         }else{
             $cat = CategoryService::service()->get('products');

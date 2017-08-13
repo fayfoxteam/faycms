@@ -12,7 +12,6 @@ use cms\services\prop\ItemPropService;
 use cms\services\prop\PropService;
 use cms\services\prop\PropUsageInterface;
 use fay\core\db\Table;
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\FieldsHelper;
@@ -46,12 +45,11 @@ class PostPropService extends Service implements PropUsageInterface{
      * 例如：用途是文章分类属性，则根据分类Id，获取分类标题
      * @param int $id
      * @return string
-     * @throws ErrorException
      */
     public function getUsageItemTitle($id){
         $cat = CategoryService::service()->get($id, 'title');
         if(!$cat){
-            throw new ErrorException("指定分类ID[{$id}]不存在");
+            throw new \UnexpectedValueException("指定分类ID[{$id}]不存在");
         }
         return $cat['title'];
     }
@@ -60,12 +58,11 @@ class PostPropService extends Service implements PropUsageInterface{
      * 根据文章ID，获取属性用途（实际上就是主分类）
      * @param int $post_id
      * @return array
-     * @throws ErrorException
      */
     public function getUsages($post_id){
         $post = PostsTable::model()->find($post_id, 'cat_id');
         if(!$post){
-            throw new ErrorException("指定文章ID[{$post_id}]不存在");
+            throw new PostNotExistException("指定文章ID[{$post_id}]不存在");
         }
 
         return array($post['cat_id']);
@@ -92,7 +89,6 @@ class PostPropService extends Service implements PropUsageInterface{
      * 根据数据类型，获取相关表model
      * @param string $data_type
      * @return Table
-     * @throws ErrorException
      */
     public function getModel($data_type){
         switch($data_type){
@@ -105,7 +101,7 @@ class PostPropService extends Service implements PropUsageInterface{
             case 'text':
                 return PostPropTextTable::model();
             default:
-                throw new ErrorException("不支持的数据类型[{$data_type}]");
+                throw new \InvalidArgumentException("不支持的数据类型[{$data_type}]");
         }
     }
 
@@ -161,12 +157,11 @@ class PostPropService extends Service implements PropUsageInterface{
      * 根据文章id，获取所有相关属性
      * @param int $post_id
      * @return array
-     * @throws ErrorException
      */
     public function getPropsByPostId($post_id){
         $post = PostsTable::model()->find($post_id, 'cat_id');
         if(!$post){
-            throw new ErrorException("指定文章ID[{$post_id}]不存在");
+            throw new PostNotExistException("指定文章ID[{$post_id}]不存在");
         }
         
         return $this->getPropsByCatId($post['cat_id']);

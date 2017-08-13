@@ -3,7 +3,6 @@ namespace faywiki\services\doc;
 
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
@@ -36,17 +35,17 @@ class DocFavoriteService extends Service{
      * @param string $trackid
      * @param int $user_id 用户ID，默认为当前登录用户
      * @param int $sockpuppet
-     * @throws Exception
+     * @throws \Exception
      */
     public static function add($doc_id, $trackid = '', $user_id = null, $sockpuppet = 0){
         $user_id = UserService::makeUserID($user_id);
         
         if(!DocService::isDocIdExist($doc_id)){
-            throw new Exception("指定文档ID[{$doc_id}]不存在", 'the-given-doc-id-is-not-exist');
+            throw new DocNotExistException("指定文档ID[{$doc_id}]不存在");
         }
         
         if(self::isFavorited($doc_id, $user_id)){
-            throw new Exception('已收藏，不能重复收藏', 'already-favorited');
+            throw new \Exception('已收藏，不能重复收藏', 'already-favorited');
         }
         
         WikiDocFavoritesTable::model()->insert(array(
@@ -75,13 +74,9 @@ class DocFavoriteService extends Service{
      * @param int $doc_id 文档ID
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws Exception
      */
     public static function remove($doc_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $favorite = WikiDocFavoritesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
@@ -118,13 +113,9 @@ class DocFavoriteService extends Service{
      * @param int $doc_id 文档ID
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws Exception
      */
     public static function isFavorited($doc_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         return !!WikiDocFavoritesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,
@@ -137,13 +128,9 @@ class DocFavoriteService extends Service{
      * @param array $doc_ids 由文档ID组成的一维数组
      * @param int|null $user_id 用户ID，默认为当前登录用户
      * @return array
-     * @throws Exception
      */
     public static function mIsFavorited($doc_ids, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         if(!is_array($doc_ids)){
             $doc_ids = explode(',', str_replace(' ', '', $doc_ids));
@@ -170,7 +157,6 @@ class DocFavoriteService extends Service{
      * @param int $page_size
      * @param int|null $user_id 用户ID，默认为当前登录用户
      * @return array
-     * @throws Exception
      */
     public function getList($fields, $page = 1, $page_size = 20, $user_id = null){
         $user_id = UserService::makeUserID($user_id);

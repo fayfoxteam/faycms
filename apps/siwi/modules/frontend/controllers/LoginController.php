@@ -1,13 +1,14 @@
 <?php
 namespace siwi\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use siwi\library\FrontController;
 use cms\models\tables\UsersTable;
 use cms\services\EmailService;
 use fay\helpers\StringHelper;
 use fay\core\Response;
 use fay\core\Validator;
-use fay\core\HttpException;
 use cms\services\FlashService;
 use cms\services\user\UserService;
 
@@ -133,10 +134,10 @@ class LoginController extends FrontController{
                     }
                 }
             }else{
-                throw new HttpException('链接地址参数不存在或已过期，<a href="'.$this->view->url('login/forgot-password').'">点此</a>重新发送找回密码邮件');
+                throw new NotFoundHttpException('链接地址参数不存在或已过期，<a href="'.$this->view->url('login/forgot-password').'">点此</a>重新发送找回密码邮件');
             }
         }else{
-            throw new HttpException('异常的访问参数');
+            throw new ValidationException('异常的访问参数');
         }
         
         return $this->view->render();

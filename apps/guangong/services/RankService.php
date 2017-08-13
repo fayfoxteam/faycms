@@ -1,7 +1,6 @@
 <?php
 namespace guangong\services;
 
-use fay\core\ErrorException;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\services\user\UserService;
@@ -21,21 +20,17 @@ class RankService extends Service{
      * 更新用户军衔
      * @param null|int $user_id 用户ID，默认为当前登录用户ID
      * @return bool
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function update($user_id = null){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new ErrorException('指定用户ID不存在', 'user-id-is-not-exist');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         //获取用户当前军衔
         $user = GuangongUserExtraTable::model()->find($user_id, 'rank_id');
         if($user['rank_id']){
             $rank = GuangongRanksTable::model()->find($user['rank_id'], 'sort');
             if(!$rank){
-                throw new ErrorException("用户{$user_id}军衔异常");
+                throw new \ErrorException("用户{$user_id}军衔异常");
             }
         }else{
             $rank['sort'] = 0;

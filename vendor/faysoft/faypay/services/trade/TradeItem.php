@@ -1,7 +1,6 @@
 <?php
 namespace faypay\services\trade;
 
-use fay\core\ErrorException;
 use faypay\models\tables\TradeRefersTable;
 use faypay\models\tables\TradesTable;
 use faypay\services\trade\state\ClosedTrade;
@@ -190,10 +189,10 @@ class TradeItem implements \ArrayAccess{
      * @param mixed $offset <p>
      * The offset to unset.
      * </p>
-     * @throws ErrorException
+     * @throws \ErrorException
      * @since 5.0.0
      */
     public function offsetUnset($offset){
-        throw new ErrorException(__CLASS__ . '不允许unset属性');
+        throw new \ErrorException(__CLASS__ . '不允许unset属性');
     }
 }

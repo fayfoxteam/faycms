@@ -4,7 +4,7 @@ namespace cms\modules\admin\controllers;
 use cms\library\AdminController;
 use cms\models\tables\KeywordsTable;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 
@@ -51,7 +51,7 @@ class KeywordController extends AdminController{
         );
         $keyword_id = $this->input->get('id', 'intval');
         
-        $check = $this->form()->setModel(KeywordsTable::model());
+        $this->form()->setModel(KeywordsTable::model());
         
         if($this->input->post() && $this->form()->check()){
             $data = KeywordsTable::model()->fillData($this->input->post());
@@ -66,7 +66,7 @@ class KeywordController extends AdminController{
             
             return $this->view->render();
         }else{
-            throw new HttpException('无效的ID', 500);
+            throw new NotFoundHttpException('无效的ID');
         }
     }
     

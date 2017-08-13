@@ -6,7 +6,7 @@ use cms\models\tables\ActionlogsTable;
 use cms\models\tables\CategoriesTable;
 use cms\services\CategoryService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\HtmlHelper;
@@ -31,7 +31,7 @@ class GoodsCatPropController extends AdminController{
         $cat_id = $this->input->get('cat_id', 'intval');
         $cat = CategoryService::service()->get($cat_id, 'id,title');
         if(!$cat){
-            throw new HttpException('指定商品分类不存在');
+            throw new NotFoundHttpException('指定商品分类不存在');
         }
         
         $this->form()->setModel(ShopGoodsCatPropsTable::model());

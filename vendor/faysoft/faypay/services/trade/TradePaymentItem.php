@@ -1,7 +1,6 @@
 <?php
 namespace faypay\services\trade;
 
-use fay\core\ErrorException;
 use fay\helpers\NumberHelper;
 use faypay\models\tables\TradePaymentsTable;
 use faypay\services\methods\PaymentMethodService;
@@ -248,10 +247,10 @@ class TradePaymentItem implements \ArrayAccess{
      * @param mixed $offset <p>
      * The offset to unset.
      * </p>
-     * @throws ErrorException
+     * @throws \ErrorException
      * @since 5.0.0
      */
     public function offsetUnset($offset){
-        throw new ErrorException(__CLASS__ . '不允许unset属性');
+        throw new \ErrorException(__CLASS__ . '不允许unset属性');
     }
 }

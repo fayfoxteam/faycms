@@ -4,7 +4,7 @@ namespace apidoc\modules\frontend\controllers;
 use apidoc\library\FrontController;
 use apidoc\models\tables\ApidocCommonInputsTable;
 use apidoc\services\ApiService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 
 class ApiController extends FrontController{
     public function item(){
@@ -23,7 +23,7 @@ class ApiController extends FrontController{
         $api = ApiService::service()->get($api_id);
         
         if(!$api){
-            throw new HttpException('您访问的页面不存在');
+            throw new NotFoundHttpException('您访问的页面不存在');
         }
         
         //Layout 参数

@@ -3,7 +3,7 @@ namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
 use cms\models\tables\PagesTable;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use cms\services\CategoryService;
 
 class PageController extends FrontController{
@@ -22,7 +22,7 @@ class PageController extends FrontController{
             PagesTable::model()->incr($page['id'], 'views', 1);
             $this->view->page = $page;
         }else{
-            throw new HttpException('您请求的页面不存在');
+            throw new NotFoundHttpException('您请求的页面不存在');
         }
         
         $this->layout->title = $page['title'];

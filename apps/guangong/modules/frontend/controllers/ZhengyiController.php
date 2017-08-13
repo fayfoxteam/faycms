@@ -3,7 +3,7 @@ namespace guangong\modules\frontend\controllers;
 
 use cms\services\user\UserService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use guangong\library\FrontController;
 use guangong\models\tables\GuangongMessagesTable;
@@ -22,7 +22,7 @@ class ZhengyiController extends FrontController{
         $type = $this->input->get('type', 'intval', GuangongMessagesTable::TYPE_ZHENGYILIANMENG_ZIXINGSHANJU);
         $user_id = $this->input->get('user_id', 'intval');
         if(!UserService::isUserIdExist($user_id)){
-            throw new HttpException('您访问的页面不存在');
+            throw new NotFoundHttpException('您访问的页面不存在');
         }
         
         $sql = new Sql();
@@ -82,7 +82,7 @@ class ZhengyiController extends FrontController{
     public function item(){
         $id = $this->input->get('id', 'intval');
         if(!$id){
-            throw new HttpException('您访问的页面不存在');
+            throw new NotFoundHttpException('您访问的页面不存在');
         }
         
         $this->view->message = GuangongMessagesTable::model()->find($id);

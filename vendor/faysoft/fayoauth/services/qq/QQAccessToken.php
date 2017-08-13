@@ -32,7 +32,6 @@ class QQAccessToken extends AccessTokenAbstract{
      * @param string $lang 语言，默认为中文
      * @return QQUser
      * @throws OAuthException
-     * @throws \fay\core\ErrorException
      */
     public function getUser($lang = 'zh_CN'){
         if(!$this->check()) {
@@ -46,7 +45,7 @@ class QQAccessToken extends AccessTokenAbstract{
         ));
         
         if($response['errcode'] != 0){
-            throw new OAuthException($response['errmsg'], $response['errcode']);
+            throw new OAuthException("{$response['errmsg']}[{$response['errcode']}]");
         }
         
         return new QQUser($response, $this);
@@ -66,7 +65,7 @@ class QQAccessToken extends AccessTokenAbstract{
         ));
         
         if($response['errcode'] != 0){
-            throw new OAuthException($response['errmsg'], $response['errcode']);
+            throw new OAuthException("{$response['errmsg']}[{$response['errcode']}]");
         }
         
         //更新access_token信息

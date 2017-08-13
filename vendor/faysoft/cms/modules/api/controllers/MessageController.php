@@ -5,7 +5,7 @@ use cms\library\ApiController;
 use cms\models\tables\PostsTable;
 use cms\services\MessageService;
 use cms\services\user\UserService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\helpers\FieldsHelper;
@@ -427,7 +427,7 @@ class MessageController extends ApiController{
         if($message){
             return new JsonResponse($message);
         }else{
-            throw new HttpException('留言ID不存在');
+            throw new NotFoundHttpException('留言ID不存在');
         }
     }
 }

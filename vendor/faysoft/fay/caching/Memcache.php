@@ -1,7 +1,6 @@
 <?php
 namespace fay\caching;
 
-use fay\core\ErrorException;
 
 /**
  * Memcache缓存
@@ -53,11 +52,11 @@ class Memcache extends Cache{
         $this->setServers(\F::config()->getFile('memcache'));
         $this->addServers($this->getMemcache(), $this->getServers());
     }
-    
+
     /**
      * @param \Memcache|\Memcached $cache
      * @param array $servers
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     protected function addServers($cache, $servers)
     {
@@ -69,7 +68,7 @@ class Memcache extends Cache{
         }else{
             foreach($servers as $server){
                 if($server['host'] === null){
-                    throw new ErrorException('Memcache服务器参数必须指定host');
+                    throw new \ErrorException('Memcache服务器参数必须指定host');
                 }
             }
         }
@@ -142,17 +141,17 @@ class Memcache extends Cache{
             }
         }
     }
-    
+
     /**
      * 获取Memcache实例
      * @return \Memcache|\Memcached
-     * @throws ErrorException
+     * @throws \ErrorException
      */
     public function getMemcache(){
         if ($this->_cache === null) {
             $extension = $this->use_memcached ? 'memcached' : 'memcache';
             if (!extension_loaded($extension)) {
-                throw new ErrorException("PHP {$extension} 扩展未安装.");
+                throw new \ErrorException("PHP {$extension} 扩展未安装。");
             }
             
             if ($this->use_memcached) {

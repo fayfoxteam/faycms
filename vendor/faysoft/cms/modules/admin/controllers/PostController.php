@@ -16,7 +16,10 @@ use cms\services\post\PostPropService;
 use cms\services\post\PostService;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\AccessDeniedHttpException;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\RecordNotFoundException;
+use fay\core\exceptions\ValidationException;
 use fay\core\JsonResponse;
 use fay\core\Response;
 use fay\core\Sql;
@@ -84,7 +87,7 @@ class PostController extends AdminController{
         $cat = CategoryService::service()->get($cat_id, 'title', '_system_post');
         
         if(!$cat){
-            throw new HttpException('所选分类不存在');
+            throw new RecordNotFoundException('所选分类不存在');
         }
         
         //触发事件（可以定制一些box以扩展文章功能）
@@ -431,18 +434,18 @@ class PostController extends AdminController{
         
         $post_id = $this->input->get('id', 'intval');
         if(empty($post_id)){
-            throw new HttpException('参数不完整', 500);
+            throw new ValidationException('参数不完整');
         }
         
         //原文章部分信息
         $post = PostsTable::model()->find($post_id, 'cat_id,status');
         if(!$post){
-            throw new HttpException('无效的文章ID');
+            throw new RecordNotFoundException('无效的文章ID');
         }
         
         //编辑权限检查
         if(!PostService::checkEditPermission($post_id, $this->input->post('status', 'intval'), $this->input->post('cat_id'))){
-            throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+            throw new AccessDeniedHttpException('您无权限编辑该文章');
         }
         
         $cat = CategoryService::service()->get($post['cat_id'], 'title');
@@ -643,7 +646,7 @@ class PostController extends AdminController{
         $post_id = $this->input->get('id', 'intval');
         
         if(!PostService::checkUndeletePermission($post_id)){
-            throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+            throw new AccessDeniedHttpException('您无权限编辑该文章');
         }
         PostService::service()->undelete($post_id);
         
@@ -731,7 +734,7 @@ class PostController extends AdminController{
             case 'set-published':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, PostsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文章');
                     }
                 }
                 
@@ -743,7 +746,7 @@ class PostController extends AdminController{
             case 'set-draft':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, PostsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文章');
                     }
                 }
                 
@@ -755,7 +758,7 @@ class PostController extends AdminController{
             case 'set-pending':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, PostsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文章');
                     }
                 }
                 
@@ -767,7 +770,7 @@ class PostController extends AdminController{
             case 'set-reviewed':
                 foreach($ids as $id){
                     if(!PostService::checkEditPermission($id, PostsTable::STATUS_PUBLISHED)){
-                        throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文章');
                     }
                 }
                 
@@ -779,7 +782,7 @@ class PostController extends AdminController{
             case 'delete':
                 foreach($ids as $id){
                     if(!PostService::checkDeletePermission($id)){
-                        throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文章');
                     }
                 }
                 
@@ -791,7 +794,7 @@ class PostController extends AdminController{
             case 'undelete':
                 foreach($ids as $id){
                     if(!PostService::checkUndeletePermission($id)){
-                        throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文章');
                     }
                 }
                 
@@ -803,7 +806,7 @@ class PostController extends AdminController{
             case 'remove':
                 foreach($ids as $id){
                     if(!PostService::checkRemovePermission($id)){
-                        throw new HttpException('您无权限编辑该文章', 403, 'permission-denied');
+                        throw new AccessDeniedHttpException('您无权限编辑该文章');
                     }
                 }
                 
@@ -987,20 +990,20 @@ class PostController extends AdminController{
     public function getCats(){
         $format = $this->input->request('format', 'trim', 'html');
 
-        if($format == 'html'){
-            //以html select标签的形式输出可用分类
-            echo $this->form()->select('cat_id', HtmlHelper::getSelectOptions(
-                CategoryService::service()->getTree('_system_post')
-            ), array(
-                'class'=>'form-control'
-            ));
-        }else if($format == 'tree'){
+        if($format == 'tree'){
             return Response::json(array(
                 'cats'=>CategoryService::service()->getTree('_system_post'),
             ));
         }else if($format == 'list'){
             return Response::json(array(
                 'cats'=>CategoryService::service()->getChildren('_system_post'),
+            ));
+        }else{
+            //以html select标签的形式输出可用分类
+            return $this->form()->select('cat_id', HtmlHelper::getSelectOptions(
+                CategoryService::service()->getTree('_system_post')
+            ), array(
+                'class'=>'form-control'
             ));
         }
     }
@@ -1040,7 +1043,7 @@ class PostController extends AdminController{
             false
         );
         if(!$post){
-            throw new HttpException("指定文章ID[{$this->form()->getData('id')}]不存在");
+            throw new NotFoundHttpException("指定文章ID[{$this->form()->getData('id')}]不存在");
         }
         
         $this->view->renderPartial(null, array(

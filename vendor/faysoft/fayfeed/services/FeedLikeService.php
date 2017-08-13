@@ -2,7 +2,6 @@
 namespace fayfeed\services;
 
 use cms\services\user\UserService;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\core\Service;
 use fay\helpers\ArrayHelper;
@@ -33,17 +32,16 @@ class FeedLikeService extends Service{
      * @param string $trackid
      * @param int $user_id 用户ID，默认为当前登录用户
      * @param bool|int $sockpuppet 马甲信息
-     * @throws Exception
      */
     public static function add($feed_id, $trackid = '', $user_id = null, $sockpuppet = 0){
         $user_id = UserService::makeUserID($user_id);
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            throw new Exception('指定的动态ID不存在', 'the-given-feed-id-is-not-exist');
+            throw new FeedNotExistException('指定的动态ID不存在');
         }
         
         if(self::isLiked($feed_id, $user_id)){
-            throw new Exception('已赞过，不能重复点赞', 'already-liked');
+            throw new \RuntimeException('已赞过，不能重复点赞', 'already-liked');
         }
         
         FeedLikesTable::model()->insert(array(
@@ -72,13 +70,9 @@ class FeedLikeService extends Service{
      * @param int $feed_id 动态ID
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws Exception
      */
     public static function remove($feed_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $like = FeedLikesTable::model()->find(array($feed_id, $user_id), 'sockpuppet');
         if($like){
@@ -111,13 +105,9 @@ class FeedLikeService extends Service{
      * @param int $feed_id 动态ID
      * @param int|null $user_id 用户ID，默认为当前登录用户
      * @return bool
-     * @throws Exception
      */
     public static function isLiked($feed_id, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         if(FeedLikesTable::model()->find(array($feed_id, $user_id))){
             return true;
@@ -131,13 +121,9 @@ class FeedLikeService extends Service{
      * @param array $feed_ids 由动态ID组成的一维数组
      * @param int $user_id 用户ID，默认为当前登录用户
      * @return array
-     * @throws Exception
      */
     public static function mIsLiked($feed_ids, $user_id = null){
-        $user_id || $user_id = \F::app()->current_user;
-        if(!$user_id){
-            throw new Exception('未能获取到用户ID', 'can-not-find-a-effective-user-id');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         if(!is_array($feed_ids)){
             $feed_ids = explode(',', str_replace(' ', '', $feed_ids));

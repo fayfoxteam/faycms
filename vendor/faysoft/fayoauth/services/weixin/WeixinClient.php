@@ -43,7 +43,6 @@ class WeixinClient extends ClientAbstract{
      * @param null $state
      * @return WeixinAccessToken
      * @throws OAuthException
-     * @throws \fay\core\ErrorException
      */
     public function getAccessToken($code, $state = null){
         $state || $state = \F::input()->get('state');

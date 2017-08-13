@@ -1,8 +1,8 @@
 <?php
 namespace steroid\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use steroid\library\FrontController;
-use fay\core\HttpException;
 use cms\services\CategoryService;
 
 class PostController extends FrontController{
@@ -14,7 +14,7 @@ class PostController extends FrontController{
         if($cat_id){
             $cat = CategoryService::service()->get($cat_id);
             if(!$cat){
-                throw new HttpException('您请求的页面不存在');
+                throw new NotFoundHttpException('您请求的页面不存在');
             }
         }else{
             $cat = CategoryService::service()->get('products');

@@ -4,7 +4,8 @@ namespace apidoc\modules\admin\controllers;
 use apidoc\models\tables\ApidocErrorCodesTable;
 use cms\library\AdminController;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Response;
 use fay\core\Sql;
 
@@ -27,7 +28,7 @@ class ErrorCodeController extends AdminController{
     
     public function create(){
         if(!$this->input->post()){
-            throw new HttpException('无数据提交');
+            throw new ValidationException('无数据提交');
         }
 
         if($this->form()->setModel(ApidocErrorCodesTable::model())->check()){
@@ -68,7 +69,7 @@ class ErrorCodeController extends AdminController{
         $this->layout->subtitle = '编辑错误码 - ' . $error_code['code'];
 
         if(!$error_code){
-            throw new HttpException('所选自定义属性不存在');
+            throw new NotFoundHttpException('所选自定义属性不存在');
         }
         $this->form()->setData($error_code);
 

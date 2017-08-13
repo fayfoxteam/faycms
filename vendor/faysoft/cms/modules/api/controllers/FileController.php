@@ -6,7 +6,8 @@ use cms\models\tables\FilesTable;
 use cms\services\CaptchaService;
 use cms\services\file\FileService;
 use cms\services\file\ImageService;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use fay\core\Validator;
 use fay\helpers\NumberHelper;
 use PHPQRCode\QRcode;
@@ -167,7 +168,7 @@ class FileController extends ApiController{
         //选中部分的高度
         $h = $this->input->get('h', 'intval');
         if(!$w || !$h){
-            throw new HttpException('不完整的请求', 500);
+            throw new ValidationException('不完整的请求');
         }
         //输出宽度
         $dw = $this->input->get('dw', 'intval', $w);
@@ -274,7 +275,7 @@ class FileController extends ApiController{
             if($file = FilesTable::model()->find($file_id)){
                 if(substr((defined('NO_REWRITE') ? './public/' : '').$file['file_path'], 0, 4) == './..'){
                     //私有文件不允许在此方法下载
-                    throw new HttpException('文件不存在');
+                    throw new NotFoundHttpException('文件不存在');
                 }
                 
                 //可选下载文件名格式
@@ -308,10 +309,10 @@ class FileController extends ApiController{
                 }
                 die($data);
             }else{
-                throw new HttpException('文件不存在');
+                throw new NotFoundHttpException('文件不存在');
             }
         }else{
-            throw new HttpException('参数不正确', 500);
+            throw new ValidationException('参数不正确');
         }
     }
 }

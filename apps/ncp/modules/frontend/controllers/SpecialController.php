@@ -1,13 +1,12 @@
 <?php
 namespace ncp\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
 use ncp\library\FrontController;
-use fay\core\HttpException;
 use cms\models\tables\PostsTable;
 use fay\core\Sql;
 use cms\services\CategoryService;
 use fay\common\ListView;
-use ncp\models\Recommend;
 use cms\services\OptionService;
 use cms\services\post\PostService;
 use fay\core\db\Expr;
@@ -55,7 +54,7 @@ class SpecialController extends FrontController{
                 'page_size'=>10,
             ));
         }else{
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         
         $product_cat = CategoryService::service()->get('product', 'id,left_value,right_value');//产品分类根目录
@@ -68,7 +67,7 @@ class SpecialController extends FrontController{
         $id = $this->input->get('id', 'intval');
         
         if(!$id || !$post = PostService::service()->get($id, '', 'special', true)){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         PostsTable::model()->update(array(
             'last_view_time'=>$this->current_time,

@@ -7,7 +7,6 @@ use cms\models\tables\UsersTable;
 use cms\services\OptionService;
 use cms\services\user\UserService;
 use fay\core\Db;
-use fay\core\Exception;
 use fay\core\Request;
 use fay\helpers\LocalFileHelper;
 
@@ -26,7 +25,7 @@ class IndexController extends InstallController{
         
         if($is_installed == 'installation-completed'){
             //全部安装已完成
-            throw new Exception('程序已完成安装，若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
+            throw new \Exception('程序已完成安装，若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
         }else if($is_installed == 'database-completed'){
             //数据库已初始化，跳转至设置超级管理员界面
             $this->response->redirect('cms/install/index/settings', array(
@@ -84,7 +83,7 @@ class IndexController extends InstallController{
     public function database(){
         try{
             $this->checkToken();
-        }catch(Exception $e){
+        }catch(\Exception $e){
             $this->response->redirect('cms/install/index/index');
         }
         
@@ -93,7 +92,7 @@ class IndexController extends InstallController{
         
         if($is_installed == 'installation-completed'){
             //全部安装已完成
-            throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
+            throw new \Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
         }else if($is_installed == 'database-completed'){
             //数据库安装完成，跳转到用户设置界面
             $this->response->redirect('cms/install/index/settings', array(
@@ -108,7 +107,7 @@ class IndexController extends InstallController{
     public function settings(){
         try{
             $this->checkToken();
-        }catch(Exception $e){
+        }catch(\Exception $e){
             $this->response->redirect('cms/install/index/index');
         }
         
@@ -117,7 +116,7 @@ class IndexController extends InstallController{
         
         if($is_installed == 'installation-completed'){
             //全部安装已完成
-            throw new Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
+            throw new \Exception('程序已完成安装！若要重新安装，请删除当前application下的runtimes/installed.lock文件后重试');
         }else if($is_installed == 'database-completed'){
             //数据库已初始化，跳转至设置超级管理员界面
             if($this->input->post()){

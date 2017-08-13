@@ -1,6 +1,9 @@
 <?php
 namespace siwi\modules\user\controllers;
 
+use fay\core\exceptions\AccessDeniedHttpException;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use siwi\library\UserController;
 use cms\models\tables\PostsTable;
 use cms\models\tables\PostsFilesTable;
@@ -8,7 +11,6 @@ use cms\services\post\Tag;
 use cms\models\tables\FilesTable;
 use cms\services\CategoryService;
 use fay\core\Sql;
-use fay\core\HttpException;
 use fay\core\Validator;
 use cms\services\FlashService;
 
@@ -78,15 +80,15 @@ class MaterialController extends UserController{
         
         $id = $this->input->get('id', 'intval');
         if(!$id){
-            throw new HttpException('不完整的请求');
+            throw new ValidationException('不完整的请求');
         }
         
         $post = PostsTable::model()->find($id);
         if(!$post){
-            throw new HttpException('素材编号不存在');
+            throw new NotFoundHttpException('素材编号不存在');
         }
         if($post['user_id'] != $this->current_user){
-            throw new HttpException('您无权限编辑此素材');
+            throw new AccessDeniedHttpException('您无权限编辑此素材');
         }
         
         $this->form()->setRules($this->rules);

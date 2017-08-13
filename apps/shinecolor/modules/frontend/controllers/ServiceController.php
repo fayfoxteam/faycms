@@ -1,11 +1,12 @@
 <?php
 namespace shinecolor\modules\frontend\controllers;
 
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\exceptions\ValidationException;
 use shinecolor\library\FrontController;
 use cms\models\tables\PagesTable;
 use fay\helpers\HtmlHelper;
 use fay\core\Sql;
-use fay\core\HttpException;
 
 class ServiceController extends FrontController{
     public function __construct(){
@@ -21,13 +22,13 @@ class ServiceController extends FrontController{
     public function item(){
         $alias = $this->input->get('alias');
         if(!$alias){
-            throw new HttpException('未设置别名');
+            throw new ValidationException('未设置别名');
         }
         $page = PagesTable::model()->fetchRow(array(
             'alias = ?'=>$alias,
         ));
         if(!$page){
-            throw new HttpException('别名不存在');
+            throw new NotFoundHttpException('别名不存在');
         }
         
         $this->view->page = $page;

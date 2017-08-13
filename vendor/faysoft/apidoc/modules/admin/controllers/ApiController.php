@@ -13,8 +13,7 @@ use cms\library\AdminController;
 use cms\services\CategoryService;
 use cms\services\SettingService;
 use fay\common\ListView;
-use fay\core\ErrorException;
-use fay\core\HttpException;
+use fay\core\exceptions\RecordNotFoundException;
 use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
@@ -169,17 +168,17 @@ class ApiController extends AdminController{
             );
             $app = ApidocAppsTable::model()->find($cat['app_id'], 'id,name');
             if(!$app){
-                throw new HttpException('APP不存在');
+                throw new RecordNotFoundException('APP不存在');
             }
             $app_id = $app['id'];
         }else if($this->input->get('app_id')){
             $app = ApidocAppsTable::model()->find($this->input->get('app_id', 'intval'), 'id,name');
             if(!$app){
-                throw new HttpException('APP不存在');
+                throw new RecordNotFoundException('APP不存在');
             }
             $app_id = $app['id'];
         }else{
-            throw new HttpException('无法确定APP');
+            throw new RecordNotFoundException('无法确定APP');
         }
 
         
@@ -221,7 +220,7 @@ class ApiController extends AdminController{
                     'name = ?'=>$o['model_name'],
                 ), 'id');
                 if(!$model){
-                    throw new ErrorException('指定数据模型不存在', $o['model_name']);
+                    throw new RecordNotFoundException('指定数据模型不存在', $o['model_name']);
                 }
 
                 $output = ApidocInputsTable::model()->fillData($o, true, 'insert');
@@ -346,7 +345,7 @@ class ApiController extends AdminController{
                         'name = ?'=>$o['model_name'],
                     ), 'id');
                     if(!$model){
-                        throw new ErrorException('指定数据模型不存在', $o['model_name']);
+                        throw new RecordNotFoundException('指定数据模型不存在', $o['model_name']);
                     }
     
                     if(isset($old_output_parameters[$output_parameter_id])){

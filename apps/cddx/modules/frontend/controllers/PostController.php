@@ -2,9 +2,9 @@
 namespace cddx\modules\frontend\controllers;
 
 use cddx\library\FrontController;
+use fay\core\exceptions\NotFoundHttpException;
 use fay\core\Sql;
 use cms\models\tables\PostsTable;
-use fay\core\HttpException;
 use cms\services\CategoryService;
 use fay\common\ListView;
 use fay\core\db\Expr;
@@ -16,7 +16,7 @@ class PostController extends FrontController{
         
         //获取分类
         if(!$cat_id || !$cat = CategoryService::service()->get($cat_id)){
-            throw new HttpException('您请求的页面不存在');
+            throw new NotFoundHttpException('您请求的页面不存在');
         }
         
         $sql = new Sql();
@@ -62,7 +62,7 @@ class PostController extends FrontController{
         $id = $this->input->get('id', 'intval');
         
         if(!$id || !$post = PostService::service()->get($id, 'files.file_id,files.description,user.id,user.username,user.nickname')){
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         PostsTable::model()->update(array(
             'last_view_time'=>$this->current_time,

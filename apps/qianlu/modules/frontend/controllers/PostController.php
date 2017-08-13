@@ -1,14 +1,14 @@
 <?php
 namespace qianlu\modules\frontend\controllers;
 
-use qianlu\library\FrontController;
-use cms\services\CategoryService;
-use cms\models\tables\PostsTable;
-use fay\helpers\StringHelper;
-use fay\core\Sql;
 use cms\models\tables\CategoriesTable;
+use cms\models\tables\PostsTable;
+use cms\services\CategoryService;
 use fay\common\ListView;
-use fay\core\HttpException;
+use fay\core\exceptions\NotFoundHttpException;
+use fay\core\Sql;
+use fay\helpers\StringHelper;
+use qianlu\library\FrontController;
 
 class PostController extends FrontController{
     public $layout_template = 'inner';
@@ -47,7 +47,7 @@ class PostController extends FrontController{
             $this->layout->keywords = $post['seo_keywords'] ? $post['seo_keywords'] : $post['title'];
             $this->layout->description = $post['seo_description'] ? $post['seo_description'] : $post['abstract'];
         }else{
-            throw new HttpException('页面不存在');
+            throw new NotFoundHttpException('页面不存在');
         }
         
         $this->layout->subtitle = '新闻中心';

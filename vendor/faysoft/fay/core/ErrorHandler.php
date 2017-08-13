@@ -26,7 +26,7 @@ class ErrorHandler{
     
     /**
      * 处理未捕获的异常
-     * @param Exception|ErrorException $exception
+     * @param \Exception $exception
      */
     public function handleException($exception){
         $this->reportException($exception);
@@ -62,7 +62,7 @@ class ErrorHandler{
         $error = error_get_last();
         if($error && in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING))){
             //致命错误，当成异常处理
-            $exception = new ErrorException($error['message'], '', $error['type'], $error['file'], $error['line'], $error['type']);
+            $exception = new \ErrorException($error['message'], $error['type'], $error['file'], $error['line'], $error['type']);
             $this->handleException($exception);
         }
     }
@@ -124,6 +124,8 @@ class ErrorHandler{
 
     /**
      * 获取错误级别描述
+     * @param int $code
+     * @return string
      */
     public static function getErrorLevel($code){
         $levels = array(

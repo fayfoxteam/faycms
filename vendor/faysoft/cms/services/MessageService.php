@@ -4,8 +4,6 @@ namespace cms\services;
 use cms\models\tables\MessagesTable;
 use cms\models\tables\UserCounterTable;
 use cms\services\user\UserService;
-use fay\core\ErrorException;
-use fay\core\Exception;
 use fay\core\Loader;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
@@ -77,19 +75,14 @@ class MessageService extends MultiTreeModel{
      * @param int $user_id 用户ID，若不指定，默认为当前登录用户ID
      * @param int $sockpuppet 马甲信息，若是真实用户，传入0，默认为0
      * @return int 消息ID
-     * @throws Exception
      */
     public function create($to_user_id, $content, $parent = 0, $status = MessagesTable::STATUS_PENDING, $extra = array(), $user_id = null, $sockpuppet = 0){
-        $user_id === null && $user_id = \F::app()->current_user;
-        
-        if(!UserService::isUserIdExist($to_user_id)){
-            throw new Exception('用户ID不存在', 'to_user_id-not-exist');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         if($parent){
             $parent_message = MessagesTable::model()->find($parent, 'to_user_id,delete_time');
             if(!$parent_message || $parent_message['delete_time']){
-                throw new Exception('父节点不存在', 'parent-not-exist');
+                throw new \UnexpectedValueException('父节点不存在');
             }
         }
         
@@ -121,15 +114,14 @@ class MessageService extends MultiTreeModel{
      * 软删除一条评论
      * 软删除不会修改parent标识，因为删除的东西随时都有可能会被恢复，而parent如果变了是无法被恢复的。
      * @param int $message_id 评论ID
-     * @throws Exception
      */
     public function delete($message_id){
         $message = MessagesTable::model()->find($message_id, 'delete_time,to_user_id,status,sockpuppet');
         if(!$message){
-            throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
+            throw new \UnexpectedValueException('指定评论ID不存在');
         }
         if($message['delete_time']){
-            throw new Exception('评论已删除', 'message-already-deleted');
+            throw new \UnexpectedValueException('评论已删除');
         }
         
         //软删除不需要动树结构，只要把deleted字段标记一下即可
@@ -181,15 +173,14 @@ class MessageService extends MultiTreeModel{
     /**
      * 从回收站恢复一条评论
      * @param int $message_id 评论ID
-     * @throws Exception
      */
     public function undelete($message_id){
         $message = MessagesTable::model()->find($message_id, 'delete_time,to_user_id,status,sockpuppet');
         if(!$message){
-            throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
+            throw new \UnexpectedValueException('指定评论ID不存在');
         }
         if(!$message['delete_time']){
-            throw new Exception('指定评论ID不在回收站中', 'message-not-in-recycle-bin');
+            throw new \UnexpectedValueException('指定评论ID不在回收站中');
         }
         
         //还原不需要动树结构，只是把deleted字段标记一下即可
@@ -242,12 +233,11 @@ class MessageService extends MultiTreeModel{
      * 删除一条评论及所有回复该评论的评论
      * @param int $message_id 评论ID
      * @return array
-     * @throws Exception
      */
     public function deleteAll($message_id){
         $message = MessagesTable::model()->find($message_id, 'left_value,right_value,root');
         if(!$message){
-            throw new Exception('指定评论ID不存在');
+            throw new \UnexpectedValueException('指定评论ID不存在');
         }
         
         //获取所有待删除节点
@@ -284,12 +274,11 @@ class MessageService extends MultiTreeModel{
      * 永久删除一条评论
      * @param int $message_id 评论ID
      * @return bool
-     * @throws Exception
      */
     public function remove($message_id){
         $message = MessagesTable::model()->find($message_id, '!content');
         if(!$message){
-            throw new Exception('指定评论ID不存在');
+            throw new \UnexpectedValueException('指定评论ID不存在');
         }
         
         //触发事件，这个不能用after，记录都没了就没法找了
@@ -309,12 +298,11 @@ class MessageService extends MultiTreeModel{
      * 物理删除一条评论及所有回复该评论的评论
      * @param int $message_id 评论ID
      * @return array
-     * @throws Exception
      */
     public function removeAll($message_id){
         $message = MessagesTable::model()->find($message_id, '!content');
         if(!$message){
-            throw new Exception('指定评论ID不存在');
+            throw new \UnexpectedValueException('指定评论ID不存在');
         }
         
         //获取所有待删除节点
@@ -348,18 +336,17 @@ class MessageService extends MultiTreeModel{
      * 通过审核
      * @param int $message_id 评论ID
      * @return bool
-     * @throws Exception
      */
     public function approve($message_id){
         $message = MessagesTable::model()->find($message_id, '!content');
         if(!$message){
-            throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
+            throw new \UnexpectedValueException('指定评论ID不存在');
         }
         if($message['delete_time']){
-            throw new Exception('评论已删除', 'message-deleted');
+            throw new \UnexpectedValueException('评论已删除');
         }
         if($message['status'] == MessagesTable::STATUS_APPROVED){
-            throw new Exception('已通过审核，请勿重复操作', 'already-approved');
+            throw new \RuntimeException('已通过审核，请勿重复操作');
         }
         
         $this->setStatus($message_id, MessagesTable::STATUS_APPROVED);
@@ -405,18 +392,17 @@ class MessageService extends MultiTreeModel{
      * 不通过审核
      * @param int $message_id 评论ID
      * @return bool
-     * @throws Exception
      */
     public function disapprove($message_id){
         $message = MessagesTable::model()->find($message_id, '!content');
         if(!$message){
-            throw new Exception('指定评论ID不存在', 'message_id-is-not-exist');
+            throw new \UnexpectedValueException('指定评论ID不存在');
         }
         if($message['delete_time']){
-            throw new Exception('评论已删除', 'message-is-deleted');
+            throw new \UnexpectedValueException('评论已删除');
         }
         if($message['status'] == MessagesTable::STATUS_UNAPPROVED){
-            throw new Exception('该评论已是“未通过审核”状态，请勿重复操作', 'already-unapproved');
+            throw new \RuntimeException('该评论已是“未通过审核”状态，请勿重复操作');
         }
         
         $this->setStatus($message_id, MessagesTable::STATUS_UNAPPROVED);
@@ -592,7 +578,6 @@ class MessageService extends MultiTreeModel{
      * @param string $action 操作
      * @param int $user_id 用户ID，若为空，则默认为当前登录用户
      * @return bool
-     * @throws ErrorException
      */
     public function checkPermission($message, $action = 'delete', $user_id = null){
         if(!is_array($message)){
@@ -601,7 +586,7 @@ class MessageService extends MultiTreeModel{
         $user_id || $user_id = \F::app()->current_user;
         
         if(empty($message['user_id'])){
-            throw new ErrorException('指定用户留言不存在');
+            throw new \UnexpectedValueException('指定用户留言不存在');
         }
         
         if($message['user_id'] == $user_id){
@@ -794,7 +779,6 @@ class MessageService extends MultiTreeModel{
      * @param array|string $fields 字段
      * @param string $order
      * @return array
-     * @throws ErrorException
      */
     public function getChildrenList($parent_id, $page_size = 10, $page = 1, $fields = array(
         'message'=>array(

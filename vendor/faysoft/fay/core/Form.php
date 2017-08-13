@@ -132,12 +132,11 @@ class Form{
      * @param array $data
      * @param bool $cover 如果key已存在，是否覆盖
      * @return Form
-     * @throws Exception
      */
     public function setData($data, $cover = false){
         if(!is_array($data)){
             //数据格式非法，抛出异常
-            throw new Exception('fay\core\Form::setData第一个参数必须是数组', '<code>'.var_export($data, true).'</code>');
+            throw new \InvalidArgumentException('fay\core\Form::setData第一个参数必须是数组', '<code>'.var_export($data, true).'</code>');
         }
         if($this->_data === null){
             $this->_data = array();

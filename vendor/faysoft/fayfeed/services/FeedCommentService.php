@@ -49,7 +49,7 @@ class FeedCommentService extends MultiTreeModel{
         $user_id = UserService::makeUserID($user_id);
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            throw new FeedNotExistException('动态ID不存在');
+            throw new FeedNotExistException($feed_id);
         }
         
         if($parent){

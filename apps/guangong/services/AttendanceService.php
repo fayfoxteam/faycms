@@ -1,7 +1,6 @@
 <?php
 namespace guangong\services;
 
-use cms\services\user\UserNotExistException;
 use fay\core\Loader;
 use fay\core\Service;
 use cms\services\user\UserService;
@@ -22,11 +21,7 @@ class AttendanceService extends Service{
      * @throws \Exception
      */
     public function attend($user_id = null){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new UserNotExistException('指定用户ID不存在');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         //获取最后一条出勤记录
         $last_attendance = GuangongAttendancesTable::model()->fetchRow(
@@ -68,11 +63,7 @@ class AttendanceService extends Service{
      * @param null|int $user_id
      */
     public function getCount($user_id = null){
-        if($user_id === null){
-            $user_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($user_id)){
-            throw new UserNotExistException('指定用户ID不存在');
-        }
+        $user_id = UserService::makeUserID($user_id);
         
         $attendances = GuangongAttendancesTable::model()->fetchRow(array(
             'user_id = ?'=>$user_id,

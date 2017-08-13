@@ -41,7 +41,7 @@ class DocFavoriteService extends Service{
         $user_id = UserService::makeUserID($user_id);
         
         if(!DocService::isDocIdExist($doc_id)){
-            throw new DocNotExistException("指定文档ID[{$doc_id}]不存在");
+            throw new DocNotExistException($doc_id);
         }
         
         if(self::isFavorited($doc_id, $user_id)){

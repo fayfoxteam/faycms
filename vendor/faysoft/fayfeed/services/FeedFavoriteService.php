@@ -37,7 +37,7 @@ class FeedFavoriteService extends Service{
         $user_id = UserService::makeUserID($user_id);
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            throw new FeedNotExistException('指定的动态ID不存在');
+            throw new FeedNotExistException($feed_id);
         }
         
         if(self::isFavorited($feed_id, $user_id)){

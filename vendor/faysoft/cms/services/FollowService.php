@@ -42,18 +42,14 @@ class FollowService extends Service{
      * @return int
      */
     public static function add($user_id, $trackid = '', $fan_id = null, $sockpuppet = 0){
-        if($fan_id === null){
-            $fan_id = \F::app()->current_user;
-        }else if(!UserService::isUserIdExist($fan_id)){
-            throw new UserNotExistException('指定粉丝ID不存在');
-        }
+        $fan_id = UserService::makeUserID($fan_id);
         
         if($user_id == $fan_id){
             throw new \RuntimeException('粉丝和用户ID不能相同');
         }
         
         if(!UserService::isUserIdExist($user_id)){
-            throw new UserNotExistException("关注的用户ID[{$user_id}]不存在");
+            throw new UserNotExistException($user_id);
         }
         
         if(self::isFollow($user_id, $fan_id)){

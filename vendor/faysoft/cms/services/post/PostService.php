@@ -24,6 +24,7 @@ use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 use fay\helpers\FieldsHelper;
+use fay\helpers\NumberHelper;
 use fay\helpers\StringHelper;
 
 /**
@@ -257,11 +258,8 @@ class PostService extends Service{
     public function update($post_id, $data, $extra = array(), $update_update_time = true){
         //获取原文章
         $old_post = PostsTable::model()->find($post_id, 'cat_id,user_id,delete_time,status');
-        if(!$old_post){
-            throw new PostNotExistException('指定文章不存在');
-        }
-        if($old_post['delete_time']){
-            throw new PostNotExistException('已删除文章不允许编辑');
+        if(!$old_post || $old_post['delete_time']){
+            throw new PostNotExistException($post_id);
         }
         
         if($update_update_time){
@@ -911,13 +909,13 @@ class PostService extends Service{
      * @return bool
      */
     public static function checkEditPermission($post, $new_status = null, $new_cat_id = null, $user_id = null){
-        if(!is_array($post)){
+        if(NumberHelper::isInt($post)){
             $post = PostsTable::model()->find($post, 'user_id,cat_id,status');
         }
         $user_id = UserService::makeUserID($user_id);
         
         if(!$post){
-            throw new PostNotExistException('指定文章不存在');
+            throw new PostNotExistException();
         }
         
         if($post['user_id'] == $user_id){
@@ -968,13 +966,13 @@ class PostService extends Service{
      * @return bool
      */
     public static function checkDeletePermission($post, $user_id = null){
-        if(!is_array($post)){
+        if(NumberHelper::isInt($post)){
             $post = PostsTable::model()->find($post, 'user_id,cat_id');
         }
-        $user_id || $user_id = \F::app()->current_user;
+        $user_id = UserService::makeUserID($user_id);
         
         if(!$post){
-            throw new PostNotExistException('指定文章不存在');
+            throw new PostNotExistException();
         }
         
         if($post['user_id'] == $user_id){
@@ -1001,13 +999,13 @@ class PostService extends Service{
      * @return bool
      */
     public static function checkUndeletePermission($post, $user_id = null){
-        if(!is_array($post)){
+        if(NumberHelper::isInt($post)){
             $post = PostsTable::model()->find($post, 'user_id,cat_id');
         }
-        $user_id || $user_id = \F::app()->current_user;
+        $user_id = UserService::makeUserID($user_id);
         
         if(!$post){
-            throw new PostNotExistException('指定文章不存在');
+            throw new PostNotExistException();
         }
         
         if($post['user_id'] == $user_id){
@@ -1034,13 +1032,13 @@ class PostService extends Service{
      * @return bool
      */
     public static function checkRemovePermission($post, $user_id = null){
-        if(!is_array($post)){
+        if(NumberHelper::isInt($post)){
             $post = PostsTable::model()->find($post, 'user_id,cat_id');
         }
         $user_id || $user_id = \F::app()->current_user;
         
         if(!$post){
-            throw new PostNotExistException('指定文章不存在');
+            throw new PostNotExistException();
         }
         
         if($post['user_id'] == $user_id){

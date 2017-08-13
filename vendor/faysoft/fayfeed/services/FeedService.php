@@ -7,6 +7,7 @@ use fay\core\Loader;
 use fay\core\Service;
 use fay\core\Sql;
 use fay\helpers\FieldsHelper;
+use fay\helpers\NumberHelper;
 use fayfeed\models\tables\FeedExtraTable;
 use fayfeed\models\tables\FeedFavoritesTable;
 use fayfeed\models\tables\FeedLikesTable;
@@ -552,13 +553,13 @@ class FeedService extends Service{
      * @return bool
      */
     public function checkDeletePermission($feed, $user_id = null){
-        if(!is_array($feed)){
+        if(NumberHelper::isInt($feed)){
             $feed = FeedsTable::model()->find($feed, 'user_id');
         }
-        $user_id || $user_id = \F::app()->current_user;
+        $user_id = UserService::makeUserID($user_id);
         
         if(empty($feed['user_id'])){
-            throw new FeedNotExistException('指定动态不存在');
+            throw new FeedNotExistException();
         }
         
         if($feed['user_id'] == $user_id){

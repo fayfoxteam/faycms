@@ -31,7 +31,7 @@ class PostHistoryService extends Service{
 
         $post = PostsTable::model()->find($post_id, 'id,title,content,content_type,cat_id,thumbnail,abstract');
         if(!$post){
-            throw new PostNotExistException("指定文章ID[{$post_id}]不存在");
+            throw new PostNotExistException($post_id);
         }
 
         $data = array(

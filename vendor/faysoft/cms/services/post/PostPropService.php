@@ -62,7 +62,7 @@ class PostPropService extends Service implements PropUsageInterface{
     public function getUsages($post_id){
         $post = PostsTable::model()->find($post_id, 'cat_id');
         if(!$post){
-            throw new PostNotExistException("指定文章ID[{$post_id}]不存在");
+            throw new PostNotExistException($post_id);
         }
 
         return array($post['cat_id']);
@@ -161,7 +161,7 @@ class PostPropService extends Service implements PropUsageInterface{
     public function getPropsByPostId($post_id){
         $post = PostsTable::model()->find($post_id, 'cat_id');
         if(!$post){
-            throw new PostNotExistException("指定文章ID[{$post_id}]不存在");
+            throw new PostNotExistException($post_id);
         }
         
         return $this->getPropsByCatId($post['cat_id']);

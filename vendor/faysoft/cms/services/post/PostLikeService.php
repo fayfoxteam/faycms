@@ -41,7 +41,7 @@ class PostLikeService extends Service{
         $user_id = UserService::makeUserID($user_id);
         
         if(!PostService::isPostIdExist($post_id)){
-            throw new PostNotExistException("指定文章ID[{$post_id}]不存在");
+            throw new PostNotExistException($post_id);
         }
         
         if(self::isLiked($post_id, $user_id)){

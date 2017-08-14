@@ -80,7 +80,7 @@ class ErrorHandler{
             $response->setData(array(
                 'status'=>0,
                 'data'=>'',
-                'message'=>$exception instanceof db\Exception ? '数据库错误' : $exception->getMessage(),
+                'message'=>$exception instanceof db\DBException ? '数据库错误' : $exception->getMessage(),
                 'code'=>$exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error',
             ))
                 ->setStatusCode(isset($exception->status_code) ? $exception->status_code : 500)

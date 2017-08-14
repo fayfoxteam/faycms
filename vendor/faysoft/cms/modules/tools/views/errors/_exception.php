@@ -1,5 +1,4 @@
 <?php
-use fay\core\ErrorHandler;
 use fay\helpers\HtmlHelper;
 use fay\helpers\LocalFileHelper;
 
@@ -20,7 +19,7 @@ array_unshift($_backtrace, array(
 ));
 ?>
 <div class="header">
-    <h1><?php echo ErrorHandler::getErrorLevel($exception->getCode()), ' - ', $exception->getMessage()?></h1>
+    <h1><?php echo get_class($exception), ' - ', $exception->getMessage()?></h1>
     <?php if(method_exists($exception, 'getDescription')){
         $description = $exception->getDescription();
         if($description){

@@ -1,8 +1,9 @@
 <?php
 namespace fay\core;
 
-use fay\core\db\Exception;
+use fay\core\db\DBException;
 use fay\core\db\Expr;
+use fay\core\db\QueryException;
 use fay\helpers\SqlHelper;
 
 class Db{
@@ -54,7 +55,7 @@ class Db{
     /**
      * 初始化
      * @param array $config
-     * @throws Exception
+     * @throws DBException
      */
     public function init($config){
         $db_config = \F::config()->get('db');
@@ -74,8 +75,10 @@ class Db{
             $dsn = "mysql:host={$this->_host};port={$this->_port};dbname={$this->_dbname};charset={$this->_charset}";
             try {
                 $this->_conn = new \PDO($dsn, $this->_user, $this->_pwd);
+                //当发生错误时，以异常的形式抛出（默认只是返回false）
+                $this->_conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             }catch(\PDOException $e){
-                throw new Exception($e->getMessage(), '数据库链接失败，请确认configs/main.php中数据库配置正确');
+                throw new DBException($e->getMessage(), '数据库链接失败，请确认configs/main.php中数据库配置正确');
             }
             $this->_conn->exec("SET NAMES {$this->_charset}");
         }
@@ -91,12 +94,16 @@ class Db{
      */
     public function execute($sql, $params = array()){
         $start_time = microtime(true);
-        $sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
-        $sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
-        $sqltype = strtolower(substr(trim($sql), 0, 6));
+        try{
+            $sth = $this->_conn->prepare($sql);
+            $sth->execute($params);
+        }catch(\PDOException $e){
+            throw new QueryException($sql, $params, $e);
+        }
+        
         self::$_count++;
         $this->logSql($sql, $params, microtime(true) - $start_time);
-        if($sqltype == 'insert'){
+        if(strtolower(substr(trim($sql), 0, 6)) == 'insert'){
             return $this->_conn->lastInsertId();
         }else{
             return $sth->rowCount();
@@ -109,7 +116,6 @@ class Db{
      * @param string $sql
      * @param bool $explode 默认为false。若为true，则会把"\r\n"替换为"\n"后根据";\n"分割为多个SQL依次执行
      * （这并不是很完美的解决方案，因为从语法上讲，SQL并不一定要一行一个，而且极端情况下可能出错。不过适用于数据导入等情况）
-     * @return bool|int
      */
     public function exec($sql, $explode = false){
         if($explode){
@@ -120,20 +126,19 @@ class Db{
                     continue;
                 }
                 $start_time = microtime(true);
-                if($this->_conn->exec($s) === false){
-                    $this->error($this->_conn->errorInfo(), $s);
+                try{
+                    $this->_conn->exec($s);
+                }catch(\PDOException $e){
+                    throw new QueryException($sql, array(), $e);
                 }
                 self::$_count++;
                 $this->logSql($s, array(), microtime(true) - $start_time);
             }
-            return true;
         }else{
-            $result = $this->_conn->exec($sql);
-            if($result === false){
-                $this->error($this->_conn->errorInfo(), $sql);
-                return false;
-            }else{
-                return $result;
+            try{
+                $this->_conn->exec($sql);
+            }catch(\PDOException $e){
+                throw new QueryException($sql, array(), $e);
             }
         }
     }
@@ -153,33 +158,19 @@ class Db{
         }else{
             $result_style = \PDO::FETCH_ASSOC;
         }
+        
         $start_time = microtime(true);
-        $sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
-        $sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
-        self::$_count++;
-        $this->logSql($sql, $params, microtime(true) - $start_time);
-        return $sth->fetchAll($result_style);
-    }
-    
-    /**
-     * 以一维数组的方式，返回一列结果
-     * @param string $col
-     * @param string $sql
-     * @param array $params
-     * @return array
-     */
-    public function fetchCol($col, $sql, $params = array()){
-        $start_time = microtime(true);
-        $sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
-        $sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
-        self::$_count++;
-        $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
-        $this->logSql($sql, $params, microtime(true) - $start_time);
-        $return = array();
-        foreach($result as $r){
-            $return[] = $r[$col];
+        try{
+            $sth = $this->_conn->prepare($sql);
+            $sth->execute($params);
+        }catch(\PDOException $e){
+            throw new QueryException($sql, $params, $e);
         }
-        return $return;
+
+        $result = $sth->fetchAll($result_style);
+        $this->logSql($sql, $params, microtime(true) - $start_time);
+        self::$_count++;
+        return $result;
     }
     
     /**
@@ -197,12 +188,19 @@ class Db{
         }else{
             $result_style = \PDO::FETCH_ASSOC;
         }
+        
         $start_time = microtime(true);
-        $sth = $this->_conn->prepare($sql) or $this->error($this->_conn->errorInfo(), $sql, $params);
-        $sth->execute($params) or $this->error($sth->errorInfo(), $sql, $params);
-        self::$_count++;
+        try{
+            $sth = $this->_conn->prepare($sql);
+            $sth->execute($params);
+        }catch(\PDOException $e){
+            throw new QueryException($sql, $params, $e);
+        }
+        
+        $result = $sth->fetch($result_style);
         $this->logSql($sql, $params, microtime(true) - $start_time);
-        return $sth->fetch($result_style);
+        self::$_count++;
+        return $result;
     }
     
     /**
@@ -277,11 +275,14 @@ class Db{
      * @param array $data 数据
      * @param array|bool|false|string $condition 条件，若为false，则更新所有字段
      * @return int
-     * @throws Exception
+     * @throws DBException
      */
     public function update($table, $data, $condition = false){
         if(empty($data)){
-            throw new Exception('Db::update语句更新数据不能为空');
+            throw new DBException('更新数据不能为空');
+        }
+        if(!$condition){
+            throw new DBException('出于安全考虑，不允许where条件为空的update操作');
         }
         
         $set = array();
@@ -296,14 +297,9 @@ class Db{
             }
         }
         
-        if($condition === false){
-            $sql = "UPDATE {$this->getFullTableName($table)} SET ".implode(',', $set);
-            return $this->execute($sql, $values);
-        }else{
-            $where = $this->getWhere($condition);
-            $sql = "UPDATE {$this->getFullTableName($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
-            return $this->execute($sql, array_merge($values, $where['params']));
-        }
+        $where = $this->formatConditions($condition);
+        $sql = "UPDATE {$this->getFullTableName($table)} SET ".implode(',', $set)." WHERE {$where['condition']}";
+        return $this->execute($sql, array_merge($values, $where['params']));
     }
     
     /**
@@ -313,7 +309,7 @@ class Db{
      * @return int
      */
     public function delete($table, $condition){
-        $where = $this->getWhere($condition);
+        $where = $this->formatConditions($condition);
         $sql = "DELETE FROM {$this->getFullTableName($table)} WHERE {$where['condition']}";
         return $this->execute($sql, $where['params']);
     }
@@ -360,7 +356,7 @@ class Db{
      * @param array $where
      * @return array array('condition', 'params')
      */
-    public function getWhere($where){
+    public function formatConditions($where){
         if(is_array($where)){
             $condition = '';
             $params = array();
@@ -451,13 +447,13 @@ class Db{
      * @param string $message
      * @param string $sql
      * @param array $params
-     * @throws Exception
+     * @throws DBException
      */
     public function error($message, $sql = '', $params = array()){
         if(is_array($message)){
             $message = implode(' - ', $message);
         }
-        throw new Exception($message, $sql ? SqlHelper::bind($sql, $params) : '');
+        throw new DBException($message, $sql ? SqlHelper::bind($sql, $params) : '');
     }
     
     /**

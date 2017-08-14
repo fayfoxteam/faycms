@@ -256,7 +256,7 @@ class Sql{
         }
         //where
         if($this->conditions){
-            $where = $this->db->getWhere($this->conditions);
+            $where = $this->db->formatConditions($this->conditions);
             $sql .= "WHERE \n{$where['condition']} \n";
             $this->params = array_merge($this->params, $where['params']);
         }
@@ -266,7 +266,7 @@ class Sql{
         }
         //having
         if($this->having){
-            $having = $this->db->getWhere($this->having);
+            $having = $this->db->formatConditions($this->having);
             $sql .= "HAVING \n{$having['condition']} \n";
             $this->params = array_merge($this->params, $having['params']);
         }
@@ -336,7 +336,7 @@ class Sql{
         }
         //where
         if($this->conditions){
-            $where = $this->db->getWhere($this->conditions);
+            $where = $this->db->formatConditions($this->conditions);
             $sql .= "WHERE {$where['condition']} \n";
             $this->params = array_merge($this->params, $where['params']);
         }
@@ -434,7 +434,7 @@ class Sql{
         }
         
         $full_table_name = $this->db->getFullTableName($short_name);
-        $where = $this->db->getWhere($conditions);
+        $where = $this->db->formatConditions($conditions);
         $this->join[] = array(
             'type'=>$type,
             'table'=>$full_table_name,

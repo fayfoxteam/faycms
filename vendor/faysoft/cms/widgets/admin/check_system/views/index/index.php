@@ -63,9 +63,9 @@
                 <th>MySQL</th>
                 <td>
                     <p><label class="w150 fl block">版本</label><?php echo $mysql_version?></p>
-                    <p><label class="w150 fl block">主机</label><?php echo F::input()->get('db.host')?></p>
-                    <p><label class="w150 fl block">数据库名</label><?php echo F::input()->get('db.dbname')?></p>
-                    <p><label class="w150 fl block">编码方式</label><?php echo F::input()->get('db.charset')?></p>
+                    <p><label class="w150 fl block">主机</label><?php echo F::config()->get('db.host')?></p>
+                    <p><label class="w150 fl block">数据库名</label><?php echo F::config()->get('db.dbname')?></p>
+                    <p><label class="w150 fl block">编码方式</label><?php echo F::config()->get('db.charset')?></p>
                 </td>
             </tr>
             <tr>

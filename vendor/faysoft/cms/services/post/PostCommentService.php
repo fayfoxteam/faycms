@@ -81,7 +81,7 @@ class PostCommentService extends MultiTreeModel{
         $user_id === null && $user_id = \F::app()->current_user;
         
         if(!PostService::isPostIdExist($post_id)){
-            throw new RecordNotFoundException('文章ID不存在');
+            throw new PostNotExistException($post_id);
         }
         
         if($parent){

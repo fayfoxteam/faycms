@@ -7,7 +7,10 @@ use cms\services\file\ImageTextService;
 use fay\core\Db;
 use fay\core\Validator;
 use fay\helpers\HtmlHelper;
-use fay\log\Logger;
+//use fay\log\Logger;
+use Monolog\Handler\FilterHandler;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class TestController extends AdminController{
     public function valid(){
@@ -825,5 +828,25 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
             )
             ->output()
         ;
+    }
+    
+    public function logger(){
+        // create a log channel
+        $logger = new Logger('name');
+        $logger->pushHandler(new StreamHandler(APPLICATION_PATH . 'runtimes/logs/app.'.date('Y-m-d').'.log', Logger::WARNING, false));
+        $logger->pushHandler(new StreamHandler(APPLICATION_PATH . 'runtimes/logs/app.'.date('Y-m-d').'.log', Logger::INFO, false));
+        /*
+         * 只记录指定错误级别的日志
+         *  - 需要传入一个具体起作用的Handler
+         */
+        $logger->pushHandler(new FilterHandler(new StreamHandler(APPLICATION_PATH . 'runtimes/logs/app.'.date('Y-m-d').'.log', Logger::ERROR, false)));
+
+
+        // add records to the log
+        $logger->warning('这是一条警告', array('time'=>date('Y-m-d H:i:s')));
+        $logger->error('这是一个错误信息', array('time'=>date('Y-m-d H:i:s')));
+        $logger->addInfo('系统信息', array('time'=>date('Y-m-d H:i:s')));
+
+        echo '测试';
     }
 }

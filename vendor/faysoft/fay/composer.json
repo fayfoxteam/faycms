@@ -14,7 +14,8 @@
     "require": {
         "php": ">=5.3.3",
         "ext-mbstring": "*",
-        "ext-gd": "*"
+        "ext-gd": "*",
+        "monolog/monolog": "^1.23"
     },
     "autoload": {
         "psr-4": {"fay\\": ""},

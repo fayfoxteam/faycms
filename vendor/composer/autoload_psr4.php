@@ -9,6 +9,5 @@ return array(
     'fay\\' => array($vendorDir . '/faysoft/fay'),
     'cms\\' => array($vendorDir . '/faysoft/cms'),
     'Qiniu\\' => array($vendorDir . '/qiniu/php-sdk/src/Qiniu'),
-    'Icap\\HtmlDiff\\' => array($vendorDir . '/icap/html-diff/src/Icap/HtmlDiff'),
     'Gregwar\\Captcha\\' => array($vendorDir . '/gregwar/captcha'),
 );

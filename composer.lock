@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f85e4426f4e321d0ed1669a98e41664",
+    "content-hash": "c01e7ffd97e2e13c5677881de661926c",
     "packages": [
         {
             "name": "aferrandini/phpqrcode",
@@ -51,25 +51,132 @@
             "time": "2013-07-08T09:39:08+00:00"
         },
         {
-            "name": "faysoft/cms",
-            "version": "0.1.2",
+            "name": "caxy/php-htmldiff",
+            "version": "v0.1.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fayfox/cms.git",
-                "reference": "9976926f2f8a600bdd774ce80d39286d30b74007"
+                "url": "https://github.com/caxy/php-htmldiff.git",
+                "reference": "d7540c9938c860f2cb7083f72ba24c45f51d57bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/fayfox/cms/9976926f2f8a600bdd774ce80d39286d30b74007.zip",
-                "reference": "9976926f2f8a600bdd774ce80d39286d30b74007",
+                "url": "https://files.phpcomposer.com/files/caxy/php-htmldiff/d7540c9938c860f2cb7083f72ba24c45f51d57bc.zip",
+                "reference": "d7540c9938c860f2cb7083f72ba24c45f51d57bc",
+                "shasum": ""
+            },
+            "require": {
+                "ezyang/htmlpurifier": "^4.7",
+                "php": ">=5.3.3",
+                "sunra/php-simple-html-dom-parser": "^1.5"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.0",
+                "phpunit/phpunit": "~5.0"
+            },
+            "suggest": {
+                "doctrine/cache": "Used for caching the calculated diffs using a Doctrine Cache Provider"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Caxy\\HtmlDiff": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Schroeder",
+                    "email": "jschroeder@caxy.com",
+                    "homepage": "http://www.caxy.com"
+                }
+            ],
+            "description": "A library for comparing two HTML files/snippets and highlighting the differences using simple HTML.",
+            "homepage": "https://github.com/caxy/php-htmldiff",
+            "keywords": [
+                "diff",
+                "html"
+            ],
+            "time": "2017-06-12T17:35:44+00:00"
+        },
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "95e1bae3182efc0f3422896a3236e991049dac69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/ezyang/htmlpurifier/95e1bae3182efc0f3422896a3236e991049dac69.zip",
+                "reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "time": "2017-06-03T02:28:16+00:00"
+        },
+        {
+            "name": "faysoft/cms",
+            "version": "0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fayfox/cms.git",
+                "reference": "a2c4bf437e7382ad4ff32e041baa521860447a51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/fayfox/cms/a2c4bf437e7382ad4ff32e041baa521860447a51.zip",
+                "reference": "a2c4bf437e7382ad4ff32e041baa521860447a51",
                 "shasum": ""
             },
             "require": {
                 "aferrandini/phpqrcode": "*",
+                "caxy/php-htmldiff": "^0.1.4",
                 "faysoft/fay": "*",
+                "gregwar/captcha": "1.*",
+                "michelf/php-markdown": "*",
                 "php": ">=5.3.3",
                 "phpmailer/phpmailer": "*",
-                "phpspec/php-diff": "*"
+                "phpspec/php-diff": "*",
+                "qiniu/php-sdk": "*"
             },
             "type": "project",
             "autoload": {
@@ -94,29 +201,26 @@
                 "faycms",
                 "faysoft"
             ],
-            "time": "2017-01-14T06:04:17+00:00"
+            "time": "2017-08-15T13:58:52+00:00"
         },
         {
             "name": "faysoft/fay",
-            "version": "0.2.2",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fayfox/fay.git",
-                "reference": "951652d67c5a1d055a24d0678aba511b70932722"
+                "reference": "983b7f50b02e040567a3413583dd994eb6fbb187"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/fayfox/fay/951652d67c5a1d055a24d0678aba511b70932722.zip",
-                "reference": "951652d67c5a1d055a24d0678aba511b70932722",
+                "url": "https://files.phpcomposer.com/files/fayfox/fay/983b7f50b02e040567a3413583dd994eb6fbb187.zip",
+                "reference": "983b7f50b02e040567a3413583dd994eb6fbb187",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
                 "ext-mbstring": "*",
-                "gregwar/captcha": "1.*",
-                "michelf/php-markdown": "*",
-                "php": ">=5.3.3",
-                "qiniu/php-sdk": "*"
+                "php": ">=5.3.3"
             },
             "type": "library",
             "autoload": {
@@ -144,20 +248,20 @@
                 "faycms",
                 "faysoft"
             ],
-            "time": "2017-01-14T06:02:47+00:00"
+            "time": "2017-08-15T13:51:49+00:00"
         },
         {
             "name": "gregwar/captcha",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gregwar/Captcha.git",
-                "reference": "1240ab993ca713680573b2d4166900da5f758623"
+                "reference": "2f704c8bc3f1bb5f58994af2729e77ac4e3172e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/Gregwar/Captcha/1240ab993ca713680573b2d4166900da5f758623.zip",
-                "reference": "1240ab993ca713680573b2d4166900da5f758623",
+                "url": "https://files.phpcomposer.com/files/Gregwar/Captcha/2f704c8bc3f1bb5f58994af2729e77ac4e3172e6.zip",
+                "reference": "2f704c8bc3f1bb5f58994af2729e77ac4e3172e6",
                 "shasum": ""
             },
             "require": {
@@ -192,51 +296,7 @@
                 "captcha",
                 "spam"
             ],
-            "time": "2015-09-11T15:23:20+00:00"
-        },
-        {
-            "name": "icap/html-diff",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/iCAPLyon1/HtmlDiff.git",
-                "reference": "f58ddb196292ae585a2efb7692653d015ecc436f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/iCAPLyon1/HtmlDiff/f58ddb196292ae585a2efb7692653d015ecc436f.zip",
-                "reference": "f58ddb196292ae585a2efb7692653d015ecc436f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Icap\\HtmlDiff\\": "src/Icap/HtmlDiff"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Panagiotis Tsavdaris",
-                    "email": "ptsavdar@gmail.com"
-                },
-                {
-                    "name": "ICAP development team",
-                    "homepage": "https://github.com/iCAPLyon1"
-                }
-            ],
-            "description": "A PHP5 library that diffs (compares) HTML files.",
-            "keywords": [
-                "daisy diff",
-                "html diff"
-            ],
-            "time": "2016-02-17T16:35:09+00:00"
+            "time": "2017-04-19T08:10:55+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -291,24 +351,41 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.22",
+            "version": "v5.2.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663"
+                "reference": "22d04c6a58145a244696f3f254c1875aa653b26a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/PHPMailer/PHPMailer/b18cb98131bd83103ccb26a888fdfe3177b8a663.zip",
-                "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663",
+                "url": "https://files.phpcomposer.com/files/PHPMailer/PHPMailer/22d04c6a58145a244696f3f254c1875aa653b26a.zip",
+                "reference": "22d04c6a58145a244696f3f254c1875aa653b26a",
                 "shasum": ""
             },
             "require": {
+                "ext-ctype": "*",
                 "php": ">=5.0.0"
             },
             "require-dev": {
-                "phpdocumentor/phpdocumentor": "*",
-                "phpunit/phpunit": "4.7.*"
+                "doctrine/annotations": "1.2.*",
+                "jms/serializer": "0.16.*",
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "4.8.*",
+                "symfony/debug": "2.8.*",
+                "symfony/filesystem": "2.8.*",
+                "symfony/translation": "2.8.*",
+                "symfony/yaml": "2.8.*",
+                "zendframework/zend-cache": "2.5.1",
+                "zendframework/zend-config": "2.5.1",
+                "zendframework/zend-eventmanager": "2.5.1",
+                "zendframework/zend-filter": "2.5.1",
+                "zendframework/zend-i18n": "2.5.1",
+                "zendframework/zend-json": "2.5.1",
+                "zendframework/zend-math": "2.5.1",
+                "zendframework/zend-serializer": "2.5.*",
+                "zendframework/zend-servicemanager": "2.5.*",
+                "zendframework/zend-stdlib": "2.5.1"
             },
             "suggest": {
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
@@ -347,7 +424,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-01-09T09:33:47+00:00"
+            "time": "2017-07-26T21:00:20+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -437,6 +514,54 @@
                 "storage"
             ],
             "time": "2016-11-18T02:57:31+00:00"
+        },
+        {
+            "name": "sunra/php-simple-html-dom-parser",
+            "version": "v1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sunra/php-simple-html-dom-parser.git",
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/sunra/php-simple-html-dom-parser/75b9b1cb64502d8f8c04dc11b5906b969af247c6.zip",
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Sunra\\PhpSimple\\HtmlDomParser": "Src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sunra",
+                    "email": "sunra@yandex.ru",
+                    "homepage": "https://github.com/sunra"
+                },
+                {
+                    "name": "S.C. Chen",
+                    "homepage": "http://sourceforge.net/projects/simplehtmldom/"
+                }
+            ],
+            "description": "Composer adaptation of: A HTML DOM parser written in PHP5+ let you manipulate HTML in a very easy way! Require PHP 5+. Supports invalid HTML. Find tags on an HTML page with selectors just like jQuery. Extract contents from HTML in a single line.",
+            "homepage": "https://github.com/sunra/php-simple-html-dom-parser",
+            "keywords": [
+                "dom",
+                "html",
+                "parser"
+            ],
+            "time": "2016-11-22T22:57:47+00:00"
         }
     ],
     "packages-dev": [],

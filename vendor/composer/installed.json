@@ -86,118 +86,6 @@
         "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays)."
     },
     {
-        "name": "gregwar/captcha",
-        "version": "v1.1.1",
-        "version_normalized": "1.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Gregwar/Captcha.git",
-            "reference": "1240ab993ca713680573b2d4166900da5f758623"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/Gregwar/Captcha/1240ab993ca713680573b2d4166900da5f758623.zip",
-            "reference": "1240ab993ca713680573b2d4166900da5f758623",
-            "shasum": ""
-        },
-        "require": {
-            "ext-gd": "*",
-            "php": ">=5.3.0"
-        },
-        "time": "2015-09-11T15:23:20+00:00",
-        "type": "captcha",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Gregwar\\Captcha\\": "/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Grégoire Passault",
-                "email": "g.passault@gmail.com",
-                "homepage": "http://www.gregwar.com/"
-            },
-            {
-                "name": "Jeremy Livingston",
-                "email": "jeremy.j.livingston@gmail.com"
-            }
-        ],
-        "description": "Captcha generator",
-        "homepage": "https://github.com/Gregwar/Captcha",
-        "keywords": [
-            "bot",
-            "captcha",
-            "spam"
-        ]
-    },
-    {
-        "name": "phpmailer/phpmailer",
-        "version": "v5.2.22",
-        "version_normalized": "5.2.22.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/PHPMailer/PHPMailer/b18cb98131bd83103ccb26a888fdfe3177b8a663.zip",
-            "reference": "b18cb98131bd83103ccb26a888fdfe3177b8a663",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.0.0"
-        },
-        "require-dev": {
-            "phpdocumentor/phpdocumentor": "*",
-            "phpunit/phpunit": "4.7.*"
-        },
-        "suggest": {
-            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-        },
-        "time": "2017-01-09T09:33:47+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "class.phpmailer.php",
-                "class.phpmaileroauth.php",
-                "class.phpmaileroauthgoogle.php",
-                "class.smtp.php",
-                "class.pop3.php",
-                "extras/EasyPeasyICS.php",
-                "extras/ntlm_sasl_client.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL-2.1"
-        ],
-        "authors": [
-            {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
-                "name": "Marcus Bointon",
-                "email": "phpmailer@synchromedia.co.uk"
-            },
-            {
-                "name": "Andy Prevost",
-                "email": "codeworxtech@users.sourceforge.net"
-            },
-            {
-                "name": "Brent R. Matzelle"
-            }
-        ],
-        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-    },
-    {
         "name": "qiniu/php-sdk",
         "version": "v7.1.3",
         "version_normalized": "7.1.3.0",
@@ -304,152 +192,6 @@
         ]
     },
     {
-        "name": "faysoft/fay",
-        "version": "0.2.2",
-        "version_normalized": "0.2.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fayfox/fay.git",
-            "reference": "951652d67c5a1d055a24d0678aba511b70932722"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/fayfox/fay/951652d67c5a1d055a24d0678aba511b70932722.zip",
-            "reference": "951652d67c5a1d055a24d0678aba511b70932722",
-            "shasum": ""
-        },
-        "require": {
-            "ext-gd": "*",
-            "ext-mbstring": "*",
-            "gregwar/captcha": "1.*",
-            "michelf/php-markdown": "*",
-            "php": ">=5.3.3",
-            "qiniu/php-sdk": "*"
-        },
-        "time": "2017-01-14T06:02:47+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "fay\\": ""
-            },
-            "files": [
-                "F.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fayfox",
-                "email": "admin@fayfox.com",
-                "homepage": "http://www.fayfox.com"
-            }
-        ],
-        "description": "Faycms框架部分",
-        "keywords": [
-            "fay",
-            "faycms",
-            "faysoft"
-        ]
-    },
-    {
-        "name": "faysoft/cms",
-        "version": "0.1.2",
-        "version_normalized": "0.1.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fayfox/cms.git",
-            "reference": "9976926f2f8a600bdd774ce80d39286d30b74007"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://packagist.phpcomposer.com/files/fayfox/cms/9976926f2f8a600bdd774ce80d39286d30b74007.zip",
-            "reference": "9976926f2f8a600bdd774ce80d39286d30b74007",
-            "shasum": ""
-        },
-        "require": {
-            "aferrandini/phpqrcode": "*",
-            "faysoft/fay": "*",
-            "php": ">=5.3.3",
-            "phpmailer/phpmailer": "*",
-            "phpspec/php-diff": "*"
-        },
-        "time": "2017-01-14T06:04:17+00:00",
-        "type": "project",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "cms\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fayfox",
-                "email": "admin@fayfox.com",
-                "homepage": "http://www.fayfox.com"
-            }
-        ],
-        "description": "Faycms后台及公共接口",
-        "keywords": [
-            "cms",
-            "faycms",
-            "faysoft"
-        ]
-    },
-    {
-        "name": "icap/html-diff",
-        "version": "v1.1.0",
-        "version_normalized": "1.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/iCAPLyon1/HtmlDiff.git",
-            "reference": "f58ddb196292ae585a2efb7692653d015ecc436f"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://files.phpcomposer.com/files/iCAPLyon1/HtmlDiff/f58ddb196292ae585a2efb7692653d015ecc436f.zip",
-            "reference": "f58ddb196292ae585a2efb7692653d015ecc436f",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "php": ">=5.3.0"
-        },
-        "time": "2016-02-17T16:35:09+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Icap\\HtmlDiff\\": "src/Icap/HtmlDiff"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "authors": [
-            {
-                "name": "Panagiotis Tsavdaris",
-                "email": "ptsavdar@gmail.com"
-            },
-            {
-                "name": "ICAP development team",
-                "homepage": "https://github.com/iCAPLyon1"
-            }
-        ],
-        "description": "A PHP5 library that diffs (compares) HTML files.",
-        "keywords": [
-            "daisy diff",
-            "html diff"
-        ]
-    },
-    {
         "name": "sunra/php-simple-html-dom-parser",
         "version": "v1.5.2",
         "version_normalized": "1.5.2.0",
@@ -501,17 +243,17 @@
     },
     {
         "name": "ezyang/htmlpurifier",
-        "version": "v4.9.2",
-        "version_normalized": "4.9.2.0",
+        "version": "v4.9.3",
+        "version_normalized": "4.9.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/ezyang/htmlpurifier.git",
-            "reference": "6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4"
+            "reference": "95e1bae3182efc0f3422896a3236e991049dac69"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/ezyang/htmlpurifier/6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4.zip",
-            "reference": "6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4",
+            "url": "https://files.phpcomposer.com/files/ezyang/htmlpurifier/95e1bae3182efc0f3422896a3236e991049dac69.zip",
+            "reference": "95e1bae3182efc0f3422896a3236e991049dac69",
             "shasum": ""
         },
         "require": {
@@ -520,7 +262,7 @@
         "require-dev": {
             "simpletest/simpletest": "^1.1"
         },
-        "time": "2017-03-13T06:30:53+00:00",
+        "time": "2017-06-03T02:28:16+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -550,17 +292,17 @@
     },
     {
         "name": "caxy/php-htmldiff",
-        "version": "v0.1.4",
-        "version_normalized": "0.1.4.0",
+        "version": "v0.1.5",
+        "version_normalized": "0.1.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/caxy/php-htmldiff.git",
-            "reference": "9b115a83d49c636d6bae8ffce15b0e1962cb2ed7"
+            "reference": "d7540c9938c860f2cb7083f72ba24c45f51d57bc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/caxy/php-htmldiff/9b115a83d49c636d6bae8ffce15b0e1962cb2ed7.zip",
-            "reference": "9b115a83d49c636d6bae8ffce15b0e1962cb2ed7",
+            "url": "https://files.phpcomposer.com/files/caxy/php-htmldiff/d7540c9938c860f2cb7083f72ba24c45f51d57bc.zip",
+            "reference": "d7540c9938c860f2cb7083f72ba24c45f51d57bc",
             "shasum": ""
         },
         "require": {
@@ -575,7 +317,7 @@
         "suggest": {
             "doctrine/cache": "Used for caching the calculated diffs using a Doctrine Cache Provider"
         },
-        "time": "2017-05-02T21:16:54+00:00",
+        "time": "2017-06-12T17:35:44+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -604,6 +346,236 @@
         "keywords": [
             "diff",
             "html"
+        ]
+    },
+    {
+        "name": "phpmailer/phpmailer",
+        "version": "v5.2.24",
+        "version_normalized": "5.2.24.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "22d04c6a58145a244696f3f254c1875aa653b26a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/PHPMailer/PHPMailer/22d04c6a58145a244696f3f254c1875aa653b26a.zip",
+            "reference": "22d04c6a58145a244696f3f254c1875aa653b26a",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "php": ">=5.0.0"
+        },
+        "require-dev": {
+            "doctrine/annotations": "1.2.*",
+            "jms/serializer": "0.16.*",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.8.*",
+            "symfony/debug": "2.8.*",
+            "symfony/filesystem": "2.8.*",
+            "symfony/translation": "2.8.*",
+            "symfony/yaml": "2.8.*",
+            "zendframework/zend-cache": "2.5.1",
+            "zendframework/zend-config": "2.5.1",
+            "zendframework/zend-eventmanager": "2.5.1",
+            "zendframework/zend-filter": "2.5.1",
+            "zendframework/zend-i18n": "2.5.1",
+            "zendframework/zend-json": "2.5.1",
+            "zendframework/zend-math": "2.5.1",
+            "zendframework/zend-serializer": "2.5.*",
+            "zendframework/zend-servicemanager": "2.5.*",
+            "zendframework/zend-stdlib": "2.5.1"
+        },
+        "suggest": {
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+        },
+        "time": "2017-07-26T21:00:20+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "class.phpmailer.php",
+                "class.phpmaileroauth.php",
+                "class.phpmaileroauthgoogle.php",
+                "class.smtp.php",
+                "class.pop3.php",
+                "extras/EasyPeasyICS.php",
+                "extras/ntlm_sasl_client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "gregwar/captcha",
+        "version": "v1.1.2",
+        "version_normalized": "1.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Gregwar/Captcha.git",
+            "reference": "2f704c8bc3f1bb5f58994af2729e77ac4e3172e6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/Gregwar/Captcha/2f704c8bc3f1bb5f58994af2729e77ac4e3172e6.zip",
+            "reference": "2f704c8bc3f1bb5f58994af2729e77ac4e3172e6",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "php": ">=5.3.0"
+        },
+        "time": "2017-04-19T08:10:55+00:00",
+        "type": "captcha",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Gregwar\\Captcha\\": "/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Grégoire Passault",
+                "email": "g.passault@gmail.com",
+                "homepage": "http://www.gregwar.com/"
+            },
+            {
+                "name": "Jeremy Livingston",
+                "email": "jeremy.j.livingston@gmail.com"
+            }
+        ],
+        "description": "Captcha generator",
+        "homepage": "https://github.com/Gregwar/Captcha",
+        "keywords": [
+            "bot",
+            "captcha",
+            "spam"
+        ]
+    },
+    {
+        "name": "faysoft/fay",
+        "version": "0.5.0",
+        "version_normalized": "0.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fayfox/fay.git",
+            "reference": "983b7f50b02e040567a3413583dd994eb6fbb187"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/fayfox/fay/983b7f50b02e040567a3413583dd994eb6fbb187.zip",
+            "reference": "983b7f50b02e040567a3413583dd994eb6fbb187",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.3.3"
+        },
+        "time": "2017-08-15T13:51:49+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "fay\\": ""
+            },
+            "files": [
+                "F.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fayfox",
+                "email": "admin@fayfox.com",
+                "homepage": "http://www.fayfox.com"
+            }
+        ],
+        "description": "Faycms框架部分",
+        "keywords": [
+            "fay",
+            "faycms",
+            "faysoft"
+        ]
+    },
+    {
+        "name": "faysoft/cms",
+        "version": "0.4.0",
+        "version_normalized": "0.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fayfox/cms.git",
+            "reference": "a2c4bf437e7382ad4ff32e041baa521860447a51"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/fayfox/cms/a2c4bf437e7382ad4ff32e041baa521860447a51.zip",
+            "reference": "a2c4bf437e7382ad4ff32e041baa521860447a51",
+            "shasum": ""
+        },
+        "require": {
+            "aferrandini/phpqrcode": "*",
+            "caxy/php-htmldiff": "^0.1.4",
+            "faysoft/fay": "*",
+            "gregwar/captcha": "1.*",
+            "michelf/php-markdown": "*",
+            "php": ">=5.3.3",
+            "phpmailer/phpmailer": "*",
+            "phpspec/php-diff": "*",
+            "qiniu/php-sdk": "*"
+        },
+        "time": "2017-08-15T13:58:52+00:00",
+        "type": "project",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "cms\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fayfox",
+                "email": "admin@fayfox.com",
+                "homepage": "http://www.fayfox.com"
+            }
+        ],
+        "description": "Faycms后台及公共接口",
+        "keywords": [
+            "cms",
+            "faycms",
+            "faysoft"
         ]
     }
 ]

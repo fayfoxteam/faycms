@@ -686,7 +686,7 @@ class PostController extends AdminController{
             $prop_set = $props;
         }
         
-        $this->view->renderPartial('_box_props', array(
+        echo $this->view->renderPartial('_box_props', array(
             'prop_set'=>$prop_set,
         ));
     }
@@ -1046,7 +1046,7 @@ class PostController extends AdminController{
             throw new NotFoundHttpException("指定文章ID[{$this->form()->getData('id')}]不存在");
         }
         
-        $this->view->renderPartial(null, array(
+        echo $this->view->renderPartial(null, array(
             'post'=>$post
         ));
     }

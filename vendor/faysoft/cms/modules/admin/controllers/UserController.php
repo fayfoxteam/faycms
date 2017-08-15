@@ -244,7 +244,7 @@ class UserController extends AdminController{
             $prop_set = $props;
         }
         
-        $this->view->renderPartial('prop/_edit', array(
+        echo $this->view->renderPartial('prop/_edit', array(
             'prop_set'=>$prop_set,
         ));
     }

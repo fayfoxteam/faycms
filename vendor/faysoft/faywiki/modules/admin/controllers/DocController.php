@@ -452,7 +452,7 @@ class DocController extends AdminController{
             $prop_set = $props;
         }
         
-        $this->view->renderPartial('_box_props', array(
+        echo $this->view->renderPartial('_box_props', array(
             'prop_set'=>$prop_set,
         ));
     }

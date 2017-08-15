@@ -98,7 +98,7 @@ class ListView{
                 $i++;
                 $view_data['index'] = $i;
                 $view_data['data'] = $data;
-                \F::app()->view->renderPartial($this->item_view, $view_data);
+                echo \F::app()->view->renderPartial($this->item_view, $view_data);
             }
         }else{
             echo $this->empty_text;

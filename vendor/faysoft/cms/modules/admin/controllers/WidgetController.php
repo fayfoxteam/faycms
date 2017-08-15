@@ -308,6 +308,6 @@ class WidgetController extends AdminController{
     }
     
     public function customize(){
-        $this->view->renderPartial();
+        echo $this->view->renderPartial();
     }
 }

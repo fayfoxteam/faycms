@@ -70,7 +70,7 @@ class ModelController extends FrontController{
             'fillable'=>$fillable,
             'fields'=>$fields,
             'table_comment'=>$table_comment,
-        ), -1, true);
+        ));
 
 //        $filename = $class_name . '.php';
 //        if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){

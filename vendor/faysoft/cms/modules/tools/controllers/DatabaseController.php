@@ -72,12 +72,12 @@ class DatabaseController extends ToolsController{
     }
     
     public function getModel(){
-        $this->view->renderPartial(null, $this->getModelData());
+        echo $this->view->renderPartial(null, $this->getModelData());
     }
     
     public function downloadModel(){
         $data = $this->getModelData();
-        $content = $this->view->renderPartial('get_model', $data, -1, true);
+        $content = $this->view->renderPartial('get_model', $data);
         
         $filename = StringHelper::underscore2case($data['table_name']).'Table';
         if (strpos($_SERVER['HTTP_USER_AGENT'], "MSIE") !== FALSE){

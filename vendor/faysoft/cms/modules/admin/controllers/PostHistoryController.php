@@ -102,7 +102,7 @@ class PostHistoryController extends AdminController{
         //上一篇记录，用于文本比较
         $preview_history = PostHistoryService::service()->getPreviewHistory($history['id']);
 
-        $this->view->renderPartial('item', array(
+        echo $this->view->renderPartial('item', array(
             'history'=>$history,
             'preview_history'=>$preview_history,
         ));

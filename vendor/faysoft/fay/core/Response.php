@@ -359,55 +359,6 @@ class Response{
     
     
     
-    
-    /**
-     * 发送一个http头
-     * @param int $code
-     * @param string $text
-     * @throws \ErrorException
-     */
-    public static function setStatusHeader($code = 200, $text = ''){
-        if ($code == '' OR ! is_numeric($code)){
-            throw new \ErrorException('Status codes must be numeric', 500);
-        }
-
-        if (isset(self::$http_statuses[$code]) AND $text == ''){
-            $text = self::$http_statuses[$code];
-        }
-
-        if ($text == ''){
-            throw new \ErrorException('No status text available.  Please check your status code number or supply your own message text.', 500);
-        }
-
-        $server_protocol = (isset($_SERVER['SERVER_PROTOCOL'])) ? $_SERVER['SERVER_PROTOCOL'] : FALSE;
-
-        if (substr(php_sapi_name(), 0, 3) == 'cgi'){
-            header("Status: {$code} {$text}", TRUE);
-        }elseif ($server_protocol == 'HTTP/1.1' OR $server_protocol == 'HTTP/1.0'){
-            header($server_protocol." {$code} {$text}", TRUE, $code);
-        }else{
-            header("HTTP/1.1 {$code} {$text}", TRUE, $code);
-        }
-    }
-
-    /**
-     * 页面跳转
-     * @param string $uri
-     * @param array $params
-     * @param string $anchor 锚点，仅当$uri非空且不是完整url时有效
-     */
-    public static function redirect2($uri = null, $params = array(), $anchor = ''){
-        if($uri === null){
-            //跳转到首页
-            header('location:'.UrlHelper::createUrl(null));
-        }else if(preg_match('/^(http|https):\/\/\w+.*$/', $uri)){
-            //指定了一个完整的url，跳转到指定url
-            header('location:'.$uri);
-        }else{
-            header('location:'.UrlHelper::createUrl($uri, $params, $anchor));
-        }
-        die;
-    }
 
     /**
      * 返回上一页

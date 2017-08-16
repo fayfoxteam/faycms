@@ -110,10 +110,10 @@ class Bootstrap{
             }else{
                 $response->setContent($content);
             }
+
+            //发送响应
+            $response->send();
         }
-        
-        //发送响应
-        $response->send();
     }
 
     /**

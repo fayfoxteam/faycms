@@ -831,22 +831,7 @@ INSERT INTO `faycms_categories` (`id`, `title`, `alias`, `parent`, `is_nav`, `is
     }
     
     public function logger(){
-        // create a log channel
-        $logger = new Logger('name');
-        $logger->pushHandler(new StreamHandler(APPLICATION_PATH . 'runtimes/logs/app.'.date('Y-m-d').'.log', Logger::WARNING, false));
-        $logger->pushHandler(new StreamHandler(APPLICATION_PATH . 'runtimes/logs/app.'.date('Y-m-d').'.log', Logger::INFO, false));
-        /*
-         * 只记录指定错误级别的日志
-         *  - 需要传入一个具体起作用的Handler
-         */
-        $logger->pushHandler(new FilterHandler(new StreamHandler(APPLICATION_PATH . 'runtimes/logs/app.'.date('Y-m-d').'.log', Logger::ERROR, false)));
-
-
-        // add records to the log
-        $logger->warning('这是一条警告', array('time'=>date('Y-m-d H:i:s')));
-        $logger->error('这是一个错误信息', array('time'=>date('Y-m-d H:i:s')));
-        $logger->addInfo('系统信息', array('time'=>date('Y-m-d H:i:s')));
-
-        echo '测试';
+        \F::logger('first')->info('这是info
+        第二行', ['a'=>'b']);
     }
 }

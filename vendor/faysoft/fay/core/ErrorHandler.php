@@ -119,7 +119,7 @@ class ErrorHandler{
      * @param \Exception $exception
      */
     protected function reportException($exception){
-        \F::logger()->log((string)$exception, Logger::LEVEL_ERROR, 'app_error');
+        \F::logger('error')->error((string)$exception);
     }
 
     /**

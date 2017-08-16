@@ -7,8 +7,8 @@ use fay\core\Db;
 use fay\core\Form;
 use fay\core\Input;
 use fay\core\Loader;
+use fay\core\Logger;
 use fay\core\Session;
-use fay\log\Logger;
 use fay\widget\Loader as WidgetLoader;
 
 /**
@@ -142,9 +142,10 @@ class F{
     
     /**
      * 获取日志驱动
+     * @return \Monolog\Logger
      */
-    public static function logger(){
-        return Logger::getInstance();
+    public static function logger($name, $file_handler = true){
+        return Logger::get($name, $file_handler);
     }
     
     /**

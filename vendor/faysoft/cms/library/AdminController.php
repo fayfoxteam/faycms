@@ -10,7 +10,6 @@ use cms\services\SettingService;
 use cms\services\user\UserService;
 use fay\core\Controller;
 use fay\exceptions\AccessDeniedHttpException;
-use fay\core\exceptions\HttpException;
 use fay\exceptions\ValidationException;
 use fay\core\Form;
 use fay\core\Request;
@@ -72,12 +71,12 @@ class AdminController extends Controller{
             $this->_left_menu = MenuService::service()->getTree('_admin_main');
         }
     }
-    
+
     /**
      * 表单验证，若发生错误，返回第一个报错信息
      * 调用该函数前需先设置表单验证规则
      * @param \fay\core\Form $form
-     * @throws HttpException
+     * @throws ValidationException
      */
     public function onFormError(Form $form){
         $errors = $form->getErrors();

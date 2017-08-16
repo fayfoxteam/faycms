@@ -153,7 +153,7 @@ class Controller{
     protected function checkMethod($method){
         $method = strtoupper($method);
         if(Request::getMethod() != $method){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>"请以{$method}方式发起请求",
                 'code'=>'http-method-error',
             ));

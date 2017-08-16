@@ -28,19 +28,19 @@ class KeywordController extends AdminController{
             if($this->form()->setModel(KeywordsTable::model())->check()){
                 $data = KeywordsTable::model()->fillData($this->input->post());
                 KeywordsTable::model()->insert($data);
-                Response::notify('success', '关键词添加成功', array('cms/admin/keyword/index'));
+                return Response::notify(Response::NOTIFY_SUCCESS, '关键词添加成功', array('cms/admin/keyword/index'));
             }else{
                 Response::goback();
             }
         }else{
-            Response::notify('error', '不完整的请求', array('cms/admin/keyword/index'));
+            return Response::notify(Response::NOTIFY_FAIL, '不完整的请求', array('cms/admin/keyword/index'));
         }
     }
     
     public function remove(){
         KeywordsTable::model()->delete($this->input->get('id', 'intval'));
         
-        Response::notify('success', '一个关键词被永久删除', array('cms/admin/keyword/index', $this->input->get()));
+        return Response::notify(Response::NOTIFY_SUCCESS, '一个关键词被永久删除', array('cms/admin/keyword/index', $this->input->get()));
     }
     
     public function edit(){
@@ -56,7 +56,7 @@ class KeywordController extends AdminController{
         if($this->input->post() && $this->form()->check()){
             $data = KeywordsTable::model()->fillData($this->input->post());
             KeywordsTable::model()->update($data, array('id = ?'=>$keyword_id));
-            Response::notify('success', '一个关键词被编辑', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '一个关键词被编辑', false);
         }
         if($keyword = KeywordsTable::model()->find($keyword_id)){
             $this->form()->setData($keyword);

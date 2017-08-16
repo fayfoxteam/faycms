@@ -50,12 +50,12 @@ class SystemController extends AdminController{
                 $key = $data['_key'];
                 unset($data['_key'], $data['_submit']);
                 SettingService::service()->set($key, $data);
-                Response::notify('success', '设置保存成功');
+                return Response::notify(Response::NOTIFY_SUCCESS, '设置保存成功');
             }else{
-                Response::notify('error', '异常的数据格式');
+                return Response::notify(Response::NOTIFY_FAIL, '异常的数据格式');
             }
         }else{
-            Response::notify('error', '无数据被提交');
+            return Response::notify(Response::NOTIFY_FAIL, '无数据被提交');
         }
     }
 }

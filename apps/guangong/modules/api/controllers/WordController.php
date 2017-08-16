@@ -38,7 +38,7 @@ class WordController extends ApiController{
             'user_id = '.$this->current_user,
         ));
         if(!$group_user){
-            Response::notify('error', '您不是该结义成员');
+            return Response::notify(Response::NOTIFY_FAIL, '您不是该结义成员');
         }
         
         GuangongUserGroupUsersTable::model()->update(array(
@@ -46,7 +46,7 @@ class WordController extends ApiController{
             'public_time'=>time() + $this->form()->getData('secrecy_period') * 86400,
         ), $group_user['id']);
         
-        Response::notify('success', '设置成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '设置成功');
     }
     
     public function get(){
@@ -70,15 +70,15 @@ class WordController extends ApiController{
         ));
         
         if(!$word['accept']){
-            Response::notify('error', '该用户未接受结义邀请，无法查看密语');
+            return Response::notify(Response::NOTIFY_FAIL, '该用户未接受结义邀请，无法查看密语');
         }
         
         if($word['public_time'] > $this->current_time){
-            Response::notify('error', '离解密还有'.intval(($word['public_time'] - $this->current_time) / 86400).'天，请耐心等待。');
+            return Response::notify(Response::NOTIFY_FAIL, '离解密还有'.intval(($word['public_time'] - $this->current_time) / 86400).'天，请耐心等待。');
         }
         
         if(!GroupService::inGroup($word['group_id'], $this->current_user)){
-            Response::notify('error', '您不属于指定结义成员，无法查看密语');
+            return Response::notify(Response::NOTIFY_FAIL, '您不属于指定结义成员，无法查看密语');
         }
         
         return Response::json($word['words']);

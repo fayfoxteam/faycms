@@ -62,7 +62,7 @@ class WidgetareaController extends AdminController{
             WidgetAreaService::service()->relateWidget($widget_area_id, $widget_ids);
         }
         
-        Response::notify('success', '修改成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '修改成功');
     }
 
     /**

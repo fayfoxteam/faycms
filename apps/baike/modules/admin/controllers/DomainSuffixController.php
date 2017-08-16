@@ -34,14 +34,14 @@ class DomainSuffixController extends AdminController{
                 $data['update_time'] = $this->current_time;
                 BaikeDomainSuffixesTable::model()->insert($data);
 
-                Response::notify('success', array(
+                return Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>'域名后缀添加成功',
                 ));
             }else{
                 Response::goback();
             }
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -54,12 +54,12 @@ class DomainSuffixController extends AdminController{
         $domain_suffix_id = $this->input->request('id', 'intval');
 
         if(!$domain_suffix_id){
-            Response::notify('error', '未指定域名后缀ID');
+            return Response::notify(Response::NOTIFY_FAIL, '未指定域名后缀ID');
         }
 
         $domain_suffix = BaikeDomainSuffixesTable::model()->find($domain_suffix_id);
         if(!$domain_suffix){
-            Response::notify('error', "指定域名后缀ID[{$domain_suffix_id}]不存在");
+            return Response::notify(Response::NOTIFY_FAIL, "指定域名后缀ID[{$domain_suffix_id}]不存在");
         }
 
         $this->form()->setModel(BaikeDomainSuffixesTable::model());
@@ -67,17 +67,17 @@ class DomainSuffixController extends AdminController{
             if($this->form()->check()){
                 $data = $this->form()->getFilteredData();
                 if(ArrayHelper::equal($data, $domain_suffix)){
-                    Response::notify('success', '没有字段被修改');
+                    return Response::notify(Response::NOTIFY_SUCCESS, '没有字段被修改');
                 }
                 $data['update_time'] = $this->current_time;
                 BaikeDomainSuffixesTable::model()->update($data, $domain_suffix_id);
     
-                Response::notify('success', '一个域名后缀被编辑');
+                return Response::notify(Response::NOTIFY_SUCCESS, '一个域名后缀被编辑');
             }else{
                 Response::goback();
             }
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -90,17 +90,17 @@ class DomainSuffixController extends AdminController{
         $domain_suffix_id = $this->input->get('id', 'intval');
 
         if(!$domain_suffix_id){
-            Response::notify('error', '未指定域名后缀ID');
+            return Response::notify(Response::NOTIFY_FAIL, '未指定域名后缀ID');
         }
 
         $domain_suffix = BaikeDomainSuffixesTable::model()->find($domain_suffix_id);
         if(!$domain_suffix){
-            Response::notify('error', "指定域名后缀ID[{$domain_suffix_id}]不存在");
+            return Response::notify(Response::NOTIFY_FAIL, "指定域名后缀ID[{$domain_suffix_id}]不存在");
         }
 
         BaikeDomainSuffixesTable::model()->delete($domain_suffix_id);
 
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个域名后缀被永久删除',
         ));
     }
@@ -112,12 +112,12 @@ class DomainSuffixController extends AdminController{
         $domain_suffix_id = $this->input->get('id', 'intval');
 
         if(!$domain_suffix_id){
-            Response::notify('error', '未指定域名后缀ID');
+            return Response::notify(Response::NOTIFY_FAIL, '未指定域名后缀ID');
         }
 
         $domain_suffix = BaikeDomainSuffixesTable::model()->find($domain_suffix_id);
         if(!$domain_suffix){
-            Response::notify('error', "指定域名后缀ID[{$domain_suffix_id}]不存在");
+            return Response::notify(Response::NOTIFY_FAIL, "指定域名后缀ID[{$domain_suffix_id}]不存在");
         }
 
         return Response::json(array(
@@ -166,6 +166,6 @@ class DomainSuffixController extends AdminController{
             ), $s);
         }
 
-        Response::notify('success', '排序保存成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '排序保存成功');
     }
 }

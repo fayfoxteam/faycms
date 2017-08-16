@@ -6,6 +6,6 @@ namespace fay\exceptions;
  */
 class RecordNotFoundException extends HttpException{
     public function __construct($message, \Exception $previous = null){
-        parent::__construct($message, 422, E_USER_ERROR, $previous);
+        parent::__construct($message, 422, $previous);
     }
 }

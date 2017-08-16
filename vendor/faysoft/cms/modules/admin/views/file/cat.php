@@ -8,12 +8,12 @@ function showCats($cats, $dep = 0){?>
             <div class="leaf">
                 <span class="fr separate-actions">
                     <?php if(F::app()->checkPermission('cms/admin/file/cat-sort')){?>
-                    <span class="w115 block fl">
+                    <span class="w135 block fl">
                     排序：<?php echo HtmlHelper::inputNumber('sort[]', $c['sort'], array(
                         'size'=>3,
                         'maxlength'=>3,
                         'data-id'=>$c['id'],
-                        'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
+                        'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
                     ))?>
                     </span>
                     <?php }?>

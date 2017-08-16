@@ -46,7 +46,7 @@ class PaperController extends UserController{
             //不允许重复参考
             $exam = ExamExamsTable::model()->fetchRow('paper_id = '.$this->view->paper['id']);
             if($exam){
-                Response::notify('error', array(
+                return Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'该试卷只允许参考一次',
                 ), array('user/exam/item', array(
                     'id'=>$exam['id'],
@@ -71,14 +71,14 @@ class PaperController extends UserController{
         
         $paper = ExamPapersTable::model()->find($paper_id);
         if(!$paper){
-            Response::notify('error', '试卷不存在');
+            return Response::notify(Response::NOTIFY_FAIL, '试卷不存在');
         }else if($paper['start_time'] > $this->current_time){
-            Response::notify('error', '不在考试时间段');
+            return Response::notify(Response::NOTIFY_FAIL, '不在考试时间段');
         }
         
         $exam_session = \F::session()->get('exam');
         if(empty($exam_session[$paper_id]['hash']) || $exam_session[$paper_id]['hash'] != $this->input->post('hash')){
-            Response::notify('error', '异常的请求');
+            return Response::notify(Response::NOTIFY_FAIL, '异常的请求');
         }
         
         $exam_id = ExamService::service()->record($paper, $exam_session[$paper_id]['start_time'], $answers);

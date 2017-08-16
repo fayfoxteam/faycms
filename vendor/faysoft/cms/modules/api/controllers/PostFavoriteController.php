@@ -32,7 +32,7 @@ class PostFavoriteController extends UserController{
         $post_id = $this->form()->getData('post_id');
         
         if(PostFavoriteService::isFavorited($post_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您已收藏过该文章',
                 'code'=>'already-favorited',
             ));
@@ -40,7 +40,7 @@ class PostFavoriteController extends UserController{
         
         PostFavoriteService::add($post_id, $this->form()->getData('trackid', ''));
         
-        Response::notify('success', '收藏成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '收藏成功');
     }
     
     /**
@@ -61,7 +61,7 @@ class PostFavoriteController extends UserController{
         $post_id = $this->form()->getData('post_id');
         
         if(!PostFavoriteService::isFavorited($post_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您未收藏过该文章',
                 'code'=>'not-favorited',
             ));
@@ -69,7 +69,7 @@ class PostFavoriteController extends UserController{
         
         PostFavoriteService::remove($post_id);
         
-        Response::notify('success', '移除收藏成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '移除收藏成功');
     }
     
     /**

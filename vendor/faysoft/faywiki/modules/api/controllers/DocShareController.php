@@ -23,7 +23,7 @@ class DocShareController extends ApiController{
         $doc_id = $this->form()->getData('doc_id');
 
         if(!DocService::isDocIdExist($doc_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>"指定文档ID[{$doc_id}]不存在",
                 'code'=>'invalid-parameter:doc_id-is-not-exist',
             ));
@@ -35,6 +35,6 @@ class DocShareController extends ApiController{
             $this->form()->getData('trackid', '')
         );
 
-        Response::notify('success', '分享成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '分享成功');
     }
 }

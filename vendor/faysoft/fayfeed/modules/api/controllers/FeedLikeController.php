@@ -35,14 +35,14 @@ class FeedLikeController extends ApiController{
         $feed_id = $this->form()->getData('feed_id');
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'动态ID不存在',
                 'code'=>'invalid-parameter:feed_id-is-not-exist',
             ));
         }
         
         if(FeedLikeService::isLiked($feed_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您已赞过该动态',
                 'code'=>'already-favorited',
             ));
@@ -50,7 +50,7 @@ class FeedLikeController extends ApiController{
         
         FeedLikeService::add($feed_id, $this->form()->getData('trackid', ''));
         
-        Response::notify('success', '点赞成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '点赞成功');
     }
     
     /**
@@ -74,7 +74,7 @@ class FeedLikeController extends ApiController{
         $feed_id = $this->form()->getData('feed_id');
         
         if(!FeedLikeService::isLiked($feed_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您未赞过该动态',
                 'code'=>'not-liked',
             ));
@@ -82,7 +82,7 @@ class FeedLikeController extends ApiController{
         
         FeedLikeService::remove($feed_id);
         
-        Response::notify('success', '取消点赞成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '取消点赞成功');
     }
     
     /**
@@ -112,7 +112,7 @@ class FeedLikeController extends ApiController{
         $feed_id = $this->form()->getData('feed_id');
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'动态ID不存在',
                 'code'=>'invalid-parameter:feed_id-is-not-exist',
             ));

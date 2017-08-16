@@ -9,7 +9,7 @@ class FlashService{
      * @param string $message
      * @param string $status
      */
-    public static function set($message, $status='error'){
+    public static function set($message, $status = 'error'){
         $notification = Session::getInstance()->getFlash('notification');
         if(!is_array($notification)){
             $notification = array();
@@ -24,13 +24,12 @@ class FlashService{
      */
     public static function get(){
         $notification = Session::getInstance()->getFlash('notification');
-        $html = '';
         if(is_array($notification)){
-            $html = \F::app()->view->renderPartial('common/notification', array(
+            return \F::app()->view->renderPartial('common/notification', array(
                 'notification'=>$notification,
-            ), -1, true);
+            ));
         }
-        return $html;
+        return '';
     }
     
     /**

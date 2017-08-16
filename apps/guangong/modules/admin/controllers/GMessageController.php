@@ -39,7 +39,7 @@ class GMessageController extends AdminController{
         
         $contact = GuangongMessagesTable::model()->find($id, 'id,reply');
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'回复成功',
             'data'=>array(
                 'id'=>$contact['id'],

@@ -39,7 +39,7 @@ class DbCompareController extends ToolsController{
         
         if(Uri::getInstance()->router != 'cms/tools/db-compare/index'){
             if(!$this->db_config = \F::session()->get('dbcompare')){
-                Response::notify('error', 'Please set the database info!', array('cms/tools/db-compare/index'));
+                return Response::notify(Response::NOTIFY_FAIL, 'Please set the database info!', array('cms/tools/db-compare/index'));
             }
             
             $this->view->db_config = $this->db_config;
@@ -325,7 +325,7 @@ class DbCompareController extends ToolsController{
             $to_obj->insert($name, $d);
         }
         
-        Response::notify('success', '数据导入成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '数据导入成功');
     }
     
     /**
@@ -353,7 +353,7 @@ class DbCompareController extends ToolsController{
             );
         }
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'result'=>$result,
         ));
     }

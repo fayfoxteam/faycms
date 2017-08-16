@@ -125,6 +125,6 @@ class PropUsageController extends AdminController{
             }
         }
         
-        Response::notify('success', '更新成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '更新成功');
     }
 }

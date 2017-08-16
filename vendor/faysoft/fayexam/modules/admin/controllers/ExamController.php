@@ -91,7 +91,7 @@ class ExamController extends AdminController{
         $exam_question = ExamExamsQuestionsTable::model()->find($id, 'id,exam_id,total_score');
         
         if($score > $exam_question['total_score']){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'所设得分不能高于总分',
             ));
         }
@@ -108,7 +108,7 @@ class ExamController extends AdminController{
 
         $this->actionlog(ActionlogsTable::TYPE_EXAM, '编辑了一个答题的得分', $id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'分数设置成功',
             'score'=>$score,
             'id'=>$id,
@@ -123,7 +123,7 @@ class ExamController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_EXAM, '将用户答卷永久删除', $id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一份答卷被永久删除',
             'id'=>$id,
         ));

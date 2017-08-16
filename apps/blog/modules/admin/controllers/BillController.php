@@ -83,9 +83,9 @@ class BillController extends AdminController{
                     'note'=>$this->input->post('note', null, ''),
                     'create_time'=>$this->current_time,
                 ));
-                Response::notify('success', '账单记录添加成功');
+                return Response::notify(Response::NOTIFY_SUCCESS, '账单记录添加成功');
             }else{
-                Response::notify('error', $this->showDataCheckError($this->form()->getErrors(), true));
+                return Response::notify(Response::NOTIFY_FAIL, $this->showDataCheckError($this->form()->getErrors(), true));
             }
             
         }else{

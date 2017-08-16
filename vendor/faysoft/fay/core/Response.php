@@ -11,6 +11,16 @@ class Response{
     const FORMAT_JSONP = 'jsonp';
 
     /**
+     * 消息 - 成功
+     */
+    const NOTIFY_SUCCESS = 'success';
+
+    /**
+     * 消息 - 失败
+     */
+    const NOTIFY_FAIL = 'fail';
+
+    /**
      * 事件 - 发送前
      */
     const EVENT_BEFORE_SEND = 'response_before_send';
@@ -381,7 +391,7 @@ class Response{
      * @param bool|array $redirect 跳转地址，若为true且是浏览器访问，则返回上一页。若为false，则不会跳转。若非布尔型，则视为跳转地址进行跳转
      * @return JsonResponse
      */
-    public static function notify($status = 'error', $data = array(), $redirect = true){
+    public static function notify($status = self::NOTIFY_SUCCESS, $data = array(), $redirect = true){
         if(!is_array($data)){
             $data = array(
                 'message'=>$data,
@@ -390,7 +400,7 @@ class Response{
         if(Request::isAjax()){
             return Response::json(
                 isset($data['data']) ? $data['data'] : '',
-                $status == 'success' ? 1 : 0,
+                $status == self::NOTIFY_SUCCESS ? 1 : 0,
                 isset($data['message']) ? $data['message'] : '',
                 isset($data['code']) ? $data['code'] : ''
             );
@@ -398,7 +408,7 @@ class Response{
             if(!empty($data['message'])){
                 //若设置了空 的message，则不发flash
                 FlashService::set($data['message'], $status);
-            }else if($status == 'success'){
+            }else if(self::NOTIFY_SUCCESS){
                 FlashService::set('操作成功', $status);
             }else{
                 FlashService::set('操作失败', $status);

@@ -37,14 +37,14 @@ class CommonInputController extends AdminController{
                 $data['update_time'] = $this->current_time;
                 ApidocCommonInputsTable::model()->insert($data);
 
-                Response::notify('success', array(
+                return Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>'公共请求参数添加成功',
                 ));
             }else{
                 Response::goback();
             }
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -57,12 +57,12 @@ class CommonInputController extends AdminController{
         $common_input_id = $this->input->request('id', 'intval');
 
         if(!$common_input_id){
-            Response::notify('error', '未指定公共请求参数ID');
+            return Response::notify(Response::NOTIFY_FAIL, '未指定公共请求参数ID');
         }
 
         $common_input = ApidocCommonInputsTable::model()->find($common_input_id);
         if(!$common_input){
-            Response::notify('error', "指定公共请求参数ID[{$common_input_id}]不存在");
+            return Response::notify(Response::NOTIFY_FAIL, "指定公共请求参数ID[{$common_input_id}]不存在");
         }
 
         $this->form()->setModel(ApidocCommonInputsTable::model());
@@ -70,17 +70,17 @@ class CommonInputController extends AdminController{
             if($this->form()->check()){
                 $data = $this->form()->getFilteredData();
                 if(ArrayHelper::equal($data, $common_input)){
-                    Response::notify('success', '没有字段被修改');
+                    return Response::notify(Response::NOTIFY_SUCCESS, '没有字段被修改');
                 }
                 $data['update_time'] = $this->current_time;
                 ApidocCommonInputsTable::model()->update($data, $common_input_id);
 
-                Response::notify('success', '一个公共请求参数被编辑');
+                return Response::notify(Response::NOTIFY_SUCCESS, '一个公共请求参数被编辑');
             }else{
                 Response::goback();
             }
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -93,17 +93,17 @@ class CommonInputController extends AdminController{
         $common_input_id = $this->input->get('id', 'intval');
 
         if(!$common_input_id){
-            Response::notify('error', '未指定公共请求参数ID');
+            return Response::notify(Response::NOTIFY_FAIL, '未指定公共请求参数ID');
         }
 
         $common_input = ApidocCommonInputsTable::model()->find($common_input_id);
         if(!$common_input){
-            Response::notify('error', "指定公共请求参数ID[{$common_input_id}]不存在");
+            return Response::notify(Response::NOTIFY_FAIL, "指定公共请求参数ID[{$common_input_id}]不存在");
         }
 
         ApidocCommonInputsTable::model()->delete($common_input_id);
 
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个公共请求参数被永久删除',
         ));
     }
@@ -115,12 +115,12 @@ class CommonInputController extends AdminController{
         $common_input_id = $this->input->get('id', 'intval');
 
         if(!$common_input_id){
-            Response::notify('error', '未指定公共请求参数ID');
+            return Response::notify(Response::NOTIFY_FAIL, '未指定公共请求参数ID');
         }
 
         $common_input = ApidocCommonInputsTable::model()->find($common_input_id);
         if(!$common_input){
-            Response::notify('error', "指定公共请求参数ID[{$common_input_id}]不存在");
+            return Response::notify(Response::NOTIFY_FAIL, "指定公共请求参数ID[{$common_input_id}]不存在");
         }
 
         return Response::json(array(
@@ -164,6 +164,6 @@ class CommonInputController extends AdminController{
             ), $s);
         }
 
-        Response::notify('success', '排序保存成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '排序保存成功');
     }
 }

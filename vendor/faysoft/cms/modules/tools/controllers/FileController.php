@@ -26,13 +26,13 @@ class FileController extends ToolsController{
     public function uploadToQiniu(){
         $result = QiniuService::service()->put();
         if($result['status']){
-            Response::notify('success', array(
+            return Response::notify(Response::NOTIFY_SUCCESS, array(
                 'data'=>array(
                     'file_id'=>$result['file']['id']
                 )
             ));
         }else{
-            Response::notify('error', $result['message']);
+            return Response::notify(Response::NOTIFY_FAIL, $result['message']);
         }
     }
 }

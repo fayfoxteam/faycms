@@ -148,7 +148,7 @@ class UserController extends AdminController{
             
             $this->actionlog(ActionlogsTable::TYPE_USERS, '添加了一个新用户', $user_id);
             
-            Response::notify('success', '用户添加成功，'.HtmlHelper::link('继续添加', array('cms/admin/user/create', array(
+            return Response::notify(Response::NOTIFY_SUCCESS, '用户添加成功，'.HtmlHelper::link('继续添加', array('cms/admin/user/create', array(
                 'roles'=>$this->input->post('roles', 'intval', array()),
             ))), array('cms/admin/user/edit', array(
                 'id'=>$user_id,
@@ -185,7 +185,7 @@ class UserController extends AdminController{
             UserService::service()->update($user_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_USERS, '修改个人信息', $user_id);
-            Response::notify('success', '编辑成功', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功', false);
             
             //置空密码字段
             $this->form()->setData(array('password'=>''), true);

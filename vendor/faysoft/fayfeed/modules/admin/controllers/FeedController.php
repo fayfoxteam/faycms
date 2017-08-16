@@ -96,7 +96,7 @@ class FeedController extends AdminController{
             $feed_id = FeedService::service()->create($data, $extra, $this->current_user);
             
             $this->actionlog(ActionlogsTable::TYPE_FEED, '添加动态', $feed_id);
-            Response::notify('success', '动态发布成功', array('fayfeed/admin/feed/edit', array(
+            return Response::notify(Response::NOTIFY_SUCCESS, '动态发布成功', array('fayfeed/admin/feed/edit', array(
                 'id'=>$feed_id,
             )));
         }
@@ -178,7 +178,7 @@ class FeedController extends AdminController{
             FeedService::service()->update($feed_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_FEED, '编辑动态', $feed_id);
-            Response::notify('success', '动态编辑成功', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '动态编辑成功', false);
         }
         
         $sql = new Sql();
@@ -332,7 +332,7 @@ class FeedController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_FEED, '将动态移入回收站', $feed_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇动态被移入回收站 - '.HtmlHelper::link('撤销', array('fayfeed/admin/feed/undelete', array(
                 'id'=>$feed_id,
             ))),
@@ -351,7 +351,7 @@ class FeedController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_FEED, '将动态移出回收站', $feed_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇动态被还原',
             'id'=>$feed_id,
         ));
@@ -364,7 +364,7 @@ class FeedController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_FEED, '将动态永久删除', $feed_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇动态被永久删除',
             'id'=>$feed_id,
         ));

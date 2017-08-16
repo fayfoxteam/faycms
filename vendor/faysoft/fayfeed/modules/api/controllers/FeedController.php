@@ -80,7 +80,7 @@ class FeedController extends ApiController{
             'files'=>$extra_files,
         ));
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'发布成功',
             'data'=>array(),
         ));
@@ -142,9 +142,9 @@ class FeedController extends ApiController{
         
         if(FeedService::service()->checkDeletePermission($feed_id)){
             FeedService::service()->delete($feed_id);
-            Response::notify('success', '动态删除成功');
+            return Response::notify(Response::NOTIFY_SUCCESS, '动态删除成功');
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作该动态',
                 'code'=>'permission-denied',
             ));

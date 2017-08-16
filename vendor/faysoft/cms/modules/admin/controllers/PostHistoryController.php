@@ -72,7 +72,7 @@ class PostHistoryController extends AdminController{
     
         PostHistoryService::service()->revert($this->form()->getData('history_id'));
         
-        Response::notify('success', '恢复成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '恢复成功');
     }
     
     /**
@@ -126,6 +126,6 @@ class PostHistoryController extends AdminController{
         
         PostHistoryService::service()->remove($this->form()->getData('history_id'));
         
-        Response::notify('success', '文章历史版本删除成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '文章历史版本删除成功');
     }
 }

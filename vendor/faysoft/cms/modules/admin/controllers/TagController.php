@@ -41,7 +41,7 @@ class TagController extends AdminController{
                 $this->actionlog(ActionlogsTable::TYPE_TAG, '创建了标签', $tag_id);
                 
                 $tag = TagsTable::model()->find($tag_id, 'id,title');
-                Response::notify('success', array(
+                return Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>'标签创建成功',
                     'tag'=>$tag,
                 ));
@@ -49,7 +49,7 @@ class TagController extends AdminController{
                 Response::goback();
             }
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -63,7 +63,7 @@ class TagController extends AdminController{
         
         $gets = $this->input->get();
         unset($gets['tag_id']);
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个标签被永久删除',
         ), array('cms/admin/link/edit', $gets));
     }
@@ -79,7 +79,7 @@ class TagController extends AdminController{
         if($this->input->post() && $this->form()->check()){
             TagsTable::model()->update($this->form()->getAllData(), $tag_id, true);
             $this->actionlog(ActionlogsTable::TYPE_TAG, '编辑了标签', $tag_id);
-            Response::notify('success', '一个标签被编辑', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '一个标签被编辑', false);
         }
         if($tag = TagsTable::model()->find($tag_id)){
             $this->form()->setData($tag);
@@ -103,7 +103,7 @@ class TagController extends AdminController{
         $this->actionlog(ActionlogsTable::TYPE_TAG, '改变了标签排序', $tag_id);
         
         $tag = TagsTable::model()->find($tag_id, 'sort');
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇标签的排序值被编辑',
             'data'=>array(
                 'sort'=>$tag['sort'],

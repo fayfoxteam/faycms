@@ -44,7 +44,7 @@ class VowController extends ApiController{
         
         $group = GuangongUserGroupsTable::model()->find($this->form()->getData('group_id'), 'id,user_id');
         if($group['user_id'] != $this->current_user){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作指定结义',
                 'code'=>'permission-denied',
             ));
@@ -54,6 +54,6 @@ class VowController extends ApiController{
             'vow'=>$this->form()->getData('vow')
         ), $group['id']);
         
-        Response::notify('success', '设置成功');
+        return Response::notify(Response::NOTIFY_SUCCESS, '设置成功');
     }
 }

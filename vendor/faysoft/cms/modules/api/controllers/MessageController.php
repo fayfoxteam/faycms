@@ -88,7 +88,7 @@ class MessageController extends ApiController{
         $to_user_id = $this->form()->getData('to_user_id');
         
         if(!UserService::isUserIdExist($to_user_id)){
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'指定用户不存在',
                 'code'=>'invalid-parameter:to_user_id-is-not-exist',
             ));
@@ -125,7 +125,7 @@ class MessageController extends ApiController{
             $message['parent']['user'] = new \stdClass();
         }
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'留言成功',
             'data'=>$message,
         ));
@@ -158,9 +158,9 @@ class MessageController extends ApiController{
         
         if(MessageService::service()->checkPermission($message_id, 'delete')){
             MessageService::service()->delete($message_id);
-            Response::notify('success', '留言删除成功');
+            return Response::notify(Response::NOTIFY_SUCCESS, '留言删除成功');
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作该留言',
                 'code'=>'permission-denied',
             ));
@@ -194,9 +194,9 @@ class MessageController extends ApiController{
         
         if(MessageService::service()->checkPermission($message_id, 'undelete')){
             MessageService::service()->undelete($message_id);
-            Response::notify('success', '留言还原成功');
+            return Response::notify(Response::NOTIFY_SUCCESS, '留言还原成功');
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作该留言',
                 'code'=>'permission-denied',
             ));
@@ -236,9 +236,9 @@ class MessageController extends ApiController{
                 $message_id,
                 $this->form()->getData('content')
             );
-            Response::notify('success', '留言修改成功');
+            return Response::notify(Response::NOTIFY_SUCCESS, '留言修改成功');
         }else{
-            Response::notify('error', array(
+            return Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作该留言',
                 'code'=>'permission-denied',
             ));

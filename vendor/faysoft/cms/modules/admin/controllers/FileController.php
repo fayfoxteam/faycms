@@ -280,9 +280,9 @@ class FileController extends AdminController{
             //删除文件（用相对路径去删，因为绝对路径会调用realpath()，当文件不存在的情况下会报错
             @unlink(FileService::getPath($file, false));
             @unlink(FileService::getThumbnailPath($file, false));
-            Response::notify('success', '删除成功');
+            return Response::notify(Response::NOTIFY_SUCCESS, '删除成功');
         }else{
-            Response::notify('error', '参数不完整');
+            return Response::notify(Response::NOTIFY_FAIL, '参数不完整');
         }
     }
     
@@ -373,7 +373,7 @@ class FileController extends AdminController{
                 }
                 
                 $this->actionlog(ActionlogsTable::TYPE_FILE, '批处理：'.$affected_rows.'个文件被删除');
-                Response::notify('success', $affected_rows.'个文件被删除');
+                return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'个文件被删除');
             break;
             
             //移动到目标分类图片
@@ -381,12 +381,12 @@ class FileController extends AdminController{
                 $cat_id = $this->input->post('cat_id', 'intval');
                 
                 if(!$cat_id){
-                    Response::notify('error', '未指定分类');
+                    return Response::notify(Response::NOTIFY_FAIL, '未指定分类');
                 }
             
                 $cat = CategoryService::service()->get($cat_id,'title');
                 if(!$cat){
-                    Response::notify('error', '指定分类不存在');
+                    return Response::notify(Response::NOTIFY_FAIL, '指定分类不存在');
                 }
                 
                 $affected_rows = FilesTable::model()->update(array(
@@ -395,7 +395,7 @@ class FileController extends AdminController{
                     'id IN (?)'=>$ids,
                 ));
                 $this->actionlog(ActionlogsTable::TYPE_FILE, "批处理：{$affected_rows}个文件被移动到{$cat['title']}");
-                Response::notify('success', "{$affected_rows}个文件被移动到分类{$cat['title']}");
+                return Response::notify(Response::NOTIFY_SUCCESS, "{$affected_rows}个文件被移动到分类{$cat['title']}");
             break;
         }
     }

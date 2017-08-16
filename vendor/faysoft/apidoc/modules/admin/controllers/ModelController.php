@@ -114,7 +114,7 @@ class ModelController extends AdminController{
                 ApidocModelPropsTable::model()->insert($prop);
             }
             
-            Response::notify('success', '数据模型添加成功', array('apidoc/admin/model/edit', array(
+            return Response::notify(Response::NOTIFY_SUCCESS, '数据模型添加成功', array('apidoc/admin/model/edit', array(
                 'id'=>$model_id,
             )));
         }
@@ -216,7 +216,7 @@ class ModelController extends AdminController{
                 }
             }
             
-            Response::notify('success', '数据模型编辑成功', array('apidoc/admin/model/edit', array(
+            return Response::notify(Response::NOTIFY_SUCCESS, '数据模型编辑成功', array('apidoc/admin/model/edit', array(
                 'id'=>$model_id,
             )));
         }

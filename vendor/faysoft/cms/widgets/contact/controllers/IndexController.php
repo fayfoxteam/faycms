@@ -13,9 +13,9 @@ class IndexController extends Widget{
         //表单验证
         if($this->form('widget_contact')->check()){
             ContactService::service()->create($this->form('widget_contact')->getAllData());
-            Response::notify('success', 'Message has been send.');
+            return Response::notify(Response::NOTIFY_SUCCESS, 'Message has been send.');
         }else{
-            Response::notify('error', $this->form()->getFirstError());
+            return Response::notify(Response::NOTIFY_FAIL, $this->form()->getFirstError());
         }
     }
     

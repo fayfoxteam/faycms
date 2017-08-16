@@ -176,7 +176,7 @@ class PostController extends AdminController{
             $post_id = PostService::service()->create($data, $extra, $this->current_user);
             
             $this->actionlog(ActionlogsTable::TYPE_POST, '添加文章', $post_id);
-            Response::notify('success', '文章发布成功', array('cms/admin/post/edit', array(
+            return Response::notify(Response::NOTIFY_SUCCESS, '文章发布成功', array('cms/admin/post/edit', array(
                 'id'=>$post_id,
             )));
         }
@@ -549,7 +549,7 @@ class PostController extends AdminController{
             PostService::service()->update($post_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_POST, '编辑文章', $post_id);
-            Response::notify('success', '一篇文章被编辑', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '一篇文章被编辑');
         }
         
         $sql = new Sql();
@@ -631,7 +631,7 @@ class PostController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_POST, '将文章移入回收站', $post_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇文章被移入回收站 - '.HtmlHelper::link('撤销', array('cms/admin/post/undelete', array(
                 'id'=>$post_id,
             ))),
@@ -652,7 +652,7 @@ class PostController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_POST, '将文章移出回收站', $post_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇文章被还原',
             'id'=>$post_id,
         ));
@@ -665,7 +665,7 @@ class PostController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_POST, '将文章永久删除', $post_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇文章被永久删除',
             'id'=>$post_id,
         ));
@@ -741,7 +741,7 @@ class PostController extends AdminController{
                 $affected_rows = PostService::service()->batchPublish($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被发布');
-                Response::notify('success', count($affected_rows) . '篇文章被发布');
+                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文章被发布');
             break;
             case 'set-draft':
                 foreach($ids as $id){
@@ -753,7 +753,7 @@ class PostController extends AdminController{
                 $affected_rows = PostService::service()->batchDraft($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“草稿”');
-                Response::notify('success', count($affected_rows) . '篇文章被标记为“草稿”');
+                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文章被标记为“草稿”');
             break;
             case 'set-pending':
                 foreach($ids as $id){
@@ -765,7 +765,7 @@ class PostController extends AdminController{
                 $affected_rows = PostService::service()->batchPending($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“待审核”');
-                Response::notify('success', count($affected_rows) . '篇文章被标记为“待审核”');
+                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文章被标记为“待审核”');
             break;
             case 'set-reviewed':
                 foreach($ids as $id){
@@ -777,7 +777,7 @@ class PostController extends AdminController{
                 $affected_rows = PostService::service()->batchReviewed($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被标记为“通过审核”');
-                Response::notify('success', count($affected_rows) . '篇文章被标记为“通过审核”');
+                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文章被标记为“通过审核”');
             break;
             case 'delete':
                 foreach($ids as $id){
@@ -789,7 +789,7 @@ class PostController extends AdminController{
                 $affected_rows = PostService::service()->batchDelete($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被移入回收站');
-                Response::notify('success', count($affected_rows) . '篇文章被移入回收站');
+                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文章被移入回收站');
             break;
             case 'undelete':
                 foreach($ids as $id){
@@ -801,7 +801,7 @@ class PostController extends AdminController{
                 $affected_rows = PostService::service()->batchUndelete($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被还原');
-                Response::notify('success', count($affected_rows) . '篇文章被还原');
+                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文章被还原');
             break;
             case 'remove':
                 foreach($ids as $id){
@@ -818,10 +818,10 @@ class PostController extends AdminController{
                 }
 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文章' . json_encode($affected_rows) . '被永久删除');
-                Response::notify('success', count($affected_rows) . '篇文章被永久删除');
+                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文章被永久删除');
             break;
             default:
-                Response::notify('error', array(
+                return Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'操作选项不能为空',
                     'error_code'=>'action-can-not-be-empty',
                 ));

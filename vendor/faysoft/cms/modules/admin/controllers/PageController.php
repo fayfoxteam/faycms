@@ -63,7 +63,7 @@ class PageController extends AdminController{
             }
             
             $this->actionlog(ActionlogsTable::TYPE_PAGE, '添加页面', $page_id);
-            Response::notify('success', '页面发布成功', array('cms/admin/page/edit', array(
+            return Response::notify(Response::NOTIFY_SUCCESS, '页面发布成功', array('cms/admin/page/edit', array(
                 'id'=>$page_id,
             )));
         }
@@ -233,7 +233,7 @@ class PageController extends AdminController{
             }
             
             $this->actionlog(ActionlogsTable::TYPE_PAGE, '编辑页面', $page_id);
-            Response::notify('success', '一个页面被编辑', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '一个页面被编辑', false);
         }
         if($page = PagesTable::model()->find($page_id)){
             $page['page_category'] = PageService::service()->getPageCatIds($page_id);
@@ -250,7 +250,7 @@ class PageController extends AdminController{
         $page_id = $this->input->get('id', 'intval');
         PagesTable::model()->update(array('delete_time'=>$this->current_time), $page_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'id'=>$page_id,
             'message'=>'一个页面被移入回收站 - '.HtmlHelper::link('撤销', array('cms/admin/page/undelete', array(
                 'id'=>$page_id,
@@ -263,7 +263,7 @@ class PageController extends AdminController{
         PagesTable::model()->update(array('delete_time'=>0), $page_id);
         $this->actionlog(ActionlogsTable::TYPE_PAGE, '将页面移出回收站', $page_id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个页面被移出回收站',
         ));
     }
@@ -273,7 +273,7 @@ class PageController extends AdminController{
         PagesCategoriesTable::model()->delete(array('page_id = ?'=>$this->input->get('id', 'intval')));
         $this->actionlog(ActionlogsTable::TYPE_PAGE, '将页面永久删除', $this->input->get('id', 'intval'));
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个页面被永久删除',
         ));
     }
@@ -286,7 +286,7 @@ class PageController extends AdminController{
         $this->actionlog(ActionlogsTable::TYPE_PAGE, '改变了页面排序', $page_id);
         
         $page = PagesTable::model()->find($page_id, 'sort');
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个页面的排序值被编辑',
             'data'=>array(
                 'sort'=>$page['sort'],

@@ -29,7 +29,7 @@ class LinkController extends AdminController{
             $link_id = LinksTable::model()->insert($data);
             
             $this->actionlog(ActionlogsTable::TYPE_LINK, '添加友情链接', $link_id);
-            Response::notify('success', '链接添加成功', array('cms/admin/link/edit', array('id'=>$link_id)));
+            return Response::notify(Response::NOTIFY_SUCCESS, '链接添加成功', array('cms/admin/link/edit', array('id'=>$link_id)));
         }
         
         $this->view->cats = CategoryService::service()->getTree('_system_link');
@@ -54,7 +54,7 @@ class LinkController extends AdminController{
                 $data['update_time'] = $this->current_time;
                 LinksTable::model()->update($data, array('id = ?'=>$id));
                 $this->actionlog(ActionlogsTable::TYPE_LINK, '编辑友情链接', $id);
-                Response::notify('success', '一个链接被编辑', false);
+                return Response::notify(Response::NOTIFY_SUCCESS, '一个链接被编辑', false);
             }
         }
         if($link = LinksTable::model()->find($id)){
@@ -137,7 +137,7 @@ class LinkController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_LINK, '移除友情链接', $this->input->get('id', 'intval'));
         
-        Response::notify('success', '一个友情链接被永久删除', array('cms/admin/link/index', $this->input->get()));
+        return Response::notify(Response::NOTIFY_SUCCESS, '一个友情链接被永久删除', array('cms/admin/link/index', $this->input->get()));
     }
     
     public function sort(){
@@ -150,7 +150,7 @@ class LinkController extends AdminController{
         $this->actionlog(ActionlogsTable::TYPE_LINK, '改变了友情链接排序', $id);
         
         $link = LinksTable::model()->find($id, 'sort');
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'改变了友情链接排序值',
             'data'=>array(
                 'sort'=>$link['sort'],

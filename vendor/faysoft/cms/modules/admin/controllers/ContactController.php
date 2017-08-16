@@ -81,7 +81,7 @@ class ContactController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被标记为已读', $id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一条留言被标记为已读 - '.HtmlHelper::link('撤销', array('cms/admin/contact/set-unread', array(
                 'id'=>$id,
             ))),
@@ -96,7 +96,7 @@ class ContactController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被标记为未读', $id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一条留言被标记为未读 - '.HtmlHelper::link('撤销', array('cms/admin/contact/set-read', array(
                 'id'=>$id,
             ))),
@@ -109,7 +109,7 @@ class ContactController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_CONTACT, '一条留言被永久删除', $id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一条留言被永久删除',
         ));
     }
@@ -125,7 +125,7 @@ class ContactController extends AdminController{
         $contact = ContactsTable::model()->find($id, 'id,reply');
         $this->actionlog(ActionlogsTable::TYPE_CONTACT, '回复了一条留言', $id);
         
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'回复成功',
             'data'=>array(
                 'id'=>$contact['id'],
@@ -157,7 +157,7 @@ class ContactController extends AdminController{
                 ));
             }
         }
-        Response::notify('success', array(
+        return Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'',
         ));
     }
@@ -190,7 +190,7 @@ class ContactController extends AdminController{
             }
             ContactsTable::model()->update($data, $id);
             $this->actionlog(ActionlogsTable::TYPE_CONTACT, '编辑了留言', $id);
-            Response::notify('success', '编辑成功', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功', false);
         }
         
         //获取留言

@@ -5,7 +5,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 
 class Logger{
-    private static $loggers = [];
+    private static $loggers = array();
 
     /**
      * 获取一个Monolog Logger实例

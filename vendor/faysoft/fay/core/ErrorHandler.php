@@ -1,7 +1,7 @@
 <?php
 namespace fay\core;
 
-use fay\log\Logger;
+use Monolog\Processor\WebProcessor;
 
 class ErrorHandler{
     /**
@@ -119,7 +119,12 @@ class ErrorHandler{
      * @param \Exception $exception
      */
     protected function reportException($exception){
-        \F::logger('error')->error((string)$exception);
+        $logger = \F::logger('error');
+        if(php_sapi_name() != 'cli'){
+            //非cli访问，记录一些web信息
+            $logger->pushProcessor(new WebProcessor());
+        }
+        $logger->error((string)$exception);
     }
 
     /**

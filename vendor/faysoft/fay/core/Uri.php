@@ -51,7 +51,7 @@ class Uri{
     }
     
     private function _routing(){
-        if (php_sapi_name() == 'cli' or defined('STDIN')){
+        if(php_sapi_name() == 'cli' || defined('STDIN')){
             //命令行下执行
             $this->_parseCliArgs();
         }else{

@@ -373,11 +373,12 @@ class Response{
      */
     public static function goback(){
         if(isset($_SERVER['HTTP_REFERER'])){
-            header('location:'.$_SERVER['HTTP_REFERER']);
+            self::getInstance()->redirect($_SERVER['HTTP_REFERER'])
+                ->send();
         }else{
-            echo '<script>history.go(-1);</script>';
+            self::getInstance()->setContent('<script>history.go(-1);</script>')
+                ->send();
         }
-        die;
     }
 
     /**
@@ -416,11 +417,14 @@ class Response{
                 self::goback();
             }else if($redirect !== false){
                 if(is_array($redirect)){
-                    $redirect = UrlHelper::createUrl($redirect[0],
-                        empty($redirect[1]) ? array() : $redirect[1]);
+                    $redirect = UrlHelper::createUrl(
+                        $redirect[0],
+                        empty($redirect[1]) ? array() : $redirect[1],
+                        empty($redirect[1]) ? '' : $redirect[1]
+                    );
                 }
-                header('location:'.$redirect);
-                die;
+                self::getInstance()->redirect($redirect)
+                    ->send();
             }
         }
     }

@@ -62,7 +62,7 @@ class ErrorHandler{
         $error = error_get_last();
         if($error && in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING))){
             //致命错误，当成异常处理
-            $exception = new \ErrorException($error['message'], $error['type'], $error['file'], $error['line'], $error['type']);
+            $exception = new \ErrorException($error['message'], $error['type'], 1, $error['file'], $error['line']);
             $this->handleException($exception);
         }
     }

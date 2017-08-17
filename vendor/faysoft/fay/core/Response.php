@@ -359,17 +359,15 @@ class Response{
         
         echo $this->content;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
+    /**
+     * 获取一个Response实例，优先获取Controller中的Response实例，若Controller未初始化，则new一个Response返回
+     */
+    public static function getInstance(){
+        $app = \F::app();
+        return $app ? $app->response : new Response();
+    }
+    
     /**
      * 返回上一页
      */

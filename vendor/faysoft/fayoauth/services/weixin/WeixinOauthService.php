@@ -1,6 +1,7 @@
 <?php
 namespace fayoauth\services\weixin;
 
+use fay\core\Response;
 use fayoauth\services\OAuthException;
 use fayoauth\services\OauthService;
 
@@ -19,7 +20,7 @@ class WeixinOauthService extends OauthService{
             $client->setScope($scope);
         
             //跳转到拉取授权页面
-            $this->response->redirect($client->getAuthorizeUrl());
+            Response::getInstance()->redirect($client->getAuthorizeUrl());
         }
     
         return $client->getAccessToken($code);

@@ -1,6 +1,7 @@
 <?php
 namespace fayoauth\services\am;
 
+use fay\core\Response;
 use fayoauth\services\OAuthException;
 use fayoauth\services\OauthService;
 
@@ -20,7 +21,7 @@ class AmOauthService extends OauthService{
         
         if(!$code = \F::input()->get('code')){
             //跳转到拉取授权页面
-            $this->response->redirect($client->getAuthorizeUrl());
+            Response::getInstance()->redirect($client->getAuthorizeUrl());
         }
     
         return $client->getAccessToken($code);

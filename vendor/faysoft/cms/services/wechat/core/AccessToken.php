@@ -80,7 +80,7 @@ class AccessToken{
         ));
         
         if(empty($token['access_token'])){
-            throw new \ErrorException('获取微信AccessToken失败，返回：' . json_encode($token, JSON_UNESCAPED_UNICODE));
+            throw new \ErrorException('获取微信AccessToken失败，返回：' . json_encode($token, defined('JSON_UNESCAPED_UNICODE') ? JSON_UNESCAPED_UNICODE : 0));
         }
         
         return $token;

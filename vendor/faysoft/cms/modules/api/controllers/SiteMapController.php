@@ -6,6 +6,7 @@ use cms\models\tables\CategoriesTable;
 use cms\models\tables\PagesTable;
 use cms\models\tables\PostsTable;
 use cms\services\OptionService;
+use fay\core\Response;
 use fay\core\Sql;
 use fay\helpers\ArrayHelper;
 
@@ -59,8 +60,7 @@ class SiteMapController extends ApiController{
         );
         $this->view->posts = $posts;
         
-        header('Content-Type:application/xml');
-        $this->config->set('debug', false);
+        $this->response->setFormat(Response::FORMAT_XML);
         
         return $this->view->render();
     }

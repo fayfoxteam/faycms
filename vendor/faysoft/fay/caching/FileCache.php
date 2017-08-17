@@ -43,7 +43,7 @@ class FileCache extends Cache{
     public function exist($key){
         $file = $this->getCacheFile($this->buildKey($key));
         
-        return @filemtime($file) > \F::app()->current_time;
+        return @filemtime($file) > time();
     }
     
     /**
@@ -53,7 +53,7 @@ class FileCache extends Cache{
      */
     protected function getValue($key){
         $file = $this->getCacheFile($this->buildKey($key));
-        if(@filemtime($file) > \F::app()->current_time){
+        if(@filemtime($file) > time()){
             $content = @file_get_contents($file);
             if($content === false){
                 return null;
@@ -85,7 +85,7 @@ class FileCache extends Cache{
                 $duration = 31536000;//一年
             }
             
-            return @touch($file, $duration + \F::app()->current_time);
+            return @touch($file, $duration + time());
         }else{
             return false;
         }
@@ -144,7 +144,7 @@ class FileCache extends Cache{
                     if(!$expired_only){
                         @rmdir($fullPath);
                     }
-                }else if(!$expired_only || $expired_only && @filemtime($fullPath) < \F::app()->current_time){
+                }else if(!$expired_only || $expired_only && @filemtime($fullPath) < time()){
                     @unlink($fullPath);
                 }
             }

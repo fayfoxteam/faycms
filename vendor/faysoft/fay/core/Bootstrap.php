@@ -38,12 +38,13 @@ class Bootstrap{
             if(!Input::getInstance()->post() && in_array($uri->router, $cache_routers_keys)){
                 $filename = md5(\F::config()->get('base_url') . json_encode(Input::getInstance()->get(isset($cache_routers[$uri->router]['params']) ? $cache_routers[$uri->router]['params'] : array())));
                 $cache_key = 'pages/' . $uri->router . '/' . $filename;
-                $content = \F::cache()->get($cache_key);
-                if($content){
-                    if(\F::config()->get('debug')){
-                        echo '来自缓存';
-                    }
-                    echo $content;
+                /**
+                 * @var $response Response
+                 */
+                $response = \F::cache()->get($cache_key);
+                if($response){
+                    //直接输出缓存
+                    $response->send(true);
                     die;
                 }
             }

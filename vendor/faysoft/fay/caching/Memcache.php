@@ -211,7 +211,7 @@ class Memcache extends Cache{
      * @return bool
      */
     protected function setValue($key, $value, $duration){
-        $expire = $duration > 0 ? $duration + \F::app()->current_time : 0;
+        $expire = $duration > 0 ? $duration + time() : 0;
         
         return $this->use_memcached ? $this->_cache->set($key, $value, $expire) : $this->_cache->set($key, $value, 0, $expire);
     }
@@ -224,7 +224,7 @@ class Memcache extends Cache{
      */
     protected function setValues($data, $duration){
         if($this->use_memcached){
-            $this->_cache->setMulti($data, $duration > 0 ? $duration + \F::app()->current_time : 0);
+            $this->_cache->setMulti($data, $duration > 0 ? $duration + time() : 0);
             
             return array();
         }else{

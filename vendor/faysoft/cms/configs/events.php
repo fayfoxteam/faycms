@@ -98,9 +98,10 @@ return array(
                             $response->setData($data);
                         }
                     }else if($format == \fay\core\Response::FORMAT_HTML){
-                        //若是html，在默认追加debug信息
+                        $view = \F::app() ? \F::app()->view : new \fay\core\View();
+                        
                         $html = $response->getContent();
-                        $html .= \F::app()->view->renderPartial('common/_debug');
+                        $html .= $view->renderPartial('common/_debug');
                         $response->setContent($html);
                     }
                 }

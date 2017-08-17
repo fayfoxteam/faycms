@@ -9,6 +9,7 @@ class Response{
     const FORMAT_HTML = 'html';
     const FORMAT_JSON = 'json';
     const FORMAT_JSONP = 'jsonp';
+    const FORMAT_XML = 'xml';
 
     /**
      * 消息 - 成功
@@ -187,7 +188,8 @@ class Response{
         if($format != self::FORMAT_HTML &&
             $format != self::FORMAT_JSON &&
             $format != self::FORMAT_JSONP &&
-            $format != self::FORMAT_RAW
+            $format != self::FORMAT_RAW &&
+            $format != self::FORMAT_XML
         ){
             throw new \ErrorException("非法的返回格式[{$format}]");
         }
@@ -286,8 +288,9 @@ class Response{
 
     /**
      * 输出响应
+     * @param bool $no_cache 若为true，则强制不生成页面缓存
      */
-    public function send(){
+    public function send($no_cache = false){
         if($this->is_sent){
             return;
         }
@@ -297,10 +300,9 @@ class Response{
         ));
         $this->prepare();
         $this->sendHeaders();
-        $this->sendContent();
+        $this->sendContent($no_cache);
         \F::event()->trigger(self::EVENT_AFTER_SEND, array(
-            'respo
-            nse'=>$this,
+            'response'=>$this,
         ));
         $this->is_sent = true;
     }
@@ -315,6 +317,8 @@ class Response{
         }else if($this->format == self::FORMAT_JSONP){
             $this->setHeader('Content-Type', 'application/javascript; charset=utf-8');
             $this->content = $this->data['callback'] . '(' . json_encode($this->data['data']) . ');';
+        }else if($this->format == self::FORMAT_XML){
+            $this->setHeader('Content-Type', 'application/xml; charset=utf-8');
         }
     }
 
@@ -332,8 +336,21 @@ class Response{
 
     /**
      * 发送内容（若配置有缓存，则会自动设置缓存）
+     * @param bool $no_cache
+     * @param bool $no_cache 若为true，则强制不生成页面缓存
      */
-    protected function sendContent(){
+    protected function sendContent($no_cache = false){
+        if(!$no_cache && $this->status_code == 200){
+            //当http状态码为200时，进入页面缓存逻辑
+            $this->setPageCache();
+        }
+        echo $this->content;
+    }
+
+    /**
+     * 若配置文件中有配置页面缓存，则设置缓存
+     */
+    protected function setPageCache(){
         $router = Uri::getInstance()->router;
 
         //根据router设置缓存
@@ -342,26 +359,14 @@ class Response{
         if(in_array($router, $cache_routers_keys)){
             $filename = md5(\F::config()->get('base_url') . json_encode(\F::input()->get(isset($cache_routers[$router]['params']) ? $cache_routers[$router]['params'] : array())));
             $cache_key = 'pages/' . $router . '/' . $filename;
-            if(\F::input()->post()){
-                //有post数据的时候，是否更新页面
-                if(isset($cache_routers[$router]['on_post'])){
-                    if($cache_routers[$router]['on_post'] == 'rebuild'){//刷新缓存
-                        \F::cache()->set($cache_key, $this->content, $cache_routers[$router]['ttl']);
-                    }else if($cache_routers[$router]['on_post'] == 'remove'){//删除缓存
-                        \F::cache()->delete($cache_key);
-                    }
-                }
-            }else{
-                //没post数据的时候，直接重新生成页面缓存
-                \F::cache()->set($cache_key, $this->content, $cache_routers[$router]['ttl']);
-            }
+            //生成页面缓存
+            \F::cache()->set($cache_key, $this, $cache_routers[$router]['ttl']);
         }
-        
-        echo $this->content;
     }
 
     /**
-     * 获取一个Response实例，优先获取Controller中的Response实例，若Controller未初始化，则new一个Response返回
+     * 获取一个Response实例。
+     * 优先获取Controller中的Response实例，若Controller未初始化，则new一个Response返回
      */
     public static function getInstance(){
         $app = \F::app();

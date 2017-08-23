@@ -201,13 +201,13 @@ var uploader = {
             });
             
             uploader.bind('UploadProgress', function(up, file) {
-                $('#file-'+file.id+' .progress-bar-percent').animate({'width':file.percent+'%'});
+                $('#file-'+file.id+' .progress-bar-percent').css({'width':file.percent+'%'});
             });
             
             uploader.bind('FileUploaded', function(up, file, response) {
                 var resp = $.parseJSON(response.response);
                 $file = $('#file-'+file.id);
-                if('raw_name' in resp.data){
+                if(typeof resp.data === 'object' && 'raw_name' in resp.data){
                     autosize($file.find('.file-desc').attr('name', settings.description_name+'['+resp.data.id+']'));
                     $file.find('.file-title').attr('name', settings.title_name+'['+resp.data.id+']');
                     $file.find('.file-link').attr('name', settings.link_name+'['+resp.data.id+']');

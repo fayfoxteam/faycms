@@ -34,6 +34,7 @@ var uploader = {
             //设置缩略图
             var uploader = new plupload.Uploader({
                 'runtimes': 'html5,html4,flash,gears,silverlight',
+                'multi_selection': false,
                 'flash_swf_url': system.url()+'flash/plupload.flash.swf',
                 'silverlight_xap_url': system.url()+'js/plupload.silverlight.xap',
                 'filters': [

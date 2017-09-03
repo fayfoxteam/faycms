@@ -82,7 +82,7 @@ use fay\helpers\HtmlHelper;
                     <span class="fc-orange">此配置项是否生效取决于模版代码</span>
                 </p>
             </div>
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

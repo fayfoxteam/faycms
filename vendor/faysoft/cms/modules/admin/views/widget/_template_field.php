@@ -1,6 +1,6 @@
 <?php
 /**
- * 编辑模版的界面大部分是通用的，放哪都不太合适，就先放这里了
+ * 小工具编辑模版的界面大部分是通用的，放哪都不太合适，就先放这里了
  */
 use fay\helpers\HtmlHelper;
 
@@ -14,7 +14,9 @@ use fay\helpers\HtmlHelper;
         'template',
         array(
             ''=>'--默认模版--',
-        ) + array_combine($views, $views) + array(
+        ) +
+        ($views ? array_combine($views, $views) : array()) +
+        array(
             'custom'=>'自定义模版',
         ),
         empty($template) ? '' : (in_array($template, $views) ? $template : 'custom'),

@@ -16,7 +16,7 @@ use fay\helpers\HtmlHelper;
     <a href="javascript:" class="btn btn-grey" id="widget-image-upload">上传</a>
 </div>
 <div class="fc-grey">提示：点击侧边栏“提交”后，修改才会生效</div>
-<?php F::app()->view->renderPartial('admin/widget/_template_box')?>
+<?php echo F::app()->view->renderPartial('admin/widget/_template_box')?>
 <script type="text/javascript" src="<?php echo $this->assets('js/plupload.full.js')?>"></script>
 <script type="text/javascript">
 $(function(){

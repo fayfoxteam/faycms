@@ -4,4 +4,4 @@
         'class'=>'h200 visual-simple',
     ));
 ?></div>
-<?php F::app()->view->renderPartial('admin/widget/_template_box')?>
+<?php echo F::app()->view->renderPartial('admin/widget/_template_box')?>

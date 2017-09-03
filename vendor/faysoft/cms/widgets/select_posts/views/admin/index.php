@@ -149,7 +149,7 @@ use fay\helpers\HtmlHelper;
                 ?>
                 <p class="fc-grey">若留空，则默认为100x100。</p>
             </div>
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

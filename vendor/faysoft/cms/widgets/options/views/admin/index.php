@@ -92,7 +92,7 @@ use fay\helpers\HtmlHelper;
         ?></div>
     </div>
 </div>
-<?php F::app()->view->renderPartial('admin/widget/_template_box')?>
+<?php echo F::app()->view->renderPartial('admin/widget/_template_box')?>
 <script>
 var widgetOptions = {
     'addAttr':function(){

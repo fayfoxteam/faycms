@@ -139,7 +139,7 @@ use fay\helpers\HtmlHelper;
                 ?>
                 <p class="fc-grey">若留空，则默认为100x100。</p>
             </div>
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
             <div class="form-field">
                 <label class="title bold">无内容时显示的替换文本</label>
                 <?php echo F::form('widget')->textarea('empty_text', array(

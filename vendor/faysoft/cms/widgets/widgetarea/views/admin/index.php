@@ -22,7 +22,7 @@ foreach($widget_areas as $wa){
             ))?>
         </div>
         <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

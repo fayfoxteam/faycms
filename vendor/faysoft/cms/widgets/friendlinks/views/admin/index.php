@@ -32,7 +32,7 @@ use fay\helpers\HtmlHelper;
             <a href="javascript:" class="toggle" data-src="#widget-advance-setting"><i class="fa fa-caret-down mr5"></i>高级设置</a>
         </div>
         <div id="widget-advance-setting" class="<?php if(!UserRoleService::service()->is(RolesTable::ITEM_SUPER_ADMIN))echo 'hide';?>">
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

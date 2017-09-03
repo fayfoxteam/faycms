@@ -141,7 +141,7 @@ use fay\helpers\HtmlHelper;
                 ?>
                 <p class="fc-grey">若留空，则默认为100x100。</p>
             </div>
-            <?php F::app()->view->renderPartial('widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('widget/_template_field')?>
             <div class="form-field">
                 <label class="title bold">无内容时显示的替换文本</label>
                 <?php echo F::form('widget')->textarea('empty_text', array(
@@ -159,7 +159,12 @@ use fay\helpers\HtmlHelper;
                         'label'=>'小工具内自定义',
                     ));
                 ?></p>
-                <div id="pager-template-container" class="<?php if(F::form('widget')->getData('pager') == 'system')echo 'hide';?>">
+                <div id="pager-template-container" class="<?php
+                    if(F::form('widget')->getData('pager') == 'system' ||
+                        !F::form('widget')->getData('pager')){
+                        echo 'hide';
+                    }
+                ?>">
                     <?php echo F::form('widget')->textarea('pager_template', array(
                         'class'=>'form-control h90 autosize',
                     ))?>
@@ -177,7 +182,7 @@ use fay\helpers\HtmlHelper;
 <script>
 $(function(){
     $('input[name="pager"]').on('click', function(){
-        if($(this).val() == 'custom'){
+        if($(this).val() === 'custom'){
             $('#pager-template-container').show();
         }else{
             $('#pager-template-container').hide();

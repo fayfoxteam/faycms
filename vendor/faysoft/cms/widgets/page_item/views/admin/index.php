@@ -57,7 +57,7 @@ use cms\services\user\UserRoleService;
                 ?>
                 <p class="fc-grey">仅搜索此分类及其子分类下的文章，当不同分类对应不同式样时，此选项很有用。</p>
             </div>
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

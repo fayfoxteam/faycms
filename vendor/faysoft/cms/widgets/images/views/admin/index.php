@@ -64,7 +64,7 @@ use fay\helpers\HtmlHelper;
     </div>
 <?php }?>
 </div>
-<?php F::app()->view->renderPartial('admin/widget/_template_box')?>
+<?php echo F::app()->view->renderPartial('admin/widget/_template_box')?>
 <script type="text/javascript">
 var jq_camera = {
     'uploadObj':null,

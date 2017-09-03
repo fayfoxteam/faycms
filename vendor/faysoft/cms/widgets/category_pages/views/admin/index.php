@@ -72,7 +72,7 @@ use fay\helpers\HtmlHelper;
                     不要包含base_url部分
                 </p>
             </div>
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

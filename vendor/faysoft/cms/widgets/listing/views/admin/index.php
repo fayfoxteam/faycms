@@ -43,7 +43,7 @@ use fay\helpers\HtmlHelper;
         ))?>
     </div>
 </div>
-<?php F::app()->view->renderPartial('admin/widget/_template_box')?>
+<?php echo F::app()->view->renderPartial('admin/widget/_template_box')?>
 <script>
 $(function(){
     $(document).on('click', '#widget-add-value-link', function(){

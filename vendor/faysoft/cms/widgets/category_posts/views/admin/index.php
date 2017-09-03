@@ -158,7 +158,7 @@ use fay\helpers\HtmlHelper;
                 ?>
                 <p class="fc-grey mt5">仅勾选模版中用到的字段，可以加快程序效率。</p>
             </div>
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

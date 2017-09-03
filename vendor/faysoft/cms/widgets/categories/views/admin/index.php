@@ -60,7 +60,7 @@ use fay\helpers\HtmlHelper;
                     当前节点没有子节点，展示当前节点及平级节点（根节点除外）。
                 </p>
             </div>
-            <?php F::app()->view->renderPartial('admin/widget/_template_field')?>
+            <?php echo F::app()->view->renderPartial('admin/widget/_template_field')?>
         </div>
     </div>
 </div>

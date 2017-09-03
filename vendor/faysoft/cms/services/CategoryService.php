@@ -4,7 +4,7 @@ namespace cms\services;
 use cms\models\tables\CategoriesTable;
 use fay\core\Loader;
 use fay\helpers\FieldsHelper;
-use fay\helpers\StringHelper;
+use fay\helpers\NumberHelper;
 use fay\models\TreeModel;
 
 class CategoryService extends TreeModel{
@@ -48,13 +48,17 @@ class CategoryService extends TreeModel{
     public function get($cat, $fields = '*', $root = null){
         $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
 
-        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
-            //root信息不足，尝试通过get()方法获取
-            $root = $this->getOrFail($root, 'left_value,right_value');
+        if($root){
+            if(is_int($root) || is_string($root)){
+                $root = $this->getOrFail($root, 'left_value,right_value');
+            }
+            if(!isset($root['left_value']) || !isset($root['right_value'])){
+                throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($root));
+            }
         }
 
         $conditions = array();
-        if(StringHelper::isInt($cat)){
+        if(NumberHelper::isInt($cat)){
             $conditions['id = ?'] = $cat;
         }else if(is_string($cat)){
             $conditions['alias = ?'] = $cat;
@@ -97,9 +101,14 @@ class CategoryService extends TreeModel{
             $table_fields[] = 'id';
             $remove_id = true;
         }
-        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
-            //root信息不足，尝试通过get()方法获取
-            $root = $this->getOrFail($root, 'left_value,right_value');
+        
+        if($root){
+            if(is_int($root) || is_string($root)){
+                $root = $this->getOrFail($root, 'left_value,right_value');
+            }
+            if(!isset($root['left_value']) || !isset($root['right_value'])){
+                throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($root));
+            }
         }
         
         $conditions = array(
@@ -131,7 +140,7 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevel($cat, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort, id'){
-        if(StringHelper::isInt($cat)){
+        if(NumberHelper::isInt($cat)){
             return parent::getNextLevel($cat, $fields, $order);
         }else if(is_string($cat)){
             //子类中重写此方法是为了用getIdByAlias这个方法，因为这个方法很容易做缓存

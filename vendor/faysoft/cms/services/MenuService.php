@@ -31,9 +31,13 @@ class MenuService extends TreeModel{
     public function get($menu, $fields = 'id,parent,alias,title,sort', $root = null){
         $fields = new FieldsHelper($fields, 'category', MenusTable::model()->getFields());
 
-        if($root && (!isset($root['left_value']) || !isset($root['right_value']))){
-            //root信息不足，尝试通过get()方法获取
-            $root = $this->getOrFail($root, 'left_value,right_value');
+        if($root){
+            if(is_int($root) || is_string($root)){
+                $root = $this->getOrFail($root, 'left_value,right_value');
+            }
+            if(!isset($root['left_value']) || !isset($root['right_value'])){
+                throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($root));
+            }
         }
 
         $conditions = array();

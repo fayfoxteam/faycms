@@ -131,17 +131,15 @@ class CategoryService extends TreeModel{
      * @return array
      */
     public function getNextLevel($cat, $fields = '!seo_title,seo_keywords,seo_description,is_system', $order = 'sort, id'){
-        $fields = new FieldsHelper($fields, 'category', CategoriesTable::model()->getFields());
-        
         if(StringHelper::isInt($cat)){
-            return parent::getNextLevel($cat, $fields->getFields(), $order);
+            return parent::getNextLevel($cat, $fields, $order);
         }else if(is_string($cat)){
             //子类中重写此方法是为了用getIdByAlias这个方法，因为这个方法很容易做缓存
             $id = $this->getIdByAlias($cat);
             if(!$id){
                 throw new \UnexpectedValueException("指定分类别名[{$cat}]不存在");
             }
-            return parent::getNextLevel($id, $fields->getFields(), $order);
+            return parent::getNextLevel($id, $fields, $order);
         }else{
             throw new \InvalidArgumentException('无法识别的节点格式: ' . serialize($cat));
         }

@@ -66,13 +66,13 @@ class TemplateController extends AdminController{
         $this->form()->setModel(TemplatesTable::model());
         if($this->input->post() && $this->form()->check()){
             $data = $this->form()->getFilteredData();
-            if($data['type'] == Templates::TYPE_SMS){
+            if($data['type'] == TemplatesTable::TYPE_SMS){
                 $data['content'] = trim(strip_tags($data['content']));
             }
             TemplatesTable::model()->update($data, $id);
             
             $this->actionlog(ActionlogsTable::TYPE_TEMPLATE, '编辑了一个模版', $id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '一个模版被编辑', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '一个模版被编辑');
         }
         
         $this->view->template = TemplatesTable::model()->find($id);
@@ -91,7 +91,7 @@ class TemplateController extends AdminController{
         $this->form()->setModel(TemplatesTable::model());
         if($this->input->post() && $this->form()->check()){
             $data = $this->form()->getFilteredData();
-            if($data['type'] == Templates::TYPE_SMS){
+            if($data['type'] == TemplatesTable::TYPE_SMS){
                 $data['content'] = trim(strip_tags($data['content']));
             }
             $data['create_time'] = $this->current_time;

@@ -12,12 +12,12 @@ function showCats($cats, $dep = 0){?>
         <li class="leaf-container <?php if(!$k)echo 'first';?>">
             <div class="leaf">
                 <span class="fr separate-actions">
-                    <span class="w115 block fl">
+                    <span class="w135 block fl">
                     排序：<?php echo HtmlHelper::inputNumber('sort[]', $c['sort'], array(
                         'size'=>3,
                         'maxlength'=>3,
                         'data-id'=>$c['id'],
-                        'class'=>"form-control w50 edit-sort cat-{$c['id']}-sort",
+                        'class'=>"form-control w70 edit-sort cat-{$c['id']}-sort",
                     ))?>
                     </span>
                     <?php echo HtmlHelper::link('查看该分类', array('cms/admin/page/index', array(
@@ -83,3 +83,11 @@ function showCats($cats, $dep = 0){?>
     'root'=>$root,
     'cats'=>$cats,
 ));?>
+<script type="text/javascript" src="<?php echo $this->assets('faycms/js/admin/fayfox.editsort.js')?>"></script>
+<script>
+    $(function(){
+        $('.edit-sort').feditsort({
+            'url':system.url('cms/admin/category/sort')
+        });
+    });
+</script>

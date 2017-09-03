@@ -54,7 +54,7 @@ class LinkController extends AdminController{
                 $data['update_time'] = $this->current_time;
                 LinksTable::model()->update($data, array('id = ?'=>$id));
                 $this->actionlog(ActionlogsTable::TYPE_LINK, '编辑友情链接', $id);
-                return Response::notify(Response::NOTIFY_SUCCESS, '一个链接被编辑', false);
+                return Response::notify(Response::NOTIFY_SUCCESS, '一个链接被编辑');
             }
         }
         if($link = LinksTable::model()->find($id)){

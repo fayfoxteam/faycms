@@ -233,7 +233,7 @@ class PageController extends AdminController{
             }
             
             $this->actionlog(ActionlogsTable::TYPE_PAGE, '编辑页面', $page_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '一个页面被编辑', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '一个页面被编辑');
         }
         if($page = PagesTable::model()->find($page_id)){
             $page['page_category'] = PageService::service()->getPageCatIds($page_id);

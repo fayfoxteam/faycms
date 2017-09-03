@@ -425,7 +425,7 @@ class Response{
                     $redirect = UrlHelper::createUrl(
                         $redirect[0],
                         empty($redirect[1]) ? array() : $redirect[1],
-                        empty($redirect[1]) ? '' : $redirect[1]
+                        empty($redirect[2]) ? '' : $redirect[2]
                     );
                 }
                 self::getInstance()->redirect($redirect)

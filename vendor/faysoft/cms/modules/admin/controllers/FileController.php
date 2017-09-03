@@ -264,9 +264,15 @@ class FileController extends AdminController{
     
     public function doUpload(){
         //获取文件类目树
-        $this->view->cats = CategoryService::service()->getTree('_system_file');
+        $cats = CategoryService::service()->getTree('_system_file');
+        foreach($cats as &$cat){
+            $cat['alias'] = str_replace('_system_file_', '', $cat['alias']);
+        }
+        
         $this->layout->subtitle = '上传文件';
-        return $this->view->render();
+        return $this->view->assign(array(
+            'cats'=>$cats,
+        ))->render();
     }
     
     public function remove(){

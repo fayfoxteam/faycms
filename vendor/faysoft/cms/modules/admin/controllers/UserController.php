@@ -185,10 +185,7 @@ class UserController extends AdminController{
             UserService::service()->update($user_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_USERS, '修改个人信息', $user_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功', false);
-            
-            //置空密码字段
-            $this->form()->setData(array('password'=>''), true);
+            return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功');
         }
         
         $user = UserService::service()->get($user_id, 'user.*,profile.*');
@@ -196,7 +193,7 @@ class UserController extends AdminController{
         $this->view->user = $user;
         $this->form()->setData($user['user'])
             ->setData(array('roles'=>$user_role_ids));
-        
+
         $this->view->roles = RolesTable::model()->fetchAll(array(
             'admin = 0',
             'delete_time = 0',

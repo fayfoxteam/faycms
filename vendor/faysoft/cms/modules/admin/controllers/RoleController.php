@@ -151,7 +151,7 @@ class RoleController extends AdminController{
             \F::cache()->flush('user.actions');
             
             $this->actionlog(ActionlogsTable::TYPE_ROLE, '编辑了一个角色', $role_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '一个角色被编辑', false);
+            return Response::notify(Response::NOTIFY_SUCCESS, '一个角色被编辑');
         }
         $role = RolesTable::model()->find($role_id);
         $this->form()->setData($role);

@@ -17,7 +17,7 @@
                         'after'=>' | ',
                     ));
                     
-                    $spiders = F::input()->get('*', 'spiders');
+                    $spiders = F::config()->get('*', 'spiders');
                     asort($spiders);
                     $options = array(''=>'--搜索引擎--');
                     foreach($spiders as $s){

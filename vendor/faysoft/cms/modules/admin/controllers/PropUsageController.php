@@ -39,7 +39,9 @@ class PropUsageController extends AdminController{
         //权限检查
         if($this->checkPermission('cms/admin/prop/create')){
             $this->layout->sublink = array(
-                'uri'=>array('cms/admin/prop/index'),
+                'uri'=>array('cms/admin/prop/index', array(
+                    'usage_type'=>$usage_type,
+                )),
                 'text'=>'新增属性',
             );
         }

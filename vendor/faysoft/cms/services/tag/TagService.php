@@ -76,7 +76,7 @@ class TagService extends Service{
         }
         
         //解析$fields
-        $fields = new FieldsHelper($fields, 'tags', array(
+        $fields = new FieldsHelper($fields, 'tag', array(
             'tags'=>TagsTable::model()->getFields(),
             'counter'=>TagCounterTable::model()->getFields(),
         ));

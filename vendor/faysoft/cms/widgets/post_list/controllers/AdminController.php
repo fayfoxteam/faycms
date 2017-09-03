@@ -23,9 +23,7 @@ class AdminController extends Widget{
                     'children'=>CategoryService::service()->getTree($root_node['id']),
                 ),
             )
-        ));
-        
-        return $this->view->render();
+        ))->render();
     }
     
     /**

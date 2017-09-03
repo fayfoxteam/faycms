@@ -20,7 +20,7 @@ class IndexController extends Widget{
         $this->view->today_total = $analyst['today_total'];
         $this->view->yesterday_total = $analyst['yesterday_total'];
         
-         return $this->view->render();
+        return $this->view->render();
     }
     
     public function placeholder(){

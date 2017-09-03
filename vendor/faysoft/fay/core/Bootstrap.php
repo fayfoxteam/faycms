@@ -169,7 +169,7 @@ class Bootstrap{
             }
             
             if($found_controllers){
-                throw new NotFoundHttpException("Found the following controllers, but no Action {$uri->action} found among them.\n" . implode("\n", $found_controllers));
+                throw new NotFoundHttpException("Found the following controllers, but no Action {$uri->action} found among them.\r\n" . implode("\r\n", $found_controllers));
             }
         }
         

@@ -64,7 +64,7 @@ namespace cms\services\user;
             );
         }
         $password = md5(md5($password).$user['salt']);
-        if($password != $user['password']){
+        if($password !== $user['password']){
             return array(
                 'user_id'=>0,
                 'message'=>'密码错误',

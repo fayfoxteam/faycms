@@ -11,7 +11,6 @@ use fay\core\Loader;
  * @property int $cat_bid Cat Bid
  * @property int $cat_sid Cat Sid
  * @property int $cat_id 模块分类
- * @property int $userid Userid
  * @property int $website_id 网站ID
  * @property string $name 模块名称
  * @property string $intro 简介
@@ -34,7 +33,7 @@ class GgModuleTable extends Table{
 
     public function rules(){
         return array(
-            array(array('userid', 'thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
+            array(array('thumbnail'), 'int', array('min'=>0, 'max'=>4294967295)),
             array(array('id', 'cat_bid', 'cat_sid', 'cat_id', 'website_id'), 'int', array('min'=>0, 'max'=>16777215)),
             array(array('device_type'), 'int', array('min'=>-128, 'max'=>127)),
             array(array('name'), 'string', array('max'=>50)),
@@ -47,7 +46,6 @@ class GgModuleTable extends Table{
             'cat_bid'=>'Cat Bid',
             'cat_sid'=>'Cat Sid',
             'cat_id'=>'模块分类',
-            'userid'=>'Userid',
             'website_id'=>'网站ID',
             'name'=>'模块名称',
             'intro'=>'简介',
@@ -66,7 +64,6 @@ class GgModuleTable extends Table{
             'cat_bid'=>'intval',
             'cat_sid'=>'intval',
             'cat_id'=>'intval',
-            'userid'=>'intval',
             'website_id'=>'intval',
             'name'=>'trim',
             'intro'=>'',

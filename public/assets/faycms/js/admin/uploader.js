@@ -34,6 +34,7 @@ var uploader = {
             //设置缩略图
             var uploader = new plupload.Uploader({
                 'runtimes': 'html5,html4,flash,gears,silverlight',
+                'multi_selection': false,
                 'flash_swf_url': system.url()+'flash/plupload.flash.swf',
                 'silverlight_xap_url': system.url()+'js/plupload.silverlight.xap',
                 'filters': [
@@ -46,7 +47,7 @@ var uploader = {
             });
             
             uploader.init();
-            uploader.bind('FilesAdded', function() {
+            uploader.bind('FilesAdded', function(){
                 $container.html([
                     '<img src="'+system.assets('images/loading.gif')+'" />',
                     '<p>上传进度：<span class="progress">0</span>%</p>'
@@ -54,11 +55,11 @@ var uploader = {
                 uploader.start();
             });
             
-            uploader.bind('UploadProgress', function(up, file) {
+            uploader.bind('UploadProgress', function(up, file){
                 $container.find('.progress').text(file.percent);
             });
             
-            uploader.bind('FileUploaded', function(up, file, response) {
+            uploader.bind('FileUploaded', function(up, file, response){
                 var resp = $.parseJSON(response.response);
                 var picParams = settings.preview_image_params;
                 picParams['f'] = resp.data.id;
@@ -74,7 +75,7 @@ var uploader = {
                 $container.find('input').change();//触发一下change事件，有的地方需要监听图片变化
             });
             
-            uploader.bind('Error', function(up, error) {
+            uploader.bind('Error', function(up, error){
                 if(error.code == -600){
                     common.alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
                     return false;
@@ -158,7 +159,7 @@ var uploader = {
             
             uploader.init();
             
-            uploader.bind('FilesAdded', function(up, files) {
+            uploader.bind('FilesAdded', function(up, files){
                 uploader.start();
                 var html = '';
                 $.each(files, function(i, data){
@@ -200,14 +201,14 @@ var uploader = {
                 $('.file-list').prepend(html);
             });
             
-            uploader.bind('UploadProgress', function(up, file) {
-                $('#file-'+file.id+' .progress-bar-percent').animate({'width':file.percent+'%'});
+            uploader.bind('UploadProgress', function(up, file){
+                $('#file-' + file.id + ' .progress-bar-percent').css({'width': file.percent+'%'});
             });
             
-            uploader.bind('FileUploaded', function(up, file, response) {
+            uploader.bind('FileUploaded', function(up, file, response){
                 var resp = $.parseJSON(response.response);
                 $file = $('#file-'+file.id);
-                if('raw_name' in resp.data){
+                if(typeof resp.data === 'object' && 'raw_name' in resp.data){
                     autosize($file.find('.file-desc').attr('name', settings.description_name+'['+resp.data.id+']'));
                     $file.find('.file-title').attr('name', settings.title_name+'['+resp.data.id+']');
                     $file.find('.file-link').attr('name', settings.link_name+'['+resp.data.id+']');
@@ -244,7 +245,7 @@ var uploader = {
                 }
             });
             
-            uploader.bind('Error', function(up, error) {
+            uploader.bind('Error', function(up, error){
                 if(error.code == -600){
                     common.alert('文件大小不能超过'+(parseInt(uploader.settings.max_file_size) / (1024 * 1024))+'M');
                     return false;

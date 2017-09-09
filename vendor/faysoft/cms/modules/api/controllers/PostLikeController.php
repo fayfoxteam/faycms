@@ -36,7 +36,7 @@ class PostLikeController extends ApiController{
         $post_id = $this->form()->getData('post_id');
         
         if(PostLikeService::isLiked($post_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您已赞过该文章',
                 'code'=>'already-favorited',
             ));
@@ -44,7 +44,7 @@ class PostLikeController extends ApiController{
         
         PostLikeService::add($post_id, $this->form()->getData('trackid', ''));
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '点赞成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '点赞成功');
     }
     
     /**
@@ -68,7 +68,7 @@ class PostLikeController extends ApiController{
         $post_id = $this->form()->getData('post_id');
         
         if(!PostLikeService::isLiked($post_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您未赞过该文章',
                 'code'=>'not-liked',
             ));
@@ -76,7 +76,7 @@ class PostLikeController extends ApiController{
         
         PostLikeService::remove($post_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '取消点赞成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '取消点赞成功');
     }
     
     /**
@@ -110,7 +110,7 @@ class PostLikeController extends ApiController{
         $post_id = $this->form()->getData('post_id');
         
         if(!PostService::isPostIdExist($post_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'文章ID不存在',
                 'code'=>'invalid-parameter:post_id-is-not-exist',
             ));

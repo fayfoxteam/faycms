@@ -26,20 +26,20 @@ class LoginController extends ApiController{
                 try{
                     $user = UserService::service()->login($result['user_id']);
                 }catch(\Exception $e){
-                    return Response::notify(Response::NOTIFY_FAIL, array(
+                    Response::notify(Response::NOTIFY_FAIL, array(
                         'message'=>$e->getMessage(),
                         'code'=>method_exists($e, 'getDescription') ? $e->getDescription() : '',
                     ));
                 }
             }else{
-                return Response::notify(Response::NOTIFY_FAIL, array(
+                Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>isset($result['message']) ? $result['message'] : '登录失败',
                     'code'=>isset($result['error_code']) ? $result['error_code'] : '',
                 ));
             }
             
             if(!empty($user)){
-                return Response::notify(Response::NOTIFY_SUCCESS, array(
+                Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>'登录成功',
                     'data'=>array(
                         'user'=>array(
@@ -52,13 +52,13 @@ class LoginController extends ApiController{
                     ),
                 ));
             }else{
-                return Response::notify(Response::NOTIFY_FAIL, array(
+                Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'登录失败',
                     'code'=>'',
                 ));
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'登录失败',
                 'code'=>'no-post-data',
             ));
@@ -71,7 +71,7 @@ class LoginController extends ApiController{
     public function logout(){
         UserService::service()->logout();
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'退出登录',
         ));
     }

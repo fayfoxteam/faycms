@@ -31,14 +31,14 @@ class DocFavoriteController extends UserController{
         $doc_id = $this->form()->getData('doc_id');
 
         if(!DocService::isDocIdExist($doc_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>"指定文档ID[{$doc_id}]不存在",
                 'code'=>'invalid-parameter:doc_id-is-not-exist',
             ));
         }
 
         if(DocFavoriteService::isFavorited($doc_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您已收藏过该文档',
                 'code'=>'already-favorited',
             ));
@@ -46,7 +46,7 @@ class DocFavoriteController extends UserController{
 
         DocFavoriteService::add($doc_id, $this->form()->getData('trackid', ''));
 
-        return Response::notify(Response::NOTIFY_SUCCESS, '收藏成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '收藏成功');
     }
 
     /**
@@ -67,7 +67,7 @@ class DocFavoriteController extends UserController{
         $doc_id = $this->form()->getData('doc_id');
 
         if(!DocFavoriteService::isFavorited($doc_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您未收藏过该文档',
                 'code'=>'not-favorited',
             ));
@@ -75,7 +75,7 @@ class DocFavoriteController extends UserController{
 
         DocFavoriteService::remove($doc_id);
 
-        return Response::notify(Response::NOTIFY_SUCCESS, '移除收藏成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '移除收藏成功');
     }
 
     /**

@@ -65,7 +65,7 @@ class RoleController extends AdminController{
             }
             
             $this->actionlog(ActionlogsTable::TYPE_ROLE, '添加了一个角色', $role_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '角色添加成功', array('cms/admin/role/edit', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '角色添加成功', array('cms/admin/role/edit', array(
                 'id'=>$role_id,
             )));
         }
@@ -151,7 +151,7 @@ class RoleController extends AdminController{
             \F::cache()->flush('user.actions');
             
             $this->actionlog(ActionlogsTable::TYPE_ROLE, '编辑了一个角色', $role_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '一个角色被编辑');
+            Response::notify(Response::NOTIFY_SUCCESS, '一个角色被编辑');
         }
         $role = RolesTable::model()->find($role_id);
         $this->form()->setData($role);
@@ -194,7 +194,7 @@ class RoleController extends AdminController{
         ), $role_id);
         $this->actionlog(ActionlogsTable::TYPE_ROLE, '删除了一个角色', $role_id);
 
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个角色被删除 - '.HtmlHelper::link('撤销', array('cms/admin/role/undelete', array(
                 'id'=>$role_id,
             ))),
@@ -209,7 +209,7 @@ class RoleController extends AdminController{
         ), $role_id);
         $this->actionlog(ActionlogsTable::TYPE_ROLE, '还原了一个角色', $role_id);
 
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个角色被还原',
             'id'=>$role_id,
         ));

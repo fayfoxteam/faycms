@@ -79,7 +79,7 @@ class SiteController extends UserController{
                 
                 TagTable::model()->set($this->input->post('tags'), $post_id);
     
-                return Response::notify(Response::NOTIFY_SUCCESS, '网站发布成功', array('user/site/edit', array(
+                Response::notify(Response::NOTIFY_SUCCESS, '网站发布成功', array('user/site/edit', array(
                     'id'=>$post_id,
                 )));
             }else{

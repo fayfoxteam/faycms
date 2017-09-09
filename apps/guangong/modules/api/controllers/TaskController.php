@@ -35,7 +35,7 @@ class TaskController extends ApiController{
         $user = GuangongUserExtraTable::model()->find($this->current_user);
         $rank = GuangongRanksTable::model()->find($user['rank_id']);
         if($result === 1){
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'军衔提升',
                 'data'=>array(
                     'rank'=>$rank,
@@ -44,7 +44,7 @@ class TaskController extends ApiController{
                 ),
             ));
         }else if($result){
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'任务完成',
                 'data'=>array(
                     'rank'=>$rank,
@@ -53,7 +53,7 @@ class TaskController extends ApiController{
             ));
         }else{
             //任务失败可能是重复调用什么的，不重要，不返回错误描述
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'',
                 'data'=>array(
                     'rank'=>$rank,

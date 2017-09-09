@@ -42,14 +42,14 @@ class DefenceAreaController extends ApiController{
         $userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'defence_area_id,military');
         
         if($userExtra['military'] < OptionService::get('guangong:junfei', 1100)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您还未完成注册，请加入关羽军团后继续体验。',
                 'code'=>'recruit-first'
             ));
         }
         
 //        if($userExtra['defence_area_id']){
-//            return Response::notify(Response::NOTIFY_FAIL, array(
+//            Response::notify(Response::NOTIFY_FAIL, array(
 //                'message'=>'您已设置过防区，不能重复设置',
 //                'code'=>'arm-already-set'
 //            ));
@@ -67,7 +67,7 @@ class DefenceAreaController extends ApiController{
             'user_id = ?'=>$this->current_user
         ));
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'防区设置成功',
             'data'=>$area,
         ));

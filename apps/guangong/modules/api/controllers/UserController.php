@@ -50,7 +50,7 @@ class UserController extends \cms\modules\api\controllers\UserController{
                 'realname'=>$this->form()->getData('realname'),
             ));
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '注册成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '注册成功');
         }
     }
     
@@ -64,7 +64,7 @@ class UserController extends \cms\modules\api\controllers\UserController{
         
         AttendanceService::service()->attend($this->current_user);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '操作成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '操作成功');
     }
     
     /**

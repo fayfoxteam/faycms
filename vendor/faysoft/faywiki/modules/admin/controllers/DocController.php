@@ -95,7 +95,7 @@ class DocController extends AdminController{
             
             $doc_id = DocService::service()->create($data, $extra, $this->current_user);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '文档发布成功', array('faywiki/admin/doc/edit', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '文档发布成功', array('faywiki/admin/doc/edit', array(
                 'id'=>$doc_id,
             )));
         }
@@ -341,7 +341,7 @@ class DocController extends AdminController{
             DocService::service()->update($doc_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_POST, '编辑文档', $doc_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '一篇文档被编辑', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '一篇文档被编辑', false);
         }
         
         $sql = new Sql();
@@ -402,7 +402,7 @@ class DocController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_POST, '将文档移入回收站', $doc_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇文档被移入回收站 - '.HtmlHelper::link('撤销', array('faywiki/admin/doc/undelete', array(
                 'id'=>$doc_id,
             ))),
@@ -420,7 +420,7 @@ class DocController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_POST, '将文档移出回收站', $doc_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇文档被还原',
             'id'=>$doc_id,
         ));
@@ -431,7 +431,7 @@ class DocController extends AdminController{
         
         DocService::service()->remove($doc_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一篇文档被永久删除',
             'id'=>$doc_id,
         ));
@@ -507,7 +507,7 @@ class DocController extends AdminController{
                 $affected_rows = PostService::service()->batchPublish($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文档' . json_encode($affected_rows) . '被发布');
-                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被发布');
+                Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被发布');
             break;
             case 'set-draft':
                 foreach($ids as $id){
@@ -519,7 +519,7 @@ class DocController extends AdminController{
                 $affected_rows = PostService::service()->batchDraft($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文档' . json_encode($affected_rows) . '被标记为“草稿”');
-                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被标记为“草稿”');
+                Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被标记为“草稿”');
             break;
             case 'set-pending':
                 foreach($ids as $id){
@@ -531,7 +531,7 @@ class DocController extends AdminController{
                 $affected_rows = PostService::service()->batchPending($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文档' . json_encode($affected_rows) . '被标记为“待审核”');
-                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被标记为“待审核”');
+                Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被标记为“待审核”');
             break;
             case 'set-reviewed':
                 foreach($ids as $id){
@@ -543,7 +543,7 @@ class DocController extends AdminController{
                 $affected_rows = PostService::service()->batchReviewed($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文档' . json_encode($affected_rows) . '被标记为“通过审核”');
-                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被标记为“通过审核”');
+                Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被标记为“通过审核”');
             break;
             case 'delete':
                 foreach($ids as $id){
@@ -555,7 +555,7 @@ class DocController extends AdminController{
                 $affected_rows = PostService::service()->batchDelete($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文档' . json_encode($affected_rows) . '被移入回收站');
-                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被移入回收站');
+                Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被移入回收站');
             break;
             case 'undelete':
                 foreach($ids as $id){
@@ -567,7 +567,7 @@ class DocController extends AdminController{
                 $affected_rows = PostService::service()->batchUndelete($ids);
                 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文档' . json_encode($affected_rows) . '被还原');
-                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被还原');
+                Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被还原');
             break;
             case 'remove':
                 foreach($ids as $id){
@@ -584,10 +584,10 @@ class DocController extends AdminController{
                 }
 
                 $this->actionlog(ActionlogsTable::TYPE_POST, '批处理：文档' . json_encode($affected_rows) . '被永久删除');
-                return Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被永久删除');
+                Response::notify(Response::NOTIFY_SUCCESS, count($affected_rows) . '篇文档被永久删除');
             break;
             default:
-                return Response::notify(Response::NOTIFY_FAIL, array(
+                Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'操作选项不能为空',
                     'error_code'=>'action-can-not-be-empty',
                 ));

@@ -51,15 +51,15 @@ class CategoryController extends AdminController{
                 $this->actionlog(ActionlogsTable::TYPE_CATEGORY, '添加分类', $cat_id);
                 
                 $cat = CategoriesTable::model()->find($cat_id);
-                return Response::notify(Response::NOTIFY_SUCCESS, array(
+                Response::notify(Response::NOTIFY_SUCCESS, array(
                     'cat'=>$cat,
                      'message'=>'分类“'.HtmlHelper::encode($cat['title']).'”添加成功',
                 ));
             }else{
-                return Response::notify(Response::NOTIFY_FAIL, '参数异常');
+                Response::notify(Response::NOTIFY_FAIL, '参数异常');
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '请提交数据');
+            Response::notify(Response::NOTIFY_FAIL, '请提交数据');
         }
     }
     
@@ -116,15 +116,15 @@ class CategoryController extends AdminController{
                 $this->actionlog(ActionlogsTable::TYPE_CATEGORY, '修改分类', $cat_id);
                 
                 $cat = CategoriesTable::model()->find($cat_id);
-                return Response::notify(Response::NOTIFY_SUCCESS, array(
+                Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>'分类“'.HtmlHelper::encode($cat['title']).'”编辑成功',
                     'cat'=>$cat,
                 ));
             }else{
-                return Response::notify(Response::NOTIFY_FAIL, '参数异常');
+                Response::notify(Response::NOTIFY_FAIL, '参数异常');
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '请提交数据');
+            Response::notify(Response::NOTIFY_FAIL, '请提交数据');
         }
     }
     
@@ -132,11 +132,11 @@ class CategoryController extends AdminController{
         if(CategoryService::service()->remove($this->input->get('id', 'intval'))){
             $this->actionlog(ActionlogsTable::TYPE_CATEGORY, '移除分类', $this->input->get('id', 'intval'));
             
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'一个分类被移除',
             ));
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '请提交数据');
+            Response::notify(Response::NOTIFY_FAIL, '请提交数据');
         }
     }
     
@@ -144,11 +144,11 @@ class CategoryController extends AdminController{
         if(CategoryService::service()->removeAll($this->input->get('id', 'intval'))){
             $this->actionlog(ActionlogsTable::TYPE_CATEGORY, '移除分类及其所有子分类', $this->input->get('id', 'intval'));
                 
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'一个分类分支被移除',
             ));
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '请提交数据');
+            Response::notify(Response::NOTIFY_FAIL, '请提交数据');
         }
     }
     
@@ -174,7 +174,7 @@ class CategoryController extends AdminController{
         $this->actionlog(ActionlogsTable::TYPE_CATEGORY, '改变了分类排序', $id);
         
         $node = CategoriesTable::model()->find($id, 'sort,title');
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'sort'=>$node['sort'],
             ),
@@ -188,7 +188,7 @@ class CategoryController extends AdminController{
         ), $this->input->get('id', 'intval'));
         
         $cat = CategoriesTable::model()->find($this->input->get('id', 'intval'), 'is_nav');
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'is_nav'=>$cat['is_nav'],
             ),

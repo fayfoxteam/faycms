@@ -148,7 +148,7 @@ class UserController extends AdminController{
             
             $this->actionlog(ActionlogsTable::TYPE_USERS, '添加了一个新用户', $user_id);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '用户添加成功，'.HtmlHelper::link('继续添加', array('cms/admin/user/create', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '用户添加成功，'.HtmlHelper::link('继续添加', array('cms/admin/user/create', array(
                 'roles'=>$this->input->post('roles', 'intval', array()),
             ))), array('cms/admin/user/edit', array(
                 'id'=>$user_id,
@@ -185,7 +185,7 @@ class UserController extends AdminController{
             UserService::service()->update($user_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_USERS, '修改个人信息', $user_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '编辑成功');
         }
         
         $user = UserService::service()->get($user_id, 'user.*,profile.*');

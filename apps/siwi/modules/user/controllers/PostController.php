@@ -69,7 +69,7 @@ class PostController extends UserController{
                 
                 TagService::service()->set($this->input->post('tags'), $post_id);
     
-                return Response::notify(Response::NOTIFY_SUCCESS, '博文发布成功', array('user/post/edit', array(
+                Response::notify(Response::NOTIFY_SUCCESS, '博文发布成功', array('user/post/edit', array(
                     'id'=>$post_id,
                 )));
             }else{

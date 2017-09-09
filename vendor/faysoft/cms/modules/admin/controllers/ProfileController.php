@@ -34,7 +34,7 @@ class ProfileController extends AdminController{
             UserService::service()->update($user_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_PROFILE, '编辑了自己的信息', $user_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '修改成功', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '修改成功', false);
             
             //置空密码字段
             $this->form()->setData(array('password'=>''), true);

@@ -49,15 +49,15 @@ class MenuController extends AdminController{
                 $this->actionlog(ActionlogsTable::TYPE_MENU, '添加菜单', $menu_id);
                 
                 $menu = MenusTable::model()->find($menu_id);
-                return Response::notify(Response::NOTIFY_SUCCESS, array(
+                Response::notify(Response::NOTIFY_SUCCESS, array(
                     'data'=>$menu,
                     'message'=>"菜单{$menu['title']}被添加",
                 ));
             }else{
-                return Response::notify(Response::NOTIFY_FAIL, '参数异常');
+                Response::notify(Response::NOTIFY_FAIL, '参数异常');
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '请提交数据');
+            Response::notify(Response::NOTIFY_FAIL, '请提交数据');
         }
     }
     
@@ -66,11 +66,11 @@ class MenuController extends AdminController{
         if(MenuService::service()->remove($id)){
             $this->actionlog(ActionlogsTable::TYPE_MENU, '移除导航', $id);
                 
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'一个菜单被删除',
             ));
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '菜单不存在或已被删除');
+            Response::notify(Response::NOTIFY_FAIL, '菜单不存在或已被删除');
         }
     }
     
@@ -79,11 +79,11 @@ class MenuController extends AdminController{
         if(MenuService::service()->removeAll($id)){
             $this->actionlog(ActionlogsTable::TYPE_MENU, '移除导航及其所有子节点', $id);
         
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'一个菜单组被删除',
             ));
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '删除失败');
+            Response::notify(Response::NOTIFY_FAIL, '删除失败');
         }
     }
     
@@ -101,15 +101,15 @@ class MenuController extends AdminController{
                 $this->actionlog(ActionlogsTable::TYPE_MENU, '编辑了菜单', $id);
                 
                 $node = MenusTable::model()->find($id);
-                return Response::notify(Response::NOTIFY_SUCCESS, array(
+                Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>"菜单{$node['title']}被编辑",
                     'data'=>$node,
                 ));
             }else{
-                return Response::notify(Response::NOTIFY_FAIL, '参数异常');
+                Response::notify(Response::NOTIFY_FAIL, '参数异常');
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '请提交数据');
+            Response::notify(Response::NOTIFY_FAIL, '请提交数据');
         }
     }
     
@@ -119,7 +119,7 @@ class MenuController extends AdminController{
         $this->actionlog(ActionlogsTable::TYPE_MENU, '改变了菜单排序', $id);
         
         $node = MenusTable::model()->find($id, 'sort,title');
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>"菜单{$node['title']}的排序值被修改",
             'data'=>array(
                 'sort'=>$node['sort'],
@@ -151,7 +151,7 @@ class MenuController extends AdminController{
         ));
         
         $menu = MenusTable::model()->find($this->input->get('id', 'intval'), 'enabled');
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'enabled'=>$menu['enabled'],
             ),

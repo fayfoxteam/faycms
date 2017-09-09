@@ -27,13 +27,13 @@ class AnalystSiteController extends AdminController{
         if($this->input->post()){
             if($this->form()->check()){
                 AnalystSitesTable::model()->insert($this->form()->getFilteredData());
-                return Response::notify(Response::NOTIFY_SUCCESS, '站点添加成功');
+                Response::notify(Response::NOTIFY_SUCCESS, '站点添加成功');
             }else{
                 //若表单验证出错，返回上一页
                 Response::goback();
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '无数据提交');
+            Response::notify(Response::NOTIFY_FAIL, '无数据提交');
         }
     }
     
@@ -47,7 +47,7 @@ class AnalystSiteController extends AdminController{
         $this->form()->setModel(AnalystSitesTable::model());
         if($this->input->post() && $this->form()->check()){
             AnalystSitesTable::model()->update($this->form()->getFilteredData(), $id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '站点编辑成功', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '站点编辑成功', false);
         }
         
         $site = AnalystSitesTable::model()->find($id);
@@ -65,7 +65,7 @@ class AnalystSiteController extends AdminController{
         AnalystSitesTable::model()->update(array(
             'delete_time'=>\F::app()->current_time,
         ), $id);
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个站点被删除。'.HtmlHelper::link('撤销', array('cms/admin/analyst-site/undelete', array(
+        Response::notify(Response::NOTIFY_SUCCESS, '一个站点被删除。'.HtmlHelper::link('撤销', array('cms/admin/analyst-site/undelete', array(
             'id'=>$id,
         ))));
     }
@@ -75,7 +75,7 @@ class AnalystSiteController extends AdminController{
         AnalystSitesTable::model()->update(array(
             'delete_time'=>0,
         ), $id);
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个站点被还原');
+        Response::notify(Response::NOTIFY_SUCCESS, '一个站点被还原');
     }
     
     private function _setListview(){

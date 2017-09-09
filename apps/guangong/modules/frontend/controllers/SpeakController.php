@@ -59,7 +59,7 @@ class SpeakController extends FrontController{
             $data['create_time'] = $this->current_time;
             
             $speak_id = GuangongSpeaksTable::model()->insert($data);
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'代言成功',
             ), array(
                 'speak/shared', array('id'=>$speak_id),

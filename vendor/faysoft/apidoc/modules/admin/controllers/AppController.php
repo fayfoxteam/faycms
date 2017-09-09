@@ -20,14 +20,14 @@ class AppController extends AdminController{
                 $data['update_time'] = $this->current_time;
                 ApidocAppsTable::model()->insert($data);
                 
-                return Response::notify(Response::NOTIFY_SUCCESS, array(
+                Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>'站点应用添加成功',
                 ));
             }else{
                 Response::goback();
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -37,12 +37,12 @@ class AppController extends AdminController{
         $app_id = $this->input->request('id', 'intval');
 
         if(!$app_id){
-            return Response::notify(Response::NOTIFY_FAIL, '未指定APP ID');
+            Response::notify(Response::NOTIFY_FAIL, '未指定APP ID');
         }
 
         $app = ApidocAppsTable::model()->find($app_id);
         if(!$app){
-            return Response::notify(Response::NOTIFY_FAIL, "指定APP ID[{$app_id}]不存在");
+            Response::notify(Response::NOTIFY_FAIL, "指定APP ID[{$app_id}]不存在");
         }
 
         $this->form()->setModel(ApidocAppsTable::model());
@@ -50,17 +50,17 @@ class AppController extends AdminController{
             if($this->form()->check()){
                 $data = $this->form()->getFilteredData();
                 if(ArrayHelper::equal($data, $app)){
-                    return Response::notify(Response::NOTIFY_SUCCESS, '没有字段被修改');
+                    Response::notify(Response::NOTIFY_SUCCESS, '没有字段被修改');
                 }
                 $data['update_time'] = $this->current_time;
                 ApidocAppsTable::model()->update($data, $app_id);
 
-                return Response::notify(Response::NOTIFY_SUCCESS, '一个APP被编辑');
+                Response::notify(Response::NOTIFY_SUCCESS, '一个APP被编辑');
             }else{
                 Response::goback();
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -84,17 +84,17 @@ class AppController extends AdminController{
         $option_id = $this->input->get('id', 'intval');
         
         if(!$option_id){
-            return Response::notify(Response::NOTIFY_FAIL, '未指定应用ID');
+            Response::notify(Response::NOTIFY_FAIL, '未指定应用ID');
         }
         
         $option = ApidocAppsTable::model()->find($option_id);
         if(!$option){
-            return Response::notify(Response::NOTIFY_FAIL, '指定应用ID不存在');
+            Response::notify(Response::NOTIFY_FAIL, '指定应用ID不存在');
         }
         
         ApidocAppsTable::model()->delete(array('id = ?'=>$option_id));
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个应用被永久删除',
         ), array('apidoc/admin/app/index', $this->input->get()));
     }
@@ -120,12 +120,12 @@ class AppController extends AdminController{
         $app_id = $this->input->get('id', 'intval');
 
         if(!$app_id){
-            return Response::notify(Response::NOTIFY_FAIL, '未指定APP ID');
+            Response::notify(Response::NOTIFY_FAIL, '未指定APP ID');
         }
 
         $app = ApidocAppsTable::model()->find($app_id);
         if(!$app){
-            return Response::notify(Response::NOTIFY_FAIL, "指定APP ID[{$app_id}]不存在");
+            Response::notify(Response::NOTIFY_FAIL, "指定APP ID[{$app_id}]不存在");
         }
 
         return Response::json(array(
@@ -150,6 +150,6 @@ class AppController extends AdminController{
             ), $s);
         }
 
-        return Response::notify(Response::NOTIFY_SUCCESS, '排序保存成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '排序保存成功');
     }
 }

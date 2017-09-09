@@ -48,7 +48,7 @@ class PropController extends AdminController{
             
             $prop_id = PropService::service()->create($prop, $values);
 
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'自定义属性添加成功',
                 'id'=>$prop_id,
             ));
@@ -76,7 +76,7 @@ class PropController extends AdminController{
 
             PropService::service()->update($prop_id, $prop, $prop_values);
 
-            return Response::notify(Response::NOTIFY_SUCCESS, '自定义属性编辑成功', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '自定义属性编辑成功', false);
         }
 
         $prop = PropService::service()->get($prop_id);
@@ -102,7 +102,7 @@ class PropController extends AdminController{
         PropService::service()->delete($id);
 
         //不能直接回到上一页，因为可能处在编辑状态
-        return Response::notify(
+        Response::notify(
             'success',
             '一个自定义属性被删除' . HtmlHelper::link('还原', array('cms/admin/prop/undelete', array(
                 'id'=>$id,
@@ -118,7 +118,7 @@ class PropController extends AdminController{
         $id = $this->input->get('id', 'intval');
         PropService::service()->undelete($id);
 
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个自定义属性被还原');
+        Response::notify(Response::NOTIFY_SUCCESS, '一个自定义属性被还原');
     }
 
     /**

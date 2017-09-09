@@ -31,14 +31,14 @@ class FeedFavoriteController extends UserController{
         $feed_id = $this->form()->getData('feed_id');
         
         if(!FeedService::isFeedIdExist($feed_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'动态ID不存在',
                 'code'=>'invalid-parameter:feed_id-is-not-exist',
             ));
         }
         
         if(FeedFavoriteService::isFavorited($feed_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您已收藏过该动态',
                 'code'=>'already-favorited',
             ));
@@ -46,7 +46,7 @@ class FeedFavoriteController extends UserController{
         
         FeedFavoriteService::add($feed_id, $this->form()->getData('trackid', ''));
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '收藏成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '收藏成功');
     }
     
     /**
@@ -67,7 +67,7 @@ class FeedFavoriteController extends UserController{
         $feed_id = $this->form()->getData('feed_id');
         
         if(!FeedFavoriteService::isFavorited($feed_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您未收藏过该动态',
                 'code'=>'not-favorited',
             ));
@@ -75,7 +75,7 @@ class FeedFavoriteController extends UserController{
         
         FeedFavoriteService::remove($feed_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '移除收藏成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '移除收藏成功');
     }
     
     /**

@@ -104,7 +104,7 @@ class PaperController extends AdminController{
             }
             $this->actionlog(ActionlogsTable::TYPE_EXAM, '添加了一份试卷', $paper_id);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '试卷发布成功', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '试卷发布成功', array(
                 'fayexam/admin/paper/edit', array(
                     'id'=>$paper_id,
                 )
@@ -181,7 +181,7 @@ class PaperController extends AdminController{
             }
             
             $this->actionlog(ActionlogsTable::TYPE_EXAM, '编辑了一份试卷', $id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '编辑成功');
         }
         
         $paper = ExamPapersTable::model()->find($id);
@@ -211,7 +211,7 @@ class PaperController extends AdminController{
         ), $id);
         $this->actionlog(ActionlogsTable::TYPE_EXAM, '一份试卷被删除', $id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '一份试卷被删除 - '.HtmlHelper::link('撤销', array('fayexam/admin/paper/undelete', array(
+        Response::notify(Response::NOTIFY_SUCCESS, '一份试卷被删除 - '.HtmlHelper::link('撤销', array('fayexam/admin/paper/undelete', array(
             'id'=>$id,
         ))));
     }
@@ -223,7 +223,7 @@ class PaperController extends AdminController{
         ), $id);
         $this->actionlog(ActionlogsTable::TYPE_EXAM, '一份试卷被还原', $id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '一份试卷被还原');
+        Response::notify(Response::NOTIFY_SUCCESS, '一份试卷被还原');
     }
     
     public function cat(){

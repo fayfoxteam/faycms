@@ -77,9 +77,9 @@ class GoodsCatPropController extends AdminController{
             }
             $this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '添加一个商品属性', $prop_id);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '商品属性添加成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '商品属性添加成功');
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '无数据被提交');
+            Response::notify(Response::NOTIFY_FAIL, '无数据被提交');
         }
     }
     
@@ -92,7 +92,7 @@ class GoodsCatPropController extends AdminController{
 
         $this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '软删除一个商品属性', $prop_id);
 
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个商品属性被移入回收站 - '.HtmlHelper::link('撤销', array('fayshop/admin/goods-cat-prop/undelete', array(
+        Response::notify(Response::NOTIFY_SUCCESS, '一个商品属性被移入回收站 - '.HtmlHelper::link('撤销', array('fayshop/admin/goods-cat-prop/undelete', array(
             'id'=>$prop_id,
         ))));
     }
@@ -105,7 +105,7 @@ class GoodsCatPropController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '还原一个商品属性', $prop_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个商品属性被还原');
+        Response::notify(Response::NOTIFY_SUCCESS, '一个商品属性被还原');
     }
     
     public function remove(){
@@ -117,7 +117,7 @@ class GoodsCatPropController extends AdminController{
 
         $this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '永久删除一个商品属性', $prop_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '永久删除一个商品属性');
+        Response::notify(Response::NOTIFY_SUCCESS, '永久删除一个商品属性');
     }
     
     public function edit(){
@@ -204,7 +204,7 @@ class GoodsCatPropController extends AdminController{
         $this->actionlog(ActionlogsTable::TYPE_GOODS_PROP, '改变了商品属性排序', $id);
         
         $data = ShopGoodsCatPropsTable::model()->find($id, 'sort');
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个商品属性的排序值被编辑',
             'data'=>array(
                 'sort'=>$data['sort'],

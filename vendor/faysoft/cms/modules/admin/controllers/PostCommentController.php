@@ -96,14 +96,14 @@ class PostCommentController extends AdminController{
                 
             $this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '审核通过了一条文章评论', $id);
         
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>'一条评论通过审核',
             ));
         }catch(\Exception $e){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -124,14 +124,14 @@ class PostCommentController extends AdminController{
         
             $this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '审核拒绝了一条文章评论', $id);
         
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>'一条评论未通过审核',
             ));
         }catch(\Exception $e){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -152,7 +152,7 @@ class PostCommentController extends AdminController{
             
             $this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '将文章评论移入回收站', $id);
                 
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -161,7 +161,7 @@ class PostCommentController extends AdminController{
                 )))
             ));
         }catch(\Exception $e){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -182,7 +182,7 @@ class PostCommentController extends AdminController{
 
             $this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '将文章评论移出回收站', $id);
                 
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -191,7 +191,7 @@ class PostCommentController extends AdminController{
                 ))),
             ));
         }catch(\Exception $e){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -212,14 +212,14 @@ class PostCommentController extends AdminController{
             
             $this->actionlog(ActionlogsTable::TYPE_POST_COMMENT, '永久删除一条文章评论', $id);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
                 'message'=>'一条留言被永久删除',
             ));
         }catch(\Exception $e){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -238,9 +238,9 @@ class PostCommentController extends AdminController{
                 //通过审核
                 $affected_rows = PostCommentService::service()->batchApprove($ids);
                 if($affected_rows){
-                    return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论通过审核');
+                    Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论通过审核');
                 }else{
-                    return Response::notify(Response::NOTIFY_SUCCESS, array(
+                    Response::notify(Response::NOTIFY_SUCCESS, array(
                         'message'=>'无符合条件的记录',
                     ));
                 }
@@ -249,9 +249,9 @@ class PostCommentController extends AdminController{
                 //不通过审核
                 $affected_rows = PostCommentService::service()->batchDisapprove($ids);
                 if($affected_rows){
-                    return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论未通过审核');
+                    Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论未通过审核');
                 }else{
-                    return Response::notify(Response::NOTIFY_SUCCESS, array(
+                    Response::notify(Response::NOTIFY_SUCCESS, array(
                         'message'=>'无符合条件的记录',
                     ));
                 }
@@ -264,9 +264,9 @@ class PostCommentController extends AdminController{
                 //放入回收站
                 $affected_rows = PostCommentService::service()->batchDelete($ids);
                 if($affected_rows){
-                    return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论被删除');
+                    Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论被删除');
                 }else{
-                    return Response::notify(Response::NOTIFY_SUCCESS, array(
+                    Response::notify(Response::NOTIFY_SUCCESS, array(
                         'message'=>'无符合条件的记录',
                     ));
                 }
@@ -275,9 +275,9 @@ class PostCommentController extends AdminController{
                 //从回收站还原
                 $affected_rows = PostCommentService::service()->batchUnelete($ids);
                 if($affected_rows){
-                    return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论被还原');
+                    Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条评论被还原');
                 }else{
-                    return Response::notify(Response::NOTIFY_SUCCESS, array(
+                    Response::notify(Response::NOTIFY_SUCCESS, array(
                         'message'=>'无符合条件的记录',
                     ));
                 }
@@ -287,7 +287,7 @@ class PostCommentController extends AdminController{
                 
             break;
             default:
-                return Response::notify(Response::NOTIFY_FAIL, array(
+                Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'未选择操作',
                 ));
             break;

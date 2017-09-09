@@ -28,7 +28,7 @@ class GroupController extends ApiController{
         
         $group_id = GuangongUserGroupsTable::model()->insert($data, true);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'成功发起结义',
             'data'=>array(
                 'group'=>GuangongUserGroupsTable::model()->find($group_id, 'id,name')
@@ -49,7 +49,7 @@ class GroupController extends ApiController{
         //去重
         $mobiles = array_unique($mobiles);
         if(!$group_id){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'结义ID不能为空',
                 'code'=>'missing-parameter:group_id',
             ));
@@ -57,14 +57,14 @@ class GroupController extends ApiController{
         
         $group = GuangongUserGroupsTable::model()->find($group_id);
         if($group['user_id'] != $this->current_user){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作指定结义',
                 'code'=>'permission-denied',
             ));
         }
         
         if(count($mobiles) != $group['count'] - 1){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'成员数不匹配',
                 'code'=>'mobile-count-not-match',
             ));
@@ -73,7 +73,7 @@ class GroupController extends ApiController{
         $user_ids = array($this->current_user);//成员必然包含自己
         foreach($mobiles as $m){
             if(!$m){
-                return Response::notify(Response::NOTIFY_FAIL, array(
+                Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'识别号不能为空',
                     'code'=>'missing-parameter:mobile',
                 ));
@@ -82,13 +82,13 @@ class GroupController extends ApiController{
                 'mobile = ?'=>$m
             ), 'id');
             if(!$user){
-                return Response::notify(Response::NOTIFY_FAIL, array(
+                Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'指定手机未注册此应用',
                     'code'=>'mobile-not-found',
                 ));
             }
             if($user['id'] == $this->current_user){
-                return Response::notify(Response::NOTIFY_FAIL, array(
+                Response::notify(Response::NOTIFY_FAIL, array(
                     'message'=>'结义时不能邀请自己',
                 ));
             }
@@ -104,7 +104,7 @@ class GroupController extends ApiController{
             ));
         }
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '成员添加成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '成员添加成功');
     }
     
     /**
@@ -130,7 +130,7 @@ class GroupController extends ApiController{
         
         $group_user = GuangongUserGroupUsersTable::model()->find($this->form()->getData('id'));
         if($group_user['user_id'] != $this->current_user){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作指定结义',
                 'code'=>'permission-denied',
             ));
@@ -172,7 +172,7 @@ class GroupController extends ApiController{
             'user_id = '.$this->current_user,
         ));
         if(!$group_user){
-            return Response::notify(Response::NOTIFY_FAIL, '您不是该结义成员');
+            Response::notify(Response::NOTIFY_FAIL, '您不是该结义成员');
         }
         
         GuangongUserGroupUsersTable::model()->update(array(
@@ -180,7 +180,7 @@ class GroupController extends ApiController{
             'secrecy_period'=>$this->form()->getData('secrecy_period'),
         ), $group_user['id']);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '设置成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '设置成功');
     }
     
     /**

@@ -118,7 +118,7 @@ class WidgetController extends AdminController{
             if($this->input->post('customize')){
                 die("<script>parent.$.fancybox.close();parent.customize.refreshWidget('{$alias}')</script>");
             }else{
-                return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功', false);
+                Response::notify(Response::NOTIFY_SUCCESS, '编辑成功', false);
             }
         }
         
@@ -179,7 +179,7 @@ class WidgetController extends AdminController{
             }
             $this->actionlog(ActionlogsTable::TYPE_WIDGET, '创建了一个小工具实例', $widget_id);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '小工具实例创建成功', array('cms/admin/widget/edit', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '小工具实例创建成功', array('cms/admin/widget/edit', array(
                 'id'=>$widget_id,
             )));
         }else{
@@ -220,7 +220,7 @@ class WidgetController extends AdminController{
         ));
         $this->actionlog(ActionlogsTable::TYPE_WIDGET, '删除了一个小工具实例', $id);
 
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个小工具实例被删除',
         ));
     }
@@ -270,7 +270,7 @@ class WidgetController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_WIDGET, '复制了小工具实例' . $id, $widget_id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个小工具实例被复制',
         ), array('cms/admin/widgetarea/index'));
     }

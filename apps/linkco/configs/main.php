@@ -16,4 +16,6 @@ return array(
         'charset'=>'utf8',//数据库编码方式
         'table_prefix'=>'faycms_',//数据库表前缀
     ),
+
+//    'environment'=>'production',
 );

@@ -4,6 +4,9 @@ body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti
 a{text-decoration:none;color:#fff;transition:all ease .3s;padding:0 4px}
 a{background-size:210% 100%;background-position:98% 0;background-image:linear-gradient(90deg, #0000fe 0%, #0000fe 50%, transparent 50%, transparent 100%) !important}
 a:hover{background-position:0 0}
+@media(max-width:1300px){
+    body{font-size:14px}
+}
 
 .logo-container{position:absolute;top:3em;left:5.5em;z-index:100;padding:4px 0}
 
@@ -22,3 +25,4 @@ a:hover{background-position:0 0}
 .index-title h1{font-size:4em;position:relative;font-weight:normal}
 .index-title h1:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:0.3em;background-color:#0000fe;z-index:-1}
 .index-title h2{font-size:1.4em;margin-top:2.6em;font-weight:normal}
+

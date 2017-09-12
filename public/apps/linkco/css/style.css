@@ -9,6 +9,9 @@ a:hover{background-position:0 0}
 }
 
 .logo-container{position:absolute;top:3em;left:5.5em;z-index:100;padding:4px 0}
+@media(max-width:1300px){
+    .logo-container img{width:12em}
+}
 
 .top-nav{position:absolute;top:2.4em;right:6.6em;z-index:100;font-size:1.2em;padding:4px 0;overflow:hidden}
 .top-nav ul li{display:inline-block;padding-left:2em}

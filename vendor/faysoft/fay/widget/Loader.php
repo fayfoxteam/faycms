@@ -143,12 +143,12 @@ class Loader{
         }else{
             $real_action = StringHelper::hyphen2case($action, false);
             $widget_obj = $this->get($name);
-            $widget_obj->initConfig($options);
             if($widget_obj == null){
-                echo 'widget不存在或已被删除';
+                echo "widget[{$name}]不存在或已被删除";
             }else if(!method_exists($widget_obj, $real_action) && !method_exists($widget_obj, $real_action.'Action')){
-                echo 'widget方法不存在';
+                echo "widget[{$name}]方法不存在";
             }else{
+                $widget_obj->initConfig($options);
                 $widget_obj->alias = $alias;//别名
                 $widget_obj->_index = $index;//在小工具域中的位置，若不是小工具域中调用，则为null
                 if($ajax){

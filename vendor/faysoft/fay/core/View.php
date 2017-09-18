@@ -215,7 +215,7 @@ class View{
         }
         
         if(empty($view_path)){
-            throw new \ErrorException("视图文件不存在\r\nRelative Path: {$view_relative_path}");
+            throw new \ErrorException("视图文件[{$view_relative_path}]不存在");
         }else{
             $content = $this->obOutput($view_path, $view_data);
         }

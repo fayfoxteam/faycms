@@ -36,7 +36,7 @@ class ErrorCodeController extends AdminController{
             $data['create_time'] = $data['update_time'] = $this->current_time;
             $error_code_id = ApidocErrorCodesTable::model()->insert($data, true);
 
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'错误码添加成功',
                 'id'=>$error_code_id,
             ));
@@ -62,7 +62,7 @@ class ErrorCodeController extends AdminController{
 
             ApidocErrorCodesTable::model()->update($data, $error_code_id, true);
 
-            return Response::notify(Response::NOTIFY_SUCCESS, '错误码编辑成功', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '错误码编辑成功', false);
         }
 
         $error_code = ApidocErrorCodesTable::model()->find($error_code_id);
@@ -112,7 +112,7 @@ class ErrorCodeController extends AdminController{
         ApidocErrorCodesTable::model()->delete($id);
 
         //不能直接回到上一页，因为可能处在编辑状态
-        return Response::notify(
+        Response::notify(
             'success',
             '一个错误码被删除',
             array('apidoc/admin/error-code/index')

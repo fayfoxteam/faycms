@@ -35,14 +35,14 @@ class DocLikeController extends ApiController{
         $doc_id = $this->form()->getData('doc_id');
 
         if(!DocService::isDocIdExist($doc_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>"指定文档ID[{$doc_id}]不存在",
                 'code'=>'invalid-parameter:doc_id-is-not-exist',
             ));
         }
 
         if(DocLikeService::isLiked($doc_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您已赞过该文档',
                 'code'=>'already-favorited',
             ));
@@ -50,7 +50,7 @@ class DocLikeController extends ApiController{
 
         DocLikeService::add($doc_id, $this->form()->getData('trackid', ''));
 
-        return Response::notify(Response::NOTIFY_SUCCESS, '点赞成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '点赞成功');
     }
 
     /**
@@ -74,7 +74,7 @@ class DocLikeController extends ApiController{
         $doc_id = $this->form()->getData('doc_id');
 
         if(!DocLikeService::isLiked($doc_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您未赞过该文档',
                 'code'=>'not-liked',
             ));
@@ -82,7 +82,7 @@ class DocLikeController extends ApiController{
 
         DocLikeService::remove($doc_id);
 
-        return Response::notify(Response::NOTIFY_SUCCESS, '取消点赞成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '取消点赞成功');
     }
 
     /**
@@ -115,7 +115,7 @@ class DocLikeController extends ApiController{
         $doc_id = $this->form()->getData('doc_id');
 
         if(!DocService::isDocIdExist($doc_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>"指定文档ID[{$doc_id}]不存在",
                 'code'=>'invalid-parameter:doc_id-is-not-exist',
             ));

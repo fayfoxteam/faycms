@@ -239,7 +239,7 @@ class ApiController extends AdminController{
                 $error_code['create_time'] = $error_code['update_time'] = $this->current_time;
                 ApidocApiErrorCodesTable::model()->insert($error_code);
             }
-            return Response::notify(Response::NOTIFY_SUCCESS, 'API添加成功', array('apidoc/admin/api/edit', array(
+            Response::notify(Response::NOTIFY_SUCCESS, 'API添加成功', array('apidoc/admin/api/edit', array(
                 'id'=>$api_id,
             )));
         }
@@ -405,7 +405,7 @@ class ApiController extends AdminController{
                 }
             }
 
-            return Response::notify(Response::NOTIFY_SUCCESS, 'API编辑成功', false);
+            Response::notify(Response::NOTIFY_SUCCESS, 'API编辑成功', false);
         }
 
         $api = ApidocApisTable::model()->find($api_id);

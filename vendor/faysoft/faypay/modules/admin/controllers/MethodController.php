@@ -63,7 +63,7 @@ class MethodController extends AdminController{
             $payment_method_id = PaymentsTable::model()->insert($data);
             
             $this->actionlog(ActionlogsTable::TYPE_PAYMENT, '添加支付方式', $payment_method_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '支付方式添加成功', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '支付方式添加成功', array(
                 'faypay/admin/method/edit', array('id'=>$payment_method_id)
             ));
         }
@@ -96,7 +96,7 @@ class MethodController extends AdminController{
                 PaymentsTable::model()->update($data, $id);
                 
                 $this->actionlog(ActionlogsTable::TYPE_LINK, '编辑支付方式', $id);
-                return Response::notify(Response::NOTIFY_SUCCESS, '一个支付方式被编辑', false);
+                Response::notify(Response::NOTIFY_SUCCESS, '一个支付方式被编辑', false);
             }
         }
         $payment = PaymentsTable::model()->find($id);
@@ -133,7 +133,7 @@ class MethodController extends AdminController{
             'delete_time'=>\F::app()->current_time,
         ), $payment['id']);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个支付方式被移入回收站 - '.HtmlHelper::link('撤销', array('faypay/admin/method/undelete', array(
                     'id'=>$payment['id'],
                 ))),
@@ -155,7 +155,7 @@ class MethodController extends AdminController{
             'delete_time'=>0,
         ), $payment['id']);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个支付方式被还原');
+        Response::notify(Response::NOTIFY_SUCCESS, '一个支付方式被还原');
     }
     
     /**

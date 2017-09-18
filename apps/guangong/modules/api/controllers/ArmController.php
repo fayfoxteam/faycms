@@ -40,7 +40,7 @@ class ArmController extends ApiController{
         
 //        $userExtra = GuangongUserExtraTable::model()->find($this->current_user, 'arm_id');
 //        if($userExtra['arm_id']){
-//            return Response::notify(Response::NOTIFY_FAIL, array(
+//            Response::notify(Response::NOTIFY_FAIL, array(
 //                'message'=>'您已设置过兵种，不能重复设置',
 //                'code'=>'arm-already-set'
 //            ));
@@ -57,7 +57,7 @@ class ArmController extends ApiController{
         
         $arm['picture'] = FileService::service()->get($arm['picture']);
         $arm['description_picture'] = FileService::service()->get($arm['description_picture']);
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'兵种设置成功',
             'data'=>$arm,
         ));

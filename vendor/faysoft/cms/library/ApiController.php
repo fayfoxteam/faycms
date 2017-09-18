@@ -38,7 +38,7 @@ class ApiController extends Controller{
      */
     public function onFormError($form){
         $error = $form->getFirstError();
-        return Response::notify(Response::NOTIFY_FAIL, array(
+        Response::notify(Response::NOTIFY_FAIL, array(
             'message'=>$error['message'],
             'code'=>$error['code'],
         ));

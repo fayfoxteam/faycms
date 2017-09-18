@@ -18,7 +18,7 @@ class MessageController extends AdminController{
         
         $message = MessagesTable::model()->find($id, 'status');
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'id'=>$id,
                 'status'=>$message['status'],
@@ -35,7 +35,7 @@ class MessageController extends AdminController{
         
         $message = MessagesTable::model()->find($id, 'status');
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'id'=>$id,
                 'status'=>$message['status'],
@@ -50,7 +50,7 @@ class MessageController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_MESSAGE, '将留言移入回收站', $id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'id'=>$id,
             ),
@@ -67,7 +67,7 @@ class MessageController extends AdminController{
         
         $this->actionlog(ActionlogsTable::TYPE_MESSAGE, '还原一条留言', $id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'id'=>$id,
             ),
@@ -81,7 +81,7 @@ class MessageController extends AdminController{
         MessageService::service()->remove($id);
         $this->actionlog(ActionlogsTable::TYPE_MESSAGE, '将留言永久删除', $id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>array(
                 'id'=>$id,
             ),
@@ -94,11 +94,11 @@ class MessageController extends AdminController{
         
         $result = MessageService::service()->removeAll($id);
         if($result === false){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'该留言非会话根留言',
             ));
         }else{
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'data'=>array(
                     'id'=>$id,
                 ),
@@ -110,7 +110,7 @@ class MessageController extends AdminController{
     public function create(){
         $to_user_id = $this->input->post('to_user_id', 'intval');
         if(!$to_user_id){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'信息不完整',
             ));
         }
@@ -135,7 +135,7 @@ class MessageController extends AdminController{
             )
         ));
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'data'=>$message,
             'message'=>'留言添加成功',
         ));

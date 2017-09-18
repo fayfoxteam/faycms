@@ -136,7 +136,7 @@ class OperatorController extends AdminController{
             
             $this->actionlog(ActionlogsTable::TYPE_USERS, '添加了一个管理员', $user_id);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '管理员添加成功， '.HtmlHelper::link('继续添加', array('cms/admin/operator/create', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '管理员添加成功， '.HtmlHelper::link('继续添加', array('cms/admin/operator/create', array(
                 'roles'=>$this->input->post('roles', 'intval', array()),
             ))), array('cms/admin/operator/edit', array(
                 'id'=>$user_id,
@@ -182,7 +182,7 @@ class OperatorController extends AdminController{
             UserService::service()->update($user_id, $data, $extra);
             
             $this->actionlog(ActionlogsTable::TYPE_PROFILE, '编辑了管理员信息', $user_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '修改成功', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '修改成功', false);
             
             //置空密码字段
             $this->form()->setData(array('password'=>''), true);

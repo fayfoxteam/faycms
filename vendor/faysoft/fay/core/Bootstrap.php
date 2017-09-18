@@ -63,57 +63,14 @@ class Bootstrap{
         $content = $controller->{$file['action']}();
         RuntimeHelper::append(__FILE__, __LINE__, '控制器方式执行完毕');
 
-        $this->response($controller->response, $content);
-    }
-
-    /**
-     * 输出返回
-     * @param Response $response
-     * @param mixed $content
-     */
-    private function response($response, $content){
         if($content){
-            //若未指定返回格式，则根据$content类型猜测一个格式
-            if(!$response->getFormat()){
-                if(is_string($content)){
-                    //若是字符串，默认为HTML
-                    $response->setFormat(Response::FORMAT_HTML);
-                }else{
-                    if(\F::input()->get('callback')){
-                        //若非字符串，有callback参数，则默认为jsonp
-                        $response->setFormat(Response::FORMAT_JSONP);
-                    }else{
-                        //默认为json
-                        $response->setFormat(Response::FORMAT_JSON);
-                    }
-                }
-            }
-            
-            //设置响应内容
-            if(in_array($response->getFormat(), array(
-                Response::FORMAT_JSON, Response::FORMAT_JSONP
-            ))){
-                if(is_object($content) && $content instanceof JsonResponse){
-                    $response->setStatusCode($content->getHttpCode());
-                    
-                    if($content->getCallback()){
-                        $response->setFormat(Response::FORMAT_JSONP)
-                            ->setData(array(
-                                'callback'=>$content->getCallback(),
-                                'data'=>$content->toArray(),
-                            ));
-                    }else{
-                        $response->setData($content->toArray());
-                    }
-                }else{
-                    $response->setData($content);
-                }
+            if(is_string($content) || is_int($content)){
+                $controller->response->setContent($content)
+                    ->send();
             }else{
-                $response->setContent($content);
+                $controller->response->setData($content)
+                    ->send();
             }
-
-            //发送响应
-            $response->send();
         }
     }
 

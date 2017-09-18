@@ -43,10 +43,10 @@ class ContactController extends FrontController{
                     'create_time'=>$this->current_time,
                     'publish_time'=>$this->current_time,
                 ));
-                return Response::notify(Response::NOTIFY_SUCCESS, 'Message has been send.');
+                Response::notify(Response::NOTIFY_SUCCESS, 'Message has been send.');
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, 'No data submitted.');
+            Response::notify(Response::NOTIFY_FAIL, 'No data submitted.');
         }
     }
 }

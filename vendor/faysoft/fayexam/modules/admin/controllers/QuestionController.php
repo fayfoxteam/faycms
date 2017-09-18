@@ -134,7 +134,7 @@ class QuestionController extends AdminController{
             }
             $this->actionlog(ActionlogsTable::TYPE_EXAM, '创建了一个试题', $question_id);
             
-            return Response::notify(Response::NOTIFY_SUCCESS, '一个试题被添加', array(
+            Response::notify(Response::NOTIFY_SUCCESS, '一个试题被添加', array(
                 'fayexam/admin/question/edit', array(
                     'id'=>$question_id,
                 )
@@ -292,7 +292,7 @@ class QuestionController extends AdminController{
             }
             
             $this->actionlog(ActionlogsTable::TYPE_EXAM, '编辑了一个试题', $id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '编辑成功', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '编辑成功', false);
         }
         
         $question = ExamQuestionsTable::model()->find($id);
@@ -321,7 +321,7 @@ class QuestionController extends AdminController{
         ), $id);
         $this->actionlog(ActionlogsTable::TYPE_EXAM, '一个试题被删除', $id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个试题被删除 - '.HtmlHelper::link('撤销', array('fayexam/admin/question/undelete', array(
+        Response::notify(Response::NOTIFY_SUCCESS, '一个试题被删除 - '.HtmlHelper::link('撤销', array('fayexam/admin/question/undelete', array(
             'id'=>$id,
         ))));
     }
@@ -333,7 +333,7 @@ class QuestionController extends AdminController{
         ), $id);
         $this->actionlog(ActionlogsTable::TYPE_EXAM, '一个试题被还原', $id);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个试题被还原');
+        Response::notify(Response::NOTIFY_SUCCESS, '一个试题被还原');
     }
     
     public function cat(){
@@ -449,7 +449,7 @@ class QuestionController extends AdminController{
         switch($action){
             case 'set-enabled':
                 if(!$this->checkPermission('fayexam/admin/question/edit')){
-                    return Response::notify(Response::NOTIFY_FAIL, array(
+                    Response::notify(Response::NOTIFY_FAIL, array(
                         'message'=>'权限不允许',
                         'error_code'=>'permission-denied',
                     ));
@@ -460,11 +460,11 @@ class QuestionController extends AdminController{
                 ), array(
                     'id IN (?)'=>$ids,
                 ));
-                return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条记录被启用');
+                Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条记录被启用');
             break;
             case 'set-disabled':
                 if(!$this->checkPermission('fayexam/admin/question/edit')){
-                    return Response::notify(Response::NOTIFY_FAIL, array(
+                    Response::notify(Response::NOTIFY_FAIL, array(
                         'message'=>'权限不允许',
                         'error_code'=>'permission-denied',
                     ));
@@ -475,11 +475,11 @@ class QuestionController extends AdminController{
                 ), array(
                     'id IN (?)'=>$ids,
                 ));
-                return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条记录被禁用');
+                Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条记录被禁用');
             break;
             case 'delete':
                 if(!$this->checkPermission('fayexam/admin/question/edit')){
-                    return Response::notify(Response::NOTIFY_FAIL, array(
+                    Response::notify(Response::NOTIFY_FAIL, array(
                         'message'=>'权限不允许',
                         'error_code'=>'permission-denied',
                     ));
@@ -490,7 +490,7 @@ class QuestionController extends AdminController{
                 ), array(
                     'id IN (?)'=>$ids,
                 ));
-                return Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条记录被删除');
+                Response::notify(Response::NOTIFY_SUCCESS, $affected_rows.'条记录被删除');
             break;
         }
     }

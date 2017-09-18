@@ -81,18 +81,13 @@ class ErrorHandler{
                 'status'=>0,
                 'data'=>'',
                 'message'=>$exception instanceof db\DBException ? '数据库错误' : $exception->getMessage(),
-                'code'=>$exception->getDescription() ? $exception->getDescription() : 'http_error:500:internal_server_error',
+                'code'=>'internal_server_error',
             ))
                 ->setStatusCode(isset($exception->status_code) ? $exception->status_code : 500)
                 ->setContent($this->view->renderPartial('errors/500', array(
-                    'exception'=>$exception,
+                    'message'=>$exception->getMessage(),
                 )))
             ;
-            if(Request::isAjax()){
-                $response->setFormat(Response::FORMAT_JSON);
-            }
-
-            $response->send();
         }else{
             //开发环境
             $response->setData(array(
@@ -106,12 +101,15 @@ class ErrorHandler{
                     'exception'=>$exception,
                 )))
             ;
-            if(Request::isAjax()){
-                $response->setFormat(Response::FORMAT_JSON);
-            }
-            
-            $response->send();
         }
+        
+        if(Request::isAjax()){
+            $response->setFormat(Response::FORMAT_JSON);
+        }else{
+            $response->setFormat(Response::FORMAT_HTML);
+        }
+
+        $response->send();
     }
 
     /**

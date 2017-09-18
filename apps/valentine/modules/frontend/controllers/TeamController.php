@@ -39,7 +39,7 @@ class TeamController extends FrontController{
     public function create(){
         $end_time = OptionService::get('end_time');
         if($end_time && $end_time < $this->current_time){
-            return Response::notify(Response::NOTIFY_FAIL, '活动已截止');
+            Response::notify(Response::NOTIFY_FAIL, '活动已截止');
         }
         
         //表单验证
@@ -52,7 +52,7 @@ class TeamController extends FrontController{
         
         ValentineUserTeamsTable::model()->insert($data);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '组合创建成功', array(
+        Response::notify(Response::NOTIFY_SUCCESS, '组合创建成功', array(
             'team/list', array('type'=>$data['type']), false
         ));
     }
@@ -176,7 +176,7 @@ class TeamController extends FrontController{
     public function vote(){
         $end_time = OptionService::get('end_time');
         if($end_time && $end_time < $this->current_time){
-            return Response::notify(Response::NOTIFY_FAIL, '活动已截止');
+            Response::notify(Response::NOTIFY_FAIL, '活动已截止');
         }
         
         //表单验证
@@ -201,7 +201,7 @@ class TeamController extends FrontController{
             'open_id = ?'=>$open_id,
             'type = ' . $team['type']
         ))){
-            return Response::notify(Response::NOTIFY_FAIL, '您已投过该奖项，单用户只能投一次', array(
+            Response::notify(Response::NOTIFY_FAIL, '您已投过该奖项，单用户只能投一次', array(
                 'team/list', array('type'=>$team['type']), false
             ));
         }
@@ -216,7 +216,7 @@ class TeamController extends FrontController{
         //组合得票数+1
         ValentineUserTeamsTable::model()->incr($team_id, 'votes', 1);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, '投票成功', array(
+        Response::notify(Response::NOTIFY_SUCCESS, '投票成功', array(
             'team/list', array('type'=>$team['type']), false
         ));
     }

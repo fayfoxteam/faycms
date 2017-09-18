@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+html,body{height:100%;position:relative;background:url(images/bg.png) repeat scroll 0 0 transparent}
+body{font-family:"Microsoft Yahei","微软雅黑",Tahoma,Arial,Helvetica,STHeiti;color:#fff;font-size:18px;overflow:hidden}
+a{text-decoration:none;color:#fff;transition:all ease .3s;padding:0 4px}
+a{background-size:210% 100%;background-position:98% 0;background-image:linear-gradient(90deg, #0000fe 0%, #0000fe 50%, transparent 50%, transparent 100%) !important}
+a:hover{background-position:0 0}
+@media(max-width:1300px){
+    body{font-size:14px}
+}
+
+.logo-container{position:absolute;top:3em;left:5.5em;z-index:100;padding:4px 0}
+@media(max-width:1300px){
+    .logo-container img{width:12em}
+}
+
+.top-nav{position:absolute;top:2.4em;right:6.6em;z-index:100;font-size:1.2em;padding:4px 0;overflow:hidden}
+.top-nav ul li{display:inline-block;padding-left:2em}
+
+.social-container{position:absolute;bottom:3em;left:5.5em;z-index:100;padding:4px 0;overflow:hidden}
+.social-container .cut-off{padding:0 1em}
+
+.language-container{position:absolute;bottom:3em;right:6.6em;z-index:100;padding:4px 0;overflow:hidden}
+.language-container .cut-off{padding:0 1em}
+
+/*首页*/
+.right-bg{position:absolute;top:0;bottom:0;right:0;left:40%;background:url(images/right-bg-1.png) no-repeat scroll 0 0 transparent;background-size:cover}
+.index-title{position:absolute;top:33%;left:5.5em;z-index:200;overflow:hidden}
+.index-title h1{font-size:4em;position:relative;font-weight:normal}
+.index-title h1:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:0.3em;background-color:#0000fe;z-index:-1}
+.index-title h2{font-size:1.4em;margin-top:2.6em;font-weight:normal}
+

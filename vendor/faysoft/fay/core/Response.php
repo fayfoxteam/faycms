@@ -212,7 +212,22 @@ class Response{
      * @return $this
      */
     public function setData($data){
-        $this->data = $data;
+        if(is_object($data) && $data instanceof JsonResponse){
+            $this->setStatusCode($data->getHttpCode());
+
+            if($data->getCallback()){
+                $this->format = self::FORMAT_JSONP;
+                $this->data = array(
+                    'callback'=>$data->getCallback(),
+                    'data'=>$data->toArray(),
+                );
+            }else{
+                $this->data = $data->toArray();
+            }
+        }else{
+            $this->data = $data;
+        }
+        
         return $this;
     }
 
@@ -311,6 +326,22 @@ class Response{
      * 发送前的格式化工作
      */
     protected function prepare(){
+        if($this->format === null){
+            //猜测一个返回类型
+            if($this->data){
+                if(\F::input()->get('callback')){
+                    //若非字符串，有callback参数，则默认为jsonp
+                    $this->format = self::FORMAT_JSONP;
+                }else{
+                    //默认为json
+                    $this->format = self::FORMAT_JSON;
+                }
+            }else{
+                $this->format = self::FORMAT_HTML;
+            }
+        }
+        
+        //发送header
         if($this->format == self::FORMAT_JSON){
             $this->setHeader('Content-Type', 'application/json; charset=utf-8');
             $this->content = json_encode($this->data);
@@ -387,13 +418,12 @@ class Response{
     }
 
     /**
-     * 在非显示性页面调用此方法输出。
+     * 在非显示性页面调用此方法输出。此方法会中断程序运行
      * 若为ajax访问，则返回json
      * 若是浏览器访问，则设置flash后跳转
      * @param string $status 状态success, error
      * @param array|string $data
      * @param bool|array $redirect 跳转地址，若为true且是浏览器访问，则返回上一页。若为false，则不会跳转。若非布尔型，则视为跳转地址进行跳转
-     * @return JsonResponse
      */
     public static function notify($status = self::NOTIFY_SUCCESS, $data = array(), $redirect = true){
         if(!is_array($data)){
@@ -402,21 +432,18 @@ class Response{
             );
         }
         if(Request::isAjax()){
-            return Response::json(
+            self::getInstance()->setData(Response::json(
                 isset($data['data']) ? $data['data'] : '',
                 $status == self::NOTIFY_SUCCESS ? 1 : 0,
                 isset($data['message']) ? $data['message'] : '',
                 isset($data['code']) ? $data['code'] : ''
-            );
+            ))->send();
         }else{
-            if(!empty($data['message'])){
-                //若设置了空 的message，则不发flash
-                FlashService::set($data['message'], $status);
-            }else if(self::NOTIFY_SUCCESS){
-                FlashService::set('操作成功', $status);
-            }else{
-                FlashService::set('操作失败', $status);
-            }
+            FlashService::set(
+                empty($data['message']) ?
+                    ($status == self::NOTIFY_SUCCESS ? '操作成功' : '操作失败') : $data['message'],
+                $status
+            );
 
             if($redirect === true){
                 self::goback();
@@ -432,6 +459,7 @@ class Response{
                     ->send();
             }
         }
+        die;
     }
 
     /**
@@ -486,8 +514,8 @@ class Response{
      * 清除所有未输出的缓冲区
      */
     public function clearOutput(){
-        for ($level = ob_get_level(); $level > 0; --$level) {
-            if (!@ob_end_clean()) {
+        for($level = ob_get_level(); $level > 0; --$level){
+            if(!@ob_end_clean()){
                 ob_clean();
             }
         }

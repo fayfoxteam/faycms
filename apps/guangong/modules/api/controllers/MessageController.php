@@ -14,7 +14,7 @@ class MessageController extends ApiController{
         
         $extra = GuangongUserExtraTable::model()->find($this->current_user, 'military');
         if($extra['military'] < OptionService::get('guangong:junfei', 1100)){
-            return Response::notify(Response::NOTIFY_FAIL, '请先参军');
+            Response::notify(Response::NOTIFY_FAIL, '请先参军');
         }
         
         //表单验证

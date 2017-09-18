@@ -42,9 +42,9 @@ class AppController extends AdminController{
                 $this->form()->getFilteredData()
             );
     
-            return Response::notify(Response::NOTIFY_SUCCESS, 'App添加成功');
+            Response::notify(Response::NOTIFY_SUCCESS, 'App添加成功');
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '无数据提交', array(
+            Response::notify(Response::NOTIFY_FAIL, '无数据提交', array(
                 'fayoauth/admin/app/index'
             ));
         }
@@ -82,7 +82,7 @@ class AppController extends AdminController{
     public function delete(){
         OauthAppService::service()->delete($this->input->get('id'));
     
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个app被删除', $this->view->url('fayoauth/admin/app/index', $this->input->get()));
+        Response::notify(Response::NOTIFY_SUCCESS, '一个app被删除', $this->view->url('fayoauth/admin/app/index', $this->input->get()));
     }
     
     /**
@@ -91,7 +91,7 @@ class AppController extends AdminController{
     public function undelete(){
         OauthAppService::service()->delete($this->input->get('id'));
     
-        return Response::notify(Response::NOTIFY_SUCCESS, '一个app被删除', $this->view->url('fayoauth/admin/app/index', $this->input->get()));
+        Response::notify(Response::NOTIFY_SUCCESS, '一个app被删除', $this->view->url('fayoauth/admin/app/index', $this->input->get()));
     }
     
     public function isAliasNotExist(){

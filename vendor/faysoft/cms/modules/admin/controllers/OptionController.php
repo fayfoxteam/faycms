@@ -27,14 +27,14 @@ class OptionController extends AdminController{
                 
                 $this->actionlog(ActionlogsTable::TYPE_OPTION, '添加了一个系统参数', $option_id);
                 
-                return Response::notify(Response::NOTIFY_SUCCESS, array(
+                Response::notify(Response::NOTIFY_SUCCESS, array(
                     'message'=>'站点参数添加成功',
                 ));
             }else{
                 Response::goback();
             }
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'不完整的请求',
             ));
         }
@@ -54,7 +54,7 @@ class OptionController extends AdminController{
             OptionsTable::model()->update($data, array('id = ?'=>$option_id));
             
             $this->actionlog(ActionlogsTable::TYPE_OPTION, '编辑了一个系统参数', $option_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '一个参数被编辑', false);
+            Response::notify(Response::NOTIFY_SUCCESS, '一个参数被编辑', false);
         }
         
         if($option = OptionsTable::model()->find($option_id)){
@@ -84,19 +84,19 @@ class OptionController extends AdminController{
         $option_id = $this->input->get('id', 'intval');
         
         if(!$option_id){
-            return Response::notify(Response::NOTIFY_FAIL, '未指定参数ID');
+            Response::notify(Response::NOTIFY_FAIL, '未指定参数ID');
         }
         
         $option = OptionsTable::model()->find($option_id);
         if(!$option){
-            return Response::notify(Response::NOTIFY_FAIL, '指定参数ID不存在');
+            Response::notify(Response::NOTIFY_FAIL, '指定参数ID不存在');
         }
         
         OptionsTable::model()->delete(array('id = ?'=>$option_id));
         
         $this->actionlog(ActionlogsTable::TYPE_OPTION, '移除了一个系统参数', $option['option_name']);
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'一个参数被永久删除',
         ), array('cms/admin/option/index', $this->input->get()));
     }
@@ -148,8 +148,8 @@ class OptionController extends AdminController{
             $data = $this->input->post();
             unset($data['_submit']);//提交按钮不用保存
             OptionService::mset($data);
-            return Response::notify(Response::NOTIFY_SUCCESS, '保存成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '保存成功');
         }
-        return Response::notify(Response::NOTIFY_FAIL, '无数据提交');
+        Response::notify(Response::NOTIFY_FAIL, '无数据提交');
     }
 }

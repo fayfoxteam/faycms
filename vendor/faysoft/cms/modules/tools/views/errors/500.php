@@ -3,6 +3,8 @@
  * 用于fay\core\HttpException显示500报错页面
  * 注：main.php中environment为production时候显示该页面，否则显示debug页面
  * 您可以在自己项目中创建views/errors/500.php文件用于覆盖该页面
+ * 
+ * @var $message string
  */
 ?>
 <!DOCTYPE html>

@@ -78,7 +78,7 @@ class Db{
                 //当发生错误时，以异常的形式抛出（默认只是返回false）
                 $this->_conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             }catch(\PDOException $e){
-                throw new DBException($e->getMessage(), '数据库链接失败，请确认configs/main.php中数据库配置正确');
+                throw new DBException($e->getMessage());
             }
             $this->_conn->exec("SET NAMES {$this->_charset}");
         }

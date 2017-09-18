@@ -11,12 +11,12 @@ class QiniuController extends AdminController{
         $result = QiniuService::service()->put($file_id);
         
         if($result['status']){
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'文件已被上传至七牛',
                 'data'=>$result['data'] + array('url'=>QiniuService::service()->getUrl($file_id)),
             ));
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'上传七牛出错：'.$result['message'],
             ));
         }
@@ -26,11 +26,11 @@ class QiniuController extends AdminController{
         $result = QiniuService::service()->delete($this->input->get('id', 'intval'));
         
         if($result !== true){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'从七牛删除文件出错：'.$result,
             ));
         }else{
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'文件从七牛删除',
             ));
         }

@@ -69,14 +69,14 @@ class FollowController extends ApiController{
         $user_id = $this->form()->getData('user_id');
         
         if(FollowService::isFollow($user_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您已关注过该用户',
                 'code'=>'already-followed',
             ));
         }
 
         FollowService::add($user_id, $this->form()->getData('trackid', ''));
-        return Response::notify(Response::NOTIFY_SUCCESS, '关注成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '关注成功');
     }
     
     /**
@@ -101,14 +101,14 @@ class FollowController extends ApiController{
         $user_id = $this->form()->getData('user_id');
         
         if(!FollowService::isFollow($user_id)){
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您未关注过该用户',
                 'code'=>'not-followed',
             ));
         }
 
         FollowService::remove($user_id);
-        return Response::notify(Response::NOTIFY_SUCCESS, '取消关注成功');
+        Response::notify(Response::NOTIFY_SUCCESS, '取消关注成功');
     }
     
     /**
@@ -132,9 +132,9 @@ class FollowController extends ApiController{
         $user_id = $this->form()->getData('user_id');
             
         if($is_follow = FollowService::isFollow($user_id)){
-            return Response::notify(Response::NOTIFY_SUCCESS, array('data'=>$is_follow, 'message'=>'已关注', 'code'=>'followed'));
+            Response::notify(Response::NOTIFY_SUCCESS, array('data'=>$is_follow, 'message'=>'已关注', 'code'=>'followed'));
         }else{
-            return Response::notify(Response::NOTIFY_SUCCESS, array('data'=>0, 'message'=>'未关注', 'code'=>'unfollowed'));
+            Response::notify(Response::NOTIFY_SUCCESS, array('data'=>0, 'message'=>'未关注', 'code'=>'unfollowed'));
         }
     }
     
@@ -157,7 +157,7 @@ class FollowController extends ApiController{
         }
         
         if($is_follow = FollowService::mIsFollow($user_ids)){
-            return Response::notify(Response::NOTIFY_SUCCESS, array('data'=>$is_follow));
+            Response::notify(Response::NOTIFY_SUCCESS, array('data'=>$is_follow));
         }
     }
     

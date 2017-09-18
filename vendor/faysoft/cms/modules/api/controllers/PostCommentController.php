@@ -108,7 +108,7 @@ class PostCommentController extends ApiController{
             }
         }
         
-        return Response::notify(Response::NOTIFY_SUCCESS, array(
+        Response::notify(Response::NOTIFY_SUCCESS, array(
             'message'=>'评论成功',
             'data'=>empty($comment) ? new \stdClass() : $comment,
         ));
@@ -141,9 +141,9 @@ class PostCommentController extends ApiController{
         
         if(PostCommentService::service()->checkPermission($comment_id, 'delete')){
             PostCommentService::service()->delete($comment_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '评论删除成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '评论删除成功');
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作该评论',
                 'code'=>'permission-denied',
             ));
@@ -177,9 +177,9 @@ class PostCommentController extends ApiController{
         
         if(PostCommentService::service()->checkPermission($comment_id, 'undelete')){
             PostCommentService::service()->undelete($comment_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, '评论还原成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '评论还原成功');
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作该评论',
                 'code'=>'permission-denied',
             ));
@@ -219,9 +219,9 @@ class PostCommentController extends ApiController{
                 $comment_id,
                 $this->form()->getData('content')
             );
-            return Response::notify(Response::NOTIFY_SUCCESS, '评论修改成功');
+            Response::notify(Response::NOTIFY_SUCCESS, '评论修改成功');
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, array(
+            Response::notify(Response::NOTIFY_FAIL, array(
                 'message'=>'您无权操作该评论',
                 'code'=>'permission-denied',
             ));

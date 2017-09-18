@@ -9,7 +9,7 @@ class LoginController extends FrontController{
     public function index(){
         if($this->input->post()){
             if($this->input->post('vcode') && ($this->input->post('vcode', 'strtolower') != \F::session()->get('vcode'))){
-                return Response::notify(Response::NOTIFY_FAIL, '验证码不正确', array('login'));
+                Response::notify(Response::NOTIFY_FAIL, '验证码不正确', array('login'));
             }
             $username = $this->input->post('username');
             $password = $this->input->post('password');
@@ -23,11 +23,11 @@ class LoginController extends FrontController{
                 }
             }else{
                 if($this->input->get('redirect')){
-                    return Response::notify(Response::NOTIFY_FAIL, $result['message'], array('login', array(
+                    Response::notify(Response::NOTIFY_FAIL, $result['message'], array('login', array(
                         'redirect'=>$this->input->get('redirect', null, false),
                     )));
                 }else{
-                    return Response::notify(Response::NOTIFY_FAIL, $result['message'], array('login'));
+                    Response::notify(Response::NOTIFY_FAIL, $result['message'], array('login'));
                 }
             }
         }

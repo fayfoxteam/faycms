@@ -53,12 +53,12 @@ class ChatController extends FrontController{
             $message_id = MessageService::service()->create(2, $content, $type, $parent, MessagesTable::STATUS_APPROVED, $user_id);
             
             $message = MessageService::service()->get($message_id);
-            return Response::notify(Response::NOTIFY_SUCCESS, array(
+            Response::notify(Response::NOTIFY_SUCCESS, array(
                 'message'=>'回复留言成功',
                 'data'=>$message,
             ));
         }else{
-            return Response::notify(Response::NOTIFY_FAIL, '信息不完整');
+            Response::notify(Response::NOTIFY_FAIL, '信息不完整');
         }
     }
 }

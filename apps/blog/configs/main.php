@@ -30,6 +30,7 @@ return array(
         'ini_set'=>array(
             'cookie_lifetime'=>864000,
             'save_path'=>APPLICATION_PATH . 'runtimes/sessions',
+            'cookie_domain'=>'71.fayfox.com'
         ),
     ),
     

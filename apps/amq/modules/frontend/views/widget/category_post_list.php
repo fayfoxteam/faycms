@@ -18,7 +18,7 @@
     <ul class="newslist-contain">
         <?php foreach($posts as $post){?>
         <li>
-            <a href="<?php echo $post['post']['link']?>">
+            <a href="<?php echo $post['post']['link']?>" target="_blank">
                 <img src="<?php echo $post['post']['thumbnail']['thumbnail']?>" alt="<?php echo \fay\helpers\HtmlHelper::encode($post['post']['title'])?>">
                 <div class="newslist-text">
                     <h5 class="newslist-text-title"><?php

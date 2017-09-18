@@ -102,7 +102,7 @@ class UserService extends Service{
         ));
         
         if(!$user){
-            throw new PostNotExistException('指定用户不存在');
+            throw new UserNotExistException('指定用户不存在');
         }
         
         if($user['user']['block']){
@@ -599,7 +599,7 @@ class UserService extends Service{
         if($user_id){
             $user = UsersTable::model()->find($user_id, 'admin');
             if(!$user){
-                throw new PostNotExistException('指定用户不存在');
+                throw new UserNotExistException('指定用户不存在');
             }
             return !empty($user['admin']);
         }else{
@@ -620,7 +620,7 @@ class UserService extends Service{
         }
         
         if(!$user){
-            throw new PostNotExistException('指定用户不存在');
+            throw new UserNotExistException('指定用户不存在');
         }
         
         if($user['block']){

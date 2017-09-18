@@ -1,12 +1,12 @@
 <?php
 namespace cms\services\user;
     
-    use cms\models\tables\UsersTable;
-    use fay\core\Loader;
-    use fay\core\Service;
-    use fay\helpers\StringHelper;
+use cms\models\tables\UsersTable;
+use fay\core\Loader;
+use fay\core\Service;
+use fay\helpers\StringHelper;
 
-    class UserPasswordService extends Service{
+class UserPasswordService extends Service{
     /**
      * @return $this
      */

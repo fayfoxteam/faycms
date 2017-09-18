@@ -41,7 +41,7 @@ class  UserPropService extends Service implements PropUsageInterface{
 
     /**
      * 获取用途具体记录的标题。
-     * 例如：用途是文章分类属性，则根据分类Id，获取分类标题
+     * 例如：用途是用户分类属性，则根据分类Id，获取分类标题
      * @param int $id
      * @return string
      */
@@ -157,7 +157,7 @@ class  UserPropService extends Service implements PropUsageInterface{
     
     /**
      * @see \fay\models\PropModel::getPropertySet()
-     * @param int $user_id 文章ID
+     * @param int $user_id 用户ID
      * @param null|array $props 属性列表
      * @return array
      */
@@ -166,7 +166,7 @@ class  UserPropService extends Service implements PropUsageInterface{
     }
 
     /**
-     * 获取文章属性类实例
+     * 获取用户属性类实例
      * @param int $user_id
      * @return ItemPropService
      */

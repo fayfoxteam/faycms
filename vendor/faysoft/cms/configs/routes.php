@@ -24,7 +24,7 @@ return array(
     '/^tools$/'=>'cms/tools/index/index',//工具
     
     '/^file\/pic(.*)$/'=>'cms/api/file/pic$1',
-    '/^file\/vcode(.*)$/'=>'cms/api/file/vcode$1',
+    '/^file\/captcha(.*)$/'=>'cms/api/file/captcha$1',
     '/^file\/qrcode(.*)$/'=>'cms/api/file/qrcode$1',
     '/^file\/download(.*)$/'=>'cms/api/file/download$1',
     
